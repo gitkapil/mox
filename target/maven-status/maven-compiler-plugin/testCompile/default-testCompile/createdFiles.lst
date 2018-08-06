@@ -1,6 +1,0 @@
-steps/CheckStatus_StepDefs.class
-steps/Hooks.class
-testSuite/Runner.class
-steps/Refund_StepDefs.class
-steps/PaymentRequest_StepDefs.class
-steps/AccessTokenForMerchants_StepDefs.class
