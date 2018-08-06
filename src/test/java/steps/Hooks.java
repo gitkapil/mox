@@ -1,35 +1,21 @@
 package steps;
 
-import com.jayway.restassured.http.ContentType;
-import cucumber.api.java.After;
 import cucumber.api.java.Before;
-import org.apache.log4j.Logger;
 import utils.BaseStep;
 
 import java.util.Properties;
 
 public class Hooks implements BaseStep {
-    final static Logger logger = Logger.getLogger(Hooks.class);
 
+    static Properties generalProperties=new Properties();
 
- /*   @Before
+  @Before
     public void setUp(){
+      String generalPropertiesFilePath=System.getProperty("user.dir")+"/src/test/resources/configs/"+System.getProperty("env")+".properties";
+      generalProperties= fileHelper.loadPropertiesFile(generalPropertiesFilePath);
 
-        restHelper.setBaseURI("http://localhost:3000/");
-        restHelper.setBasePath("Customer");
-        restHelper.setcontentType(ContentType.HTML);
-
-        wireMockRule.start();
-
+      restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(generalProperties, "Base_URI"));
 
     }
-
-    @After
-    public void teardown()
-
-    {
-        wireMockRule.stop();
-    } */
-
 
 }

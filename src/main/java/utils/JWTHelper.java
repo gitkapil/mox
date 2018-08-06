@@ -61,10 +61,15 @@ public class JWTHelper {
         }
 
         // Print out the token claims set
-        System.out.println("Claim Set as follows:::");
         if (claimsSet!=null)
+        {
+            System.out.println("Claim Set as follows:::");
             System.out.println(claimsSet.toJSONObject());
+            //System.out.println("ver : "+claimsSet.toJSONObject().getAsString("ver"));
+        }
 
         return claimsSet;
     }
+
+
 }

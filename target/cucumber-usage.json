@@ -1,0 +1,424 @@
+[
+  {
+    "source": "^I make a request to the Dragon ID Manager$",
+    "steps": [
+      {
+        "name": "I make a request to the Dragon ID Manager",
+        "aggregatedDurations": {
+          "average": 0.78253054,
+          "median": 0.595150886
+        },
+        "durations": [
+          {
+            "duration": 2.005018257,
+            "location": "PaymentRequest.feature:5"
+          },
+          {
+            "duration": 0.595150886,
+            "location": "PaymentRequest.feature:5"
+          },
+          {
+            "duration": 0.707185862,
+            "location": "PaymentRequest.feature:5"
+          },
+          {
+            "duration": 0.588455996,
+            "location": "PaymentRequest.feature:5"
+          },
+          {
+            "duration": 0.604858838,
+            "location": "PaymentRequest.feature:5"
+          },
+          {
+            "duration": 0.930480579,
+            "location": "PaymentRequest.feature:5"
+          },
+          {
+            "duration": 0.508149304,
+            "location": "PaymentRequest.feature:5"
+          },
+          {
+            "duration": 0.586464385,
+            "location": "PaymentRequest.feature:5"
+          },
+          {
+            "duration": 0.517010754,
+            "location": "PaymentRequest.feature:5"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "source": "^I am an authorized merchant$",
+    "steps": [
+      {
+        "name": "I am an authorized merchant",
+        "aggregatedDurations": {
+          "average": 0.024520552,
+          "median": 0.024648392
+        },
+        "durations": [
+          {
+            "duration": 0.039675988,
+            "location": "PaymentRequest.feature:11"
+          },
+          {
+            "duration": 0.030187168,
+            "location": "PaymentRequest.feature:11"
+          },
+          {
+            "duration": 0.02724874,
+            "location": "PaymentRequest.feature:11"
+          },
+          {
+            "duration": 0.017250719,
+            "location": "PaymentRequest.feature:11"
+          },
+          {
+            "duration": 0.02225686,
+            "location": "PaymentRequest.feature:11"
+          },
+          {
+            "duration": 0.024648392,
+            "location": "PaymentRequest.feature:11"
+          },
+          {
+            "duration": 0.024933706,
+            "location": "PaymentRequest.feature:11"
+          },
+          {
+            "duration": 0.018318024,
+            "location": "PaymentRequest.feature:11"
+          },
+          {
+            "duration": 0.016165377,
+            "location": "PaymentRequest.feature:11"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "source": "^I should recieve a payment response with valid trace id in the header$",
+    "steps": [
+      {
+        "name": "I should recieve a payment response with valid trace id in the header",
+        "aggregatedDurations": {
+          "average": 0.000394619,
+          "median": 0.000035931
+        },
+        "durations": [
+          {
+            "duration": 0.003259103,
+            "location": "PaymentRequest.feature:14"
+          },
+          {
+            "duration": 0.000038928,
+            "location": "PaymentRequest.feature:14"
+          },
+          {
+            "duration": 0.000036617,
+            "location": "PaymentRequest.feature:14"
+          },
+          {
+            "duration": 0.00003584,
+            "location": "PaymentRequest.feature:14"
+          },
+          {
+            "duration": 0.000035811,
+            "location": "PaymentRequest.feature:14"
+          },
+          {
+            "duration": 0.000034633,
+            "location": "PaymentRequest.feature:14"
+          },
+          {
+            "duration": 0.000033231,
+            "location": "PaymentRequest.feature:14"
+          },
+          {
+            "duration": 0.000041484,
+            "location": "PaymentRequest.feature:14"
+          },
+          {
+            "duration": 0.000035931,
+            "location": "PaymentRequest.feature:14"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "source": "^I am a merchant$",
+    "steps": [
+      {
+        "name": "I am a merchant",
+        "aggregatedDurations": {
+          "average": 0.009533888,
+          "median": 0.000038855
+        },
+        "durations": [
+          {
+            "duration": 0.085497678,
+            "location": "PaymentRequest.feature:4"
+          },
+          {
+            "duration": 0.000043547,
+            "location": "PaymentRequest.feature:4"
+          },
+          {
+            "duration": 0.000027347,
+            "location": "PaymentRequest.feature:4"
+          },
+          {
+            "duration": 0.000031094,
+            "location": "PaymentRequest.feature:4"
+          },
+          {
+            "duration": 0.000030587,
+            "location": "PaymentRequest.feature:4"
+          },
+          {
+            "duration": 0.000058401,
+            "location": "PaymentRequest.feature:4"
+          },
+          {
+            "duration": 0.000038513,
+            "location": "PaymentRequest.feature:4"
+          },
+          {
+            "duration": 0.00003897,
+            "location": "PaymentRequest.feature:4"
+          },
+          {
+            "duration": 0.000038855,
+            "location": "PaymentRequest.feature:4"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "source": "^I recieve an access_token$",
+    "steps": [
+      {
+        "name": "I recieve an access_token",
+        "aggregatedDurations": {
+          "average": 0.064406371,
+          "median": 0.014227853
+        },
+        "durations": [
+          {
+            "duration": 0.461594781,
+            "location": "PaymentRequest.feature:6"
+          },
+          {
+            "duration": 0.017550924,
+            "location": "PaymentRequest.feature:6"
+          },
+          {
+            "duration": 0.014116693,
+            "location": "PaymentRequest.feature:6"
+          },
+          {
+            "duration": 0.012335898,
+            "location": "PaymentRequest.feature:6"
+          },
+          {
+            "duration": 0.014800915,
+            "location": "PaymentRequest.feature:6"
+          },
+          {
+            "duration": 0.013816223,
+            "location": "PaymentRequest.feature:6"
+          },
+          {
+            "duration": 0.018064449,
+            "location": "PaymentRequest.feature:6"
+          },
+          {
+            "duration": 0.013149603,
+            "location": "PaymentRequest.feature:6"
+          },
+          {
+            "duration": 0.014227853,
+            "location": "PaymentRequest.feature:6"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "source": "^I have transaction details \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",
+    "steps": [
+      {
+        "name": "I have transaction details \"2c350a50-7ae0-4191-acc7-4420b74ed52d\", \"20.00\",\"HKD\",\"Pizza order1\",\"Ecommerce\",\"48787589673\",\"Pizzahut1239893993\",\"55\",\"https://pizzahut.com/return\"",
+        "aggregatedDurations": {
+          "average": 0.003588753,
+          "median": 0.003588753
+        },
+        "durations": [
+          {
+            "duration": 0.003588753,
+            "location": "PaymentRequest.feature:12"
+          }
+        ]
+      },
+      {
+        "name": "I have transaction details \"2c350a50-7ae0-4191-acc7-4420b74ed53d\", \"10000\",\"HKD\",\"\",\"Mcommerce\",\"48787589674\",\"Pizzahut1239893993\",\"10\",\"https://pizzahut.com/return\"",
+        "aggregatedDurations": {
+          "average": 0.00020722,
+          "median": 0.00020722
+        },
+        "durations": [
+          {
+            "duration": 0.00020722,
+            "location": "PaymentRequest.feature:12"
+          }
+        ]
+      },
+      {
+        "name": "I have transaction details \"2c350a50-7ae0-4191-acc7-4420b74ed54d\", \"89.09\",\"HKD\",\"Pizza order2\",\"\",\"48787589675\",\"Pizzahut1239893993\",\"30\",\"https://pizzahut.com/return\"",
+        "aggregatedDurations": {
+          "average": 0.000171904,
+          "median": 0.000171904
+        },
+        "durations": [
+          {
+            "duration": 0.000171904,
+            "location": "PaymentRequest.feature:12"
+          }
+        ]
+      },
+      {
+        "name": "I have transaction details \"2c350a50-7ae0-4191-acc7-4420b74ed55d\", \"0.044\",\"HKD\",\"Pizza order3\",\"Native\",\"\",\"Pizzahut1239893993\",\"30\",\"https://pizzahut.com/return\"",
+        "aggregatedDurations": {
+          "average": 0.000127709,
+          "median": 0.000127709
+        },
+        "durations": [
+          {
+            "duration": 0.000127709,
+            "location": "PaymentRequest.feature:12"
+          }
+        ]
+      },
+      {
+        "name": "I have transaction details \"2c350a50-7ae0-4191-acc7-4420b74ed56d\", \"2.00\",\"HKD\",\"Pizza order4\",\"Ecommerce\",\"48787589677\",\"Pizzahut1239893993\",\"\",\"https://pizzahut.com/return\"",
+        "aggregatedDurations": {
+          "average": 0.000197147,
+          "median": 0.000197147
+        },
+        "durations": [
+          {
+            "duration": 0.000197147,
+            "location": "PaymentRequest.feature:12"
+          }
+        ]
+      },
+      {
+        "name": "I have transaction details \"2c350a50-7ae0-4191-acc7-4420b74ed57d\", \"3\",\"HKD\",\"Pizza order5\",\"Mcommerce\",\"48787589678\",\"Pizzahut1239893993\",\"30\",\"https://pizzahut.com/return\"",
+        "aggregatedDurations": {
+          "average": 0.000156952,
+          "median": 0.000156952
+        },
+        "durations": [
+          {
+            "duration": 0.000156952,
+            "location": "PaymentRequest.feature:12"
+          }
+        ]
+      },
+      {
+        "name": "I have transaction details \"2c350a50-7ae0-4191-acc7-4420b74ed58d\", \"600.0\",\"HKD\",\"Pizza order6\",\"Ecommerce\",\"48787589679\",\"Pizzahut1239893993\",\"30\",\"https://pizzahut.com/return\"",
+        "aggregatedDurations": {
+          "average": 0.00016522,
+          "median": 0.00016522
+        },
+        "durations": [
+          {
+            "duration": 0.00016522,
+            "location": "PaymentRequest.feature:12"
+          }
+        ]
+      },
+      {
+        "name": "I have transaction details \"2c350a50-7ae0-4191-acc7-4420b74ed59d\", \"12.123\",\"USD\",\"Pizza order7\",\"Ecommerce\",\"48787589611\",\"Pizzahut1239893993\",\"30\",\"https://pizzahut.com/return\"",
+        "aggregatedDurations": {
+          "average": 0.000170863,
+          "median": 0.000170863
+        },
+        "durations": [
+          {
+            "duration": 0.000170863,
+            "location": "PaymentRequest.feature:12"
+          }
+        ]
+      },
+      {
+        "name": "I have transaction details \"2c350a50-7ae0-4191-acc7-4420b74ed60d\", \"12.13\",\"USD\",\"Pizza order8\",\"Native\",\"ABCD\",\"Pizzahut1239893993\",\"30\",\"https://pizzahut.com/return\"",
+        "aggregatedDurations": {
+          "average": 0.000130803,
+          "median": 0.000130803
+        },
+        "durations": [
+          {
+            "duration": 0.000130803,
+            "location": "PaymentRequest.feature:12"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "source": "^I make a request for the payment$",
+    "steps": [
+      {
+        "name": "I make a request for the payment",
+        "aggregatedDurations": {
+          "average": 0.904880579,
+          "median": 0.838181329
+        },
+        "durations": [
+          {
+            "duration": 1.502792868,
+            "location": "PaymentRequest.feature:13"
+          },
+          {
+            "duration": 0.838181329,
+            "location": "PaymentRequest.feature:13"
+          },
+          {
+            "duration": 0.836568624,
+            "location": "PaymentRequest.feature:13"
+          },
+          {
+            "duration": 0.900229313,
+            "location": "PaymentRequest.feature:13"
+          },
+          {
+            "duration": 0.835802946,
+            "location": "PaymentRequest.feature:13"
+          },
+          {
+            "duration": 0.748785976,
+            "location": "PaymentRequest.feature:13"
+          },
+          {
+            "duration": 0.778023299,
+            "location": "PaymentRequest.feature:13"
+          },
+          {
+            "duration": 0.844813819,
+            "location": "PaymentRequest.feature:13"
+          },
+          {
+            "duration": 0.858727044,
+            "location": "PaymentRequest.feature:13"
+          }
+        ]
+      }
+    ]
+  }
+]

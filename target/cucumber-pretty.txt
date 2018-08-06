@@ -1,0 +1,191 @@
+Feature: Payment Request - DRAG-187
+
+  @functional @trial
+  Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs                                                          [90m# PaymentRequest.feature:10[0m
+    [36mGiven [0m[36mI am an authorized merchant[0m
+    [36mAnd [0m[36mI have transaction details "<traceid>", "<amount>","<currency>","<description>","<channel>","<invoiceid>","<merchantid>","<effectiveduration>","<returnURL>"[0m
+    [36mWhen [0m[36mI make a request for the payment[0m
+    [36mThen [0m[36mI should recieve a payment response with valid trace id in the header[0m
+    [36mAnd [0m[36mthe response body should contain valid payment id, created timestamp, transaction details, links[0m
+
+    Examples: 
+
+  Background: Retrieving access Token              [90m# PaymentRequest.feature:3[0m
+    [32mGiven [0m[32mI am a merchant[0m                          [90m# AccessTokenForMerchants_StepDefs.i_am_a_merchant()[0m
+    [32mWhen [0m[32mI make a request to the Dragon ID Manager[0m [90m# AccessTokenForMerchants_StepDefs.i_make_a_request_to_the_Dragon_ID_Manager()[0m
+    [32mThen [0m[32mI recieve an access_token[0m                 [90m# AccessTokenForMerchants_StepDefs.i_recieve_a_valid_access_token()[0m
+
+  @trial @functional
+  Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs                                                                               [90m# PaymentRequest.feature:19[0m
+    [32mGiven [0m[32mI am an authorized merchant[0m                                                                                                                                                     [90m# PaymentRequest_StepDefs.i_am_an_authorized_merchant()[0m
+    [32mAnd [0m[32mI have transaction details "[0m[32m[1m2c350a50-7ae0-4191-acc7-4420b74ed52d[0m[32m", "[0m[32m[1m20.00[0m[32m","[0m[32m[1mHKD[0m[32m","[0m[32m[1mPizza order1[0m[32m","[0m[32m[1mEcommerce[0m[32m","[0m[32m[1m48787589673[0m[32m","[0m[32m[1mPizzahut1239893993[0m[32m","[0m[32m[1m55[0m[32m","[0m[32m[1mhttps://pizzahut.com/return[0m[32m"[0m [90m# PaymentRequest_StepDefs.i_have_valid_transaction_details(String,String,String,String,String,String,String,String,String)[0m
+    [32mWhen [0m[32mI make a request for the payment[0m                                                                                                                                                 [90m# PaymentRequest_StepDefs.i_make_a_request_for_the_payment()[0m
+    [32mThen [0m[32mI should recieve a payment response with valid trace id in the header[0m                                                                                                            [90m# PaymentRequest_StepDefs.i_should_recieve_a_response_with_valid_trace_id_in_the_header()[0m
+    [31mAnd [0m[31mthe response body should contain valid payment id, created timestamp, transaction details, links[0m                                                                                  [90m# PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links()[0m
+      [31mjava.lang.AssertionError: Links within response is either incomplete or incorrect..Please check!! expected [true] but found [false]
+      	at org.testng.Assert.fail(Assert.java:94)
+      	at org.testng.Assert.failNotEquals(Assert.java:513)
+      	at org.testng.Assert.assertTrue(Assert.java:42)
+      	at steps.PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links(PaymentRequest_StepDefs.java:75)
+      	at ✽.And the response body should contain valid payment id, created timestamp, transaction details, links(PaymentRequest.feature:15)
+      [0m
+
+  Background: Retrieving access Token              [90m# PaymentRequest.feature:3[0m
+    [32mGiven [0m[32mI am a merchant[0m                          [90m# AccessTokenForMerchants_StepDefs.i_am_a_merchant()[0m
+    [32mWhen [0m[32mI make a request to the Dragon ID Manager[0m [90m# AccessTokenForMerchants_StepDefs.i_make_a_request_to_the_Dragon_ID_Manager()[0m
+    [32mThen [0m[32mI recieve an access_token[0m                 [90m# AccessTokenForMerchants_StepDefs.i_recieve_a_valid_access_token()[0m
+
+  @trial @functional
+  Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs                                                                   [90m# PaymentRequest.feature:20[0m
+    [32mGiven [0m[32mI am an authorized merchant[0m                                                                                                                                         [90m# PaymentRequest_StepDefs.i_am_an_authorized_merchant()[0m
+    [32mAnd [0m[32mI have transaction details "[0m[32m[1m2c350a50-7ae0-4191-acc7-4420b74ed53d[0m[32m", "[0m[32m[1m10000[0m[32m","[0m[32m[1mHKD[0m[32m","[0m[32m[1m[0m[32m","[0m[32m[1mMcommerce[0m[32m","[0m[32m[1m48787589674[0m[32m","[0m[32m[1mPizzahut1239893993[0m[32m","[0m[32m[1m10[0m[32m","[0m[32m[1mhttps://pizzahut.com/return[0m[32m"[0m [90m# PaymentRequest_StepDefs.i_have_valid_transaction_details(String,String,String,String,String,String,String,String,String)[0m
+    [32mWhen [0m[32mI make a request for the payment[0m                                                                                                                                     [90m# PaymentRequest_StepDefs.i_make_a_request_for_the_payment()[0m
+    [32mThen [0m[32mI should recieve a payment response with valid trace id in the header[0m                                                                                                [90m# PaymentRequest_StepDefs.i_should_recieve_a_response_with_valid_trace_id_in_the_header()[0m
+    [31mAnd [0m[31mthe response body should contain valid payment id, created timestamp, transaction details, links[0m                                                                      [90m# PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links()[0m
+      [31mjava.lang.AssertionError: Links within response is either incomplete or incorrect..Please check!! expected [true] but found [false]
+      	at org.testng.Assert.fail(Assert.java:94)
+      	at org.testng.Assert.failNotEquals(Assert.java:513)
+      	at org.testng.Assert.assertTrue(Assert.java:42)
+      	at steps.PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links(PaymentRequest_StepDefs.java:75)
+      	at ✽.And the response body should contain valid payment id, created timestamp, transaction details, links(PaymentRequest.feature:15)
+      [0m
+
+  Background: Retrieving access Token              [90m# PaymentRequest.feature:3[0m
+    [32mGiven [0m[32mI am a merchant[0m                          [90m# AccessTokenForMerchants_StepDefs.i_am_a_merchant()[0m
+    [32mWhen [0m[32mI make a request to the Dragon ID Manager[0m [90m# AccessTokenForMerchants_StepDefs.i_make_a_request_to_the_Dragon_ID_Manager()[0m
+    [32mThen [0m[32mI recieve an access_token[0m                 [90m# AccessTokenForMerchants_StepDefs.i_recieve_a_valid_access_token()[0m
+
+  @trial @functional
+  Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs                                                                      [90m# PaymentRequest.feature:21[0m
+    [32mGiven [0m[32mI am an authorized merchant[0m                                                                                                                                            [90m# PaymentRequest_StepDefs.i_am_an_authorized_merchant()[0m
+    [32mAnd [0m[32mI have transaction details "[0m[32m[1m2c350a50-7ae0-4191-acc7-4420b74ed54d[0m[32m", "[0m[32m[1m89.09[0m[32m","[0m[32m[1mHKD[0m[32m","[0m[32m[1mPizza order2[0m[32m","[0m[32m[1m[0m[32m","[0m[32m[1m48787589675[0m[32m","[0m[32m[1mPizzahut1239893993[0m[32m","[0m[32m[1m30[0m[32m","[0m[32m[1mhttps://pizzahut.com/return[0m[32m"[0m [90m# PaymentRequest_StepDefs.i_have_valid_transaction_details(String,String,String,String,String,String,String,String,String)[0m
+    [32mWhen [0m[32mI make a request for the payment[0m                                                                                                                                        [90m# PaymentRequest_StepDefs.i_make_a_request_for_the_payment()[0m
+    [32mThen [0m[32mI should recieve a payment response with valid trace id in the header[0m                                                                                                   [90m# PaymentRequest_StepDefs.i_should_recieve_a_response_with_valid_trace_id_in_the_header()[0m
+    [31mAnd [0m[31mthe response body should contain valid payment id, created timestamp, transaction details, links[0m                                                                         [90m# PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links()[0m
+      [31mjava.lang.AssertionError: Links within response is either incomplete or incorrect..Please check!! expected [true] but found [false]
+      	at org.testng.Assert.fail(Assert.java:94)
+      	at org.testng.Assert.failNotEquals(Assert.java:513)
+      	at org.testng.Assert.assertTrue(Assert.java:42)
+      	at steps.PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links(PaymentRequest_StepDefs.java:75)
+      	at ✽.And the response body should contain valid payment id, created timestamp, transaction details, links(PaymentRequest.feature:15)
+      [0m
+
+  Background: Retrieving access Token              [90m# PaymentRequest.feature:3[0m
+    [32mGiven [0m[32mI am a merchant[0m                          [90m# AccessTokenForMerchants_StepDefs.i_am_a_merchant()[0m
+    [32mWhen [0m[32mI make a request to the Dragon ID Manager[0m [90m# AccessTokenForMerchants_StepDefs.i_make_a_request_to_the_Dragon_ID_Manager()[0m
+    [32mThen [0m[32mI recieve an access_token[0m                 [90m# AccessTokenForMerchants_StepDefs.i_recieve_a_valid_access_token()[0m
+
+  @trial @functional
+  Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs                                                                 [90m# PaymentRequest.feature:22[0m
+    [32mGiven [0m[32mI am an authorized merchant[0m                                                                                                                                       [90m# PaymentRequest_StepDefs.i_am_an_authorized_merchant()[0m
+    [32mAnd [0m[32mI have transaction details "[0m[32m[1m2c350a50-7ae0-4191-acc7-4420b74ed55d[0m[32m", "[0m[32m[1m0.044[0m[32m","[0m[32m[1mHKD[0m[32m","[0m[32m[1mPizza order3[0m[32m","[0m[32m[1mNative[0m[32m","[0m[32m[1m[0m[32m","[0m[32m[1mPizzahut1239893993[0m[32m","[0m[32m[1m30[0m[32m","[0m[32m[1mhttps://pizzahut.com/return[0m[32m"[0m [90m# PaymentRequest_StepDefs.i_have_valid_transaction_details(String,String,String,String,String,String,String,String,String)[0m
+    [32mWhen [0m[32mI make a request for the payment[0m                                                                                                                                   [90m# PaymentRequest_StepDefs.i_make_a_request_for_the_payment()[0m
+    [32mThen [0m[32mI should recieve a payment response with valid trace id in the header[0m                                                                                              [90m# PaymentRequest_StepDefs.i_should_recieve_a_response_with_valid_trace_id_in_the_header()[0m
+    [31mAnd [0m[31mthe response body should contain valid payment id, created timestamp, transaction details, links[0m                                                                    [90m# PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links()[0m
+      [31mjava.lang.AssertionError: Links within response is either incomplete or incorrect..Please check!! expected [true] but found [false]
+      	at org.testng.Assert.fail(Assert.java:94)
+      	at org.testng.Assert.failNotEquals(Assert.java:513)
+      	at org.testng.Assert.assertTrue(Assert.java:42)
+      	at steps.PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links(PaymentRequest_StepDefs.java:75)
+      	at ✽.And the response body should contain valid payment id, created timestamp, transaction details, links(PaymentRequest.feature:15)
+      [0m
+
+  Background: Retrieving access Token              [90m# PaymentRequest.feature:3[0m
+    [32mGiven [0m[32mI am a merchant[0m                          [90m# AccessTokenForMerchants_StepDefs.i_am_a_merchant()[0m
+    [32mWhen [0m[32mI make a request to the Dragon ID Manager[0m [90m# AccessTokenForMerchants_StepDefs.i_make_a_request_to_the_Dragon_ID_Manager()[0m
+    [32mThen [0m[32mI recieve an access_token[0m                 [90m# AccessTokenForMerchants_StepDefs.i_recieve_a_valid_access_token()[0m
+
+  @trial @functional
+  Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs                                                                            [90m# PaymentRequest.feature:23[0m
+    [32mGiven [0m[32mI am an authorized merchant[0m                                                                                                                                                  [90m# PaymentRequest_StepDefs.i_am_an_authorized_merchant()[0m
+    [32mAnd [0m[32mI have transaction details "[0m[32m[1m2c350a50-7ae0-4191-acc7-4420b74ed56d[0m[32m", "[0m[32m[1m2.00[0m[32m","[0m[32m[1mHKD[0m[32m","[0m[32m[1mPizza order4[0m[32m","[0m[32m[1mEcommerce[0m[32m","[0m[32m[1m48787589677[0m[32m","[0m[32m[1mPizzahut1239893993[0m[32m","[0m[32m[1m[0m[32m","[0m[32m[1mhttps://pizzahut.com/return[0m[32m"[0m [90m# PaymentRequest_StepDefs.i_have_valid_transaction_details(String,String,String,String,String,String,String,String,String)[0m
+    [32mWhen [0m[32mI make a request for the payment[0m                                                                                                                                              [90m# PaymentRequest_StepDefs.i_make_a_request_for_the_payment()[0m
+    [32mThen [0m[32mI should recieve a payment response with valid trace id in the header[0m                                                                                                         [90m# PaymentRequest_StepDefs.i_should_recieve_a_response_with_valid_trace_id_in_the_header()[0m
+    [31mAnd [0m[31mthe response body should contain valid payment id, created timestamp, transaction details, links[0m                                                                               [90m# PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links()[0m
+      [31mjava.lang.AssertionError: Links within response is either incomplete or incorrect..Please check!! expected [true] but found [false]
+      	at org.testng.Assert.fail(Assert.java:94)
+      	at org.testng.Assert.failNotEquals(Assert.java:513)
+      	at org.testng.Assert.assertTrue(Assert.java:42)
+      	at steps.PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links(PaymentRequest_StepDefs.java:75)
+      	at ✽.And the response body should contain valid payment id, created timestamp, transaction details, links(PaymentRequest.feature:15)
+      [0m
+
+  Background: Retrieving access Token              [90m# PaymentRequest.feature:3[0m
+    [32mGiven [0m[32mI am a merchant[0m                          [90m# AccessTokenForMerchants_StepDefs.i_am_a_merchant()[0m
+    [32mWhen [0m[32mI make a request to the Dragon ID Manager[0m [90m# AccessTokenForMerchants_StepDefs.i_make_a_request_to_the_Dragon_ID_Manager()[0m
+    [32mThen [0m[32mI recieve an access_token[0m                 [90m# AccessTokenForMerchants_StepDefs.i_recieve_a_valid_access_token()[0m
+
+  @trial @functional
+  Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs                                                                           [90m# PaymentRequest.feature:24[0m
+    [32mGiven [0m[32mI am an authorized merchant[0m                                                                                                                                                 [90m# PaymentRequest_StepDefs.i_am_an_authorized_merchant()[0m
+    [32mAnd [0m[32mI have transaction details "[0m[32m[1m2c350a50-7ae0-4191-acc7-4420b74ed57d[0m[32m", "[0m[32m[1m3[0m[32m","[0m[32m[1mHKD[0m[32m","[0m[32m[1mPizza order5[0m[32m","[0m[32m[1mMcommerce[0m[32m","[0m[32m[1m48787589678[0m[32m","[0m[32m[1mPizzahut1239893993[0m[32m","[0m[32m[1m30[0m[32m","[0m[32m[1mhttps://pizzahut.com/return[0m[32m"[0m [90m# PaymentRequest_StepDefs.i_have_valid_transaction_details(String,String,String,String,String,String,String,String,String)[0m
+    [32mWhen [0m[32mI make a request for the payment[0m                                                                                                                                             [90m# PaymentRequest_StepDefs.i_make_a_request_for_the_payment()[0m
+    [32mThen [0m[32mI should recieve a payment response with valid trace id in the header[0m                                                                                                        [90m# PaymentRequest_StepDefs.i_should_recieve_a_response_with_valid_trace_id_in_the_header()[0m
+    [31mAnd [0m[31mthe response body should contain valid payment id, created timestamp, transaction details, links[0m                                                                              [90m# PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links()[0m
+      [31mjava.lang.AssertionError: Links within response is either incomplete or incorrect..Please check!! expected [true] but found [false]
+      	at org.testng.Assert.fail(Assert.java:94)
+      	at org.testng.Assert.failNotEquals(Assert.java:513)
+      	at org.testng.Assert.assertTrue(Assert.java:42)
+      	at steps.PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links(PaymentRequest_StepDefs.java:75)
+      	at ✽.And the response body should contain valid payment id, created timestamp, transaction details, links(PaymentRequest.feature:15)
+      [0m
+
+  Background: Retrieving access Token              [90m# PaymentRequest.feature:3[0m
+    [32mGiven [0m[32mI am a merchant[0m                          [90m# AccessTokenForMerchants_StepDefs.i_am_a_merchant()[0m
+    [32mWhen [0m[32mI make a request to the Dragon ID Manager[0m [90m# AccessTokenForMerchants_StepDefs.i_make_a_request_to_the_Dragon_ID_Manager()[0m
+    [32mThen [0m[32mI recieve an access_token[0m                 [90m# AccessTokenForMerchants_StepDefs.i_recieve_a_valid_access_token()[0m
+
+  @trial @functional
+  Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs                                                                               [90m# PaymentRequest.feature:25[0m
+    [32mGiven [0m[32mI am an authorized merchant[0m                                                                                                                                                     [90m# PaymentRequest_StepDefs.i_am_an_authorized_merchant()[0m
+    [32mAnd [0m[32mI have transaction details "[0m[32m[1m2c350a50-7ae0-4191-acc7-4420b74ed58d[0m[32m", "[0m[32m[1m600.0[0m[32m","[0m[32m[1mHKD[0m[32m","[0m[32m[1mPizza order6[0m[32m","[0m[32m[1mEcommerce[0m[32m","[0m[32m[1m48787589679[0m[32m","[0m[32m[1mPizzahut1239893993[0m[32m","[0m[32m[1m30[0m[32m","[0m[32m[1mhttps://pizzahut.com/return[0m[32m"[0m [90m# PaymentRequest_StepDefs.i_have_valid_transaction_details(String,String,String,String,String,String,String,String,String)[0m
+    [32mWhen [0m[32mI make a request for the payment[0m                                                                                                                                                 [90m# PaymentRequest_StepDefs.i_make_a_request_for_the_payment()[0m
+    [32mThen [0m[32mI should recieve a payment response with valid trace id in the header[0m                                                                                                            [90m# PaymentRequest_StepDefs.i_should_recieve_a_response_with_valid_trace_id_in_the_header()[0m
+    [31mAnd [0m[31mthe response body should contain valid payment id, created timestamp, transaction details, links[0m                                                                                  [90m# PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links()[0m
+      [31mjava.lang.AssertionError: Links within response is either incomplete or incorrect..Please check!! expected [true] but found [false]
+      	at org.testng.Assert.fail(Assert.java:94)
+      	at org.testng.Assert.failNotEquals(Assert.java:513)
+      	at org.testng.Assert.assertTrue(Assert.java:42)
+      	at steps.PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links(PaymentRequest_StepDefs.java:75)
+      	at ✽.And the response body should contain valid payment id, created timestamp, transaction details, links(PaymentRequest.feature:15)
+      [0m
+
+  Background: Retrieving access Token              [90m# PaymentRequest.feature:3[0m
+    [32mGiven [0m[32mI am a merchant[0m                          [90m# AccessTokenForMerchants_StepDefs.i_am_a_merchant()[0m
+    [32mWhen [0m[32mI make a request to the Dragon ID Manager[0m [90m# AccessTokenForMerchants_StepDefs.i_make_a_request_to_the_Dragon_ID_Manager()[0m
+    [32mThen [0m[32mI recieve an access_token[0m                 [90m# AccessTokenForMerchants_StepDefs.i_recieve_a_valid_access_token()[0m
+
+  @trial @functional
+  Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs                                                                                [90m# PaymentRequest.feature:26[0m
+    [32mGiven [0m[32mI am an authorized merchant[0m                                                                                                                                                      [90m# PaymentRequest_StepDefs.i_am_an_authorized_merchant()[0m
+    [32mAnd [0m[32mI have transaction details "[0m[32m[1m2c350a50-7ae0-4191-acc7-4420b74ed59d[0m[32m", "[0m[32m[1m12.123[0m[32m","[0m[32m[1mUSD[0m[32m","[0m[32m[1mPizza order7[0m[32m","[0m[32m[1mEcommerce[0m[32m","[0m[32m[1m48787589611[0m[32m","[0m[32m[1mPizzahut1239893993[0m[32m","[0m[32m[1m30[0m[32m","[0m[32m[1mhttps://pizzahut.com/return[0m[32m"[0m [90m# PaymentRequest_StepDefs.i_have_valid_transaction_details(String,String,String,String,String,String,String,String,String)[0m
+    [32mWhen [0m[32mI make a request for the payment[0m                                                                                                                                                  [90m# PaymentRequest_StepDefs.i_make_a_request_for_the_payment()[0m
+    [32mThen [0m[32mI should recieve a payment response with valid trace id in the header[0m                                                                                                             [90m# PaymentRequest_StepDefs.i_should_recieve_a_response_with_valid_trace_id_in_the_header()[0m
+    [31mAnd [0m[31mthe response body should contain valid payment id, created timestamp, transaction details, links[0m                                                                                   [90m# PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links()[0m
+      [31mjava.lang.AssertionError: Links within response is either incomplete or incorrect..Please check!! expected [true] but found [false]
+      	at org.testng.Assert.fail(Assert.java:94)
+      	at org.testng.Assert.failNotEquals(Assert.java:513)
+      	at org.testng.Assert.assertTrue(Assert.java:42)
+      	at steps.PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links(PaymentRequest_StepDefs.java:75)
+      	at ✽.And the response body should contain valid payment id, created timestamp, transaction details, links(PaymentRequest.feature:15)
+      [0m
+
+  Background: Retrieving access Token              [90m# PaymentRequest.feature:3[0m
+    [32mGiven [0m[32mI am a merchant[0m                          [90m# AccessTokenForMerchants_StepDefs.i_am_a_merchant()[0m
+    [32mWhen [0m[32mI make a request to the Dragon ID Manager[0m [90m# AccessTokenForMerchants_StepDefs.i_make_a_request_to_the_Dragon_ID_Manager()[0m
+    [32mThen [0m[32mI recieve an access_token[0m                 [90m# AccessTokenForMerchants_StepDefs.i_recieve_a_valid_access_token()[0m
+
+  @trial @functional
+  Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs                                                                     [90m# PaymentRequest.feature:27[0m
+    [32mGiven [0m[32mI am an authorized merchant[0m                                                                                                                                           [90m# PaymentRequest_StepDefs.i_am_an_authorized_merchant()[0m
+    [32mAnd [0m[32mI have transaction details "[0m[32m[1m2c350a50-7ae0-4191-acc7-4420b74ed60d[0m[32m", "[0m[32m[1m12.13[0m[32m","[0m[32m[1mUSD[0m[32m","[0m[32m[1mPizza order8[0m[32m","[0m[32m[1mNative[0m[32m","[0m[32m[1mABCD[0m[32m","[0m[32m[1mPizzahut1239893993[0m[32m","[0m[32m[1m30[0m[32m","[0m[32m[1mhttps://pizzahut.com/return[0m[32m"[0m [90m# PaymentRequest_StepDefs.i_have_valid_transaction_details(String,String,String,String,String,String,String,String,String)[0m
+    [32mWhen [0m[32mI make a request for the payment[0m                                                                                                                                       [90m# PaymentRequest_StepDefs.i_make_a_request_for_the_payment()[0m
+    [32mThen [0m[32mI should recieve a payment response with valid trace id in the header[0m                                                                                                  [90m# PaymentRequest_StepDefs.i_should_recieve_a_response_with_valid_trace_id_in_the_header()[0m
+    [31mAnd [0m[31mthe response body should contain valid payment id, created timestamp, transaction details, links[0m                                                                        [90m# PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links()[0m
+      [31mjava.lang.AssertionError: Links within response is either incomplete or incorrect..Please check!! expected [true] but found [false]
+      	at org.testng.Assert.fail(Assert.java:94)
+      	at org.testng.Assert.failNotEquals(Assert.java:513)
+      	at org.testng.Assert.assertTrue(Assert.java:42)
+      	at steps.PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links(PaymentRequest_StepDefs.java:75)
+      	at ✽.And the response body should contain valid payment id, created timestamp, transaction details, links(PaymentRequest.feature:15)
+      [0m

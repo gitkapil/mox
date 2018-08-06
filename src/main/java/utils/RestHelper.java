@@ -5,9 +5,13 @@ import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.path.json.JsonPath;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
+import gherkin.deps.com.google.gson.JsonObject;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
 import static com.jayway.restassured.RestAssured.get;
 import static com.jayway.restassured.RestAssured.given;
 
@@ -47,7 +51,7 @@ public class RestHelper {
     }
 
     // get Response from an endpoint with Headers
-    public  Response getResponseWithHeaders(String url, HashMap<String, String> headers){
+    public  Response getRequestWithHeaders(String url, HashMap<String, String> headers){
 
         Response res=null;
         logger.info("Endpoint hit-->   "+ url);
@@ -69,11 +73,26 @@ public class RestHelper {
     }
 
 
-    public Response postResponseWithBody(String url, HashMap<String, String> body){
+    public Response postRequestWithBody(String url, HashMap<String, String> body){
 
         Response response=null;
         try{
             response = given().body(body).when().post(url);
+
+        }catch(Exception e){
+
+            Assert.assertTrue(e.getMessage(), false);
+        }
+
+        return response;
+    }
+
+    public Response postRequestWithHeaderAndBody(String url, HashMap headers,HashMap body){
+
+        Response response=null;
+        try{
+            response = given().log().all().headers(headers).body(body).when().post(url);
+
         }catch(Exception e){
 
             Assert.assertTrue(e.getMessage(), false);
@@ -83,10 +102,11 @@ public class RestHelper {
     }
 
 
-    public Response postResponseWithEncodedBody(RequestSpecification res, String url){
+
+    public Response postRequestWithEncodedBody(String url, RequestSpecification requestSpecification){
         Response response=null;
         try{
-            response = res.post(url);
+            response = requestSpecification.post(url);
         }catch(Exception e){
 
             Assert.assertTrue(e.getMessage(), false);
@@ -100,6 +120,42 @@ public class RestHelper {
         String json = res.asString();
         return new JsonPath(json);
     }
+
+
+    public String getResponseHeaderValue(Response res, String headerName){
+        String value=null;
+
+        try{
+            value= res.getHeader(headerName);
+        }
+        catch(NullPointerException e){
+
+        }
+
+        return value;
+    }
+
+
+    public String getResponseBodyValue(Response res, String key){
+        String value=null;
+
+        try{
+            value= res.path(key).toString();
+        }
+        catch(NullPointerException e){
+
+        }
+
+        return value;
+    }
+
+    public List getJsonArray(Response res, String key){
+
+        List<HashMap<String, String>> list= res.jsonPath().getList(key);
+
+        return list;
+    }
+
 
 
 

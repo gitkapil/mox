@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<testsuite failures="9" name="cucumber.runtime.formatter.JUnitFormatter" skipped="0" tests="9" time="16.763899">
+<testcase classname="Payment Request - DRAG-187" name="Positive flow- A merchant is able to create a payment request with all the valid inputs" time="4.590695">
+<failure message="java.lang.AssertionError: Links within response is either incomplete or incorrect..Please check!! expected [true] but found [false]&#10;&#9;at org.testng.Assert.fail(Assert.java:94)&#10;&#9;at org.testng.Assert.failNotEquals(Assert.java:513)&#10;&#9;at org.testng.Assert.assertTrue(Assert.java:42)&#10;&#9;at steps.PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links(PaymentRequest_StepDefs.java:75)&#10;&#9;at ✽.And the response body should contain valid payment id, created timestamp, transaction details, links(PaymentRequest.feature:15)&#10;"><![CDATA[Given I am a merchant.......................................................passed
+When I make a request to the Dragon ID Manager..............................passed
+Then I recieve an access_token..............................................passed
+Given I am an authorized merchant...........................................passed
+And I have transaction details "2c350a50-7ae0-4191-acc7-4420b74ed52d", "20.00","HKD","Pizza order1","Ecommerce","48787589673","Pizzahut1239893993","55","https://pizzahut.com/return".passed
+When I make a request for the payment.......................................passed
+Then I should recieve a payment response with valid trace id in the header..passed
+And the response body should contain valid payment id, created timestamp, transaction details, links.failed
+
+StackTrace:
+java.lang.AssertionError: Links within response is either incomplete or incorrect..Please check!! expected [true] but found [false]
+	at org.testng.Assert.fail(Assert.java:94)
+	at org.testng.Assert.failNotEquals(Assert.java:513)
+	at org.testng.Assert.assertTrue(Assert.java:42)
+	at steps.PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links(PaymentRequest_StepDefs.java:75)
+	at ✽.And the response body should contain valid payment id, created timestamp, transaction details, links(PaymentRequest.feature:15)
+]]></failure>
+</testcase>
+<testcase classname="Payment Request - DRAG-187" name="Positive flow- A merchant is able to create a payment request with all the valid inputs 2" time="1.510841">
+<failure message="java.lang.AssertionError: Links within response is either incomplete or incorrect..Please check!! expected [true] but found [false]&#10;&#9;at org.testng.Assert.fail(Assert.java:94)&#10;&#9;at org.testng.Assert.failNotEquals(Assert.java:513)&#10;&#9;at org.testng.Assert.assertTrue(Assert.java:42)&#10;&#9;at steps.PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links(PaymentRequest_StepDefs.java:75)&#10;&#9;at ✽.And the response body should contain valid payment id, created timestamp, transaction details, links(PaymentRequest.feature:15)&#10;"><![CDATA[Given I am a merchant.......................................................passed
+When I make a request to the Dragon ID Manager..............................passed
+Then I recieve an access_token..............................................passed
+Given I am an authorized merchant...........................................passed
+And I have transaction details "2c350a50-7ae0-4191-acc7-4420b74ed53d", "10000","HKD","","Mcommerce","48787589674","Pizzahut1239893993","10","https://pizzahut.com/return".passed
+When I make a request for the payment.......................................passed
+Then I should recieve a payment response with valid trace id in the header..passed
+And the response body should contain valid payment id, created timestamp, transaction details, links.failed
+
+StackTrace:
+java.lang.AssertionError: Links within response is either incomplete or incorrect..Please check!! expected [true] but found [false]
+	at org.testng.Assert.fail(Assert.java:94)
+	at org.testng.Assert.failNotEquals(Assert.java:513)
+	at org.testng.Assert.assertTrue(Assert.java:42)
+	at steps.PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links(PaymentRequest_StepDefs.java:75)
+	at ✽.And the response body should contain valid payment id, created timestamp, transaction details, links(PaymentRequest.feature:15)
+]]></failure>
+</testcase>
+<testcase classname="Payment Request - DRAG-187" name="Positive flow- A merchant is able to create a payment request with all the valid inputs 3" time="1.610373">
+<failure message="java.lang.AssertionError: Links within response is either incomplete or incorrect..Please check!! expected [true] but found [false]&#10;&#9;at org.testng.Assert.fail(Assert.java:94)&#10;&#9;at org.testng.Assert.failNotEquals(Assert.java:513)&#10;&#9;at org.testng.Assert.assertTrue(Assert.java:42)&#10;&#9;at steps.PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links(PaymentRequest_StepDefs.java:75)&#10;&#9;at ✽.And the response body should contain valid payment id, created timestamp, transaction details, links(PaymentRequest.feature:15)&#10;"><![CDATA[Given I am a merchant.......................................................passed
+When I make a request to the Dragon ID Manager..............................passed
+Then I recieve an access_token..............................................passed
+Given I am an authorized merchant...........................................passed
+And I have transaction details "2c350a50-7ae0-4191-acc7-4420b74ed54d", "89.09","HKD","Pizza order2","","48787589675","Pizzahut1239893993","30","https://pizzahut.com/return".passed
+When I make a request for the payment.......................................passed
+Then I should recieve a payment response with valid trace id in the header..passed
+And the response body should contain valid payment id, created timestamp, transaction details, links.failed
+
+StackTrace:
+java.lang.AssertionError: Links within response is either incomplete or incorrect..Please check!! expected [true] but found [false]
+	at org.testng.Assert.fail(Assert.java:94)
+	at org.testng.Assert.failNotEquals(Assert.java:513)
+	at org.testng.Assert.assertTrue(Assert.java:42)
+	at steps.PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links(PaymentRequest_StepDefs.java:75)
+	at ✽.And the response body should contain valid payment id, created timestamp, transaction details, links(PaymentRequest.feature:15)
+]]></failure>
+</testcase>
+<testcase classname="Payment Request - DRAG-187" name="Positive flow- A merchant is able to create a payment request with all the valid inputs 4" time="1.544955">
+<failure message="java.lang.AssertionError: Links within response is either incomplete or incorrect..Please check!! expected [true] but found [false]&#10;&#9;at org.testng.Assert.fail(Assert.java:94)&#10;&#9;at org.testng.Assert.failNotEquals(Assert.java:513)&#10;&#9;at org.testng.Assert.assertTrue(Assert.java:42)&#10;&#9;at steps.PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links(PaymentRequest_StepDefs.java:75)&#10;&#9;at ✽.And the response body should contain valid payment id, created timestamp, transaction details, links(PaymentRequest.feature:15)&#10;"><![CDATA[Given I am a merchant.......................................................passed
+When I make a request to the Dragon ID Manager..............................passed
+Then I recieve an access_token..............................................passed
+Given I am an authorized merchant...........................................passed
+And I have transaction details "2c350a50-7ae0-4191-acc7-4420b74ed55d", "0.044","HKD","Pizza order3","Native","","Pizzahut1239893993","30","https://pizzahut.com/return".passed
+When I make a request for the payment.......................................passed
+Then I should recieve a payment response with valid trace id in the header..passed
+And the response body should contain valid payment id, created timestamp, transaction details, links.failed
+
+StackTrace:
+java.lang.AssertionError: Links within response is either incomplete or incorrect..Please check!! expected [true] but found [false]
+	at org.testng.Assert.fail(Assert.java:94)
+	at org.testng.Assert.failNotEquals(Assert.java:513)
+	at org.testng.Assert.assertTrue(Assert.java:42)
+	at steps.PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links(PaymentRequest_StepDefs.java:75)
+	at ✽.And the response body should contain valid payment id, created timestamp, transaction details, links(PaymentRequest.feature:15)
+]]></failure>
+</testcase>
+<testcase classname="Payment Request - DRAG-187" name="Positive flow- A merchant is able to create a payment request with all the valid inputs 5" time="1.499212">
+<failure message="java.lang.AssertionError: Links within response is either incomplete or incorrect..Please check!! expected [true] but found [false]&#10;&#9;at org.testng.Assert.fail(Assert.java:94)&#10;&#9;at org.testng.Assert.failNotEquals(Assert.java:513)&#10;&#9;at org.testng.Assert.assertTrue(Assert.java:42)&#10;&#9;at steps.PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links(PaymentRequest_StepDefs.java:75)&#10;&#9;at ✽.And the response body should contain valid payment id, created timestamp, transaction details, links(PaymentRequest.feature:15)&#10;"><![CDATA[Given I am a merchant.......................................................passed
+When I make a request to the Dragon ID Manager..............................passed
+Then I recieve an access_token..............................................passed
+Given I am an authorized merchant...........................................passed
+And I have transaction details "2c350a50-7ae0-4191-acc7-4420b74ed56d", "2.00","HKD","Pizza order4","Ecommerce","48787589677","Pizzahut1239893993","","https://pizzahut.com/return".passed
+When I make a request for the payment.......................................passed
+Then I should recieve a payment response with valid trace id in the header..passed
+And the response body should contain valid payment id, created timestamp, transaction details, links.failed
+
+StackTrace:
+java.lang.AssertionError: Links within response is either incomplete or incorrect..Please check!! expected [true] but found [false]
+	at org.testng.Assert.fail(Assert.java:94)
+	at org.testng.Assert.failNotEquals(Assert.java:513)
+	at org.testng.Assert.assertTrue(Assert.java:42)
+	at steps.PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links(PaymentRequest_StepDefs.java:75)
+	at ✽.And the response body should contain valid payment id, created timestamp, transaction details, links(PaymentRequest.feature:15)
+]]></failure>
+</testcase>
+<testcase classname="Payment Request - DRAG-187" name="Positive flow- A merchant is able to create a payment request with all the valid inputs 6" time="1.743001">
+<failure message="java.lang.AssertionError: Links within response is either incomplete or incorrect..Please check!! expected [true] but found [false]&#10;&#9;at org.testng.Assert.fail(Assert.java:94)&#10;&#9;at org.testng.Assert.failNotEquals(Assert.java:513)&#10;&#9;at org.testng.Assert.assertTrue(Assert.java:42)&#10;&#9;at steps.PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links(PaymentRequest_StepDefs.java:75)&#10;&#9;at ✽.And the response body should contain valid payment id, created timestamp, transaction details, links(PaymentRequest.feature:15)&#10;"><![CDATA[Given I am a merchant.......................................................passed
+When I make a request to the Dragon ID Manager..............................passed
+Then I recieve an access_token..............................................passed
+Given I am an authorized merchant...........................................passed
+And I have transaction details "2c350a50-7ae0-4191-acc7-4420b74ed57d", "3","HKD","Pizza order5","Mcommerce","48787589678","Pizzahut1239893993","30","https://pizzahut.com/return".passed
+When I make a request for the payment.......................................passed
+Then I should recieve a payment response with valid trace id in the header..passed
+And the response body should contain valid payment id, created timestamp, transaction details, links.failed
+
+StackTrace:
+java.lang.AssertionError: Links within response is either incomplete or incorrect..Please check!! expected [true] but found [false]
+	at org.testng.Assert.fail(Assert.java:94)
+	at org.testng.Assert.failNotEquals(Assert.java:513)
+	at org.testng.Assert.assertTrue(Assert.java:42)
+	at steps.PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links(PaymentRequest_StepDefs.java:75)
+	at ✽.And the response body should contain valid payment id, created timestamp, transaction details, links(PaymentRequest.feature:15)
+]]></failure>
+</testcase>
+<testcase classname="Payment Request - DRAG-187" name="Positive flow- A merchant is able to create a payment request with all the valid inputs 7" time="1.351352">
+<failure message="java.lang.AssertionError: Links within response is either incomplete or incorrect..Please check!! expected [true] but found [false]&#10;&#9;at org.testng.Assert.fail(Assert.java:94)&#10;&#9;at org.testng.Assert.failNotEquals(Assert.java:513)&#10;&#9;at org.testng.Assert.assertTrue(Assert.java:42)&#10;&#9;at steps.PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links(PaymentRequest_StepDefs.java:75)&#10;&#9;at ✽.And the response body should contain valid payment id, created timestamp, transaction details, links(PaymentRequest.feature:15)&#10;"><![CDATA[Given I am a merchant.......................................................passed
+When I make a request to the Dragon ID Manager..............................passed
+Then I recieve an access_token..............................................passed
+Given I am an authorized merchant...........................................passed
+And I have transaction details "2c350a50-7ae0-4191-acc7-4420b74ed58d", "600.0","HKD","Pizza order6","Ecommerce","48787589679","Pizzahut1239893993","30","https://pizzahut.com/return".passed
+When I make a request for the payment.......................................passed
+Then I should recieve a payment response with valid trace id in the header..passed
+And the response body should contain valid payment id, created timestamp, transaction details, links.failed
+
+StackTrace:
+java.lang.AssertionError: Links within response is either incomplete or incorrect..Please check!! expected [true] but found [false]
+	at org.testng.Assert.fail(Assert.java:94)
+	at org.testng.Assert.failNotEquals(Assert.java:513)
+	at org.testng.Assert.assertTrue(Assert.java:42)
+	at steps.PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links(PaymentRequest_StepDefs.java:75)
+	at ✽.And the response body should contain valid payment id, created timestamp, transaction details, links(PaymentRequest.feature:15)
+]]></failure>
+</testcase>
+<testcase classname="Payment Request - DRAG-187" name="Positive flow- A merchant is able to create a payment request with all the valid inputs 8" time="1.486326">
+<failure message="java.lang.AssertionError: Links within response is either incomplete or incorrect..Please check!! expected [true] but found [false]&#10;&#9;at org.testng.Assert.fail(Assert.java:94)&#10;&#9;at org.testng.Assert.failNotEquals(Assert.java:513)&#10;&#9;at org.testng.Assert.assertTrue(Assert.java:42)&#10;&#9;at steps.PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links(PaymentRequest_StepDefs.java:75)&#10;&#9;at ✽.And the response body should contain valid payment id, created timestamp, transaction details, links(PaymentRequest.feature:15)&#10;"><![CDATA[Given I am a merchant.......................................................passed
+When I make a request to the Dragon ID Manager..............................passed
+Then I recieve an access_token..............................................passed
+Given I am an authorized merchant...........................................passed
+And I have transaction details "2c350a50-7ae0-4191-acc7-4420b74ed59d", "12.123","USD","Pizza order7","Ecommerce","48787589611","Pizzahut1239893993","30","https://pizzahut.com/return".passed
+When I make a request for the payment.......................................passed
+Then I should recieve a payment response with valid trace id in the header..passed
+And the response body should contain valid payment id, created timestamp, transaction details, links.failed
+
+StackTrace:
+java.lang.AssertionError: Links within response is either incomplete or incorrect..Please check!! expected [true] but found [false]
+	at org.testng.Assert.fail(Assert.java:94)
+	at org.testng.Assert.failNotEquals(Assert.java:513)
+	at org.testng.Assert.assertTrue(Assert.java:42)
+	at steps.PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links(PaymentRequest_StepDefs.java:75)
+	at ✽.And the response body should contain valid payment id, created timestamp, transaction details, links(PaymentRequest.feature:15)
+]]></failure>
+</testcase>
+<testcase classname="Payment Request - DRAG-187" name="Positive flow- A merchant is able to create a payment request with all the valid inputs 9" time="1.427144">
+<failure message="java.lang.AssertionError: Links within response is either incomplete or incorrect..Please check!! expected [true] but found [false]&#10;&#9;at org.testng.Assert.fail(Assert.java:94)&#10;&#9;at org.testng.Assert.failNotEquals(Assert.java:513)&#10;&#9;at org.testng.Assert.assertTrue(Assert.java:42)&#10;&#9;at steps.PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links(PaymentRequest_StepDefs.java:75)&#10;&#9;at ✽.And the response body should contain valid payment id, created timestamp, transaction details, links(PaymentRequest.feature:15)&#10;"><![CDATA[Given I am a merchant.......................................................passed
+When I make a request to the Dragon ID Manager..............................passed
+Then I recieve an access_token..............................................passed
+Given I am an authorized merchant...........................................passed
+And I have transaction details "2c350a50-7ae0-4191-acc7-4420b74ed60d", "12.13","USD","Pizza order8","Native","ABCD","Pizzahut1239893993","30","https://pizzahut.com/return".passed
+When I make a request for the payment.......................................passed
+Then I should recieve a payment response with valid trace id in the header..passed
+And the response body should contain valid payment id, created timestamp, transaction details, links.failed
+
+StackTrace:
+java.lang.AssertionError: Links within response is either incomplete or incorrect..Please check!! expected [true] but found [false]
+	at org.testng.Assert.fail(Assert.java:94)
+	at org.testng.Assert.failNotEquals(Assert.java:513)
+	at org.testng.Assert.assertTrue(Assert.java:42)
+	at steps.PaymentRequest_StepDefs.the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links(PaymentRequest_StepDefs.java:75)
+	at ✽.And the response body should contain valid payment id, created timestamp, transaction details, links(PaymentRequest.feature:15)
+]]></failure>
+</testcase>
+</testsuite>
