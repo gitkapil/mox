@@ -6,13 +6,13 @@ Closed Dragon is a set of open APIs which are basically payment services and wou
 ## How to Run
 ---------------
 
-verify -P<profile> -Denv=<Env Name>
+verify -P<profile> -Denv=<Env Name> -Dversion=v<version number>
 
 <i>Example: </i>
 
-To run functional tests on playpen/dev env
+To run functional tests on playpen/dev env (v1.0 is the default version)
 
-command: verify -Pfunctional -Denv=playpen
+command: verify -Pfunctional -Denv=playpen -Dversion=v1.0
 
 
 ##PreRequisites
