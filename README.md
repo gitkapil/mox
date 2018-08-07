@@ -22,3 +22,4 @@ command: verify -Pfunctional -Denv=playpen -Dversion=v1.0
 - Every config file should have a valid merchant (combination of merchnat id & secret)
 - Every config file should have a valid application ID registered on Azure tenant
 - Every config file should have the jwks_uri
+- REFUND FLOW --> Currently, we need to know the transaction id and the original balance of the transaction that has been stubbed

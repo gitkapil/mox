@@ -9,12 +9,14 @@ import utils.BaseStep;
 
 public class Refund_StepDefs implements BaseStep {
 
-    @Given("^I have a \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\"$")
-    public void i_have_a(String traceId, String paymentId, String amount, String currency) {
+    @Given("^I have a \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\"$")
+    public void i_have_a(String traceId, String paymentId, String amount, String currency, String reason) {
         refund.setTraceId(traceId);
         refund.setPaymentId(paymentId);
-        refund.setAmount(amount);
+        refund.setRefundAmount(amount);
         refund.setCurrency(currency);
+        refund.setReason(reason);
+
     }
 
     @When("^I make a request for the refund$")
@@ -42,9 +44,13 @@ public class Refund_StepDefs implements BaseStep {
 
         Assert.assertEquals(refund.paymentIdInResponse(), refund.getPaymentId(), "Payment id differs in the response!");
 
-        Assert.assertEquals(refund.amountInResponse(), refund.getAmount(), "Amount differs in the response!");
+        Assert.assertEquals(refund.amountInResponse(), refund.getRefundAmount(), "Refund amount differs in the response!");
 
         Assert.assertEquals(refund.currencyInResponse(), refund.getCurrency(), "Currency differs in the response!");
+
+        Assert.assertEquals(refund.reasonInResponse(), refund.getReason(), "Reason differs in the response!");
+
+        Assert.assertEquals(refund.isItAPartialRefund(), refund.partialRefundInResponse(), "Value of partial refund is incorrect!");
 
     }
 

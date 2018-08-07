@@ -9,25 +9,51 @@ import java.util.List;
 
 public class Refund implements BaseStep {
     final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(Refund.class);
-    private String authToken, traceId, paymentId, amount, currency;
+    private String authToken, traceId, paymentId, refundAmount, currency, reason;
+    private boolean partialRefund= true;
 
+    //TODO: Hardcoding the value matching the stub, once we have a persistence layer within mock layer of DRAGON then we can query the transaction id and the correspondingoriginal amount
+    private static Double originalAmount=100.0;
 
     HashMap<String, String> refundHeader= new HashMap<String, String>();
     HashMap<String, String> refundBody= new HashMap<String, String>();
 
     Response refundResponse= null;
 
+    public static Double getOriginalAmount() {
+        return originalAmount;
+    }
+
+    public static void setOriginalAmount(Double originalAmount) {
+        Refund.originalAmount = originalAmount;
+    }
+
+    public boolean isPartialRefund() {
+        return partialRefund;
+    }
+
+    public void setPartialRefund(boolean partialRefund) {
+        this.partialRefund = partialRefund;
+    }
+
+    public String getRefundAmount() {
+        return refundAmount;
+    }
+
+    public void setRefundAmount(String refundAmount) {
+        this.refundAmount = refundAmount;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
 
     public String getTraceId() {
         return traceId;
-    }
-
-    public String getAmount() {
-        return amount;
-    }
-
-    public void setAmount(String amount) {
-        this.amount = amount;
     }
 
     public String getCurrency() {
@@ -75,8 +101,9 @@ public class Refund implements BaseStep {
 
     public HashMap<String,String> returnRefundBody(){
         refundBody.put("paymentId", paymentId);
-        refundBody.put("amount", amount);
+        refundBody.put("amount", refundAmount);
         refundBody.put("currency", currency);
+        refundBody.put("reason", reason);
 
         return refundBody;
     }
@@ -114,6 +141,11 @@ public class Refund implements BaseStep {
 
     }
 
+    public String reasonInResponse(){
+        return restHelper.getResponseBodyValue(refundResponse, "reason");
+
+    }
+
     public String createdTimestampInResponse(){
         return restHelper.getResponseBodyValue(refundResponse, "createdTime");
 
@@ -121,6 +153,11 @@ public class Refund implements BaseStep {
 
     public String statusInResponse(){
         return restHelper.getResponseBodyValue(refundResponse, "status");
+
+    }
+
+    public String partialRefundInResponse(){
+        return restHelper.getResponseBodyValue(refundResponse, "partialRefund");
 
     }
 
@@ -170,6 +207,11 @@ public class Refund implements BaseStep {
     }
 
 
+   public  String isItAPartialRefund(){
+        if (originalAmount== Double.parseDouble(refundAmount))
+            return "T";
 
+        return "F";
+   }
 
 }

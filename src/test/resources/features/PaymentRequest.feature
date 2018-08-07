@@ -6,7 +6,7 @@ When I make a request to the Dragon ID Manager
 Then I recieve an access_token
 
 
-@functional @trial
+@functional @payment
 Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs
   Given I am an authorized merchant
   And I have transaction details "<traceid>", "<amount>","<currency>","<description>","<channel>","<invoiceid>","<merchantid>","<effectiveduration>","<returnURL>"
@@ -27,7 +27,7 @@ Scenario Outline: Positive flow- A merchant is able to create a payment request 
  |2c350a50-7ae0-4191-acc7-4420b74ed60d |12.13 |USD     |Pizza order8|Native   |ABCD       |Pizzahut1239893993|30               |https://pizzahut.com/return|
 
 
-@functional
+@functional @payment
 Scenario Outline: Negative flow- Invalid auth token
   Given I am a merchant with invalid auth token
   And I have transaction details "<traceid>", "<amount>","<currency>","<description>","<channel>","<invoiceid>","<merchantid>","<effectiveduration>","<returnURL>"
@@ -39,7 +39,7 @@ Scenario Outline: Negative flow- Invalid auth token
  |2c350a50-7ae0-4191-acc7-4420b74ed52d |20.00 |HKD     |Pizza order|Ecommerce|48787589673|Pizzahut1239893993|30               |https://pizzahut.com/return|
 
 
-@functional
+@functional @payment
 Scenario Outline: Negative flow- Missing auth token
   Given I am a merchant with missing auth token
   And I have transaction details "<traceid>", "<amount>","<currency>","<description>","<channel>","<invoiceid>","<merchantid>","<effectiveduration>","<returnURL>"
@@ -51,7 +51,7 @@ Scenario Outline: Negative flow- Missing auth token
  |2c350a50-7ae0-4191-acc7-4420b74ed52d |20.00 |HKD     |Pizza order|Ecommerce|48787589673|Pizzahut1239893993|30               |https://pizzahut.com/return|
 
 
-@functional
+@functional @payment
 Scenario Outline: Negative flow- Mandatory fields missing from header and body of the request
   Given I am an authorized merchant
   And I have transaction details "<traceid>", "<amount>","<currency>","<description>","<channel>","<invoiceid>","<merchantid>","<effectiveduration>","<returnURL>"
@@ -68,7 +68,7 @@ Scenario Outline: Negative flow- Mandatory fields missing from header and body o
  |2c350a50-7ae0-4191-acc7-4420b74ed52d |20.00 |HKD     |Pizza order|Ecommerce|48787589673|Pizzahut1239893993|30               ||
 
 
-@functional
+@functional @payment
  Scenario Outline: Negative flow- Invalid input parameters sent by the merchant
    Given I am an authorized merchant
    And I have transaction details "<traceid>", "<amount>","<currency>","<description>","<channel>","<invoiceid>","<merchantid>","<effectiveduration>","<returnURL>"

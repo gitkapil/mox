@@ -120,7 +120,36 @@
                 </cucumber.options>
             </properties>
         </profile>
+
+        <profile>
+            <id>payment</id>
+            <properties>
+                <cucumber.options>
+                    --tags @payment
+                </cucumber.options>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>refund</id>
+            <properties>
+                <cucumber.options>
+                    --tags @refund
+                </cucumber.options>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>checkstatus</id>
+            <properties>
+                <cucumber.options>
+                    --tags @checkstatus
+                </cucumber.options>
+            </properties>
+        </profile>
     </profiles>
+
+
 
     <build>
             <plugins>

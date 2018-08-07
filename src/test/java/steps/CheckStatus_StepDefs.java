@@ -6,7 +6,6 @@ import cucumber.api.java.en.When;
 import org.testng.Assert;
 import utils.BaseStep;
 
-import java.util.Properties;
 
 public class CheckStatus_StepDefs implements BaseStep {
 

@@ -54,7 +54,7 @@ public class PaymentRequest implements BaseStep {
     public Transaction createTransaction(String traceId, String amount, String currency, String description, String channel, String invoiceId, String merchantId, String effectiveDuration, String returnURL){
 
         this.traceId= traceId;
-        transactionDetails.setAmount(Double.parseDouble(amount));
+        transactionDetails.setAmount(amount);
         transactionDetails.setCurrency(currency);
         transactionDetails.setDescription(description);
         transactionDetails.setChannel(channel);
@@ -64,15 +64,16 @@ public class PaymentRequest implements BaseStep {
 
         //If merchant does not pass the effective duration in the paylod, it has to be defaulted to 30 secs
         if(effectiveDuration.equals(""))
-            transactionDetails.setEffectiveDuration(30);
+            transactionDetails.setEffectiveDuration("30");
         else
-            transactionDetails.setEffectiveDuration(Integer.parseInt(effectiveDuration));
+            transactionDetails.setEffectiveDuration(effectiveDuration);
 
         return transactionDetails;
     }
 
     public Response retrievePaymentRequest(String url){
-        System.out.println("URL: "+ url);
+
+        System.out.println("URL:  "+ url);
         paymentRequestResponse= restHelper.postRequestWithHeaderAndBody(url, returnPaymentRequestHeader(),returnPaymentRequestBody());
         //System.out.println(responsePaymentRequest.toString());
 
