@@ -3,7 +3,7 @@ package utils;
 
 import java.util.UUID;
 
-public class General implements BaseStep{
+public class General{
 
     /**
      *
