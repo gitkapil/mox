@@ -1,6 +1,8 @@
 package utils;
 
 
+import java.util.UUID;
+
 public class General implements BaseStep{
 
     /**
@@ -13,6 +15,15 @@ public class General implements BaseStep{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+    }
+
+    /**
+     *
+     * @returns Unique & random UUID
+     */
+    public String generateUniqueUUID(){
+        return UUID.randomUUID().toString();
 
     }
 

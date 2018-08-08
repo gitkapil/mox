@@ -9,9 +9,9 @@ import utils.BaseStep;
 
 public class Refund_StepDefs implements BaseStep {
 
-    @Given("^I have a \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\"$")
-    public void i_have_a(String traceId, String paymentId, String amount, String currency, String reason) {
-        refund.setTraceId(traceId);
+    @Given("^I have a \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\"$")
+    public void i_have_a(String paymentId, String amount, String currency, String reason) {
+        refund.setTraceId(general.generateUniqueUUID());
         refund.setPaymentId(paymentId);
         refund.setRefundAmount(amount);
         refund.setCurrency(currency);
@@ -26,7 +26,7 @@ public class Refund_StepDefs implements BaseStep {
 
     @Then("^I should recieve a refund response with valid trace id in the header$")
     public void i_should_recieve_a_refund_response_with_valid_trace_id_in_the_header()  {
-        Assert.assertEquals(refund.getResponseStatusCode(), 201,"Request was not successful!");
+        Assert.assertEquals(restHelper.getResponseStatusCode(refund.getRefundResponse()), 201,"Request was not successful!");
 
         Assert.assertNotNull(refund.traceIdInResponseHeader(), "Trace Id is not present in the response header!!");
 
@@ -56,11 +56,11 @@ public class Refund_StepDefs implements BaseStep {
 
     @Then("^I should recieve a (\\d+) error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within refund response$")
     public void i_should_recieve_a_error_response_with_error_description_and_errorcode_within_refund_response(int responseCode, String errorDescription, String errorCode) {
-        Assert.assertEquals(refund.getResponseStatusCode(), responseCode,"Different response code being returned");
+        Assert.assertEquals(restHelper.getResponseStatusCode(refund.getRefundResponse()), responseCode,"Different response code being returned");
 
-        Assert.assertEquals(refund.getErrorCode(), errorCode,"Different error code being returned");
+        Assert.assertEquals(restHelper.getErrorCode(refund.getRefundResponse()), errorCode,"Different error code being returned");
 
-        Assert.assertEquals(refund.getErrorDescription(), errorDescription,"Different error description being returned");
+        Assert.assertEquals(restHelper.getErrorDescription(refund.getRefundResponse()), errorDescription,"Different error description being returned");
 
 
     }

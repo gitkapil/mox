@@ -2,10 +2,7 @@ package apiHelpers;
 
 import com.jayway.restassured.response.Response;
 import utils.BaseStep;
-
 import java.util.HashMap;
-import java.util.List;
-
 
 public class Refund implements BaseStep {
     final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(Refund.class);
@@ -17,6 +14,10 @@ public class Refund implements BaseStep {
 
     HashMap<String, String> refundHeader= new HashMap<String, String>();
     HashMap<String, String> refundBody= new HashMap<String, String>();
+
+    public Response getRefundResponse() {
+        return refundResponse;
+    }
 
     Response refundResponse= null;
 
@@ -159,51 +160,6 @@ public class Refund implements BaseStep {
     public String partialRefundInResponse(){
         return restHelper.getResponseBodyValue(refundResponse, "partialRefund");
 
-    }
-
-
-    public int getResponseStatusCode(){
-        return refundResponse.statusCode();
-    }
-
-    public String getErrorMessage(){
-        return restHelper.getResponseBodyValue(refundResponse, "message");
-
-    }
-
-    public String getErrorDescription(){
-
-        List<HashMap<String, String>> errorDetails= restHelper.getJsonArray(refundResponse, "errors");
-
-        String errorDesc=null;
-
-
-        try{
-            errorDesc= errorDetails.get(0).get("errorDescription");
-
-        } catch (NullPointerException e){
-            return null;
-        }
-
-        return errorDesc;
-    }
-
-
-    public String getErrorCode(){
-
-        List<HashMap<String, String>> errorDetails= restHelper.getJsonArray(refundResponse, "errors");
-
-        String errorCode=null;
-
-
-        try{
-            errorCode= errorDetails.get(0).get("errorCode");
-
-        } catch (NullPointerException e){
-            return null;
-        }
-
-        return errorCode;
     }
 
 

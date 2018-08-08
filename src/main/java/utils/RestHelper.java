@@ -5,13 +5,10 @@ import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.path.json.JsonPath;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
-import gherkin.deps.com.google.gson.JsonObject;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-
 import static com.jayway.restassured.RestAssured.get;
 import static com.jayway.restassured.RestAssured.given;
 
@@ -156,9 +153,49 @@ public class RestHelper {
         return list;
     }
 
+    public int getResponseStatusCode(Response res){
+        return res.statusCode();
+    }
+
+    public String getErrorMessage(Response res){
+        return getResponseBodyValue(res, "message");
+
+    }
+
+    public String getErrorDescription(Response res){
+
+        List<HashMap<String, String>> errorDetails= getJsonArray(res, "errors");
+
+        String errorDesc=null;
 
 
+        try{
+            errorDesc= errorDetails.get(0).get("errorDescription");
 
+        } catch (NullPointerException e){
+            return null;
+        }
+
+        return errorDesc;
+    }
+
+
+    public String getErrorCode(Response res){
+
+        List<HashMap<String, String>> errorDetails= getJsonArray(res, "errors");
+
+        String errorCode=null;
+
+
+        try{
+            errorCode= errorDetails.get(0).get("errorCode");
+
+        } catch (NullPointerException e){
+            return null;
+        }
+
+        return errorCode;
+    }
 
 
 

@@ -3,7 +3,6 @@ package apiHelpers;
 import com.jayway.restassured.response.Response;
 import utils.BaseStep;
 import java.util.HashMap;
-import java.util.List;
 
 
 public class CheckStatus implements BaseStep {
@@ -14,6 +13,10 @@ public class CheckStatus implements BaseStep {
     HashMap<String, String> checkStatusRequestHeader= new HashMap<String, String>();
 
     Response checkStatusResponse= null;
+
+    public Response getCheckStatusResponse() {
+        return checkStatusResponse;
+    }
 
 
     public String getTraceId() {
@@ -77,53 +80,5 @@ public class CheckStatus implements BaseStep {
         return restHelper.getResponseBodyValue(checkStatusResponse, "status");
 
     }
-
-
-    public int getResponseStatusCode(){
-        return checkStatusResponse.statusCode();
-    }
-
-    public String getErrorMessage(){
-        return restHelper.getResponseBodyValue(checkStatusResponse, "message");
-
-    }
-
-    public String getErrorDescription(){
-
-        List<HashMap<String, String>> errorDetails= restHelper.getJsonArray(checkStatusResponse, "errors");
-
-        String errorDesc=null;
-
-
-        try{
-            errorDesc= errorDetails.get(0).get("errorDescription");
-
-        } catch (NullPointerException e){
-            return null;
-        }
-
-        return errorDesc;
-    }
-
-
-    public String getErrorCode(){
-
-        List<HashMap<String, String>> errorDetails= restHelper.getJsonArray(checkStatusResponse, "errors");
-
-        String errorCode=null;
-
-
-        try{
-            errorCode= errorDetails.get(0).get("errorCode");
-
-        } catch (NullPointerException e){
-            return null;
-        }
-
-        return errorCode;
-    }
-
-
-
 
 }

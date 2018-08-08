@@ -3,15 +3,32 @@ package apiHelpers;
 import com.jayway.restassured.response.Response;
 import extras.Transaction;
 import utils.BaseStep;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 
 public class PaymentRequest implements BaseStep {
     final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(PaymentRequest.class);
-    private String authToken, traceId;
+    private String authToken, traceId, requestDateTime;
     private Transaction transactionDetails= new Transaction();
+
+
+    public Response getPaymentRequestResponse() {
+        return paymentRequestResponse;
+    }
+
+
+    public void setTraceId(String traceId) {
+        this.traceId = traceId;
+    }
+
+    public String getRequestDateTime() {
+        return requestDateTime;
+
+    }
+
+    public void setRequestDateTime(String requestDateTime) {
+        this.requestDateTime = requestDateTime;
+    }
 
     public String getTraceId() {
         return traceId;
@@ -42,6 +59,7 @@ public class PaymentRequest implements BaseStep {
         paymentRequestHeader.put("Authorization","Bearer "+ authToken);
         paymentRequestHeader.put("TraceId",traceId);
         paymentRequestHeader.put("Ocp-Apim-Subscription-Key","fa08ac6eca5b4afb8354526811025b03");
+        paymentRequestHeader.put("RequestDateTime", getRequestDateTime());
 
         return paymentRequestHeader;
     }
@@ -51,9 +69,8 @@ public class PaymentRequest implements BaseStep {
         return paymentRequestBody;
     }
 
-    public Transaction createTransaction(String traceId, String amount, String currency, String description, String channel, String invoiceId, String merchantId, String effectiveDuration, String returnURL){
+    public Transaction createTransaction(String amount, String currency, String description, String channel, String invoiceId, String merchantId, String effectiveDuration, String returnURL){
 
-        this.traceId= traceId;
         transactionDetails.setAmount(amount);
         transactionDetails.setCurrency(currency);
         transactionDetails.setDescription(description);
@@ -75,7 +92,7 @@ public class PaymentRequest implements BaseStep {
 
         System.out.println("URL:  "+ url);
         paymentRequestResponse= restHelper.postRequestWithHeaderAndBody(url, returnPaymentRequestHeader(),returnPaymentRequestBody());
-        //System.out.println(responsePaymentRequest.toString());
+        System.out.println(paymentRequestResponse.toString());
 
         return paymentRequestResponse;
     }
@@ -155,50 +172,6 @@ public class PaymentRequest implements BaseStep {
 
 
         return null;
-    }
-
-    public int getResponseStatusCode(){
-        return paymentRequestResponse.statusCode();
-    }
-
-    public String getErrorMessage(){
-        return restHelper.getResponseBodyValue(paymentRequestResponse, "message");
-
-    }
-
-    public String getErrorDescription(){
-
-        List<HashMap<String, String>> errorDetails= restHelper.getJsonArray(paymentRequestResponse, "errors");
-
-        String errorDesc=null;
-
-
-        try{
-            errorDesc= errorDetails.get(0).get("errorDescription");
-
-        } catch (NullPointerException e){
-            return null;
-        }
-
-        return errorDesc;
-    }
-
-
-    public String getErrorCode(){
-
-        List<HashMap<String, String>> errorDetails= restHelper.getJsonArray(paymentRequestResponse, "errors");
-
-        String errorCode=null;
-
-
-        try{
-            errorCode= errorDetails.get(0).get("errorCode");
-
-        } catch (NullPointerException e){
-            return null;
-        }
-
-        return errorCode;
     }
 
 

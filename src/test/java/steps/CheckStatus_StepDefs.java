@@ -9,9 +9,9 @@ import utils.BaseStep;
 
 public class CheckStatus_StepDefs implements BaseStep {
 
-    @Given("^I have a \"([^\"]*)\" and \"([^\"]*)\"$")
-    public void i_have_a_and(String traceid, String paymentid)  {
-        checkStatus.setTraceId(traceid);
+    @Given("^I have a \"([^\"]*)\"$")
+    public void i_have_a_and(String paymentid)  {
+        checkStatus.setTraceId(general.generateUniqueUUID());
         checkStatus.setPaymentId(paymentid);
     }
 
@@ -22,7 +22,7 @@ public class CheckStatus_StepDefs implements BaseStep {
 
     @Then("^I should recieve a check status response with valid trace id in the header$")
     public void i_should_recieve_a_response_with_valid_trace_id_in_the_header()  {
-        Assert.assertEquals(checkStatus.getResponseStatusCode(), 200,"Request was not successful!");
+        Assert.assertEquals(restHelper.getResponseStatusCode(checkStatus.getCheckStatusResponse()), 200,"Request was not successful!");
 
         Assert.assertNotNull(checkStatus.traceIdInResponseHeader(), "Trace Id is not present in the response header!!");
 
@@ -43,11 +43,11 @@ public class CheckStatus_StepDefs implements BaseStep {
     @Then("^I should recieve a (\\d+) error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within check status response$")
     public void i_should_recieve_a_error_response_with_error_description_and_errorcode_within_check_status_response(int responseCode, String errorDesc, String errorCode) {
 
-        Assert.assertEquals(checkStatus.getResponseStatusCode(), responseCode,"Different response code being returned");
+        Assert.assertEquals(restHelper.getResponseStatusCode(checkStatus.getCheckStatusResponse()), responseCode,"Different response code being returned");
 
-        Assert.assertEquals(checkStatus.getErrorCode(), errorCode,"Different error code being returned");
+        Assert.assertEquals(restHelper.getErrorCode(checkStatus.getCheckStatusResponse()), errorCode,"Different error code being returned");
 
-        Assert.assertEquals(checkStatus.getErrorDescription(), errorDesc,"Different error description being returned");
+        Assert.assertEquals(restHelper.getErrorDescription(checkStatus.getCheckStatusResponse()), errorDesc,"Different error description being returned");
 
 
     }

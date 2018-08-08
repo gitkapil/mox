@@ -5,7 +5,6 @@ import apiHelpers.CheckStatus;
 import apiHelpers.PaymentRequest;
 import apiHelpers.Refund;
 
-import java.util.Properties;
 
 public interface BaseStep {
 
@@ -17,7 +16,9 @@ public interface BaseStep {
     CheckStatus checkStatus= new CheckStatus();
     Refund refund= new Refund();
     FileHelper fileHelper= new FileHelper();
+    DateHelper dateHelper= new DateHelper();
     JWTHelper jwtHelper= new JWTHelper();
+    General general= new General();
 
 
 
