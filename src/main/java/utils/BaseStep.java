@@ -8,8 +8,6 @@ import apiHelpers.Refund;
 
 public interface BaseStep {
 
-   // QRCodeHelper qrCodeHelper = new QRCodeHelper();
-
     RestHelper restHelper= new RestHelper();
     AccessTokenForMerchants accessToken= new AccessTokenForMerchants();
     PaymentRequest paymentRequest= new PaymentRequest();
