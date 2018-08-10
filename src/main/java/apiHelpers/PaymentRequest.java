@@ -51,15 +51,19 @@ public class PaymentRequest implements BaseStep {
         this.authToken = authToken;
     }
 
+    public void setAuthTokenwithBearer(String authToken) {
+
+        this.authToken = "Bearer "+ authToken;
+    }
 
 
     public HashMap<String,String> returnPaymentRequestHeader(){
         paymentRequestHeader.put("Accept","application/json");
         paymentRequestHeader.put("Content-Type","application/json");
-        paymentRequestHeader.put("Authorization","Bearer "+ authToken);
+        paymentRequestHeader.put("Authorization", authToken);
         paymentRequestHeader.put("TraceId",traceId);
         paymentRequestHeader.put("Ocp-Apim-Subscription-Key","fa08ac6eca5b4afb8354526811025b03");
-        paymentRequestHeader.put("RequestDateTime", getRequestDateTime());
+       // paymentRequestHeader.put("RequestDateTime", getRequestDateTime());
 
         return paymentRequestHeader;
     }
@@ -90,9 +94,8 @@ public class PaymentRequest implements BaseStep {
 
     public Response retrievePaymentRequest(String url){
 
-        System.out.println("URL:  "+ url);
         paymentRequestResponse= restHelper.postRequestWithHeaderAndBody(url, returnPaymentRequestHeader(),returnPaymentRequestBody());
-        System.out.println(paymentRequestResponse.toString());
+        System.out.println("Response::: "+ paymentRequestResponse.path("links"));
 
         return paymentRequestResponse;
     }
@@ -121,18 +124,19 @@ public class PaymentRequest implements BaseStep {
         Iterator<HashMap<String, String>> it= links.iterator();
 
 
-        int i=0; int counter=0;
-        while (it.hasNext()){
-            //System.out.println("URI:  "+ links.get(i).get("URI"));
-            // System.out.println("Channel:  "+ links.get(i).get("Channel"));
+        int i=1; int counter=0;
+        //System.out.println("size: "+ links.size());
+
+        while (i<=links.size()){
+          //  System.out.println("Counter:" + counter);
+          //  System.out.println("URI:  "+ links.get(i-1).get("uri"));
+           // System.out.println("Channel:  "+ links.get(i-1).get("channel"));
             try {
-                if (links.get(i).get("Channel").equalsIgnoreCase("ecommerce") || links.get(i).get("Channel").equalsIgnoreCase("mcommerce")
-                        ||links.get(i).get("Channel").equalsIgnoreCase("native"))
-                    if (links.get(i).get("URI") != null)
+                if (links.get(i-1).get("channel").equalsIgnoreCase("eCommerce") || links.get(i-1).get("channel").equalsIgnoreCase("mCommerce")
+                    ||links.get(i-1).get("channel").equalsIgnoreCase("native"))
+                    if (links.get(i-1).get("uri") != null)
                         counter++;
 
-
-                it.next();
                 i++;
             } catch (NullPointerException e){
                 return false;
@@ -141,14 +145,24 @@ public class PaymentRequest implements BaseStep {
         }
 
 
-        if (counter==3)
+        if (counter==2)
             return true;
         else return false;
 
     }
 
+    public boolean isExpiryDurationValid(){
+
+        if (restHelper.getResponseBodyValue(paymentRequestResponse, "expiryDuration").equalsIgnoreCase(transactionDetails.getEffectiveDuration()))
+            return true;
+
+        return false;
+    }
+
+
     public String isTransactionValid()
     {
+
         if (!restHelper.getResponseBodyValue(paymentRequestResponse, "transaction.merchantId").equalsIgnoreCase(transactionDetails.getMerchantId()))
             return "MerchantId mismatch";
 
@@ -167,9 +181,9 @@ public class PaymentRequest implements BaseStep {
         if (!restHelper.getResponseBodyValue(paymentRequestResponse, "transaction.currency").equalsIgnoreCase(transactionDetails.getCurrency()))
             return "Currency mismatch";
 
-        if (!restHelper.getResponseBodyValue(paymentRequestResponse, "transaction.effectiveDuration").equalsIgnoreCase(transactionDetails.getEffectiveDuration().toString()))
+       /* if (!restHelper.getResponseBodyValue(paymentRequestResponse, "transaction.effectiveDuration").equalsIgnoreCase(transactionDetails.getEffectiveDuration()))
             return "Effective Duration mismatch";
-
+           */
 
         return null;
     }

@@ -21,8 +21,20 @@ public class PaymentRequest_StepDefs implements BaseStep {
     public void i_am_an_authorized_merchant()  {
 
       paymentRequest.setAuthToken(accessToken.getAccessToken().path("access_token").toString());
+      paymentRequest.setAuthTokenwithBearer(paymentRequest.getAuthToken());
+
       checkStatus.setAuthToken(accessToken.getAccessToken().path("access_token").toString());
+      checkStatus.setAuthTokenwithBearer(checkStatus.getAuthToken());
+
       refund.setAuthToken(accessToken.getAccessToken().path("access_token").toString());
+      refund.setAuthTokenwithBearer(refund.getAuthToken());
+
+    }
+
+    @Given("^I dont send Bearer with the auth token$")
+    public void no_bearer_as_prefix()  {
+
+        paymentRequest.setAuthToken(accessToken.getAccessToken().path("access_token").toString());
 
     }
 
@@ -69,7 +81,7 @@ public class PaymentRequest_StepDefs implements BaseStep {
         
     }
 
-    @Then("^the response body should contain valid payment id, created timestamp, transaction details, links$")
+    @Then("^the response body should contain valid payment id, created timestamp, transaction details, links, expiry Duration$")
     public void the_response_body_should_contain_valid_payment_id_created_timestamp_transaction_details_links() throws Throwable {
         Assert.assertNotNull(paymentRequest.paymentIdInResponse(), "Payment Id is not present in the response!!");
 
@@ -77,9 +89,11 @@ public class PaymentRequest_StepDefs implements BaseStep {
 
         Assert.assertTrue(paymentRequest.isLinksValid(),"Links within response is either incomplete or incorrect..Please check!!");
 
-        //Assert.assertTrue(paymentRequest.isTransactionValid(),"Transaction Details within response is either incomplete or incorrect..Please check!!");
+        Assert.assertNotNull(restHelper.getResponseBodyValue(paymentRequest.getPaymentRequestResponse(), "transaction"), "Transaction details is missing from the response..Please check!!");
 
         Assert.assertNull(paymentRequest.isTransactionValid(), paymentRequest.isTransactionValid()+ "..Please check!");
+
+        Assert.assertTrue(paymentRequest.isExpiryDurationValid(), "Expiry Duration is not valid!");
 
     }
 

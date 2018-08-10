@@ -128,6 +128,9 @@ public class RestHelper {
         catch(NullPointerException e){
 
         }
+        catch (IllegalArgumentException e){
+
+        }
 
         return value;
     }
@@ -140,6 +143,9 @@ public class RestHelper {
             value= res.path(key).toString();
         }
         catch(NullPointerException e){
+
+        }
+        catch (IllegalArgumentException e){
 
         }
 
@@ -175,6 +181,9 @@ public class RestHelper {
         } catch (NullPointerException e){
             return null;
         }
+        catch (IllegalArgumentException e){
+
+        }
 
         return errorDesc;
     }
@@ -192,6 +201,9 @@ public class RestHelper {
 
         } catch (NullPointerException e){
             return null;
+        }
+        catch (IllegalArgumentException e){
+
         }
 
         return errorCode;

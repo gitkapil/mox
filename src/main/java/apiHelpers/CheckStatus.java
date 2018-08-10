@@ -46,6 +46,10 @@ public class CheckStatus implements BaseStep {
         this.authToken = authToken;
     }
 
+    public void setAuthTokenwithBearer(String authToken) {
+
+        this.authToken = "Bearer "+ authToken;
+    }
 
 
     public HashMap<String,String> returnCheckStatusHeader(){
