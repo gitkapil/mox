@@ -38,11 +38,20 @@ public class PaymentRequest_StepDefs implements BaseStep {
 
     }
 
+    
     @Given("^I am a merchant with invalid auth token$")
     public void i_am_an_authorized_merchant_invalid_token()  {
         paymentRequest.setAuthToken("random_authtoken");
         checkStatus.setAuthToken("random_authtoken");
         refund.setAuthToken("random_authtoken");
+
+    }
+
+    @Given("^I am a merchant with unverified auth token$")
+    public void i_am_an_authorized_merchant_unverified_token()  {
+        paymentRequest.setAuthToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c");
+        checkStatus.setAuthToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c");
+        refund.setAuthToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c");
 
     }
 
@@ -100,11 +109,22 @@ public class PaymentRequest_StepDefs implements BaseStep {
 
     @Then("^I should recieve a (\\d+) error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within payment response$")
     public void i_should_recieve_a_error_response_with_error_description_and_errorcode(int responseCode, String errorDesc, String errorCode) {
+       // logger.info(" Error message: "+ restHelper.getErrorMessage(paymentRequest.getPaymentRequestResponse()));
+
         Assert.assertEquals(restHelper.getResponseStatusCode(paymentRequest.getPaymentRequestResponse()), responseCode,"Different response code being returned");
 
         Assert.assertEquals(restHelper.getErrorCode(paymentRequest.getPaymentRequestResponse()), errorCode,"Different error code being returned");
 
-        Assert.assertEquals(restHelper.getErrorDescription(paymentRequest.getPaymentRequestResponse()), errorDesc,"Different error description being returned");
+       // Assert.assertEquals(restHelper.getErrorDescription(paymentRequest.getPaymentRequestResponse()), errorDesc,"Different error description being returned");
+
+        Assert.assertTrue(restHelper.getErrorDescription(paymentRequest.getPaymentRequestResponse()).contains(errorDesc) ,"Different error description being returned");
+
+    }
+
+    @Then("^error message should be \"([^\"]*)\" within payment response$")
+    public void i_should_recieve_a_error_message(String errorMessage) {
+
+        Assert.assertTrue(restHelper.getErrorMessage(paymentRequest.getPaymentRequestResponse()).contains(errorMessage) ,"Different error message being returned");
 
     }
 
