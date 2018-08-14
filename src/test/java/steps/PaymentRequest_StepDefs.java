@@ -80,13 +80,28 @@ public class PaymentRequest_StepDefs implements BaseStep {
             refund.setAuthTokenwithBearer(refund.getAuthToken());
         }
     }
-    
+
 
     @Given("^I have a valid transaction$")
     public void i_have_valid_transaction()  {
         paymentRequest.setTraceId(general.generateUniqueUUID());
         paymentRequest.createTransaction("20.30","HKD","Pizza order","Ecommerce","48787589673","Pizzahut1239893993","30","https://pizzahut.com/return");
        // paymentRequest.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+
+    }
+
+    @Given("^I have transaction details with \"([^\"]*)\" set for the \"([^\"]*)\"$")
+    public void i_have_transaction_details_with_set_for_the(String invalidValue, String parameter) {
+        paymentRequest.setTraceId(general.generateUniqueUUID());
+        System.out.println("here 1!");
+        System.out.println("para: "+ parameter);
+        System.out.println("value: "+ invalidValue);
+
+        if(parameter.equals("amount"))
+        {
+            System.out.println("here 2!");
+            paymentRequest.createTransaction(invalidValue,"HKD","Pizza order","Ecommerce","48787589673","Pizzahut1239893993","30","https://pizzahut.com/return");
+        }
 
     }
 

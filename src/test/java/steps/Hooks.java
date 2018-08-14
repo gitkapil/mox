@@ -1,5 +1,8 @@
 package steps;
 
+import com.jayway.restassured.RestAssured;
+import com.jayway.restassured.http.ContentType;
+import com.jayway.restassured.parsing.Parser;
 import cucumber.api.java.Before;
 import utils.BaseStep;
 
@@ -11,6 +14,7 @@ public class Hooks implements BaseStep {
 
   @Before
     public void setUp(){
+      RestAssured.defaultParser = Parser.JSON;
       String generalPropertiesFilePath=System.getProperty("user.dir")+"/src/test/resources/configs/"+System.getProperty("env")+".properties";
       generalProperties= fileHelper.loadPropertiesFile(generalPropertiesFilePath);
 

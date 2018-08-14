@@ -36,7 +36,7 @@ Scenario: Negative flow- Invalid auth token (without Bearer in the header)
   And error message should be "TokenNotPresent" within payment response
 
 
-@payment @DRAG-241 @trial
+@payment @DRAG-241
 Scenario Outline: Negative flow- Invalid auth token
   Given I am a merchant with invalid "<auth_token>"
   And I have a valid transaction
@@ -60,6 +60,18 @@ Scenario Outline: Negative flow- Invalid auth token
  |Signature validation failed |TokenInvalidSignature  |eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c|
 
 
+@payment @DRAG-287
+Scenario Outline: Negative flow- Peak error response parsed by DRAGON
+   Given I am an authorized merchant
+   And I have transaction details with "<invalid_value>" set for the "<parameter>"
+   When I make a request for the payment
+   Then I should recieve a 400 error response with "<error_description>" error description and "<error_code>" errorcode within payment response
+   And error message should be "<error_message>" within payment response
+
+   Examples:
+  |error_description             |error_message          |error_code| parameter | invalid_value |
+  | Payment Amount error_Dynamic | Validation Fail!      |BG2002    | amount    | 0             |
+  | Payment Amount error_Dynamic | Validation Fail!      |BG2002    | amount    | -10             |
 
 
 Scenario Outline: Negative flow- Mandatory fields missing from body of the request

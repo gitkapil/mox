@@ -15,6 +15,7 @@ public class PaymentRequest implements BaseStep {
 
     private Response paymentRequestResponse= null;
 
+
     public Response getPaymentRequestResponse() {
         return paymentRequestResponse;
     }
