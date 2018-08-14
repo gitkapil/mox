@@ -1,11 +1,11 @@
-Feature: Payment Request - DRAG-187
+Feature: Payment Request
 
 Background: Retrieving access Token
 Given I am a merchant
 When I make a request to the Dragon ID Manager
 Then I recieve an access_token
 
-@payment
+@payment @DRAG-241
 Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs
   Given I am an authorized merchant
   And I have transaction details "<amount>","<currency>","<description>","<channel>","<invoiceid>","<merchantid>","<effectiveduration>","<returnURL>"
@@ -26,7 +26,7 @@ Scenario Outline: Positive flow- A merchant is able to create a payment request 
  |20.00 |HKD     |Pizza order1|Ecommerce|48787589673|Pizzahut1239893993|55               |https://pizzahut.com/return|
 
 
-@payment
+@payment @DRAG-241
 Scenario: Negative flow- Invalid auth token (without Bearer in the header)
   Given I am an authorized merchant
   And I dont send Bearer with the auth token
@@ -36,7 +36,7 @@ Scenario: Negative flow- Invalid auth token (without Bearer in the header)
   And error message should be "TokenNotPresent" within payment response
 
 
-@payment
+@payment @DRAG-241 @trial
 Scenario Outline: Negative flow- Invalid auth token
   Given I am a merchant with invalid "<auth_token>"
   And I have a valid transaction
@@ -50,8 +50,10 @@ Scenario Outline: Negative flow- Invalid auth token
  |JWT not present.            |TokenNotPresent        ||
  # Auth token not a JWT
  |JWT is not well formed      |Invalid JWT            |random_auth_token|
- # Auth Token has an invalid claim
- |Claim value mismatch        |TokenClaimValueMismatch|eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IjdfWnVmMXR2a3dMeFlhSFMzcTZsVWpVWUlHdyIsImtpZCI6IjdfWnVmMXR2a3dMeFlhSFMzcTZsVWpVWUlHdyJ9.eyJhdWQiOiIxZTk4ZTVjOS02YjVkLTQ4ODQtOTNlNi1lNDE1NjM1ZjUyOTciLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80NGMyOGMxNy1jNmI5LTRlOTAtOWQxMS1hZjc1OGMwMjgyYWUvIiwiaWF0IjoxNTM0MjAyOTE3LCJuYmYiOjE1MzQyMDI5MTcsImV4cCI6MTUzNDIwNjgxNywiYWlvIjoiNDJCZ1lNajN2ZEc2ckdDWnFrRnFXdDR6cDQ5ZUFBPT0iLCJhcHBpZCI6IjBmZmNhZDA2LTlkMmYtNDkxNS05MmMxLWNlMjU3ZTViYzBlYyIsImFwcGlkYWNyIjoiMSIsImlkcCI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzQ0YzI4YzE3LWM2YjktNGU5MC05ZDExLWFmNzU4YzAyODJhZS8iLCJvaWQiOiI0MTczOTdjMi1mYTBlLTRmNGMtYWFmMy0yMmI4YWI1ODFlNzQiLCJyb2xlcyI6WyJJcnJlbGV2YW50Il0sInN1YiI6IjQxNzM5N2MyLWZhMGUtNGY0Yy1hYWYzLTIyYjhhYjU4MWU3NCIsInRpZCI6IjQ0YzI4YzE3LWM2YjktNGU5MC05ZDExLWFmNzU4YzAyODJhZSIsInV0aSI6IjdEQUhzZlc0MkVpaGxWdWN5R2tfQUEiLCJ2ZXIiOiIxLjAifQ.ehfYILvRIXIhi3yTSmdHCJ_XcTTq9BpIhJiGq_LQXGJKDlizsvkWUKNVB-7nDaeVsoyNnhfx3XpeUfZ1eECneqQcdhmXZuaxx63r0R-_0FxP0vjM5pD8OjYY8oBsi7a33niEj4pIYXJFZOe9Bk4rs2ITwS6fSFuAVfGEJcipEMpr-TlvP-jhLw37u2VfjEGFU7nZj6oiZ3M6Sl6kEFDHGp51yztl7i-ewxFdAAd0klS1aAdvSMDOthd-znSGG8gyQCuSwDZ1Kiag5gVvZIEBoMSuOYCtIt_R6DsJgyogXbAl5z0EL2Edkd2gyuuaAI0jHO3qoOfXKomuLWL7TsriLw|
+ # Auth Token has an invalid claim (aud)
+ |Claim value mismatch: aud        |TokenClaimValueMismatch|need_to_generate_it_with_invalid_appid|
+ # Auth Token has an invalid claim (roles)
+ |Claim value mismatch: roles=Basic.|TokenClaimValueMismatch|need_to_generate_it_with_invalid_roles|
  # Expired auth token
  |Lifetime validation failed. The token is expired|TokenExpired|eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IjdfWnVmMXR2a3dMeFlhSFMzcTZsVWpVWUlHdyIsImtpZCI6IjdfWnVmMXR2a3dMeFlhSFMzcTZsVWpVWUlHdyJ9.eyJhdWQiOiI1MDg4MzAwOC0yZDM4LTRjN2QtYjU2Yi0wY2NjOGJiZGY4MDIiLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80NGMyOGMxNy1jNmI5LTRlOTAtOWQxMS1hZjc1OGMwMjgyYWUvIiwiaWF0IjoxNTM0MTMyMTAzLCJuYmYiOjE1MzQxMzIxMDMsImV4cCI6MTUzNDEzNjAwMywiYWlvIjoiNDJCZ1lKQmlPQ2t6Ylk3RlNnbEdlNnRWVVpGN0FRPT0iLCJhcHBpZCI6IjBmZmNhZDA2LTlkMmYtNDkxNS05MmMxLWNlMjU3ZTViYzBlYyIsImFwcGlkYWNyIjoiMSIsImlkcCI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzQ0YzI4YzE3LWM2YjktNGU5MC05ZDExLWFmNzU4YzAyODJhZS8iLCJvaWQiOiI0MTczOTdjMi1mYTBlLTRmNGMtYWFmMy0yMmI4YWI1ODFlNzQiLCJyb2xlcyI6WyJCYXNpYyIsIlJlZnVuZCJdLCJzdWIiOiI0MTczOTdjMi1mYTBlLTRmNGMtYWFmMy0yMmI4YWI1ODFlNzQiLCJ0aWQiOiI0NGMyOGMxNy1jNmI5LTRlOTAtOWQxMS1hZjc1OGMwMjgyYWUiLCJ1dGkiOiJuMVRWdkVEUVUwZTNHVHJpcUFOU0FBIiwidmVyIjoiMS4wIn0.agJHt3dQwKZSzxymjWvmyyv8jcjgosZf6TjK4dzLp61wp0zcXidphqkp3Vu6iDXul5vakIavSnrXC50ZXwc3A_sBTJyQG2pSIkTSSF_Fb8zD7tEFuUpyk6Cul4jGqjhWJbt1brRnknhMCRqfhiyGEe9j0j9CaqVGyZa1zD4PxBOxUeL0H3PSZ5GJO6P_ieFuLaWy4DtXNOmJ6ym9WMWxVued5xRAVfRMySTPSiF9o14o3pjNpXoqYXTaC2mqkKiUFmtkOHRc_TGpjmR42DT5gMdfNdon2YjkRjFqg89huzzQD-pXH27EMT4JoVdTj60rToQPqc9VDdJyq7iKs_tLog|
  # Auth token unverified

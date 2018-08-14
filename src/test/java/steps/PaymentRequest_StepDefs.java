@@ -42,33 +42,45 @@ public class PaymentRequest_StepDefs implements BaseStep {
 
     @Given("^I am a merchant with invalid \"([^\"]*)\"$")
     public void i_am_a_merchant_with_invalid(String token)  {
-        paymentRequest.setAuthToken(token);
-        paymentRequest.setAuthTokenwithBearer(paymentRequest.getAuthToken());
+        if (token.equals("need_to_generate_it_with_invalid_appid")){
 
-        checkStatus.setAuthToken(token);
-        checkStatus.setAuthTokenwithBearer(checkStatus.getAuthToken());
+            accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "client-id"),
+                    fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "client-secret"),
+                    fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "application-id-2"),
+                    "client_credentials",
+                    fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_url"));
 
-        refund.setAuthToken(token);
-        refund.setAuthTokenwithBearer(refund.getAuthToken());
+            accessToken.retrieveAccessToken();
+            paymentRequest.setAuthToken(accessToken.getAccessToken().path("access_token").toString());
+            paymentRequest.setAuthTokenwithBearer(paymentRequest.getAuthToken());
+
+        }
+        else if (token.equals("need_to_generate_it_with_invalid_roles")){
+
+            accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "client-id-2"),
+                    fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "client-secret-2"),
+                    fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "application-id"),
+                    "client_credentials",
+                    fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_url"));
+
+            accessToken.retrieveAccessToken();
+            paymentRequest.setAuthToken(accessToken.getAccessToken().path("access_token").toString());
+            paymentRequest.setAuthTokenwithBearer(paymentRequest.getAuthToken());
+
+        }
+        else
+        {
+            paymentRequest.setAuthToken(token);
+            paymentRequest.setAuthTokenwithBearer(paymentRequest.getAuthToken());
+
+            checkStatus.setAuthToken(token);
+            checkStatus.setAuthTokenwithBearer(checkStatus.getAuthToken());
+
+            refund.setAuthToken(token);
+            refund.setAuthTokenwithBearer(refund.getAuthToken());
+        }
     }
-
-   /* @Given("^I am a merchant with unverified auth token$")
-    public void i_am_an_authorized_merchant_unverified_token()  {
-
-        checkStatus.setAuthToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c");
-        checkStatus.setAuthTokenwithBearer(checkStatus.getAuthToken());
-
-        refund.setAuthToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c");
-        refund.setAuthTokenwithBearer(refund.getAuthToken());
-
-    }
-
-    @Given("^I am a merchant with missing auth token$")
-    public void i_am_an_authorized_merchant_missing_token()  {
-        paymentRequest.setAuthToken("");
-        checkStatus.setAuthToken("");
-        refund.setAuthToken("");
-    } */
+    
 
     @Given("^I have a valid transaction$")
     public void i_have_valid_transaction()  {
