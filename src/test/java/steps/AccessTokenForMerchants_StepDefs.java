@@ -76,7 +76,7 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
 
         Assert.assertNotNull("Generated access token is not valid", accessToken.retrieveClaimSet(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "jwks_uri")));
 
-
+        Assert.assertTrue("Claim Set not valid", accessToken.validateClaimSet());
 
     }
 

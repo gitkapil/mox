@@ -10,7 +10,10 @@ public class PaymentRequest implements BaseStep {
     final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(PaymentRequest.class);
     private String authToken, traceId, requestDateTime;
     private Transaction transactionDetails= new Transaction();
+    private HashMap<String, String> paymentRequestHeader= new HashMap<String, String>();
+    private HashMap<String,Transaction> paymentRequestBody= new HashMap<String,Transaction>();
 
+    private Response paymentRequestResponse= null;
 
     public Response getPaymentRequestResponse() {
         return paymentRequestResponse;
@@ -34,10 +37,6 @@ public class PaymentRequest implements BaseStep {
         return traceId;
     }
 
-    HashMap<String, String> paymentRequestHeader= new HashMap<String, String>();
-    HashMap<String,Transaction> paymentRequestBody= new HashMap<String,Transaction>();
-
-    Response paymentRequestResponse= null;
 
 
     public String getAuthToken() {
@@ -75,8 +74,11 @@ public class PaymentRequest implements BaseStep {
 
     public Transaction createTransaction(String amount, String currency, String description, String channel, String invoiceId, String merchantId, String effectiveDuration, String returnURL){
 
-        transactionDetails.setAmount(amount);
-        transactionDetails.setCurrency(currency);
+        transactionDetails.setAmount(Double.parseDouble(amount));
+        if (currency.equals(""))
+            transactionDetails.setCurrency("HKD");
+        else
+            transactionDetails.setCurrency(currency);
         transactionDetails.setDescription(description);
         transactionDetails.setChannel(channel);
         transactionDetails.setInvoiceId(invoiceId);
@@ -85,9 +87,9 @@ public class PaymentRequest implements BaseStep {
 
         //If merchant does not pass the effective duration in the paylod, it has to be defaulted to 30 secs
         if(effectiveDuration.equals(""))
-            transactionDetails.setEffectiveDuration("30");
+            transactionDetails.setEffectiveDuration(new Double(30));
         else
-            transactionDetails.setEffectiveDuration(effectiveDuration);
+            transactionDetails.setEffectiveDuration(Double.parseDouble(effectiveDuration));
 
         return transactionDetails;
     }
@@ -107,6 +109,11 @@ public class PaymentRequest implements BaseStep {
 
     public String paymentIdInResponse(){
         return restHelper.getResponseBodyValue(paymentRequestResponse, "paymentId");
+
+    }
+
+    public String expiryDurationInResponse(){
+        return restHelper.getResponseBodyValue(paymentRequestResponse, "expiryDuration");
 
     }
 
@@ -153,7 +160,7 @@ public class PaymentRequest implements BaseStep {
 
     public boolean isExpiryDurationValid(){
 
-        if (restHelper.getResponseBodyValue(paymentRequestResponse, "expiryDuration").equalsIgnoreCase(transactionDetails.getEffectiveDuration()))
+        if (Double.parseDouble(restHelper.getResponseBodyValue(paymentRequestResponse, "expiryDuration"))==transactionDetails.getEffectiveDuration())
             return true;
 
         return false;

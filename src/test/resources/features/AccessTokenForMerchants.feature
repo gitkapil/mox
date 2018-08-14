@@ -1,6 +1,5 @@
 Feature: Access Token - DRAG-81
 
-@trial
 Scenario: Positive flow- A valid merchant recieves a valid access token
   Given I am a merchant
   When I make a request to the Dragon ID Manager

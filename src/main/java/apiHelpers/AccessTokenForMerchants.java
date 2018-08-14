@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import utils.BaseStep;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
@@ -20,6 +21,14 @@ public class AccessTokenForMerchants implements BaseStep {
     private String clientId, clientSecret, appId, grantType, endPoint;
 
     Response accessToken=null;  JWTClaimsSet accessTokenClaimSet=null;
+
+    public JWTClaimsSet getAccessTokenClaimSet() {
+        return accessTokenClaimSet;
+    }
+
+    public void setAccessTokenClaimSet(JWTClaimsSet accessTokenClaimSet) {
+        this.accessTokenClaimSet = accessTokenClaimSet;
+    }
 
     public String getClientId() {
         return clientId;
@@ -168,8 +177,33 @@ public class AccessTokenForMerchants implements BaseStep {
      * @return claimset within the JWT access token generated
      */
     public JWTClaimsSet retrieveClaimSet(String jwks_uri){
-       accessTokenClaimSet= jwtHelper.validateJWT(restHelper.getResponseBodyValue(accessToken,"access_token"), jwks_uri);
+       setAccessTokenClaimSet(jwtHelper.validateJWT(restHelper.getResponseBodyValue(accessToken,"access_token"), jwks_uri));
+       validateClaimSet();
        return accessTokenClaimSet;
+    }
+
+    /**
+     *
+     * @returns true only if the claim set has the following:
+     * - aud should be equals to the app id
+     * - roles should have "Basic"
+     */
+    public boolean validateClaimSet(){
+        try {
+            List<String> aud= accessTokenClaimSet.getStringListClaim("aud");
+            List<String> roles=  accessTokenClaimSet.getStringListClaim("roles");
+
+            if (roles.contains("Basic") && aud.get(0).equalsIgnoreCase(appId))
+            {
+                return true;
+            }
+
+        } catch (ParseException e) {
+            return false;
+        }
+
+      return false;
+
     }
 
 

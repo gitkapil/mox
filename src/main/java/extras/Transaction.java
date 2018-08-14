@@ -1,13 +1,13 @@
 package extras;
 
 public class Transaction {
-    private String amount= null;
+    private Double amount= null;
     private String currency= null;
     private String description= null;
     private String channel= null;
     private String invoiceId= null;
     private String merchantId= null;
-    private String effectiveDuration= null;
+    private Double effectiveDuration= null;
     private String returnURL=null;
 
     public String getReturnURL() {
@@ -18,11 +18,11 @@ public class Transaction {
         this.returnURL = returnURL;
     }
 
-    public String getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
@@ -66,11 +66,11 @@ public class Transaction {
         this.merchantId = merchantId;
     }
 
-    public String getEffectiveDuration() {
+    public Double getEffectiveDuration() {
         return effectiveDuration;
     }
 
-    public void setEffectiveDuration(String effectiveDuration) {
+    public void setEffectiveDuration(Double effectiveDuration) {
         this.effectiveDuration = effectiveDuration;
     }
 }

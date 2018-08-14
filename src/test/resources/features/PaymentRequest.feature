@@ -5,8 +5,7 @@ Given I am a merchant
 When I make a request to the Dragon ID Manager
 Then I recieve an access_token
 
-
-@functional @payment @trial
+@payment
 Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs
   Given I am an authorized merchant
   And I have transaction details "<amount>","<currency>","<description>","<channel>","<invoiceid>","<merchantid>","<effectiveduration>","<returnURL>"
@@ -27,75 +26,55 @@ Scenario Outline: Positive flow- A merchant is able to create a payment request 
  |20.00 |HKD     |Pizza order1|Ecommerce|48787589673|Pizzahut1239893993|55               |https://pizzahut.com/return|
 
 
-@functional @payment
-Scenario Outline: Negative flow- Invalid auth token (without Bearer in the header)
+@payment
+Scenario: Negative flow- Invalid auth token (without Bearer in the header)
   Given I am an authorized merchant
   And I dont send Bearer with the auth token
-  And I have transaction details "<amount>","<currency>","<description>","<channel>","<invoiceid>","<merchantid>","<effectiveduration>","<returnURL>"
+  And I have a valid transaction
   When I make a request for the payment
-  Then I should recieve a 401 error response with "JWT is not well formed" error description and "401" errorcode within payment response
-  And error message should be "Invalid JWT" within payment response
+  Then I should recieve a 401 error response with "JWT not present." error description and "401" errorcode within payment response
+  And error message should be "TokenNotPresent" within payment response
+
+
+@payment
+Scenario Outline: Negative flow- Invalid auth token
+  Given I am a merchant with invalid "<auth_token>"
+  And I have a valid transaction
+  When I make a request for the payment
+  Then I should recieve a 401 error response with "<error_description>" error description and "401" errorcode within payment response
+  And error message should be "<error_message>" within payment response
 
  Examples:
- |amount|currency|description|channel  |invoiceid  |merchantid        |effectiveduration|returnURL|
- |20.00 |HKD     |Pizza order|Ecommerce|48787589673|Pizzahut1239893993|30               |https://pizzahut.com/return|
-
-@functional @payment
-Scenario Outline: Negative flow- Invalid auth token (not a JWT)
-  Given I am a merchant with invalid auth token
-  And I have transaction details "<amount>","<currency>","<description>","<channel>","<invoiceid>","<merchantid>","<effectiveduration>","<returnURL>"
-  When I make a request for the payment
-  Then I should recieve a 401 error response with "JWT is not well formed" error description and "401" errorcode within payment response
-  And error message should be "Invalid JWT" within payment response
-
- Examples:
- |amount|currency|description|channel  |invoiceid  |merchantid        |effectiveduration|returnURL|
- |20.00 |HKD     |Pizza order|Ecommerce|48787589673|Pizzahut1239893993|30               |https://pizzahut.com/return|
-
-@functional @payment
-Scenario Outline: Negative flow- Invalid auth token (JWT but an unverified signature)
-  Given I am a merchant with unverified auth token
-  And I have transaction details "<amount>","<currency>","<description>","<channel>","<invoiceid>","<merchantid>","<effectiveduration>","<returnURL>"
-  When I make a request for the payment
-  Then I should recieve a 401 error response with "Signature validation failed" error description and "401" errorcode within payment response
-  And error message should be "TokenInvalidSignature" within payment response
-
- Examples:
- |amount|currency|description|channel  |invoiceid  |merchantid        |effectiveduration|returnURL|
- |20.00 |HKD     |Pizza order|Ecommerce|48787589673|Pizzahut1239893993|30               |https://pizzahut.com/return|
+ |error_description           |error_message          |auth_token|
+ #Auth Token missing
+ |JWT not present.            |TokenNotPresent        ||
+ # Auth token not a JWT
+ |JWT is not well formed      |Invalid JWT            |random_auth_token|
+ # Auth Token has an invalid claim
+ |Claim value mismatch        |TokenClaimValueMismatch|eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IjdfWnVmMXR2a3dMeFlhSFMzcTZsVWpVWUlHdyIsImtpZCI6IjdfWnVmMXR2a3dMeFlhSFMzcTZsVWpVWUlHdyJ9.eyJhdWQiOiIxZTk4ZTVjOS02YjVkLTQ4ODQtOTNlNi1lNDE1NjM1ZjUyOTciLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80NGMyOGMxNy1jNmI5LTRlOTAtOWQxMS1hZjc1OGMwMjgyYWUvIiwiaWF0IjoxNTM0MjAyOTE3LCJuYmYiOjE1MzQyMDI5MTcsImV4cCI6MTUzNDIwNjgxNywiYWlvIjoiNDJCZ1lNajN2ZEc2ckdDWnFrRnFXdDR6cDQ5ZUFBPT0iLCJhcHBpZCI6IjBmZmNhZDA2LTlkMmYtNDkxNS05MmMxLWNlMjU3ZTViYzBlYyIsImFwcGlkYWNyIjoiMSIsImlkcCI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzQ0YzI4YzE3LWM2YjktNGU5MC05ZDExLWFmNzU4YzAyODJhZS8iLCJvaWQiOiI0MTczOTdjMi1mYTBlLTRmNGMtYWFmMy0yMmI4YWI1ODFlNzQiLCJyb2xlcyI6WyJJcnJlbGV2YW50Il0sInN1YiI6IjQxNzM5N2MyLWZhMGUtNGY0Yy1hYWYzLTIyYjhhYjU4MWU3NCIsInRpZCI6IjQ0YzI4YzE3LWM2YjktNGU5MC05ZDExLWFmNzU4YzAyODJhZSIsInV0aSI6IjdEQUhzZlc0MkVpaGxWdWN5R2tfQUEiLCJ2ZXIiOiIxLjAifQ.ehfYILvRIXIhi3yTSmdHCJ_XcTTq9BpIhJiGq_LQXGJKDlizsvkWUKNVB-7nDaeVsoyNnhfx3XpeUfZ1eECneqQcdhmXZuaxx63r0R-_0FxP0vjM5pD8OjYY8oBsi7a33niEj4pIYXJFZOe9Bk4rs2ITwS6fSFuAVfGEJcipEMpr-TlvP-jhLw37u2VfjEGFU7nZj6oiZ3M6Sl6kEFDHGp51yztl7i-ewxFdAAd0klS1aAdvSMDOthd-znSGG8gyQCuSwDZ1Kiag5gVvZIEBoMSuOYCtIt_R6DsJgyogXbAl5z0EL2Edkd2gyuuaAI0jHO3qoOfXKomuLWL7TsriLw|
+ # Expired auth token
+ |Lifetime validation failed. The token is expired|TokenExpired|eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IjdfWnVmMXR2a3dMeFlhSFMzcTZsVWpVWUlHdyIsImtpZCI6IjdfWnVmMXR2a3dMeFlhSFMzcTZsVWpVWUlHdyJ9.eyJhdWQiOiI1MDg4MzAwOC0yZDM4LTRjN2QtYjU2Yi0wY2NjOGJiZGY4MDIiLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80NGMyOGMxNy1jNmI5LTRlOTAtOWQxMS1hZjc1OGMwMjgyYWUvIiwiaWF0IjoxNTM0MTMyMTAzLCJuYmYiOjE1MzQxMzIxMDMsImV4cCI6MTUzNDEzNjAwMywiYWlvIjoiNDJCZ1lKQmlPQ2t6Ylk3RlNnbEdlNnRWVVpGN0FRPT0iLCJhcHBpZCI6IjBmZmNhZDA2LTlkMmYtNDkxNS05MmMxLWNlMjU3ZTViYzBlYyIsImFwcGlkYWNyIjoiMSIsImlkcCI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzQ0YzI4YzE3LWM2YjktNGU5MC05ZDExLWFmNzU4YzAyODJhZS8iLCJvaWQiOiI0MTczOTdjMi1mYTBlLTRmNGMtYWFmMy0yMmI4YWI1ODFlNzQiLCJyb2xlcyI6WyJCYXNpYyIsIlJlZnVuZCJdLCJzdWIiOiI0MTczOTdjMi1mYTBlLTRmNGMtYWFmMy0yMmI4YWI1ODFlNzQiLCJ0aWQiOiI0NGMyOGMxNy1jNmI5LTRlOTAtOWQxMS1hZjc1OGMwMjgyYWUiLCJ1dGkiOiJuMVRWdkVEUVUwZTNHVHJpcUFOU0FBIiwidmVyIjoiMS4wIn0.agJHt3dQwKZSzxymjWvmyyv8jcjgosZf6TjK4dzLp61wp0zcXidphqkp3Vu6iDXul5vakIavSnrXC50ZXwc3A_sBTJyQG2pSIkTSSF_Fb8zD7tEFuUpyk6Cul4jGqjhWJbt1brRnknhMCRqfhiyGEe9j0j9CaqVGyZa1zD4PxBOxUeL0H3PSZ5GJO6P_ieFuLaWy4DtXNOmJ6ym9WMWxVued5xRAVfRMySTPSiF9o14o3pjNpXoqYXTaC2mqkKiUFmtkOHRc_TGpjmR42DT5gMdfNdon2YjkRjFqg89huzzQD-pXH27EMT4JoVdTj60rToQPqc9VDdJyq7iKs_tLog|
+ # Auth token unverified
+ |Signature validation failed |TokenInvalidSignature  |eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c|
 
 
-@functional @payment
-Scenario Outline: Negative flow- Missing auth token
-  Given I am a merchant with missing auth token
-  And I have transaction details "<amount>","<currency>","<description>","<channel>","<invoiceid>","<merchantid>","<effectiveduration>","<returnURL>"
-  When I make a request for the payment
-  Then I should recieve a 401 error response with "Header Authorization was not found in the request. Access denied." error description and "401" errorcode within payment response
-  And error message should be "HeaderNotFound" within payment response
-
-  Examples:
- |amount|currency|description|channel  |invoiceid  |merchantid        |effectiveduration|returnURL|
- |20.00 |HKD     |Pizza order|Ecommerce|48787589673|Pizzahut1239893993|30               |https://pizzahut.com/return|
 
 
-@functional @payment
 Scenario Outline: Negative flow- Mandatory fields missing from body of the request
   Given I am an authorized merchant
   And I have transaction details "<amount>","<currency>","<description>","<channel>","<invoiceid>","<merchantid>","<effectiveduration>","<returnURL>"
   When I make a request for the payment
-  Then I should recieve a 400 error response with "The request cannot be fulfilled due to bad syntax." error description and "BG2005" errorcode within payment response
-  And error message should be "Invalid JWT" within payment response
+  Then I should recieve a 500 error response within payment response
 
   Examples:
  |amount|currency|description|channel       |invoiceid  |merchantid        |effectiveduration|returnURL|
  ||HKD     |Pizza order|Ecommerce|48787589673|Pizzahut1239893993|30               |https://pizzahut.com/return|
  |20.00 ||Pizza order|Ecommerce|48787589673|Pizzahut1239893993|30               |https://pizzahut.com/return|
  |20.00 |HKD     |Pizza order|Ecommerce|48787589673||30               |https://pizzahut.com/return|
- |20.00 |HKD     |Pizza order|Ecommerce|48787589673|Pizzahut1239893993|30               |https://pizzahut.com/return|
- |20.00 |HKD     |Pizza order|Ecommerce|48787589673|Pizzahut1239893993|30               ||
+  #|20.00 |HKD     |Pizza order|Ecommerce|48787589673|Pizzahut1239893993|30               ||
 
 
-@functional @payment
+
  Scenario Outline: Negative flow- Invalid input parameters sent by the merchant
    Given I am an authorized merchant
    And I have transaction details "<amount>","<currency>","<description>","<channel>","<invoiceid>","<merchantid>","<effectiveduration>","<returnURL>"
@@ -105,9 +84,7 @@ Scenario Outline: Negative flow- Mandatory fields missing from body of the reque
 
    Examples:
   |amount|currency|description|channel       |invoiceid  |merchantid        |effectiveduration|returnURL|
-  |xxx   |HKD     |Pizza order|Ecommerce|48787589673|Pizzahut1239893993|30               |https://pizzahut.com/return|
   |10   |HKD     |Trying_to_get_more_than_150_characters_for_description_uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu|Ecommerce|48787589673|Pizzahut1239893993|30               |https://pizzahut.com/return|
-  |20.00 |HKD     |Pizza order|Ecommerce|48787589673|Pizzahut1239893993|hh               |https://pizzahut.com/return|
   |66   |XXX     |Pizza order|Ecommerce|48787589673|Pizzahut1239893993|30               |https://pizzahut.com/return|
   |20.00 |HKD     |Pizza order|commerce|48787589673|Pizzahut1239893993|30               |https://pizzahut.com/return|
   |20.00 |HKD     |Pizza order|Ecommerce|48787589673|Pizzahut1239893993|30               |not_an_url|
@@ -117,7 +94,7 @@ Scenario Outline: Negative flow- Mandatory fields missing from body of the reque
 
  Scenario Outline: Negative flow- Invalid date format sent by the merchant
    Given I am an authorized merchant
-   And I have transaction details "<amount>","<currency>","<description>","<channel>","<invoiceid>","<merchantid>","<effectiveduration>","<returnURL>"
+   And I have a valid transaction
    And I send request date timestamp in an invalid "<format>"
    When I make a request for the payment
    Then I should recieve a 400 error response with "Service Request Validation Failed" error description and "BNA002" errorcode within payment response
@@ -133,7 +110,7 @@ Scenario Outline: Negative flow- Mandatory fields missing from body of the reque
 
  Scenario: Negative flow- Mandatory request date timestamp missing from the header
    Given I am an authorized merchant
-   And I have transaction details "<amount>","<currency>","<description>","<channel>","<invoiceid>","<merchantid>","<effectiveduration>","<returnURL>"
+   And I have a valid transaction
    And I do not send request date timestamp in the header
    When I make a request for the payment
    Then I should recieve a 400 error response with "Service Request Validation Failed" error description and "BNA002" errorcode within payment response
@@ -142,54 +119,40 @@ Scenario Outline: Negative flow- Mandatory fields missing from body of the reque
 
  Scenario: Negative flow- Request date timestamp is greater than 5 mins from the current sys date time
    Given I am an authorized merchant
-   And I have transaction details "<amount>","<currency>","<description>","<channel>","<invoiceid>","<merchantid>","<effectiveduration>","<returnURL>"
+   And I have a valid transaction
    And request date timestamp in the header is more than 5 mins behind than the current timestamp
    When I make a request for the payment
    Then I should recieve a 400 error response with "Service Request Validation Failed" error description and "BNA002" errorcode within payment response
    And error message should be "Invalid JWT" within payment response
 
 
- Scenario Outline: Same traceid sent within 5 minutes
+ Scenario: Same traceid sent within 5 minutes
    Given I am an authorized merchant
-   And I have transaction details "<amount>","<currency>","<description>","<channel>","<invoiceid>","<merchantid>","<effectiveduration>","<returnURL>"
+   And I have a valid transaction
    When I make two payment requests with the same trace id within 5 minutes
    Then I should recieve one valid payment response
    And one invalid payment response with 400 status code
    And "Service Request Validation Failed" error description and "BNA002" errorcode within payment response
 
- Examples:
- |amount|currency|description |channel  |invoiceid  |merchantid        |effectiveduration|returnURL                  |
- |20.00 |HKD     |Pizza order1|Ecommerce|48787589673|Pizzahut1239893993|55               |https://pizzahut.com/return|
 
-
-
- Scenario Outline: Same traceid sent with a gap of 5 minutes
+ Scenario: Same traceid sent with a gap of 5 minutes
    Given I am an authorized merchant
-   And I have transaction details "<amount>","<currency>","<description>","<channel>","<invoiceid>","<merchantid>","<effectiveduration>","<returnURL>"
+   And I have a valid transaction
    When I make two payment requests with the same trace id with a gap of 5 minutes
    Then I should recieve two valid payment responses
 
- Examples:
- |amount|currency|description |channel  |invoiceid  |merchantid        |effectiveduration|returnURL                  |
- |20.00 |HKD     |Pizza order1|Ecommerce|48787589673|Pizzahut1239893993|55               |https://pizzahut.com/return|
 
 
-
- Scenario Outline: Different traceids sent within 5 minutes
+ Scenario: Different traceids sent within 5 minutes
    Given I am an authorized merchant
-   And I have transaction details "<amount>","<currency>","<description>","<channel>","<invoiceid>","<merchantid>","<effectiveduration>","<returnURL>"
+   And I have a valid transaction
    When I make two payment requests with the different trace ids within 5 minutes
    Then I should recieve two valid payment responses
 
- Examples:
- |amount|currency|description |channel  |invoiceid  |merchantid        |effectiveduration|returnURL                  |
- |20.00 |HKD     |Pizza order1|Ecommerce|48787589673|Pizzahut1239893993|55               |https://pizzahut.com/return|
 
-
-@functional @payment
  Scenario Outline: Negative flow- Invalid traceid sent by the merchant
    Given I am an authorized merchant
-   And I have transaction details "<amount>","<currency>","<description>","<channel>","<invoiceid>","<merchantid>","<effectiveduration>","<returnURL>"
+   And I have a valid transaction
    And I send invalid "<traceid>"
    When I make a request for the payment
    Then I should recieve a 400 error response with "Service Request Validation Failed" error description and "BNA002" errorcode within payment response
@@ -201,15 +164,15 @@ Scenario Outline: Negative flow- Mandatory fields missing from body of the reque
    |Getmoret-han3-6cha-ract-ersfortraceid|
 
 
-@functional @payment
+
  Scenario: Negative flow- Mandatory traceid missing from the header
    Given I am an authorized merchant
-   And I have transaction details "<amount>","<currency>","<description>","<channel>","<invoiceid>","<merchantid>","<effectiveduration>","<returnURL>"
+   And I have a valid transaction
    And I do not send traceid in the header
    When I make a request for the payment
    Then I should recieve a 400 error response with "Service Request Validation Failed" error description and "BNA002" errorcode within payment response
    And error message should be "Invalid JWT" within payment response
 
   # Peak errors - same transaction sent twice, random merchant id
-  # Manual test cases - expired JWT, peak timeout & peak server down (switch off peak mock), Restrict Caller IPs Policy, large amount
-  #                   - different content-type in the header
+  # Manual test cases - peak timeout & peak server down (switch off peak mock), Restrict Caller IPs Policy, large amount
+  #                   - different content-type in the header, characters for amount & effective duration
