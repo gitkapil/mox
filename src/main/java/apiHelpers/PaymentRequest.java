@@ -1,7 +1,6 @@
 package apiHelpers;
 
 import com.jayway.restassured.response.Response;
-import extras.Transaction;
 import utils.BaseStep;
 import java.util.*;
 
@@ -9,9 +8,12 @@ import java.util.*;
 public class PaymentRequest implements BaseStep {
     final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(PaymentRequest.class);
     private String authToken, traceId, requestDateTime;
-    private Transaction transactionDetails= new Transaction();
     private HashMap<String, String> paymentRequestHeader= new HashMap<String, String>();
-    private HashMap<String,Transaction> paymentRequestBody= new HashMap<String,Transaction>();
+
+    HashMap<String, HashMap> paymentRequestBody = new HashMap<String, HashMap>();
+
+    HashMap transactionBody= new HashMap<>();
+    
 
     private Response paymentRequestResponse= null;
 
@@ -68,32 +70,41 @@ public class PaymentRequest implements BaseStep {
         return paymentRequestHeader;
     }
 
-    public HashMap<String,Transaction> returnPaymentRequestBody(){
-        paymentRequestBody.put("transaction", transactionDetails);
+
+    public HashMap<String,HashMap> returnPaymentRequestBody(){
+        paymentRequestBody.put("transaction", transactionBody);
         return paymentRequestBody;
     }
 
-    public Transaction createTransaction(String amount, String currency, String description, String channel, String invoiceId, String merchantId, String effectiveDuration, String returnURL){
+    public HashMap createTransaction(String amount, String currency, String description, String channel, String invoiceId, String merchantId, String effectiveDuration, String returnURL){
 
-        transactionDetails.setAmount(Double.parseDouble(amount));
+        try{
+            transactionBody.put("amount", Double.parseDouble(amount));
+        }
+        catch (Exception e){
+            System.out.println("amount null");
+        }
+
         if (currency.equals(""))
-            transactionDetails.setCurrency("HKD");
+            transactionBody.put("currency", "HKD");
         else
-            transactionDetails.setCurrency(currency);
-        transactionDetails.setDescription(description);
-        transactionDetails.setChannel(channel);
-        transactionDetails.setInvoiceId(invoiceId);
-        transactionDetails.setMerchantId(merchantId);
-        transactionDetails.setReturnURL(returnURL);
+            transactionBody.put("currency", currency);
+        transactionBody.put("description", description);
+        transactionBody.put("channel", channel);
+        transactionBody.put("invoiceId", invoiceId);
+        transactionBody.put("merchantId", merchantId);
 
-        //If merchant does not pass the effective duration in the paylod, it has to be defaulted to 30 secs
         if(effectiveDuration.equals(""))
-            transactionDetails.setEffectiveDuration(new Double(30));
+            transactionBody.put("effectiveDuration", 30);
         else
-            transactionDetails.setEffectiveDuration(Double.parseDouble(effectiveDuration));
+            transactionBody.put("effectiveDuration", Integer.parseInt(effectiveDuration));
 
-        return transactionDetails;
+        transactionBody.put("returnURL", returnURL);
+
+        return transactionBody;
+
     }
+
 
     public Response retrievePaymentRequest(String url){
 
@@ -161,7 +172,7 @@ public class PaymentRequest implements BaseStep {
 
     public boolean isExpiryDurationValid(){
 
-        if (Double.parseDouble(restHelper.getResponseBodyValue(paymentRequestResponse, "expiryDuration"))==transactionDetails.getEffectiveDuration())
+        if (Integer.parseInt(restHelper.getResponseBodyValue(paymentRequestResponse, "expiryDuration"))==(Integer)transactionBody.get("effectiveDuration"))
             return true;
 
         return false;
@@ -171,27 +182,24 @@ public class PaymentRequest implements BaseStep {
     public String isTransactionValid()
     {
 
-        if (!restHelper.getResponseBodyValue(paymentRequestResponse, "transaction.merchantId").equalsIgnoreCase(transactionDetails.getMerchantId()))
+        if (!restHelper.getResponseBodyValue(paymentRequestResponse, "transaction.merchantId").equalsIgnoreCase(transactionBody.get("merchantId").toString()))
             return "MerchantId mismatch";
 
-        if (!restHelper.getResponseBodyValue(paymentRequestResponse, "transaction.invoiceId").equalsIgnoreCase(transactionDetails.getInvoiceId()))
+        if (!restHelper.getResponseBodyValue(paymentRequestResponse, "transaction.invoiceId").equalsIgnoreCase(transactionBody.get("invoiceId").toString()))
             return "Invoice Id mismatch";
 
-        if (!restHelper.getResponseBodyValue(paymentRequestResponse, "transaction.description").equalsIgnoreCase(transactionDetails.getDescription()))
+        if (!restHelper.getResponseBodyValue(paymentRequestResponse, "transaction.description").equalsIgnoreCase(transactionBody.get("description").toString()))
             return "Description mismatch";
 
-        if (!restHelper.getResponseBodyValue(paymentRequestResponse, "transaction.channel").equalsIgnoreCase(transactionDetails.getChannel()))
+        if (!restHelper.getResponseBodyValue(paymentRequestResponse, "transaction.channel").equalsIgnoreCase(transactionBody.get("channel").toString()))
             return "Channel mismatch";
 
-        if (!restHelper.getResponseBodyValue(paymentRequestResponse, "transaction.amount").equalsIgnoreCase(transactionDetails.getAmount().toString()))
+        if (!restHelper.getResponseBodyValue(paymentRequestResponse, "transaction.amount").equalsIgnoreCase(transactionBody.get("amount").toString()))
             return "Amount mismatch";
 
-        if (!restHelper.getResponseBodyValue(paymentRequestResponse, "transaction.currency").equalsIgnoreCase(transactionDetails.getCurrency()))
+        if (!restHelper.getResponseBodyValue(paymentRequestResponse, "transaction.currency").equalsIgnoreCase(transactionBody.get("currency").toString()))
             return "Currency mismatch";
 
-       /* if (!restHelper.getResponseBodyValue(paymentRequestResponse, "transaction.effectiveDuration").equalsIgnoreCase(transactionDetails.getEffectiveDuration()))
-            return "Effective Duration mismatch";
-           */
 
         return null;
     }

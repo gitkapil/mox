@@ -5,7 +5,7 @@ Given I am a merchant
 When I make a request to the Dragon ID Manager
 Then I recieve an access_token
 
-@payment @DRAG-241
+@payment @DRAG-241 @trial
 Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs
   Given I am an authorized merchant
   And I have transaction details "<amount>","<currency>","<description>","<channel>","<invoiceid>","<merchantid>","<effectiveduration>","<returnURL>"
@@ -22,7 +22,7 @@ Scenario Outline: Positive flow- A merchant is able to create a payment request 
  |3     |HKD     |Pizza order5|Mcommerce|48787589678|Pizzahut1239893993|30               |https://pizzahut.com/return|
  |600.0 |HKD     |Pizza order6|Ecommerce|48787589679|Pizzahut1239893993|30               |https://pizzahut.com/return|
  |12.123 |USD    |Pizza order7|Ecommerce|48787589611|Pizzahut1239893993|30               |https://pizzahut.com/return|
- |12.13 |USD     |Pizza order8|Native   |ABCD       |Pizzahut1239893993|30.5               |https://pizzahut.com/return|
+ |12.13 |USD     |Pizza order8|Native   |ABCD       |Pizzahut1239893993|30               |https://pizzahut.com/return|
  |20.00 |HKD     |Pizza order1|Ecommerce|48787589673|Pizzahut1239893993|55               |https://pizzahut.com/return|
 
 
