@@ -93,9 +93,9 @@ public class PaymentRequest_StepDefs implements BaseStep {
     @Given("^I have transaction details with \"([^\"]*)\" set for the \"([^\"]*)\"$")
     public void i_have_transaction_details_with_set_for_the(String invalidValue, String parameter) {
         paymentRequest.setTraceId(general.generateUniqueUUID());
-        System.out.println("here 1!");
-        System.out.println("para: "+ parameter);
-        System.out.println("value: "+ invalidValue);
+      //  System.out.println("here 1!");
+      //  System.out.println("para: "+ parameter);
+      //  System.out.println("value: "+ invalidValue);
 
         if(parameter.equals("amount"))
         {
@@ -103,6 +103,13 @@ public class PaymentRequest_StepDefs implements BaseStep {
             paymentRequest.createTransaction(invalidValue,"HKD","Pizza order","Ecommerce","48787589673","Pizzahut1239893993","30","https://pizzahut.com/return");
         }
 
+    }
+
+    @Given("^I have transaction details with \"([^\"]*)\" missing from the request body$")
+    public void i_have_transaction_details_with_missing_from_the_request(String parameter){
+        paymentRequest.setTraceId(general.generateUniqueUUID());
+        paymentRequest.createTransaction("20.30","HKD","Pizza order","Ecommerce","48787589673","Pizzahut1239893993","30","https://pizzahut.com/return");
+        paymentRequest.removeFromTransaction(parameter);
     }
 
     @Given("^I have transaction details \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$")
@@ -118,6 +125,12 @@ public class PaymentRequest_StepDefs implements BaseStep {
     public void i_make_a_request_for_the_payment()  {
         paymentRequest.retrievePaymentRequest(restHelper.getBaseURI()+System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_path"));
         
+    }
+
+    @When("^I make a request for the payment with \"([^\"]*)\" missing in the header$")
+    public void i_make_a_request_for_the_payment_with_missing_in_the_header(String key)  {
+        paymentRequest.retrievePaymentRequestWIthMissingHeaderKeys(restHelper.getBaseURI()+System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_path"), key);
+
     }
 
     @Then("^I should recieve a payment response with valid trace id in the header$")

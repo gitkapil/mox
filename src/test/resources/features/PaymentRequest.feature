@@ -5,7 +5,7 @@ Given I am a merchant
 When I make a request to the Dragon ID Manager
 Then I recieve an access_token
 
-@payment @DRAG-241 @trial
+@payment @DRAG-241
 Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs
   Given I am an authorized merchant
   And I have transaction details "<amount>","<currency>","<description>","<channel>","<invoiceid>","<merchantid>","<effectiveduration>","<returnURL>"
@@ -34,6 +34,19 @@ Scenario: Negative flow- Invalid auth token (without Bearer in the header)
   When I make a request for the payment
   Then I should recieve a 401 error response with "JWT not present." error description and "401" errorcode within payment response
   And error message should be "TokenNotPresent" within payment response
+
+
+@payment @DRAG-241
+Scenario Outline: Negative flow- No auth token sent in the header
+  Given I am an authorized merchant
+  And I have a valid transaction
+  When I make a request for the payment with "<key>" missing in the header
+  Then I should recieve a 401 error response with "<error_description>" error description and "401" errorcode within payment response
+  And error message should be "<error_message>" within payment response
+
+ Examples:
+ |error_description                                                |error_message  | key         |
+ |Header Authorization was not found in the request. Access denied.| HeaderNotFound|Authorization|
 
 
 @payment @DRAG-241
@@ -74,7 +87,22 @@ Scenario Outline: Negative flow- Peak error response parsed by DRAGON
   | Payment Amount error_Dynamic | Validation Fail!      |BG2002    | amount    | -10             |
 
 
-Scenario Outline: Negative flow- Mandatory fields missing from body of the request
+@trial
+Scenario Outline: Negative flow- Mandatory key-value pair missing from body of the request
+  Given I am an authorized merchant
+  And I have transaction details with "<parameter>" missing from the request body
+  When I make a request for the payment
+  Then I should recieve a 500 error response within payment response
+
+  Examples:
+ |parameter|
+ |Amount|
+ |Currency|
+ |MerchantId|
+
+
+
+Scenario Outline: Negative flow- Mandatory values missing from body of the request
   Given I am an authorized merchant
   And I have transaction details "<amount>","<currency>","<description>","<channel>","<invoiceid>","<merchantid>","<effectiveduration>","<returnURL>"
   When I make a request for the payment
@@ -85,7 +113,7 @@ Scenario Outline: Negative flow- Mandatory fields missing from body of the reque
  ||HKD     |Pizza order|Ecommerce|48787589673|Pizzahut1239893993|30               |https://pizzahut.com/return|
  |20.00 ||Pizza order|Ecommerce|48787589673|Pizzahut1239893993|30               |https://pizzahut.com/return|
  |20.00 |HKD     |Pizza order|Ecommerce|48787589673||30               |https://pizzahut.com/return|
-  #|20.00 |HKD     |Pizza order|Ecommerce|48787589673|Pizzahut1239893993|30               ||
+ |20.00 |HKD     |Pizza order|Ecommerce|48787589673|Pizzahut1239893993|30               ||
 
 
 

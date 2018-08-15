@@ -13,7 +13,7 @@ public class PaymentRequest implements BaseStep {
     HashMap<String, HashMap> paymentRequestBody = new HashMap<String, HashMap>();
 
     HashMap transactionBody= new HashMap<>();
-    
+
 
     private Response paymentRequestResponse= null;
 
@@ -71,6 +71,7 @@ public class PaymentRequest implements BaseStep {
     }
 
 
+
     public HashMap<String,HashMap> returnPaymentRequestBody(){
         paymentRequestBody.put("transaction", transactionBody);
         return paymentRequestBody;
@@ -81,14 +82,13 @@ public class PaymentRequest implements BaseStep {
         try{
             transactionBody.put("amount", Double.parseDouble(amount));
         }
-        catch (Exception e){
-            System.out.println("amount null");
-        }
+        catch (Exception e){ }
 
         if (currency.equals(""))
             transactionBody.put("currency", "HKD");
         else
             transactionBody.put("currency", currency);
+
         transactionBody.put("description", description);
         transactionBody.put("channel", channel);
         transactionBody.put("invoiceId", invoiceId);
@@ -106,13 +106,51 @@ public class PaymentRequest implements BaseStep {
     }
 
 
+    public HashMap removeFromTransaction(String parameter){
+        if (parameter.equalsIgnoreCase("Amount"))
+            parameter="amount";
+        if (parameter.equalsIgnoreCase("Currency"))
+            parameter="currency";
+        if (parameter.equalsIgnoreCase("Channel"))
+            parameter="channel";
+        if (parameter.equalsIgnoreCase("Description"))
+            parameter="description";
+        if (parameter.equalsIgnoreCase("InvoiceId"))
+            parameter="invoiceId";
+        if (parameter.equalsIgnoreCase("MerchantId"))
+            parameter="merchantId";
+        if (parameter.equalsIgnoreCase("EffectiveDuration"))
+            parameter="effectiveDuration";
+        if (parameter.equalsIgnoreCase("ReturnURL"))
+            parameter="returnURL";
+
+
+
+        transactionBody.remove(parameter);
+
+        return transactionBody;
+
+    }
+
+
     public Response retrievePaymentRequest(String url){
 
         paymentRequestResponse= restHelper.postRequestWithHeaderAndBody(url, returnPaymentRequestHeader(),returnPaymentRequestBody());
-        System.out.println("Response::: "+ paymentRequestResponse.path("links"));
 
         return paymentRequestResponse;
     }
+
+
+    public Response retrievePaymentRequestWIthMissingHeaderKeys(String url, String key){
+
+        HashMap<String, String> header= returnPaymentRequestHeader();
+        header.remove(key);
+
+        paymentRequestResponse= restHelper.postRequestWithHeaderAndBody(url, header,returnPaymentRequestBody());
+
+        return paymentRequestResponse;
+    }
+
 
     public String traceIdInResponseHeader(){
         return restHelper.getResponseHeaderValue(paymentRequestResponse, "TraceId");
@@ -130,10 +168,8 @@ public class PaymentRequest implements BaseStep {
     }
 
     public String createdTimestampInResponse(){
-        String payId= null;
-        payId= restHelper.getResponseBodyValue(paymentRequestResponse, "createdTime");
+        return restHelper.getResponseBodyValue(paymentRequestResponse, "createdTime");
 
-        return payId;
     }
 
     public boolean isLinksValid(){
