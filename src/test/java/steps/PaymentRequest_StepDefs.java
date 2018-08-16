@@ -129,7 +129,7 @@ public class PaymentRequest_StepDefs implements BaseStep {
 
     @When("^I make a request for the payment with \"([^\"]*)\" missing in the header$")
     public void i_make_a_request_for_the_payment_with_missing_in_the_header(String key)  {
-        paymentRequest.retrievePaymentRequestWIthMissingHeaderKeys(restHelper.getBaseURI()+System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_path"), key);
+        paymentRequest.retrievePaymentRequestWithMissingHeaderKeys(restHelper.getBaseURI()+System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_path"), key);
 
     }
 
@@ -154,10 +154,9 @@ public class PaymentRequest_StepDefs implements BaseStep {
 
         Assert.assertNotNull(paymentRequest.expiryDurationInResponse(), "Expiry Duration is not present in the response!!");
 
+        Assert.assertNotNull(restHelper.getResponseBodyValue(paymentRequest.getPaymentRequestResponse(), "transaction"), "Transaction details is missing from the response..Please check!!");
 
-        // Assert.assertNotNull(restHelper.getResponseBodyValue(paymentRequest.getPaymentRequestResponse(), "transaction"), "Transaction details is missing from the response..Please check!!");
-
-       // Assert.assertNull(paymentRequest.isTransactionValid(), paymentRequest.isTransactionValid()+ "..Please check!");
+       Assert.assertNull(paymentRequest.isTransactionValid(), paymentRequest.isTransactionValid()+ "..Please check!");
 
        // Assert.assertTrue(paymentRequest.isExpiryDurationValid(), "Expiry Duration is not valid!");
 

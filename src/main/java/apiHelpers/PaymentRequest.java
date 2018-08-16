@@ -124,8 +124,6 @@ public class PaymentRequest implements BaseStep {
         if (parameter.equalsIgnoreCase("ReturnURL"))
             parameter="returnURL";
 
-
-
         transactionBody.remove(parameter);
 
         return transactionBody;
@@ -137,16 +135,20 @@ public class PaymentRequest implements BaseStep {
 
         paymentRequestResponse= restHelper.postRequestWithHeaderAndBody(url, returnPaymentRequestHeader(),returnPaymentRequestBody());
 
+        logger.info("Response: "+ paymentRequestResponse.getBody().asString());
+
         return paymentRequestResponse;
     }
 
 
-    public Response retrievePaymentRequestWIthMissingHeaderKeys(String url, String key){
+    public Response retrievePaymentRequestWithMissingHeaderKeys(String url, String key){
 
         HashMap<String, String> header= returnPaymentRequestHeader();
         header.remove(key);
 
         paymentRequestResponse= restHelper.postRequestWithHeaderAndBody(url, header,returnPaymentRequestBody());
+
+        logger.info("Response: "+ paymentRequestResponse.getBody().asString());
 
         return paymentRequestResponse;
     }
@@ -178,14 +180,10 @@ public class PaymentRequest implements BaseStep {
 
         Iterator<HashMap<String, String>> it= links.iterator();
 
-
         int i=1; int counter=0;
-        //System.out.println("size: "+ links.size());
 
         while (i<=links.size()){
-          //  System.out.println("Counter:" + counter);
-          //  System.out.println("URI:  "+ links.get(i-1).get("uri"));
-           // System.out.println("Channel:  "+ links.get(i-1).get("channel"));
+
             try {
                 if (links.get(i-1).get("channel").equalsIgnoreCase("eCommerce") || links.get(i-1).get("channel").equalsIgnoreCase("mCommerce")
                     ||links.get(i-1).get("channel").equalsIgnoreCase("native"))
@@ -236,6 +234,8 @@ public class PaymentRequest implements BaseStep {
         if (!restHelper.getResponseBodyValue(paymentRequestResponse, "transaction.currency").equalsIgnoreCase(transactionBody.get("currency").toString()))
             return "Currency mismatch";
 
+        if (!restHelper.getResponseBodyValue(paymentRequestResponse, "transaction.effectiveDuration").equalsIgnoreCase(transactionBody.get("effectiveDuration").toString()))
+            return "Effective Duration mismatch";
 
         return null;
     }
