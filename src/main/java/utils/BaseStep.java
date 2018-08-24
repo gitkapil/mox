@@ -1,9 +1,8 @@
 package utils;
 
 import apiHelpers.AccessTokenForMerchants;
-import apiHelpers.CheckStatus;
 import apiHelpers.PaymentRequest;
-import apiHelpers.Refund;
+
 
 
 public interface BaseStep {
@@ -11,8 +10,6 @@ public interface BaseStep {
     RestHelper restHelper= new RestHelper();
     AccessTokenForMerchants accessToken= new AccessTokenForMerchants();
     PaymentRequest paymentRequest= new PaymentRequest();
-    CheckStatus checkStatus= new CheckStatus();
-    Refund refund= new Refund();
     FileHelper fileHelper= new FileHelper();
     DateHelper dateHelper= new DateHelper();
     JWTHelper jwtHelper= new JWTHelper();
