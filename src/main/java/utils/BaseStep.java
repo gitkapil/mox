@@ -2,7 +2,7 @@ package utils;
 
 import apiHelpers.AccessTokenForMerchants;
 import apiHelpers.PaymentRequest;
-
+import apiHelpers.PaymentStatus;
 
 
 public interface BaseStep {
@@ -10,6 +10,7 @@ public interface BaseStep {
     RestHelper restHelper= new RestHelper();
     AccessTokenForMerchants accessToken= new AccessTokenForMerchants();
     PaymentRequest paymentRequest= new PaymentRequest();
+    PaymentStatus paymentStatus= new PaymentStatus();
     FileHelper fileHelper= new FileHelper();
     DateHelper dateHelper= new DateHelper();
     JWTHelper jwtHelper= new JWTHelper();

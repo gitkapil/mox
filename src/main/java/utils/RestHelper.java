@@ -52,10 +52,9 @@ public class RestHelper {
     public  Response getRequestWithHeaders(String url, HashMap<String, String> headers){
 
         Response res=null;
-        logger.info("Endpoint hit-->   "+ url);
 
         try{
-            res= given()
+            res= given().log().all()
                     .headers(headers)
                     .when()
                     .get(url);

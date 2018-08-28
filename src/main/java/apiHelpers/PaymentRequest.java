@@ -274,7 +274,7 @@ public class PaymentRequest implements BaseStep {
 
         paymentRequestResponse= restHelper.postRequestWithHeaderAndBody(url, returnPaymentRequestHeader(),returnPaymentRequestBody());
 
-        logger.info("Response: "+ paymentRequestResponse.getBody().asString());
+        logger.info("********** Payment Request Response *********** ----> "+ paymentRequestResponse.getBody().asString());
 
         return paymentRequestResponse;
     }

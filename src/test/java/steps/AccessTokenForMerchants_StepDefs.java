@@ -39,6 +39,7 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
 
     @When("^I make a request to the Dragon ID Manager$")
     public void i_make_a_request_to_the_Dragon_ID_Manager()  {
+        logger.info("********** Retrieving Access Token***********");
         accessToken.retrieveAccessToken(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path") +System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
 
     }
@@ -50,7 +51,7 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
 
         Assert.assertEquals("Access Token Not generated. Error Description: "+ accessToken.getAccessTokenResponse().path("error_description"), 200,accessToken.getAccessTokenResponse().getStatusCode());
 
-        logger.info("Access Token--> "+ accessToken.getAccessToken());
+        //logger.info("Access Token--> "+ accessToken.getAccessToken());
 
     }
 
