@@ -4,6 +4,7 @@ import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.path.json.JsonPath;
 import com.jayway.restassured.response.Response;
+import com.jayway.restassured.specification.RequestLogSpecification;
 import com.jayway.restassured.specification.RequestSpecification;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
@@ -99,10 +100,10 @@ public class RestHelper {
     }
 
 
-
     public Response postRequestWithEncodedBody(String url, RequestSpecification requestSpecification){
         Response response=null;
         try{
+            System.out.println("Request Log::: "+ requestSpecification.log().all().toString());
             response = requestSpecification.post(url);
         }catch(Exception e){
 

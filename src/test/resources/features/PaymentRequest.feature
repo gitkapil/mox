@@ -1,60 +1,145 @@
-Feature: Payment Request API
+Feature: Payment Request API- DRAG-301
 
 Background: Retrieving access Token
 Given I am a merchant
 When I make a request to the Dragon ID Manager
 Then I recieve an access_token
 
-@payment @DRAG-241 @DRAG-288
+# For the parametres where values are missing within the table, while creating request, the parameter will not be included at all as a a part of the payload
+@payment
 Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs
   Given I am an authorized merchant
-  And I have transaction details "<amount>","<currency>","<description>","<channel>","<invoiceid>","<merchantid>","<effectiveduration>","<returnURL>"
+  And I have payment details "<merchantid>", "<totalamount>","<currency>","<notificationURL>"
+  And I have shopping cart details
+  |sku            |name            |quantity|price |currency |category |
+  |pizzapepperoni |pepperoni pizza |1       |60    |HKD       |123     |
+  |               |margherita pizza|1       |60    |HKD       |123     |
+  |pizzapepperoni |                |1       |60    |HKD       |123     |
+  |pizzapepperoni |pepperoni pizza |        |60    |HKD       |123     |
+  |pizzapepperoni |pepperoni pizza |1       |      |HKD       |123     |
+  |pizzapepperoni |pepperoni pizza |1       |60    |          |123     |
+  |pizzapepperoni |pepperoni pizza |1       |60    |HKD       |        |
+  And I have merchant data "<description>", "<channel>","<orderId>","<effectiveDuration>"
   When I make a request for the payment
-  Then I should recieve a payment response with valid trace id in the header
-  And the response body should contain valid payment id, created timestamp, transaction details, links, expiry Duration
+  Then I should recieve a successful payment response
+  And the response body should contain valid payment request id, created timestamp, web link, app link
 
-  Examples:
- |amount|currency|description |channel  |invoiceid  |merchantid        |effectiveduration|returnURL                  |
- |10000 |HKD     |            |Mcommerce|48787589674|Pizzahut1239893993|10               |https://pizzahut.com/return|
- |89.09 |HKD     |Pizza order2|         |48787589675|Pizzahut1239893993|30               |https://pizzahut.com/return|
- |0.044 |HKD     |Pizza order3|Native   |           |Pizzahut1239893993|30               |https://pizzahut.com/return|
- |2.00  |HKD     |Pizza order4|Ecommerce|48787589677|Pizzahut1239893993|                 |https://pizzahut.com/return|
- |3     |HKD     |Pizza order5|Mcommerce|48787589678|Pizzahut1239893993|30               |https://pizzahut.com/return|
- |600.0 |HKD     |Pizza order6|Ecommerce|48787589679|Pizzahut1239893993|30               |https://pizzahut.com/return|
- |12.123 |USD    |Pizza order7|Ecommerce|48787589611|Pizzahut1239893993|30               |https://pizzahut.com/return|
- |12.13 |USD     |Pizza order8|Native   |ABCD       |Pizzahut1239893993|30               |https://pizzahut.com/return|
- |20.00 |HKD     |Pizza order1|Ecommerce|48787589673|Pizzahut1239893993|55               |https://pizzahut.com/return|
+Examples:
+|merchantid  |totalamount|currency |notificationURL            |description          |channel  |orderId |effectiveDuration |
+|053598653254|100.00     |HKD      |https://pizzahut.com/return|message from merchant|mCommerce|B1242183|60                |
+#description within Merchant Data missing
+|053598653254|300.12     |HKD      |https://pizzahut.com/return|                     |ECommerce|XYZ456  |30                |
+#channel within Merchant Data missing
+|053598653254|500        |HKD      |https://pizzahut.com/return|message from merchant|         |B1242183|10                |
+#orderId within Merchant Data missing
+|053598653254|0.01       |HKD      |https://pizzahut.com/return|message from merchant|mCommerce|        |60                |
+#effectiveDuration within Merchant Data missing
+|053598653254|1          |HKD      |https://pizzahut.com/return|message from merchant|Native   |XYZ123  |                  |
+#notificationURI missing
+|053598653254|100.00     |HKD      |                           |message from merchant|mCommerce|B1242183|60                |
+
+@payment
+Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs without shopping cart
+  Given I am an authorized merchant
+  And I have payment details "<merchantid>", "<totalamount>","<currency>","<notificationURL>"
+  And I have merchant data "<description>", "<channel>","<orderId>","<effectiveDuration>"
+  When I make a request for the payment
+  Then I should recieve a successful payment response
+  And the response body should contain valid payment request id, created timestamp, web link, app link
+
+Examples:
+|merchantid  |totalamount|currency |notificationURL            |description          |channel  |orderId |effectiveDuration |
+|053598653254|100.00     |HKD      |https://pizzahut.com/return|message from merchant|mCommerce|B1242183|10                |
+#description within Merchant Data missing
+|053598653254|300.12     |HKD      |https://pizzahut.com/return|                     |ECommerce|XYZ456  |30                |
+#channel within Merchant Data missing
+|053598653254|500        |HKD      |https://pizzahut.com/return|message from merchant|         |B1242183|10                |
+#orderId within Merchant Data missing
+|053598653254|0.01       |HKD      |https://pizzahut.com/return|message from merchant|mCommerce|        |60                |
+#effectiveDuration within Merchant Data missing
+|053598653254|1          |HKD      |https://pizzahut.com/return|message from merchant|Native   |XYZ123  |                  |
+#notificationURI missing
+|053598653254|100.00     |HKD      |                           |message from merchant|mCommerce|B1242183|60                |
 
 
-@payment @DRAG-241
+@payment
+Scenario: Positive flow- A merchant is able to create a payment request with all the valid inputs without merchant data
+  Given I am an authorized merchant
+  And I have valid payment details
+  When I make a request for the payment
+  Then I should recieve a successful payment response
+  And the response body should contain valid payment request id, created timestamp, web link, app link
+
+
+# For the parametres where value is "no_value" within the table, while creating request the parameter (key) will be included but will have no value
+@payment
+Scenario Outline: Positive flow- A merchant is able to create a payment request where the non mandatory fields within body have no corresponding values in the payload
+  Given I am an authorized merchant
+  And I have payment details "<merchantid>", "<totalamount>","<currency>","<notificationURL>"
+  And I have merchant data "<description>", "<channel>","<orderId>","<effectiveDuration>"
+  When I make a request for the payment
+  Then I should recieve a successful payment response
+  And the response body should contain valid payment request id, created timestamp, web link, app link
+
+Examples:
+|merchantid  |totalamount|currency |notificationURL            |description          |channel  |orderId |effectiveDuration |
+|053598653254|100.00     |HKD      |https://pizzahut.com/return|no_value             |mCommerce|B1242183|60                |
+|053598653254|300.00     |HKD      |https://pizzahut.com/return|message from merchant|no_value |B1242183|60                |
+|053598653254|150.00     |HKD      |https://pizzahut.com/return|message from merchant|mCommerce|no_value|60                |
+|053598653254|900000     |HKD      |no_value                   |message from merchant|mCommerce|B1242183|60                |
+
+
+# For the parametres where value is "no_value" within the table, while creating request the parameter (key) will be included but will have no value
+@payment
+Scenario Outline: Positive flow- A merchant is able to create a payment request where the non mandatory fields within shopping cart have no corresponding values in the payload
+  Given I am an authorized merchant
+  And I have payment details "<merchantid>", "<totalamount>","<currency>","<notificationURL>"
+  And I have shopping cart details
+    |sku            |name            |quantity|price |currency |category |
+    |no_value       |pepperoni pizza |1       |60    |HKD       |123     |
+    |pizzapepperoni |no_value        |1       |60    |HKD       |123     |
+    |pizzapepperoni |pepperoni pizza |1       |60    |no_value  |123     |
+
+  And I have merchant data "<description>", "<channel>","<orderId>","<effectiveDuration>"
+  When I make a request for the payment
+  Then I should recieve a successful payment response
+  And the response body should contain valid payment request id, created timestamp, web link, app link
+
+Examples:
+|merchantid  |totalamount|currency |notificationURL            |description          |channel  |orderId |effectiveDuration |
+|053598653254|100.00     |HKD      |https://pizzahut.com/return|message from merchant|mCommerce|B1242183|60                |
+
+
+@payment
 Scenario: Negative flow- Invalid auth token (without Bearer in the header)
   Given I am an authorized merchant
   And I dont send Bearer with the auth token
-  And I have a valid transaction
+  And I have valid payment details
   When I make a request for the payment
-  Then I should recieve a 401 error response with "JWT not present." error description and "401" errorcode within payment response
+  Then I should recieve a "401" error response with "JWT not present." error description and "401" errorcode within payment response
   And error message should be "TokenNotPresent" within payment response
 
 
-@payment @DRAG-241
-Scenario Outline: Negative flow- Authorization not sent in the header
+@payment
+Scenario Outline: Negative flow- Mandatory fields not sent in the header
   Given I am an authorized merchant
-  And I have a valid transaction
+  And I have valid payment details
   When I make a request for the payment with "<key>" missing in the header
-  Then I should recieve a 401 error response with "<error_description>" error description and "401" errorcode within payment response
+  Then I should recieve a "<error_code>" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
   And error message should be "<error_message>" within payment response
 
  Examples:
- |error_description                                                |error_message  | key         |
- |Header Authorization was not found in the request. Access denied.| HeaderNotFound|Authorization|
+ |error_description                                                  |error_message  | key           |error_code |
+ |Header Authorization was not found in the request. Access denied.  | HeaderNotFound|Authorization  |401        |
+ |Header RequestDateTime was not found in the request. Access denied.| HeaderNotFound|RequestDateTime|400        |
+ |Header TraceId was not found in the request. Access denied.        | HeaderNotFound|TraceId        |400        |
 
-
-@payment @DRAG-241
+@payment
 Scenario Outline: Negative flow- Invalid auth token
   Given I am a merchant with invalid "<auth_token>"
-  And I have a valid transaction
+  And I have valid payment details
   When I make a request for the payment
-  Then I should recieve a 401 error response with "<error_description>" error description and "401" errorcode within payment response
+  Then I should recieve a "401" error response with "<error_description>" error description and "401" errorcode within payment response
   And error message should be "<error_message>" within payment response
 
  Examples:
@@ -64,7 +149,7 @@ Scenario Outline: Negative flow- Invalid auth token
  # Auth token not a JWT
  |JWT is not well formed      |Invalid JWT            |random_auth_token|
  # Auth Token has an invalid claim (aud)
- |Claim value mismatch: aud        |TokenClaimValueMismatch|need_to_generate_it_with_invalid_appid|
+ #|Claim value mismatch: aud        |TokenClaimValueMismatch|need_to_generate_it_with_invalid_appid|
  # Auth Token has an invalid claim (roles)
  |Claim value mismatch: roles=Basic.|TokenClaimValueMismatch|need_to_generate_it_with_invalid_roles|
  # Expired auth token
@@ -73,20 +158,60 @@ Scenario Outline: Negative flow- Invalid auth token
  |Signature validation failed |TokenInvalidSignature  |eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c|
 
 
-@payment @DRAG-287
+@payment
 Scenario Outline: Negative flow- Peak error response parsed by DRAGON
    Given I am an authorized merchant
-   And I have transaction details with "<invalid_value>" set for the "<parameter>"
+   And I have payment details with "<invalid_value>" set for the "<parameter>"
    When I make a request for the payment
-   Then I should recieve a 400 error response with "<error_description>" error description and "<error_code>" errorcode within payment response
+   Then I should recieve a "400" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
    And error message should be "<error_message>" within payment response
 
    Examples:
-  |error_description             |error_message          |error_code| parameter | invalid_value |
-  | Payment Amount error_Dynamic | Validation Fail!      |BG2002    | amount    | 0             |
-  | Payment Amount error_Dynamic | Validation Fail!      |BG2002    | amount    | -10           |
+  |error_description             |error_message          |error_code| parameter      | invalid_value |
+  | Payment Amount error_Dynamic | Validation Fail!      |BG2002    | totalamount    | 0             |
+  | Payment Amount error_Dynamic | Validation Fail!      |BG2002    | totalamount    | -10           |
+
+@payment
+Scenario Outline: Negative flow- Mandatory fields from the body missing
+  Given I am an authorized merchant
+  And I have payment details "<merchantid>", "<totalamount>","<currency>","<notificationURL>"
+  When I make a request for the payment
+  Then I should recieve a "400" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
+  And error message should be "<error_message>" within payment response
 
 
-  # Peak errors - same transaction sent twice, random merchant id
-  # Manual test cases - peak timeout & peak server down (switch off peak mock), Restrict Caller IPs Policy, large amount
-  #                   - different content-type in the header, characters for amount & effective duration
+Examples:
+|merchantid  |totalamount|currency |notificationURL            |error_description                |error_message|error_code|
+|            |100.00     |HKD      |https://pizzahut.com/return|Service Request Validation Failed|Something went wrong. Sorry, we are unable to perform this action right now. Please try again.|BNA002|
+|053598653254|150.00     |         |https://pizzahut.com/return|Service Request Validation Failed|Something went wrong. Sorry, we are unable to perform this action right now. Please try again.|BNA002|
+#|no_value    |100.00     |HKD      |https://pizzahut.com/return|Service Request Validation Failed|Something went wrong. Sorry, we are unable to perform this action right now. Please try again.|BNA002|
+#|053598653254|150.00     |no_value |https://pizzahut.com/return|Service Request Validation Failed|Something went wrong. Sorry, we are unable to perform this action right now. Please try again.|BNA002|
+
+
+Scenario Outline: Negative flow- TraceId's value missing from the header
+   Given I am an authorized merchant
+   And I have valid payment details with no TraceId sent in the header
+   When I make a request for the payment
+   Then I should recieve a "400" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
+   And error message should be "<error_message>" within payment response
+
+   Examples:
+  |error_description             |error_message          |error_code|
+  | Payment Amount error_Dynamic | Validation Fail!      |BG2002    |
+
+
+Scenario Outline: Negative flow- Request Date Time's value missing from the header
+   Given I am an authorized merchant
+   And I have valid payment details with no Request Date Time sent in the header
+   When I make a request for the payment
+   Then I should recieve a "400" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
+   And error message should be "<error_message>" within payment response
+
+   Examples:
+  |error_description             |error_message          |error_code|
+  | Payment Amount error_Dynamic | Validation Fail!      |BG2002    |
+
+   # Peak errors - same transaction sent twice, random merchant id
+   # Manual test cases - peak timeout & peak server down (switch off peak mock), Restrict Caller IPs Policy, large amount
+   #                   - different content-type in the header, characters for amount & effective duration
+   #                   - integer parameter's value missing from the body

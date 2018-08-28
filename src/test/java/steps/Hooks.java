@@ -1,7 +1,6 @@
 package steps;
 
 import com.jayway.restassured.RestAssured;
-import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.parsing.Parser;
 import cucumber.api.java.Before;
 import utils.BaseStep;

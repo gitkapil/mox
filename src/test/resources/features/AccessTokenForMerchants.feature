@@ -1,36 +1,67 @@
-Feature: Access Token - DRAG-81
+Feature: Retieve Access Token - DRAG-310
 
+@functional
 Scenario: Positive flow- A valid merchant recieves a valid access token
   Given I am a merchant
   When I make a request to the Dragon ID Manager
   Then I recieve an access_token
   And it should be a valid JWT
+  And response should also have expiresOn, token type
 
-
-Scenario: Negative flow- An invalid merchant (invalid client id) should not recieve a valid access token
+@functional
+Scenario Outline: Negative flow- An invalid merchant (invalid client id) should not recieve a valid access token
   Given I am a merchant
-  And I have an invalid client id
+  And I have "<invalid_value>" as client id
   When I make a request to the Dragon ID Manager
-  Then I shouldnot recieve an access_token
+  Then I should get a "<error_code>"
 
+Examples:
+|invalid_value|error_code |
+|random_client_id |401|
+|                 |401|
 
-Scenario: Negative flow- An invalid merchant (invalid client secret) should not recieve a valid access token
+@functional
+Scenario Outline: Negative flow- An invalid merchant (invalid client secret) should not recieve a valid access token
   Given I am a merchant
-  And I have an invalid client secret
+  And I have "<invalid_value>" as client secret
   When I make a request to the Dragon ID Manager
-  Then I shouldnot recieve an access_token
+  Then I should get a "<error_code>"
 
+ Examples:
+ |invalid_value| error_code |
+ |random_client_secret | 401|
+ |                     | 401|
 
-Scenario: Negative flow- Incorrect grant_type
+@functional
+Scenario Outline: Negative flow- Mandatory Fields missing from the body
   Given I am a merchant
-  And I pass an invalid grant type
+  And I dont provide "<parameter>"
   When I make a request to the Dragon ID Manager
-  Then I shouldnot recieve an access_token
+  Then I should get a "<error_code>"
 
+  Examples:
+  |parameter    |error_code |
+  |clientid     |401 |
+  |clientsecret |401 |
+  |clientid&clientsecret |400|
 
-Scenario: Negative flow- Incorrect application_id
+@functional
+Scenario: Negative flow- Body sent in an invalid format
   Given I am a merchant
-  And I pass an invalid application id
-  When I make a request to the Dragon ID Manager
-  Then I shouldnot recieve an access_token
+  When I make a request to the Dragon ID Manager with body in JSON format
+  Then I should get a "401"
 
+
+@functional
+Scenario Outline: Negative flow- Invalid header values sent
+  Given I am a merchant
+  And I have invalid_value for the header "<parameter>"
+  When I make a request to the Dragon ID Manager
+  Then I should get a "<error_code>"
+
+ Examples:
+ |parameter    | error_code |
+ |Accept       | 400|
+ |Content-type | 400|
+
+#Manual Test case: Offboarded client

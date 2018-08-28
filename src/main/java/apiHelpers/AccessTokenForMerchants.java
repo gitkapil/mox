@@ -12,15 +12,20 @@ import utils.BaseStep;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.*;
+
+import static com.jayway.restassured.config.EncoderConfig.encoderConfig;
+import static com.jayway.restassured.config.RestAssuredConfig.config;
 
 
 public class AccessTokenForMerchants implements BaseStep {
     final static Logger logger = Logger.getLogger(AccessTokenForMerchants.class);
-    private String clientId, clientSecret, appId, grantType, endPoint;
+    private String clientId, clientSecret, appId;
+    RequestSpecification request=null;
 
-    Response accessToken=null;  JWTClaimsSet accessTokenClaimSet=null;
+    Response accessTokenResponse=null;  JWTClaimsSet accessTokenClaimSet=null;
 
     public JWTClaimsSet getAccessTokenClaimSet() {
         return accessTokenClaimSet;
@@ -34,13 +39,6 @@ public class AccessTokenForMerchants implements BaseStep {
         return clientId;
     }
 
-    public String getEndPoint() {
-        return endPoint;
-    }
-
-    public void setEndPoint(String endPoint) {
-        this.endPoint = endPoint;
-    }
 
     public void setClientId(String clientId) {
         this.clientId = clientId;
@@ -62,77 +60,170 @@ public class AccessTokenForMerchants implements BaseStep {
         this.appId = appId;
     }
 
-    public String getGrantType() {
-        return grantType;
+    public String expiresOnInResponse(){
+        return restHelper.getResponseBodyValue(accessTokenResponse, "expiresOn");
     }
 
-    public void setGrantType(String grantType) {
-        this.grantType = grantType;
+    public String tokenTypeInResponse(){
+        return restHelper.getResponseBodyValue(accessTokenResponse, "tokenType");
     }
+
 
     /**
      *
      * @return Encoded request specification for retrieve access Token endpoint
      */
 
-    public RequestSpecification createBody_RetrieveAccessToken(){
-        RequestSpecification request=null;
-
+    public void createBody_RetrieveAccessToken(){
         try{
-            request = RestAssured.given().config(RestAssured.config().encoderConfig(EncoderConfig.encoderConfig()
-                    .encodeContentTypeAs("x-www-form-urlencoded",
-                            ContentType.URLENC)))
-                    .contentType("application/x-www-form-urlencoded; charset=UTF-8")
+            request = RestAssured.given().config(RestAssured.config().encoderConfig(EncoderConfig.encoderConfig().encodeContentTypeAs("x-www-form-urlencoded", ContentType.URLENC)))
+                    .config(RestAssured.config().encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
+                    .contentType("application/x-www-form-urlencoded")
+                    .accept("application/json")
                     .formParam("client_id", clientId)
                     .formParam("client_secret", clientSecret)
-                    .formParam("grant_type", grantType)
-                    .formParam("resource", appId)
                     .request();
         }
         catch(Exception e){
             Assert.assertTrue(e.getMessage(), false);
         }
 
-        return request;
+    }
+
+
+    public void sendBodyInJsonFormat(String url){
+
+        String body="{\n" +
+                "\"client_id\"=\""+clientId+"\",\n" +
+                "\"client_secret\"=\""+clientSecret+"\"\n" +
+                "}";
+
+
+        request = RestAssured.given().config(RestAssured.config().encoderConfig(EncoderConfig.encoderConfig()
+                .encodeContentTypeAs("x-www-form-urlencoded",
+                        ContentType.URLENC)))
+                .config(RestAssured.config().encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
+                .contentType("application/x-www-form-urlencoded")
+                .accept("application/json")
+                .body(body)
+                .request();
+
+        accessTokenResponse= restHelper.postRequestWithEncodedBody(url,request);
+        logger.info("response --> "+ accessTokenResponse.getBody().asString());
 
     }
+
+    public void createInvalidBody(String missingKey){
+        try{
+            if (missingKey.equalsIgnoreCase("clientId"))
+               request = RestAssured.given().config(RestAssured.config().encoderConfig(EncoderConfig.encoderConfig()
+                    .encodeContentTypeAs("x-www-form-urlencoded",
+                            ContentType.URLENC)))
+                       .config(RestAssured.config().encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
+                    .contentType("application/x-www-form-urlencoded")
+                       .accept("application/json")
+                    .formParam("client_secret", clientSecret)
+                    .request();
+
+            else if (missingKey.equalsIgnoreCase("clientsecret"))
+                request = RestAssured.given().config(RestAssured.config().encoderConfig(EncoderConfig.encoderConfig()
+                        .encodeContentTypeAs("x-www-form-urlencoded",
+                                ContentType.URLENC)))
+                        .config(RestAssured.config().encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
+                        .contentType("application/x-www-form-urlencoded")
+                        .accept("application/json")
+                        .formParam("client_id", clientId)
+                        .request();
+
+            else if (missingKey.equalsIgnoreCase("clientid&clientsecret"))
+                request = RestAssured.given().config(RestAssured.config().encoderConfig(EncoderConfig.encoderConfig()
+                        .encodeContentTypeAs("x-www-form-urlencoded",
+                                ContentType.URLENC)))
+                        .config(RestAssured.config().encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
+                        .contentType("application/x-www-form-urlencoded")
+                        .accept("application/json")
+                        .request();
+        }
+        catch(Exception e){
+            Assert.assertTrue(e.getMessage(), false);
+        }
+
+
+
+    }
+
+
+    public void createInvalidHeader(String key){
+        try{
+            if (key.equalsIgnoreCase("Accept"))
+                request = RestAssured.given().config(RestAssured.config().encoderConfig(EncoderConfig.encoderConfig()
+                        .encodeContentTypeAs("x-www-form-urlencoded",
+                                ContentType.URLENC)))
+                        .config(RestAssured.config().encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
+                        .contentType("application/x-www-form-urlencoded")
+                        .formParam("client_id", clientId)
+                        .formParam("client_secret", clientSecret)
+                        .request();
+
+            else if (key.equalsIgnoreCase("content-type"))
+                request = RestAssured.given().config(RestAssured.config().encoderConfig(EncoderConfig.encoderConfig()
+                        .encodeContentTypeAs("x-www-form-urlencoded",
+                                ContentType.URLENC)))
+                        .contentType("application/x-www-form-urlencoded")
+                        .accept("application/json")
+                        .formParam("client_id", clientId)
+                        .formParam("client_secret", clientSecret)
+                        .request();
+
+        }
+        catch(Exception e){
+            Assert.assertTrue(e.getMessage(), false);
+        }
+
+
+
+    }
+
+
 
     /**
      * Sets valid details for a client/ merchant
      * @param clientId
      * @param clientSecret
-     * @param appId
-     * @param grantType
-     * @param endPoint
      */
-    public void setMerchantDetails(String clientId, String clientSecret, String appId, String grantType, String endPoint){
+    public void setMerchantDetails(String clientId, String clientSecret){
         setClientId(clientId);
         setClientSecret(clientSecret);
-        setAppId(appId);
-        setGrantType(grantType);
-        setEndPoint(endPoint);
     }
 
-    public Response getAccessToken() {
+    public Response getAccessTokenResponse() {
+        return accessTokenResponse;
+    }
+
+    public String getAccessToken() {
+        String accessToken= null;
+        try{
+            accessToken= accessTokenResponse.path("accessToken").toString();
+        }
+        catch (Exception e){
+
+        }
         return accessToken;
     }
 
-    public void setAccessToken(Response accessToken) {
-        this.accessToken = accessToken;
-    }
 
     /**
      * This method triggers multiple accesstoken post requests
      * @param noOfRequests needed to be triggered
      * @return
      */
-    public List<Response> triggerMultipleRequests(int noOfRequests){
+    public List<Response> triggerMultipleRequests(int noOfRequests, String url){
         ExecutorService ex= Executors.newFixedThreadPool(noOfRequests);
         List<Future<Response>> futureList= new ArrayList<>() ;
         List<Response> responseList= new ArrayList<>();
 
         Callable<Response> callable = () -> {
-            return restHelper.postRequestWithEncodedBody(getEndPoint(),createBody_RetrieveAccessToken());
+            return restHelper.postRequestWithEncodedBody(url,request);
         };
 
 
@@ -164,12 +255,14 @@ public class AccessTokenForMerchants implements BaseStep {
      *
      * @return the access token generated for the merchant.
      */
-    public Response retrieveAccessToken()
+    public Response retrieveAccessToken(String endPoint)
     {
-        accessToken= restHelper.postRequestWithEncodedBody(getEndPoint(),createBody_RetrieveAccessToken());
-        return accessToken;
+        accessTokenResponse= restHelper.postRequestWithEncodedBody(endPoint,request);
+        logger.info("response --> "+ accessTokenResponse.getBody().asString());
+        return accessTokenResponse;
 
     }
+
 
     /**
      *
@@ -177,8 +270,7 @@ public class AccessTokenForMerchants implements BaseStep {
      * @return claimset within the JWT access token generated
      */
     public JWTClaimsSet retrieveClaimSet(String jwks_uri){
-       setAccessTokenClaimSet(jwtHelper.validateJWT(restHelper.getResponseBodyValue(accessToken,"access_token"), jwks_uri));
-       validateClaimSet();
+       setAccessTokenClaimSet(jwtHelper.validateJWT(getAccessToken(), jwks_uri));
        return accessTokenClaimSet;
     }
 
@@ -188,15 +280,23 @@ public class AccessTokenForMerchants implements BaseStep {
      * - aud should be equals to the app id
      * - roles should have "Basic"
      */
-    public boolean validateClaimSet(){
+    public boolean validateClaimSet(String sandboxAPIAppId, String liveAPIAppId){
+        String appId= null;
         try {
             List<String> aud= accessTokenClaimSet.getStringListClaim("aud");
             List<String> roles=  accessTokenClaimSet.getStringListClaim("roles");
 
-            if (roles.contains("Basic") && aud.get(0).equalsIgnoreCase(appId))
-            {
+            logger.info("Aud: " +aud.get(0));
+
+            if(roles.contains("Developer") || roles.contains("Basic"))
+                appId= sandboxAPIAppId;
+            else if (roles.contains("Merchant"))
+                appId= liveAPIAppId;
+
+            logger.info("App Id: "+ appId);
+
+            if (aud.get(0).equals(appId))
                 return true;
-            }
 
         } catch (ParseException e) {
             return false;

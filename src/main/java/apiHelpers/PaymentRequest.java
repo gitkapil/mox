@@ -1,19 +1,79 @@
 package apiHelpers;
 
 import com.jayway.restassured.response.Response;
+import cucumber.api.DataTable;
 import utils.BaseStep;
 import java.util.*;
 
 
 public class PaymentRequest implements BaseStep {
     final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(PaymentRequest.class);
-    private String authToken, traceId, requestDateTime;
+    private String authToken, requestDateTime="", merchantId, currency, notificationURI, traceId="";
+    private Double totalAmount;
+    private Integer effectiveDuration=600;
+
+    private HashMap merchantData= new HashMap();
+    private List<HashMap> shoppingCart=new ArrayList<HashMap>();
+
     private HashMap<String, String> paymentRequestHeader= new HashMap<String, String>();
 
-    HashMap<String, HashMap> paymentRequestBody = new HashMap<String, HashMap>();
+    private HashMap paymentRequestBody = new HashMap();
 
-    HashMap transactionBody= new HashMap<>();
+    public String getTraceId() {
+        return traceId;
+    }
 
+    public List<HashMap> getShoppingCart() {
+        return shoppingCart;
+    }
+
+    public void setShoppingCart(List<HashMap> shoppingCart) {
+        this.shoppingCart = shoppingCart;
+    }
+
+    public void setTraceId(String traceId) {
+        this.traceId = traceId;
+    }
+
+    public HashMap getMerchantData() {
+        return merchantData;
+    }
+
+    public void setMerchantData(HashMap merchantData) {
+        this.merchantData = merchantData;
+    }
+
+    public String getMerchantId() {
+        return merchantId;
+    }
+
+    public void setMerchantId(String merchantId) {
+        this.merchantId = merchantId;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public String getnotificationURI() {
+        return notificationURI;
+    }
+
+    public void setNotificationURI(String notificationURI) {
+        this.notificationURI = notificationURI;
+    }
+
+    public Double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(Double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
 
     private Response paymentRequestResponse= null;
 
@@ -23,10 +83,6 @@ public class PaymentRequest implements BaseStep {
     }
 
 
-    public void setTraceId(String traceId) {
-        this.traceId = traceId;
-    }
-
     public String getRequestDateTime() {
         return requestDateTime;
 
@@ -34,10 +90,6 @@ public class PaymentRequest implements BaseStep {
 
     public void setRequestDateTime(String requestDateTime) {
         this.requestDateTime = requestDateTime;
-    }
-
-    public String getTraceId() {
-        return traceId;
     }
 
 
@@ -65,70 +117,157 @@ public class PaymentRequest implements BaseStep {
         paymentRequestHeader.put("Authorization", authToken);
         paymentRequestHeader.put("TraceId",traceId);
         paymentRequestHeader.put("Ocp-Apim-Subscription-Key","fa08ac6eca5b4afb8354526811025b03");
-       // paymentRequestHeader.put("RequestDateTime", getRequestDateTime());
+        paymentRequestHeader.put("Accept-Language", "en-US");
+        paymentRequestHeader.put("RequestDateTime", getRequestDateTime());
 
         return paymentRequestHeader;
     }
 
 
+    public Integer getEffectiveDuration() {
+        return effectiveDuration;
+    }
+
+    public void setEffectiveDuration(Integer effectiveDuration) {
+        this.effectiveDuration = effectiveDuration;
+    }
 
     public HashMap<String,HashMap> returnPaymentRequestBody(){
-        paymentRequestBody.put("transaction", transactionBody);
-        return paymentRequestBody;
+        paymentRequestBody= new HashMap();
+
+        if (!getMerchantId().equals(""))
+        {
+            if (!getMerchantId().equals("no_value"))
+                paymentRequestBody.put("merchantId", getMerchantId());
+            else
+                paymentRequestBody.put("merchantId", "");
+        }
+
+        if (!getCurrency().equals(""))
+        {
+            if (!getCurrency().equals("no_value"))
+                paymentRequestBody.put("currency", getCurrency());
+            else
+                paymentRequestBody.put("currency", "");
+        }
+
+
+         paymentRequestBody.put("totalAmount", getTotalAmount());
+
+
+
+        if (!getnotificationURI().equals(""))
+        {
+            if (!getnotificationURI().equals("no_value"))
+                paymentRequestBody.put("notificationURI", getnotificationURI());
+            else
+                paymentRequestBody.put("notificationURI", "");
+        }
+
+         try{
+            if (!merchantData.isEmpty())
+                 paymentRequestBody.put("merchantData", getMerchantData());
+         }
+         catch (NullPointerException e){ }
+
+         return paymentRequestBody;
     }
 
-    public HashMap createTransaction(String amount, String currency, String description, String channel, String invoiceId, String merchantId, String effectiveDuration, String returnURL){
+    public void createMerchantData(String description, String channel, String orderId, String effectiveDuration){
+        merchantData= new HashMap();
+        if (!description.equals(""))
+        {
+            if (!description.equals("no_value"))
+                merchantData.put("description", description);
+            else
+                merchantData.put("description", "");
+        }
+        if (!channel.equals(""))
+        {
+            if (!channel.equals("no_value"))
+                merchantData.put("channel", channel);
+            else
+                merchantData.put("channel", "");
+        }
+        if (!orderId.equals(""))
+        {
+            if (!orderId.equals("no_value"))
+                merchantData.put("orderId", orderId);
+            else
+                merchantData.put("orderId", "");
+        }
+
+        if (!effectiveDuration.equals(""))
+        {
+
+                this.effectiveDuration= Integer.parseInt(effectiveDuration);
+                merchantData.put("effectiveDuration", this.effectiveDuration);
+                }
 
         try{
-            transactionBody.put("amount", Double.parseDouble(amount));
+            if (shoppingCart.size()>=1)
+                merchantData.put("shoppingCart", shoppingCart);
         }
-        catch (Exception e){ }
-
-        if (currency.equals(""))
-            transactionBody.put("currency", "HKD");
-        else
-            transactionBody.put("currency", currency);
-
-        transactionBody.put("description", description);
-        transactionBody.put("channel", channel);
-        transactionBody.put("invoiceId", invoiceId);
-        transactionBody.put("merchantId", merchantId);
-
-        if(effectiveDuration.equals(""))
-            transactionBody.put("effectiveDuration", 30);
-        else
-            transactionBody.put("effectiveDuration", Integer.parseInt(effectiveDuration));
-
-        transactionBody.put("returnURL", returnURL);
-
-        return transactionBody;
-
+        catch (NullPointerException e){}
     }
 
 
-    public HashMap removeFromTransaction(String parameter){
-        if (parameter.equalsIgnoreCase("Amount"))
-            parameter="amount";
-        if (parameter.equalsIgnoreCase("Currency"))
-            parameter="currency";
-        if (parameter.equalsIgnoreCase("Channel"))
-            parameter="channel";
-        if (parameter.equalsIgnoreCase("Description"))
-            parameter="description";
-        if (parameter.equalsIgnoreCase("InvoiceId"))
-            parameter="invoiceId";
-        if (parameter.equalsIgnoreCase("MerchantId"))
-            parameter="merchantId";
-        if (parameter.equalsIgnoreCase("EffectiveDuration"))
-            parameter="effectiveDuration";
-        if (parameter.equalsIgnoreCase("ReturnURL"))
-            parameter="returnURL";
+    public void createShoppingCart(DataTable dt){
+        shoppingCart= new ArrayList<>();
+        List<Map<String, String>> list = dt.asMaps(String.class, String.class);
 
-        transactionBody.remove(parameter);
+        for(int i=0; i<list.size(); i++) {
 
-        return transactionBody;
+            HashMap temp= new HashMap();
+            if (!list.get(i).get("sku").equals(""))
+            {
+                if (!list.get(i).get("sku").equals("no_value"))
+                    temp.put("sku", list.get(i).get("sku"));
+                else
+                    temp.put("sku", "");
+            }
+            if (!list.get(i).get("name").equals(""))
+            {
+                if (!list.get(i).get("name").equals("no_value"))
+                    temp.put("name", list.get(i).get("name"));
+                else
+                    temp.put("name", "");
+            }
+            if (!list.get(i).get("currency").equals(""))
+            {
+                if (!list.get(i).get("currency").equals("no_value"))
+                    temp.put("currency", list.get(i).get("currency"));
+                else
+                    temp.put("currency", "");
+            }
+
+
+            if (!list.get(i).get("quantity").equals(""))
+            {
+                    temp.put("quantity", Integer.parseInt(list.get(i).get("quantity")));
+
+            }
+
+
+            if (!list.get(i).get("price").equals(""))
+            {
+                    temp.put("price", Double.parseDouble(list.get(i).get("price")));
+
+            }
+
+
+            if (!list.get(i).get("category").equals(""))
+            {
+                    temp.put("category", Integer.parseInt(list.get(i).get("category")));
+
+            }
+
+
+            shoppingCart.add(temp);
+        }
 
     }
+
 
 
     public Response retrievePaymentRequest(String url){
@@ -154,91 +293,35 @@ public class PaymentRequest implements BaseStep {
     }
 
 
-    public String traceIdInResponseHeader(){
-        return restHelper.getResponseHeaderValue(paymentRequestResponse, "TraceId");
+
+    public String paymentRequestIdInResponse(){
+        return restHelper.getResponseBodyValue(paymentRequestResponse, "paymentRequestId");
 
     }
 
-    public String paymentIdInResponse(){
-        return restHelper.getResponseBodyValue(paymentRequestResponse, "paymentId");
+    public Integer effectiveDurationInResponse(){
+        return Integer.parseInt(restHelper.getResponseBodyValue(paymentRequestResponse, "effectiveDuration"));
 
     }
 
-    public String expiryDurationInResponse(){
-        return restHelper.getResponseBodyValue(paymentRequestResponse, "expiryDuration");
+    public String webLinkInResponse(){
+        return restHelper.getResponseBodyValue(paymentRequestResponse, "webLink");
 
     }
+
+    public String appLinkInResponse(){
+        return restHelper.getResponseBodyValue(paymentRequestResponse, "appLink");
+
+    }
+
 
     public String createdTimestampInResponse(){
         return restHelper.getResponseBodyValue(paymentRequestResponse, "createdTime");
 
     }
 
-    public boolean isLinksValid(){
-
-        List<HashMap<String, String>> links= restHelper.getJsonArray(paymentRequestResponse, "links");
-
-        Iterator<HashMap<String, String>> it= links.iterator();
-
-        int i=1; int counter=0;
-
-        while (i<=links.size()){
-
-            try {
-                if (links.get(i-1).get("channel").equalsIgnoreCase("eCommerce") || links.get(i-1).get("channel").equalsIgnoreCase("mCommerce")
-                    ||links.get(i-1).get("channel").equalsIgnoreCase("native"))
-                    if (links.get(i-1).get("uri") != null)
-                        counter++;
-
-                i++;
-            } catch (NullPointerException e){
-                return false;
-            }
-
-        }
 
 
-        if (counter==2)
-            return true;
-        else return false;
-
-    }
-
-    public boolean isExpiryDurationValid(){
-
-        if (Integer.parseInt(restHelper.getResponseBodyValue(paymentRequestResponse, "expiryDuration"))==(Integer)transactionBody.get("effectiveDuration"))
-            return true;
-
-        return false;
-    }
-
-
-    public String isTransactionValid()
-    {
-
-        if (!restHelper.getResponseBodyValue(paymentRequestResponse, "transaction.merchantId").equalsIgnoreCase(transactionBody.get("merchantId").toString()))
-            return "MerchantId mismatch";
-
-        if (!restHelper.getResponseBodyValue(paymentRequestResponse, "transaction.invoiceId").equalsIgnoreCase(transactionBody.get("invoiceId").toString()))
-            return "Invoice Id mismatch";
-
-        if (!restHelper.getResponseBodyValue(paymentRequestResponse, "transaction.description").equalsIgnoreCase(transactionBody.get("description").toString()))
-            return "Description mismatch";
-
-        if (!restHelper.getResponseBodyValue(paymentRequestResponse, "transaction.channel").equalsIgnoreCase(transactionBody.get("channel").toString()))
-            return "Channel mismatch";
-
-        if (!restHelper.getResponseBodyValue(paymentRequestResponse, "transaction.amount").equalsIgnoreCase(transactionBody.get("amount").toString()))
-            return "Amount mismatch";
-
-        if (!restHelper.getResponseBodyValue(paymentRequestResponse, "transaction.currency").equalsIgnoreCase(transactionBody.get("currency").toString()))
-            return "Currency mismatch";
-
-        if (!restHelper.getResponseBodyValue(paymentRequestResponse, "transaction.effectiveDuration").equalsIgnoreCase(transactionBody.get("effectiveDuration").toString()))
-            return "Effective Duration mismatch";
-
-        return null;
-    }
 
 
 }
