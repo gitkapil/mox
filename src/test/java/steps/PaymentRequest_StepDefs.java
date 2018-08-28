@@ -1,6 +1,5 @@
 package steps;
 
-import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
@@ -23,12 +22,6 @@ public class PaymentRequest_StepDefs implements BaseStep {
 
       paymentRequest.setAuthToken(accessToken.getAccessToken());
       paymentRequest.setAuthTokenwithBearer(paymentRequest.getAuthToken());
-
-      checkStatus.setAuthToken(accessToken.getAccessToken());
-      checkStatus.setAuthTokenwithBearer(checkStatus.getAuthToken());
-
-      refund.setAuthToken(accessToken.getAccessToken());
-      refund.setAuthTokenwithBearer(refund.getAuthToken());
 
     }
 
@@ -76,12 +69,6 @@ public class PaymentRequest_StepDefs implements BaseStep {
         {
             paymentRequest.setAuthToken(token);
             paymentRequest.setAuthTokenwithBearer(paymentRequest.getAuthToken());
-
-            checkStatus.setAuthToken(token);
-            checkStatus.setAuthTokenwithBearer(checkStatus.getAuthToken());
-
-            refund.setAuthToken(token);
-            refund.setAuthTokenwithBearer(refund.getAuthToken());
         }
     }
 
