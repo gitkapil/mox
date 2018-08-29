@@ -86,9 +86,10 @@ Scenario Outline: Negative flow- Invalid PaymentIds sent in the request
   And error message should be "<error_message>" within check status response
 
  Examples:
- |error_description              |error_message                      | payment_id       |error_code |response_code|
- #|null                               | Resource not found                |                  |null           |404|
- |Payment Request Id is invalid  | Service Request Validation Failed | random_payment_id|EA002      |400|
+ |error_description                                                                             |error_message                                     | payment_id                          |error_code |response_code|
+ #|null                                                                                         | Resource not found                               |                                     |null       |404|
+ #|PayMe user scans/imports a Merchant Dynamic/Static PayCode, that is not found in QR database.| Unable to Find Resources During Service Request  | 591ec407-401d-40a6-9db0-b48a35fad8a3|EB001      |404|
+ |Payment Request Id is invalid                                                                 | Service Request Validation Failed                | random_payment_id                   |EA002      |400|
 
 
 @checkstatus
@@ -104,4 +105,3 @@ Scenario Outline: Positive flow- A merchant is able to create a check status req
   |25f90d96-4052-4c47-8ec1-f818c0e7a212 |Payment Request Expired      |PR007       |
   |b15e090a-5e97-4b44-a67e-542eb2aa0f4d |Request for Payment Initiated|PR001       |
   |9dbcf291-d71e-4c9f-938c-1fdf4035b5f5 |Payment Success              |PR005       |
- # |3         |Request for Payment Rejected |PR004       |
