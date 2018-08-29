@@ -13,7 +13,7 @@ public class PaymentStatus_StepDefs implements BaseStep {
 
     final static Logger logger = Logger.getLogger(PaymentStatus_StepDefs.class);
 
-    @Given("^I have a payment id$")
+    @Given("^I have a valid payment id$")
     public void i_have_a()  {
        paymentStatus.setPaymentRequestId(paymentRequest.paymentRequestIdInResponse());
     }
@@ -53,7 +53,7 @@ public class PaymentStatus_StepDefs implements BaseStep {
 
         Assert.assertEquals(restHelper.getErrorCode(paymentStatus.getPaymentStatusResponse()), errorCode,"Different error code being returned");
 
-        Assert.assertTrue(restHelper.getErrorDescription(paymentStatus.getPaymentStatusResponse()).contains(errorDesc) ,"Different error description being returned..Expected: "+ errorDesc+ "Actual: "+ restHelper.getErrorDescription(paymentRequest.getPaymentRequestResponse()));
+        Assert.assertTrue(restHelper.getErrorDescription(paymentStatus.getPaymentStatusResponse()).contains(errorDesc) ,"Different error description being returned..Expected: "+ errorDesc+ "  Actual: "+ restHelper.getErrorDescription(paymentStatus.getPaymentStatusResponse()));
 
     }
 
@@ -76,7 +76,7 @@ public class PaymentStatus_StepDefs implements BaseStep {
         paymentStatus.setAuthTokenwithBearer();
     }
 
-    @Given("^I have a valid \"([^\"]*)\"$")
+    @Given("^I have a \"([^\"]*)\"$")
     public void i_have_a_valid(String paymentReqId) {
         paymentStatus.setPaymentRequestId(paymentReqId);
     }
