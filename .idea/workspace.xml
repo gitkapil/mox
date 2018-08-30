@@ -138,12 +138,12 @@
       <find>checkStatus</find>
       <find>payment</find>
       <find>@functional</find>
-      <find>check status</find>
+      <find />
       <find>within</find>
       <find>missingheade</find>
       <find>d5647f75-9526-45c7-97d0-b760af45c170</find>
       <find>inres</find>
-      <find>throws Throwable</find>
+      <find />
       <find>getJsonArray</find>
       <find>Basic</find>
       <find>validate</find>
