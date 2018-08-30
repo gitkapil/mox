@@ -1,6 +1,6 @@
 Feature: Retieve Access Token - DRAG-310
 
-@functional
+@functional @regression
 Scenario: Positive flow- A valid merchant recieves a valid access token
   Given I am a merchant
   When I make a request to the Dragon ID Manager
@@ -8,7 +8,7 @@ Scenario: Positive flow- A valid merchant recieves a valid access token
   And it should be a valid JWT
   And response should also have expiresOn, token type
 
-@functional
+@functional @regression
 Scenario Outline: Negative flow- An invalid merchant (invalid client id) should not recieve a valid access token
   Given I am a merchant
   And I have "<invalid_value>" as client id
@@ -20,7 +20,7 @@ Examples:
 |random_client_id |401|
 |                 |401|
 
-@functional
+@functional @regression
 Scenario Outline: Negative flow- An invalid merchant (invalid client secret) should not recieve a valid access token
   Given I am a merchant
   And I have "<invalid_value>" as client secret
@@ -32,7 +32,7 @@ Scenario Outline: Negative flow- An invalid merchant (invalid client secret) sho
  |random_client_secret | 401|
  |                     | 401|
 
-@functional
+@functional @regression
 Scenario Outline: Negative flow- Mandatory Fields missing from the body
   Given I am a merchant
   And I dont provide "<parameter>"
@@ -45,14 +45,14 @@ Scenario Outline: Negative flow- Mandatory Fields missing from the body
   |clientsecret |401 |
   |clientid&clientsecret |400|
 
-@functional
+@functional @regression
 Scenario: Negative flow- Body sent in an invalid format
   Given I am a merchant
   When I make a request to the Dragon ID Manager with body in JSON format
   Then I should get a "401"
 
 
-@functional
+@functional @regression
 Scenario Outline: Negative flow- Invalid header values sent
   Given I am a merchant
   And I have invalid_value for the header "<parameter>"

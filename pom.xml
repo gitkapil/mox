@@ -111,10 +111,10 @@
         </profile>
 
         <profile>
-            <id>refund</id>
+            <id>regression</id>
             <properties>
                 <cucumber.options>
-                    --tags @refund
+                    --tags @regression
                 </cucumber.options>
             </properties>
         </profile>
