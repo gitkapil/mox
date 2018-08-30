@@ -258,7 +258,7 @@ public class AccessTokenForMerchants implements BaseStep {
     public Response retrieveAccessToken(String endPoint)
     {
         accessTokenResponse= restHelper.postRequestWithEncodedBody(endPoint,request);
-        logger.info("response --> "+ accessTokenResponse.getBody().asString());
+        logger.info("********** Access Token Response *********** --> "+ accessTokenResponse.getBody().asString());
         return accessTokenResponse;
 
     }

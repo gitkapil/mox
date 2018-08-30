@@ -23,6 +23,9 @@ public class PaymentRequest_StepDefs implements BaseStep {
       paymentRequest.setAuthToken(accessToken.getAccessToken());
       paymentRequest.setAuthTokenwithBearer(paymentRequest.getAuthToken());
 
+        paymentStatus.setAuthToken(accessToken.getAccessToken());
+        paymentStatus.setAuthTokenwithBearer();
+
     }
 
     @Given("^I dont send Bearer with the auth token$")
@@ -112,6 +115,7 @@ public class PaymentRequest_StepDefs implements BaseStep {
 
     @When("^I make a request for the payment$")
     public void i_make_a_request_for_the_payment()  {
+        logger.info("********** Creating Payment Request ***********");
         paymentRequest.retrievePaymentRequest(restHelper.getBaseURI()+System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_path"));
         
     }
