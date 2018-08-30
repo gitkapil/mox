@@ -74,7 +74,7 @@ Scenario Outline: Negative flow- Invalid auth token
  |Signature validation failed |TokenInvalidSignature  |eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c|
 
 
-@checkstatus @regression
+@checkstatus @regression @trial
 Scenario Outline: Negative flow- Invalid PaymentIds sent in the request
   Given I am an authorized merchant
   And I have valid payment details
@@ -86,10 +86,10 @@ Scenario Outline: Negative flow- Invalid PaymentIds sent in the request
   And error message should be "<error_message>" within check status response
 
  Examples:
- |error_description                                                                             |error_message                                     | payment_id                          |error_code |response_code|
- #|null                                                                                         | Resource not found                               |                                     |null       |404|
- #|PayMe user scans/imports a Merchant Dynamic/Static PayCode, that is not found in QR database.| Unable to Find Resources During Service Request  | 591ec407-401d-40a6-9db0-b48a35fad8a3|EB001      |404|
- |Payment Request Id is invalid                                                                 | Service Request Validation Failed                | random_payment_id                   |EA002      |400|
+ |error_description             |error_message                                     | payment_id                          |error_code |response_code|
+ #|null                         | Resource not found                               |                                     |null       |404|
+ |QR code not found when scans  | Resource Not Found!              | 591ec407-401d-40a6-9db0-b48a35fad8a3|CF2003     |404|
+ |Payment Request Id is invalid | Service Request Validation Failed| random_payment_id                   |EA002      |400|
 
 
 @checkstatus @regression
