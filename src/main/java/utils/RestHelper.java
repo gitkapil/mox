@@ -4,13 +4,11 @@ import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.path.json.JsonPath;
 import com.jayway.restassured.response.Response;
-import com.jayway.restassured.specification.RequestLogSpecification;
 import com.jayway.restassured.specification.RequestSpecification;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import java.util.HashMap;
 import java.util.List;
-import static com.jayway.restassured.RestAssured.get;
 import static com.jayway.restassured.RestAssured.given;
 
 
@@ -43,9 +41,15 @@ public class RestHelper {
     // get Response from an endpoint
     public  Response getResponse(String url){
 
+        Response response= null;
+        try{
+            response= given().log().all().get(url);
+        }
+        catch (Exception e){
+            Assert.assertTrue(e.getMessage(), false);
+        }
 
-        logger.info("Endpoint hit-->   "+ url);
-        return get(url);
+        return response;
     }
 
     // get Response from an endpoint with Headers
@@ -154,8 +158,13 @@ public class RestHelper {
     }
 
     public List getJsonArray(Response res, String key){
+        List<HashMap<String, String>> list= null;
+       try {
+          list  = res.jsonPath().getList(key);
+       }
+       catch (NullPointerException e){
 
-        List<HashMap<String, String>> list= res.jsonPath().getList(key);
+       }
 
         return list;
     }

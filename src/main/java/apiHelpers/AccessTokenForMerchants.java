@@ -288,10 +288,12 @@ public class AccessTokenForMerchants implements BaseStep {
 
             logger.info("Aud: " +aud.get(0));
 
-            if(roles.contains("Developer") || roles.contains("Basic"))
+            if(roles.contains("developer"))
                 appId= sandboxAPIAppId;
-            else if (roles.contains("Merchant"))
+            else if (roles.contains("merchant"))
                 appId= liveAPIAppId;
+            else
+                return false;
 
             logger.info("App Id: "+ appId);
 

@@ -1,6 +1,7 @@
 package utils;
 
 import apiHelpers.AccessTokenForMerchants;
+import apiHelpers.OpenIdConfigForPEAK;
 import apiHelpers.PaymentRequest;
 
 
@@ -14,6 +15,8 @@ public interface BaseStep {
     DateHelper dateHelper= new DateHelper();
     JWTHelper jwtHelper= new JWTHelper();
     General general= new General();
+    OpenIdConfigForPEAK openIdConfig= new OpenIdConfigForPEAK();
+
 
 
 
