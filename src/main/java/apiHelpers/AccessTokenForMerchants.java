@@ -278,9 +278,9 @@ public class AccessTokenForMerchants implements BaseStep {
      *
      * @returns true only if the claim set has the following:
      * - aud should be equals to the app id
-     * - roles should have "Basic"
+     * - roles should have "developer/ merchant"
      */
-    public boolean validateClaimSet(String sandboxAPIAppId, String liveAPIAppId){
+    public boolean validateClaimSet(String sandboxServerAppId, String merchantServerAppId){
         String appId= null;
         try {
             List<String> aud= accessTokenClaimSet.getStringListClaim("aud");
@@ -289,9 +289,9 @@ public class AccessTokenForMerchants implements BaseStep {
             logger.info("Aud: " +aud.get(0));
 
             if(roles.contains("developer"))
-                appId= sandboxAPIAppId;
+                appId= sandboxServerAppId;
             else if (roles.contains("merchant"))
-                appId= liveAPIAppId;
+                appId= merchantServerAppId;
             else
                 return false;
 
