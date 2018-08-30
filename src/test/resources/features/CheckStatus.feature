@@ -5,7 +5,7 @@ Given I am a merchant
 When I make a request to the Dragon ID Manager
 Then I recieve an access_token
 
- @checkstatus
+ 
 Scenario Outline: Positive flow- A merchant is able to create a check status request with all the valid inputs
   Given I am an authorized merchant
   And I have a "<paymentid>"
@@ -18,7 +18,7 @@ Scenario Outline: Positive flow- A merchant is able to create a check status req
  |333      |
 
 
- @checkstatus
+ 
 Scenario Outline: Negative flow- Invalid auth token
   Given I am a merchant with invalid auth token
   And I have a "<paymentid>"
@@ -30,7 +30,7 @@ Scenario Outline: Negative flow- Invalid auth token
  |333      |
 
 
- @checkstatus
+ 
 Scenario Outline: Negative flow- Missing auth token
   Given I am a merchant with missing auth token
   And I have a "<paymentid>"
@@ -44,7 +44,7 @@ Scenario Outline: Negative flow- Missing auth token
  |1.1      |
 
 
- @checkstatus
+ 
 Scenario Outline: Negative flow- Mandatory fields missing from header of the request
   Given I am an authorized merchant
   And I have a "<paymentid>"
@@ -56,7 +56,7 @@ Scenario Outline: Negative flow- Mandatory fields missing from header of the req
  |         |
 
 
-  @checkstatus
+  
  Scenario Outline: Negative flow- Invalid input parameters sent by the merchant
    Given I am an authorized merchant
    And I have a "<paymentid>"
@@ -69,7 +69,7 @@ Scenario Outline: Negative flow- Mandatory fields missing from header of the req
   |123 |
 
 
- @checkstatus
+ 
  Scenario Outline: Negative flow- Invalid traceid sent by the merchant
    Given I am an authorized merchant
    And I have a "<paymentid>"
@@ -83,7 +83,7 @@ Scenario Outline: Negative flow- Mandatory fields missing from header of the req
    |Getmoret-han3-6cha-ract-ersfortraceid|
 
 
- @checkstatus
+ 
  Scenario: Negative flow- Mandatory traceid missing from the header
    Given I am an authorized merchant
    And I have a "<paymentid>"
