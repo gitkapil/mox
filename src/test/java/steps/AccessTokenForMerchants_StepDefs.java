@@ -58,10 +58,10 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
     @Then("^it should be a valid JWT$")
     public void valid_jwt_token() {
 
-        Assert.assertNotNull("Generated access token is not valid", accessToken.retrieveClaimSet(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "jwks_uri")));
+        Assert.assertNotNull("Generated access token is not valid", accessToken.retrieveClaimSet(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "jwks_uri_idp")));
 
-        Assert.assertTrue("Claim Set not valid", accessToken.validateClaimSet(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "sandbox-api-application-id"),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "live-api-application-id")));
+        Assert.assertTrue("Claim Set not valid", accessToken.validateClaimSet(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "sandbox-api-application-server-id"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "live-api-application-server-id")));
 
     }
 

@@ -1,4 +1,4 @@
-Feature: Retieve Access Token - DRAG-310
+Feature: Retrieve Access Token - DRAG-310
 
 @functional @regression
 Scenario: Positive flow- A valid merchant recieves a valid access token
