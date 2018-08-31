@@ -122,6 +122,16 @@ public class OpenIdConfigForPEAK implements BaseStep {
         return null;
     }
 
+    public String useInJWKSResponse(){
+
+        try{
+            return keysValue.get(0).get("use");
+        }
+        catch (NullPointerException e){}
+
+        return null;
+    }
+
 
 
 

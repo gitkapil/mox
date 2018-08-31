@@ -28,7 +28,7 @@ public class PaymentStatus_StepDefs implements BaseStep {
     @Then("^I should recieve a successful check status response$")
     public void i_should_recieve_a_successful_check_status_response() {
         logger.info("********** Retrieving Payment Request Status ***********");
-        Assert.assertEquals(restHelper.getResponseStatusCode(paymentStatus.getPaymentStatusResponse()), 200,"Check Payment Request was not successful!");
+        Assert.assertEquals(restHelper.getResponseStatusCode(paymentStatus.getPaymentStatusResponse()), 200,"Check Payment Status was not successful!");
 
     }
 

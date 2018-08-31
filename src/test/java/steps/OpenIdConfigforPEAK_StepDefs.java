@@ -53,6 +53,7 @@ public class OpenIdConfigforPEAK_StepDefs implements BaseStep {
 
         Assert.assertEquals(openIdConfig.algInJWKSResponse(), "RS256", "Value for alg supported within JWKS URI response is incorrect!");
         Assert.assertEquals(openIdConfig.ktyInJWKSResponse(), "RSA", "Value for kty within JWKS URI response is incorrect!");
+        Assert.assertEquals(openIdConfig.useInJWKSResponse(), "sig", "Value for use within JWKS URI response is incorrect!");
 
 
     }
