@@ -3,12 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="0ddca06a-56a4-4f1e-bf32-826353e49203" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/apiHelpers/OpenIdConfigForPEAK.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/apiHelpers/OpenIdConfigForPEAK.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/steps/OpenIdConfigforPEAK_StepDefs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/steps/OpenIdConfigforPEAK_StepDefs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/steps/PaymentRequest_StepDefs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/steps/PaymentRequest_StepDefs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/steps/PaymentStatus_StepDefs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/steps/PaymentStatus_StepDefs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/apiHelpers/PaymentRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/apiHelpers/PaymentRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/features/OpenIdConfigforPEAK.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/OpenIdConfigforPEAK.feature" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -24,20 +20,32 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="PaymentRequest.feature" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/resources/features/PaymentRequest.feature">
+      <file leaf-file-name="AccessTokenForMerchants.feature" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="427">
-              <caret line="160" column="20" lean-forward="true" selection-start-line="160" selection-start-column="20" selection-end-line="160" selection-end-column="20" />
+            <state relative-caret-position="240">
+              <caret line="16" selection-start-line="16" selection-end-line="16" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sit.properties" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/resources/configs/sit.properties">
+      <file leaf-file-name="PaymentRequest.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/apiHelpers/PaymentRequest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="28" selection-start-line="12" selection-start-column="28" selection-end-line="12" selection-end-column="28" />
+            <state relative-caret-position="236">
+              <caret line="118" column="9" selection-start-line="118" selection-start-column="9" selection-end-line="118" selection-end-column="9" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OpenIdConfigforPEAK.feature" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/resources/features/OpenIdConfigforPEAK.feature">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="8" column="11" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="11" />
             </state>
           </provider>
         </entry>
@@ -51,48 +59,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RestHelper.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/utils/RestHelper.java">
+      <file leaf-file-name="sit.properties" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/resources/configs/sit.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2580">
-              <caret line="182" selection-start-line="182" selection-end-line="182" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AccessTokenForMerchants.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/apiHelpers/AccessTokenForMerchants.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3900">
-              <caret line="295" column="29" selection-start-line="295" selection-start-column="29" selection-end-line="295" selection-end-column="29" />
-              <folding>
-                <element signature="e#7599#7600#0" expanded="true" />
-                <element signature="e#7641#7642#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AccessTokenForMerchants_StepDefs.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="94" column="165" selection-start-line="94" selection-start-column="158" selection-end-line="94" selection-end-column="165" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="OpenIdConfigforPEAK_StepDefs.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/steps/OpenIdConfigforPEAK_StepDefs.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="277">
-              <caret line="54" column="57" selection-start-line="54" selection-start-column="57" selection-end-line="54" selection-end-column="57" />
+            <state relative-caret-position="315">
+              <caret line="21" selection-start-line="21" selection-end-line="21" />
             </state>
           </provider>
         </entry>
@@ -100,8 +71,8 @@
       <file leaf-file-name="PaymentRequest_StepDefs.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/steps/PaymentRequest_StepDefs.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="127" column="117" selection-start-line="127" selection-start-column="110" selection-end-line="127" selection-end-column="117" />
+            <state relative-caret-position="630">
+              <caret line="51" column="169" selection-start-line="51" selection-start-column="162" selection-end-line="51" selection-end-column="169" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -109,20 +80,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PaymentStatus_StepDefs.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="PaymentStatus_StepDefs.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/steps/PaymentStatus_StepDefs.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="222">
-              <caret line="72" column="81" lean-forward="true" selection-start-line="72" selection-start-column="81" selection-end-line="72" selection-end-column="81" />
+            <state relative-caret-position="1245">
+              <caret line="92" column="1" selection-start-line="92" selection-start-column="1" selection-end-line="92" selection-end-column="1" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="playpen.properties" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/resources/configs/playpen.properties">
+      <file leaf-file-name="AccessTokenForMerchants_StepDefs.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="16" selection-start-line="16" selection-end-line="17" selection-end-column="71" />
+            <state relative-caret-position="555">
+              <caret line="42" column="168" selection-start-line="42" selection-start-column="168" selection-end-line="42" selection-end-column="168" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -222,7 +196,6 @@
         <option value="$PROJECT_DIR$/src/main/java/apiHelpers/Refund.java" />
         <option value="$PROJECT_DIR$/src/main/java/extras/Transaction.java" />
         <option value="$PROJECT_DIR$/src/test/resources/features/Refund.feature" />
-        <option value="$PROJECT_DIR$/src/main/java/apiHelpers/PaymentRequest.java" />
         <option value="$PROJECT_DIR$/src/test/java/steps/CheckStatus_StepDefs.java" />
         <option value="$PROJECT_DIR$/src/test/java/steps/Refund_StepDefs.java" />
         <option value="$PROJECT_DIR$/src/test/java/steps/Hooks.java" />
@@ -230,7 +203,6 @@
         <option value="$PROJECT_DIR$/src/main/java/utils/BaseStep.java" />
         <option value="$PROJECT_DIR$/src/main/java/utils/RestHelper.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/test/resources/features/OpenIdConfigforPEAK.feature" />
         <option value="$PROJECT_DIR$/src/test/resources/features/PaymentRequest.feature" />
         <option value="$PROJECT_DIR$/src/test/resources/features/CheckStatus.feature" />
         <option value="$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature" />
@@ -245,6 +217,8 @@
         <option value="$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java" />
         <option value="$PROJECT_DIR$/src/test/java/steps/PaymentRequest_StepDefs.java" />
         <option value="$PROJECT_DIR$/src/test/java/steps/PaymentStatus_StepDefs.java" />
+        <option value="$PROJECT_DIR$/src/test/resources/features/OpenIdConfigforPEAK.feature" />
+        <option value="$PROJECT_DIR$/src/main/java/apiHelpers/PaymentRequest.java" />
       </list>
     </option>
   </component>
@@ -433,7 +407,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Maven.TrialTests">
+  <component name="RunManager" selected="Maven.Sit Regression v0.4">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     </configuration>
@@ -494,7 +468,7 @@
                 <option value="verify" />
                 <option value="-Pregression" />
                 <option value="-Denv=playpen" />
-                <option value="-Dversion=v0.3" />
+                <option value="-Dversion=v0.4" />
               </list>
             </option>
             <option name="pomFileName" />
@@ -630,8 +604,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1507" y="46" width="1610" height="1031" extended-state="0" />
-    <editor active="true" />
+    <frame x="1524" y="81" width="1440" height="931" extended-state="0" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -639,13 +612,13 @@
       <window_info id="Image Layers" order="2" />
       <window_info anchor="right" id="Capture Analysis" order="4" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="right" id="Maven Projects" order="6" visible="true" weight="0.09813665" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.49634275" />
+      <window_info anchor="right" id="Maven Projects" order="6" visible="true" weight="0.10972222" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.51108515" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info id="Capture Tool" order="6" />
       <window_info id="Designer" order="3" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49923664" visible="true" weight="0.2720497" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49923664" visible="true" weight="0.30416667" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32684824" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -653,12 +626,32 @@
       <window_info anchor="right" id="Theme Preview" order="5" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39982578" />
       <window_info id="Favorites" order="5" sideWeight="0.50076336" side_tool="true" weight="0.18057922" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info id="Designer" order="3" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Capture Analysis" order="4" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Messages" order="9" weight="1.0" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49923664" visible="true" weight="0.2720497" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.49634275" />
+      <window_info id="Image Layers" order="2" />
+      <window_info id="Capture Tool" order="6" />
+      <window_info id="UI Designer" order="4" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32684824" />
+      <window_info anchor="right" id="Theme Preview" order="5" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39982578" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info anchor="right" id="Maven Projects" order="6" visible="true" weight="0.09813665" />
+      <window_info id="Favorites" order="5" sideWeight="0.50076336" side_tool="true" weight="0.18057922" />
     </layout>
   </component>
   <component name="UnknownFeatures">
@@ -795,8 +788,8 @@
     <entry file="file://$PROJECT_DIR$/src/test/resources/features/CheckStatus.feature" />
     <entry file="file://$PROJECT_DIR$/src/test/resources/configs/ci.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="18" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
+        <state relative-caret-position="135">
+          <caret line="9" column="72" lean-forward="true" selection-start-line="9" selection-start-column="72" selection-end-line="9" selection-end-column="72" />
         </state>
       </provider>
     </entry>
@@ -814,41 +807,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="810">
-          <caret line="54" column="23" selection-start-line="54" selection-start-column="23" selection-end-line="54" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/apiHelpers/PaymentRequest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3810">
-          <caret line="290" selection-start-line="290" selection-end-line="290" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/features/OpenIdConfigforPEAK.feature">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="23" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1695">
           <caret line="113" column="26" selection-start-line="113" selection-start-column="26" selection-end-line="113" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1335">
-          <caret line="89" column="32" selection-start-line="89" selection-start-column="32" selection-end-line="89" selection-end-column="32" />
         </state>
       </provider>
     </entry>
@@ -887,34 +849,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/configs/sit.properties">
+    <entry file="file://$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="28" selection-start-line="12" selection-start-column="28" selection-end-line="12" selection-end-column="28" />
+        <state relative-caret-position="240">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java">
+    <entry file="file://$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="94" column="165" selection-start-line="94" selection-start-column="158" selection-end-line="94" selection-end-column="165" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/steps/OpenIdConfigforPEAK_StepDefs.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="54" column="57" selection-start-line="54" selection-start-column="57" selection-end-line="54" selection-end-column="57" />
+        <state relative-caret-position="1335">
+          <caret line="89" column="32" selection-start-line="89" selection-start-column="32" selection-end-line="89" selection-end-column="32" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/steps/PaymentRequest_StepDefs.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="127" column="117" selection-start-line="127" selection-start-column="110" selection-end-line="127" selection-end-column="117" />
+        <state relative-caret-position="630">
+          <caret line="51" column="169" selection-start-line="51" selection-start-column="162" selection-end-line="51" selection-end-column="169" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -923,8 +875,49 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/steps/PaymentStatus_StepDefs.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="72" column="81" lean-forward="true" selection-start-line="72" selection-start-column="81" selection-end-line="72" selection-end-column="81" />
+        <state relative-caret-position="1245">
+          <caret line="92" column="1" selection-start-line="92" selection-start-column="1" selection-end-line="92" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="555">
+          <caret line="42" column="168" selection-start-line="42" selection-start-column="168" selection-end-line="42" selection-end-column="168" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/steps/OpenIdConfigforPEAK_StepDefs.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="268">
+          <caret line="54" column="57" selection-start-line="54" selection-start-column="57" selection-end-line="54" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/configs/sit.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/features/OpenIdConfigforPEAK.feature">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="11" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/apiHelpers/PaymentRequest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="236">
+          <caret line="118" column="9" selection-start-line="118" selection-start-column="9" selection-end-line="118" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
