@@ -1,7 +1,7 @@
 Feature: Check Status - DRAG- 178
 
 Background: Retrieving access Token
-Given I am a merchant
+Given I am a developer
 When I make a request to the Dragon ID Manager
 Then I recieve an access_token
 
@@ -74,7 +74,7 @@ Scenario Outline: Negative flow- Invalid auth token
  |Signature validation failed |TokenInvalidSignature  |eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c|
 
 
-@checkstatus @regression @trial
+@checkstatus @regression
 Scenario Outline: Negative flow- Invalid PaymentIds sent in the request
   Given I am an authorized merchant
   And I have valid payment details

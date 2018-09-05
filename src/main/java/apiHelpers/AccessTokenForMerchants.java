@@ -22,10 +22,29 @@ import static com.jayway.restassured.config.RestAssuredConfig.config;
 
 public class AccessTokenForMerchants implements BaseStep {
     final static Logger logger = Logger.getLogger(AccessTokenForMerchants.class);
-    private String clientId, clientSecret, appId;
+    private String clientId, clientSecret, appId, type, endpoint;
+
     RequestSpecification request=null;
 
+    public String getType() {
+        return type;
+    }
+
+    public String getEndpoint() {
+        return endpoint;
+    }
+
+    public void setEndpoint(String endpoint) {
+        this.endpoint = endpoint;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     Response accessTokenResponse=null;  JWTClaimsSet accessTokenClaimSet=null;
+
+
 
     public JWTClaimsSet getAccessTokenClaimSet() {
         return accessTokenClaimSet;
@@ -276,35 +295,50 @@ public class AccessTokenForMerchants implements BaseStep {
 
     /**
      *
-     * @returns true only if the claim set has the following:
-     * - aud should be equals to the app id
-     * - roles should have "developer/ merchant"
+     * @returns if the role within claim set is developer or merchant
      */
-    public boolean validateClaimSet(String sandboxServerAppId, String merchantServerAppId){
-        String appId= null;
-        try {
-            List<String> aud= accessTokenClaimSet.getStringListClaim("aud");
-            List<String> roles=  accessTokenClaimSet.getStringListClaim("roles");
+    public String checkDevOrMerchantRoleInClaimSet(){
+        String role= "nothing Provisioned";
 
-            logger.info("Aud: " +aud.get(0));
+        try {
+            List<String> roles= accessTokenClaimSet.getStringListClaim("roles");
 
             if(roles.contains("developer"))
-                appId= sandboxServerAppId;
+            {
+                 return "developer";
+            }
             else if (roles.contains("merchant"))
-                appId= merchantServerAppId;
+            {
+                 return "merchant";
+            }
             else
-                return false;
-
-            logger.info("App Id: "+ appId);
-
-            if (aud.get(0).equals(appId))
-                return true;
+                return "no \"developer\" or \"merchant\" role present within roles";
 
         } catch (ParseException e) {
-            return false;
+            return e.getMessage();
+        }
+        catch (NullPointerException e) {
+            return "no \"developer\" or \"merchant\" role present within roles";
         }
 
-      return false;
+    }
+
+    /**
+     *
+     * @returns aud's value within claim set
+     */
+    public String retrieveAudInClaimSet(){
+
+        try {
+            List<String> aud= accessTokenClaimSet.getStringListClaim("aud");
+            return aud.get(0);
+
+        } catch (ParseException e) {
+            return e.getMessage();
+        }
+        catch (NullPointerException e) {
+            return "no aud found within claim set";
+        }
 
     }
 

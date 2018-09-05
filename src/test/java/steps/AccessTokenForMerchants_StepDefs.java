@@ -17,8 +17,38 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
     @Given("^I am a merchant$")
     public void i_am_a_merchant() {
 
+        accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "merchant-client-id"),
+                                       fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "merchant-client-secret"));
+
+
+        accessToken.setType("merchant");
+
+        if (System.getProperty("env").equals("playpen"))
+            accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path"));
+        else
+            accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_1")
+                +accessToken.getType()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_2")
+                +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
+
+        accessToken.createBody_RetrieveAccessToken();
+
+
+    }
+
+    @Given("^I am a developer")
+    public void i_am_a_developer() {
+
         accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "developer-client-id"),
-                                       fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "developer-client-secret"));
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "developer-client-secret"));
+
+        accessToken.setType("sandbox");
+
+        if (System.getProperty("env").equals("playpen"))
+            accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path"));
+        else
+            accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_1")
+                +accessToken.getType()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_2")
+                +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
 
         accessToken.createBody_RetrieveAccessToken();
 
@@ -40,7 +70,7 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
     @When("^I make a request to the Dragon ID Manager$")
     public void i_make_a_request_to_the_Dragon_ID_Manager()  {
         logger.info("********** Retrieving Access Token***********");
-        accessToken.retrieveAccessToken(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path") +System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+        accessToken.retrieveAccessToken(accessToken.getEndpoint() +System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
 
     }
 
@@ -48,10 +78,8 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
 
     @Then("^I recieve an access_token$")
     public void i_recieve_a_valid_access_token() {
-
         Assert.assertEquals("Access Token Not generated. Error Description: "+ accessToken.getAccessTokenResponse().path("error_description"), 200,accessToken.getAccessTokenResponse().getStatusCode());
 
-        //logger.info("Access Token--> "+ accessToken.getAccessToken());
 
     }
 
@@ -59,9 +87,6 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
     public void valid_jwt_token() {
 
         Assert.assertNotNull("Generated access token is not valid", accessToken.retrieveClaimSet(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "jwks_uri_idp")));
-
-        Assert.assertTrue("Claim Set not valid", accessToken.validateClaimSet(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "sandbox-server-application-id"),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "merchant-server-application-id")));
 
     }
 
@@ -108,6 +133,60 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
     }
 
 
+    @Then("^I should recieve a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within token response$")
+    public void i_should_recieve_a_error_response_with_error_description_and_errorcode_within_token_response(String responseCode, String errorDesc, String errorCode) {
+        Assert.assertEquals("Different response code being returned ",restHelper.getResponseStatusCode(accessToken.getAccessTokenResponse()), responseCode);
+
+        Assert.assertEquals(restHelper.getErrorCode(accessToken.getAccessTokenResponse()), errorCode,"Different error code being returned");
+
+        Assert.assertTrue("Different error description being returned..Expected: "+ errorDesc+ "Actual: "+ restHelper.getErrorDescription(accessToken.getAccessTokenResponse()), restHelper.getErrorDescription(accessToken.getAccessTokenResponse()).contains(errorDesc));
+
+    }
+
+    @Then("^error message should be \"([^\"]*)\" within token response$")
+    public void error_message_should_be_within_token_response(String errorMessage)  {
+       Assert.assertTrue("Different error message being returned", restHelper.getErrorMessage(accessToken.getAccessTokenResponse()).contains(errorMessage) );
+
+    }
+
+    @When("^I make a request to the sandbox Dragon ID Manager$")
+    public void i_make_a_request_to_the_sandbox_Dragon_ID_Manager() {
+        accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_1")
+                    +"sandbox"+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_2")
+                    +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
+
+        logger.info("********** Retrieving Access Token***********");
+        accessToken.retrieveAccessToken(accessToken.getEndpoint() +System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+
+    }
+
+    @When("^I make a request to the merchant Dragon ID Manager$")
+    public void i_make_a_request_to_the_merchant_Dragon_ID_Manager() {
+        accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_1")
+                    +"merchant"+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_2")
+                    +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
+
+        logger.info("********** Retrieving Access Token***********");
+        accessToken.retrieveAccessToken(accessToken.getEndpoint() +System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+
+    }
+
+    @Then("^the role should be \"([^\"]*)\"$")
+    public void the_role_should_be(String expectedRole) {
+      Assert.assertEquals("Role is not developer!", expectedRole, accessToken.checkDevOrMerchantRoleInClaimSet());
+    }
+
+    @Then("^the aud should be sandbox server app id$")
+    public void the_aud_should_be_sandbox_server_app_id() {
+        Assert.assertEquals("Incorrect Aud", fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "sandbox-server-application-id"), accessToken.retrieveAudInClaimSet());
+
+    }
+
+    @Then("^the aud should be merchant server app id$")
+    public void the_aud_should_be_merchant_server_app_id() {
+        Assert.assertEquals("Incorrect Aud", fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "merchant-server-application-id"), accessToken.retrieveAudInClaimSet());
+
+    }
 
 }
 

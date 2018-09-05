@@ -17,7 +17,7 @@ public class Hooks implements BaseStep {
       String generalPropertiesFilePath=System.getProperty("user.dir")+"/src/test/resources/configs/"+System.getProperty("env")+".properties";
       generalProperties= fileHelper.loadPropertiesFile(generalPropertiesFilePath);
 
-      restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(generalProperties, "Base_URI"));
+     // restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(generalProperties, "Base_URI"));
 
     }
 

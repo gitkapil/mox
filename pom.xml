@@ -6,7 +6,7 @@
 
     <groupId>com.dragon.test.harness</groupId>
     <artifactId>dragon</artifactId>
-    <version>0.4</version>
+    <version>0.5</version>
 
     <dependencies>
 

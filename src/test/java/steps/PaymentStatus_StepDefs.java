@@ -22,7 +22,7 @@ public class PaymentStatus_StepDefs implements BaseStep {
     public void i_make_a_request_for_the_check_status(){
         paymentStatus.setTraceId(general.generateUniqueUUID());
 
-        paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "check_payment_status_path"));
+        paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "check_payment_status_resource"));
     }
 
     @Then("^I should recieve a successful check status response$")
@@ -66,7 +66,7 @@ public class PaymentStatus_StepDefs implements BaseStep {
     @When("^I make a request for the payment status with \"([^\"]*)\" missing in the header$")
     public void i_make_a_request_for_the_payment_status_with_missing_in_the_header(String key)  {
         paymentStatus.setTraceId(general.generateUniqueUUID());
-        paymentStatus.retrievePaymentStatusWithMissingHeaderKeys(restHelper.getBaseURI()+System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "check_payment_status_path"), key);
+        paymentStatus.retrievePaymentStatusWithMissingHeaderKeys(restHelper.getBaseURI()+System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "check_payment_status_resource"), key);
 
     }
 

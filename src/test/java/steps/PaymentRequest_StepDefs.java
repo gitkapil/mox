@@ -20,11 +20,19 @@ public class PaymentRequest_StepDefs implements BaseStep {
     @Given("^I am an authorized merchant$")
     public void i_am_an_authorized_merchant()  {
 
-      paymentRequest.setAuthToken(accessToken.getAccessToken());
-      paymentRequest.setAuthTokenwithBearer(paymentRequest.getAuthToken());
+        paymentRequest.setAuthToken(accessToken.getAccessToken());
+        paymentRequest.setAuthTokenwithBearer(paymentRequest.getAuthToken());
 
         paymentStatus.setAuthToken(accessToken.getAccessToken());
         paymentStatus.setAuthTokenwithBearer();
+
+        if (System.getProperty("env").equals("playpen"))
+            restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI"));
+        else
+            restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_1")
+                    +accessToken.getType()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_2")
+                    +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
+
 
     }
 
@@ -39,40 +47,16 @@ public class PaymentRequest_StepDefs implements BaseStep {
 
     @Given("^I am a merchant with invalid \"([^\"]*)\"$")
     public void i_am_a_merchant_with_invalid_token(String token)  {
-        if (token.equals("need_to_generate_it_with_invalid_appid")){
+        paymentRequest.setAuthToken(token);
+        paymentRequest.setAuthTokenwithBearer(paymentRequest.getAuthToken());
 
-            System.out.println("Here- invalid appid!!");
-            System.out.println("clientid 3: "+ fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "developer-client-id-3"));
-            System.out.println("clientsecret 3: "+ fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "developer-client-secret-3"));
-
-            accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "developer-client-id-3"),
-                    fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "developer-client-secret-3"));
-            accessToken.createBody_RetrieveAccessToken();
-
-            accessToken.retrieveAccessToken(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path")+System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
-            paymentRequest.setAuthToken(accessToken.getAccessToken());
-            paymentRequest.setAuthTokenwithBearer(paymentRequest.getAuthToken());
-
-        }
-        else if (token.equals("need_to_generate_it_with_invalid_roles")){
-            System.out.println("Here- invalid roles!!");
-            System.out.println("clientid 2: "+ fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "developer-client-id-2"));
-            System.out.println("clientsecret 2: "+ fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "developer-client-secret-2"));
-
-            accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "developer-client-id-2"),
-                    fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "developer-client-secret-2"));
-            accessToken.createBody_RetrieveAccessToken();
-
-            accessToken.retrieveAccessToken(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path")+System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
-            paymentRequest.setAuthToken(accessToken.getAccessToken());
-            paymentRequest.setAuthTokenwithBearer(paymentRequest.getAuthToken());
-
-        }
+        if (System.getProperty("env").equals("playpen"))
+            restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI"));
         else
-        {
-            paymentRequest.setAuthToken(token);
-            paymentRequest.setAuthTokenwithBearer(paymentRequest.getAuthToken());
-        }
+            restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_1")
+                    +accessToken.getType()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_2")
+                    +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
+
     }
 
     @Given("^I have payment details \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$")
@@ -116,13 +100,13 @@ public class PaymentRequest_StepDefs implements BaseStep {
     @When("^I make a request for the payment$")
     public void i_make_a_request_for_the_payment()  {
         logger.info("********** Creating Payment Request ***********");
-        paymentRequest.retrievePaymentRequest(restHelper.getBaseURI()+System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_path"));
+        paymentRequest.retrievePaymentRequest(restHelper.getBaseURI()+System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"));
         
     }
 
     @When("^I make a request for the payment with \"([^\"]*)\" missing in the header$")
     public void i_make_a_request_for_the_payment_with_missing_in_the_header(String key)  {
-        paymentRequest.retrievePaymentRequestWithMissingHeaderKeys(restHelper.getBaseURI()+System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_path"), key);
+        paymentRequest.retrievePaymentRequestWithMissingHeaderKeys(restHelper.getBaseURI()+System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"), key);
 
     }
 
