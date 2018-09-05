@@ -136,7 +136,7 @@
       <find>@checkstatus</find>
       <find>need_to_generate_it_with_invalid_roles</find>
       <find>@payment</find>
-      <find>@checkstatus @regression</find>
+      <find />
       <find>sandbox-api-app</find>
       <find>jwks_uri</find>
       <find>validate</find>
@@ -149,9 +149,9 @@
       <replace>&quot;&lt;effectiveduration&gt;&quot;,&quot;&lt;returnURL&gt;&quot;</replace>
       <replace>checkStatus</replace>
       <replace>refund</replace>
-      <replace>@functional @regression</replace>
-      <replace>@checkstatus @regression</replace>
-      <replace>@payment @regression</replace>
+      <replace />
+      <replace />
+      <replace />
     </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$</dir>
@@ -494,7 +494,7 @@
               <list>
                 <option value="verify" />
                 <option value="-Pregression" />
-                <option value="-Denv=sit" />
+                <option value="-Denv=ci" />
                 <option value="-Dversion=v0.4" />
               </list>
             </option>
