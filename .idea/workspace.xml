@@ -158,7 +158,7 @@
       <find>@checkstatus</find>
       <find>need_to_generate_it_with_invalid_roles</find>
       <find>@payment</find>
-      <find>@checkstatus @regression</find>
+      <find />
       <find>sandbox-api-app</find>
       <find>jwks_uri</find>
       <find>validate</find>
@@ -170,10 +170,10 @@
       <find>setT</find>
       <find>setTyp</find>
       <find>playpen</find>
-      <find>Given I am an authorized merchant</find>
-      <find>I am an authorized merchant</find>
+      <find />
+      <find />
       <find>version</find>
-      <find>Connection refused (Connection refused)</find>
+      <find />
     </findStrings>
     <replaceStrings>
       <replace>\</replace>
@@ -181,11 +181,11 @@
       <replace>&quot;&lt;effectiveduration&gt;&quot;,&quot;&lt;returnURL&gt;&quot;</replace>
       <replace>checkStatus</replace>
       <replace>refund</replace>
-      <replace>@functional @regression</replace>
-      <replace>@checkstatus @regression</replace>
-      <replace>@payment @regression</replace>
-      <replace>Given I am an authorized user</replace>
-      <replace>I am an authorized user</replace>
+      <replace />
+      <replace />
+      <replace />
+      <replace />
+      <replace />
     </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$</dir>
