@@ -325,6 +325,33 @@ public class AccessTokenForMerchants implements BaseStep {
 
     /**
      *
+     * @returns if the role within claim set has paymentrequest
+     */
+    public boolean isPaymentRequestRolePresentInClaimSet(){
+        try {
+            List<String> roles= accessTokenClaimSet.getStringListClaim("roles");
+
+            if(roles.contains("paymentrequest"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        } catch (ParseException e) {
+            return false;
+        }
+        catch (NullPointerException e) {
+            return false;
+        }
+
+    }
+
+
+    /**
+     *
      * @returns aud's value within claim set
      */
     public String retrieveAudInClaimSet(){

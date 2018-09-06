@@ -1,14 +1,14 @@
 Feature: Payment Request API- DRAG-301
 
 Background: Retrieving access Token
-Given I am a developer
+Given I am an user
 When I make a request to the Dragon ID Manager
 Then I recieve an access_token
 
 # For the parametres where values are missing within the table, while creating request, the parameter will not be included at all as a a part of the payload
 @payment @regression
 Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs
-  Given I am an authorized merchant
+  Given I am an authorized user
   And I have payment details "<merchantid>", "<totalamount>","<currency>","<notificationURL>"
   And I have shopping cart details
   |sku            |name            |quantity|price |currency |category |
@@ -40,7 +40,7 @@ Examples:
 
 @payment @regression
 Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs without shopping cart
-  Given I am an authorized merchant
+  Given I am an authorized user
   And I have payment details "<merchantid>", "<totalamount>","<currency>","<notificationURL>"
   And I have merchant data "<description>", "<channel>","<orderId>","<effectiveDuration>"
   When I make a request for the payment
@@ -64,7 +64,7 @@ Examples:
 
 @payment @regression
 Scenario: Positive flow- A merchant is able to create a payment request with all the valid inputs without merchant data
-  Given I am an authorized merchant
+  Given I am an authorized user
   And I have valid payment details
   When I make a request for the payment
   Then I should recieve a successful payment response
@@ -74,7 +74,7 @@ Scenario: Positive flow- A merchant is able to create a payment request with all
 # For the parametres where value is "no_value" within the table, while creating request the parameter (key) will be included but will have no value
 @payment @regression
 Scenario Outline: Positive flow- A merchant is able to create a payment request where the non mandatory fields within body have no corresponding values in the payload
-  Given I am an authorized merchant
+  Given I am an authorized user
   And I have payment details "<merchantid>", "<totalamount>","<currency>","<notificationURL>"
   And I have merchant data "<description>", "<channel>","<orderId>","<effectiveDuration>"
   When I make a request for the payment
@@ -92,7 +92,7 @@ Examples:
 # For the parametres where value is "no_value" within the table, while creating request the parameter (key) will be included but will have no value
 @payment @regression
 Scenario Outline: Positive flow- A merchant is able to create a payment request where the non mandatory fields within shopping cart have no corresponding values in the payload
-  Given I am an authorized merchant
+  Given I am an authorized user
   And I have payment details "<merchantid>", "<totalamount>","<currency>","<notificationURL>"
   And I have shopping cart details
     |sku            |name            |quantity|price |currency |category |
@@ -112,7 +112,7 @@ Examples:
 
 @payment @regression
 Scenario: Negative flow- Invalid auth token (without Bearer in the header)
-  Given I am an authorized merchant
+  Given I am an authorized user
   And I dont send Bearer with the auth token
   And I have valid payment details
   When I make a request for the payment
@@ -122,7 +122,7 @@ Scenario: Negative flow- Invalid auth token (without Bearer in the header)
 
 @payment @regression
 Scenario Outline: Negative flow- Mandatory fields not sent in the header
-  Given I am an authorized merchant
+  Given I am an authorized user
   And I have valid payment details
   When I make a request for the payment with "<key>" missing in the header
   Then I should recieve a "<error_code>" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
@@ -156,7 +156,7 @@ Scenario Outline: Negative flow- Invalid auth token
 
 @payment @regression
 Scenario Outline: Negative flow- Peak error response parsed by DRAGON
-   Given I am an authorized merchant
+   Given I am an authorized user
    And I have payment details with "<invalid_value>" set for the "<parameter>"
    When I make a request for the payment
    Then I should recieve a "400" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
@@ -169,7 +169,7 @@ Scenario Outline: Negative flow- Peak error response parsed by DRAGON
 
 @payment @regression
 Scenario Outline: Negative flow- Mandatory fields from the body missing
-  Given I am an authorized merchant
+  Given I am an authorized user
   And I have payment details "<merchantid>", "<totalamount>","<currency>","<notificationURL>"
   When I make a request for the payment
   Then I should recieve a "400" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
@@ -185,7 +185,7 @@ Examples:
 
 
 Scenario Outline: Negative flow- TraceId's value missing from the header
-   Given I am an authorized merchant
+   Given I am an authorized user
    And I have valid payment details with no TraceId sent in the header
    When I make a request for the payment
    Then I should recieve a "400" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
@@ -197,7 +197,7 @@ Scenario Outline: Negative flow- TraceId's value missing from the header
 
 
 Scenario Outline: Negative flow- Request Date Time's value missing from the header
-   Given I am an authorized merchant
+   Given I am an authorized user
    And I have valid payment details with no Request Date Time sent in the header
    When I make a request for the payment
    Then I should recieve a "400" error response with "<error_description>" error description and "<error_code>" errorcode within payment response

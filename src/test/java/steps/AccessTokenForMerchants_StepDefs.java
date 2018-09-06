@@ -8,22 +8,39 @@ import org.junit.Assert;
 import utils.BaseStep;
 
 
-
-
 public class AccessTokenForMerchants_StepDefs implements BaseStep{
     final static Logger logger = Logger.getLogger(AccessTokenForMerchants_StepDefs.class);
 
 
-    @Given("^I am a merchant$")
-    public void i_am_a_merchant() {
+    @Given("^I am an user$")
+    public void i_am_an_user() {
+        try {
+            logger.info("********* User Type: " + System.getProperty("usertype") + " ****************");
 
-        accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "merchant-client-id"),
-                                       fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "merchant-client-secret"));
+            if (System.getProperty("usertype").equalsIgnoreCase("merchant")) {
+                logger.info("********* Hitting Merchant (Live) APIM ****************");
+
+                accessToken.setType("merchant");
+                accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "merchant-client-id"),
+                        fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "merchant-client-secret"));
+            } else {
+                logger.info("********* Hitting Sandbox APIM ****************");
+
+                accessToken.setType("sandbox");
+                accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "developer-client-id"),
+                        fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "developer-client-secret"));
+            }
+        }
+        catch (NullPointerException e){
+            logger.info("********* Hitting Sandbox APIM ****************");
+
+            accessToken.setType("sandbox");
+            accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "developer-client-id"),
+                    fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "developer-client-secret"));
+        }
 
 
-        accessToken.setType("merchant");
-
-        if (System.getProperty("env").equals("playpen"))
+        if (System.getProperty("env").equalsIgnoreCase("playpen"))
             accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path"));
         else
             accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_1")
@@ -32,27 +49,8 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
 
         accessToken.createBody_RetrieveAccessToken();
 
-
     }
 
-    @Given("^I am a developer")
-    public void i_am_a_developer() {
-
-        accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "developer-client-id"),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "developer-client-secret"));
-
-        accessToken.setType("sandbox");
-
-        if (System.getProperty("env").equals("playpen"))
-            accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path"));
-        else
-            accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_1")
-                +accessToken.getType()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_2")
-                +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
-
-        accessToken.createBody_RetrieveAccessToken();
-
-    }
 
     @Given("^I have \"([^\"]*)\" as client id$")
     public void i_have_as_client_id(String invalidClientId)  {
@@ -70,7 +68,8 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
     @When("^I make a request to the Dragon ID Manager$")
     public void i_make_a_request_to_the_Dragon_ID_Manager()  {
         logger.info("********** Retrieving Access Token***********");
-        accessToken.retrieveAccessToken(accessToken.getEndpoint() +System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+       // accessToken.retrieveAccessToken(accessToken.getEndpoint() +System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+        accessToken.retrieveAccessToken(accessToken.getEndpoint() +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
 
     }
 
@@ -117,7 +116,9 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
 
     @When("^I make a request to the Dragon ID Manager with body in JSON format$")
     public void i_make_a_request_to_the_Dragon_ID_Manager_with_body_in_JSON_format() {
-       accessToken.sendBodyInJsonFormat(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path") +System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+      // accessToken.sendBodyInJsonFormat(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path") +System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+        accessToken.sendBodyInJsonFormat(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path") +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+
     }
 
     @Then("^response should also have expiresOn, token type$")
@@ -149,44 +150,8 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
 
     }
 
-    @When("^I make a request to the sandbox Dragon ID Manager$")
-    public void i_make_a_request_to_the_sandbox_Dragon_ID_Manager() {
-        accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_1")
-                    +"sandbox"+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_2")
-                    +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
 
-        logger.info("********** Retrieving Access Token***********");
-        accessToken.retrieveAccessToken(accessToken.getEndpoint() +System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
 
-    }
-
-    @When("^I make a request to the merchant Dragon ID Manager$")
-    public void i_make_a_request_to_the_merchant_Dragon_ID_Manager() {
-        accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_1")
-                    +"merchant"+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_2")
-                    +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
-
-        logger.info("********** Retrieving Access Token***********");
-        accessToken.retrieveAccessToken(accessToken.getEndpoint() +System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
-
-    }
-
-    @Then("^the role should be \"([^\"]*)\"$")
-    public void the_role_should_be(String expectedRole) {
-      Assert.assertEquals("Role is not developer!", expectedRole, accessToken.checkDevOrMerchantRoleInClaimSet());
-    }
-
-    @Then("^the aud should be sandbox server app id$")
-    public void the_aud_should_be_sandbox_server_app_id() {
-        Assert.assertEquals("Incorrect Aud", fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "sandbox-server-application-id"), accessToken.retrieveAudInClaimSet());
-
-    }
-
-    @Then("^the aud should be merchant server app id$")
-    public void the_aud_should_be_merchant_server_app_id() {
-        Assert.assertEquals("Incorrect Aud", fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "merchant-server-application-id"), accessToken.retrieveAudInClaimSet());
-
-    }
 
 }
 

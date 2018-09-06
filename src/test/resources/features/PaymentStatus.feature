@@ -1,13 +1,13 @@
 Feature: Check Status - DRAG- 178
 
 Background: Retrieving access Token
-Given I am a developer
+Given I am an user
 When I make a request to the Dragon ID Manager
 Then I recieve an access_token
 
-@checkstatus @regression
+@checkstatus @regression @trial
 Scenario: Positive flow- A merchant is able to create a check status request with all the valid inputs
-  Given I am an authorized merchant
+  Given I am an authorized user
   And I have valid payment details
   And I make a request for the payment
   And I should recieve a successful payment response
@@ -19,7 +19,7 @@ Scenario: Positive flow- A merchant is able to create a check status request wit
 
 @checkstatus @regression
 Scenario: Negative flow- Invalid auth token (without Bearer in the header)
-  Given I am an authorized merchant
+  Given I am an authorized user
   And I have valid payment details
   And I make a request for the payment
   And I should recieve a successful payment response
@@ -32,7 +32,7 @@ Scenario: Negative flow- Invalid auth token (without Bearer in the header)
 
 @checkstatus @regression
 Scenario Outline: Negative flow- Mandatory fields not sent in the header
-  Given I am an authorized merchant
+  Given I am an authorized user
   And I have valid payment details
   And I make a request for the payment
   And I should recieve a successful payment response
@@ -50,7 +50,7 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the header
 
 @checkstatus @regression
 Scenario Outline: Negative flow- Invalid auth token
-  Given I am an authorized merchant
+  Given I am an authorized user
   And I have valid payment details
   When I make a request for the payment
   And I should recieve a successful payment response
@@ -76,11 +76,11 @@ Scenario Outline: Negative flow- Invalid auth token
 
 @checkstatus @regression
 Scenario Outline: Negative flow- Invalid PaymentIds sent in the request
-  Given I am an authorized merchant
+  Given I am an authorized user
   And I have valid payment details
   And I make a request for the payment
   And I should recieve a successful payment response
-  And I have a "<payment_id>"
+  And I have a payment id "<payment_id>"
   When I make a request for the check status
   Then I should recieve a "<response_code>" error response with "<error_description>" error description and "<error_code>" errorcode within check status response
   And error message should be "<error_message>" within check status response
@@ -94,8 +94,8 @@ Scenario Outline: Negative flow- Invalid PaymentIds sent in the request
 
 @checkstatus @regression
 Scenario Outline: Positive flow- A merchant is able to create a check status request with all the valid inputs
-  Given I am an authorized merchant
-  And I have a "<payment_id>"
+  Given I am an authorized user
+  And I have a payment id "<payment_id>"
   When I make a request for the check status
   Then I should recieve a successful check status response
   And the response body should contain correct "<status_description>" and "<status_code>"

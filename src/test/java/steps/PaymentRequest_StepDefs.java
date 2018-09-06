@@ -17,8 +17,8 @@ public class PaymentRequest_StepDefs implements BaseStep {
     final static Logger logger = Logger.getLogger(PaymentRequest_StepDefs.class);
     List<Response> paymentResponses= new ArrayList<Response>();
 
-    @Given("^I am an authorized merchant$")
-    public void i_am_an_authorized_merchant()  {
+    @Given("^I am an authorized user$")
+    public void i_am_an_authorized_user()  {
 
         paymentRequest.setAuthToken(accessToken.getAccessToken());
         paymentRequest.setAuthTokenwithBearer(paymentRequest.getAuthToken());
@@ -100,13 +100,15 @@ public class PaymentRequest_StepDefs implements BaseStep {
     @When("^I make a request for the payment$")
     public void i_make_a_request_for_the_payment()  {
         logger.info("********** Creating Payment Request ***********");
-        paymentRequest.retrievePaymentRequest(restHelper.getBaseURI()+System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"));
-        
+       // paymentRequest.retrievePaymentRequest(restHelper.getBaseURI()+System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"));
+        paymentRequest.retrievePaymentRequest(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"));
+
     }
 
     @When("^I make a request for the payment with \"([^\"]*)\" missing in the header$")
     public void i_make_a_request_for_the_payment_with_missing_in_the_header(String key)  {
-        paymentRequest.retrievePaymentRequestWithMissingHeaderKeys(restHelper.getBaseURI()+System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"), key);
+        //paymentRequest.retrievePaymentRequestWithMissingHeaderKeys(restHelper.getBaseURI()+System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"), key);
+        paymentRequest.retrievePaymentRequestWithMissingHeaderKeys(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"), key);
 
     }
 
