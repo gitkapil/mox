@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0ddca06a-56a4-4f1e-bf32-826353e49203" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/src/test/resources/configs/ci.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/configs/ci.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/resources/configs/sit.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/configs/sit.properties" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -85,8 +84,8 @@
       <file leaf-file-name="sit.properties" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/test/resources/configs/sit.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="69" selection-start-line="3" selection-start-column="69" selection-end-line="3" selection-end-column="69" />
+            <state relative-caret-position="285">
+              <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
             </state>
           </provider>
         </entry>
@@ -118,8 +117,12 @@
 >>>>>>> - Added test cases for security validation
 =======
             <state relative-caret-position="315">
+<<<<<<< HEAD
               <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
 >>>>>>> - updated sit.properties with test client app id accounts
+=======
+              <caret line="21" selection-start-line="21" selection-end-line="21" />
+>>>>>>> - Updated developer-client-id within sit.properties
             </state>
           </provider>
         </entry>
@@ -438,24 +441,24 @@
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/test/resources/configs" />
+      <recent name="$PROJECT_DIR$/src/test/resources" />
+      <recent name="$PROJECT_DIR$/src/test/java/features" />
+      <recent name="$PROJECT_DIR$/src/test/java/steps" />
+      <recent name="$PROJECT_DIR$/src/test" />
+    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/test/resources/features" />
-      <recent name="$PROJECT_DIR$/src/test/resources/configs" />
-      <recent name="$PROJECT_DIR$/src/test" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="steps" />
       <recent name="apiHelpers" />
       <recent name="utils" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/test/resources/features" />
       <recent name="$PROJECT_DIR$/src/test/resources/configs" />
-      <recent name="$PROJECT_DIR$/src/test/resources" />
-      <recent name="$PROJECT_DIR$/src/test/java/features" />
-      <recent name="$PROJECT_DIR$/src/test/java/steps" />
       <recent name="$PROJECT_DIR$/src/test" />
     </key>
   </component>
@@ -697,12 +700,12 @@
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49923664" visible="true" weight="0.27152777" />
 =======
       <window_info anchor="right" id="Maven Projects" order="6" visible="true" weight="0.09175377" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.36522755" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.40023336" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32905483" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info id="Capture Tool" order="6" />
       <window_info id="Designer" order="3" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49923664" visible="true" weight="0.2543554" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49923664" visible="true" weight="0.2543554" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32684824" />
 >>>>>>> - Added test cases for security validation
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -865,11 +868,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="158">
           <caret line="18" column="17" selection-start-line="18" selection-start-column="17" selection-end-line="18" selection-end-column="17" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#577#578#0" expanded="true" />
-            <element signature="e#622#623#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -916,7 +914,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/steps/PaymentRequest_StepDefs.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="630">
+        <state relative-caret-position="765">
           <caret line="51" selection-start-line="51" selection-end-line="51" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -935,6 +933,7 @@
       <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         <state relative-caret-position="261">
           <caret line="325" column="7" lean-forward="true" selection-start-line="325" selection-start-column="7" selection-end-line="325" selection-end-column="7" />
 =======
@@ -943,6 +942,9 @@
 >>>>>>> - Added test cases for security validation
 =======
         <state relative-caret-position="1245">
+=======
+        <state relative-caret-position="1320">
+>>>>>>> - Updated developer-client-id within sit.properties
           <caret line="95" column="1" selection-start-line="95" selection-start-column="1" selection-end-line="95" selection-end-column="1" />
 >>>>>>> - updated sit.properties with test client app id accounts
           <folding>
@@ -999,6 +1001,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/configs/ci.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1665">
@@ -1039,6 +1048,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/test/resources/configs/ci.properties">
       <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
@@ -1056,6 +1066,12 @@
         <state relative-caret-position="45">
           <caret line="3" column="69" selection-start-line="3" selection-start-column="69" selection-end-line="3" selection-end-column="69" />
 >>>>>>> - updated sit.properties with test client app id accounts
+=======
+    <entry file="file://$PROJECT_DIR$/src/test/resources/configs/sit.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
+>>>>>>> - Updated developer-client-id within sit.properties
         </state>
       </provider>
     </entry>
