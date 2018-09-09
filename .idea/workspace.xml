@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0ddca06a-56a4-4f1e-bf32-826353e49203" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/src/test/resources/configs/sit.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/configs/sit.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/steps/SecurityModelValidation_StepDefs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/steps/SecurityModelValidation_StepDefs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -23,6 +24,7 @@
           <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             <state relative-caret-position="261">
               <caret line="325" column="7" lean-forward="true" selection-start-line="325" selection-start-column="7" selection-end-line="325" selection-end-column="7" />
               <folding>
@@ -37,6 +39,9 @@
 >>>>>>> - Added test cases for security validation
 =======
             <state relative-caret-position="405">
+=======
+            <state relative-caret-position="15">
+>>>>>>> - updated the scenario description within feature file
               <caret line="27" column="36" selection-start-line="27" selection-start-column="7" selection-end-line="27" selection-end-column="36" />
 >>>>>>> - updated sit.properties with test client app id accounts
             </state>
@@ -44,16 +49,20 @@
         </entry>
       </file>
 <<<<<<< HEAD
+<<<<<<< HEAD
       <file leaf-file-name="Extras.feature" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/resources/features/Extras.feature">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="2085">
 =======
       <file leaf-file-name="SecurityModelValidation.feature" pinned="false" current-in-tab="false">
+=======
+      <file leaf-file-name="SecurityModelValidation.feature" pinned="false" current-in-tab="true">
+>>>>>>> - updated the scenario description within feature file
         <entry file="file://$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2415">
-              <caret line="161" selection-start-line="161" selection-end-line="161" />
+            <state relative-caret-position="-22">
+              <caret line="150" column="41" lean-forward="true" selection-start-line="150" selection-start-column="41" selection-end-line="150" selection-end-column="41" />
             </state>
           </provider>
         </entry>
@@ -74,6 +83,7 @@
       </file>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       <file leaf-file-name="sit.properties" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/test/resources/configs/sit.properties">
           <provider selected="true" editor-type-id="text-editor">
@@ -82,10 +92,13 @@
 =======
 =======
       <file leaf-file-name="sit.properties" pinned="false" current-in-tab="true">
+=======
+      <file leaf-file-name="sit.properties" pinned="false" current-in-tab="false">
+>>>>>>> - updated the scenario description within feature file
         <entry file="file://$PROJECT_DIR$/src/test/resources/configs/sit.properties">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="285">
-              <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
+              <caret line="19" selection-start-line="19" selection-end-line="19" />
             </state>
           </provider>
         </entry>
@@ -94,8 +107,8 @@
       <file leaf-file-name="SecurityModelValidation_StepDefs.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/steps/SecurityModelValidation_StepDefs.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1560">
-              <caret line="109" column="50" selection-start-line="109" selection-start-column="50" selection-end-line="109" selection-end-column="50" />
+            <state relative-caret-position="485">
+              <caret line="38" column="95" selection-start-line="38" selection-start-column="95" selection-end-line="38" selection-end-column="95" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -127,9 +140,22 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="PaymentRequest_StepDefs.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/steps/PaymentRequest_StepDefs.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="195">
+              <caret line="22" column="8" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="8" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="AccessTokenForMerchants_StepDefs.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
             <state relative-caret-position="2730">
@@ -141,6 +167,22 @@
 >>>>>>> - updated sit.properties with test client app id accounts
               <caret line="118" column="168" selection-start-line="118" selection-start-column="161" selection-end-line="118" selection-end-column="168" />
 >>>>>>> - Added test cases for security validation
+=======
+            <state relative-caret-position="527">
+              <caret line="49" column="53" lean-forward="true" selection-start-line="16" selection-start-column="8" selection-end-line="49" selection-end-column="53" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PaymentStatus_StepDefs.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/steps/PaymentStatus_StepDefs.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1365">
+              <caret line="95" column="1" selection-start-line="95" selection-start-column="1" selection-end-line="95" selection-end-column="1" />
+>>>>>>> - updated the scenario description within feature file
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -276,9 +318,9 @@
 >>>>>>> - Added test cases for security validation
         <option value="$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java" />
         <option value="$PROJECT_DIR$/src/main/java/apiHelpers/AccessTokenForMerchants.java" />
-        <option value="$PROJECT_DIR$/src/test/java/steps/SecurityModelValidation_StepDefs.java" />
         <option value="$PROJECT_DIR$/src/test/java/steps/PaymentStatus_StepDefs.java" />
         <option value="$PROJECT_DIR$/src/test/resources/features/Extras.feature" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature" />
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -294,6 +336,13 @@
         <option value="$PROJECT_DIR$/src/test/resources/configs/ci.properties" />
         <option value="$PROJECT_DIR$/src/test/resources/configs/sit.properties" />
 >>>>>>> - updated sit.properties with test client app id accounts
+=======
+        <option value="$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature" />
+        <option value="$PROJECT_DIR$/src/test/resources/configs/ci.properties" />
+        <option value="$PROJECT_DIR$/src/test/resources/configs/sit.properties" />
+        <option value="$PROJECT_DIR$/src/test/java/steps/SecurityModelValidation_StepDefs.java" />
+        <option value="$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature" />
+>>>>>>> - updated the scenario description within feature file
       </list>
     </option>
   </component>
@@ -317,11 +366,14 @@
     <option name="height" value="829" />
 =======
   <component name="ProjectFrameBounds">
-    <option name="x" value="1524" />
-    <option name="y" value="81" />
+    <option name="y" value="23" />
     <option name="width" value="1722" />
+<<<<<<< HEAD
     <option name="height" value="931" />
 >>>>>>> - Added test cases for security validation
+=======
+    <option name="height" value="832" />
+>>>>>>> - updated the scenario description within feature file
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
@@ -441,24 +493,24 @@
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/test/resources/configs" />
-      <recent name="$PROJECT_DIR$/src/test/resources" />
-      <recent name="$PROJECT_DIR$/src/test/java/features" />
-      <recent name="$PROJECT_DIR$/src/test/java/steps" />
-      <recent name="$PROJECT_DIR$/src/test" />
-    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/test/resources/features" />
+      <recent name="$PROJECT_DIR$/src/test/resources/configs" />
+      <recent name="$PROJECT_DIR$/src/test" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="steps" />
       <recent name="apiHelpers" />
       <recent name="utils" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/test/resources/features" />
+    <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/test/resources/configs" />
+      <recent name="$PROJECT_DIR$/src/test/resources" />
+      <recent name="$PROJECT_DIR$/src/test/java/features" />
+      <recent name="$PROJECT_DIR$/src/test/java/steps" />
       <recent name="$PROJECT_DIR$/src/test" />
     </key>
   </component>
@@ -474,7 +526,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Maven.Sit Regression v0.4">
+  <component name="RunManager" selected="Maven.TrialTests">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     </configuration>
@@ -589,7 +641,7 @@
               <list>
                 <option value="verify" />
                 <option value="-Ptrial" />
-                <option value="-Denv=ci" />
+                <option value="-Denv=sit" />
                 <option value="-Dversion=v0.4" />
                 <option value="-Dusertype=developer" />
               </list>
@@ -674,6 +726,7 @@
   </component>
   <component name="ToolWindowManager">
 <<<<<<< HEAD
+<<<<<<< HEAD
     <frame x="0" y="23" width="1440" height="829" extended-state="6" />
     <editor active="true" />
 =======
@@ -683,6 +736,9 @@
 =======
     <editor active="true" />
 >>>>>>> - updated sit.properties with test client app id accounts
+=======
+    <frame x="0" y="23" width="1722" height="832" extended-state="0" />
+>>>>>>> - updated the scenario description within feature file
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -700,7 +756,7 @@
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49923664" visible="true" weight="0.27152777" />
 =======
       <window_info anchor="right" id="Maven Projects" order="6" visible="true" weight="0.09175377" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.40023336" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.29683378" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32905483" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info id="Capture Tool" order="6" />
@@ -912,16 +968,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/steps/PaymentRequest_StepDefs.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="51" selection-start-line="51" selection-end-line="51" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/resources/features/PaymentRequest.feature">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="257">
@@ -929,8 +975,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/steps/PaymentStatus_StepDefs.java">
+    <entry file="file://$PROJECT_DIR$/src/test/resources/features/Extras.feature">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2085">
+          <caret line="139" selection-start-line="139" selection-end-line="139" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/configs/ci.properties">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -970,56 +1024,73 @@
 =======
 >>>>>>> - updated sit.properties with test client app id accounts
     <entry file="file://$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" column="36" selection-start-line="27" selection-start-column="7" selection-end-line="27" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2415">
-          <caret line="161" selection-start-line="161" selection-end-line="161" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/features/Extras.feature">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2085">
-          <caret line="139" selection-start-line="139" selection-end-line="139" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/steps/SecurityModelValidation_StepDefs.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1560">
-          <caret line="109" column="50" selection-start-line="109" selection-start-column="50" selection-end-line="109" selection-end-column="50" />
->>>>>>> - Added test cases for security validation
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/configs/ci.properties">
-      <provider selected="true" editor-type-id="text-editor">
+=======
         <state relative-caret-position="315">
           <caret line="21" selection-start-line="21" selection-end-line="21" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java">
+    <entry file="file://$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature">
+>>>>>>> - updated the scenario description within feature file
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1665">
-          <caret line="118" column="168" selection-start-line="118" selection-start-column="161" selection-end-line="118" selection-end-column="168" />
+        <state relative-caret-position="105">
+          <caret line="7" column="31" selection-start-line="7" selection-start-column="31" selection-end-line="7" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/configs/sit.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" selection-start-line="19" selection-end-line="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="27" column="36" selection-start-line="27" selection-start-column="7" selection-end-line="27" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/steps/PaymentStatus_StepDefs.java">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="1560">
+          <caret line="109" column="50" selection-start-line="109" selection-start-column="50" selection-end-line="109" selection-end-column="50" />
+>>>>>>> - Added test cases for security validation
+=======
+        <state relative-caret-position="1365">
+          <caret line="95" column="1" selection-start-line="95" selection-start-column="1" selection-end-line="95" selection-end-column="1" />
+>>>>>>> - updated the scenario description within feature file
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature">
+    <entry file="file://$PROJECT_DIR$/src/test/java/steps/PaymentRequest_StepDefs.java">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="22" column="8" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="8" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="49" column="53" lean-forward="true" selection-start-line="16" selection-start-column="8" selection-end-line="49" selection-end-column="53" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/steps/SecurityModelValidation_StepDefs.java">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
         <state relative-caret-position="2085">
@@ -1072,6 +1143,20 @@
         <state relative-caret-position="285">
           <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
 >>>>>>> - Updated developer-client-id within sit.properties
+=======
+        <state relative-caret-position="485">
+          <caret line="38" column="95" selection-start-line="38" selection-start-column="95" selection-end-line="38" selection-end-column="95" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-22">
+          <caret line="150" column="41" lean-forward="true" selection-start-line="150" selection-start-column="41" selection-end-line="150" selection-end-column="41" />
+>>>>>>> - updated the scenario description within feature file
         </state>
       </provider>
     </entry>
