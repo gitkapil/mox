@@ -2,17 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0ddca06a-56a4-4f1e-bf32-826353e49203" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/apiHelpers/AccessTokenForMerchants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/apiHelpers/AccessTokenForMerchants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/steps/PaymentRequest_StepDefs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/steps/PaymentRequest_StepDefs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/steps/PaymentStatus_StepDefs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/steps/PaymentStatus_StepDefs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/steps/SecurityModelValidation_StepDefs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/steps/SecurityModelValidation_StepDefs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/configs/ci.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/configs/ci.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/configs/playpen.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/configs/playpen.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/resources/configs/sit.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/configs/sit.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -142,6 +132,15 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="sit.properties" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/test/resources/configs/sit.properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="30">
+              <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="PaymentStatus.feature" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature">
           <provider selected="true" editor-type-id="text-editor">
@@ -170,7 +169,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="playpen.properties" pinned="false" current-in-tab="true">
+      <file leaf-file-name="playpen.properties" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/resources/configs/playpen.properties">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="345">
@@ -233,7 +232,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>getJsonArray</find>
       <find>Basic</find>
       <find>@functional</find>
       <find>@checkstatus</find>
@@ -263,6 +261,7 @@
       <find>andbox Dragon ID Manager</find>
       <find>@trial</find>
       <find>role is</find>
+      <find>role</find>
     </findStrings>
     <replaceStrings>
       <replace>\</replace>
@@ -369,14 +368,17 @@
         <option value="$PROJECT_DIR$/src/main/java/apiHelpers/AccessTokenForMerchants.java" />
         <option value="$PROJECT_DIR$/src/test/resources/configs/playpen.properties" />
         <option value="$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java" />
-        <option value="$PROJECT_DIR$/src/test/resources/configs/sit.properties" />
         <option value="$PROJECT_DIR$/src/test/resources/configs/ci.properties" />
         <option value="$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature" />
 <<<<<<< HEAD
 >>>>>>> - updated the scenario description within feature file
 =======
         <option value="$PROJECT_DIR$/src/test/java/steps/SecurityModelValidation_StepDefs.java" />
+<<<<<<< HEAD
 >>>>>>> - Added versioning back in
+=======
+        <option value="$PROJECT_DIR$/src/test/resources/configs/sit.properties" />
+>>>>>>> - Added values to the keys in the sit & ci properties file
       </list>
     </option>
   </component>
@@ -800,12 +802,12 @@
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49923664" visible="true" weight="0.27152777" />
 =======
       <window_info anchor="right" id="Maven Projects" order="6" visible="true" weight="0.09175377" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.33152175" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.33152175" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32905483" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info id="Capture Tool" order="6" />
       <window_info id="Designer" order="3" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49923664" visible="true" weight="0.2543554" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49923664" visible="true" weight="0.2543554" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32684824" />
 >>>>>>> - Added test cases for security validation
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -1087,13 +1089,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/configs/sit.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" column="33" selection-start-line="24" selection-start-column="33" selection-end-line="24" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/resources/configs/ci.properties">
       <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
@@ -1224,6 +1219,13 @@
         <state relative-caret-position="345">
           <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
 >>>>>>> - Added versioning back in
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/configs/sit.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
         </state>
       </provider>
     </entry>
