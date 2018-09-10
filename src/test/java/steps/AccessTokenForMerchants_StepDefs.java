@@ -68,8 +68,8 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
     @When("^I make a request to the Dragon ID Manager$")
     public void i_make_a_request_to_the_Dragon_ID_Manager()  {
         logger.info("********** Retrieving Access Token***********");
-       // accessToken.retrieveAccessToken(accessToken.getEndpoint() +System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
-        accessToken.retrieveAccessToken(accessToken.getEndpoint() +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+        accessToken.retrieveAccessToken(accessToken.getEndpoint() +System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+        //accessToken.retrieveAccessToken(accessToken.getEndpoint() +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
 
     }
 
@@ -116,8 +116,8 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
 
     @When("^I make a request to the Dragon ID Manager with body in JSON format$")
     public void i_make_a_request_to_the_Dragon_ID_Manager_with_body_in_JSON_format() {
-      // accessToken.sendBodyInJsonFormat(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path") +System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
-        accessToken.sendBodyInJsonFormat(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path") +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+       accessToken.sendBodyInJsonFormat(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path") +System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+      //  accessToken.sendBodyInJsonFormat(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path") +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
 
     }
 
@@ -146,7 +146,7 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
 
     @Then("^error message should be \"([^\"]*)\" within token response$")
     public void error_message_should_be_within_token_response(String errorMessage)  {
-       Assert.assertTrue("Different error message being returned", restHelper.getErrorMessage(accessToken.getAccessTokenResponse()).contains(errorMessage) );
+       Assert.assertTrue("Different error message being returne...Expected: "+ errorMessage+ "Actual: "+ restHelper.getErrorMessage(accessToken.getAccessTokenResponse()), restHelper.getErrorMessage(accessToken.getAccessTokenResponse()).contains(errorMessage) );
 
     }
 

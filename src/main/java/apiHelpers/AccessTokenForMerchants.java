@@ -331,7 +331,7 @@ public class AccessTokenForMerchants implements BaseStep {
         try {
             List<String> roles= accessTokenClaimSet.getStringListClaim("roles");
 
-            if(roles.contains("paymentrequest"))
+            if(roles.contains("paymentRequest"))
             {
                 return true;
             }
