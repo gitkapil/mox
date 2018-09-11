@@ -44,8 +44,8 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
             accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path"));
         else
             accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_1")
-                +accessToken.getType()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_2")
-                +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
+                    +accessToken.getType()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_2")
+                    +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
 
         accessToken.createBody_RetrieveAccessToken();
 
@@ -92,11 +92,10 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
     @Then("^I shouldnot recieve an access_token$")
     public void i_should_not_recieve_an_access_token() {
 
-       // Assert.assertNotEquals("Access Token generated", 200,response.getStatusCode());
 
-          Assert.assertNull("Access Token generated",accessToken.getAccessToken());
+        Assert.assertNull("Access Token generated",accessToken.getAccessToken());
 
-          logger.info("Response failed because of Error: "+ restHelper.getErrorMessage(accessToken.getAccessTokenResponse()));
+        logger.info("Response failed because of Error: "+ restHelper.getErrorMessage(accessToken.getAccessTokenResponse()));
 
 
     }

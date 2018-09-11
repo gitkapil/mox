@@ -7,8 +7,6 @@ import org.apache.log4j.Logger;
 import org.testng.Assert;
 import utils.BaseStep;
 
-
-
 public class PaymentStatus_StepDefs implements BaseStep {
 
     final static Logger logger = Logger.getLogger(PaymentStatus_StepDefs.class);
