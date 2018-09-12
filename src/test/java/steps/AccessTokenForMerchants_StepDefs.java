@@ -23,12 +23,28 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
                 accessToken.setType("merchant");
                 accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "merchant-client-id"),
                         fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "merchant-client-secret"));
+
+                if (System.getProperty("env").equalsIgnoreCase("playpen"))
+                    accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path"));
+                else
+                    accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_1")
+                            +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_2")
+                            +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
+
             } else {
                 logger.info("********* Hitting Sandbox APIM ****************");
 
                 accessToken.setType("sandbox");
                 accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "developer-client-id"),
                         fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "developer-client-secret"));
+
+                if (System.getProperty("env").equalsIgnoreCase("playpen"))
+                    accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path"));
+                else
+                    accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_1")
+                            +"sandbox-"+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_2")
+                            +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
+
             }
         }
         catch (NullPointerException e){
@@ -37,15 +53,15 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
             accessToken.setType("sandbox");
             accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "developer-client-id"),
                     fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "developer-client-secret"));
+
+            if (System.getProperty("env").equalsIgnoreCase("playpen"))
+                accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path"));
+            else
+                accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_1")
+                        +"sandbox-"+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_2")
+                        +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
+
         }
-
-
-        if (System.getProperty("env").equalsIgnoreCase("playpen"))
-            accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path"));
-        else
-            accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_1")
-                    +accessToken.getType()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_2")
-                    +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
 
         accessToken.createBody_RetrieveAccessToken();
 
@@ -68,8 +84,8 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
     @When("^I make a request to the Dragon ID Manager$")
     public void i_make_a_request_to_the_Dragon_ID_Manager()  {
         logger.info("********** Retrieving Access Token***********");
-        accessToken.retrieveAccessToken(accessToken.getEndpoint() +System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
-        //accessToken.retrieveAccessToken(accessToken.getEndpoint() +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+       // accessToken.retrieveAccessToken(accessToken.getEndpoint() +System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+        accessToken.retrieveAccessToken(accessToken.getEndpoint() +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
 
     }
 
@@ -115,8 +131,8 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
 
     @When("^I make a request to the Dragon ID Manager with body in JSON format$")
     public void i_make_a_request_to_the_Dragon_ID_Manager_with_body_in_JSON_format() {
-       accessToken.sendBodyInJsonFormat(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path") +System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
-      //  accessToken.sendBodyInJsonFormat(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path") +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+     //  accessToken.sendBodyInJsonFormat(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path") +System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+        accessToken.sendBodyInJsonFormat(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path") +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
 
     }
 

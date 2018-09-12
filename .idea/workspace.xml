@@ -3,7 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="0ddca06a-56a4-4f1e-bf32-826353e49203" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/steps/PaymentRequest_StepDefs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/steps/PaymentRequest_StepDefs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/steps/PaymentStatus_StepDefs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/steps/PaymentStatus_StepDefs.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/steps/SecurityModelValidation_StepDefs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/steps/SecurityModelValidation_StepDefs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/configs/ci.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/configs/ci.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -22,6 +26,7 @@
       <file leaf-file-name="AccessTokenForMerchants.feature" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -55,6 +60,9 @@
 >>>>>>> - Added versioning back in
 =======
             <state relative-caret-position="75">
+=======
+            <state relative-caret-position="15">
+>>>>>>> - Updated the endpoints for sandbox & merchants APIMs (no 'merchant' in the DNS)
               <caret line="5" column="48" selection-start-line="5" selection-start-column="2" selection-end-line="5" selection-end-column="48" />
 >>>>>>> - cleaned up securitymodelvalidation_stepdefs.java
             </state>
@@ -118,6 +126,7 @@
         <entry file="file://$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature">
           <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
+<<<<<<< HEAD
             <state relative-caret-position="1314">
               <caret line="106" lean-forward="true" selection-start-line="106" selection-end-line="106" />
 >>>>>>> - Added versioning back in
@@ -125,20 +134,28 @@
             <state relative-caret-position="-2901">
               <caret line="5" column="52" selection-start-line="5" selection-start-column="52" selection-end-line="5" selection-end-column="52" />
 >>>>>>> - cleaned up securitymodelvalidation_stepdefs.java
+=======
+            <state relative-caret-position="121">
+              <caret line="213" column="6" selection-start-line="213" selection-start-column="6" selection-end-line="213" selection-end-column="6" />
+>>>>>>> - Updated the endpoints for sandbox & merchants APIMs (no 'merchant' in the DNS)
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> - updated sit.properties with test client app id accounts
       <file leaf-file-name="SecurityModelValidation_StepDefs.java" pinned="false" current-in-tab="false">
 =======
       <file leaf-file-name="SecurityModelValidation_StepDefs.java" pinned="false" current-in-tab="true">
 >>>>>>> - cleaned up securitymodelvalidation_stepdefs.java
+=======
+      <file leaf-file-name="SecurityModelValidation_StepDefs.java" pinned="false" current-in-tab="false">
+>>>>>>> - Updated the endpoints for sandbox & merchants APIMs (no 'merchant' in the DNS)
         <entry file="file://$PROJECT_DIR$/src/test/java/steps/SecurityModelValidation_StepDefs.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2355">
-              <caret line="165" column="29" selection-start-line="165" selection-start-column="29" selection-end-line="165" selection-end-column="29" />
+            <state relative-caret-position="497">
+              <caret line="165" column="43" lean-forward="true" selection-start-line="165" selection-start-column="43" selection-end-line="165" selection-end-column="43" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -147,16 +164,22 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sit.properties" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/resources/configs/sit.properties">
+      <file leaf-file-name="ci.properties" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/test/resources/configs/ci.properties">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
 <<<<<<< HEAD
             <state relative-caret-position="30">
               <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+=======
+            <state relative-caret-position="330">
+              <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
+>>>>>>> - Updated the endpoints for sandbox & merchants APIMs (no 'merchant' in the DNS)
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="PaymentStatus.feature" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature">
           <provider selected="true" editor-type-id="text-editor">
@@ -194,6 +217,16 @@
             <state relative-caret-position="195">
               <caret line="13" column="79" lean-forward="true" selection-start-line="13" selection-start-column="79" selection-end-line="13" selection-end-column="79" />
 >>>>>>> - cleaned up securitymodelvalidation_stepdefs.java
+=======
+      <file leaf-file-name="PaymentStatus_StepDefs.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/steps/PaymentStatus_StepDefs.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="907">
+              <caret line="68" column="118" selection-start-line="68" selection-start-column="111" selection-end-line="68" selection-end-column="118" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+>>>>>>> - Updated the endpoints for sandbox & merchants APIMs (no 'merchant' in the DNS)
             </state>
           </provider>
         </entry>
@@ -201,6 +234,7 @@
       <file leaf-file-name="AccessTokenForMerchants_StepDefs.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -218,6 +252,10 @@
 =======
             <state relative-caret-position="527">
               <caret line="49" column="53" lean-forward="true" selection-start-line="16" selection-start-column="8" selection-end-line="49" selection-end-column="53" />
+=======
+            <state relative-caret-position="163">
+              <caret line="30" column="108" selection-start-line="30" selection-start-column="93" selection-end-line="30" selection-end-column="108" />
+>>>>>>> - Updated the endpoints for sandbox & merchants APIMs (no 'merchant' in the DNS)
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -225,6 +263,7 @@
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="PaymentStatus_StepDefs.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/steps/PaymentStatus_StepDefs.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -239,8 +278,18 @@
             <state relative-caret-position="-1052">
               <caret line="52" lean-forward="true" selection-start-line="52" selection-end-line="52" />
 >>>>>>> - cleaned up securitymodelvalidation_stepdefs.java
+=======
+      <file leaf-file-name="PaymentRequest_StepDefs.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/steps/PaymentRequest_StepDefs.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="171">
+              <caret line="75" column="37" selection-start-line="75" selection-start-column="27" selection-end-line="75" selection-end-column="37" />
+>>>>>>> - Updated the endpoints for sandbox & merchants APIMs (no 'merchant' in the DNS)
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#525#535#0" expanded="true" />
+                <element signature="e#3987#3988#0" expanded="true" />
+                <element signature="e#4040#4041#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -257,10 +306,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Basic</find>
-      <find>@functional</find>
-      <find>@checkstatus</find>
-      <find>need_to_generate_it_with_invalid_roles</find>
       <find>@payment</find>
       <find>@checkstatus @regression</find>
       <find>sandbox-api-app</find>
@@ -277,16 +322,20 @@
       <find>Given I am an authorized merchant</find>
       <find>I am an authorized merchant</find>
       <find>Connection refused (Connection refused)</find>
-      <find>version</find>
       <find>payment</find>
       <find>aud</find>
-      <find>I am a developer with no paymentrequest role</find>
       <find>valid JWT</find>
       <find>Different error message being returned</find>
       <find>andbox Dragon ID Manager</find>
       <find>@trial</find>
       <find>role is</find>
       <find>role</find>
+      <find>version</find>
+      <find>setEndpoint</find>
+      <find>Base_URI_Part_2</find>
+      <find>setBaseURI</find>
+      <find>I am a client app with access to both sandbox &amp; merchant server apps</find>
+      <find>I am a developer with no paymentrequest role</find>
     </findStrings>
     <replaceStrings>
       <replace>\</replace>
@@ -309,7 +358,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="test/sit_no_version_url" />
       </map>
     </option>
   </component>
@@ -357,10 +406,13 @@
         <option value="$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature" />
         <option value="$PROJECT_DIR$/src/test/resources/features/PaymentRequest.feature" />
         <option value="$PROJECT_DIR$/src/test/resources/features/Extras.feature" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/src/test/java/steps/PaymentRequest_StepDefs.java" />
 <<<<<<< HEAD
 <<<<<<< HEAD
         <option value="$PROJECT_DIR$/src/test/java/steps/PaymentStatus_StepDefs.java" />
+=======
+>>>>>>> - Updated the endpoints for sandbox & merchants APIMs (no 'merchant' in the DNS)
         <option value="$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature" />
         <option value="$PROJECT_DIR$/src/main/java/apiHelpers/AccessTokenForMerchants.java" />
 =======
@@ -392,6 +444,8 @@
         <option value="$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature" />
         <option value="$PROJECT_DIR$/src/main/java/apiHelpers/AccessTokenForMerchants.java" />
         <option value="$PROJECT_DIR$/src/test/resources/configs/playpen.properties" />
+        <option value="$PROJECT_DIR$/src/test/resources/configs/sit.properties" />
+        <option value="$PROJECT_DIR$/src/test/java/steps/PaymentStatus_StepDefs.java" />
         <option value="$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature" />
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -405,10 +459,13 @@
 >>>>>>> - Added values to the keys in the sit & ci properties file
 =======
         <option value="$PROJECT_DIR$/src/test/resources/configs/ci.properties" />
-        <option value="$PROJECT_DIR$/src/test/resources/configs/sit.properties" />
-        <option value="$PROJECT_DIR$/src/test/java/steps/SecurityModelValidation_StepDefs.java" />
         <option value="$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java" />
+<<<<<<< HEAD
 >>>>>>> - cleaned up securitymodelvalidation_stepdefs.java
+=======
+        <option value="$PROJECT_DIR$/src/test/java/steps/SecurityModelValidation_StepDefs.java" />
+        <option value="$PROJECT_DIR$/src/test/java/steps/PaymentRequest_StepDefs.java" />
+>>>>>>> - Updated the endpoints for sandbox & merchants APIMs (no 'merchant' in the DNS)
       </list>
     </option>
   </component>
@@ -432,9 +489,10 @@
     <option name="height" value="829" />
 =======
   <component name="ProjectFrameBounds">
-    <option name="x" value="1484" />
-    <option name="y" value="59" />
+    <option name="x" value="1554" />
+    <option name="y" value="35" />
     <option name="width" value="1722" />
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     <option name="height" value="931" />
@@ -445,6 +503,9 @@
 =======
     <option name="height" value="994" />
 >>>>>>> - Added versioning back in
+=======
+    <option name="height" value="830" />
+>>>>>>> - Updated the endpoints for sandbox & merchants APIMs (no 'merchant' in the DNS)
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
@@ -564,24 +625,24 @@
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/test/resources/configs" />
-      <recent name="$PROJECT_DIR$/src/test/resources" />
-      <recent name="$PROJECT_DIR$/src/test/java/features" />
-      <recent name="$PROJECT_DIR$/src/test/java/steps" />
-      <recent name="$PROJECT_DIR$/src/test" />
-    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/test/resources/features" />
+      <recent name="$PROJECT_DIR$/src/test/resources/configs" />
+      <recent name="$PROJECT_DIR$/src/test" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="steps" />
       <recent name="apiHelpers" />
       <recent name="utils" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/test/resources/features" />
+    <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/test/resources/configs" />
+      <recent name="$PROJECT_DIR$/src/test/resources" />
+      <recent name="$PROJECT_DIR$/src/test/java/features" />
+      <recent name="$PROJECT_DIR$/src/test/java/steps" />
       <recent name="$PROJECT_DIR$/src/test" />
     </key>
   </component>
@@ -712,7 +773,7 @@
               <list>
                 <option value="verify" />
                 <option value="-Ptrial" />
-                <option value="-Denv=playpen" />
+                <option value="-Denv=ci" />
                 <option value="-Dversion=v0.5" />
                 <option value="-Dusertype=developer" />
               </list>
@@ -799,6 +860,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     <frame x="0" y="23" width="1440" height="829" extended-state="6" />
     <editor active="true" />
 =======
@@ -815,6 +877,9 @@
     <frame x="1484" y="59" width="1722" height="994" extended-state="0" />
     <editor active="true" />
 >>>>>>> - Added versioning back in
+=======
+    <frame x="1554" y="35" width="1722" height="830" extended-state="0" />
+>>>>>>> - Updated the endpoints for sandbox & merchants APIMs (no 'merchant' in the DNS)
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -832,7 +897,7 @@
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49923664" visible="true" weight="0.27152777" />
 =======
       <window_info anchor="right" id="Maven Projects" order="6" visible="true" weight="0.09175377" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.33152175" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.49867725" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32905483" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info id="Capture Tool" order="6" />
@@ -958,7 +1023,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/apiHelpers/PaymentRequest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1245">
-          <caret line="118" column="54" selection-start-line="118" selection-start-column="43" selection-end-line="118" selection-end-column="54" />
+          <caret line="118" column="56" selection-start-line="118" selection-start-column="45" selection-end-line="118" selection-end-column="56" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -996,37 +1061,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/steps/OpenIdConfigforPEAK_StepDefs.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="705">
-          <caret line="54" column="57" selection-start-line="54" selection-start-column="57" selection-end-line="54" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/resources/features/Extras.feature">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2085">
           <caret line="139" selection-start-line="139" selection-end-line="139" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/steps/PaymentRequest_StepDefs.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="102" column="97" selection-start-line="102" selection-start-column="90" selection-end-line="102" selection-end-column="97" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/steps/PaymentStatus_StepDefs.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="24" column="95" selection-start-line="24" selection-start-column="88" selection-end-line="24" selection-end-column="95" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1100,8 +1138,8 @@
     <entry file="file://$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature">
 >>>>>>> - updated the scenario description within feature file
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-996">
-          <caret line="7" column="24" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
+        <state relative-caret-position="1455">
+          <caret line="97" column="25" selection-start-line="97" selection-start-column="25" selection-end-line="97" selection-end-column="25" />
         </state>
       </provider>
     </entry>
@@ -1138,13 +1176,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/configs/ci.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/apiHelpers/AccessTokenForMerchants.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2374">
@@ -1158,8 +1189,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature">
+    <entry file="file://$PROJECT_DIR$/src/test/resources/configs/sit.properties">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -1229,11 +1261,23 @@
         <state relative-caret-position="75">
           <caret line="5" column="48" selection-start-line="5" selection-start-column="2" selection-end-line="5" selection-end-column="48" />
 >>>>>>> - cleaned up securitymodelvalidation_stepdefs.java
+=======
+        <state relative-caret-position="375">
+          <caret line="25" column="33" lean-forward="true" selection-start-line="25" selection-start-column="33" selection-end-line="25" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/steps/OpenIdConfigforPEAK_StepDefs.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="451">
+          <caret line="54" column="57" selection-start-line="54" selection-start-column="57" selection-end-line="54" selection-end-column="57" />
+>>>>>>> - Updated the endpoints for sandbox & merchants APIMs (no 'merchant' in the DNS)
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
         <state relative-caret-position="-22">
@@ -1246,11 +1290,16 @@
         <state relative-caret-position="-2901">
           <caret line="5" column="52" selection-start-line="5" selection-start-column="52" selection-end-line="5" selection-end-column="52" />
 >>>>>>> - cleaned up securitymodelvalidation_stepdefs.java
+=======
+        <state relative-caret-position="121">
+          <caret line="213" column="6" selection-start-line="213" selection-start-column="6" selection-end-line="213" selection-end-column="6" />
+>>>>>>> - Updated the endpoints for sandbox & merchants APIMs (no 'merchant' in the DNS)
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
 <<<<<<< HEAD
         <state relative-caret-position="345">
           <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
@@ -1258,6 +1307,10 @@
 =======
         <state relative-caret-position="-1052">
           <caret line="52" lean-forward="true" selection-start-line="52" selection-end-line="52" />
+=======
+        <state relative-caret-position="163">
+          <caret line="30" column="108" selection-start-line="30" selection-start-column="93" selection-end-line="30" selection-end-column="108" />
+>>>>>>> - Updated the endpoints for sandbox & merchants APIMs (no 'merchant' in the DNS)
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1265,20 +1318,50 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/configs/sit.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="79" lean-forward="true" selection-start-line="13" selection-start-column="79" selection-end-line="13" selection-end-column="79" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/steps/SecurityModelValidation_StepDefs.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2355">
-          <caret line="165" column="29" selection-start-line="165" selection-start-column="29" selection-end-line="165" selection-end-column="29" />
+        <state relative-caret-position="497">
+          <caret line="165" column="43" lean-forward="true" selection-start-line="165" selection-start-column="43" selection-end-line="165" selection-end-column="43" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="5" column="48" selection-start-line="5" selection-start-column="2" selection-end-line="5" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/steps/PaymentRequest_StepDefs.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="75" column="37" selection-start-line="75" selection-start-column="27" selection-end-line="75" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#525#535#0" expanded="true" />
+            <element signature="e#3987#3988#0" expanded="true" />
+            <element signature="e#4040#4041#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/steps/PaymentStatus_StepDefs.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="907">
+          <caret line="68" column="118" selection-start-line="68" selection-start-column="111" selection-end-line="68" selection-end-column="118" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/configs/ci.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
         </state>
       </provider>
     </entry>

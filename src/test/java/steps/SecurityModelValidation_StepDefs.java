@@ -78,11 +78,11 @@ public class SecurityModelValidation_StepDefs implements BaseStep{
         if (System.getProperty("env").equalsIgnoreCase("playpen"))
             accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path"));
         else
-            accessToken.setEndpoint(baseURI1 +"sandbox"+baseURI2 +basePathToken);
+            accessToken.setEndpoint(baseURI1 +"sandbox-"+baseURI2 +basePathToken);
 
         logger.info("********** Retrieving Access Token***********");
-        accessToken.retrieveAccessToken(accessToken.getEndpoint() +System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
-      //  accessToken.retrieveAccessToken(accessToken.getEndpoint() +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+      //  accessToken.retrieveAccessToken(accessToken.getEndpoint() +System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+        accessToken.retrieveAccessToken(accessToken.getEndpoint() +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
 
     }
 
@@ -93,11 +93,11 @@ public class SecurityModelValidation_StepDefs implements BaseStep{
         if (System.getProperty("env").equalsIgnoreCase("playpen"))
             accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path"));
         else
-            accessToken.setEndpoint(baseURI1 +"merchant"+baseURI2 +basePathToken);
+            accessToken.setEndpoint(baseURI1 +baseURI2 +basePathToken);
 
         logger.info("********** Retrieving Access Token***********");
-        accessToken.retrieveAccessToken(accessToken.getEndpoint() +System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
-       // accessToken.retrieveAccessToken(accessToken.getEndpoint() +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+       // accessToken.retrieveAccessToken(accessToken.getEndpoint() +System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+        accessToken.retrieveAccessToken(accessToken.getEndpoint() +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
 
     }
 
@@ -147,7 +147,7 @@ public class SecurityModelValidation_StepDefs implements BaseStep{
         if (System.getProperty("env").equals("playpen"))
             restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI"));
         else
-            restHelper.setBaseURI(baseURI1 +"sandbox"+baseURI2 +basePathAPI);
+            restHelper.setBaseURI(baseURI1 +"sandbox-"+baseURI2 +basePathAPI);
 
     }
 
@@ -163,7 +163,7 @@ public class SecurityModelValidation_StepDefs implements BaseStep{
         if (System.getProperty("env").equals("playpen"))
             restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI"));
         else
-            restHelper.setBaseURI(baseURI1 +"merchant"+baseURI2 +basePathAPI);
+            restHelper.setBaseURI(baseURI1 +baseURI2 +basePathAPI);
 
     }
 
