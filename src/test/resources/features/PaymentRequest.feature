@@ -6,7 +6,7 @@ When I make a request to the Dragon ID Manager
 Then I recieve an access_token
 
 # For the parametres where values are missing within the table, while creating request, the parameter will not be included at all as a a part of the payload
- @regression
+ @regression @skiponcimerchant
 Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs
   Given I am an authorized user
   And I have payment details "<merchantid>", "<totalamount>","<currency>","<notificationURL>"
@@ -38,7 +38,7 @@ Examples:
 #notificationURI missing
 |053598653254|100.00     |HKD      |                           |message from merchant|mCommerce|B1242183|60                |
 
- @regression
+ @regression @skiponcimerchant
 Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs without shopping cart
   Given I am an authorized user
   And I have payment details "<merchantid>", "<totalamount>","<currency>","<notificationURL>"
@@ -62,7 +62,7 @@ Examples:
 |053598653254|100.00     |HKD      |                           |message from merchant|mCommerce|B1242183|60                |
 
 
- @regression
+ @regression @skiponcimerchant
 Scenario: Positive flow- A merchant is able to create a payment request with all the valid inputs without merchant data
   Given I am an authorized user
   And I have valid payment details
@@ -72,7 +72,7 @@ Scenario: Positive flow- A merchant is able to create a payment request with all
 
 
 # For the parametres where value is "no_value" within the table, while creating request the parameter (key) will be included but will have no value
- @regression
+ @regression @skiponcimerchant
 Scenario Outline: Positive flow- A merchant is able to create a payment request where the non mandatory fields within body have no corresponding values in the payload
   Given I am an authorized user
   And I have payment details "<merchantid>", "<totalamount>","<currency>","<notificationURL>"
@@ -90,7 +90,7 @@ Examples:
 
 
 # For the parametres where value is "no_value" within the table, while creating request the parameter (key) will be included but will have no value
- @regression
+ @regression @skiponcimerchant
 Scenario Outline: Positive flow- A merchant is able to create a payment request where the non mandatory fields within shopping cart have no corresponding values in the payload
   Given I am an authorized user
   And I have payment details "<merchantid>", "<totalamount>","<currency>","<notificationURL>"
@@ -154,7 +154,7 @@ Scenario Outline: Negative flow- Invalid auth token
  |Signature validation failed |TokenInvalidSignature  |eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c|
 
 
- @regression
+ @regression @skiponcimerchant
 Scenario Outline: Negative flow- Peak error response parsed by DRAGON
    Given I am an authorized user
    And I have payment details with "<invalid_value>" set for the "<parameter>"

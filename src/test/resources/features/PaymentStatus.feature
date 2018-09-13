@@ -5,7 +5,7 @@ Given I am an user
 When I make a request to the Dragon ID Manager
 Then I recieve an access_token
 
-@checkstatus @regression
+ @regression @skiponcimerchant
 Scenario: Positive flow- A merchant is able to create a check status request with all the valid inputs
   Given I am an authorized user
   And I have valid payment details
@@ -17,7 +17,7 @@ Scenario: Positive flow- A merchant is able to create a check status request wit
   And the response body should contain valid status description and status code
 
 
-@checkstatus @regression
+ @regression @skiponcimerchant
 Scenario: Negative flow- Invalid auth token (without Bearer in the header)
   Given I am an authorized user
   And I have valid payment details
@@ -30,7 +30,7 @@ Scenario: Negative flow- Invalid auth token (without Bearer in the header)
   And error message should be "TokenNotPresent" within check status response
 
 
-@checkstatus @regression
+ @regression @skiponcimerchant
 Scenario Outline: Negative flow- Mandatory fields not sent in the header
   Given I am an authorized user
   And I have valid payment details
@@ -48,7 +48,7 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the header
  |Header TraceId was not found in the request. Access denied.        | HeaderNotFound       |TraceId        |400        |
 
 
-@checkstatus @regression
+ @regression @skiponcimerchant
 Scenario Outline: Negative flow- Invalid auth token
   Given I am an authorized user
   And I have valid payment details
@@ -74,7 +74,7 @@ Scenario Outline: Negative flow- Invalid auth token
  |Signature validation failed |TokenInvalidSignature  |eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c|
 
 
-@checkstatus @regression
+ @regression @skiponcimerchant
 Scenario Outline: Negative flow- Invalid PaymentIds sent in the request
   Given I am an authorized user
   And I have valid payment details
@@ -92,7 +92,7 @@ Scenario Outline: Negative flow- Invalid PaymentIds sent in the request
  |Payment Request Id is invalid | Service Request Validation Failed| random_payment_id                   |EA002      |400|
 
 
-@checkstatus @regression
+ @regression @skiponcimerchant
 Scenario Outline: Positive flow- A merchant is able to create a check status request with all the valid inputs
   Given I am an authorized user
   And I have a payment id "<payment_id>"
