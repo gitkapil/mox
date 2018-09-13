@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0ddca06a-56a4-4f1e-bf32-826353e49203" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/PaymentRequest.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/PaymentRequest.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -165,6 +162,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> - updated sit.properties with test client app id accounts
       <file leaf-file-name="SecurityModelValidation_StepDefs.java" pinned="false" current-in-tab="false">
 =======
@@ -233,6 +231,13 @@
             <state relative-caret-position="306">
               <caret line="211" column="43" lean-forward="true" selection-start-line="211" selection-start-column="43" selection-end-line="211" selection-end-column="43" />
 >>>>>>> - Tagged more scenarios with @skiponcimerchant
+=======
+      <file leaf-file-name="SecurityModelValidation.feature" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="390">
+              <caret line="26" column="29" lean-forward="true" selection-start-line="26" selection-start-column="29" selection-end-line="26" selection-end-column="29" />
+>>>>>>> Updated the ReadMe file with the latest changes
             </state>
           </provider>
         </entry>
@@ -383,8 +388,17 @@
       <file leaf-file-name="PaymentStatus.feature" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="164">
+            <state relative-caret-position="324">
               <caret line="94" column="30" selection-start-line="94" selection-start-column="30" selection-end-line="94" selection-end-column="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ci.properties" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/resources/configs/ci.properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="300">
+              <caret line="20" selection-start-line="20" selection-end-line="25" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -500,7 +514,6 @@
         <option value="$PROJECT_DIR$/src/main/java/apiHelpers/JwksUriForPEAK.java" />
         <option value="$PROJECT_DIR$/src/main/java/utils/BaseStep.java" />
         <option value="$PROJECT_DIR$/src/test/resources/features/CheckStatus.feature" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/test/java/steps/OpenIdConfigforPEAK_StepDefs.java" />
         <option value="$PROJECT_DIR$/src/main/java/apiHelpers/OpenIdConfigForPEAK.java" />
         <option value="$PROJECT_DIR$/src/main/java/apiHelpers/PaymentRequest.java" />
@@ -594,7 +607,11 @@
         <option value="$PROJECT_DIR$/src/test/resources/features/PaymentRequest.feature" />
         <option value="$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature" />
         <option value="$PROJECT_DIR$/src/test/java/steps/Hooks.java" />
+<<<<<<< HEAD
 >>>>>>> - Tagged more scenarios with @skiponcimerchant
+=======
+        <option value="$PROJECT_DIR$/README.md" />
+>>>>>>> Updated the ReadMe file with the latest changes
       </list>
     </option>
   </component>
@@ -1036,10 +1053,13 @@
 =======
     <frame x="1554" y="35" width="1722" height="984" extended-state="0" />
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> - Handled JWK Read Timed Out error
 =======
     <editor active="true" />
 >>>>>>> - added an extra tag (@skiponcimerchant) to skip some scenarios while running ci on merchant APIM
+=======
+>>>>>>> Updated the ReadMe file with the latest changes
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -1057,12 +1077,12 @@
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49923664" visible="true" weight="0.27152777" />
 =======
       <window_info anchor="right" id="Maven Projects" order="6" visible="true" weight="0.09175377" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.47912088" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.30329672" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32905483" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info id="Capture Tool" order="6" />
       <window_info id="Designer" order="3" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49923664" visible="true" weight="0.2543554" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49923664" visible="true" weight="0.2543554" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32684824" />
 >>>>>>> - Added test cases for security validation
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -1159,13 +1179,6 @@
     <entry file="file://$PROJECT_DIR$/src/test/resources/features/JwksURIforPEAK.feature" />
     <entry file="file://$PROJECT_DIR$/src/main/java/apiHelpers/JwksUriForPEAK.java" />
     <entry file="file://$PROJECT_DIR$/src/test/resources/features/CheckStatus.feature" />
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="17" lean-forward="true" selection-start-line="18" selection-start-column="17" selection-end-line="18" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/apiHelpers/OpenIdConfigForPEAK.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1575">
@@ -1535,24 +1548,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/configs/ci.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="56" selection-start-line="5" selection-start-column="56" selection-end-line="5" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
           <caret line="113" column="4" selection-start-line="113" selection-start-column="4" selection-end-line="113" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" selection-start-line="17" selection-end-line="17" />
         </state>
       </provider>
     </entry>
@@ -1584,17 +1583,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="164">
+        <state relative-caret-position="324">
           <caret line="94" column="30" selection-start-line="94" selection-start-column="30" selection-end-line="94" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/configs/ci.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" selection-start-line="20" selection-end-line="25" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1176">
+          <caret line="80" column="37" selection-start-line="80" selection-start-column="37" selection-end-line="80" selection-end-column="37" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="211" column="43" lean-forward="true" selection-start-line="211" selection-start-column="43" selection-end-line="211" selection-end-column="43" />
+        <state relative-caret-position="390">
+          <caret line="26" column="29" lean-forward="true" selection-start-line="26" selection-start-column="29" selection-end-line="26" selection-end-column="29" />
         </state>
       </provider>
     </entry>
