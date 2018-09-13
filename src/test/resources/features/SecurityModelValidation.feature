@@ -115,12 +115,13 @@ Scenario: Validate that a merchant with valid token and no paymentRequest as rol
   When I hit merchant APIs
   And I have valid payment details
   And I make a request for the payment
-  And I should recieve a "400" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
-  And error message should be "<error_message>" within payment response
+  And I should recieve a "401" error response with "Claim value mismatch: roles=paymentRequest" error description and "401" errorcode within payment response
+  And error message should be "TokenClaimValueMismatch" within payment response
   And I have a payment id "b15e090a-5e97-4b44-a67e-542eb2aa0f4d"
   And I make a request for the check status
-  Then I should recieve a "401" error response with "<error_description>" error description and "<error_code>" errorcode within check status response
-  And error message should be "<error_message>" within check status response
+  Then I should recieve a "401" error response with "Claim value mismatch: roles=paymentRequest" error description and "401" errorcode within check status response
+  And error message should be "TokenClaimValueMismatch" within check status response
+
 
 @trial
 Scenario: Validate that a developer with valid token and paymentRequest as role is not able to access merchant payment request and check status APIs (sandbox client app doesnot have permission to access merchant server app)
