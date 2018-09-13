@@ -3,11 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="0ddca06a-56a4-4f1e-bf32-826353e49203" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/JWTHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/JWTHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/configs/ci.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/configs/ci.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/configs/sit.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/configs/sit.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/steps/Hooks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/steps/Hooks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/testSuite/Runner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/testSuite/Runner.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/OpenIdConfigforPEAK.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/OpenIdConfigforPEAK.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/features/PaymentRequest.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/PaymentRequest.feature" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -144,13 +144,19 @@
       <file leaf-file-name="SecurityModelValidation.feature" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="1830">
               <caret line="122" column="2" selection-start-line="122" selection-start-column="2" selection-end-line="122" selection-end-column="2" />
 >>>>>>> - Handled JWK Read Timed Out error
+=======
+            <state relative-caret-position="2106">
+              <caret line="215" column="1" selection-start-line="215" selection-start-column="1" selection-end-line="215" selection-end-column="1" />
+>>>>>>> - added an extra tag (@skiponcimerchant) to skip some scenarios while running ci on merchant APIM
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -174,13 +180,21 @@
                 <element signature="imports" expanded="true" />
               </folding>
 >>>>>>> - Added test cases for security validation
+=======
+      <file leaf-file-name="Hooks.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/steps/Hooks.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="225">
+              <caret line="21" column="28" selection-start-line="21" selection-start-column="12" selection-end-line="21" selection-end-column="28" />
+>>>>>>> - added an extra tag (@skiponcimerchant) to skip some scenarios while running ci on merchant APIM
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PaymentRequest_StepDefs.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/steps/PaymentRequest_StepDefs.java">
+      <file leaf-file-name="Runner.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/testSuite/Runner.java">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -200,10 +214,15 @@
                 <element signature="e#4040#4041#0" expanded="true" />
               </folding>
 >>>>>>> - Handled JWK Read Timed Out error
+=======
+            <state relative-caret-position="195">
+              <caret line="16" column="33" selection-start-line="16" selection-start-column="17" selection-end-line="16" selection-end-column="33" />
+>>>>>>> - added an extra tag (@skiponcimerchant) to skip some scenarios while running ci on merchant APIM
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
       <file leaf-file-name="PaymentStatus.feature" pinned="false" current-in-tab="false">
@@ -337,6 +356,13 @@
             <state relative-caret-position="928">
               <caret line="205" column="12" lean-forward="true" selection-start-line="205" selection-start-column="12" selection-end-line="205" selection-end-column="12" />
 >>>>>>> - Handled JWK Read Timed Out error
+=======
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="455">
+              <caret line="114" lean-forward="true" selection-start-line="114" selection-end-line="114" />
+>>>>>>> - added an extra tag (@skiponcimerchant) to skip some scenarios while running ci on merchant APIM
             </state>
           </provider>
         </entry>
@@ -352,13 +378,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>70002</find>
-      <find>statusDescription</find>
-      <find>valida</find>
-      <find>baseu</find>
-      <find>setT</find>
-      <find>setTyp</find>
-      <find>playpen</find>
       <find>Given I am an authorized merchant</find>
       <find>I am an authorized merchant</find>
       <find>Connection refused (Connection refused)</find>
@@ -376,12 +395,19 @@
       <find>I am a client app with access to both sandbox &amp; merchant server apps</find>
       <find>I am a developer with no paymentrequest role</find>
       <find>within token response</find>
-      <find>@trial</find>
       <find>@functional</find>
       <find>https://paymedev-api-ci.open-paymentsapi.com/payments/paymentrequests</find>
       <find>BAsic</find>
       <find>Basic</find>
       <find>remote JWK set</find>
+      <find>@regression</find>
+      <find>@payment</find>
+      <find>Validate that a merchant with valid token and paymentRequest as role is able to access merchant payment request and check status APIs(merchant client app has permission to access merchant server app)</find>
+      <find>Validate that a merchant with valid token and paymentRequest as role is able to acce</find>
+      <find>@trial</find>
+      <find>Validate that a user with (merchant) token and paymentRequest as role is able to access merchant payment request and check status APIs (merchant client app has access to both the server apps)</find>
+      <find>skiponcimerchant</find>
+      <find>@trial11</find>
     </findStrings>
     <replaceStrings>
       <replace>\</replace>
@@ -394,8 +420,9 @@
       <replace>@payment @regression</replace>
       <replace>Given I am an authorized user</replace>
       <replace>I am an authorized user</replace>
-      <replace>@trial11</replace>
       <replace>@functional</replace>
+      <replace>@sit-tests</replace>
+      <replace>@trial11</replace>
       <replace>@trial</replace>
     </replaceStrings>
     <dirStrings>
@@ -429,7 +456,6 @@
         <option value="$PROJECT_DIR$/src/test/java/steps/StepDefinitions.java" />
         <option value="$PROJECT_DIR$/src/main/java/apiHelpers/Transaction.java" />
         <option value="$PROJECT_DIR$/src/main/java/extras/Links.java" />
-        <option value="$PROJECT_DIR$/src/test/java/testSuite/Runner.java" />
         <option value="$PROJECT_DIR$/src/main/java/apiHelpers/CheckStatusRequest.java" />
         <option value="$PROJECT_DIR$/src/test/java/steps/CheckStatusRequest_StepDefs.java" />
         <option value="$PROJECT_DIR$/src/test/resources/features/CheckStatusRequest.feature" />
@@ -446,10 +472,7 @@
         <option value="$PROJECT_DIR$/src/test/java/steps/OpenIdConfigforPEAK_StepDefs.java" />
         <option value="$PROJECT_DIR$/src/main/java/apiHelpers/OpenIdConfigForPEAK.java" />
         <option value="$PROJECT_DIR$/src/main/java/apiHelpers/PaymentRequest.java" />
-        <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/test/java/steps/Hooks.java" />
         <option value="$PROJECT_DIR$/src/main/java/utils/RestHelper.java" />
-        <option value="$PROJECT_DIR$/src/test/resources/features/PaymentRequest.feature" />
         <option value="$PROJECT_DIR$/src/test/resources/features/Extras.feature" />
 <<<<<<< HEAD
         <option value="$PROJECT_DIR$/src/test/java/steps/PaymentRequest_StepDefs.java" />
@@ -513,15 +536,26 @@
         <option value="$PROJECT_DIR$/src/test/java/steps/SecurityModelValidation_StepDefs.java" />
         <option value="$PROJECT_DIR$/src/test/java/steps/PaymentRequest_StepDefs.java" />
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> - Updated the endpoints for sandbox & merchants APIMs (no 'merchant' in the DNS)
 =======
         <option value="$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature" />
+=======
+>>>>>>> - added an extra tag (@skiponcimerchant) to skip some scenarios while running ci on merchant APIM
         <option value="$PROJECT_DIR$/src/test/resources/configs/ci.properties" />
         <option value="$PROJECT_DIR$/src/test/resources/configs/sit.properties" />
         <option value="$PROJECT_DIR$/src/test/resources/features/OpenIdConfigforPEAK.feature" />
-        <option value="$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature" />
         <option value="$PROJECT_DIR$/src/main/java/utils/JWTHelper.java" />
+<<<<<<< HEAD
 >>>>>>> - Handled JWK Read Timed Out error
+=======
+        <option value="$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature" />
+        <option value="$PROJECT_DIR$/src/test/resources/features/PaymentRequest.feature" />
+        <option value="$PROJECT_DIR$/src/test/java/steps/Hooks.java" />
+        <option value="$PROJECT_DIR$/src/test/java/testSuite/Runner.java" />
+        <option value="$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+>>>>>>> - added an extra tag (@skiponcimerchant) to skip some scenarios while running ci on merchant APIM
       </list>
     </option>
   </component>
@@ -534,7 +568,25 @@
   </component>
   <component name="MavenProjectNavigator">
     <treeState>
+<<<<<<< HEAD
       <expand />
+=======
+      <expand>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="Profiles" type="6783ec58:MavenProjectsStructure$ProfilesNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="dragon" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="dragon" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+          <item name="Lifecycle" type="58874e2:MavenProjectsStructure$LifecycleNode" />
+        </path>
+      </expand>
+>>>>>>> - added an extra tag (@skiponcimerchant) to skip some scenarios while running ci on merchant APIM
       <select />
     </treeState>
   </component>
@@ -718,7 +770,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Maven.TrialTests">
+  <component name="RunManager" selected="Maven.Sit Regression v0.4">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     </configuration>
@@ -765,7 +817,7 @@
         </option>
       </MavenSettings>
     </configuration>
-    <configuration name="Regression- Playpen" type="MavenRunConfiguration" factoryName="Maven">
+    <configuration name="Regression" type="MavenRunConfiguration" factoryName="Maven">
       <MavenSettings>
         <option name="myGeneralSettings" />
         <option name="myRunnerSettings" />
@@ -778,8 +830,9 @@
               <list>
                 <option value="verify" />
                 <option value="-Pregression" />
-                <option value="-Denv=playpen" />
-                <option value="-Dversion=v0.4" />
+                <option value="-Denv=ci" />
+                <option value="-Dversion=v0.5" />
+                <option value="-Dusertype=merchant" />
               </list>
             </option>
             <option name="pomFileName" />
@@ -835,7 +888,7 @@
                 <option value="-Ptrial" />
                 <option value="-Denv=ci" />
                 <option value="-Dversion=v0.5" />
-                <option value="-Dusertype=developer" />
+                <option value="-Dusertype=merchant" />
               </list>
             </option>
             <option name="pomFileName" />
@@ -898,7 +951,7 @@
     </configuration>
     <list>
       <item itemvalue="Maven.Payment Playpen 0.3" />
-      <item itemvalue="Maven.Regression- Playpen" />
+      <item itemvalue="Maven.Regression" />
       <item itemvalue="Maven.Sit Regression v0.4" />
       <item itemvalue="Maven.TrialTests" />
     </list>
@@ -943,7 +996,11 @@
 >>>>>>> - Updated the endpoints for sandbox & merchants APIMs (no 'merchant' in the DNS)
 =======
     <frame x="1554" y="35" width="1722" height="984" extended-state="0" />
+<<<<<<< HEAD
 >>>>>>> - Handled JWK Read Timed Out error
+=======
+    <editor active="true" />
+>>>>>>> - added an extra tag (@skiponcimerchant) to skip some scenarios while running ci on merchant APIM
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -961,12 +1018,12 @@
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49923664" visible="true" weight="0.27152777" />
 =======
       <window_info anchor="right" id="Maven Projects" order="6" visible="true" weight="0.09175377" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.4956044" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.31208792" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32905483" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info id="Capture Tool" order="6" />
       <window_info id="Designer" order="3" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49923664" visible="true" weight="0.2543554" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49923664" visible="true" weight="0.2543554" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32684824" />
 >>>>>>> - Added test cases for security validation
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -1036,13 +1093,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
           <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/testSuite/Runner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" selection-start-line="21" selection-end-line="21" />
         </state>
       </provider>
     </entry>
@@ -1122,13 +1172,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2085">
           <caret line="139" selection-start-line="139" selection-end-line="139" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/steps/Hooks.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="16" column="126" selection-start-line="16" selection-start-column="101" selection-end-line="16" selection-end-column="126" />
         </state>
       </provider>
     </entry>
@@ -1270,13 +1313,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/features/PaymentRequest.feature">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="928">
-          <caret line="205" column="12" lean-forward="true" selection-start-line="205" selection-start-column="12" selection-end-line="205" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="476">
@@ -1407,6 +1443,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
@@ -1433,6 +1470,8 @@
         </state>
       </provider>
     </entry>
+=======
+>>>>>>> - added an extra tag (@skiponcimerchant) to skip some scenarios while running ci on merchant APIM
     <entry file="file://$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="363">
@@ -1443,31 +1482,59 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature">
+    <entry file="file://$PROJECT_DIR$/src/main/java/utils/JWTHelper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1065">
-          <caret line="71" lean-forward="true" selection-start-line="71" selection-end-line="71" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1830">
-          <caret line="122" column="2" selection-start-line="122" selection-start-column="2" selection-end-line="122" selection-end-column="2" />
+        <state relative-caret-position="609">
+          <caret line="58" column="35" selection-start-line="58" selection-start-column="35" selection-end-line="58" selection-end-column="35" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/resources/configs/ci.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="68" lean-forward="true" selection-start-line="5" selection-end-line="6" selection-end-column="68" />
+        <state relative-caret-position="179">
+          <caret line="24" column="51" lean-forward="true" selection-start-line="24" selection-start-column="51" selection-end-line="24" selection-end-column="51" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/utils/JWTHelper.java">
+    <entry file="file://$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="149">
-          <caret line="58" column="35" selection-start-line="58" selection-start-column="35" selection-end-line="58" selection-end-column="35" />
+        <state relative-caret-position="-594">
+          <caret line="2" column="12" lean-forward="true" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/features/PaymentRequest.feature">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="9" selection-start-line="17" selection-start-column="9" selection-end-line="17" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/steps/Hooks.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="21" column="28" selection-start-line="21" selection-start-column="12" selection-end-line="21" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/testSuite/Runner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="16" column="33" selection-start-line="16" selection-start-column="17" selection-end-line="16" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2106">
+          <caret line="215" column="1" selection-start-line="215" selection-start-column="1" selection-end-line="215" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="455">
+          <caret line="114" lean-forward="true" selection-start-line="114" selection-end-line="114" />
         </state>
       </provider>
     </entry>

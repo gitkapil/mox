@@ -102,15 +102,6 @@
         </profile>
 
         <profile>
-            <id>payment</id>
-            <properties>
-                <cucumber.options>
-                    --tags @payment
-                </cucumber.options>
-            </properties>
-        </profile>
-
-        <profile>
             <id>regression</id>
             <properties>
                 <cucumber.options>
@@ -119,14 +110,6 @@
             </properties>
         </profile>
 
-        <profile>
-            <id>checkstatus</id>
-            <properties>
-                <cucumber.options>
-                    --tags @checkstatus
-                </cucumber.options>
-            </properties>
-        </profile>
     </profiles>
 
 
