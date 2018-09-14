@@ -8,12 +8,28 @@ import java.util.*;
 
 public class PaymentRequest implements BaseStep {
     final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(PaymentRequest.class);
-    private String authToken, requestDateTime="", merchantId, currency, notificationURI, traceId="";
+    private String authToken, requestDateTime="", merchantId, currency, notificationURI, traceId="", appSuccessCallback, appFailCallback;
     private Double totalAmount;
     private Integer effectiveDuration=600;
 
     private HashMap merchantData= new HashMap();
     private List<HashMap> shoppingCart=new ArrayList<HashMap>();
+
+    public String getAppSuccessCallback() {
+        return appSuccessCallback;
+    }
+
+    public void setAppSuccessCallback(String appSuccessCallback) {
+        this.appSuccessCallback = appSuccessCallback;
+    }
+
+    public String getAppFailCallback() {
+        return appFailCallback;
+    }
+
+    public void setAppFailCallback(String appFailCallback) {
+        this.appFailCallback = appFailCallback;
+    }
 
     private HashMap<String, String> paymentRequestHeader= new HashMap<String, String>();
 
@@ -115,10 +131,10 @@ public class PaymentRequest implements BaseStep {
         paymentRequestHeader.put("Accept","application/json");
         paymentRequestHeader.put("Content-Type","application/json");
         paymentRequestHeader.put("Authorization", authToken);
-        paymentRequestHeader.put("TraceId",traceId);
+        paymentRequestHeader.put("Trace-Id",traceId);
        // paymentRequestHeader.put("Ocp-Apim-Subscription-Key","fa08ac6eca5b4afb8354526811025b03");
         paymentRequestHeader.put("Accept-Language", "en-US");
-        paymentRequestHeader.put("RequestDateTime", getRequestDateTime());
+        paymentRequestHeader.put("Request-Date-Time", getRequestDateTime());
 
         return paymentRequestHeader;
     }
@@ -146,9 +162,9 @@ public class PaymentRequest implements BaseStep {
         if (!getCurrency().equals(""))
         {
             if (!getCurrency().equals("no_value"))
-                paymentRequestBody.put("currency", getCurrency());
+                paymentRequestBody.put("currencyCode", getCurrency());
             else
-                paymentRequestBody.put("currency", "");
+                paymentRequestBody.put("currencyCode", "");
         }
 
 
@@ -164,6 +180,22 @@ public class PaymentRequest implements BaseStep {
                 paymentRequestBody.put("notificationURI", "");
         }
 
+        if (!getAppSuccessCallback().equals(""))
+        {
+            if (!getAppSuccessCallback().equals("no_value"))
+                paymentRequestBody.put("appSuccessCallback", getAppSuccessCallback());
+            else
+                paymentRequestBody.put("appSuccessCallback", "");
+        }
+
+        if (!getAppFailCallback().equals(""))
+        {
+            if (!getAppFailCallback().equals("no_value"))
+                paymentRequestBody.put("appFailCallback", getAppFailCallback());
+            else
+                paymentRequestBody.put("appFailCallback", "");
+        }
+
          try{
             if (!merchantData.isEmpty())
                  paymentRequestBody.put("merchantData", getMerchantData());
@@ -173,28 +205,30 @@ public class PaymentRequest implements BaseStep {
          return paymentRequestBody;
     }
 
-    public void createMerchantData(String description, String channel, String orderId, String effectiveDuration){
+    public void createMerchantData(String description, String orderId, String effectiveDuration, String additionalData){
         merchantData= new HashMap();
         if (!description.equals(""))
         {
             if (!description.equals("no_value"))
-                merchantData.put("description", description);
+                merchantData.put("orderDescription", description);
             else
-                merchantData.put("description", "");
+                merchantData.put("orderDescription", "");
         }
-        if (!channel.equals(""))
-        {
-            if (!channel.equals("no_value"))
-                merchantData.put("channel", channel);
-            else
-                merchantData.put("channel", "");
-        }
+
         if (!orderId.equals(""))
         {
             if (!orderId.equals("no_value"))
                 merchantData.put("orderId", orderId);
             else
                 merchantData.put("orderId", "");
+        }
+
+        if (!additionalData.equals(""))
+        {
+            if (!additionalData.equals("no_value"))
+                merchantData.put("additionalData", additionalData);
+            else
+                merchantData.put("additionalData", "");
         }
 
         if (!effectiveDuration.equals(""))
@@ -236,9 +270,9 @@ public class PaymentRequest implements BaseStep {
             if (!list.get(i).get("currency").equals(""))
             {
                 if (!list.get(i).get("currency").equals("no_value"))
-                    temp.put("currency", list.get(i).get("currency"));
+                    temp.put("currencyCode", list.get(i).get("currency"));
                 else
-                    temp.put("currency", "");
+                    temp.put("currencyCode", "");
             }
 
 
@@ -256,10 +290,26 @@ public class PaymentRequest implements BaseStep {
             }
 
 
-            if (!list.get(i).get("category").equals(""))
+            if (!list.get(i).get("category1").equals(""))
             {
-                    temp.put("category", Integer.parseInt(list.get(i).get("category")));
-
+                if (!list.get(i).get("category1").equals("no_value"))
+                    temp.put("category1", list.get(i).get("category1"));
+                else
+                    temp.put("category1", "");
+            }
+            if (!list.get(i).get("category2").equals(""))
+            {
+                if (!list.get(i).get("category2").equals("no_value"))
+                    temp.put("category2", list.get(i).get("category2"));
+                else
+                    temp.put("category2", "");
+            }
+            if (!list.get(i).get("category3").equals(""))
+            {
+                if (!list.get(i).get("category3").equals("no_value"))
+                    temp.put("category3", list.get(i).get("category3"));
+                else
+                    temp.put("category3", "");
             }
 
 
