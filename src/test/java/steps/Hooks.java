@@ -26,4 +26,11 @@ public class Hooks implements BaseStep {
     }
   }
 
+    @Before("@skiponsitmerchant")
+    public void beforeScenario2() {
+        if(System.getProperty("env").equalsIgnoreCase("sit") && System.getProperty("usertype").equalsIgnoreCase("merchant")) {
+            throw new AssumptionViolatedException("Not supported on SIT merchant env");
+        }
+    }
+
 }

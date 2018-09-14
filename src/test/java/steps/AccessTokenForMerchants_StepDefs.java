@@ -131,8 +131,11 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
 
     @When("^I make a request to the Dragon ID Manager with body in JSON format$")
     public void i_make_a_request_to_the_Dragon_ID_Manager_with_body_in_JSON_format() {
-     //  accessToken.sendBodyInJsonFormat(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path") +System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
-        accessToken.sendBodyInJsonFormat(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path") +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+
+        logger.info("********** Retrieving Access Token***********");
+        // accessToken.retrieveAccessToken(accessToken.getEndpoint() +System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+        accessToken.sendBodyInJsonFormat(accessToken.getEndpoint() +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+
 
     }
 

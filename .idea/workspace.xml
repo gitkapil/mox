@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0ddca06a-56a4-4f1e-bf32-826353e49203" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/steps/Hooks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/steps/Hooks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -151,6 +155,7 @@
       <file leaf-file-name="AccessTokenForMerchants.feature" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="255">
               <caret line="17" selection-start-line="17" selection-end-line="17" />
 >>>>>>> - Tagged more scenarios with @skiponcimerchant
@@ -195,13 +200,27 @@
             <state relative-caret-position="270">
               <caret line="24" column="6" selection-start-line="24" selection-start-column="6" selection-end-line="24" selection-end-column="6" />
 >>>>>>> - Tagged more scenarios with @skiponcimerchant
+=======
+            <state relative-caret-position="-264">
+              <caret line="19" column="19" lean-forward="true" selection-start-line="19" selection-start-column="19" selection-end-line="19" selection-end-column="19" />
+>>>>>>> - Added a new tag @skiponsitmerchant (all the emulator related test cases)
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SecurityModelValidation.feature" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Hooks.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/test/java/steps/Hooks.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="172">
+              <caret line="22" column="32" lean-forward="true" selection-start-line="22" selection-start-column="32" selection-end-line="22" selection-end-column="32" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SecurityModelValidation.feature" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -337,6 +356,10 @@
             <state relative-caret-position="149">
               <caret line="58" column="35" selection-start-line="58" selection-start-column="35" selection-end-line="58" selection-end-column="35" />
 >>>>>>> - Handled JWK Read Timed Out error
+=======
+            <state relative-caret-position="1233">
+              <caret line="214" column="11" selection-start-line="214" selection-start-column="11" selection-end-line="214" selection-end-column="11" />
+>>>>>>> - Added a new tag @skiponsitmerchant (all the emulator related test cases)
             </state>
           </provider>
         </entry>
@@ -388,8 +411,8 @@
       <file leaf-file-name="PaymentStatus.feature" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="94" column="30" selection-start-line="94" selection-start-column="30" selection-end-line="94" selection-end-column="30" />
+            <state relative-caret-position="317">
+              <caret line="107" selection-start-line="107" selection-end-line="107" />
             </state>
           </provider>
         </entry>
@@ -413,6 +436,18 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="AccessTokenForMerchants_StepDefs.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="114">
+              <caret line="133" selection-start-line="133" selection-end-line="133" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -424,11 +459,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>I am an authorized merchant</find>
-      <find>Connection refused (Connection refused)</find>
-      <find>payment</find>
-      <find>aud</find>
-      <find>valid JWT</find>
       <find>Different error message being returned</find>
       <find>andbox Dragon ID Manager</find>
       <find>role is</find>
@@ -443,17 +473,22 @@
       <find>@functional</find>
       <find>https://paymedev-api-ci.open-paymentsapi.com/payments/paymentrequests</find>
       <find>BAsic</find>
-      <find>Basic</find>
       <find>remote JWK set</find>
       <find>@regression</find>
       <find>@payment</find>
       <find>Validate that a merchant with valid token and paymentRequest as role is able to access merchant payment request and check status APIs(merchant client app has permission to access merchant server app)</find>
       <find>Validate that a merchant with valid token and paymentRequest as role is able to acce</find>
-      <find>@trial</find>
       <find>Validate that a user with (merchant) token and paymentRequest as role is able to access merchant payment request and check status APIs (merchant client app has access to both the server apps)</find>
       <find>skiponcimerchant</find>
       <find>@trial11</find>
       <find>@checkstatus</find>
+      <find>paymentRequest</find>
+      <find>Basic</find>
+      <find>@trial</find>
+      <find>Json</find>
+      <find>Peak error response parsed by DRAGON</find>
+      <find>Invalid PaymentIds sent in the request</find>
+      <find>Positive flow- A merchant is able to create a check status request with all the valid inputs</find>
     </findStrings>
     <replaceStrings>
       <replace>\</replace>
@@ -470,6 +505,7 @@
       <replace>@sit-tests</replace>
       <replace>@trial11</replace>
       <replace>@trial</replace>
+      <replace>@regression</replace>
     </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$</dir>
@@ -562,6 +598,7 @@
         <option value="$PROJECT_DIR$/src/test/resources/configs/playpen.properties" />
         <option value="$PROJECT_DIR$/src/test/java/steps/PaymentStatus_StepDefs.java" />
 <<<<<<< HEAD
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature" />
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -581,6 +618,8 @@
 <<<<<<< HEAD
 >>>>>>> - cleaned up securitymodelvalidation_stepdefs.java
 =======
+=======
+>>>>>>> - Added a new tag @skiponsitmerchant (all the emulator related test cases)
         <option value="$PROJECT_DIR$/src/test/java/steps/SecurityModelValidation_StepDefs.java" />
         <option value="$PROJECT_DIR$/src/test/java/steps/PaymentRequest_StepDefs.java" />
 <<<<<<< HEAD
@@ -599,19 +638,24 @@
 =======
         <option value="$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature" />
         <option value="$PROJECT_DIR$/src/test/java/testSuite/Runner.java" />
-        <option value="$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature" />
         <option value="$PROJECT_DIR$/pom.xml" />
 <<<<<<< HEAD
 >>>>>>> - added an extra tag (@skiponcimerchant) to skip some scenarios while running ci on merchant APIM
 =======
         <option value="$PROJECT_DIR$/src/test/resources/features/PaymentRequest.feature" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature" />
+        <option value="$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java" />
         <option value="$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature" />
         <option value="$PROJECT_DIR$/src/test/java/steps/Hooks.java" />
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> - Tagged more scenarios with @skiponcimerchant
 =======
         <option value="$PROJECT_DIR$/README.md" />
 >>>>>>> Updated the ReadMe file with the latest changes
+=======
+>>>>>>> - Added a new tag @skiponsitmerchant (all the emulator related test cases)
       </list>
     </option>
   </component>
@@ -942,7 +986,7 @@
               <list>
                 <option value="verify" />
                 <option value="-Ptrial" />
-                <option value="-Denv=ci" />
+                <option value="-Denv=sit" />
                 <option value="-Dversion=v0.5" />
                 <option value="-Dusertype=merchant" />
               </list>
@@ -1077,12 +1121,12 @@
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49923664" visible="true" weight="0.27152777" />
 =======
       <window_info anchor="right" id="Maven Projects" order="6" visible="true" weight="0.09175377" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.30329672" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.48021978" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32905483" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info id="Capture Tool" order="6" />
       <window_info id="Designer" order="3" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49923664" visible="true" weight="0.2543554" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49923664" visible="true" weight="0.2543554" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32684824" />
 >>>>>>> - Added test cases for security validation
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -1227,6 +1271,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/main/java/apiHelpers/AccessTokenForMerchants.java">
       <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
@@ -1290,6 +1335,8 @@
         </state>
       </provider>
     </entry>
+=======
+>>>>>>> - Added a new tag @skiponsitmerchant (all the emulator related test cases)
     <entry file="file://$PROJECT_DIR$/src/test/java/steps/OpenIdConfigforPEAK_StepDefs.java">
       <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
@@ -1527,6 +1574,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
 =======
 >>>>>>> - added an extra tag (@skiponcimerchant) to skip some scenarios while running ci on merchant APIM
 =======
@@ -1541,6 +1589,8 @@
         </state>
       </provider>
     </entry>
+=======
+>>>>>>> - Added a new tag @skiponsitmerchant (all the emulator related test cases)
     <entry file="file://$PROJECT_DIR$/src/main/java/utils/JWTHelper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="609">
@@ -1576,27 +1626,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/steps/Hooks.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="24" column="6" selection-start-line="24" selection-start-column="6" selection-end-line="24" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" selection-start-line="17" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="94" column="30" selection-start-line="94" selection-start-column="30" selection-end-line="94" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/resources/configs/ci.properties">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
@@ -1613,8 +1642,52 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="29" lean-forward="true" selection-start-line="26" selection-start-column="29" selection-end-line="26" selection-end-column="29" />
+        <state relative-caret-position="1233">
+          <caret line="214" column="11" selection-start-line="214" selection-start-column="11" selection-end-line="214" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/apiHelpers/AccessTokenForMerchants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="291" column="49" selection-start-line="291" selection-start-column="49" selection-end-line="291" selection-end-column="49" />
+          <folding>
+            <element signature="e#1023#1024#0" expanded="true" />
+            <element signature="e#1054#1055#0" expanded="true" />
+            <element signature="e#1102#1103#0" expanded="true" />
+            <element signature="e#1142#1143#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-264">
+          <caret line="19" column="19" lean-forward="true" selection-start-line="19" selection-start-column="19" selection-end-line="19" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="133" selection-start-line="133" selection-end-line="133" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="317">
+          <caret line="107" selection-start-line="107" selection-end-line="107" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/steps/Hooks.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="172">
+          <caret line="22" column="32" lean-forward="true" selection-start-line="22" selection-start-column="32" selection-end-line="22" selection-end-column="32" />
         </state>
       </provider>
     </entry>
