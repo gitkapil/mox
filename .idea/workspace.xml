@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0ddca06a-56a4-4f1e-bf32-826353e49203" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/steps/Hooks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/steps/Hooks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature" afterDir="false" />
+    <list default="true" id="71c21a5d-30c4-42db-b68e-1d03abf63714" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
-    <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,774 +12,83 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FavoritesManager">
-    <favorites_list name="digital-dragon-testing" />
-  </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-<<<<<<< HEAD
-<<<<<<< HEAD
-      <file leaf-file-name="AccessTokenForMerchants.feature" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature">
+    <leaf>
+      <file leaf-file-name="Runner.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/testSuite/Runner.java">
           <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-            <state relative-caret-position="261">
-              <caret line="325" column="7" lean-forward="true" selection-start-line="325" selection-start-column="7" selection-end-line="325" selection-end-column="7" />
-=======
-            <state relative-caret-position="-16">
-              <caret line="291" column="49" selection-start-line="291" selection-start-column="49" selection-end-line="291" selection-end-column="49" />
->>>>>>> - Added versioning back in
-              <folding>
-                <element signature="e#1023#1024#0" expanded="true" />
-                <element signature="e#1054#1055#0" expanded="true" />
-                <element signature="e#1102#1103#0" expanded="true" />
-                <element signature="e#1142#1143#0" expanded="true" />
-              </folding>
-<<<<<<< HEAD
-=======
-            <state relative-caret-position="291">
-              <caret line="27" column="36" lean-forward="true" selection-start-line="27" selection-start-column="7" selection-end-line="27" selection-end-column="36" />
->>>>>>> - Added test cases for security validation
-=======
-            <state relative-caret-position="405">
-=======
-            <state relative-caret-position="15">
->>>>>>> - updated the scenario description within feature file
-              <caret line="27" column="36" selection-start-line="27" selection-start-column="7" selection-end-line="27" selection-end-column="36" />
->>>>>>> - updated sit.properties with test client app id accounts
-=======
->>>>>>> - Added versioning back in
-=======
-            <state relative-caret-position="75">
-=======
-            <state relative-caret-position="15">
->>>>>>> - Updated the endpoints for sandbox & merchants APIMs (no 'merchant' in the DNS)
-              <caret line="5" column="48" selection-start-line="5" selection-start-column="2" selection-end-line="5" selection-end-column="48" />
->>>>>>> - cleaned up securitymodelvalidation_stepdefs.java
+            <state relative-caret-position="196">
+              <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-      <file leaf-file-name="Extras.feature" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/resources/features/Extras.feature">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2085">
-=======
-      <file leaf-file-name="SecurityModelValidation.feature" pinned="false" current-in-tab="false">
-=======
-      <file leaf-file-name="SecurityModelValidation.feature" pinned="false" current-in-tab="true">
->>>>>>> - updated the scenario description within feature file
-        <entry file="file://$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-22">
-              <caret line="150" column="41" lean-forward="true" selection-start-line="150" selection-start-column="41" selection-end-line="150" selection-end-column="41" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Extras.feature" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/resources/features/Extras.feature">
-          <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-            <state relative-caret-position="381">
->>>>>>> - Added test cases for security validation
-=======
-            <state relative-caret-position="2085">
->>>>>>> - updated sit.properties with test client app id accounts
-              <caret line="139" selection-start-line="139" selection-end-line="139" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-      <file leaf-file-name="sit.properties" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/test/resources/configs/sit.properties">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
-=======
-=======
-      <file leaf-file-name="sit.properties" pinned="false" current-in-tab="true">
-=======
       <file leaf-file-name="sit.properties" pinned="false" current-in-tab="false">
->>>>>>> - updated the scenario description within feature file
         <entry file="file://$PROJECT_DIR$/src/test/resources/configs/sit.properties">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="19" selection-start-line="19" selection-end-line="19" />
-=======
-      <file leaf-file-name="SecurityModelValidation.feature" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature">
-          <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-<<<<<<< HEAD
-            <state relative-caret-position="1314">
-              <caret line="106" lean-forward="true" selection-start-line="106" selection-end-line="106" />
->>>>>>> - Added versioning back in
-=======
-            <state relative-caret-position="-2901">
-              <caret line="5" column="52" selection-start-line="5" selection-start-column="52" selection-end-line="5" selection-end-column="52" />
->>>>>>> - cleaned up securitymodelvalidation_stepdefs.java
-=======
-            <state relative-caret-position="121">
-              <caret line="213" column="6" selection-start-line="213" selection-start-column="6" selection-end-line="213" selection-end-column="6" />
->>>>>>> - Updated the endpoints for sandbox & merchants APIMs (no 'merchant' in the DNS)
-=======
-      <file leaf-file-name="SecurityModelValidation.feature" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature">
-          <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-            <state relative-caret-position="1830">
-              <caret line="122" column="2" selection-start-line="122" selection-start-column="2" selection-end-line="122" selection-end-column="2" />
->>>>>>> - Handled JWK Read Timed Out error
-=======
-            <state relative-caret-position="2106">
-              <caret line="215" column="1" selection-start-line="215" selection-start-column="1" selection-end-line="215" selection-end-column="1" />
->>>>>>> - added an extra tag (@skiponcimerchant) to skip some scenarios while running ci on merchant APIM
-=======
-      <file leaf-file-name="AccessTokenForMerchants.feature" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature">
-          <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-            <state relative-caret-position="255">
-              <caret line="17" selection-start-line="17" selection-end-line="17" />
->>>>>>> - Tagged more scenarios with @skiponcimerchant
-            </state>
-          </provider>
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> - updated sit.properties with test client app id accounts
-      <file leaf-file-name="SecurityModelValidation_StepDefs.java" pinned="false" current-in-tab="false">
-=======
-      <file leaf-file-name="SecurityModelValidation_StepDefs.java" pinned="false" current-in-tab="true">
->>>>>>> - cleaned up securitymodelvalidation_stepdefs.java
-=======
-      <file leaf-file-name="SecurityModelValidation_StepDefs.java" pinned="false" current-in-tab="false">
->>>>>>> - Updated the endpoints for sandbox & merchants APIMs (no 'merchant' in the DNS)
-        <entry file="file://$PROJECT_DIR$/src/test/java/steps/SecurityModelValidation_StepDefs.java">
-=======
-      <file leaf-file-name="AccessTokenForMerchants_StepDefs.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java">
->>>>>>> - Handled JWK Read Timed Out error
+      <file leaf-file-name="PaymentStatus.feature" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="363">
-              <caret line="171" lean-forward="true" selection-start-line="171" selection-end-line="171" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
->>>>>>> - Added test cases for security validation
-=======
-      <file leaf-file-name="Hooks.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/steps/Hooks.java">
-          <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-            <state relative-caret-position="225">
-              <caret line="21" column="28" selection-start-line="21" selection-start-column="12" selection-end-line="21" selection-end-column="28" />
->>>>>>> - added an extra tag (@skiponcimerchant) to skip some scenarios while running ci on merchant APIM
-=======
-            <state relative-caret-position="270">
-              <caret line="24" column="6" selection-start-line="24" selection-start-column="6" selection-end-line="24" selection-end-column="6" />
->>>>>>> - Tagged more scenarios with @skiponcimerchant
-=======
-            <state relative-caret-position="-264">
-              <caret line="19" column="19" lean-forward="true" selection-start-line="19" selection-start-column="19" selection-end-line="19" selection-end-column="19" />
->>>>>>> - Added a new tag @skiponsitmerchant (all the emulator related test cases)
-            </state>
+            <state relative-caret-position="-1227" />
           </provider>
         </entry>
       </file>
       <file leaf-file-name="Hooks.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/test/java/steps/Hooks.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="172">
-              <caret line="22" column="32" lean-forward="true" selection-start-line="22" selection-start-column="32" selection-end-line="22" selection-end-column="32" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SecurityModelValidation.feature" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature">
-          <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-            <state relative-caret-position="30">
-              <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
-=======
-            <state relative-caret-position="330">
-              <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
->>>>>>> - Updated the endpoints for sandbox & merchants APIMs (no 'merchant' in the DNS)
-=======
-            <state relative-caret-position="171">
-              <caret line="75" column="37" selection-start-line="75" selection-start-column="27" selection-end-line="75" selection-end-column="37" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#525#535#0" expanded="true" />
-                <element signature="e#3987#3988#0" expanded="true" />
-                <element signature="e#4040#4041#0" expanded="true" />
-              </folding>
->>>>>>> - Handled JWK Read Timed Out error
-=======
-            <state relative-caret-position="195">
-              <caret line="16" column="33" selection-start-line="16" selection-start-column="17" selection-end-line="16" selection-end-column="33" />
->>>>>>> - added an extra tag (@skiponcimerchant) to skip some scenarios while running ci on merchant APIM
-=======
-            <state relative-caret-position="306">
-              <caret line="211" column="43" lean-forward="true" selection-start-line="211" selection-start-column="43" selection-end-line="211" selection-end-column="43" />
->>>>>>> - Tagged more scenarios with @skiponcimerchant
-=======
-      <file leaf-file-name="SecurityModelValidation.feature" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="26" column="29" lean-forward="true" selection-start-line="26" selection-start-column="29" selection-end-line="26" selection-end-column="29" />
->>>>>>> Updated the ReadMe file with the latest changes
-            </state>
-          </provider>
-        </entry>
-      </file>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-      <file leaf-file-name="PaymentStatus.feature" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature">
-          <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-            <state relative-caret-position="195">
-              <caret line="13" column="25" lean-forward="true" selection-start-line="13" selection-start-column="25" selection-end-line="13" selection-end-column="25" />
-=======
-            <state relative-caret-position="210">
-              <caret line="14" column="48" lean-forward="true" selection-start-line="14" selection-start-column="48" selection-end-line="14" selection-end-column="48" />
->>>>>>> - Added test cases for security validation
-=======
-            <state relative-caret-position="315">
-<<<<<<< HEAD
-              <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
->>>>>>> - updated sit.properties with test client app id accounts
-=======
-              <caret line="21" selection-start-line="21" selection-end-line="21" />
->>>>>>> - Updated developer-client-id within sit.properties
-=======
-            <state relative-caret-position="-996">
-              <caret line="7" column="24" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
->>>>>>> - Added versioning back in
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="playpen.properties" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/resources/configs/playpen.properties">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
-=======
-            <state relative-caret-position="195">
-              <caret line="13" column="79" lean-forward="true" selection-start-line="13" selection-start-column="79" selection-end-line="13" selection-end-column="79" />
->>>>>>> - cleaned up securitymodelvalidation_stepdefs.java
-=======
-      <file leaf-file-name="PaymentStatus_StepDefs.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/steps/PaymentStatus_StepDefs.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="907">
-              <caret line="68" column="118" selection-start-line="68" selection-start-column="111" selection-end-line="68" selection-end-column="118" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
->>>>>>> - Updated the endpoints for sandbox & merchants APIMs (no 'merchant' in the DNS)
-=======
-      <file leaf-file-name="ci.properties" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/resources/configs/ci.properties">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="68" lean-forward="true" selection-start-line="5" selection-end-line="6" selection-end-column="68" />
->>>>>>> - Handled JWK Read Timed Out error
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JWTHelper.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/utils/JWTHelper.java">
-          <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-            <state relative-caret-position="2730">
-              <caret line="186" column="117" selection-start-line="186" selection-start-column="117" selection-end-line="186" selection-end-column="117" />
-=======
-            <state relative-caret-position="328">
-=======
-            <state relative-caret-position="1665">
->>>>>>> - updated sit.properties with test client app id accounts
-              <caret line="118" column="168" selection-start-line="118" selection-start-column="161" selection-end-line="118" selection-end-column="168" />
->>>>>>> - Added test cases for security validation
-=======
-            <state relative-caret-position="527">
-              <caret line="49" column="53" lean-forward="true" selection-start-line="16" selection-start-column="8" selection-end-line="49" selection-end-column="53" />
-=======
-            <state relative-caret-position="163">
-              <caret line="30" column="108" selection-start-line="30" selection-start-column="93" selection-end-line="30" selection-end-column="108" />
->>>>>>> - Updated the endpoints for sandbox & merchants APIMs (no 'merchant' in the DNS)
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-=======
-            <state relative-caret-position="149">
-              <caret line="58" column="35" selection-start-line="58" selection-start-column="35" selection-end-line="58" selection-end-column="35" />
->>>>>>> - Handled JWK Read Timed Out error
-=======
-            <state relative-caret-position="1233">
-              <caret line="214" column="11" selection-start-line="214" selection-start-column="11" selection-end-line="214" selection-end-column="11" />
->>>>>>> - Added a new tag @skiponsitmerchant (all the emulator related test cases)
-            </state>
-          </provider>
-        </entry>
-      </file>
-<<<<<<< HEAD
-<<<<<<< HEAD
-      <file leaf-file-name="PaymentStatus_StepDefs.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/steps/PaymentStatus_StepDefs.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1365">
-              <caret line="95" column="1" selection-start-line="95" selection-start-column="1" selection-end-line="95" selection-end-column="1" />
->>>>>>> - updated the scenario description within feature file
-=======
-            <state relative-caret-position="324">
-              <caret line="148" column="169" lean-forward="true" selection-start-line="148" selection-start-column="169" selection-end-line="148" selection-end-column="169" />
->>>>>>> - Added versioning back in
-=======
-            <state relative-caret-position="-1052">
-              <caret line="52" lean-forward="true" selection-start-line="52" selection-end-line="52" />
->>>>>>> - cleaned up securitymodelvalidation_stepdefs.java
-=======
-      <file leaf-file-name="PaymentRequest_StepDefs.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/steps/PaymentRequest_StepDefs.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="75" column="37" selection-start-line="75" selection-start-column="27" selection-end-line="75" selection-end-column="37" />
->>>>>>> - Updated the endpoints for sandbox & merchants APIMs (no 'merchant' in the DNS)
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#525#535#0" expanded="true" />
-                <element signature="e#3987#3988#0" expanded="true" />
-                <element signature="e#4040#4041#0" expanded="true" />
-              </folding>
-=======
-      <file leaf-file-name="PaymentRequest.feature" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/resources/features/PaymentRequest.feature">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="928">
-              <caret line="205" column="12" lean-forward="true" selection-start-line="205" selection-start-column="12" selection-end-line="205" selection-end-column="12" />
->>>>>>> - Handled JWK Read Timed Out error
-=======
-      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/pom.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="455">
-              <caret line="114" lean-forward="true" selection-start-line="114" selection-end-line="114" />
->>>>>>> - added an extra tag (@skiponcimerchant) to skip some scenarios while running ci on merchant APIM
-=======
-      <file leaf-file-name="PaymentStatus.feature" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="317">
-              <caret line="107" selection-start-line="107" selection-end-line="107" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ci.properties" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/resources/configs/ci.properties">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" selection-start-line="20" selection-end-line="25" selection-end-column="37" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PaymentRequest.feature" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/resources/features/PaymentRequest.feature">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="393">
-              <caret line="156" column="30" selection-start-line="156" selection-start-column="30" selection-end-line="156" selection-end-column="30" />
->>>>>>> - Tagged more scenarios with @skiponcimerchant
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AccessTokenForMerchants_StepDefs.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
-              <caret line="133" selection-start-line="133" selection-end-line="133" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="60">
+              <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>Different error message being returned</find>
-      <find>andbox Dragon ID Manager</find>
-      <find>role is</find>
-      <find>role</find>
-      <find>version</find>
-      <find>setEndpoint</find>
-      <find>Base_URI_Part_2</find>
-      <find>setBaseURI</find>
-      <find>I am a client app with access to both sandbox &amp; merchant server apps</find>
-      <find>I am a developer with no paymentrequest role</find>
-      <find>within token response</find>
-      <find>@functional</find>
-      <find>https://paymedev-api-ci.open-paymentsapi.com/payments/paymentrequests</find>
-      <find>BAsic</find>
-      <find>remote JWK set</find>
-      <find>@regression</find>
-      <find>@payment</find>
-      <find>Validate that a merchant with valid token and paymentRequest as role is able to access merchant payment request and check status APIs(merchant client app has permission to access merchant server app)</find>
-      <find>Validate that a merchant with valid token and paymentRequest as role is able to acce</find>
-      <find>Validate that a user with (merchant) token and paymentRequest as role is able to access merchant payment request and check status APIs (merchant client app has access to both the server apps)</find>
-      <find>skiponcimerchant</find>
-      <find>@trial11</find>
-      <find>@checkstatus</find>
-      <find>paymentRequest</find>
-      <find>Basic</find>
-      <find>@trial</find>
-      <find>Json</find>
-      <find>Peak error response parsed by DRAGON</find>
-      <find>Invalid PaymentIds sent in the request</find>
-      <find>Positive flow- A merchant is able to create a check status request with all the valid inputs</find>
-    </findStrings>
-    <replaceStrings>
-      <replace>\</replace>
-      <replace>trial</replace>
-      <replace>&quot;&lt;effectiveduration&gt;&quot;,&quot;&lt;returnURL&gt;&quot;</replace>
-      <replace>checkStatus</replace>
-      <replace>refund</replace>
-      <replace>@functional @regression</replace>
-      <replace>@checkstatus @regression</replace>
-      <replace>@payment @regression</replace>
-      <replace>Given I am an authorized user</replace>
-      <replace>I am an authorized user</replace>
-      <replace>@functional</replace>
-      <replace>@sit-tests</replace>
-      <replace>@trial11</replace>
-      <replace>@trial</replace>
-      <replace>@regression</replace>
-    </replaceStrings>
-    <dirStrings>
-      <dir>$PROJECT_DIR$</dir>
-    </dirStrings>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="master" />
-      </map>
-    </option>
   </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/src/test/java/steps/StepDefinitions1.java" />
-        <option value="$PROJECT_DIR$/src/test/resources/client.properties" />
-        <option value="$PROJECT_DIR$/src/test/resources/playpen.properties" />
-        <option value="$PROJECT_DIR$/src/main/java/utils/ConfigFileReader.java" />
-        <option value="$PROJECT_DIR$/src/test/java/steps/StepDefinitions_Demo.java" />
-        <option value="$PROJECT_DIR$/src/main/java/utils/QRCodeHelper.java" />
-        <option value="$PROJECT_DIR$/src/main/java/utils/Helper.java" />
-        <option value="$PROJECT_DIR$/src/main/java/apiHelpers/Helper.java" />
-        <option value="$PROJECT_DIR$/src/main/java/utils/FileHelper.java" />
-        <option value="$PROJECT_DIR$/src/main/java/utils/General.java" />
-        <option value="$PROJECT_DIR$/src/test/resources/features/Demo1.feature" />
-        <option value="$PROJECT_DIR$/src/main/java/utils/MockedPEAKServices.java" />
-        <option value="$PROJECT_DIR$/src/test/resources/features/ClosedDragon.feature" />
-        <option value="$PROJECT_DIR$/src/test/java/steps/StepDefinitions.java" />
-        <option value="$PROJECT_DIR$/src/main/java/apiHelpers/Transaction.java" />
-        <option value="$PROJECT_DIR$/src/main/java/extras/Links.java" />
-        <option value="$PROJECT_DIR$/src/main/java/apiHelpers/CheckStatusRequest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/steps/CheckStatusRequest_StepDefs.java" />
-        <option value="$PROJECT_DIR$/src/test/resources/features/CheckStatusRequest.feature" />
-        <option value="$PROJECT_DIR$/src/main/java/apiHelpers/CheckStatus.java" />
-        <option value="$PROJECT_DIR$/src/main/java/apiHelpers/Refund.java" />
-        <option value="$PROJECT_DIR$/src/main/java/extras/Transaction.java" />
-        <option value="$PROJECT_DIR$/src/test/resources/features/Refund.feature" />
-        <option value="$PROJECT_DIR$/src/test/java/steps/CheckStatus_StepDefs.java" />
-        <option value="$PROJECT_DIR$/src/test/java/steps/Refund_StepDefs.java" />
-        <option value="$PROJECT_DIR$/src/main/java/apiHelpers/JwksUriForPEAK.java" />
-        <option value="$PROJECT_DIR$/src/main/java/utils/BaseStep.java" />
-        <option value="$PROJECT_DIR$/src/test/resources/features/CheckStatus.feature" />
-        <option value="$PROJECT_DIR$/src/test/java/steps/OpenIdConfigforPEAK_StepDefs.java" />
-        <option value="$PROJECT_DIR$/src/main/java/apiHelpers/OpenIdConfigForPEAK.java" />
-        <option value="$PROJECT_DIR$/src/main/java/apiHelpers/PaymentRequest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/utils/RestHelper.java" />
-        <option value="$PROJECT_DIR$/src/test/resources/features/Extras.feature" />
-<<<<<<< HEAD
-<<<<<<< HEAD
-        <option value="$PROJECT_DIR$/src/test/java/steps/PaymentRequest_StepDefs.java" />
-<<<<<<< HEAD
-<<<<<<< HEAD
-        <option value="$PROJECT_DIR$/src/test/java/steps/PaymentStatus_StepDefs.java" />
-=======
->>>>>>> - Updated the endpoints for sandbox & merchants APIMs (no 'merchant' in the DNS)
-        <option value="$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature" />
-        <option value="$PROJECT_DIR$/src/main/java/apiHelpers/AccessTokenForMerchants.java" />
-=======
->>>>>>> - Added test cases for security validation
-        <option value="$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java" />
-        <option value="$PROJECT_DIR$/src/main/java/apiHelpers/AccessTokenForMerchants.java" />
-        <option value="$PROJECT_DIR$/src/test/java/steps/PaymentStatus_StepDefs.java" />
-        <option value="$PROJECT_DIR$/src/test/resources/features/Extras.feature" />
-<<<<<<< HEAD
-        <option value="$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature" />
-<<<<<<< HEAD
-<<<<<<< HEAD
-        <option value="$PROJECT_DIR$/src/test/resources/configs/ci.properties" />
-        <option value="$PROJECT_DIR$/src/test/resources/configs/sit.properties" />
-=======
-        <option value="$PROJECT_DIR$/src/test/resources/configs/sit.properties" />
-        <option value="$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature" />
-        <option value="$PROJECT_DIR$/src/test/resources/configs/ci.properties" />
->>>>>>> - Added test cases for security validation
-=======
-        <option value="$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature" />
-        <option value="$PROJECT_DIR$/src/test/resources/configs/ci.properties" />
-        <option value="$PROJECT_DIR$/src/test/resources/configs/sit.properties" />
->>>>>>> - updated sit.properties with test client app id accounts
-=======
-=======
-        <option value="$PROJECT_DIR$/src/test/java/steps/PaymentStatus_StepDefs.java" />
->>>>>>> - Added versioning back in
-        <option value="$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature" />
-=======
->>>>>>> - Tagged more scenarios with @skiponcimerchant
-        <option value="$PROJECT_DIR$/src/main/java/apiHelpers/AccessTokenForMerchants.java" />
-        <option value="$PROJECT_DIR$/src/test/resources/configs/playpen.properties" />
-        <option value="$PROJECT_DIR$/src/test/java/steps/PaymentStatus_StepDefs.java" />
-<<<<<<< HEAD
-<<<<<<< HEAD
-        <option value="$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature" />
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> - updated the scenario description within feature file
-=======
-        <option value="$PROJECT_DIR$/src/test/java/steps/SecurityModelValidation_StepDefs.java" />
-<<<<<<< HEAD
->>>>>>> - Added versioning back in
-=======
-        <option value="$PROJECT_DIR$/src/test/resources/configs/sit.properties" />
->>>>>>> - Added values to the keys in the sit & ci properties file
-=======
-        <option value="$PROJECT_DIR$/src/test/resources/configs/ci.properties" />
-=======
->>>>>>> - Handled JWK Read Timed Out error
-        <option value="$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java" />
-<<<<<<< HEAD
->>>>>>> - cleaned up securitymodelvalidation_stepdefs.java
-=======
-=======
->>>>>>> - Added a new tag @skiponsitmerchant (all the emulator related test cases)
-        <option value="$PROJECT_DIR$/src/test/java/steps/SecurityModelValidation_StepDefs.java" />
-        <option value="$PROJECT_DIR$/src/test/java/steps/PaymentRequest_StepDefs.java" />
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> - Updated the endpoints for sandbox & merchants APIMs (no 'merchant' in the DNS)
-=======
-        <option value="$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature" />
-=======
->>>>>>> - added an extra tag (@skiponcimerchant) to skip some scenarios while running ci on merchant APIM
-        <option value="$PROJECT_DIR$/src/test/resources/configs/ci.properties" />
-        <option value="$PROJECT_DIR$/src/test/resources/configs/sit.properties" />
-        <option value="$PROJECT_DIR$/src/test/resources/features/OpenIdConfigforPEAK.feature" />
-        <option value="$PROJECT_DIR$/src/main/java/utils/JWTHelper.java" />
-<<<<<<< HEAD
->>>>>>> - Handled JWK Read Timed Out error
-=======
-        <option value="$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature" />
-        <option value="$PROJECT_DIR$/src/test/java/testSuite/Runner.java" />
-        <option value="$PROJECT_DIR$/pom.xml" />
-<<<<<<< HEAD
->>>>>>> - added an extra tag (@skiponcimerchant) to skip some scenarios while running ci on merchant APIM
-=======
-        <option value="$PROJECT_DIR$/src/test/resources/features/PaymentRequest.feature" />
-        <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature" />
-        <option value="$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java" />
-        <option value="$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature" />
-        <option value="$PROJECT_DIR$/src/test/java/steps/Hooks.java" />
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> - Tagged more scenarios with @skiponcimerchant
-=======
-        <option value="$PROJECT_DIR$/README.md" />
->>>>>>> Updated the ReadMe file with the latest changes
-=======
->>>>>>> - Added a new tag @skiponsitmerchant (all the emulator related test cases)
-      </list>
-    </option>
-  </component>
-  <component name="MavenImportPreferences">
-    <option name="importingSettings">
-      <MavenImportingSettings>
-        <option name="importAutomatically" value="true" />
-      </MavenImportingSettings>
-    </option>
-  </component>
-  <component name="MavenProjectNavigator">
-    <treeState>
-<<<<<<< HEAD
-      <expand />
-=======
-      <expand>
-        <path>
-          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
-          <item name="Profiles" type="6783ec58:MavenProjectsStructure$ProfilesNode" />
-        </path>
-        <path>
-          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
-          <item name="dragon" type="9519ce18:MavenProjectsStructure$ProjectNode" />
-        </path>
-        <path>
-          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
-          <item name="dragon" type="9519ce18:MavenProjectsStructure$ProjectNode" />
-          <item name="Lifecycle" type="58874e2:MavenProjectsStructure$LifecycleNode" />
-        </path>
-      </expand>
->>>>>>> - added an extra tag (@skiponcimerchant) to skip some scenarios while running ci on merchant APIM
-      <select />
-    </treeState>
-  </component>
-<<<<<<< HEAD
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds">
     <option name="y" value="23" />
     <option name="width" value="1440" />
-    <option name="height" value="829" />
-=======
-  <component name="ProjectFrameBounds">
-    <option name="x" value="1554" />
-    <option name="y" value="35" />
-    <option name="width" value="1722" />
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-    <option name="height" value="931" />
->>>>>>> - Added test cases for security validation
-=======
-    <option name="height" value="832" />
->>>>>>> - updated the scenario description within feature file
-=======
-    <option name="height" value="994" />
->>>>>>> - Added versioning back in
-=======
-    <option name="height" value="830" />
->>>>>>> - Updated the endpoints for sandbox & merchants APIMs (no 'merchant' in the DNS)
-=======
-    <option name="height" value="984" />
->>>>>>> - Handled JWK Read Timed Out error
+    <option name="height" value="877" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <ConfirmationsSetting value="1" id="Add" />
-  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="AndroidView" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="digital-dragon-testing" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dragon" type="b2602c69:ProjectViewProjectNode" />
               <item name="digital-dragon-testing" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="digital-dragon-testing" type="b2602c69:ProjectViewProjectNode" />
-              <item name="digital-dragon-testing" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="digital-dragon-testing" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dragon" type="b2602c69:ProjectViewProjectNode" />
               <item name="digital-dragon-testing" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="digital-dragon-testing" type="b2602c69:ProjectViewProjectNode" />
-              <item name="digital-dragon-testing" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="digital-dragon-testing" type="b2602c69:ProjectViewProjectNode" />
-              <item name="digital-dragon-testing" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="apiHelpers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="digital-dragon-testing" type="b2602c69:ProjectViewProjectNode" />
-              <item name="digital-dragon-testing" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="utils" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="digital-dragon-testing" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dragon" type="b2602c69:ProjectViewProjectNode" />
               <item name="digital-dragon-testing" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="digital-dragon-testing" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dragon" type="b2602c69:ProjectViewProjectNode" />
               <item name="digital-dragon-testing" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="digital-dragon-testing" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dragon" type="b2602c69:ProjectViewProjectNode" />
               <item name="digital-dragon-testing" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
@@ -792,7 +96,7 @@
               <item name="steps" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="digital-dragon-testing" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dragon" type="b2602c69:ProjectViewProjectNode" />
               <item name="digital-dragon-testing" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
@@ -800,14 +104,14 @@
               <item name="testSuite" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="digital-dragon-testing" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dragon" type="b2602c69:ProjectViewProjectNode" />
               <item name="digital-dragon-testing" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="digital-dragon-testing" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dragon" type="b2602c69:ProjectViewProjectNode" />
               <item name="digital-dragon-testing" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
@@ -815,7 +119,7 @@
               <item name="configs" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="digital-dragon-testing" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dragon" type="b2602c69:ProjectViewProjectNode" />
               <item name="digital-dragon-testing" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
@@ -826,37 +130,14 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
-  </component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/test/resources/configs" />
-      <recent name="$PROJECT_DIR$/src/test/resources" />
-      <recent name="$PROJECT_DIR$/src/test/java/features" />
-      <recent name="$PROJECT_DIR$/src/test/java/steps" />
-      <recent name="$PROJECT_DIR$/src/test" />
-    </key>
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="steps" />
-      <recent name="apiHelpers" />
-      <recent name="utils" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/test/resources/features" />
-      <recent name="$PROJECT_DIR$/src/test/resources/configs" />
-      <recent name="$PROJECT_DIR$/src/test" />
-    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -870,7 +151,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Maven.Regression">
+  <component name="RunManager">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     </configuration>
@@ -890,62 +171,7 @@
       </option>
       <patterns />
     </configuration>
-    <configuration name="Payment Playpen 0.3" type="MavenRunConfiguration" factoryName="Maven">
-      <MavenSettings>
-        <option name="myGeneralSettings" />
-        <option name="myRunnerSettings" />
-        <option name="myRunnerParameters">
-          <MavenRunnerParameters>
-            <option name="profiles">
-              <set />
-            </option>
-            <option name="goals">
-              <list>
-                <option value="verify" />
-                <option value="-Ppayment" />
-                <option value="-Denv=playpen" />
-                <option value="-Dversion=v0.3" />
-              </list>
-            </option>
-            <option name="pomFileName" />
-            <option name="profilesMap">
-              <map />
-            </option>
-            <option name="resolveToWorkspace" value="false" />
-            <option name="workingDirPath" value="$PROJECT_DIR$" />
-          </MavenRunnerParameters>
-        </option>
-      </MavenSettings>
-    </configuration>
-    <configuration name="Regression" type="MavenRunConfiguration" factoryName="Maven">
-      <MavenSettings>
-        <option name="myGeneralSettings" />
-        <option name="myRunnerSettings" />
-        <option name="myRunnerParameters">
-          <MavenRunnerParameters>
-            <option name="profiles">
-              <set />
-            </option>
-            <option name="goals">
-              <list>
-                <option value="verify" />
-                <option value="-Pregression" />
-                <option value="-Denv=ci" />
-                <option value="-Dversion=v0.5" />
-                <option value="-Dusertype=developer" />
-              </list>
-            </option>
-            <option name="pomFileName" />
-            <option name="profilesMap">
-              <map />
-            </option>
-            <option name="resolveToWorkspace" value="false" />
-            <option name="workingDirPath" value="$PROJECT_DIR$" />
-          </MavenRunnerParameters>
-        </option>
-      </MavenSettings>
-    </configuration>
-    <configuration name="Sit Regression v0.4" type="MavenRunConfiguration" factoryName="Maven">
+    <configuration name="SIT Regression" type="MavenRunConfiguration" factoryName="Maven">
       <MavenSettings>
         <option name="myGeneralSettings" />
         <option name="myRunnerSettings" />
@@ -959,7 +185,7 @@
                 <option value="verify" />
                 <option value="-Pregression" />
                 <option value="-Denv=sit" />
-                <option value="-Dversion=v0.4" />
+                <option value="-Dversion=v0.5" />
                 <option value="-Dusertype=developer" />
               </list>
             </option>
@@ -969,60 +195,6 @@
             </option>
             <option name="resolveToWorkspace" value="false" />
             <option name="workingDirPath" value="$PROJECT_DIR$" />
-          </MavenRunnerParameters>
-        </option>
-      </MavenSettings>
-    </configuration>
-    <configuration name="TrialTests" type="MavenRunConfiguration" factoryName="Maven">
-      <MavenSettings>
-        <option name="myGeneralSettings" />
-        <option name="myRunnerSettings" />
-        <option name="myRunnerParameters">
-          <MavenRunnerParameters>
-            <option name="profiles">
-              <set />
-            </option>
-            <option name="goals">
-              <list>
-                <option value="verify" />
-                <option value="-Ptrial" />
-                <option value="-Denv=sit" />
-                <option value="-Dversion=v0.5" />
-                <option value="-Dusertype=merchant" />
-              </list>
-            </option>
-            <option name="pomFileName" />
-            <option name="profilesMap">
-              <map />
-            </option>
-            <option name="resolveToWorkspace" value="false" />
-            <option name="workingDirPath" value="$PROJECT_DIR$" />
-          </MavenRunnerParameters>
-        </option>
-      </MavenSettings>
-    </configuration>
-    <configuration default="true" type="MavenRunConfiguration" factoryName="Maven">
-      <MavenSettings>
-        <option name="myGeneralSettings" />
-        <option name="myRunnerSettings" />
-        <option name="myRunnerParameters">
-          <MavenRunnerParameters>
-            <option name="profiles">
-              <set />
-            </option>
-            <option name="goals">
-              <list>
-                <option value="mvn" />
-                <option value="verify" />
-                <option value="-PAPITests" />
-              </list>
-            </option>
-            <option name="pomFileName" />
-            <option name="profilesMap">
-              <map />
-            </option>
-            <option name="resolveToWorkspace" value="false" />
-            <option name="workingDirPath" value="" />
           </MavenRunnerParameters>
         </option>
       </MavenSettings>
@@ -1049,675 +221,82 @@
       <properties />
       <listeners />
     </configuration>
-    <list>
-      <item itemvalue="Maven.Payment Playpen 0.3" />
-      <item itemvalue="Maven.Regression" />
-      <item itemvalue="Maven.Sit Regression v0.4" />
-      <item itemvalue="Maven.TrialTests" />
-    </list>
   </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="0ddca06a-56a4-4f1e-bf32-826353e49203" name="Default" comment="" />
-      <created>1528418114461</created>
+      <changelist id="71c21a5d-30c4-42db-b68e-1d03abf63714" name="Default" comment="" />
+      <created>1536891464797</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1528418114461</updated>
+      <updated>1536891464797</updated>
     </task>
     <servers />
   </component>
   <component name="ToolWindowManager">
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-    <frame x="0" y="23" width="1440" height="829" extended-state="6" />
-    <editor active="true" />
-=======
-    <frame x="1524" y="81" width="1722" height="931" extended-state="0" />
-<<<<<<< HEAD
->>>>>>> - Added test cases for security validation
-=======
-    <editor active="true" />
->>>>>>> - updated sit.properties with test client app id accounts
-=======
-    <frame x="0" y="23" width="1722" height="832" extended-state="0" />
->>>>>>> - updated the scenario description within feature file
-=======
-    <frame x="1484" y="59" width="1722" height="994" extended-state="0" />
-    <editor active="true" />
->>>>>>> - Added versioning back in
-=======
-    <frame x="1554" y="35" width="1722" height="830" extended-state="0" />
->>>>>>> - Updated the endpoints for sandbox & merchants APIMs (no 'merchant' in the DNS)
-=======
-    <frame x="1554" y="35" width="1722" height="984" extended-state="0" />
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> - Handled JWK Read Timed Out error
-=======
-    <editor active="true" />
->>>>>>> - added an extra tag (@skiponcimerchant) to skip some scenarios while running ci on merchant APIM
-=======
->>>>>>> Updated the ReadMe file with the latest changes
+    <frame x="0" y="23" width="1440" height="877" extended-state="6" />
     <layout>
-      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Palette" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Palette&#9;" order="7" />
-      <window_info id="Image Layers" order="2" />
-      <window_info anchor="right" id="Capture Analysis" order="4" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-<<<<<<< HEAD
-      <window_info anchor="right" id="Maven Projects" order="6" visible="true" weight="0.09791667" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.49634275" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" />
-      <window_info id="Capture Tool" order="6" />
-      <window_info id="Designer" order="3" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49923664" visible="true" weight="0.27152777" />
-=======
-      <window_info anchor="right" id="Maven Projects" order="6" visible="true" weight="0.09175377" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.48021978" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32905483" />
-      <window_info anchor="bottom" id="Terminal" order="8" />
-      <window_info id="Capture Tool" order="6" />
-      <window_info id="Designer" order="3" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49923664" visible="true" weight="0.2543554" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32684824" />
->>>>>>> - Added test cases for security validation
+      <window_info anchor="right" id="Palette&#9;" />
+      <window_info id="Image Layers" />
+      <window_info anchor="right" id="Capture Analysis" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="right" id="Maven Projects" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.59900373" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info id="Capture Tool" />
+      <window_info id="Designer" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info id="UI Designer" order="4" />
-      <window_info anchor="right" id="Theme Preview" order="5" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39982578" />
-      <window_info id="Favorites" order="5" sideWeight="0.50076336" side_tool="true" weight="0.18057922" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Messages" order="9" weight="1.0" />
+      <window_info id="UI Designer" />
+      <window_info anchor="right" id="Theme Preview" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32684824" />
     </layout>
-  </component>
-  <component name="UnknownFeatures">
-    <option featureType="com.intellij.fileTypeFactory" implementationName="*.md" />
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/test/java/steps/StepDefinitions_Demo.java" />
-    <entry file="file://$PROJECT_DIR$/../appium-sample-test-master/src/test/java/ioSampleTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-111" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Utils/Employee.java" />
-    <entry file="file://$PROJECT_DIR$/src/test/java/APITests/Test2.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/Utils/BaseSteps.java" />
-    <entry file="jar://$MAVEN_REPOSITORY$/com/jayway/restassured/rest-assured/2.8.0/rest-assured-2.8.0.jar!/com/jayway/restassured/RestAssured.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="66" column="25" selection-start-line="66" selection-start-column="25" selection-end-line="66" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/configs/generic.properties" />
-    <entry file="file://$PROJECT_DIR$/src/test/java/steps/StepDefinitions_Demo.java" />
-    <entry file="jar://$MAVEN_REPOSITORY$/com/nimbusds/nimbus-jose-jwt/5.12/nimbus-jose-jwt-5.12.jar!/com/nimbusds/jwt/proc/JWTProcessor.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="18" column="17" selection-start-line="18" selection-start-column="17" selection-end-line="18" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/log4j/log4j/1.2.17/log4j-1.2.17.jar!/org/apache/log4j/Logger.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="20" column="25" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_172.jdk/Contents/Home/src.zip!/java/util/concurrent/Callable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="341">
-          <caret line="64" column="6" selection-start-line="64" selection-start-column="6" selection-end-line="64" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/utils/QRCodeHelper.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/extras/Links.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/utils/General.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/extras/Transaction.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/apiHelpers/Refund.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/utils/MockedPEAKServices.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/apiHelpers/CheckStatus.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/utils/FileHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="15" column="22" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/features/Refund.feature">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="339">
-          <caret line="23" selection-start-line="23" selection-end-line="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/steps/CheckStatus_StepDefs.java" />
-    <entry file="file://$PROJECT_DIR$/src/test/java/steps/Refund_StepDefs.java" />
-    <entry file="file://$PROJECT_DIR$/src/test/resources/features/Demo1.feature" />
-    <entry file="file://$PROJECT_DIR$/src/test/resources/features/JwksURIforPEAK.feature" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/apiHelpers/JwksUriForPEAK.java" />
-    <entry file="file://$PROJECT_DIR$/src/test/resources/features/CheckStatus.feature" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/apiHelpers/OpenIdConfigForPEAK.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1575">
-          <caret line="127" column="44" selection-start-line="127" selection-start-column="44" selection-end-line="127" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/apiHelpers/PaymentRequest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1245">
-          <caret line="118" column="54" selection-start-line="118" selection-start-column="43" selection-end-line="118" selection-end-column="54" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/utils/BaseStep.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/utils/RestHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="158">
-          <caret line="18" column="17" selection-start-line="18" selection-start-column="17" selection-end-line="18" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/log4j.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="91" selection-start-line="7" selection-start-column="91" selection-end-line="7" selection-end-column="91" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/features/Extras.feature">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2085">
-          <caret line="139" selection-start-line="139" selection-end-line="139" />
-        </state>
-      </provider>
-    </entry>
-<<<<<<< HEAD
-    <entry file="file://$PROJECT_DIR$/src/main/java/apiHelpers/AccessTokenForMerchants.java">
-      <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        <state relative-caret-position="261">
-          <caret line="325" column="7" lean-forward="true" selection-start-line="325" selection-start-column="7" selection-end-line="325" selection-end-column="7" />
-=======
-        <state relative-caret-position="253">
-          <caret line="81" column="48" lean-forward="true" selection-start-line="81" selection-start-column="48" selection-end-line="81" selection-end-column="48" />
->>>>>>> - Added test cases for security validation
-=======
-        <state relative-caret-position="1245">
-=======
-        <state relative-caret-position="1320">
->>>>>>> - Updated developer-client-id within sit.properties
-          <caret line="95" column="1" selection-start-line="95" selection-start-column="1" selection-end-line="95" selection-end-column="1" />
->>>>>>> - updated sit.properties with test client app id accounts
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-<<<<<<< HEAD
-<<<<<<< HEAD
-    <entry file="file://$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2730">
-          <caret line="186" column="117" selection-start-line="186" selection-start-column="117" selection-end-line="186" selection-end-column="117" />
-=======
-    <entry file="file://$PROJECT_DIR$/src/test/resources/features/Extras.feature">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="381">
-          <caret line="139" selection-start-line="139" selection-end-line="139" />
-        </state>
-      </provider>
-    </entry>
-=======
->>>>>>> - updated sit.properties with test client app id accounts
-    <entry file="file://$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature">
-=======
-        <state relative-caret-position="315">
-          <caret line="21" selection-start-line="21" selection-end-line="21" />
-=======
-        <state relative-caret-position="3045">
-          <caret line="203" column="72" lean-forward="true" selection-start-line="202" selection-start-column="3" selection-end-line="203" selection-end-column="72" />
-=======
-        <state relative-caret-position="2374">
-          <caret line="291" column="49" selection-start-line="291" selection-start-column="49" selection-end-line="291" selection-end-column="49" />
-          <folding>
-            <element signature="e#1023#1024#0" expanded="true" />
-            <element signature="e#1054#1055#0" expanded="true" />
-            <element signature="e#1102#1103#0" expanded="true" />
-            <element signature="e#1142#1143#0" expanded="true" />
-          </folding>
->>>>>>> - Handled JWK Read Timed Out error
-        </state>
-      </provider>
-    </entry>
-=======
->>>>>>> - Added a new tag @skiponsitmerchant (all the emulator related test cases)
-    <entry file="file://$PROJECT_DIR$/src/test/java/steps/OpenIdConfigforPEAK_StepDefs.java">
-      <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-<<<<<<< HEAD
-        <state relative-caret-position="165">
-          <caret line="16" column="126" selection-start-line="16" selection-start-column="101" selection-end-line="16" selection-end-column="126" />
->>>>>>> - Added versioning back in
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature">
->>>>>>> - updated the scenario description within feature file
-=======
-        <state relative-caret-position="451">
-=======
-        <state relative-caret-position="705">
->>>>>>> - Tagged more scenarios with @skiponcimerchant
-          <caret line="54" column="57" selection-start-line="54" selection-start-column="57" selection-end-line="54" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/steps/SecurityModelValidation_StepDefs.java">
->>>>>>> - Handled JWK Read Timed Out error
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="497">
-          <caret line="165" column="43" lean-forward="true" selection-start-line="165" selection-start-column="43" selection-end-line="165" selection-end-column="43" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/steps/PaymentRequest_StepDefs.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="990">
-          <caret line="75" column="119" selection-start-line="75" selection-start-column="119" selection-end-line="75" selection-end-column="119" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/steps/PaymentStatus_StepDefs.java">
-      <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        <state relative-caret-position="1560">
-          <caret line="109" column="50" selection-start-line="109" selection-start-column="50" selection-end-line="109" selection-end-column="50" />
->>>>>>> - Added test cases for security validation
-=======
-        <state relative-caret-position="1365">
-          <caret line="95" column="1" selection-start-line="95" selection-start-column="1" selection-end-line="95" selection-end-column="1" />
->>>>>>> - updated the scenario description within feature file
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-=======
-        <state relative-caret-position="105">
-          <caret line="7" column="30" lean-forward="true" selection-start-line="7" selection-start-column="30" selection-end-line="7" selection-end-column="30" />
->>>>>>> - Added versioning back in
-=======
-        <state relative-caret-position="345">
-          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
->>>>>>> - cleaned up securitymodelvalidation_stepdefs.java
-=======
-        <state relative-caret-position="360">
-          <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
-=======
-        <state relative-caret-position="1245">
-          <caret line="93" column="1" selection-start-line="93" selection-start-column="1" selection-end-line="93" selection-end-column="1" />
->>>>>>> - Tagged more scenarios with @skiponcimerchant
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
->>>>>>> - Handled JWK Read Timed Out error
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/configs/sit.properties">
-      <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        <state relative-caret-position="2085">
-          <caret line="139" selection-start-line="139" selection-end-line="139" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature" />
-    <entry file="file://$PROJECT_DIR$/src/test/resources/configs/ci.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="25" lean-forward="true" selection-start-line="13" selection-start-column="25" selection-end-line="13" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/configs/sit.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
-=======
-        <state relative-caret-position="15">
-=======
-        <state relative-caret-position="105">
->>>>>>> - updated sit.properties with test client app id accounts
-          <caret line="7" column="31" selection-start-line="7" selection-start-column="31" selection-end-line="7" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-<<<<<<< HEAD
-    <entry file="file://$PROJECT_DIR$/src/test/resources/configs/ci.properties">
-      <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-        <state relative-caret-position="210">
-          <caret line="14" column="48" lean-forward="true" selection-start-line="14" selection-start-column="48" selection-end-line="14" selection-end-column="48" />
->>>>>>> - Added test cases for security validation
-=======
-        <state relative-caret-position="315">
-          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/configs/sit.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="69" selection-start-line="3" selection-start-column="69" selection-end-line="3" selection-end-column="69" />
->>>>>>> - updated sit.properties with test client app id accounts
-=======
-    <entry file="file://$PROJECT_DIR$/src/test/resources/configs/sit.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
->>>>>>> - Updated developer-client-id within sit.properties
-=======
-        <state relative-caret-position="485">
-          <caret line="38" column="95" selection-start-line="38" selection-start-column="95" selection-end-line="38" selection-end-column="95" />
-=======
-        <state relative-caret-position="206">
-          <caret line="156" column="41" selection-start-line="156" selection-start-column="41" selection-end-line="156" selection-end-column="41" />
->>>>>>> - Added versioning back in
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-=======
-        <state relative-caret-position="75">
-          <caret line="5" column="48" selection-start-line="5" selection-start-column="2" selection-end-line="5" selection-end-column="48" />
->>>>>>> - cleaned up securitymodelvalidation_stepdefs.java
-=======
-        <state relative-caret-position="375">
-          <caret line="25" column="33" lean-forward="true" selection-start-line="25" selection-start-column="33" selection-end-line="25" selection-end-column="33" />
-=======
-        <state relative-caret-position="335">
-          <caret line="27" column="52" lean-forward="true" selection-start-line="27" selection-start-column="52" selection-end-line="27" selection-end-column="52" />
->>>>>>> - Handled JWK Read Timed Out error
-=======
-        <state relative-caret-position="450">
-          <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
->>>>>>> - Tagged more scenarios with @skiponcimerchant
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/configs/playpen.properties">
-      <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-        <state relative-caret-position="451">
-          <caret line="54" column="57" selection-start-line="54" selection-start-column="57" selection-end-line="54" selection-end-column="57" />
->>>>>>> - Updated the endpoints for sandbox & merchants APIMs (no 'merchant' in the DNS)
-=======
-        <state relative-caret-position="324">
-          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
->>>>>>> - Handled JWK Read Timed Out error
-        </state>
-      </provider>
-    </entry>
-<<<<<<< HEAD
-    <entry file="file://$PROJECT_DIR$/src/test/resources/features/OpenIdConfigforPEAK.feature">
-      <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        <state relative-caret-position="-22">
-          <caret line="150" column="41" lean-forward="true" selection-start-line="150" selection-start-column="41" selection-end-line="150" selection-end-column="41" />
->>>>>>> - updated the scenario description within feature file
-=======
-        <state relative-caret-position="1314">
-          <caret line="106" lean-forward="true" selection-start-line="106" selection-end-line="106" />
-=======
-        <state relative-caret-position="-2901">
-          <caret line="5" column="52" selection-start-line="5" selection-start-column="52" selection-end-line="5" selection-end-column="52" />
->>>>>>> - cleaned up securitymodelvalidation_stepdefs.java
-=======
-        <state relative-caret-position="121">
-          <caret line="213" column="6" selection-start-line="213" selection-start-column="6" selection-end-line="213" selection-end-column="6" />
->>>>>>> - Updated the endpoints for sandbox & merchants APIMs (no 'merchant' in the DNS)
-=======
-        <state relative-caret-position="255">
-          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
->>>>>>> - Handled JWK Read Timed Out error
-        </state>
-      </provider>
-    </entry>
-<<<<<<< HEAD
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        <state relative-caret-position="345">
-          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
->>>>>>> - Added versioning back in
-=======
-        <state relative-caret-position="-1052">
-          <caret line="52" lean-forward="true" selection-start-line="52" selection-end-line="52" />
-=======
-        <state relative-caret-position="163">
-          <caret line="30" column="108" selection-start-line="30" selection-start-column="93" selection-end-line="30" selection-end-column="108" />
->>>>>>> - Updated the endpoints for sandbox & merchants APIMs (no 'merchant' in the DNS)
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
->>>>>>> - cleaned up securitymodelvalidation_stepdefs.java
-=======
-        <state relative-caret-position="-1075">
-          <caret line="27" column="53" selection-start-line="27" selection-start-column="53" selection-end-line="27" selection-end-column="53" />
->>>>>>> - Handled JWK Read Timed Out error
-        </state>
-      </provider>
-    </entry>
-<<<<<<< HEAD
-=======
->>>>>>> - added an extra tag (@skiponcimerchant) to skip some scenarios while running ci on merchant APIM
-=======
->>>>>>> - Tagged more scenarios with @skiponcimerchant
-    <entry file="file://$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1215">
-          <caret line="86" column="168" selection-start-line="86" selection-start-column="168" selection-end-line="86" selection-end-column="168" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-=======
->>>>>>> - Added a new tag @skiponsitmerchant (all the emulator related test cases)
-    <entry file="file://$PROJECT_DIR$/src/main/java/utils/JWTHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="609">
-          <caret line="58" column="35" selection-start-line="58" selection-start-column="35" selection-end-line="58" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="113" column="4" selection-start-line="113" selection-start-column="4" selection-end-line="113" selection-end-column="4" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/testSuite/Runner.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
+        <state relative-caret-position="196">
+          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/features/OpenIdConfigforPEAK.feature">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/features/PaymentRequest.feature">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="393">
-          <caret line="156" column="30" selection-start-line="156" selection-start-column="30" selection-end-line="156" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/configs/ci.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" selection-start-line="20" selection-end-line="25" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1176">
-          <caret line="80" column="37" selection-start-line="80" selection-start-column="37" selection-end-line="80" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/features/SecurityModelValidation.feature">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1233">
-          <caret line="214" column="11" selection-start-line="214" selection-start-column="11" selection-end-line="214" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/apiHelpers/AccessTokenForMerchants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="291" column="49" selection-start-line="291" selection-start-column="49" selection-end-line="291" selection-end-column="49" />
-          <folding>
-            <element signature="e#1023#1024#0" expanded="true" />
-            <element signature="e#1054#1055#0" expanded="true" />
-            <element signature="e#1102#1103#0" expanded="true" />
-            <element signature="e#1142#1143#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/features/AccessTokenForMerchants.feature">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-264">
-          <caret line="19" column="19" lean-forward="true" selection-start-line="19" selection-start-column="19" selection-end-line="19" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/steps/AccessTokenForMerchants_StepDefs.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="133" selection-start-line="133" selection-end-line="133" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/configs/sit.properties">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/resources/features/PaymentStatus.feature">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="107" selection-start-line="107" selection-end-line="107" />
-        </state>
+        <state relative-caret-position="-1227" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/steps/Hooks.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="172">
-          <caret line="22" column="32" lean-forward="true" selection-start-line="22" selection-start-column="32" selection-end-line="22" selection-end-column="32" />
+        <state relative-caret-position="60">
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
         </state>
       </provider>
     </entry>
   </component>
   <component name="masterDetails">
     <states>
-      <state key="ArtifactsStructureConfigurable.UI">
-        <settings>
-          <artifact-editor />
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="FacetStructureConfigurable.UI">
-        <settings>
-          <last-edited>No facets are configured</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
       <state key="GlobalLibrariesConfigurable.UI">
         <settings>
           <splitter-proportions>
@@ -1741,14 +320,13 @@
           </splitter-proportions>
         </settings>
       </state>
-      <state key="ModuleStructureConfigurable.UI">
+      <state key="ProjectJDKs.UI">
         <settings>
-          <last-edited>digital-dragon-test-framework</last-edited>
+          <last-edited>1.8</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
                 <option value="0.2" />
-                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>
@@ -1756,7 +334,6 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>Maven: batik:batik-awt-util:1.6-1</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
