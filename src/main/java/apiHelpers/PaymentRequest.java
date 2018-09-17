@@ -110,15 +110,20 @@ public class PaymentRequest implements BaseStep {
         this.authToken = "Bearer "+ authToken;
     }
 
+    public String getApiVersion() {
+        return System.getProperty("version");
+    }
 
     public HashMap<String,String> returnPaymentRequestHeader(){
         paymentRequestHeader.put("Accept","application/json");
         paymentRequestHeader.put("Content-Type","application/json");
         paymentRequestHeader.put("Authorization", authToken);
+        paymentRequestHeader.put("Trace-Id",traceId);
         paymentRequestHeader.put("TraceId",traceId);
        // paymentRequestHeader.put("Ocp-Apim-Subscription-Key","fa08ac6eca5b4afb8354526811025b03");
         paymentRequestHeader.put("Accept-Language", "en-US");
-        paymentRequestHeader.put("RequestDateTime", getRequestDateTime());
+        paymentRequestHeader.put("Request-Date-Time", getRequestDateTime());
+        paymentRequestHeader.put("api-version", getApiVersion());
 
         return paymentRequestHeader;
     }
