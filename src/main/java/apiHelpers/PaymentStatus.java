@@ -38,10 +38,6 @@ public class PaymentStatus implements BaseStep {
         this.paymentRequestId = paymentRequestId;
     }
 
-    public String getApiVersion() {
-        return System.getProperty("version");
-    }
-
     public Response getPaymentStatusResponse() {
         return paymentStatusResponse;
     }
@@ -99,7 +95,7 @@ public class PaymentStatus implements BaseStep {
         paymentStatusHeader.put("Content-Type","application/json");
         paymentStatusHeader.put("Authorization", authToken);
         paymentStatusHeader.put("TraceId",traceId);
-        paymentStatusHeader.put("api-version", getApiVersion());
+        paymentStatusHeader.put("Api-Version", System.getProperty("version"));
 
         return paymentStatusHeader;
     }

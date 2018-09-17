@@ -136,7 +136,7 @@ Scenario: Negative flow- Invalid auth token (without Bearer in the header)
   And error message should be "TokenNotPresent" within payment response
 
 
- @regression 
+ @regression
 Scenario Outline: Negative flow- Mandatory fields not sent in the header
   Given I am an authorized user
   And I have valid payment details
@@ -149,6 +149,20 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the header
  |Header Authorization was not found in the request. Access denied.    | HeaderNotFound|Authorization    |401        |
  |Header Request-Date-Time was not found in the request. Access denied.| HeaderNotFound|Request-Date-Time|400        |
  |Header Trace-Id was not found in the request. Access denied.         | HeaderNotFound|Trace-Id         |400        |
+
+@regression
+Scenario Outline: Negative flow- Mandatory fields not sent in the header
+  Given I am an authorized user
+  And I have valid payment details
+  When I make a request for the payment with "<key>" missing in the header
+  And error message should be "Resource not found" within payment response
+
+
+ Examples:
+ | key             |
+ |Api-Version      |
+
+
 
  @regression 
 Scenario Outline: Negative flow- Invalid auth token
