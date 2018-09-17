@@ -6,7 +6,7 @@ When I make a request to the Dragon ID Manager
 Then I recieve an access_token
 
 # For the parametres where values are missing within the table, while creating request, the parameter will not be included at all as a a part of the payload
- @regression @skiponcimerchant
+ @regression @skiponcimerchant 
 Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs
   Given I am an authorized user
   And I have payment details "<merchantid>","<totalamount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>"
@@ -45,7 +45,7 @@ Examples:
 |053598653254|100.00     |HKD      |https://pizzahut.com/return|message from merchant|B1242183|60                |https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful||
 
 
- @regression @skiponcimerchant
+ @regression @skiponcimerchant 
 Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs without shopping cart
   Given I am an authorized user
   And I have payment details "<merchantid>","<totalamount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>"
@@ -73,7 +73,7 @@ Examples:
 |053598653254|100.00     |HKD      |https://pizzahut.com/return|message from merchant|B1242183|60                |https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful||
 
 
- @regression @skiponcimerchant
+ @regression @skiponcimerchant 
 Scenario: Positive flow- A merchant is able to create a payment request with all the valid inputs without merchant data
   Given I am an authorized user
   And I have valid payment details
@@ -83,7 +83,7 @@ Scenario: Positive flow- A merchant is able to create a payment request with all
 
 
 # For the parametres where value is "no_value" within the table, while creating request the parameter (key) will be included but will have no value
- @regression @skiponcimerchant
+ @regression @skiponcimerchant 
 Scenario Outline: Positive flow- A merchant is able to create a payment request where the non mandatory fields within body have no corresponding values in the payload
   Given I am an authorized user
   And I have payment details "<merchantid>","<totalamount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>"
@@ -103,7 +103,7 @@ Examples:
 
 
 # For the parametres where value is "no_value" within the table, while creating request the parameter (key) will be included but will have no value
- @regression @skiponcimerchant
+ @regression @skiponcimerchant 
 Scenario Outline: Positive flow- A merchant is able to create a payment request where the non mandatory fields within shopping cart have no corresponding values in the payload
   Given I am an authorized user
   And I have payment details "<merchantid>","<totalamount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>"
@@ -126,7 +126,7 @@ Examples:
 |053598653254|100.00     |HKD      |https://pizzahut.com/return|message from merchant|B1242183|60                |https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 
 
- @regression
+ @regression 
 Scenario: Negative flow- Invalid auth token (without Bearer in the header)
   Given I am an authorized user
   And I dont send Bearer with the auth token
@@ -136,7 +136,7 @@ Scenario: Negative flow- Invalid auth token (without Bearer in the header)
   And error message should be "TokenNotPresent" within payment response
 
 
- @regression
+ @regression 
 Scenario Outline: Negative flow- Mandatory fields not sent in the header
   Given I am an authorized user
   And I have valid payment details
@@ -145,12 +145,12 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the header
   And error message should be "<error_message>" within payment response
 
  Examples:
- |error_description                                                  |error_message  | key           |error_code |
- |Header Authorization was not found in the request. Access denied.  | HeaderNotFound|Authorization  |401        |
- |Header RequestDateTime was not found in the request. Access denied.| HeaderNotFound|RequestDateTime|400        |
- |Header TraceId was not found in the request. Access denied.        | HeaderNotFound|TraceId        |400        |
+ |error_description                                                    |error_message  | key             |error_code |
+ |Header Authorization was not found in the request. Access denied.    | HeaderNotFound|Authorization    |401        |
+ |Header Request-Date-Time was not found in the request. Access denied.| HeaderNotFound|Request-Date-Time|400        |
+ |Header Trace-Id was not found in the request. Access denied.         | HeaderNotFound|Trace-Id         |400        |
 
- @regression
+ @regression 
 Scenario Outline: Negative flow- Invalid auth token
   Given I am a merchant with invalid "<auth_token>"
   And I have valid payment details
@@ -170,7 +170,7 @@ Scenario Outline: Negative flow- Invalid auth token
  |Signature validation failed |TokenInvalidSignature  |eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c|
 
 
- @regression @skiponcimerchant
+ @regression @skiponcimerchant 
 Scenario Outline: Negative flow- Peak error response parsed by DRAGON
    Given I am an authorized user
    And I have payment details with "<invalid_value>" set for the "<parameter>"
@@ -183,7 +183,7 @@ Scenario Outline: Negative flow- Peak error response parsed by DRAGON
   | Payment Amount error_Dynamic | Validation Fail!      |BG2002    | totalamount    | 0             |
   | Payment Amount error_Dynamic | Validation Fail!      |BG2002    | totalamount    | -10           |
 
- @regression
+ @regression 
 Scenario Outline: Negative flow- Mandatory fields from the body missing
   Given I am an authorized user
   And I have payment details "<merchantid>","<totalamount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>"
@@ -224,14 +224,14 @@ Scenario Outline: Negative flow- Request Date Time's value missing from the head
   | Payment Amount error_Dynamic | Validation Fail!      |BG2002    |
 
 
- @regression
+ @regression 
 Scenario Outline: Negative flow- verify Error message if the additionalData is of more than 1024 characters
   Given I am an authorized user
   And I have payment details "<merchantid>","<totalamount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>"
   And I have merchant data "<description>","<orderId>","<effectiveDuration>","<additionalData>"
   And the additionalData is of more than 1024 characters
   When I make a request for the payment
-  Then I should recieve a "400" error response with "desc" error description and "EA002" errorcode within payment response
+  Then I should recieve a "400" error response with "Additional Data has too many characters. limit: 1024" error description and "EA002" errorcode within payment response
   And error message should be "Service Request Validation Failed" within payment response
 
 Examples:
