@@ -154,9 +154,9 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
 
     @Then("^I should recieve a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within token response$")
     public void i_should_recieve_a_error_response_with_error_description_and_errorcode_within_token_response(String responseCode, String errorDesc, String errorCode) {
-        Assert.assertEquals("Different response code being returned ",restHelper.getResponseStatusCode(accessToken.getAccessTokenResponse()), responseCode);
+        Assert.assertEquals("Different response code being returned ", Integer.parseInt(responseCode), restHelper.getResponseStatusCode(accessToken.getAccessTokenResponse()));
 
-        Assert.assertEquals(restHelper.getErrorCode(accessToken.getAccessTokenResponse()), errorCode,"Different error code being returned");
+        Assert.assertEquals("Different error code being returned", errorCode, restHelper.getErrorCode(accessToken.getAccessTokenResponse()));
 
         Assert.assertTrue("Different error description being returned..Expected: "+ errorDesc+ "Actual: "+ restHelper.getErrorDescription(accessToken.getAccessTokenResponse()), restHelper.getErrorDescription(accessToken.getAccessTokenResponse()).contains(errorDesc));
 
@@ -164,7 +164,7 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
 
     @Then("^error message should be \"([^\"]*)\" within token response$")
     public void error_message_should_be_within_token_response(String errorMessage)  {
-       Assert.assertTrue("Different error message being returne...Expected: "+ errorMessage+ "Actual: "+ restHelper.getErrorMessage(accessToken.getAccessTokenResponse()), restHelper.getErrorMessage(accessToken.getAccessTokenResponse()).contains(errorMessage) );
+       Assert.assertTrue("Different error message being returned...Expected: "+ errorMessage+ "Actual: "+ restHelper.getErrorMessage(accessToken.getAccessTokenResponse()), restHelper.getErrorMessage(accessToken.getAccessTokenResponse()).contains(errorMessage) );
 
     }
 

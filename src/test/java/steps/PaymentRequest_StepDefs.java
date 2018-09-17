@@ -80,12 +80,14 @@ public class PaymentRequest_StepDefs implements BaseStep {
 
     }
 
-    @Given("^I have payment details \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$")
-    public void i_have_payment_details(String merchantId, String totalAmount, String currency, String notificationURI){
+    @Given("^I have payment details \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$")
+    public void i_have_payment_details(String merchantId, String totalAmount, String currency, String notificationURI, String appSuccessCallback, String appFailCallback){
         paymentRequest.setMerchantId(merchantId);
         paymentRequest.setTotalAmount(Double.parseDouble(totalAmount));
         paymentRequest.setCurrency(currency);
         paymentRequest.setNotificationURI(notificationURI);
+        paymentRequest.setAppSuccessCallback(appSuccessCallback);
+        paymentRequest.setAppFailCallback(appFailCallback);
         paymentRequest.setShoppingCart(null);
         paymentRequest.setMerchantData(null);
 
@@ -100,6 +102,8 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setTotalAmount(Double.parseDouble("20"));
         paymentRequest.setCurrency("HKD");
         paymentRequest.setNotificationURI("https://pizzahut.com/return");
+        paymentRequest.setAppSuccessCallback("https://pizzahut.com/confirmation");
+        paymentRequest.setAppFailCallback("https://pizzahut.com/unsuccessful");
         paymentRequest.setShoppingCart(null);
         paymentRequest.setMerchantData(null);
 
@@ -113,9 +117,30 @@ public class PaymentRequest_StepDefs implements BaseStep {
     }
 
 
-    @Given("^I have merchant data \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$")
-    public void i_have_merchant_data(String description, String channel, String orderId, String effectiveDuration) {
-         paymentRequest.createMerchantData(description, channel, orderId, effectiveDuration);
+    @Given("^I have merchant data \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$")
+    public void i_have_merchant_data(String description, String orderId, String effectiveDuration,String additionalData) {
+         paymentRequest.createMerchantData(description, orderId, effectiveDuration, additionalData);
+    }
+
+    @Given("^the additionalData is of more than (\\d+) characters$")
+    public void the_additionalData_is_of_more_than_characters(int arg1) {
+       String invalidAdditionalData="Morethan1024charactersMorethan1024characters" +
+               "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
+               "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
+               "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
+               "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
+               "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
+               "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
+               "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
+               "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
+               "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
+               "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
+               "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
+               "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
+               "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
+               "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
+               "Morethan1024charactersMorethan1024charactersMorethan1024characters";
+        paymentRequest.createMerchantData("description", "B12421832", "600", invalidAdditionalData);
     }
 
     @When("^I make a request for the payment$")
@@ -206,6 +231,8 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setTotalAmount(Double.parseDouble("20"));
         paymentRequest.setCurrency("HKD");
         paymentRequest.setNotificationURI("https://pizzahut.com/return");
+        paymentRequest.setAppSuccessCallback("https://pizzahut.com/confirmation");
+        paymentRequest.setAppFailCallback("https://pizzahut.com/unsuccessful");
 
         paymentRequest.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
         paymentRequest.setTraceId(general.generateUniqueUUID());
@@ -222,6 +249,8 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setTotalAmount(Double.parseDouble("20"));
         paymentRequest.setCurrency("HKD");
         paymentRequest.setNotificationURI("https://pizzahut.com/return");
+        paymentRequest.setAppSuccessCallback("https://pizzahut.com/confirmation");
+        paymentRequest.setAppFailCallback("https://pizzahut.com/unsuccessful");
 
         paymentRequest.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
 
@@ -234,6 +263,8 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setTotalAmount(Double.parseDouble("20"));
         paymentRequest.setCurrency("HKD");
         paymentRequest.setNotificationURI("https://pizzahut.com/return");
+        paymentRequest.setAppSuccessCallback("https://pizzahut.com/confirmation");
+        paymentRequest.setAppFailCallback("https://pizzahut.com/unsuccessful");
 
         paymentRequest.setTraceId(general.generateUniqueUUID());
         paymentRequest.setRequestDateTime("");
