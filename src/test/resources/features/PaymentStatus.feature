@@ -5,7 +5,7 @@ Given I am an user
 When I make a request to the Dragon ID Manager
 Then I recieve an access_token
 
- @regression @skiponcimerchant
+ @regression
 Scenario: Positive flow- A merchant is able to create a check status request with all the valid inputs
   Given I am an authorized user
   And I have valid payment details
@@ -47,6 +47,20 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the header
  |Header Accept does not contain required value. Access denied.      | HeaderValueNotAllowed|Accept         |400        |
  |Header TraceId was not found in the request. Access denied.        | HeaderNotFound       |TraceId        |400        |
 
+
+@regression @skiponcimerchant
+Scenario Outline: Negative flow- Mandatory fields not sent in the header
+  Given I am an authorized user
+  And I have valid payment details
+  And I make a request for the payment
+  And I should recieve a successful payment response
+  And I have a valid payment id
+  When I make a request for the payment status with "<key>" missing in the header
+  Then error message should be "Resource not found" within check status response
+
+ Examples:
+ | key           |
+ |Api-Version|
 
  @regression @skiponcimerchant
 Scenario Outline: Negative flow- Invalid auth token
