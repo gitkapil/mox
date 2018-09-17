@@ -126,10 +126,6 @@ public class PaymentRequest implements BaseStep {
         this.authToken = "Bearer "+ authToken;
     }
 
-    public String getApiVersion() {
-        return System.getProperty("version");
-    }
-
     public HashMap<String,String> returnPaymentRequestHeader(){
         paymentRequestHeader.put("Accept","application/json");
         paymentRequestHeader.put("Content-Type","application/json");
@@ -137,7 +133,6 @@ public class PaymentRequest implements BaseStep {
         paymentRequestHeader.put("Trace-Id",traceId);
         paymentRequestHeader.put("Accept-Language", "en-US");
         paymentRequestHeader.put("Request-Date-Time", getRequestDateTime());
-        paymentRequestHeader.put("api-version", getApiVersion());
         paymentRequestHeader.put("Api-Version", System.getProperty("version"));
 
         return paymentRequestHeader;
