@@ -126,7 +126,6 @@ public class PaymentRequest implements BaseStep {
         this.authToken = "Bearer "+ authToken;
     }
 
-
     public HashMap<String,String> returnPaymentRequestHeader(){
         paymentRequestHeader.put("Accept","application/json");
         paymentRequestHeader.put("Content-Type","application/json");
