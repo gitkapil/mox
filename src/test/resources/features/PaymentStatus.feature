@@ -48,7 +48,7 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the header
  |Header TraceId was not found in the request. Access denied.        | HeaderNotFound       |TraceId        |400        |
 
 
-@regression 
+
 Scenario Outline: Negative flow- Mandatory fields not sent in the header
   Given I am an authorized user
   And I have valid payment details

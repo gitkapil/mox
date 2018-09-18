@@ -150,7 +150,7 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the header
  |Header Request-Date-Time was not found in the request. Access denied.| HeaderNotFound|Request-Date-Time|400        |
  |Header Trace-Id was not found in the request. Access denied.         | HeaderNotFound|Trace-Id         |400        |
 
-@regression
+
 Scenario Outline: Negative flow- Mandatory fields not sent in the header
   Given I am an authorized user
   And I have valid payment details
