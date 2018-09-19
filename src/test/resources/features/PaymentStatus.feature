@@ -17,7 +17,7 @@ Scenario: Positive flow- A merchant is able to create a check status request wit
   And the response body should contain valid status description and status code
 
 
- @regression @skiponcimerchant
+ @regression 
 Scenario: Negative flow- Invalid auth token (without Bearer in the header)
   Given I am an authorized user
   And I have valid payment details
@@ -30,7 +30,7 @@ Scenario: Negative flow- Invalid auth token (without Bearer in the header)
   And error message should be "TokenNotPresent" within check status response
 
 
- @regression @skiponcimerchant
+ @regression 
 Scenario Outline: Negative flow- Mandatory fields not sent in the header
   Given I am an authorized user
   And I have valid payment details
@@ -48,7 +48,7 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the header
  |Header TraceId was not found in the request. Access denied.        | HeaderNotFound       |TraceId        |400        |
 
 
-@regression @skiponcimerchant
+
 Scenario Outline: Negative flow- Mandatory fields not sent in the header
   Given I am an authorized user
   And I have valid payment details
@@ -62,7 +62,7 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the header
  | key           |
  |Api-Version|
 
- @regression @skiponcimerchant
+ @regression 
 Scenario Outline: Negative flow- Invalid auth token
   Given I am an authorized user
   And I have valid payment details
@@ -83,12 +83,12 @@ Scenario Outline: Negative flow- Invalid auth token
  # Auth Token has an invalid claim (roles)
  #|Claim value mismatch: roles=Basic.|TokenClaimValueMismatch|need_to_generate_it_with_invalid_roles|
  # Expired auth token
- |Lifetime validation failed. The token is expired|TokenExpired|eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IjdfWnVmMXR2a3dMeFlhSFMzcTZsVWpVWUlHdyIsImtpZCI6IjdfWnVmMXR2a3dMeFlhSFMzcTZsVWpVWUlHdyJ9.eyJhdWQiOiI1MDg4MzAwOC0yZDM4LTRjN2QtYjU2Yi0wY2NjOGJiZGY4MDIiLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80NGMyOGMxNy1jNmI5LTRlOTAtOWQxMS1hZjc1OGMwMjgyYWUvIiwiaWF0IjoxNTM0MTMyMTAzLCJuYmYiOjE1MzQxMzIxMDMsImV4cCI6MTUzNDEzNjAwMywiYWlvIjoiNDJCZ1lKQmlPQ2t6Ylk3RlNnbEdlNnRWVVpGN0FRPT0iLCJhcHBpZCI6IjBmZmNhZDA2LTlkMmYtNDkxNS05MmMxLWNlMjU3ZTViYzBlYyIsImFwcGlkYWNyIjoiMSIsImlkcCI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzQ0YzI4YzE3LWM2YjktNGU5MC05ZDExLWFmNzU4YzAyODJhZS8iLCJvaWQiOiI0MTczOTdjMi1mYTBlLTRmNGMtYWFmMy0yMmI4YWI1ODFlNzQiLCJyb2xlcyI6WyJCYXNpYyIsIlJlZnVuZCJdLCJzdWIiOiI0MTczOTdjMi1mYTBlLTRmNGMtYWFmMy0yMmI4YWI1ODFlNzQiLCJ0aWQiOiI0NGMyOGMxNy1jNmI5LTRlOTAtOWQxMS1hZjc1OGMwMjgyYWUiLCJ1dGkiOiJuMVRWdkVEUVUwZTNHVHJpcUFOU0FBIiwidmVyIjoiMS4wIn0.agJHt3dQwKZSzxymjWvmyyv8jcjgosZf6TjK4dzLp61wp0zcXidphqkp3Vu6iDXul5vakIavSnrXC50ZXwc3A_sBTJyQG2pSIkTSSF_Fb8zD7tEFuUpyk6Cul4jGqjhWJbt1brRnknhMCRqfhiyGEe9j0j9CaqVGyZa1zD4PxBOxUeL0H3PSZ5GJO6P_ieFuLaWy4DtXNOmJ6ym9WMWxVued5xRAVfRMySTPSiF9o14o3pjNpXoqYXTaC2mqkKiUFmtkOHRc_TGpjmR42DT5gMdfNdon2YjkRjFqg89huzzQD-pXH27EMT4JoVdTj60rToQPqc9VDdJyq7iKs_tLog|
+ |Lifetime validation failed. The token is expired|TokenExpired|eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Imk2bEdrM0ZaenhSY1ViMkMzbkVRN3N5SEpsWSIsImtpZCI6Imk2bEdrM0ZaenhSY1ViMkMzbkVRN3N5SEpsWSJ9.eyJhdWQiOiI1MTczYTVhOS00MjEyLTQ4NzctODYyMS03YmMxNjRjZjE3OGIiLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC8yZmY5M2NjZS1lZmQxLTRlMTYtOTJiYS1hZmI1M2U5ZTA5ZmMvIiwiaWF0IjoxNTM3MTY4NzAzLCJuYmYiOjE1MzcxNjg3MDMsImV4cCI6MTUzNzE3MjYwMywiYWlvIjoiNDJCZ1lKaDlXbFZsNFh1SjZFMHZsMDMvY25TOU5nQT0iLCJhcHBpZCI6IjEwOTMyM2UzLWM1NWUtNDI0Yy1iNzEyLTJlODJmMTY5NWU5OCIsImFwcGlkYWNyIjoiMSIsImlkcCI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzJmZjkzY2NlLWVmZDEtNGUxNi05MmJhLWFmYjUzZTllMDlmYy8iLCJvaWQiOiI4NjM3MjIwNi1jZWZhLTQ1ZWEtOTM0Ni0xNjNiYmFiYzc3MDYiLCJyb2xlcyI6WyJwYXltZW50UmVxdWVzdCIsInJlZnVuZCIsImRldmVsb3BlciJdLCJzdWIiOiI4NjM3MjIwNi1jZWZhLTQ1ZWEtOTM0Ni0xNjNiYmFiYzc3MDYiLCJ0aWQiOiIyZmY5M2NjZS1lZmQxLTRlMTYtOTJiYS1hZmI1M2U5ZTA5ZmMiLCJ1dGkiOiI3bUd1b0FRMUQwZTFGMks0Sy1ZWEFBIiwidmVyIjoiMS4wIn0.gCfn6QNUjzENuKvVN0bdkWgRwN-1ipovSq5Yb8IjCRfRhZNTFffLP1oIVw_8sPQxTFfV8CBOcQG385n-r_tIWBlMANHdKmpmwmOTz4J08EWzz_SY4zWdvMlF7quCYdrXVIXaKd-PLtO0UDTI7CsSAso7OAOsHBNrn3ITBoR0aMo_lM8X5dJM5fleSHFiJPMYDHpawZuy_BBXC0AUdcVT61NHkdO7sDV4Dc_C12CsShEqMi3Nj-uzr5wYHmPTxi3nk2px-_yiVaAHxxCmE0f7rWdM4BjVB89j_xtZrn1-VovgUUn_QDppY9yOgKx831xXBMX0Tz293V8g7BkagVI3lw|
  # Auth token unverified
  |Signature validation failed |TokenInvalidSignature  |eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c|
 
 
- @regression @skiponcimerchant
+ @regression @skiponcimerchant @skiponsitmerchant
 Scenario Outline: Negative flow- Invalid PaymentIds sent in the request
   Given I am an authorized user
   And I have valid payment details
@@ -106,7 +106,7 @@ Scenario Outline: Negative flow- Invalid PaymentIds sent in the request
  |Payment Request Id is invalid | Service Request Validation Failed| random_payment_id                   |EA002      |400|
 
 
- @regression @skiponcimerchant @skiponsitmerchant
+ @regression  @skiponsitmerchant
 Scenario Outline: Positive flow- A merchant is able to create a check status request with all the valid inputs
   Given I am an authorized user
   And I have a payment id "<payment_id>"
