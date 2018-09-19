@@ -70,7 +70,7 @@ Scenario: Validate that a developer with valid token and paymentRequest as role 
   And I make a request for the check status
   Then I should recieve a successful check status response
 
-@regression @skiponcimerchant
+@regression
 Scenario: Validate that a merchant with valid token and paymentRequest as role is able to access merchant payment request and check status APIs(merchant client app has permission to access merchant server app)
   Given I am a merchant
   And I make a request to the merchant Dragon ID Manager
@@ -196,7 +196,7 @@ Scenario: Validate that a user with (merchant) token and paymentRequest as role 
   Then I should recieve a "401" error response with "Claim value mismatch: aud=" error description and "401" errorcode within check status response
   And error message should be "TokenClaimValueMismatch" within check status response
 
-@regression @skiponcimerchant
+@regression
 Scenario: Validate that a user with (merchant) token and paymentRequest as role is able to access merchant payment request and check status APIs (merchant client app has access to both the server apps)
   Given I am a client app with access to both sandbox & merchant server apps
   And I make a request to the merchant Dragon ID Manager
