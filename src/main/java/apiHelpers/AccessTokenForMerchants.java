@@ -99,7 +99,7 @@ public class AccessTokenForMerchants implements BaseStep {
                     .config(RestAssured.config().encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
                     .contentType("application/x-www-form-urlencoded")
                     .accept("application/json")
-                    .formParam("Api-Version", System.getProperty("version"))
+                    .header("Api-Version", System.getProperty("version"))
                     .formParam("client_id", clientId)
                     .formParam("client_secret", clientSecret)
                     .request();
