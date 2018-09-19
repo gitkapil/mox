@@ -125,6 +125,7 @@ public class AccessTokenForMerchants implements BaseStep {
                 .config(RestAssured.config().encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
                 .contentType("application/x-www-form-urlencoded")
                 .accept("application/json")
+                .header("Api-Version", System.getProperty("version"))
                 .body(body)
                 .request();
 
@@ -142,7 +143,7 @@ public class AccessTokenForMerchants implements BaseStep {
                        .config(RestAssured.config().encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
                     .contentType("application/x-www-form-urlencoded")
                        .accept("application/json")
-                       .formParam("Api-Version", System.getProperty("version"))
+                       .header("Api-Version", System.getProperty("version"))
                     .formParam("client_secret", clientSecret)
                     .request();
 
@@ -153,7 +154,7 @@ public class AccessTokenForMerchants implements BaseStep {
                         .config(RestAssured.config().encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
                         .contentType("application/x-www-form-urlencoded")
                         .accept("application/json")
-                        .formParam("Api-Version", System.getProperty("version"))
+                        .header("Api-Version", System.getProperty("version"))
                         .formParam("client_id", clientId)
                         .request();
 
@@ -163,11 +164,11 @@ public class AccessTokenForMerchants implements BaseStep {
                                 ContentType.URLENC)))
                         .config(RestAssured.config().encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
                         .contentType("application/x-www-form-urlencoded")
-                        .formParam("Api-Version", System.getProperty("version"))
+                        .header("Api-Version", System.getProperty("version"))
                         .accept("application/json")
                         .request();
 
-            else if (missingKey.equalsIgnoreCase("Api-Version"))
+           /* else if (missingKey.equalsIgnoreCase("Api-Version"))
                 request = RestAssured.given().config(RestAssured.config().encoderConfig(EncoderConfig.encoderConfig()
                         .encodeContentTypeAs("x-www-form-urlencoded",
                                 ContentType.URLENC)))
@@ -176,7 +177,7 @@ public class AccessTokenForMerchants implements BaseStep {
                         .accept("application/json")
                         .formParam("client_id", clientId)
                         .formParam("client_secret", clientSecret)
-                        .request();
+                        .request(); */
         }
         catch(Exception e){
             Assert.assertTrue(e.getMessage(), false);
@@ -195,7 +196,7 @@ public class AccessTokenForMerchants implements BaseStep {
                                 ContentType.URLENC)))
                         .config(RestAssured.config().encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
                         .contentType("application/x-www-form-urlencoded")
-                        .formParam("Api-Version", System.getProperty("version"))
+                        .header("Api-Version", System.getProperty("version"))
                         .formParam("client_id", clientId)
                         .formParam("client_secret", clientSecret)
                         .request();
@@ -205,7 +206,17 @@ public class AccessTokenForMerchants implements BaseStep {
                         .encodeContentTypeAs("x-www-form-urlencoded",
                                 ContentType.URLENC)))
                         .contentType("application/x-www-form-urlencoded")
-                        .formParam("Api-Version", System.getProperty("version"))
+                        .header("Api-Version", System.getProperty("version"))
+                        .accept("application/json")
+                        .formParam("client_id", clientId)
+                        .formParam("client_secret", clientSecret)
+                        .request();
+
+            else if (key.equalsIgnoreCase("Api-Version"))  // TODO this needs to be checked.
+                request = RestAssured.given().config(RestAssured.config().encoderConfig(EncoderConfig.encoderConfig()
+                        .encodeContentTypeAs("x-www-form-urlencoded",
+                                ContentType.URLENC)))
+                        .contentType("application/x-www-form-urlencoded")
                         .accept("application/json")
                         .formParam("client_id", clientId)
                         .formParam("client_secret", clientSecret)
