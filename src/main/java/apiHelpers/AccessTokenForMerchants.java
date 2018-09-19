@@ -168,7 +168,7 @@ public class AccessTokenForMerchants implements BaseStep {
                         .accept("application/json")
                         .request();
 
-           /* else if (missingKey.equalsIgnoreCase("Api-Version"))
+            else if (missingKey.equalsIgnoreCase("Api-Version"))
                 request = RestAssured.given().config(RestAssured.config().encoderConfig(EncoderConfig.encoderConfig()
                         .encodeContentTypeAs("x-www-form-urlencoded",
                                 ContentType.URLENC)))
@@ -177,7 +177,7 @@ public class AccessTokenForMerchants implements BaseStep {
                         .accept("application/json")
                         .formParam("client_id", clientId)
                         .formParam("client_secret", clientSecret)
-                        .request(); */
+                        .request();
         }
         catch(Exception e){
             Assert.assertTrue(e.getMessage(), false);
@@ -212,11 +212,12 @@ public class AccessTokenForMerchants implements BaseStep {
                         .formParam("client_secret", clientSecret)
                         .request();
 
-            else if (key.equalsIgnoreCase("Api-Version"))  // TODO this needs to be checked.
+            else if (key.equalsIgnoreCase("Api-Version"))
                 request = RestAssured.given().config(RestAssured.config().encoderConfig(EncoderConfig.encoderConfig()
                         .encodeContentTypeAs("x-www-form-urlencoded",
                                 ContentType.URLENC)))
                         .contentType("application/x-www-form-urlencoded")
+                        .header("Api-Version", "")
                         .accept("application/json")
                         .formParam("client_id", clientId)
                         .formParam("client_secret", clientSecret)
