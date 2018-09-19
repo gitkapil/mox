@@ -99,6 +99,7 @@ public class AccessTokenForMerchants implements BaseStep {
                     .config(RestAssured.config().encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
                     .contentType("application/x-www-form-urlencoded")
                     .accept("application/json")
+                    .header("Api-Version", System.getProperty("version"))
                     .formParam("client_id", clientId)
                     .formParam("client_secret", clientSecret)
                     .request();
@@ -124,6 +125,7 @@ public class AccessTokenForMerchants implements BaseStep {
                 .config(RestAssured.config().encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
                 .contentType("application/x-www-form-urlencoded")
                 .accept("application/json")
+                .header("Api-Version", System.getProperty("version"))
                 .body(body)
                 .request();
 
@@ -141,6 +143,7 @@ public class AccessTokenForMerchants implements BaseStep {
                        .config(RestAssured.config().encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
                     .contentType("application/x-www-form-urlencoded")
                        .accept("application/json")
+                       .header("Api-Version", System.getProperty("version"))
                     .formParam("client_secret", clientSecret)
                     .request();
 
@@ -151,6 +154,7 @@ public class AccessTokenForMerchants implements BaseStep {
                         .config(RestAssured.config().encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
                         .contentType("application/x-www-form-urlencoded")
                         .accept("application/json")
+                        .header("Api-Version", System.getProperty("version"))
                         .formParam("client_id", clientId)
                         .request();
 
@@ -160,6 +164,7 @@ public class AccessTokenForMerchants implements BaseStep {
                                 ContentType.URLENC)))
                         .config(RestAssured.config().encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
                         .contentType("application/x-www-form-urlencoded")
+                        .header("Api-Version", System.getProperty("version"))
                         .accept("application/json")
                         .request();
 
@@ -191,11 +196,23 @@ public class AccessTokenForMerchants implements BaseStep {
                                 ContentType.URLENC)))
                         .config(RestAssured.config().encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
                         .contentType("application/x-www-form-urlencoded")
+                        .header("Api-Version", System.getProperty("version"))
                         .formParam("client_id", clientId)
                         .formParam("client_secret", clientSecret)
                         .request();
 
             else if (key.equalsIgnoreCase("content-type"))
+                request = RestAssured.given().config(RestAssured.config().encoderConfig(EncoderConfig.encoderConfig()
+                        .encodeContentTypeAs("x-www-form-urlencoded",
+                                ContentType.URLENC)))
+                        .contentType("application/x-www-form-urlencoded")
+                        .header("Api-Version", System.getProperty("version"))
+                        .accept("application/json")
+                        .formParam("client_id", clientId)
+                        .formParam("client_secret", clientSecret)
+                        .request();
+
+            else if (key.equalsIgnoreCase("Api-Version"))  // TODO this needs to be checked.
                 request = RestAssured.given().config(RestAssured.config().encoderConfig(EncoderConfig.encoderConfig()
                         .encodeContentTypeAs("x-www-form-urlencoded",
                                 ContentType.URLENC)))
