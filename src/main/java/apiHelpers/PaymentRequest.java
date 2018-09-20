@@ -8,7 +8,7 @@ import java.util.*;
 
 public class PaymentRequest implements BaseStep {
     final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(PaymentRequest.class);
-    private String authToken, requestDateTime="", merchantId, currency, notificationURI, traceId="", appSuccessCallback, appFailCallback;
+    private String authToken, requestDateTime="",  currency, notificationURI=null, traceId="", appSuccessCallback=null, appFailCallback=null;
     private Double totalAmount;
     private Integer effectiveDuration=600;
 
@@ -59,13 +59,6 @@ public class PaymentRequest implements BaseStep {
         this.merchantData = merchantData;
     }
 
-    public String getMerchantId() {
-        return merchantId;
-    }
-
-    public void setMerchantId(String merchantId) {
-        this.merchantId = merchantId;
-    }
 
     public String getCurrency() {
         return currency;
@@ -150,13 +143,6 @@ public class PaymentRequest implements BaseStep {
     public HashMap<String,HashMap> returnPaymentRequestBody(){
         paymentRequestBody= new HashMap();
 
-        if (!getMerchantId().equals(""))
-        {
-            if (!getMerchantId().equals("no_value"))
-                paymentRequestBody.put("merchantId", getMerchantId());
-            else
-                paymentRequestBody.put("merchantId", "");
-        }
 
         if (!getCurrency().equals(""))
         {
@@ -176,7 +162,14 @@ public class PaymentRequest implements BaseStep {
             if (!getnotificationURI().equals("no_value"))
                 paymentRequestBody.put("notificationURI", getnotificationURI());
             else
+            {
                 paymentRequestBody.put("notificationURI", "");
+                notificationURI="";
+            }
+        }
+
+        else{
+            notificationURI=null;
         }
 
         if (!getAppSuccessCallback().equals(""))
@@ -184,7 +177,13 @@ public class PaymentRequest implements BaseStep {
             if (!getAppSuccessCallback().equals("no_value"))
                 paymentRequestBody.put("appSuccessCallback", getAppSuccessCallback());
             else
+            {
                 paymentRequestBody.put("appSuccessCallback", "");
+                appSuccessCallback="";
+            }
+        }
+        else{
+            appSuccessCallback=null;
         }
 
         if (!getAppFailCallback().equals(""))
@@ -192,7 +191,13 @@ public class PaymentRequest implements BaseStep {
             if (!getAppFailCallback().equals("no_value"))
                 paymentRequestBody.put("appFailCallback", getAppFailCallback());
             else
+            {
                 paymentRequestBody.put("appFailCallback", "");
+                appFailCallback="";
+            }
+        }
+        else{
+            appFailCallback=null;
         }
 
          try{
@@ -201,10 +206,16 @@ public class PaymentRequest implements BaseStep {
          }
          catch (NullPointerException e){ }
 
+        if (!effectiveDuration.equals(""))
+        {
+
+            paymentRequestBody.put("effectiveDuration", this.effectiveDuration);
+        }
+
          return paymentRequestBody;
     }
 
-    public void createMerchantData(String description, String orderId, String effectiveDuration, String additionalData){
+    public void createMerchantData(String description, String orderId, String additionalData){
         merchantData= new HashMap();
         if (!description.equals(""))
         {
@@ -229,13 +240,6 @@ public class PaymentRequest implements BaseStep {
             else
                 merchantData.put("additionalData", "");
         }
-
-        if (!effectiveDuration.equals(""))
-        {
-
-                this.effectiveDuration= Integer.parseInt(effectiveDuration);
-                merchantData.put("effectiveDuration", this.effectiveDuration);
-                }
 
         try{
             if (shoppingCart.size()>=1)
@@ -363,11 +367,47 @@ public class PaymentRequest implements BaseStep {
 
     }
 
+    public String statusCodeInResponse(){
+        return restHelper.getResponseBodyValue(paymentRequestResponse, "statusCode");
+
+    }
+
+    public String statusDescriptionInResponse(){
+        return restHelper.getResponseBodyValue(paymentRequestResponse, "statusDescription");
+
+    }
+
+    public String totalAmountInResponse(){
+        return restHelper.getResponseBodyValue(paymentRequestResponse, "totalAmount");
+
+    }
+
+    public String currencyCodeInResponse(){
+        return restHelper.getResponseBodyValue(paymentRequestResponse, "currencyCode");
+
+    }
+
 
     public String createdTimestampInResponse(){
         return restHelper.getResponseBodyValue(paymentRequestResponse, "createdTime");
 
     }
+
+    public String notificationURIInResponse(){
+        return restHelper.getResponseBodyValue(paymentRequestResponse, "notificationUri");
+
+    }
+
+    public String appSuccessCallbackInResponse(){
+        return restHelper.getResponseBodyValue(paymentRequestResponse, "appSuccessCallback");
+
+    }
+
+    public String appFailCallbackInResponse(){
+        return restHelper.getResponseBodyValue(paymentRequestResponse, "appFailCallback");
+
+    }
+
 
 
 
