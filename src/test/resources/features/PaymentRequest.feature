@@ -28,22 +28,22 @@ Scenario Outline: Positive flow- A merchant is able to create a payment request 
   And the response body should also have notification URI, app success callback URL, app fail Callback Url if applicable
 
 Examples:
-|totalamount|currency |notificationURL            |description          |orderId |effectiveDuration |appSuccessCallback               |appFailCallback|additionalData|
-|100.00     |HKD      |https://pizzahut.com/return|message from merchant|B1242183|60                |https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|totalamount|currency |notificationURL              |description          |orderId |effectiveDuration |appSuccessCallback               |appFailCallback|additionalData|
+|100.00     |HKD      |https://pizzahut.com/return3 |message from merchant|B1242183|60                |https://pizzahut.com/confirmation1|https://pizzahut.com/unsuccessful9|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #description within Merchant Data missing
-|300.12     |HKD      |https://pizzahut.com/return|                     |XYZ456  |30                |https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|300.12     |HKD      |https://pizzahut.com/return4 |                     |XYZ456  |30                |https://pizzahut.com/confirmation2|https://pizzahut.com/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #orderId within Merchant Data missing
-|0.01       |HKD      |https://pizzahut.com/return|message from merchant|        |60                |https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|0.01       |HKD      |https://pizzahut.com/return44|message from merchant|        |60                |https://pizzahut.com/confirmation3|https://pizzahut.com/unsuccessful5|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #effectiveDuration missing
-|1          |HKD      |https://pizzahut.com/return|message from merchant|XYZ123  |                  |https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|1          |HKD      |https://pizzahut.com/return12|message from merchant|XYZ123  |                  |https://pizzahut.com/confirmation4|https://pizzahut.com/unsuccessful4|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #notificationURI missing
-|100.00     |HKD      |                           |message from merchant|B1242183|60                |https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|500.00     |HKD      |                             |message from merchant|B1242183|60                |https://pizzahut.com/confirmation5|https://pizzahut.com/unsuccessful1|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #appSuccessCallback missing
-|100.00     |HKD      |https://pizzahut.com/return|message from merchant|B1242183|60                ||https://pizzahut.com/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|800.00     |HKD      |https://pizzahut.com/return09|message from merchant|B1242183|60                ||https://pizzahut.com/unsuccessful6|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #appFailCallback missing
-|100.00     |HKD      |https://pizzahut.com/return|message from merchant|B1242183|60                |https://pizzahut.com/confirmation||pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|900.00     |HKD      |https://pizzahut.com/return11|message from merchant|B1242183|60                |https://pizzahut.com/confirmation7||pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #additionalData  within Merchant Data missing
-|100.00     |HKD      |https://pizzahut.com/return|message from merchant|B1242183|60                |https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful||
+|550.00     |HKD      |https://pizzahut.com/return2 |message from merchant|B1242183|60                |https://pizzahut.com/confirmation8|https://pizzahut.com/unsuccessful0||
 
 
  @regression  
@@ -57,22 +57,22 @@ Scenario Outline: Positive flow- A merchant is able to create a payment request 
   And the response body should also have notification URI, app success callback URL, app fail Callback Url if applicable
 
 Examples:
-|totalamount|currency |notificationURL            |description          |orderId |effectiveDuration |appSuccessCallback               |appFailCallback|additionalData|
-|100.00     |HKD      |https://pizzahut.com/return|message from merchant|B1242183|60                |https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|totalamount|currency |notificationURL              |description          |orderId |effectiveDuration |appSuccessCallback               |appFailCallback|additionalData|
+|100.00     |HKD      |https://pizzahut.com/return45|message from merchant|B1242183|60                |https://pizzahut.com/confirmation5|https://pizzahut.com/unsuccessful1|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #description within Merchant Data missing
-|300.12     |HKD      |https://pizzahut.com/return|                     |XYZ456  |30                |https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|300.12     |HKD      |https://pizzahut.com/return12|                     |XYZ456  |30                |https://pizzahut.com/confirmation1|https://pizzahut.com/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #orderId within Merchant Data missing
-|0.01       |HKD      |https://pizzahut.com/return|message from merchant|        |60                |https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|0.01       |HKD      |https://pizzahut.com/return98|message from merchant|        |60                |https://pizzahut.com/confirmation7|https://pizzahut.com/unsuccessful9|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #effectiveDuration missing
-|1          |HKD      |https://pizzahut.com/return|message from merchant|XYZ123  |                  |https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|1          |HKD      |https://pizzahut.com/return42|message from merchant|XYZ123  |                  |https://pizzahut.com/confirmation8|https://pizzahut.com/unsuccessful3|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #notificationURI missing
-|100.00     |HKD      |                           |message from merchant|B1242183|60                |https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|500.00     |HKD      |                             |message from merchant|B1242183|60                |https://pizzahut.com/confirmation0|https://pizzahut.com/unsuccessful2|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #appSuccessCallback missing
-|100.00     |HKD      |https://pizzahut.com/return|message from merchant|B1242183|60                ||https://pizzahut.com/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|800.00     |HKD      |https://pizzahut.com/return29|message from merchant|B1242183|60                ||https://pizzahut.com/unsuccessful6|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #appFailCallback missing
-|100.00     |HKD      |https://pizzahut.com/return|message from merchant|B1242183|60                |https://pizzahut.com/confirmation||pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|900.00     |HKD      |https://pizzahut.com/return13|message from merchant|B1242183|60                |https://pizzahut.com/confirmation3||pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #additionalData  within Merchant Data missing
-|100.00     |HKD      |https://pizzahut.com/return|message from merchant|B1242183|60                |https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful||
+|550.00     |HKD      |https://pizzahut.com/return26|message from merchant|B1242183|60                |https://pizzahut.com/confirmations|https://pizzahut.com/unsuccessfuls||
 
 
  @regression  
