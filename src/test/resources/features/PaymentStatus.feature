@@ -14,7 +14,9 @@ Scenario: Positive flow- A merchant is able to create a check status request wit
   And I have a valid payment id
   When I make a request for the check status
   Then I should recieve a successful check status response
-  And the response body should contain valid status description and status code
+  And the response body should contain valid payment request id, created timestamp, web link, app link, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration within check status response
+  And the response body should also have notification URI, app success callback URL, app fail Callback Url if applicable within check status response
+  And the response body should have transactionid if the payment status is success within check status response
 
 
  @regression 
@@ -42,10 +44,11 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the header
   And error message should be "<error_message>" within check status response
 
  Examples:
- |error_description                                                  |error_message         | key           |error_code |
- |Header Authorization was not found in the request. Access denied.  | HeaderNotFound       |Authorization  |401        |
- |Header Accept does not contain required value. Access denied.      | HeaderValueNotAllowed|Accept         |400        |
- |Header TraceId was not found in the request. Access denied.        | HeaderNotFound       |TraceId        |400        |
+ |error_description                                                    |error_message         | key             |error_code |
+ |Header Authorization was not found in the request. Access denied.    | HeaderNotFound       |Authorization    |401        |
+ |Header Accept does not contain required value. Access denied.        | HeaderValueNotAllowed|Accept           |400        |
+ |Header Request-Date-Time was not found in the request. Access denied.| HeaderNotFound       |Request-Date-Time|400        |
+ |Header Trace-Id was not found in the request. Access denied.         | HeaderNotFound       |Trace-Id         |400        |
 
 
 
@@ -59,7 +62,7 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the header
   Then error message should be "Resource not found" within check status response
 
  Examples:
- | key           |
+ | key       |
  |Api-Version|
 
  @regression 
@@ -118,3 +121,5 @@ Scenario Outline: Positive flow- A merchant is able to create a check status req
   |b15e090a-5e97-4b44-a67e-542eb2aa0f4d |Request for Payment Initiated|PR001       |
   |9dbcf291-d71e-4c9f-938c-1fdf4035b5f5 |Payment Success              |PR005       |
 
+
+#manual Test case: E2E after completing the apyment through Payme/ Peak
