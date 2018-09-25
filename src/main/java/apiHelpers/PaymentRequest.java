@@ -8,9 +8,9 @@ import java.util.*;
 
 public class PaymentRequest implements BaseStep {
     final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(PaymentRequest.class);
-    private String authToken, requestDateTime="",  currency, notificationURI=null, traceId="", appSuccessCallback=null, appFailCallback=null;
+    private String authToken, requestDateTime="",  currency, notificationURI=null, traceId="", appSuccessCallback=null, appFailCallback=null, effectiveDuration;
     private Double totalAmount;
-    private Integer effectiveDuration=600;
+   // private Integer effectiveDuration=600;
 
     private HashMap merchantData= new HashMap();
     private List<HashMap> shoppingCart=new ArrayList<HashMap>();
@@ -132,11 +132,11 @@ public class PaymentRequest implements BaseStep {
     }
 
 
-    public Integer getEffectiveDuration() {
+    public String getEffectiveDuration() {
         return effectiveDuration;
     }
 
-    public void setEffectiveDuration(Integer effectiveDuration) {
+    public void setEffectiveDuration(String effectiveDuration) {
         this.effectiveDuration = effectiveDuration;
     }
 
@@ -209,7 +209,7 @@ public class PaymentRequest implements BaseStep {
         if (!effectiveDuration.equals(""))
         {
 
-            paymentRequestBody.put("effectiveDuration", this.effectiveDuration);
+            paymentRequestBody.put("effectiveDuration", Integer.parseInt(this.effectiveDuration));
         }
 
          return paymentRequestBody;

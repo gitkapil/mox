@@ -87,7 +87,7 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setNotificationURI(notificationURI);
         paymentRequest.setAppSuccessCallback(appSuccessCallback);
         paymentRequest.setAppFailCallback(appFailCallback);
-        paymentRequest.setEffectiveDuration(Integer.parseInt(effectiveDuration));
+        paymentRequest.setEffectiveDuration(effectiveDuration);
         paymentRequest.setShoppingCart(null);
         paymentRequest.setMerchantData(null);
 
@@ -103,7 +103,7 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setNotificationURI("https://pizzahut.com/return");
         paymentRequest.setAppSuccessCallback("https://pizzahut.com/confirmation");
         paymentRequest.setAppFailCallback("https://pizzahut.com/unsuccessful");
-        paymentRequest.setEffectiveDuration(600);
+        paymentRequest.setEffectiveDuration("600");
         paymentRequest.setShoppingCart(null);
         paymentRequest.setMerchantData(null);
 
@@ -261,7 +261,7 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setNotificationURI("https://pizzahut.com/return");
         paymentRequest.setAppSuccessCallback("https://pizzahut.com/confirmation");
         paymentRequest.setAppFailCallback("https://pizzahut.com/unsuccessful");
-        paymentRequest.setEffectiveDuration(600);
+        paymentRequest.setEffectiveDuration("600");
 
         paymentRequest.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
         paymentRequest.setTraceId(general.generateUniqueUUID());
@@ -279,7 +279,7 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setNotificationURI("https://pizzahut.com/return");
         paymentRequest.setAppSuccessCallback("https://pizzahut.com/confirmation");
         paymentRequest.setAppFailCallback("https://pizzahut.com/unsuccessful");
-        paymentRequest.setEffectiveDuration(600);
+        paymentRequest.setEffectiveDuration("600");
 
         paymentRequest.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
 
@@ -293,7 +293,7 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setNotificationURI("https://pizzahut.com/return");
         paymentRequest.setAppSuccessCallback("https://pizzahut.com/confirmation");
         paymentRequest.setAppFailCallback("https://pizzahut.com/unsuccessful");
-        paymentRequest.setEffectiveDuration(600);
+        paymentRequest.setEffectiveDuration("600");
 
         paymentRequest.setTraceId(general.generateUniqueUUID());
         paymentRequest.setRequestDateTime("");
