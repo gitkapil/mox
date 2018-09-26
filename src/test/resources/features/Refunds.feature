@@ -20,8 +20,7 @@ Scenario Outline: Positive flow- A merchant is able to perform refund with all t
  | 0.8          | HKD      |requested by customer|
  | 100          | USD      |123|
  | 500          | HKD      ||
- | 0            | HKD      |no_value|
- | 22.99        | no_value |requested by customer|
+ | 10           | HKD      |no_value|
 
  @regression @functional 
 Scenario: Negative flow- Invalid auth token (without Bearer in the header)
@@ -54,21 +53,33 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the body
   Given I am an authorized user
   And I have a valid transaction for refund
   When I make a request for the refund with "<key>" missing in the body
-  Then I should recieve a "<error_code>" error response with "<error_description>" error description and "<error_code>" errorcode within refund response
-  And error message should be "<error_message>" within refund response
+  Then I should recieve a "400" error response with "<error_description>" error description and "EA002" errorcode within refund response
+  And error message should be "Service Request Validation Failed" within refund response
 
  Examples:
- |error_description | error_message | key        |error_code |
- |TODO              | TODO          |amount      |TODO       |
- |TODO              | TODO          |currencyCode|TODO       |
+ |error_description   | key         |
+ |amount missing      | amount      |
+ |currencyCode missing| currencyCode|
 
+
+ @regression @functional
+Scenario Outline: Negative flow- Mandatory fields not sent in the body
+  Given I am an authorized user
+  And I have a "<refundamount>", "<currency>", "<reason>"
+  When I make a request for the refund
+  Then I should recieve a "400" error response with "<error_description>" error description and "EA002" errorcode within refund response
+  And error message should be "Service Request Validation Failed" within refund response
+
+ Examples:
+ | refundamount | currency |reason               |error_description   |
+ | 22.99        | no_value |requested by customer|currencyCode missing|
 
   @regression @functional 
  Scenario Outline: Negative flow- Mandatory fields not sent in the header
    Given I am an authorized user
    And I have a valid transaction for refund
    When I make a request for the refund with "<key>" missing in the header
-   Then error message should be "Resource not found" within check status response
+   Then error message should be "Resource not found" within refund response
 
   Examples:
   | key       |
@@ -97,7 +108,7 @@ Scenario Outline: Negative flow- Invalid auth token
 
 
 #wallet balance= 2000 HKD and total amount within the transaction = 1000HKD set within the emulator
- @regression @functional  @skiponcimerchant @skiponsitmerchant
+ @regression @functional  @skiponcimerchant @skiponsitmerchant 
 Scenario Outline: Negative flow- Invalid refund amount sent in the request (error responses set within emulator)
   Given I am an authorized user
   And I have a "<refundamount>", "HKD", "customer initiated"
@@ -107,6 +118,9 @@ Scenario Outline: Negative flow- Invalid refund amount sent in the request (erro
 
  Examples:
  |error_description                    |error_message               |error_code  |refundamount |
- |Refund amount > net refundable amount| Business Rules Incorrect!  |BG2009      | 1500        |
- |amount > wallet balance              | Business Rules Incorrect!  |BG2026      | 2200        |
+# |Refund amount > net refundable amount| Business Rules Incorrect!  |BG2009      | 1500        |
+# |amount > wallet balance              | Business Rules Incorrect!  |BG2026      | 2200        |
  |Amount must be positive              | Business Rules Incorrect!  |BG2002      | -100        |
+ |Amount must be positive              | Business Rules Incorrect!  |BG2002      | 0           |
+ |amount > wallet balance              | Business Rules Incorrect!  |BG2026      | 1500        |
+ |Refund amount > net refundable amount| Business Rules Incorrect!  |BG2009      | 2200        |

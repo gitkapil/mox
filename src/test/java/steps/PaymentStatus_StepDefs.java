@@ -58,7 +58,7 @@ public class PaymentStatus_StepDefs implements BaseStep {
 
     @Then("^error message should be \"([^\"]*)\" within check status response$")
     public void error_message_should_be_within_check_status_response(String errorMessage) {
-        Assert.assertTrue(restHelper.getErrorMessage(paymentStatus.getPaymentStatusResponse()).contains(errorMessage) ,"Different error message being returned");
+        Assert.assertTrue(restHelper.getErrorMessage(paymentStatus.getPaymentStatusResponse()).contains(errorMessage) ,"Different error message being returned..Expected: "+ errorMessage+ "  Actual: "+ restHelper.getErrorMessage(paymentStatus.getPaymentStatusResponse()));
 
     }
 

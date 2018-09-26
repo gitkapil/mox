@@ -77,18 +77,18 @@ public class Refunds_StepDefs implements BaseStep {
     }
 
     @Then("^I should recieve a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within refund response$")
-    public void i_should_recieve_a_error_response_with_error_description_and_errorcode_within_refund_response(String responseCode, String errorDesc, String errorCode)   {
+    public void i_should_recieve_a_error_response_with_error_description_and_errorcode_within_refund_response(int responseCode, String errorDesc, String errorCode)   {
         Assert.assertEquals("Different response code being returned", responseCode, restHelper.getResponseStatusCode(refunds.getRefundsResponse()));
 
         Assert.assertEquals("Different error code being returned", errorCode, restHelper.getErrorCode(refunds.getRefundsResponse()));
 
-        Assert.assertTrue("Different error description being returned..Expected: "+ errorDesc+ "  Actual: "+ restHelper.getErrorDescription(paymentStatus.getPaymentStatusResponse()), restHelper.getErrorDescription(refunds.getRefundsResponse()).contains(errorDesc));
+        Assert.assertTrue("Different error description being returned..Expected: "+ errorDesc+ "  Actual: "+ restHelper.getErrorDescription(refunds.getRefundsResponse()), restHelper.getErrorDescription(refunds.getRefundsResponse()).contains(errorDesc));
 
     }
 
     @Then("^error message should be \"([^\"]*)\" within refund response$")
     public void error_message_should_be_within_refund_response(String errorMessage)   {
-        Assert.assertTrue("Different error message being returned", restHelper.getErrorMessage(refunds.getRefundsResponse()).contains(errorMessage) );
+        Assert.assertTrue("Different error message being returned..Expected: "+ errorMessage+ "  Actual: "+ restHelper.getErrorMessage(refunds.getRefundsResponse()), restHelper.getErrorMessage(refunds.getRefundsResponse()).contains(errorMessage) );
 
     }
 
