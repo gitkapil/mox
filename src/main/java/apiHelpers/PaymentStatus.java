@@ -104,13 +104,10 @@ public class PaymentStatus implements BaseStep {
 
     public HashMap<String,String> returnPaymentStatusHeader(){
         paymentStatusHeader.put("Accept","application/json");
-        paymentStatusHeader.put("Content-Type","application/json");
         paymentStatusHeader.put("Authorization", authToken);
         paymentStatusHeader.put("Trace-Id",traceId);
         paymentStatusHeader.put("Api-Version", System.getProperty("version"));
-        paymentStatusHeader.put("Accept-Language", "en-US");
         paymentStatusHeader.put("Request-Date-Time", getRequestDateTime());
-
 
         return paymentStatusHeader;
     }
