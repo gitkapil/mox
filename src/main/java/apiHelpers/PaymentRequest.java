@@ -160,10 +160,10 @@ public class PaymentRequest implements BaseStep {
         if (!getnotificationURI().equals(""))
         {
             if (!getnotificationURI().equals("no_value"))
-                paymentRequestBody.put("notificationURI", getnotificationURI());
+                paymentRequestBody.put("notificationUri", getnotificationURI());
             else
             {
-                paymentRequestBody.put("notificationURI", "");
+                paymentRequestBody.put("notificationUri", "");
                 notificationURI="";
             }
         }
