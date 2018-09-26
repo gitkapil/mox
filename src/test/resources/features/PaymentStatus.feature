@@ -122,4 +122,4 @@ Scenario Outline: Positive flow- A merchant is able to create a check status req
   |9dbcf291-d71e-4c9f-938c-1fdf4035b5f5 |Payment Success              |PR005       |
 
 
-#manual Test case: E2E after completing the apyment through Payme/ Peak
+#manual Test case: E2E after completing the payment through Payme/ Peak

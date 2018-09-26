@@ -56,7 +56,7 @@ public class PaymentStatus_StepDefs implements BaseStep {
         // Assert.assertEquals(paymentRequest.effectiveDurationInResponse(), paymentRequest.getEffectiveDuration(), "Effective Duration isn't matching!");
     }
 
-    @Then("^the response body should also have notification URI, app success callback URL, app fail Callback Url if applicable within check status reponse$")
+    @Then("^the response body should also have notification URI, app success callback URL, app fail Callback Url if applicable within check status response$")
     public void the_response_body_should_also_have_notification_url_app_success_callback_app_fail_callback_uri_if_applicable_check_status()  {
         if (paymentRequest.getnotificationURI()==null)
             Assert.assertNull(paymentStatus.notificationURIInResponse(), "NotificationUri is present within the response when it should not be");
@@ -78,7 +78,7 @@ public class PaymentStatus_StepDefs implements BaseStep {
     }
 
 
-    @Then("^And the response body should have transactionid if the payment status is success within check status response$")
+    @Then("^the response body should have transactionid if the payment status is success within check status response$")
     public void transaction_id_within_check_status_response() {
         if (paymentStatus.statusCodeInResponse().equals("PR005"))
             Assert.assertNotNull(paymentStatus.transactionIdInResponse(), "Transaction Id is not present in the response!!");
