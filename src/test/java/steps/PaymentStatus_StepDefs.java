@@ -20,8 +20,7 @@ public class PaymentStatus_StepDefs implements BaseStep {
     public void i_make_a_request_for_the_check_status(){
         paymentStatus.setTraceId(general.generateUniqueUUID());
 
-       // paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "check_payment_status_resource"));
-        paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "check_payment_status_resource"));
+       paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"));
 
     }
 
@@ -32,12 +31,56 @@ public class PaymentStatus_StepDefs implements BaseStep {
 
     }
 
-    @Then("^the response body should contain valid status description and status code$")
-    public void the_response_body_should_contain_valid_status_description_and_status_code(){
-        Assert.assertNotNull(paymentStatus.statusDescriptionInResponse(), "Status Description is not present in the response!!");
+    @Then("^the response body should contain valid payment request id, created timestamp, web link, app link, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration within check status response$")
+    public void the_response_body_should_contain_valid_payment_id_created_timestamp_links_check_status()  {
+        Assert.assertNotNull(paymentStatus.paymentRequestIdInResponse(), "Payment Request Id is not present in the response!!");
+
+        Assert.assertNotNull(paymentStatus.createdTimestampInResponse(), "Created Timestamp is not present in the response!!");
+
+        Assert.assertNotNull(paymentStatus.webLinkInResponse(), "Web Link is not present in the response!!");
+
+        Assert.assertNotNull(paymentStatus.appLinkInResponse(), "App Link is not present in the response!!");
+
+        Assert.assertEquals(paymentStatus.effectiveDurationInResponse().toString(), "600", "Effective Duration isn't 600!");
 
         Assert.assertNotNull(paymentStatus.statusCodeInResponse(), "Status Code is not present in the response!!");
 
+        Assert.assertNotNull(paymentStatus.statusDescriptionInResponse(), "Status Description is not present in the response!!");
+
+        Assert.assertEquals(Double.parseDouble(paymentStatus.totalAmountInResponse()), paymentRequest.getTotalAmount(), "Total Amount isn't matching!");
+
+        Assert.assertEquals(paymentStatus.currencyCodeInResponse(), paymentRequest.getCurrency(), "Currency Code isn't matching!");
+
+
+        // Assert.assertEquals(paymentRequest.effectiveDurationInResponse(), paymentRequest.getEffectiveDuration(), "Effective Duration isn't matching!");
+    }
+
+    @Then("^the response body should also have notification URI, app success callback URL, app fail Callback Url if applicable within check status response$")
+    public void the_response_body_should_also_have_notification_url_app_success_callback_app_fail_callback_uri_if_applicable_check_status()  {
+        if (paymentRequest.getnotificationURI()==null)
+            Assert.assertNull(paymentStatus.notificationURIInResponse(), "NotificationUri is present within the response when it should not be");
+        else
+            Assert.assertEquals(paymentStatus.notificationURIInResponse(), paymentRequest.getnotificationURI(), "Notification Uri isn't matching!");
+
+        if (paymentRequest.getAppSuccessCallback()==null)
+            Assert.assertNull(paymentStatus.appSuccessCallbackInResponse(), "App Success Call Back is present within the response when it should not be");
+        else
+            Assert.assertEquals(paymentStatus.appSuccessCallbackInResponse(), paymentRequest.getAppSuccessCallback(), "App Success Callback isn't matching!");
+
+
+        if (paymentRequest.getAppFailCallback()==null)
+            Assert.assertNull(paymentStatus.appFailCallbackInResponse(), "App Fail Call Back is present within the response when it should not be");
+        else
+            Assert.assertEquals(paymentStatus.appFailCallbackInResponse(), paymentRequest.getAppFailCallback(), "App Fail Callback isn't matching!");
+
+
+    }
+
+
+    @Then("^the response body should have transactionid if the payment status is success within check status response$")
+    public void transaction_id_within_check_status_response() {
+        if (paymentStatus.statusCodeInResponse().equals("PR005"))
+            Assert.assertNotNull(paymentStatus.transactionIdInResponse(), "Transaction Id is not present in the response!!");
     }
 
     @Given("^I dont send Bearer with the auth token in the check status request$")
@@ -59,15 +102,14 @@ public class PaymentStatus_StepDefs implements BaseStep {
 
     @Then("^error message should be \"([^\"]*)\" within check status response$")
     public void error_message_should_be_within_check_status_response(String errorMessage) {
-        Assert.assertTrue(restHelper.getErrorMessage(paymentStatus.getPaymentStatusResponse()).contains(errorMessage) ,"Different error message being returned");
+        Assert.assertTrue(restHelper.getErrorMessage(paymentStatus.getPaymentStatusResponse()).contains(errorMessage) ,"Different error message being returned..Expected: "+ errorMessage+ "  Actual: "+ restHelper.getErrorMessage(paymentStatus.getPaymentStatusResponse()));
 
     }
 
     @When("^I make a request for the payment status with \"([^\"]*)\" missing in the header$")
     public void i_make_a_request_for_the_payment_status_with_missing_in_the_header(String key)  {
         paymentStatus.setTraceId(general.generateUniqueUUID());
-       // paymentStatus.retrievePaymentStatusWithMissingHeaderKeys(restHelper.getBaseURI()+System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "check_payment_status_resource"), key);
-       paymentStatus.retrievePaymentStatusWithMissingHeaderKeys(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "check_payment_status_resource"), key);
+        paymentStatus.retrievePaymentStatusWithMissingHeaderKeys(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"), key);
 
     }
 

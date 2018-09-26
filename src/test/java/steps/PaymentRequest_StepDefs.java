@@ -26,6 +26,9 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentStatus.setAuthToken(accessToken.getAccessToken());
         paymentStatus.setAuthTokenwithBearer();
 
+        refunds.setAuthToken(accessToken.getAccessToken());
+        refunds.setAuthTokenwithBearer();
+
         if(accessToken.getType().equalsIgnoreCase("merchant")){
             if (System.getProperty("env").equals("playpen"))
                 restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI"));
@@ -81,13 +84,13 @@ public class PaymentRequest_StepDefs implements BaseStep {
     }
 
     @Given("^I have payment details \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$")
-    public void i_have_payment_details(String merchantId, String totalAmount, String currency, String notificationURI, String appSuccessCallback, String appFailCallback){
-        paymentRequest.setMerchantId(merchantId);
+    public void i_have_payment_details(String totalAmount, String currency, String notificationURI, String appSuccessCallback, String appFailCallback, String effectiveDuration){
         paymentRequest.setTotalAmount(Double.parseDouble(totalAmount));
         paymentRequest.setCurrency(currency);
         paymentRequest.setNotificationURI(notificationURI);
         paymentRequest.setAppSuccessCallback(appSuccessCallback);
         paymentRequest.setAppFailCallback(appFailCallback);
+        paymentRequest.setEffectiveDuration(effectiveDuration);
         paymentRequest.setShoppingCart(null);
         paymentRequest.setMerchantData(null);
 
@@ -98,12 +101,12 @@ public class PaymentRequest_StepDefs implements BaseStep {
 
     @Given("^I have valid payment details$")
     public void i_have_valid_payment_details(){
-        paymentRequest.setMerchantId("053598653254");
         paymentRequest.setTotalAmount(Double.parseDouble("20"));
         paymentRequest.setCurrency("HKD");
         paymentRequest.setNotificationURI("https://pizzahut.com/return");
         paymentRequest.setAppSuccessCallback("https://pizzahut.com/confirmation");
         paymentRequest.setAppFailCallback("https://pizzahut.com/unsuccessful");
+        paymentRequest.setEffectiveDuration("600");
         paymentRequest.setShoppingCart(null);
         paymentRequest.setMerchantData(null);
 
@@ -117,9 +120,9 @@ public class PaymentRequest_StepDefs implements BaseStep {
     }
 
 
-    @Given("^I have merchant data \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$")
-    public void i_have_merchant_data(String description, String orderId, String effectiveDuration,String additionalData) {
-         paymentRequest.createMerchantData(description, orderId, effectiveDuration, additionalData);
+    @Given("^I have merchant data \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$")
+    public void i_have_merchant_data(String description, String orderId, String additionalData) {
+         paymentRequest.createMerchantData(description, orderId,additionalData);
     }
 
     @Given("^the additionalData is of more than (\\d+) characters$")
@@ -140,20 +143,18 @@ public class PaymentRequest_StepDefs implements BaseStep {
                "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
                "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
                "Morethan1024charactersMorethan1024charactersMorethan1024characters";
-        paymentRequest.createMerchantData("description", "B12421832", "600", invalidAdditionalData);
+        paymentRequest.createMerchantData("description", "B12421832", invalidAdditionalData);
     }
 
     @When("^I make a request for the payment$")
     public void i_make_a_request_for_the_payment()  {
         logger.info("********** Creating Payment Request ***********");
-       // paymentRequest.retrievePaymentRequest(restHelper.getBaseURI()+System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"));
         paymentRequest.retrievePaymentRequest(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"));
 
     }
 
     @When("^I make a request for the payment with \"([^\"]*)\" missing in the header$")
     public void i_make_a_request_for_the_payment_with_missing_in_the_header(String key)  {
-       // paymentRequest.retrievePaymentRequestWithMissingHeaderKeys(restHelper.getBaseURI()+System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"), key);
         paymentRequest.retrievePaymentRequestWithMissingHeaderKeys(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"), key);
 
     }
@@ -165,7 +166,7 @@ public class PaymentRequest_StepDefs implements BaseStep {
 
     }
 
-    @Then("^the response body should contain valid payment request id, created timestamp, web link, app link$")
+    @Then("^the response body should contain valid payment request id, created timestamp, web link, app link, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration$")
     public void the_response_body_should_contain_valid_payment_id_created_timestamp_links() throws Throwable {
         Assert.assertNotNull(paymentRequest.paymentRequestIdInResponse(), "Payment Request Id is not present in the response!!");
 
@@ -177,8 +178,37 @@ public class PaymentRequest_StepDefs implements BaseStep {
 
         Assert.assertEquals(paymentRequest.effectiveDurationInResponse().toString(), "600", "Effective Duration isn't 600!");
 
+        Assert.assertEquals(paymentRequest.statusCodeInResponse(), "PR001", "Status Code is not PR001");
+
+        Assert.assertEquals(paymentRequest.statusDescriptionInResponse(), "Request for Payment Initiated", "Status Description is not \"Request for Payment Initiated\"");
+
+        Assert.assertEquals(Double.parseDouble(paymentRequest.totalAmountInResponse()), paymentRequest.getTotalAmount(), "Total Amount isn't matching!");
+
+        Assert.assertEquals(paymentRequest.currencyCodeInResponse(), paymentRequest.getCurrency(), "Currency Code isn't matching!");
+
 
         // Assert.assertEquals(paymentRequest.effectiveDurationInResponse(), paymentRequest.getEffectiveDuration(), "Effective Duration isn't matching!");
+    }
+
+    @Then("^the response body should also have notification URI, app success callback URL, app fail Callback Url if applicable$")
+    public void the_response_body_should_also_have_notification_url_app_success_callback_app_fail_callback_uri_if_applicable() throws Throwable {
+        if (paymentRequest.getnotificationURI()==null)
+            Assert.assertNull(paymentRequest.notificationURIInResponse(), "NotificationUri is present within the response when it should not be");
+        else
+            Assert.assertEquals(paymentRequest.notificationURIInResponse(), paymentRequest.getnotificationURI(), "Notification Uri isn't matching!");
+
+        if (paymentRequest.getAppSuccessCallback()==null)
+            Assert.assertNull(paymentRequest.appSuccessCallbackInResponse(), "App Success Call Back is present within the response when it should not be");
+        else
+            Assert.assertEquals(paymentRequest.appSuccessCallbackInResponse(), paymentRequest.getAppSuccessCallback(), "App Success Callback isn't matching!");
+
+
+        if (paymentRequest.getAppFailCallback()==null)
+            Assert.assertNull(paymentRequest.appFailCallbackInResponse(), "App Fail Call Back is present within the response when it should not be");
+        else
+            Assert.assertEquals(paymentRequest.appFailCallbackInResponse(), paymentRequest.getAppFailCallback(), "App Fail Callback isn't matching!");
+
+
     }
 
 
@@ -227,12 +257,12 @@ public class PaymentRequest_StepDefs implements BaseStep {
 
     @Given("^I have payment details with \"([^\"]*)\" set for the \"([^\"]*)\"$")
     public void i_have_payment_details_with_set_for_the(String invalid_value, String parameter) {
-        paymentRequest.setMerchantId("053598653254");
         paymentRequest.setTotalAmount(Double.parseDouble("20"));
         paymentRequest.setCurrency("HKD");
         paymentRequest.setNotificationURI("https://pizzahut.com/return");
         paymentRequest.setAppSuccessCallback("https://pizzahut.com/confirmation");
         paymentRequest.setAppFailCallback("https://pizzahut.com/unsuccessful");
+        paymentRequest.setEffectiveDuration("600");
 
         paymentRequest.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
         paymentRequest.setTraceId(general.generateUniqueUUID());
@@ -245,12 +275,12 @@ public class PaymentRequest_StepDefs implements BaseStep {
 
     @Given("^I have valid payment details with no TraceId sent in the header$")
     public void i_have_valid_payment_details_with_no_TraceId_sent_in_the_header() {
-        paymentRequest.setMerchantId("053598653254");
         paymentRequest.setTotalAmount(Double.parseDouble("20"));
         paymentRequest.setCurrency("HKD");
         paymentRequest.setNotificationURI("https://pizzahut.com/return");
         paymentRequest.setAppSuccessCallback("https://pizzahut.com/confirmation");
         paymentRequest.setAppFailCallback("https://pizzahut.com/unsuccessful");
+        paymentRequest.setEffectiveDuration("600");
 
         paymentRequest.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
 
@@ -259,12 +289,12 @@ public class PaymentRequest_StepDefs implements BaseStep {
 
     @Given("^I have valid payment details with no Request Date Time sent in the header$")
     public void i_have_valid_payment_details_with_no_RequestDateTime_sent_in_the_header() {
-        paymentRequest.setMerchantId("053598653254");
         paymentRequest.setTotalAmount(Double.parseDouble("20"));
         paymentRequest.setCurrency("HKD");
         paymentRequest.setNotificationURI("https://pizzahut.com/return");
         paymentRequest.setAppSuccessCallback("https://pizzahut.com/confirmation");
         paymentRequest.setAppFailCallback("https://pizzahut.com/unsuccessful");
+        paymentRequest.setEffectiveDuration("600");
 
         paymentRequest.setTraceId(general.generateUniqueUUID());
         paymentRequest.setRequestDateTime("");

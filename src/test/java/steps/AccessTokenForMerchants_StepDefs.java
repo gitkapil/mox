@@ -84,7 +84,6 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
     @When("^I make a request to the Dragon ID Manager$")
     public void i_make_a_request_to_the_Dragon_ID_Manager()  {
         logger.info("********** Retrieving Access Token***********");
-       // accessToken.retrieveAccessToken(accessToken.getEndpoint() +System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
         accessToken.retrieveAccessToken(accessToken.getEndpoint() +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
 
     }
@@ -133,7 +132,6 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
     public void i_make_a_request_to_the_Dragon_ID_Manager_with_body_in_JSON_format() {
 
         logger.info("********** Retrieving Access Token***********");
-        // accessToken.retrieveAccessToken(accessToken.getEndpoint() +System.getProperty("version")+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
         accessToken.sendBodyInJsonFormat(accessToken.getEndpoint() +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
 
 

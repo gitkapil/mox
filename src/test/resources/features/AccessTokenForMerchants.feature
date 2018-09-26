@@ -46,7 +46,7 @@ Scenario Outline: Negative flow- Mandatory Fields missing from the body
   |parameter             |error_response|error_code|error_message                         |error_description|
   |clientid              |400           |EA002     |Service Request Validation Failed     |AADSTS90014: The request body must contain the following parameter: 'client_id'.|
   |clientsecret          |401           |EA001     |Service Request Authentication Failed |AADSTS70002: 'client_assertion', 'client_secret' or 'request' is required for the 'client_credentials' grant type.|
-  |clientid&clientsecret |400           |EA002     |Service Request Validation Failed     |Expression evaluation failed. Object reference not set to an instance of an object.|
+  |clientid&clientsecret |400           |EA002     |Service Request Validation Failed     |client_id and client_secret are both missing|
 
 
 @regression

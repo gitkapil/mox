@@ -1,9 +1,6 @@
 package utils;
 
-import apiHelpers.AccessTokenForMerchants;
-import apiHelpers.OpenIdConfigForPEAK;
-import apiHelpers.PaymentRequest;
-import apiHelpers.PaymentStatus;
+import apiHelpers.*;
 
 
 public interface BaseStep {
@@ -12,6 +9,7 @@ public interface BaseStep {
     AccessTokenForMerchants accessToken= new AccessTokenForMerchants();
     PaymentRequest paymentRequest= new PaymentRequest();
     PaymentStatus paymentStatus= new PaymentStatus();
+    Refunds refunds= new Refunds();
     FileHelper fileHelper= new FileHelper();
     DateHelper dateHelper= new DateHelper();
     JWTHelper jwtHelper= new JWTHelper();
