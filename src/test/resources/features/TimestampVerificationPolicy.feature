@@ -66,3 +66,30 @@ Scenario: Positive flow- (System time) > (Request-Date-Time + Tolerance) within 
   And request date timestamp in the payment status header is more than 5 mins than the current timestamp
   When I make a request for the check status
   Then I should recieve a successful check status response
+
+
+@regression @trial
+Scenario: Positive flow- (System time) < (Request-Date-Time + Tolerance) within refund request
+  Given I am an authorized user
+  And I have a valid transaction for refund
+  And request date timestamp in the refund header is less than 5 mins than the current timestamp
+  When I make a request for the refund
+  Then I should recieve a successful refund response
+
+
+@regression @trial
+Scenario: Positive flow- (System time) = (Request-Date-Time + Tolerance) within refund request
+  Given I am an authorized user
+  And I have a valid transaction for refund
+  And request date timestamp in the refund header is exactly 5 mins behind than the current timestamp
+  When I make a request for the refund
+  Then I should recieve a successful refund response
+
+
+@regression @trial
+Scenario: Positive flow- (System time) > (Request-Date-Time + Tolerance) within refund request
+  Given I am an authorized user
+  And I have a valid transaction for refund
+  And request date timestamp in the refund header is more than 5 mins than the current timestamp
+  When I make a request for the refund
+  Then I should recieve a successful refund response
