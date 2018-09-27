@@ -107,7 +107,7 @@ Scenario Outline: Negative flow- Invalid PaymentIds sent in the request
  |Payment Request Id is invalid | Service Request Validation Failed| random_payment_id                   |EA002      |400|
 
 
-   @skiponsitmerchant
+ @regression  @skiponsitmerchant
 Scenario Outline: Positive flow- A merchant is able to create a check status request with all the valid inputs
   Given I am an authorized user
   And I have a payment id "<payment_id>"

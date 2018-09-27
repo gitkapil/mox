@@ -202,7 +202,7 @@ Scenario Outline: Negative flow- Peak error response parsed by DRAGON
   | Payment Amount error_Dynamic | Validation Fail!      |BG2002    | totalamount    | 0             |
   | Payment Amount error_Dynamic | Validation Fail!      |BG2002    | totalamount    | -10           |
 
-  @regression   @trial
+  @regression
 Scenario Outline: Negative flow- Mandatory fields from the body missing
   Given I am an authorized user
   And I have payment details "<totalamount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
