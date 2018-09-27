@@ -125,6 +125,9 @@ public class PaymentStatus_StepDefs implements BaseStep {
     @Given("^I have a payment id \"([^\"]*)\"$")
     public void i_have_a_valid(String paymentReqId) {
         paymentStatus.setPaymentRequestId(paymentReqId);
+        paymentRequest.setNotificationURI(null);
+        paymentRequest.setAppFailCallback(null);
+        paymentRequest.setAppSuccessCallback(null);
     }
 
     @Then("^the response body should contain correct \"([^\"]*)\" and \"([^\"]*)\"$")
