@@ -19,6 +19,7 @@ public class PaymentStatus_StepDefs implements BaseStep {
     @When("^I make a request for the check status$")
     public void i_make_a_request_for_the_check_status(){
         paymentStatus.setTraceId(general.generateUniqueUUID());
+        paymentStatus.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
 
        paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"));
 
@@ -109,6 +110,8 @@ public class PaymentStatus_StepDefs implements BaseStep {
     @When("^I make a request for the payment status with \"([^\"]*)\" missing in the header$")
     public void i_make_a_request_for_the_payment_status_with_missing_in_the_header(String key)  {
         paymentStatus.setTraceId(general.generateUniqueUUID());
+        paymentStatus.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+        
         paymentStatus.retrievePaymentStatusWithMissingHeaderKeys(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"), key);
 
     }
@@ -122,6 +125,9 @@ public class PaymentStatus_StepDefs implements BaseStep {
     @Given("^I have a payment id \"([^\"]*)\"$")
     public void i_have_a_valid(String paymentReqId) {
         paymentStatus.setPaymentRequestId(paymentReqId);
+        paymentRequest.setNotificationURI(null);
+        paymentRequest.setAppFailCallback(null);
+        paymentRequest.setAppSuccessCallback(null);
     }
 
     @Then("^the response body should contain correct \"([^\"]*)\" and \"([^\"]*)\"$")
