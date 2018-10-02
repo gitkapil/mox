@@ -8,8 +8,8 @@ import java.util.*;
 
 public class PaymentRequest implements BaseStep {
     final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(PaymentRequest.class);
-    private String authToken, requestDateTime="",  currency, notificationURI=null, traceId="", appSuccessCallback=null, appFailCallback=null, effectiveDuration;
-    private Double totalAmount;
+    private String authToken, requestDateTime="",  currency, notificationURI=null, traceId="", appSuccessCallback=null, appFailCallback=null, effectiveDuration, totalAmount;
+   // private Double totalAmount;
    // private Integer effectiveDuration=600;
 
     private HashMap merchantData= new HashMap();
@@ -76,11 +76,11 @@ public class PaymentRequest implements BaseStep {
         this.notificationURI = notificationURI;
     }
 
-    public Double getTotalAmount() {
+    public String getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(Double totalAmount) {
+    public void setTotalAmount(String totalAmount) {
         this.totalAmount = totalAmount;
     }
 
@@ -153,7 +153,10 @@ public class PaymentRequest implements BaseStep {
         }
 
 
-         paymentRequestBody.put("totalAmount", getTotalAmount());
+        if (!getTotalAmount().equals(""))
+        {
+            paymentRequestBody.put("totalAmount", Double.parseDouble(getTotalAmount()));
+        }
 
 
 
