@@ -77,13 +77,16 @@ public class PaymentRequest implements BaseStep {
     }
 
     public String getTotalAmount() {
-        return totalAmountInDouble.toString();
+        return totalAmount;
+    }
+
+    public Double getTotalAmountInDouble() {
+        return totalAmountInDouble;
     }
 
     public void setTotalAmount(String totalAmount) {
         this.totalAmount = totalAmount;
 
-        totalAmountInDouble= Double.parseDouble(totalAmount);
     }
 
     private Response paymentRequestResponse= null;
@@ -157,7 +160,9 @@ public class PaymentRequest implements BaseStep {
 
         if (!getTotalAmount().equals(""))
         {
+            totalAmountInDouble= Double.parseDouble(totalAmount);
             paymentRequestBody.put("totalAmount", totalAmountInDouble);
+
         }
 
 
