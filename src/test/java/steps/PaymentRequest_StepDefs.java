@@ -182,7 +182,7 @@ public class PaymentRequest_StepDefs implements BaseStep {
 
         Assert.assertEquals(paymentRequest.statusDescriptionInResponse(), "Request for Payment Initiated", "Status Description is not \"Request for Payment Initiated\"");
 
-        Assert.assertEquals(Double.parseDouble(paymentRequest.totalAmountInResponse()), paymentRequest.getTotalAmount(), "Total Amount isn't matching!");
+        Assert.assertEquals(paymentRequest.totalAmountInResponse(), paymentRequest.getTotalAmount(), "Total Amount isn't matching!");
 
         Assert.assertEquals(paymentRequest.currencyCodeInResponse(), paymentRequest.getCurrency(), "Currency Code isn't matching!");
 
