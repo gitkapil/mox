@@ -85,7 +85,7 @@ public class PaymentRequest_StepDefs implements BaseStep {
 
     @Given("^I have payment details \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$")
     public void i_have_payment_details(String totalAmount, String currency, String notificationURI, String appSuccessCallback, String appFailCallback, String effectiveDuration){
-        paymentRequest.setTotalAmount(Double.parseDouble(totalAmount));
+        paymentRequest.setTotalAmount(totalAmount);
         paymentRequest.setCurrency(currency);
         paymentRequest.setNotificationURI(notificationURI);
         paymentRequest.setAppSuccessCallback(appSuccessCallback);
@@ -101,7 +101,7 @@ public class PaymentRequest_StepDefs implements BaseStep {
 
     @Given("^I have valid payment details$")
     public void i_have_valid_payment_details(){
-        paymentRequest.setTotalAmount(Double.parseDouble("20"));
+        paymentRequest.setTotalAmount("20");
         paymentRequest.setCurrency("HKD");
         paymentRequest.setNotificationURI("https://pizzahut.com/return");
         paymentRequest.setAppSuccessCallback("https://pizzahut.com/confirmation");
@@ -257,7 +257,7 @@ public class PaymentRequest_StepDefs implements BaseStep {
 
     @Given("^I have payment details with \"([^\"]*)\" set for the \"([^\"]*)\"$")
     public void i_have_payment_details_with_set_for_the(String invalid_value, String parameter) {
-        paymentRequest.setTotalAmount(Double.parseDouble("20"));
+        paymentRequest.setTotalAmount("20");
         paymentRequest.setCurrency("HKD");
         paymentRequest.setNotificationURI("https://pizzahut.com/return");
         paymentRequest.setAppSuccessCallback("https://pizzahut.com/confirmation");
@@ -268,14 +268,14 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setTraceId(general.generateUniqueUUID());
 
         if (parameter.equalsIgnoreCase("totalamount"))
-            paymentRequest.setTotalAmount(Double.parseDouble(invalid_value));
+            paymentRequest.setTotalAmount(invalid_value);
 
 
     }
 
     @Given("^I have valid payment details with no TraceId sent in the header$")
     public void i_have_valid_payment_details_with_no_TraceId_sent_in_the_header() {
-        paymentRequest.setTotalAmount(Double.parseDouble("20"));
+        paymentRequest.setTotalAmount("20");
         paymentRequest.setCurrency("HKD");
         paymentRequest.setNotificationURI("https://pizzahut.com/return");
         paymentRequest.setAppSuccessCallback("https://pizzahut.com/confirmation");
@@ -289,7 +289,7 @@ public class PaymentRequest_StepDefs implements BaseStep {
 
     @Given("^I have valid payment details with no Request Date Time sent in the header$")
     public void i_have_valid_payment_details_with_no_RequestDateTime_sent_in_the_header() {
-        paymentRequest.setTotalAmount(Double.parseDouble("20"));
+        paymentRequest.setTotalAmount("20");
         paymentRequest.setCurrency("HKD");
         paymentRequest.setNotificationURI("https://pizzahut.com/return");
         paymentRequest.setAppSuccessCallback("https://pizzahut.com/confirmation");
