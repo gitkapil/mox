@@ -216,6 +216,7 @@ public class AccessTokenForMerchants implements BaseStep {
                 request = RestAssured.given().config(RestAssured.config().encoderConfig(EncoderConfig.encoderConfig()
                         .encodeContentTypeAs("x-www-form-urlencoded",
                                 ContentType.URLENC)))
+                        .config(RestAssured.config().encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
                         .contentType("application/x-www-form-urlencoded")
                         .header("Api-Version", "")
                         .accept("application/json")
