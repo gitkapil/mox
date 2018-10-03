@@ -16,12 +16,9 @@ public class Refunds_StepDefs implements BaseStep {
        refunds.setAmount(Double.parseDouble(amount));
        refunds.setCurrencyCode(currency);
        refunds.setReason(reason);
-      // refunds.setRefundsHeader(null);
-      // refunds.setRefundsBody(null);
-
-        refunds.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
-        refunds.setTraceId(general.generateUniqueUUID());
-        refunds.setTransactionId(general.generateUniqueUUID());
+       refunds.setRequestDateTime(dateHelper.getUTCNowDateTime());
+       refunds.setTraceId(general.generateUniqueUUID());
+       refunds.setTransactionId(general.generateUniqueUUID());
     }
 
     @When("^I make a request for the refund$")
@@ -63,10 +60,7 @@ public class Refunds_StepDefs implements BaseStep {
         refunds.setAmount(23.33);
         refunds.setCurrencyCode("HKD");
         refunds.setReason("customer requested");
-       // refunds.setRefundsHeader(null);
-       // refunds.setRefundsBody(null);
-
-        refunds.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+        refunds.setRequestDateTime(dateHelper.getUTCNowDateTime());
         refunds.setTraceId(general.generateUniqueUUID());
         refunds.setTransactionId(general.generateUniqueUUID());
     }

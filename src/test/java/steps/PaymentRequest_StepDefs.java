@@ -94,7 +94,8 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setShoppingCart(null);
         paymentRequest.setMerchantData(null);
 
-        paymentRequest.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+        //paymentRequest.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+        paymentRequest.setRequestDateTime(dateHelper.getUTCNowDateTime());
         paymentRequest.setTraceId(general.generateUniqueUUID());
     }
 
@@ -110,7 +111,8 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setShoppingCart(null);
         paymentRequest.setMerchantData(null);
 
-        paymentRequest.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+       // paymentRequest.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+        paymentRequest.setRequestDateTime(dateHelper.getUTCNowDateTime());
         paymentRequest.setTraceId(general.generateUniqueUUID());
     }
 
@@ -264,7 +266,8 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setAppFailCallback("https://pizzahut.com/unsuccessful");
         paymentRequest.setEffectiveDuration("600");
 
-        paymentRequest.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+        //paymentRequest.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+        paymentRequest.setRequestDateTime(dateHelper.getUTCNowDateTime());
         paymentRequest.setTraceId(general.generateUniqueUUID());
 
         if (parameter.equalsIgnoreCase("totalamount"))
@@ -282,7 +285,8 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setAppFailCallback("https://pizzahut.com/unsuccessful");
         paymentRequest.setEffectiveDuration("600");
 
-        paymentRequest.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+       // paymentRequest.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+        paymentRequest.setRequestDateTime(dateHelper.getUTCNowDateTime());
 
 
     }
