@@ -13,7 +13,7 @@ Scenario: Positive flow- (System time) < (Request-Date-Time + Tolerance) within 
   And I make a request for the payment
   And I should recieve a successful payment response
 
-@regression 
+
 Scenario: Positive flow- (System time) = (Request-Date-Time + Tolerance) within payment request
   Given I am an authorized user
   And I have valid payment details
