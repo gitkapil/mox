@@ -48,7 +48,7 @@ public class PaymentStatus_StepDefs implements BaseStep {
 
         Assert.assertNotNull(paymentStatus.statusDescriptionInResponse(), "Status Description is not present in the response!!");
 
-        Assert.assertEquals(paymentStatus.totalAmountInResponse(), paymentRequest.getTotalAmountInDouble().toString(), "Total Amount isn't matching!");
+        Assert.assertEquals(String.format("%.2f", Double.parseDouble(paymentStatus.totalAmountInResponse())), String.format("%.2f", paymentRequest.getTotalAmountInDouble()), "Total Amount isn't matching!");
 
         Assert.assertEquals(paymentStatus.currencyCodeInResponse(), paymentRequest.getCurrency(), "Currency Code isn't matching!");
 
