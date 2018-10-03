@@ -122,4 +122,20 @@ Scenario Outline: Positive flow- A merchant is able to create a check status req
   |9dbcf291-d71e-4c9f-938c-1fdf4035b5f5 |Payment Success              |PR005       |
 
 
+@regression
+Scenario Outline: Negative flow- Request Date Time's invalid values set within the header
+   Given I am an authorized user
+   And I have valid payment details
+   When I make a request for the payment
+   And I should recieve a successful payment response
+   And I have a valid payment id
+   When I make a request for the check status with invalid value for request date time "<value>"
+   Then I should recieve a "400" error response with "Service Request Validation Failed" error description and "BNA002" errorcode within check status response
+   And error message should be "Something went wrong. Sorry, we are unable to perform this action right now. Please try again." within check status response
+
+   Examples:
+  |value|
+  ||
+  |xyz|
+
 #manual Test case: E2E after completing the payment through Payme/ Peak

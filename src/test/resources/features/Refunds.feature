@@ -124,3 +124,18 @@ Scenario Outline: Negative flow- Invalid refund amount sent in the request (erro
  |Amount must be positive              | Business Rules Incorrect!  |BG2002      | 0           |
  |amount > wallet balance              | Business Rules Incorrect!  |BG2026      | 1500        |
  |Refund amount > net refundable amount| Business Rules Incorrect!  |BG2009      | 2200        |
+
+
+@regression @trial
+Scenario Outline: Negative flow- Request Date Time's invalid values set within the header
+   Given I am an authorized user
+   And I have a valid transaction for refund
+   And I send invalid value "<value>" for the request date time in the refund request
+   When I make a request for the refund
+   Then I should recieve a "400" error response with "Service Request Validation Failed" error description and "BNA002" errorcode within refund response
+   And error message should be "Something went wrong. Sorry, we are unable to perform this action right now. Please try again." within refund response
+
+   Examples:
+  |value|
+  ||
+  |xyz|

@@ -107,4 +107,11 @@ public class Refunds_StepDefs implements BaseStep {
     }
 
 
+    @Given("^I send invalid value \"([^\"]*)\" for the request date time in the refund request$")
+    public void invalid_request_date_time_value(String value)   {
+        refunds.setRequestDateTime(value);
+    }
+
+
+
 }

@@ -291,8 +291,8 @@ public class PaymentRequest_StepDefs implements BaseStep {
 
     }
 
-    @Given("^I have valid payment details with no Request Date Time sent in the header$")
-    public void i_have_valid_payment_details_with_no_RequestDateTime_sent_in_the_header() {
+    @Given("^I have valid payment details with invalid value \"([^\"]*)\" set for Request Date Time sent in the header$")
+    public void i_have_valid_payment_details_with_no_RequestDateTime_sent_in_the_header(String value) {
         paymentRequest.setTotalAmount("20");
         paymentRequest.setCurrency("HKD");
         paymentRequest.setNotificationURI("https://pizzahut.com/return");
@@ -301,7 +301,7 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setEffectiveDuration("600");
 
         paymentRequest.setTraceId(general.generateUniqueUUID());
-        paymentRequest.setRequestDateTime("");
+        paymentRequest.setRequestDateTime(value);
 
     }
 

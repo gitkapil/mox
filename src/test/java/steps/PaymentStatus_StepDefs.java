@@ -139,6 +139,15 @@ public class PaymentStatus_StepDefs implements BaseStep {
         Assert.assertEquals(statusCode, paymentStatus.statusCodeInResponse(), "Status Code is not correct!");
     }
 
+    @When("^I make a request for the check status with invalid value for request date time \"([^\"]*)\"$")
+    public void nvalid_value_request_date_time(String value){
+        paymentStatus.setTraceId(general.generateUniqueUUID());
+        paymentStatus.setRequestDateTime(value);
+
+        paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"));
+
+    }
+
 
 
 }
