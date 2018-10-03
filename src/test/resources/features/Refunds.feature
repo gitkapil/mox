@@ -126,7 +126,7 @@ Scenario Outline: Negative flow- Invalid refund amount sent in the request (erro
  |Refund amount > net refundable amount| Business Rules Incorrect!  |BG2009      | 2200        |
 
 
-@regression @trial
+@regression
 Scenario Outline: Negative flow- Request Date Time's invalid values set within the header
    Given I am an authorized user
    And I have a valid transaction for refund

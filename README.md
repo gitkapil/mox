@@ -22,6 +22,7 @@ command: verify -Pregression -Denv=playpen -Dversion=0.5 -Dusertype=developer
 ##PreRequisites
 -----------------
 
+- Java 8
 - Every env should have a config file under test/ resources
 - All the values explained below should be present within the config file
 - All the test cases need to be tagged with relevant profiles/ tags

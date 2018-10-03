@@ -5,7 +5,7 @@ Given I am an user
 When I make a request to the Dragon ID Manager
 Then I recieve an access_token
 
-@regression @trial
+@regression
 Scenario: Positive flow- (System time) < (Request-Date-Time + Tolerance) within payment request
   Given I am an authorized user
   And I have valid payment details
@@ -13,7 +13,7 @@ Scenario: Positive flow- (System time) < (Request-Date-Time + Tolerance) within 
   And I make a request for the payment
   And I should recieve a successful payment response
 
-@regression @trial
+@regression 
 Scenario: Positive flow- (System time) = (Request-Date-Time + Tolerance) within payment request
   Given I am an authorized user
   And I have valid payment details
@@ -22,7 +22,7 @@ Scenario: Positive flow- (System time) = (Request-Date-Time + Tolerance) within 
   And I should recieve a successful payment response
 
 
-@regression @trial
+@regression  
 Scenario: Negative flow- (System time) > (Request-Date-Time + Tolerance) within payment request
   Given I am an authorized user
   And I have valid payment details
@@ -32,7 +32,7 @@ Scenario: Negative flow- (System time) > (Request-Date-Time + Tolerance) within 
   And error message should be "Service Request Validation Failed" within payment response
 
 
-@regression @trial
+@regression  
 Scenario: Positive flow- (System time) < (Request-Date-Time + Tolerance) within payment status request
   Given I am an authorized user
   And I have valid payment details
@@ -44,7 +44,7 @@ Scenario: Positive flow- (System time) < (Request-Date-Time + Tolerance) within 
   Then I should recieve a successful check status response
 
 
-@regression @trial
+
 Scenario: Positive flow- (System time) = (Request-Date-Time + Tolerance) within payment status request
   Given I am an authorized user
   And I have valid payment details
@@ -56,7 +56,7 @@ Scenario: Positive flow- (System time) = (Request-Date-Time + Tolerance) within 
   Then I should recieve a successful check status response
 
 
-@regression @trial
+@regression  
 Scenario: Negative flow- (System time) > (Request-Date-Time + Tolerance) within payment status request
   Given I am an authorized user
   And I have valid payment details
@@ -66,10 +66,10 @@ Scenario: Negative flow- (System time) > (Request-Date-Time + Tolerance) within 
   And request date timestamp in the payment status header is more than 5 mins than the current timestamp
   When I make a request for the check status
   Then I should recieve a "400" error response with "Request timestamp too old" error description and "EA002" errorcode within check status response
-    And error message should be "Service Request Validation Failed" within check status response
+  And error message should be "Service Request Validation Failed" within check status response
 
 
-@regression @trial
+@regression  @skiponcimerchant @skiponsitmerchant
 Scenario: Positive flow- (System time) < (Request-Date-Time + Tolerance) within refund request
   Given I am an authorized user
   And I have a valid transaction for refund
@@ -78,7 +78,6 @@ Scenario: Positive flow- (System time) < (Request-Date-Time + Tolerance) within 
   Then I should recieve a successful refund response
 
 
-@regression @trial
 Scenario: Positive flow- (System time) = (Request-Date-Time + Tolerance) within refund request
   Given I am an authorized user
   And I have a valid transaction for refund
@@ -87,7 +86,7 @@ Scenario: Positive flow- (System time) = (Request-Date-Time + Tolerance) within 
   Then I should recieve a successful refund response
 
 
-@regression @trial
+@regression  @skiponcimerchant @skiponsitmerchant
 Scenario: Negative flow- (System time) > (Request-Date-Time + Tolerance) within refund request
   Given I am an authorized user
   And I have a valid transaction for refund
