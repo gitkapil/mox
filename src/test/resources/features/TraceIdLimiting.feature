@@ -112,7 +112,7 @@ Scenario: Negative flow- Same traceid sent within 5 minutes for payment Request 
   And error message should be "Service Request Validation Failed" within payment response
 
 
-@regression @trial
+@regression 
 Scenario: Negative flow- Same traceid sent within 5 minutes for payment Request but the request date time stamp is more than 5 mins older than the current time stamp
   Given I am an authorized user
   And I have valid payment details
