@@ -69,7 +69,7 @@ Scenario: Negative flow- (System time) > (Request-Date-Time + Tolerance) within 
   And error message should be "Service Request Validation Failed" within check status response
 
 
-@regression  @skiponcimerchant @skiponsitmerchant
+  @skiponcimerchant @skiponsitmerchant
 Scenario: Positive flow- (System time) < (Request-Date-Time + Tolerance) within refund request
   Given I am an authorized user
   And I have a valid transaction for refund
@@ -86,7 +86,7 @@ Scenario: Positive flow- (System time) = (Request-Date-Time + Tolerance) within 
   Then I should recieve a successful refund response
 
 
-@regression  @skiponcimerchant @skiponsitmerchant
+  @skiponcimerchant @skiponsitmerchant
 Scenario: Negative flow- (System time) > (Request-Date-Time + Tolerance) within refund request
   Given I am an authorized user
   And I have a valid transaction for refund
