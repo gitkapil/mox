@@ -5,7 +5,7 @@ Given I am an user
 When I make a request to the Dragon ID Manager
 Then I recieve an access_token
 
- @regression @skiponcimerchant @skiponsitmerchant @skiponcimerchant @skiponsitmerchant
+    @skiponcimerchant @skiponsitmerchant
 Scenario Outline: Positive flow- A merchant is able to perform refund with all the valid inputs
   Given I am an authorized user
   And I have a "<refundamount>", "<currency>", "<reason>"
@@ -22,7 +22,7 @@ Scenario Outline: Positive flow- A merchant is able to perform refund with all t
  | 500          | HKD      ||
  | 10           | HKD      |no_value|
 
- @regression @skiponcimerchant @skiponsitmerchant  
+    @skiponcimerchant @skiponsitmerchant  
 Scenario: Negative flow- Invalid auth token (without Bearer in the header)
   Given I am an authorized user
   And I have a valid transaction for refund
@@ -32,7 +32,7 @@ Scenario: Negative flow- Invalid auth token (without Bearer in the header)
   And error message should be "TokenNotPresent" within refund response
 
 
- @regression @skiponcimerchant @skiponsitmerchant  
+    @skiponcimerchant @skiponsitmerchant  
 Scenario Outline: Negative flow- Mandatory fields not sent in the header
   Given I am an authorized user
   And I have a valid transaction for refund
@@ -48,7 +48,7 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the header
  |Header Trace-Id was not found in the request. Access denied.         | HeaderNotFound       |Trace-Id         |400        |
 
 
- @regression @skiponcimerchant @skiponsitmerchant  
+    @skiponcimerchant @skiponsitmerchant  
 Scenario Outline: Negative flow- Mandatory fields not sent in the body
   Given I am an authorized user
   And I have a valid transaction for refund
@@ -62,7 +62,7 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the body
  |currencyCode missing| currencyCode|
 
 
- @regression @skiponcimerchant @skiponsitmerchant 
+    @skiponcimerchant @skiponsitmerchant 
 Scenario Outline: Negative flow- Mandatory fields not sent in the body
   Given I am an authorized user
   And I have a "<refundamount>", "<currency>", "<reason>"
@@ -74,7 +74,7 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the body
  | refundamount | currency |reason               |error_description   |
  | 22.99        | no_value |requested by customer|currencyCode missing|
 
-  @regression @skiponcimerchant @skiponsitmerchant  
+     @skiponcimerchant @skiponsitmerchant  
  Scenario Outline: Negative flow- Mandatory fields not sent in the header
    Given I am an authorized user
    And I have a valid transaction for refund
@@ -86,7 +86,7 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the body
   |Api-Version|
 
 
- @regression @skiponcimerchant @skiponsitmerchant  
+    @skiponcimerchant @skiponsitmerchant  
 Scenario Outline: Negative flow- Invalid auth token
   Given I am an authorized user
   And I have a valid transaction for refund
@@ -108,7 +108,7 @@ Scenario Outline: Negative flow- Invalid auth token
 
 
 #wallet balance= 2000 HKD and total amount within the transaction = 1000HKD set within the emulator
- @regression @skiponcimerchant @skiponsitmerchant   @skiponcimerchant @skiponsitmerchant 
+    @skiponcimerchant @skiponsitmerchant 
 Scenario Outline: Negative flow- Invalid refund amount sent in the request (error responses set within emulator)
   Given I am an authorized user
   And I have a "<refundamount>", "HKD", "customer initiated"
@@ -126,7 +126,7 @@ Scenario Outline: Negative flow- Invalid refund amount sent in the request (erro
  |Refund amount > net refundable amount| Business Rules Incorrect!  |BG2009      | 2200        |
 
 
-@regression
+   @skiponcimerchant @skiponsitmerchant 
 Scenario Outline: Negative flow- Request Date Time's invalid values set within the header
    Given I am an authorized user
    And I have a valid transaction for refund
