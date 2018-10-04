@@ -202,7 +202,7 @@ Scenario Outline: Negative flow- Peak error response parsed by DRAGON
   | Payment Amount error_Dynamic | Validation Fail!      |BG2002    | totalamount    | 0             |
   | Payment Amount error_Dynamic | Validation Fail!      |BG2002    | totalamount    | -10           |
 
-  @regression @trial
+  @regression
 Scenario Outline: Negative flow- Mandatory fields from the body missing
   Given I am an authorized user
   And I have payment details "<totalamount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
@@ -229,16 +229,18 @@ Scenario Outline: Negative flow- TraceId's value missing from the header
   | Payment Amount error_Dynamic | Validation Fail!      |BG2002    |
 
 
-Scenario Outline: Negative flow- Request Date Time's value missing from the header
+@regression
+Scenario Outline: Negative flow- Request Date Time's invalid values set within the header
    Given I am an authorized user
-   And I have valid payment details with no Request Date Time sent in the header
+   And I have valid payment details with invalid value "<value>" set for Request Date Time sent in the header
    When I make a request for the payment
-   Then I should recieve a "400" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
-   And error message should be "<error_message>" within payment response
+   Then I should recieve a "400" error response with "Service Request Validation Failed" error description and "BNA002" errorcode within payment response
+   And error message should be "Something went wrong. Sorry, we are unable to perform this action right now. Please try again." within payment response
 
    Examples:
-  |error_description             |error_message          |error_code|
-  | Payment Amount error_Dynamic | Validation Fail!      |BG2002    |
+  |value|
+  ||
+  |xyz|
 
 
   @regression   
