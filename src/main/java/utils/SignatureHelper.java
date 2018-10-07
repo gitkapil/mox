@@ -1,16 +1,24 @@
 package utils;
 
-import com.google.common.collect.Lists;
+import com.jayway.restassured.response.Header;
+import com.jayway.restassured.response.Response;
 import org.tomitribe.auth.signatures.Algorithm;
+import org.tomitribe.auth.signatures.Signature;
 import org.tomitribe.auth.signatures.Signer;
+import org.tomitribe.auth.signatures.Verifier;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
+import java.net.URL;
 import java.security.Key;
+import java.security.NoSuchAlgorithmException;
+import java.security.SignatureException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toMap;
 
 public class SignatureHelper {
     private static final String REQUEST_TARGET = "(request-target)";
@@ -31,5 +39,15 @@ public class SignatureHelper {
             sigHeaders.add(REQUEST_TARGET);
         }
         return sigHeaders;
+    }
+
+    public void verifySignature(Response response, String method, String url, byte[] keyData, String algorithm) throws IOException, NoSuchAlgorithmException, SignatureException {
+        String signatureHeaderVal = response.getHeader("Signature");
+
+        Signature parsedSig = Signature.fromString(String.format("Signature %s", signatureHeaderVal));
+
+        Verifier verifier = new Verifier(new SecretKeySpec(keyData, algorithm), parsedSig);
+
+        verifier.verify(method, new URL(url).getPath(), response.getHeaders().asList().stream().collect(toMap(Header::getName, Header::getValue)));
     }
 }
