@@ -7,6 +7,8 @@ import org.apache.log4j.Logger;
 import org.testng.Assert;
 import utils.BaseStep;
 
+import java.io.IOException;
+
 public class PaymentStatus_StepDefs implements BaseStep {
 
     final static Logger logger = Logger.getLogger(PaymentStatus_StepDefs.class);
@@ -17,7 +19,7 @@ public class PaymentStatus_StepDefs implements BaseStep {
     }
 
     @When("^I make a request for the check status$")
-    public void i_make_a_request_for_the_check_status(){
+    public void i_make_a_request_for_the_check_status() throws IOException {
         paymentStatus.setTraceId(general.generateUniqueUUID());
         paymentStatus.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
 
@@ -108,7 +110,7 @@ public class PaymentStatus_StepDefs implements BaseStep {
     }
 
     @When("^I make a request for the payment status with \"([^\"]*)\" missing in the header$")
-    public void i_make_a_request_for_the_payment_status_with_missing_in_the_header(String key)  {
+    public void i_make_a_request_for_the_payment_status_with_missing_in_the_header(String key) throws IOException {
         paymentStatus.setTraceId(general.generateUniqueUUID());
         paymentStatus.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
         

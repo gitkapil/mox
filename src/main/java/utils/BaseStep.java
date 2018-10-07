@@ -15,6 +15,7 @@ public interface BaseStep {
     JWTHelper jwtHelper= new JWTHelper();
     General general= new General();
     OpenIdConfigForPEAK openIdConfig= new OpenIdConfigForPEAK();
+    SignatureHelper signatureHelper = new SignatureHelper();
 
 
 

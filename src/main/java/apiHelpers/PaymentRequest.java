@@ -1,8 +1,18 @@
 package apiHelpers;
 
+import com.google.common.collect.Sets;
 import com.jayway.restassured.response.Response;
 import cucumber.api.DataTable;
+import org.tomitribe.auth.signatures.Algorithm;
+import org.tomitribe.auth.signatures.Signer;
 import utils.BaseStep;
+
+import javax.crypto.spec.SecretKeySpec;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.security.Key;
+import java.security.Signature;
 import java.util.*;
 
 
@@ -124,7 +134,7 @@ public class PaymentRequest implements BaseStep {
         this.authToken = "Bearer "+ authToken;
     }
 
-    public HashMap<String,String> returnPaymentRequestHeader(){
+    public HashMap<String,String> returnPaymentRequestHeader(String method, String url) throws IOException {
         paymentRequestHeader.put("Accept","application/json");
         paymentRequestHeader.put("Content-Type","application/json");
         paymentRequestHeader.put("Authorization", authToken);
@@ -132,10 +142,10 @@ public class PaymentRequest implements BaseStep {
         paymentRequestHeader.put("Accept-Language", "en-US");
         paymentRequestHeader.put("Request-Date-Time", getRequestDateTime());
         paymentRequestHeader.put("Api-Version", System.getProperty("version"));
+        paymentRequestHeader.put("Signature", signatureHelper.calculateSignature(method, url, Base64.getDecoder().decode(System.getProperty("signingKey")), System.getProperty("signingAlgorithm"), System.getProperty("signingKeyId"), Sets.newHashSet("authorization", "trace-id", "request-date-time", "api-version"), paymentRequestHeader));
 
         return paymentRequestHeader;
     }
-
 
     public String getEffectiveDuration() {
         return effectiveDuration;
@@ -332,9 +342,9 @@ public class PaymentRequest implements BaseStep {
 
 
 
-    public Response retrievePaymentRequest(String url){
+    public Response retrievePaymentRequest(String url) throws IOException {
 
-        paymentRequestResponse= restHelper.postRequestWithHeaderAndBody(url, returnPaymentRequestHeader(),returnPaymentRequestBody());
+        paymentRequestResponse= restHelper.postRequestWithHeaderAndBody(url, returnPaymentRequestHeader("POST", new URL(url).getPath()),returnPaymentRequestBody());
 
         logger.info("********** Payment Request Response *********** ----> "+ paymentRequestResponse.getBody().asString());
 
@@ -342,9 +352,9 @@ public class PaymentRequest implements BaseStep {
     }
 
 
-    public Response retrievePaymentRequestWithMissingHeaderKeys(String url, String key){
+    public Response retrievePaymentRequestWithMissingHeaderKeys(String url, String key) throws IOException {
 
-        HashMap<String, String> header= returnPaymentRequestHeader();
+        HashMap<String, String> header= returnPaymentRequestHeader("POST", new URL(url).getPath());
         header.remove(key);
 
         paymentRequestResponse= restHelper.postRequestWithHeaderAndBody(url, header,returnPaymentRequestBody());

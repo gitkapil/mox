@@ -8,6 +8,8 @@ import cucumber.api.java.en.When;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import utils.BaseStep;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -147,14 +149,14 @@ public class PaymentRequest_StepDefs implements BaseStep {
     }
 
     @When("^I make a request for the payment$")
-    public void i_make_a_request_for_the_payment()  {
+    public void i_make_a_request_for_the_payment() throws IOException {
         logger.info("********** Creating Payment Request ***********");
         paymentRequest.retrievePaymentRequest(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"));
 
     }
 
     @When("^I make a request for the payment with \"([^\"]*)\" missing in the header$")
-    public void i_make_a_request_for_the_payment_with_missing_in_the_header(String key)  {
+    public void i_make_a_request_for_the_payment_with_missing_in_the_header(String key) throws IOException {
         paymentRequest.retrievePaymentRequestWithMissingHeaderKeys(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"), key);
 
     }

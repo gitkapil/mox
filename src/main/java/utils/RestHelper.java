@@ -1,5 +1,6 @@
 package utils;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.path.json.JsonPath;
@@ -89,9 +90,9 @@ public class RestHelper {
     }
 
     public Response postRequestWithHeaderAndBody(String url, HashMap headers,HashMap body){
-
         Response response=null;
         try{
+            String jsonBody = new ObjectMapper().writeValueAsString(body);
             response = given().log().all().headers(headers).body(body).when().post(url);
 
         }catch(Exception e){

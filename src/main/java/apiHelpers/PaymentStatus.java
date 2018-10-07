@@ -1,13 +1,14 @@
 package apiHelpers;
 
+import com.google.common.collect.Sets;
 import com.jayway.restassured.response.Response;
 import cucumber.api.DataTable;
 import utils.BaseStep;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
 
 
 public class PaymentStatus implements BaseStep {
@@ -62,10 +63,10 @@ public class PaymentStatus implements BaseStep {
 
     }
 
-    public void retrievePaymentStatusWithMissingHeaderKeys(String url, String key){
+    public void retrievePaymentStatusWithMissingHeaderKeys(String url, String key) throws IOException {
         url= appendPaymentIdInURL(url);
 
-        HashMap<String, String> header= returnPaymentStatusHeader();
+        HashMap<String, String> header= returnPaymentStatusHeader("GET", url);
         header.remove(key);
 
         paymentStatusResponse= restHelper.getRequestWithHeaders(url, header);
@@ -76,10 +77,10 @@ public class PaymentStatus implements BaseStep {
 
 
 
-    public Response retrievePaymentStatus(String url){
+    public Response retrievePaymentStatus(String url) throws IOException {
         url= appendPaymentIdInURL(url);
 
-        paymentStatusResponse= restHelper.getRequestWithHeaders(url, returnPaymentStatusHeader());
+        paymentStatusResponse= restHelper.getRequestWithHeaders(url, returnPaymentStatusHeader("GET", url));
 
         logger.info("********** Payment Request Status Response *********** ---> "+ paymentStatusResponse.getBody().asString());
 
@@ -102,13 +103,13 @@ public class PaymentStatus implements BaseStep {
         this.requestDateTime = requestDateTime;
     }
 
-    public HashMap<String,String> returnPaymentStatusHeader(){
+    public HashMap<String,String> returnPaymentStatusHeader(String method, String url) throws IOException {
         paymentStatusHeader.put("Accept","application/json");
         paymentStatusHeader.put("Authorization", authToken);
         paymentStatusHeader.put("Trace-Id",traceId);
         paymentStatusHeader.put("Api-Version", System.getProperty("version"));
         paymentStatusHeader.put("Request-Date-Time", getRequestDateTime());
-
+        paymentStatusHeader.put("Signature", signatureHelper.calculateSignature(method, new URL(url).getPath(), Base64.getDecoder().decode(System.getProperty("signingKey")), System.getProperty("signingAlgorithm"), System.getProperty("signingKeyId"), Sets.newHashSet("authorization", "trace-id", "request-date-time", "api-version"), paymentStatusHeader));
         return paymentStatusHeader;
     }
 
