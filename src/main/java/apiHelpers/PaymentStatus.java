@@ -2,13 +2,12 @@ package apiHelpers;
 
 import com.google.common.collect.Sets;
 import com.jayway.restassured.response.Response;
-import cucumber.api.DataTable;
 import utils.BaseStep;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.*;
+import java.util.Base64;
+import java.util.HashMap;
 
 
 public class PaymentStatus implements BaseStep {
@@ -63,7 +62,7 @@ public class PaymentStatus implements BaseStep {
 
     }
 
-    public void retrievePaymentStatusWithMissingHeaderKeys(String url, String key) throws IOException {
+    public void retrievePaymentStatusWithMissingHeaderKeys(String url, String key) throws Exception {
         url= appendPaymentIdInURL(url);
 
         HashMap<String, String> header= returnPaymentStatusHeader("GET", url);
@@ -71,16 +70,21 @@ public class PaymentStatus implements BaseStep {
 
         paymentStatusResponse= restHelper.getRequestWithHeaders(url, header);
 
+        // If the verification message is returned by APIMs it won't be signed so verification will fail.
+        signatureHelper.verifySignature(paymentStatusResponse, "GET", url, Base64.getDecoder().decode(System.getProperty("signingKey")), System.getProperty("signingAlgorithm"));
+
         logger.info("********** Payment Request Status Response *********** ---> "+ paymentStatusResponse.getBody().asString());
 
     }
 
 
 
-    public Response retrievePaymentStatus(String url) throws IOException {
+    public Response retrievePaymentStatus(String url) throws Exception {
         url= appendPaymentIdInURL(url);
 
         paymentStatusResponse= restHelper.getRequestWithHeaders(url, returnPaymentStatusHeader("GET", url));
+
+        signatureHelper.verifySignature(paymentStatusResponse, "GET", url, Base64.getDecoder().decode(System.getProperty("signingKey")), System.getProperty("signingAlgorithm"));
 
         logger.info("********** Payment Request Status Response *********** ---> "+ paymentStatusResponse.getBody().asString());
 

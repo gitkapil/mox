@@ -2,6 +2,7 @@ package utils;
 
 import com.jayway.restassured.response.Header;
 import com.jayway.restassured.response.Response;
+import org.apache.commons.lang3.StringUtils;
 import org.tomitribe.auth.signatures.Algorithm;
 import org.tomitribe.auth.signatures.Signature;
 import org.tomitribe.auth.signatures.Signer;
@@ -11,8 +12,6 @@ import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
 import java.net.URL;
 import java.security.Key;
-import java.security.NoSuchAlgorithmException;
-import java.security.SignatureException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -41,13 +40,19 @@ public class SignatureHelper {
         return sigHeaders;
     }
 
-    public void verifySignature(Response response, String method, String url, byte[] keyData, String algorithm) throws IOException, NoSuchAlgorithmException, SignatureException {
+    public void verifySignature(Response response, String method, String url, byte[] keyData, String algorithm) throws Exception {
         String signatureHeaderVal = response.getHeader("Signature");
+
+        if (StringUtils.isEmpty(signatureHeaderVal)) {
+            return;
+        }
 
         Signature parsedSig = Signature.fromString(String.format("Signature %s", signatureHeaderVal));
 
         Verifier verifier = new Verifier(new SecretKeySpec(keyData, algorithm), parsedSig);
 
-        verifier.verify(method, new URL(url).getPath(), response.getHeaders().asList().stream().collect(toMap(Header::getName, Header::getValue)));
+        if (!verifier.verify(method, new URL(url).getPath(), response.getHeaders().asList().stream().collect(toMap(Header::getName, Header::getValue)))) {
+            throw new Exception("Signature failed validation");
+        }
     }
 }

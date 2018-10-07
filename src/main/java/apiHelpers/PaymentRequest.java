@@ -3,16 +3,10 @@ package apiHelpers;
 import com.google.common.collect.Sets;
 import com.jayway.restassured.response.Response;
 import cucumber.api.DataTable;
-import org.tomitribe.auth.signatures.Algorithm;
-import org.tomitribe.auth.signatures.Signer;
 import utils.BaseStep;
 
-import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.Key;
-import java.security.Signature;
 import java.util.*;
 
 
@@ -342,9 +336,11 @@ public class PaymentRequest implements BaseStep {
 
 
 
-    public Response retrievePaymentRequest(String url) throws IOException {
+    public Response retrievePaymentRequest(String url) throws Exception {
 
         paymentRequestResponse= restHelper.postRequestWithHeaderAndBody(url, returnPaymentRequestHeader("POST", new URL(url).getPath()),returnPaymentRequestBody());
+
+        signatureHelper.verifySignature(paymentRequestResponse, "GET", url, Base64.getDecoder().decode(System.getProperty("signingKey")), System.getProperty("signingAlgorithm"));
 
         logger.info("********** Payment Request Response *********** ----> "+ paymentRequestResponse.getBody().asString());
 
@@ -352,12 +348,14 @@ public class PaymentRequest implements BaseStep {
     }
 
 
-    public Response retrievePaymentRequestWithMissingHeaderKeys(String url, String key) throws IOException {
+    public Response retrievePaymentRequestWithMissingHeaderKeys(String url, String key) throws Exception {
 
         HashMap<String, String> header= returnPaymentRequestHeader("POST", new URL(url).getPath());
         header.remove(key);
 
         paymentRequestResponse= restHelper.postRequestWithHeaderAndBody(url, header,returnPaymentRequestBody());
+
+        signatureHelper.verifySignature(paymentRequestResponse, "GET", url, Base64.getDecoder().decode(System.getProperty("signingKey")), System.getProperty("signingAlgorithm"));
 
         logger.info("Response: "+ paymentRequestResponse.getBody().asString());
 
