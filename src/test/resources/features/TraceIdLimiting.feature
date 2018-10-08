@@ -5,18 +5,18 @@ Given I am an user
 When I make a request to the Dragon ID Manager
 Then I recieve an access_token
 
-@regression
+@regression @functional
 Scenario: Negative flow- Same traceid sent within 5 minutes for payment Request
   Given I am an authorized user
   And I have valid payment details
   And I make a request for the payment
   And I should recieve a successful payment response
   When I make a create payment request again with the same traceid
-  Then I should recieve a "400" error response with "TODO" error description and "EA002" errorcode within payment response
+  Then I should recieve a "400" error response with "Rate limit is exceeded" error description and "EA002" errorcode within payment response
   And error message should be "Service Request Validation Failed" within payment response
 
 
-@regression
+@regression @functional
 Scenario: Negative flow- Same traceid sent within 5 minutes for payment Request Status
   Given I am an authorized user
   And I have valid payment details
@@ -26,7 +26,7 @@ Scenario: Negative flow- Same traceid sent within 5 minutes for payment Request 
   And I make a request for the check status
   And I should recieve a successful check status response
   When I make a check status request again with the same traceid
-  Then I should recieve a "400" error response with "TODO" error description and "EA002" errorcode within check status response
+  Then I should recieve a "400" error response with "Rate limit is exceeded" error description and "EA002" errorcode within check status response
   And error message should be "Service Request Validation Failed" within check status response
 
 
@@ -53,7 +53,7 @@ Scenario: Positive flow- Same traceid sent after 5 minutes for payment Request S
   Then I should recieve a successful check status response
 
 
-@regression
+@regression @functional
 Scenario: Positive flow- Different traceid sent within 5 minutes for payment Request
   Given I am an authorized user
   And I have valid payment details
@@ -63,7 +63,7 @@ Scenario: Positive flow- Different traceid sent within 5 minutes for payment Req
   Then I should recieve a successful payment response
 
 
-@regression
+@regression @functional
 Scenario: Positive flow- Different traceid sent within 5 minutes for payment Request Status
   Given I am an authorized user
   And I have valid payment details
@@ -76,7 +76,7 @@ Scenario: Positive flow- Different traceid sent within 5 minutes for payment Req
   Then I should recieve a successful check status response
 
 
-@regression
+@regression @functional
 Scenario: Negative flow- Different traceid sent within 5 minutes for payment Request but the request date time stamp is more than 5 mins older than the current time stamp
   Given I am an authorized user
   And I have valid payment details
@@ -87,7 +87,7 @@ Scenario: Negative flow- Different traceid sent within 5 minutes for payment Req
   And error message should be "Service Request Validation Failed" within payment response
 
 
-@regression
+@regression @functional
 Scenario: Negative flow- Different traceid sent within 5 minutes for payment Request but the request date time stamp is more than 5 mins older than the current time stamp
   Given I am an authorized user
   And I have valid payment details
@@ -101,7 +101,7 @@ Scenario: Negative flow- Different traceid sent within 5 minutes for payment Req
   And error message should be "Service Request Validation Failed" within check status response
 
 
-@regression
+@regression @functional
 Scenario: Negative flow- Same traceid sent within 5 minutes for payment Request but the request date time stamp is more than 5 mins older than the current time stamp
   Given I am an authorized user
   And I have valid payment details
@@ -112,7 +112,7 @@ Scenario: Negative flow- Same traceid sent within 5 minutes for payment Request 
   And error message should be "Service Request Validation Failed" within payment response
 
 
-@regression 
+@regression @functional
 Scenario: Negative flow- Same traceid sent within 5 minutes for payment Request but the request date time stamp is more than 5 mins older than the current time stamp
   Given I am an authorized user
   And I have valid payment details
