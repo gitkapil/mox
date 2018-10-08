@@ -1,8 +1,11 @@
 package utils;
 
 import java.text.SimpleDateFormat;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Locale;
+
 
 public class DateHelper{
 
@@ -54,6 +57,18 @@ public class DateHelper{
         return cal;
     }
 
+
+    public String getUTCNowDateTime(){
+        ZonedDateTime utc = ZonedDateTime.now(ZoneOffset.UTC);
+
+        return utc.toString();
+    }
+
+    public String subtractMinutesFromUTCNowDateTime(long mins){
+        ZonedDateTime utc = ZonedDateTime.now(ZoneOffset.UTC);
+
+        return utc.minusMinutes(mins).toString();
+    }
 
 
 

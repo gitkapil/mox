@@ -10,18 +10,19 @@ Every env has two APIMs. One is sandbox APIM which talks to PEAK emulator and an
 ## How to Run
 ---------------
 
-verify -P<profile> -Denv=<Env Name> -Dversion=v<version number> -Dusertype=<merchant/ developer>
+verify -P<profile> -Denv=<Env Name> -Dversion=<version number> -Dusertype=<merchant/ developer>
 
 <i>Example: </i>
 
 To run functional tests on playpen/dev env
 
-command: verify -Pregression -Denv=playpen -Dversion=v0.5 -Dusertype=developer
+command: verify -Pregression -Denv=playpen -Dversion=0.5 -Dusertype=developer
 
 
 ##PreRequisites
 -----------------
 
+- Java 8
 - Every env should have a config file under test/ resources
 - All the values explained below should be present within the config file
 - All the test cases need to be tagged with relevant profiles/ tags
@@ -33,6 +34,7 @@ command: verify -Pregression -Denv=playpen -Dversion=v0.5 -Dusertype=developer
 playpen
 sit
 ci
+pre
 
 ## Profiles (All the tests are marked as regression at the moment)
 ------------

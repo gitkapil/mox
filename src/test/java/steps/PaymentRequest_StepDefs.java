@@ -95,7 +95,8 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setShoppingCart(null);
         paymentRequest.setMerchantData(null);
 
-        paymentRequest.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+        //paymentRequest.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+        paymentRequest.setRequestDateTime(dateHelper.getUTCNowDateTime());
         paymentRequest.setTraceId(general.generateUniqueUUID());
     }
 
@@ -111,7 +112,8 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setShoppingCart(null);
         paymentRequest.setMerchantData(null);
 
-        paymentRequest.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+       // paymentRequest.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+        paymentRequest.setRequestDateTime(dateHelper.getUTCNowDateTime());
         paymentRequest.setTraceId(general.generateUniqueUUID());
     }
 
@@ -183,7 +185,7 @@ public class PaymentRequest_StepDefs implements BaseStep {
 
         Assert.assertEquals(paymentRequest.statusDescriptionInResponse(), "Request for Payment Initiated", "Status Description is not \"Request for Payment Initiated\"");
 
-        Assert.assertEquals(paymentRequest.totalAmountInResponse(), paymentRequest.getTotalAmountInDouble().toString(), "Total Amount isn't matching!");
+        Assert.assertEquals(String.format("%.2f", Double.parseDouble(paymentRequest.totalAmountInResponse())), String.format("%.2f", paymentRequest.getTotalAmountInDouble()), "Total Amount isn't matching!");
 
         Assert.assertEquals(paymentRequest.currencyCodeInResponse(), paymentRequest.getCurrency(), "Currency Code isn't matching!");
 
@@ -265,7 +267,8 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setAppFailCallback("https://pizzahut.com/unsuccessful");
         paymentRequest.setEffectiveDuration("600");
 
-        paymentRequest.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+        //paymentRequest.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+        paymentRequest.setRequestDateTime(dateHelper.getUTCNowDateTime());
         paymentRequest.setTraceId(general.generateUniqueUUID());
 
         if (parameter.equalsIgnoreCase("totalamount"))
@@ -283,13 +286,14 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setAppFailCallback("https://pizzahut.com/unsuccessful");
         paymentRequest.setEffectiveDuration("600");
 
-        paymentRequest.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+       // paymentRequest.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+        paymentRequest.setRequestDateTime(dateHelper.getUTCNowDateTime());
 
 
     }
 
-    @Given("^I have valid payment details with no Request Date Time sent in the header$")
-    public void i_have_valid_payment_details_with_no_RequestDateTime_sent_in_the_header() {
+    @Given("^I have valid payment details with invalid value \"([^\"]*)\" set for Request Date Time sent in the header$")
+    public void i_have_valid_payment_details_with_no_RequestDateTime_sent_in_the_header(String value) {
         paymentRequest.setTotalAmount("20");
         paymentRequest.setCurrency("HKD");
         paymentRequest.setNotificationURI("https://pizzahut.com/return");
@@ -298,7 +302,7 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setEffectiveDuration("600");
 
         paymentRequest.setTraceId(general.generateUniqueUUID());
-        paymentRequest.setRequestDateTime("");
+        paymentRequest.setRequestDateTime(value);
 
     }
 
