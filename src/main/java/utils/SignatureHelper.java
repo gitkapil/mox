@@ -26,9 +26,8 @@ public class SignatureHelper {
         final Algorithm algo = Algorithm.get(algorithm);
         final Key key = new SecretKeySpec(keyData, algorithm);
         final Signer signer =
-                new Signer(key, new org.tomitribe.auth.signatures.Signature(keyId, algo, null,
-                        obtainSignatureHeaders(presentHeaders.keySet(), includeHeaders)));
-        org.tomitribe.auth.signatures.Signature signed = signer.sign(method, url, presentHeaders);
+                new Signer(key, new Signature(keyId, algo, null, obtainSignatureHeaders(presentHeaders.keySet(), includeHeaders)));
+        Signature signed = signer.sign(method, url, presentHeaders);
         return signed.toString().replace("Signature ", "");
     }
 

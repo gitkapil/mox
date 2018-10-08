@@ -3,9 +3,8 @@ package apiHelpers;
 import com.google.common.collect.Sets;
 import com.jayway.restassured.response.Response;
 import cucumber.api.DataTable;
+import org.junit.Assert;
 import utils.BaseStep;
-
-import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
@@ -128,7 +127,7 @@ public class PaymentRequest implements BaseStep {
         this.authToken = "Bearer "+ authToken;
     }
 
-    public HashMap<String,String> returnPaymentRequestHeader(String method, String url) throws IOException {
+    public HashMap<String,String> returnPaymentRequestHeader(String method, String url, String signingKeyId, String signingAlgorithm, String signingKey) {
         paymentRequestHeader.put("Accept","application/json");
         paymentRequestHeader.put("Content-Type","application/json");
         paymentRequestHeader.put("Authorization", authToken);
@@ -136,8 +135,13 @@ public class PaymentRequest implements BaseStep {
         paymentRequestHeader.put("Accept-Language", "en-US");
         paymentRequestHeader.put("Request-Date-Time", getRequestDateTime());
         paymentRequestHeader.put("Api-Version", System.getProperty("version"));
-        paymentRequestHeader.put("Signature", signatureHelper.calculateSignature(method, url, Base64.getDecoder().decode(System.getProperty("signingKey")), System.getProperty("signingAlgorithm"), System.getProperty("signingKeyId"), Sets.newHashSet("authorization", "trace-id", "request-date-time", "api-version"), paymentRequestHeader));
-
+        try{
+            paymentRequestHeader.put("Signature", signatureHelper.calculateSignature(method, url, Base64.getDecoder().decode(signingKey), signingAlgorithm, signingKeyId, Sets.newHashSet("authorization", "trace-id", "request-date-time", "api-version"), paymentRequestHeader));
+        }
+        catch (Exception e)
+        {
+           Assert.assertTrue("Trouble creating Signature!", false);
+        }
         return paymentRequestHeader;
     }
 
@@ -336,28 +340,37 @@ public class PaymentRequest implements BaseStep {
 
 
 
-    public Response retrievePaymentRequest(String url) throws Exception {
+    public Response retrievePaymentRequest(String url, String signingKeyId, String signingAlgorithm, String signingKey) {
 
-        paymentRequestResponse= restHelper.postRequestWithHeaderAndBody(url, returnPaymentRequestHeader("POST", new URL(url).getPath()),returnPaymentRequestBody());
+        try{
+            paymentRequestResponse= restHelper.postRequestWithHeaderAndBody(url,
+                    returnPaymentRequestHeader("POST", new URL(url).getPath(), signingKeyId, signingAlgorithm, signingKey),
+                    returnPaymentRequestBody());
+            signatureHelper.verifySignature(paymentRequestResponse, "GET", url, Base64.getDecoder().decode(signingKey), signingAlgorithm);
+            logger.info("********** Payment Request Response *********** ----> "+ paymentRequestResponse.getBody().asString());
+        }
+        catch (Exception e){
+            Assert.assertTrue("Verification of signature failed!", false);
 
-        signatureHelper.verifySignature(paymentRequestResponse, "GET", url, Base64.getDecoder().decode(System.getProperty("signingKey")), System.getProperty("signingAlgorithm"));
-
-        logger.info("********** Payment Request Response *********** ----> "+ paymentRequestResponse.getBody().asString());
-
+        }
         return paymentRequestResponse;
     }
 
 
-    public Response retrievePaymentRequestWithMissingHeaderKeys(String url, String key) throws Exception {
+    public Response retrievePaymentRequestWithMissingHeaderKeys(String url, String key, String signingKeyId, String signingAlgorithm, String signingKey)  {
 
-        HashMap<String, String> header= returnPaymentRequestHeader("POST", new URL(url).getPath());
-        header.remove(key);
+        try {
+            HashMap<String, String> header = returnPaymentRequestHeader("POST", new URL(url).getPath(), signingKeyId, signingAlgorithm, signingKey);
+            header.remove(key);
 
-        paymentRequestResponse= restHelper.postRequestWithHeaderAndBody(url, header,returnPaymentRequestBody());
+            paymentRequestResponse = restHelper.postRequestWithHeaderAndBody(url, header, returnPaymentRequestBody());
 
-        signatureHelper.verifySignature(paymentRequestResponse, "GET", url, Base64.getDecoder().decode(System.getProperty("signingKey")), System.getProperty("signingAlgorithm"));
-
-        logger.info("Response: "+ paymentRequestResponse.getBody().asString());
+            signatureHelper.verifySignature(paymentRequestResponse, "GET", url, Base64.getDecoder().decode(signingKey), signingAlgorithm);
+            logger.info("Response: "+ paymentRequestResponse.getBody().asString());
+        }
+        catch (Exception e){
+            Assert.assertTrue("Verification of signature failed!", false);
+        }
 
         return paymentRequestResponse;
     }

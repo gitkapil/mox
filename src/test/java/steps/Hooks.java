@@ -10,13 +10,16 @@ import java.util.Properties;
 
 public class Hooks implements BaseStep {
 
+    static Properties envProperties=new Properties();
     static Properties generalProperties=new Properties();
 
   @Before
     public void setUp(){
       RestAssured.defaultParser = Parser.JSON;
       String generalPropertiesFilePath=System.getProperty("user.dir")+"/src/test/resources/configs/"+System.getProperty("env")+".properties";
-      generalProperties= fileHelper.loadPropertiesFile(generalPropertiesFilePath);
+      envProperties= fileHelper.loadPropertiesFile(generalPropertiesFilePath);
+      generalProperties = fileHelper.loadPropertiesFile(System.getProperty("user.dir")+"/src/test/resources/configs/general.properties");
+
     }
 
   @Before("@skiponcimerchant")

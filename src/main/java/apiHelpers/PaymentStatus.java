@@ -2,6 +2,7 @@ package apiHelpers;
 
 import com.google.common.collect.Sets;
 import com.jayway.restassured.response.Response;
+import org.junit.Assert;
 import utils.BaseStep;
 
 import java.io.IOException;
@@ -62,31 +63,43 @@ public class PaymentStatus implements BaseStep {
 
     }
 
-    public void retrievePaymentStatusWithMissingHeaderKeys(String url, String key) throws Exception {
-        url= appendPaymentIdInURL(url);
+    public void retrievePaymentStatusWithMissingHeaderKeys(String url, String key, String signingKeyId, String signingAlgorithm, String signingKey) {
+        try{
+            url= appendPaymentIdInURL(url);
 
-        HashMap<String, String> header= returnPaymentStatusHeader("GET", url);
-        header.remove(key);
+            HashMap<String, String> header= returnPaymentStatusHeader("GET", url, signingKeyId, signingAlgorithm, signingKey);
+            header.remove(key);
 
-        paymentStatusResponse= restHelper.getRequestWithHeaders(url, header);
+            paymentStatusResponse= restHelper.getRequestWithHeaders(url, header);
 
-        // If the verification message is returned by APIMs it won't be signed so verification will fail.
-        signatureHelper.verifySignature(paymentStatusResponse, "GET", url, Base64.getDecoder().decode(System.getProperty("signingKey")), System.getProperty("signingAlgorithm"));
+            // If the verification message is returned by APIMs it won't be signed so verification will fail.
+            signatureHelper.verifySignature(paymentStatusResponse, "GET", url, Base64.getDecoder().decode(signingKey), signingAlgorithm);
 
-        logger.info("********** Payment Request Status Response *********** ---> "+ paymentStatusResponse.getBody().asString());
+            logger.info("********** Payment Request Status Response *********** ---> "+ paymentStatusResponse.getBody().asString());
+        }
+        catch (Exception e){
+            Assert.assertTrue("Verification of signature failed!", false);
+        }
 
     }
 
 
 
-    public Response retrievePaymentStatus(String url) throws Exception {
-        url= appendPaymentIdInURL(url);
+    public Response retrievePaymentStatus(String url, String signingKeyId, String signingAlgorithm, String signingKey) {
+        try{
+            url= appendPaymentIdInURL(url);
 
-        paymentStatusResponse= restHelper.getRequestWithHeaders(url, returnPaymentStatusHeader("GET", url));
+        paymentStatusResponse= restHelper.getRequestWithHeaders(url, returnPaymentStatusHeader("GET", url, signingKeyId, signingAlgorithm, signingKey));
 
-        signatureHelper.verifySignature(paymentStatusResponse, "GET", url, Base64.getDecoder().decode(System.getProperty("signingKey")), System.getProperty("signingAlgorithm"));
+        signatureHelper.verifySignature(paymentStatusResponse, "GET", url, Base64.getDecoder().decode(signingKey), signingAlgorithm);
 
         logger.info("********** Payment Request Status Response *********** ---> "+ paymentStatusResponse.getBody().asString());
+        }
+        catch (Exception e){
+            Assert.assertTrue("Verification of signature failed!", false);
+
+        }
+
 
         return paymentStatusResponse;
     }
@@ -107,13 +120,19 @@ public class PaymentStatus implements BaseStep {
         this.requestDateTime = requestDateTime;
     }
 
-    public HashMap<String,String> returnPaymentStatusHeader(String method, String url) throws IOException {
+    public HashMap<String,String> returnPaymentStatusHeader(String method, String url,String signingKeyId, String signingAlgorithm, String signingKey) {
         paymentStatusHeader.put("Accept","application/json");
         paymentStatusHeader.put("Authorization", authToken);
         paymentStatusHeader.put("Trace-Id",traceId);
         paymentStatusHeader.put("Api-Version", System.getProperty("version"));
         paymentStatusHeader.put("Request-Date-Time", getRequestDateTime());
-        paymentStatusHeader.put("Signature", signatureHelper.calculateSignature(method, new URL(url).getPath(), Base64.getDecoder().decode(System.getProperty("signingKey")), System.getProperty("signingAlgorithm"), System.getProperty("signingKeyId"), Sets.newHashSet("authorization", "trace-id", "request-date-time", "api-version"), paymentStatusHeader));
+        try{
+            paymentStatusHeader.put("Signature", signatureHelper.calculateSignature(method, new URL(url).getPath(), Base64.getDecoder().decode(signingKey), signingAlgorithm, signingKeyId, Sets.newHashSet("authorization", "trace-id", "request-date-time", "api-version"), paymentStatusHeader));
+        }
+        catch (IOException e){
+            Assert.assertTrue("Trouble creating signature!", false);
+
+        }
         return paymentStatusHeader;
     }
 

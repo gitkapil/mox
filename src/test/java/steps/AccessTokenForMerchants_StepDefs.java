@@ -21,28 +21,28 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
                 logger.info("********* Hitting Merchant (Live) APIM ****************");
 
                 accessToken.setType("merchant");
-                accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "merchant-client-id"),
-                        fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "merchant-client-secret"));
+                accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-id"),
+                        fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-secret"));
 
                 if (System.getProperty("env").equalsIgnoreCase("playpen"))
-                    accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path"));
+                    accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "retrieve_access_token_base_path"));
                 else
                     accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_1")
-                            +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_2")
+                            +fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI_Part_2")
                             +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
 
             } else {
                 logger.info("********* Hitting Sandbox APIM ****************");
 
                 accessToken.setType("sandbox");
-                accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "developer-client-id"),
-                        fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "developer-client-secret"));
+                accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "developer-client-id"),
+                        fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "developer-client-secret"));
 
                 if (System.getProperty("env").equalsIgnoreCase("playpen"))
-                    accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path"));
+                    accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "retrieve_access_token_base_path"));
                 else
                     accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_1")
-                            +"sandbox-"+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_2")
+                            +"sandbox-"+fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI_Part_2")
                             +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
 
             }
@@ -51,14 +51,14 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
             logger.info("********* Hitting Sandbox APIM ****************");
 
             accessToken.setType("sandbox");
-            accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "developer-client-id"),
-                    fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "developer-client-secret"));
+            accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "developer-client-id"),
+                    fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "developer-client-secret"));
 
             if (System.getProperty("env").equalsIgnoreCase("playpen"))
-                accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path"));
+                accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "retrieve_access_token_base_path"));
             else
                 accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_1")
-                        +"sandbox-"+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_2")
+                        +"sandbox-"+fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI_Part_2")
                         +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
 
         }
@@ -100,7 +100,7 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
     @Then("^it should be a valid JWT$")
     public void valid_jwt_token() {
 
-        Assert.assertNotNull("Generated access token is not valid", accessToken.retrieveClaimSet(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "jwks_uri_idp")));
+        Assert.assertNotNull("Generated access token is not valid", accessToken.retrieveClaimSet(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "jwks_uri_idp")));
 
     }
 
