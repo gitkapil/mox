@@ -64,7 +64,7 @@ Examples:
 |authorization|
 
 
-@regression @trial
+# Don't think we need this as we cant send the same header with a different body (Rate limit policy will apply). If we change header the last test case would suffice
 Scenario: Negative flow- Body Values tampered in the request
   Given I am an authorized user
   And I have valid payment details
@@ -73,6 +73,8 @@ Scenario: Negative flow- Body Values tampered in the request
   When I use the same signature to trigger another payment request but with a changed body
   Then I should recieve a "TODO" error response with "TODO" error description and "TODO" errorcode within payment response
   And error message should be "TODO" within payment response
+
+
 
 
 

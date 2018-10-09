@@ -154,7 +154,7 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the header
  |Header Authorization was not found in the request. Access denied.    | HeaderNotFound|Authorization    |401        |
  |Header Request-Date-Time was not found in the request. Access denied.| HeaderNotFound|Request-Date-Time|400        |
  |Header Trace-Id was not found in the request. Access denied.         | HeaderNotFound|Trace-Id         |400        |
-
+ |Header Signature was not found in the request. Access denied.        | HeaderNotFound|Signature        |400        |
 
  @regression  
 Scenario Outline: Negative flow- Mandatory fields not sent in the header
