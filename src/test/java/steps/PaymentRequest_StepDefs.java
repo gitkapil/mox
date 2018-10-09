@@ -9,6 +9,8 @@ import org.apache.log4j.Logger;
 import org.testng.Assert;
 import utils.BaseStep;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 
@@ -154,7 +156,8 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.retrievePaymentRequest(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"));
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list").split(","))));
 
     }
 
@@ -163,7 +166,8 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.retrievePaymentRequestWithMissingHeaderKeys(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"), key,
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"));
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list").split(","))));
 
     }
 

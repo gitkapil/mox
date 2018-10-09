@@ -13,10 +13,14 @@ public class PaymentRequest implements BaseStep {
     final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(PaymentRequest.class);
     private String authToken, requestDateTime="",  currency, notificationURI=null, traceId="", appSuccessCallback=null, appFailCallback=null, effectiveDuration, totalAmount;
     private Double totalAmountInDouble;
-   // private Integer effectiveDuration=600;
 
     private HashMap merchantData= new HashMap();
     private List<HashMap> shoppingCart=new ArrayList<HashMap>();
+    private HashMap<String, String> paymentRequestHeader= new HashMap<String, String>();
+
+
+    private HashMap paymentRequestBody = new HashMap();
+    private Response paymentRequestResponse= null;
 
     public String getAppSuccessCallback() {
         return appSuccessCallback;
@@ -33,10 +37,6 @@ public class PaymentRequest implements BaseStep {
     public void setAppFailCallback(String appFailCallback) {
         this.appFailCallback = appFailCallback;
     }
-
-    private HashMap<String, String> paymentRequestHeader= new HashMap<String, String>();
-
-    private HashMap paymentRequestBody = new HashMap();
 
     public String getTraceId() {
         return traceId;
@@ -91,10 +91,6 @@ public class PaymentRequest implements BaseStep {
         this.totalAmount = totalAmount;
     }
 
-
-    private Response paymentRequestResponse= null;
-
-
     public Response getPaymentRequestResponse() {
         return paymentRequestResponse;
     }
@@ -127,7 +123,7 @@ public class PaymentRequest implements BaseStep {
         this.authToken = "Bearer "+ authToken;
     }
 
-    public HashMap<String,String> returnPaymentRequestHeader(String method, String url, String signingKeyId, String signingAlgorithm, String signingKey) {
+    public HashMap<String,String> returnPaymentRequestHeader(String method, String url, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature) {
         paymentRequestHeader.put("Accept","application/json");
         paymentRequestHeader.put("Content-Type","application/json");
         paymentRequestHeader.put("Authorization", authToken);
@@ -136,10 +132,13 @@ public class PaymentRequest implements BaseStep {
         paymentRequestHeader.put("Request-Date-Time", getRequestDateTime());
         paymentRequestHeader.put("Api-Version", System.getProperty("version"));
         try{
-            paymentRequestHeader.put("Signature", signatureHelper.calculateSignature(method, url, Base64.getDecoder().decode(signingKey), signingAlgorithm, signingKeyId, Sets.newHashSet("authorization", "trace-id", "request-date-time", "api-version"), paymentRequestHeader));
+            paymentRequestHeader.put("Signature", signatureHelper.calculateSignature(method, url,
+                    Base64.getDecoder().decode(signingKey), signingAlgorithm, signingKeyId,
+                    headerElementsForSignature, paymentRequestHeader));
         }
         catch (Exception e)
         {
+            e.printStackTrace();
            Assert.assertTrue("Trouble creating Signature!", false);
         }
         return paymentRequestHeader;
@@ -340,13 +339,13 @@ public class PaymentRequest implements BaseStep {
 
 
 
-    public Response retrievePaymentRequest(String url, String signingKeyId, String signingAlgorithm, String signingKey) {
+    public Response retrievePaymentRequest(String url, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature) {
 
         try{
             paymentRequestResponse= restHelper.postRequestWithHeaderAndBody(url,
-                    returnPaymentRequestHeader("POST", new URL(url).getPath(), signingKeyId, signingAlgorithm, signingKey),
+                    returnPaymentRequestHeader("POST", new URL(url).getPath(), signingKeyId, signingAlgorithm, signingKey, headerElementsForSignature),
                     returnPaymentRequestBody());
-            signatureHelper.verifySignature(paymentRequestResponse, "GET", url, Base64.getDecoder().decode(signingKey), signingAlgorithm);
+            signatureHelper.verifySignature(paymentRequestResponse, "POST", url, Base64.getDecoder().decode(signingKey), signingAlgorithm);
             logger.info("********** Payment Request Response *********** ----> "+ paymentRequestResponse.getBody().asString());
         }
         catch (Exception e){
@@ -357,10 +356,10 @@ public class PaymentRequest implements BaseStep {
     }
 
 
-    public Response retrievePaymentRequestWithMissingHeaderKeys(String url, String key, String signingKeyId, String signingAlgorithm, String signingKey)  {
+    public Response retrievePaymentRequestWithMissingHeaderKeys(String url, String key, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature)  {
 
         try {
-            HashMap<String, String> header = returnPaymentRequestHeader("POST", new URL(url).getPath(), signingKeyId, signingAlgorithm, signingKey);
+            HashMap<String, String> header = returnPaymentRequestHeader("POST", new URL(url).getPath(), signingKeyId, signingAlgorithm, signingKey, headerElementsForSignature);
             header.remove(key);
 
             paymentRequestResponse = restHelper.postRequestWithHeaderAndBody(url, header, returnPaymentRequestBody());
