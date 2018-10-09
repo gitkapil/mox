@@ -18,6 +18,13 @@ public class PaymentRequest implements BaseStep {
     private List<HashMap> shoppingCart=new ArrayList<HashMap>();
     private HashMap<String, String> paymentRequestHeader= new HashMap<String, String>();
 
+    public HashMap<String, String> getPaymentRequestHeader() {
+        return paymentRequestHeader;
+    }
+
+    public HashMap getPaymentRequestBody() {
+        return paymentRequestBody;
+    }
 
     private HashMap paymentRequestBody = new HashMap();
     private Response paymentRequestResponse= null;
@@ -337,6 +344,14 @@ public class PaymentRequest implements BaseStep {
 
     }
 
+    public Response retrievePaymentRequestExistingHeaderBody(String url, HashMap header, HashMap body) {
+
+        paymentRequestResponse= restHelper.postRequestWithHeaderAndBody(url, header, body);
+
+        logger.info("********** Payment Request Response *********** ----> "+ paymentRequestResponse.getBody().asString());
+
+        return paymentRequestResponse;
+    }
 
 
     public Response retrievePaymentRequest(String url, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature) {

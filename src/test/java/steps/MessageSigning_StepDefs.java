@@ -54,6 +54,37 @@ public class MessageSigning_StepDefs implements BaseStep{
 
     }
 
+    @When("^I use the same signature to trigger another payment request but with different value in \"([^\"]*)\"$")
+    public void i_use_the_same_signature_to_trigger_another_payment_request_but_with_different_value_in(String headerElement)  {
+        if (headerElement.equalsIgnoreCase("trace-id")){
+            paymentRequest.getPaymentRequestHeader().put("Trace-Id", general.generateUniqueUUID());
+        }
+
+        if (headerElement.equalsIgnoreCase("request-date-time")){
+            general.waitFor(3000);
+            paymentRequest.getPaymentRequestHeader().put("Request-Date-Time", dateHelper.getUTCNowDateTime());
+        }
+
+        if (headerElement.equalsIgnoreCase("Authorization")){
+            general.waitFor(3000);
+            accessToken.retrieveAccessToken(accessToken.getEndpoint() +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+
+            paymentRequest.getPaymentRequestHeader().put("Authorization", "Bearer "+accessToken.getAccessToken());
+        }
+
+        paymentRequest.retrievePaymentRequestExistingHeaderBody(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                paymentRequest.getPaymentRequestHeader(), paymentRequest.getPaymentRequestBody());
+    }
+
+
+    @When("^I use the same signature to trigger another payment request but with a changed body$")
+    public void i_use_the_same_signature_to_trigger_another_payment_request_but_with_a_changed_body() {
+        paymentRequest.getPaymentRequestBody().put("totalAmount", 888888);
+
+        paymentRequest.retrievePaymentRequestExistingHeaderBody(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                paymentRequest.getPaymentRequestHeader(), paymentRequest.getPaymentRequestBody());
+    }
+
 }
 
 

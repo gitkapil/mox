@@ -47,6 +47,35 @@ Examples:
 |request-date-time|
 
 
+@regression
+Scenario Outline: Negative flow- Header Values tampered in the request
+  Given I am an authorized user
+  And I have valid payment details
+  And I make a request for the payment
+  And I should recieve a successful payment response
+  When I use the same signature to trigger another payment request but with different value in "<header>"
+  Then I should recieve a "TODO" error response with "TODO" error description and "TODO" errorcode within payment response
+  And error message should be "TODO" within payment response
+
+Examples:
+|header|
+|trace-id|
+|request-date-time|
+|authorization|
+
+
+@regression @trial
+Scenario: Negative flow- Body Values tampered in the request
+  Given I am an authorized user
+  And I have valid payment details
+  And I make a request for the payment
+  And I should recieve a successful payment response
+  When I use the same signature to trigger another payment request but with a changed body
+  Then I should recieve a "TODO" error response with "TODO" error description and "TODO" errorcode within payment response
+  And error message should be "TODO" within payment response
+
+
+
 
 
 
