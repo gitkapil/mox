@@ -1,9 +1,13 @@
 package steps;
 
 
+import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 import org.apache.log4j.Logger;
 import utils.BaseStep;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -61,12 +65,11 @@ public class MessageSigning_StepDefs implements BaseStep{
         }
 
         if (headerElement.equalsIgnoreCase("request-date-time")){
-            general.waitFor(3000);
+           // general.waitFor(3000);
             paymentRequest.getPaymentRequestHeader().put("Request-Date-Time", dateHelper.getUTCNowDateTime());
         }
 
         if (headerElement.equalsIgnoreCase("Authorization")){
-            general.waitFor(3000);
             accessToken.retrieveAccessToken(accessToken.getEndpoint() +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
 
             paymentRequest.getPaymentRequestHeader().put("Authorization", "Bearer "+accessToken.getAccessToken());
@@ -77,8 +80,24 @@ public class MessageSigning_StepDefs implements BaseStep{
     }
 
 
-    @When("^I use the same signature to trigger another payment request but with a changed body$")
-    public void i_use_the_same_signature_to_trigger_another_payment_request_but_with_a_changed_body() {
+    @Given("^I create a signature$")
+    public void i_create_a_signature() {
+        try {
+            paymentRequest.returnPaymentRequestHeader("POST", new URL(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource")).getPath(),
+                    fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
+                    fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                    fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                    new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list").split(","))));
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        paymentRequest.returnPaymentRequestBody();
+    }
+
+    @When("^I use the generated signature with tampered body$")
+    public void i_use_the_generated_signature_with_tampered_body() {
         paymentRequest.getPaymentRequestBody().put("totalAmount", 888888);
 
         paymentRequest.retrievePaymentRequestExistingHeaderBody(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),

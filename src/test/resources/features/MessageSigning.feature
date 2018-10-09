@@ -47,12 +47,11 @@ Examples:
 |request-date-time|
 
 
-@regression
-Scenario Outline: Negative flow- Header Values tampered in the request
+@regression @trial
+Scenario Outline: Negative flow- New POST Payment request sent with tampered header values
   Given I am an authorized user
   And I have valid payment details
-  And I make a request for the payment
-  And I should recieve a successful payment response
+  And I create a signature
   When I use the same signature to trigger another payment request but with different value in "<header>"
   Then I should recieve a "TODO" error response with "TODO" error description and "TODO" errorcode within payment response
   And error message should be "TODO" within payment response
@@ -61,16 +60,15 @@ Examples:
 |header|
 |trace-id|
 |request-date-time|
-|authorization|
+|Authorization|
 
 
-# Don't think we need this as we cant send the same header with a different body (Rate limit policy will apply). If we change header the last test case would suffice
+@regression
 Scenario: Negative flow- Body Values tampered in the request
   Given I am an authorized user
   And I have valid payment details
-  And I make a request for the payment
-  And I should recieve a successful payment response
-  When I use the same signature to trigger another payment request but with a changed body
+  And I create a signature
+  When I use the generated signature with tampered body
   Then I should recieve a "TODO" error response with "TODO" error description and "TODO" errorcode within payment response
   And error message should be "TODO" within payment response
 
