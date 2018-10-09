@@ -47,7 +47,7 @@ Examples:
 |request-date-time|
 
 
-@regression @trial
+@regression
 Scenario Outline: Negative flow- New POST Payment request sent with tampered header values
   Given I am an authorized user
   And I have valid payment details
