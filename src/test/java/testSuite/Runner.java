@@ -13,8 +13,8 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         format = {"pretty", "html:target/cucumber-html-report", "json:target/cucumber.json", "pretty:target/cucumber-pretty.txt", "usage:target/cucumber-usage.json", "junit:target/cucumber-results.xml" },
         glue={"steps"},
-        features = {"src/test/resources/features"},
-        tags ={"@skiponcimerchant"}
+        features = {"src/test/resources/features"}
+        //tags ={"@skiponcimerchant"}
         )
 public class Runner {
 

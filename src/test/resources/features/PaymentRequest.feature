@@ -213,7 +213,7 @@ Scenario Outline: Negative flow- Mandatory fields from the body missing
 
 Examples:
 |totalamount|currency |notificationURL            |error_description                |error_message|error_code|appSuccessCallback|appFailCallback|effectiveDuration|
-|150.00     |         |https://pizzahut.com/return|Service Request Validation Failed|Something went wrong. Sorry, we are unable to perform this action right now. Please try again.|BNA002|https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful|6|
+|150.00     |         |https://pizzahut.com/return|Validation failed|Spring Framework exception|BNA030|https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful|6|
 |           |HKD      |https://pizzahut.com/return|Validation failed|Spring Framework exception|BNA030|https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful|6|
 
 
