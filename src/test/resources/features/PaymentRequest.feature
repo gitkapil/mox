@@ -100,10 +100,10 @@ Examples:
 |totalamount|currency |notificationURL            |description          |orderId |effectiveDuration |appSuccessCallback|appFailCallback|additionalData|
 |100.00     |HKD      |https://pizzahut.com/return|no_value             |B1242183|60                |https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 |150.00     |HKD      |https://pizzahut.com/return|message from merchant|no_value|60                |https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
-|900000     |HKD      |no_value                   |message from merchant|B1242183|60                |https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
-|900000     |HKD      |https://pizzahut.com/return|message from merchant|B1242183|60                |no_value|https://pizzahut.com/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
-|900000     |HKD      |https://pizzahut.com/return|message from merchant|B1242183|60                |https://pizzahut.com/confirmation|no_value|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
-|900000     |HKD      |https://pizzahut.com/return|message from merchant|B1242183|60                |https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful|no_value|
+|900        |HKD      |no_value                   |message from merchant|B1242183|60                |https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|133     |HKD      |https://pizzahut.com/return|message from merchant|B1242183|60                |no_value|https://pizzahut.com/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|876     |HKD      |https://pizzahut.com/return|message from merchant|B1242183|60                |https://pizzahut.com/confirmation|no_value|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|77     |HKD      |https://pizzahut.com/return|message from merchant|B1242183|60                |https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful|no_value|
 
 
 # For the parametres where value is "no_value" within the table, while creating request the parameter (key) will be included but will have no value
