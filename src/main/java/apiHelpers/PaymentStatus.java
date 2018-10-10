@@ -1,13 +1,8 @@
 package apiHelpers;
 
 import com.jayway.restassured.response.Response;
-import cucumber.api.DataTable;
 import utils.BaseStep;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 public class PaymentStatus implements BaseStep {
@@ -122,15 +117,6 @@ public class PaymentStatus implements BaseStep {
 
     }
 
-    public String webLinkInResponse(){
-        return restHelper.getResponseBodyValue(paymentStatusResponse, "webLink");
-
-    }
-
-    public String appLinkInResponse(){
-        return restHelper.getResponseBodyValue(paymentStatusResponse, "appLink");
-
-    }
 
     public String totalAmountInResponse(){
         return restHelper.getResponseBodyValue(paymentStatusResponse, "totalAmount");
@@ -148,10 +134,6 @@ public class PaymentStatus implements BaseStep {
 
     }
 
-    public String notificationURIInResponse(){
-        return restHelper.getResponseBodyValue(paymentStatusResponse, "notificationUri");
-
-    }
 
     public String appSuccessCallbackInResponse(){
         return restHelper.getResponseBodyValue(paymentStatusResponse, "appSuccessCallback");

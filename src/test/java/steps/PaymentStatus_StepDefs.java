@@ -33,15 +33,11 @@ public class PaymentStatus_StepDefs implements BaseStep {
 
     }
 
-    @Then("^the response body should contain valid payment request id, created timestamp, web link, app link, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration within check status response$")
+    @Then("^the response body should contain valid payment request id, created timestamp, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration within check status response$")
     public void the_response_body_should_contain_valid_payment_id_created_timestamp_links_check_status()  {
         Assert.assertNotNull(paymentStatus.paymentRequestIdInResponse(), "Payment Request Id is not present in the response!!");
 
         Assert.assertNotNull(paymentStatus.createdTimestampInResponse(), "Created Timestamp is not present in the response!!");
-
-        Assert.assertNotNull(paymentStatus.webLinkInResponse(), "Web Link is not present in the response!!");
-
-        Assert.assertNotNull(paymentStatus.appLinkInResponse(), "App Link is not present in the response!!");
 
         Assert.assertEquals(paymentStatus.effectiveDurationInResponse().toString(), "600", "Effective Duration isn't 600!");
 
@@ -57,12 +53,8 @@ public class PaymentStatus_StepDefs implements BaseStep {
         // Assert.assertEquals(paymentRequest.effectiveDurationInResponse(), paymentRequest.getEffectiveDuration(), "Effective Duration isn't matching!");
     }
 
-    @Then("^the response body should also have notification URI, app success callback URL, app fail Callback Url if applicable within check status response$")
-    public void the_response_body_should_also_have_notification_url_app_success_callback_app_fail_callback_uri_if_applicable_check_status()  {
-        if (paymentRequest.getnotificationURI()==null)
-            Assert.assertNull(paymentStatus.notificationURIInResponse(), "NotificationUri is present within the response when it should not be");
-        else
-            Assert.assertEquals(paymentStatus.notificationURIInResponse(), paymentRequest.getnotificationURI(), "Notification Uri isn't matching!");
+    @Then("^the response body should also have app success callback URL, app fail Callback Url if applicable within check status response$")
+    public void the_response_body_should_also_have_app_success_callback_app_fail_callback_uri_if_applicable_check_status()  {
 
         if (paymentRequest.getAppSuccessCallback()==null)
             Assert.assertNull(paymentStatus.appSuccessCallbackInResponse(), "App Success Call Back is present within the response when it should not be");
