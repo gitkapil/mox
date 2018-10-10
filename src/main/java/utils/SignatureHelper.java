@@ -3,15 +3,14 @@ package utils;
 import com.jayway.restassured.response.Header;
 import com.jayway.restassured.response.Response;
 import org.apache.commons.lang3.StringUtils;
-import org.tomitribe.auth.signatures.Algorithm;
-import org.tomitribe.auth.signatures.Signature;
-import org.tomitribe.auth.signatures.Signer;
-import org.tomitribe.auth.signatures.Verifier;
+import org.tomitribe.auth.signatures.*;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
 import java.net.URL;
 import java.security.Key;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -53,5 +52,11 @@ public class SignatureHelper {
         if (!verifier.verify(method, new URL(url).getPath(), response.getHeaders().asList().stream().collect(toMap(Header::getName, Header::getValue)))) {
             throw new Exception("Signature failed validation");
         }
+    }
+
+    public String calculateContentDigestHeader(byte[] content) throws NoSuchAlgorithmException {
+        final byte[] digest = MessageDigest.getInstance("SHA-256").digest(content);
+        final String digestHeader = "SHA-256=" + new String(Base64.encodeBase64(digest));
+        return digestHeader;
     }
 }

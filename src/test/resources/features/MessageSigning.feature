@@ -5,7 +5,7 @@ Given I am an user
 When I make a request to the Dragon ID Manager
 Then I recieve an access_token
 
-@regression
+
 Scenario: Negative flow- Invalid signing key id used to create signature and passed in POST payment request header
   Given I am an authorized user
   And I have valid payment details
@@ -13,7 +13,7 @@ Scenario: Negative flow- Invalid signing key id used to create signature and pas
   Then I should recieve a "TODO" error response with "TODO" error description and "TODO" errorcode within payment response
   And error message should be "TODO" within payment response
 
-@regression
+
 Scenario: Negative flow- Invalid signing key used to create signature and passed in POST payment request header
   Given I am an authorized user
   And I have valid payment details
@@ -22,7 +22,7 @@ Scenario: Negative flow- Invalid signing key used to create signature and passed
   And error message should be "TODO" within payment response
 
 
-@regression
+
 Scenario: Negative flow- Different signing algo (HmacSHA512) used to create signature and passed in POST payment request header
   Given I am an authorized user
   And I have valid payment details
@@ -31,7 +31,7 @@ Scenario: Negative flow- Different signing algo (HmacSHA512) used to create sign
   And error message should be "TODO" within payment response
 
 
-@regression
+
 Scenario Outline: Negative flow- Incomplete Header Set used to create signature and passed in POST payment request
   Given I am an authorized user
   And I have valid payment details
@@ -47,7 +47,7 @@ Examples:
 |request-date-time|
 
 
-@regression
+
 Scenario Outline: Negative flow- New POST Payment request sent with tampered header values
   Given I am an authorized user
   And I have valid payment details
@@ -63,7 +63,7 @@ Examples:
 |Authorization|
 
 
-@regression
+
 Scenario: Negative flow- Body Values tampered in the request
   Given I am an authorized user
   And I have valid payment details
@@ -73,7 +73,7 @@ Scenario: Negative flow- Body Values tampered in the request
   And error message should be "TODO" within payment response
 
 
-@regression
+
 Scenario: Negative flow- Invalid signing key id used to create signature and passed in GET payment request header
   Given I am an authorized user
   And I have valid payment details
@@ -85,7 +85,7 @@ Scenario: Negative flow- Invalid signing key id used to create signature and pas
   And error message should be "TODO" within check status response
 
 
-@regression
+
 Scenario: Negative flow- Invalid signing key used to create signature and passed in GET payment request header
   Given I am an authorized user
   And I have valid payment details
@@ -97,7 +97,7 @@ Scenario: Negative flow- Invalid signing key used to create signature and passed
   And error message should be "TODO" within check status response
 
 
-@regression
+
 Scenario: Negative flow- Different signing algo (HmacSHA512) used to create signature and passed in GET payment request header
   Given I am an authorized user
   And I have valid payment details
@@ -109,7 +109,7 @@ Scenario: Negative flow- Different signing algo (HmacSHA512) used to create sign
   And error message should be "TODO" within check status response
 
 
-@regression
+
 Scenario Outline: Negative flow- Incomplete Header Set used to create signature and passed in GET payment request
   Given I am an authorized user
   And I have valid payment details
@@ -128,7 +128,7 @@ Examples:
 |request-date-time|
 
 
-@regression 
+ 
 Scenario Outline: Negative flow- New POST Payment request sent with tampered header values
   Given I am an authorized user
   And I have valid payment details
