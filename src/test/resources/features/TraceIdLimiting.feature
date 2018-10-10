@@ -5,7 +5,7 @@ Given I am an user
 When I make a request to the Dragon ID Manager
 Then I recieve an access_token
 
-@regression @functional
+@regression
 Scenario: Negative flow- Same traceid sent within 5 minutes for payment Request
   Given I am an authorized user
   And I have valid payment details
@@ -16,7 +16,7 @@ Scenario: Negative flow- Same traceid sent within 5 minutes for payment Request
   And error message should be "Service Request Validation Failed" within payment response
 
 
-@regression @functional
+@regression
 Scenario: Negative flow- Same traceid sent within 5 minutes for payment Request Status
   Given I am an authorized user
   And I have valid payment details
@@ -53,7 +53,7 @@ Scenario: Positive flow- Same traceid sent after 5 minutes for payment Request S
   Then I should recieve a successful check status response
 
 
-@regression @functional
+@regression
 Scenario: Positive flow- Different traceid sent within 5 minutes for payment Request
   Given I am an authorized user
   And I have valid payment details
@@ -63,7 +63,7 @@ Scenario: Positive flow- Different traceid sent within 5 minutes for payment Req
   Then I should recieve a successful payment response
 
 
-@regression @functional
+@regression
 Scenario: Positive flow- Different traceid sent within 5 minutes for payment Request Status
   Given I am an authorized user
   And I have valid payment details
@@ -76,7 +76,7 @@ Scenario: Positive flow- Different traceid sent within 5 minutes for payment Req
   Then I should recieve a successful check status response
 
 
-@regression @functional
+@regression
 Scenario: Negative flow- Different traceid sent within 5 minutes for payment Request but the request date time stamp is more than 5 mins older than the current time stamp
   Given I am an authorized user
   And I have valid payment details
@@ -87,7 +87,7 @@ Scenario: Negative flow- Different traceid sent within 5 minutes for payment Req
   And error message should be "Service Request Validation Failed" within payment response
 
 
-@regression @functional
+@regression
 Scenario: Negative flow- Different traceid sent within 5 minutes for payment Request but the request date time stamp is more than 5 mins older than the current time stamp
   Given I am an authorized user
   And I have valid payment details
@@ -101,7 +101,7 @@ Scenario: Negative flow- Different traceid sent within 5 minutes for payment Req
   And error message should be "Service Request Validation Failed" within check status response
 
 
-@regression @functional
+@regression
 Scenario: Negative flow- Same traceid sent within 5 minutes for payment Request but the request date time stamp is more than 5 mins older than the current time stamp
   Given I am an authorized user
   And I have valid payment details
@@ -112,7 +112,7 @@ Scenario: Negative flow- Same traceid sent within 5 minutes for payment Request 
   And error message should be "Service Request Validation Failed" within payment response
 
 
-@regression @functional
+@regression 
 Scenario: Negative flow- Same traceid sent within 5 minutes for payment Request but the request date time stamp is more than 5 mins older than the current time stamp
   Given I am an authorized user
   And I have valid payment details
