@@ -109,7 +109,7 @@ Scenario: Negative flow- Different signing algo (HmacSHA512) used to create sign
   And error message should be "TODO" within check status response
 
 
-@regression @trial
+@regression
 Scenario Outline: Negative flow- Incomplete Header Set used to create signature and passed in GET payment request
   Given I am an authorized user
   And I have valid payment details
