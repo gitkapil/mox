@@ -7,6 +7,9 @@ import org.apache.log4j.Logger;
 import org.testng.Assert;
 import utils.BaseStep;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 public class PaymentStatus_StepDefs implements BaseStep {
 
     final static Logger logger = Logger.getLogger(PaymentStatus_StepDefs.class);
@@ -25,7 +28,8 @@ public class PaymentStatus_StepDefs implements BaseStep {
        paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_key_id"),
                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_algorithm"),
-               fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_key"));
+               fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_key"),
+               new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list").split(","))));
 
     }
 
@@ -120,7 +124,8 @@ public class PaymentStatus_StepDefs implements BaseStep {
         paymentStatus.retrievePaymentStatusWithMissingHeaderKeys(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"), key,
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_key_id"),
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_algorithm"),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_key"));
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_key"),
+                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list").split(","))));
 
     }
 
@@ -157,7 +162,8 @@ public class PaymentStatus_StepDefs implements BaseStep {
         paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_key_id"),
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_algorithm"),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_key"));
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_key"),
+                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list").split(","))));
 
     }
 

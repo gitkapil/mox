@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.HashSet;
 
 
 public class PaymentStatus implements BaseStep {
@@ -24,6 +25,10 @@ public class PaymentStatus implements BaseStep {
 
     public void setTraceId(String traceId) {
         this.traceId = traceId;
+    }
+
+    public HashMap<String, String> getPaymentStatusHeader() {
+        return paymentStatusHeader;
     }
 
     public String getAuthToken() {
@@ -63,11 +68,11 @@ public class PaymentStatus implements BaseStep {
 
     }
 
-    public void retrievePaymentStatusWithMissingHeaderKeys(String url, String key, String signingKeyId, String signingAlgorithm, String signingKey) {
+    public void retrievePaymentStatusWithMissingHeaderKeys(String url, String key, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature) {
         try{
             url= appendPaymentIdInURL(url);
 
-            HashMap<String, String> header= returnPaymentStatusHeader("GET", url, signingKeyId, signingAlgorithm, signingKey);
+            HashMap<String, String> header= returnPaymentStatusHeader("GET", url, signingKeyId, signingAlgorithm, signingKey, headerElementsForSignature);
             header.remove(key);
 
             paymentStatusResponse= restHelper.getRequestWithHeaders(url, header);
@@ -85,11 +90,11 @@ public class PaymentStatus implements BaseStep {
 
 
 
-    public Response retrievePaymentStatus(String url, String signingKeyId, String signingAlgorithm, String signingKey) {
+    public Response retrievePaymentStatus(String url, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature) {
         try{
             url= appendPaymentIdInURL(url);
 
-        paymentStatusResponse= restHelper.getRequestWithHeaders(url, returnPaymentStatusHeader("GET", url, signingKeyId, signingAlgorithm, signingKey));
+        paymentStatusResponse= restHelper.getRequestWithHeaders(url, returnPaymentStatusHeader("GET", url, signingKeyId, signingAlgorithm, signingKey,headerElementsForSignature));
 
         signatureHelper.verifySignature(paymentStatusResponse, "GET", url, Base64.getDecoder().decode(signingKey), signingAlgorithm);
 
@@ -103,6 +108,20 @@ public class PaymentStatus implements BaseStep {
 
         return paymentStatusResponse;
     }
+
+
+    public Response retrievePaymentStatusExistingHeader(String url, HashMap header) {
+
+        url= appendPaymentIdInURL(url);
+
+        paymentStatusResponse= restHelper.getRequestWithHeaders(url, header);
+
+
+        logger.info("********** Payment Request Status Response *********** ---> "+ paymentStatusResponse.getBody().asString());
+
+        return paymentStatusResponse;
+    }
+
 
     public String appendPaymentIdInURL(String url){
         return url+"/"+paymentRequestId;
@@ -120,7 +139,7 @@ public class PaymentStatus implements BaseStep {
         this.requestDateTime = requestDateTime;
     }
 
-    public HashMap<String,String> returnPaymentStatusHeader(String method, String url,String signingKeyId, String signingAlgorithm, String signingKey) {
+    public HashMap<String,String> returnPaymentStatusHeader(String method, String url,String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsforSignature) {
         paymentStatusHeader.put("Accept","application/json");
         paymentStatusHeader.put("Authorization", authToken);
         paymentStatusHeader.put("Trace-Id",traceId);
@@ -129,7 +148,7 @@ public class PaymentStatus implements BaseStep {
         try{
             paymentStatusHeader.put("Signature", signatureHelper.calculateSignature(method, new URL(url).getPath(),
                     Base64.getDecoder().decode(signingKey), signingAlgorithm, signingKeyId,
-                    Sets.newHashSet("authorization", "trace-id", "request-date-time", "api-version"), paymentStatusHeader)
+                    headerElementsforSignature, paymentStatusHeader)
             );
         }
         catch (IOException e){

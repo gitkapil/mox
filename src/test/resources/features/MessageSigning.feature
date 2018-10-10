@@ -51,7 +51,7 @@ Examples:
 Scenario Outline: Negative flow- New POST Payment request sent with tampered header values
   Given I am an authorized user
   And I have valid payment details
-  And I create a signature
+  And I create a signature for the payment request
   When I use the same signature to trigger another payment request but with different value in "<header>"
   Then I should recieve a "TODO" error response with "TODO" error description and "TODO" errorcode within payment response
   And error message should be "TODO" within payment response
@@ -67,18 +67,84 @@ Examples:
 Scenario: Negative flow- Body Values tampered in the request
   Given I am an authorized user
   And I have valid payment details
-  And I create a signature
+  And I create a signature for the payment request
   When I use the generated signature with tampered body
   Then I should recieve a "TODO" error response with "TODO" error description and "TODO" errorcode within payment response
   And error message should be "TODO" within payment response
 
 
+@regression
+Scenario: Negative flow- Invalid signing key id used to create signature and passed in GET payment request header
+  Given I am an authorized user
+  And I have valid payment details
+  And I make a request for the payment
+  And I should recieve a successful payment response
+  And I have a valid payment id
+  When I make a request for the payment status with invalid signing key id
+  Then I should recieve a "TODO" error response with "TODO" error description and "TODO" errorcode within check status response
+  And error message should be "TODO" within check status response
 
 
+@regression
+Scenario: Negative flow- Invalid signing key used to create signature and passed in GET payment request header
+  Given I am an authorized user
+  And I have valid payment details
+  And I make a request for the payment
+  And I should recieve a successful payment response
+  And I have a valid payment id
+  When I make a request for the payment status with invalid signing key
+  Then I should recieve a "TODO" error response with "TODO" error description and "TODO" errorcode within check status response
+  And error message should be "TODO" within check status response
 
 
+@regression
+Scenario: Negative flow- Different signing algo (HmacSHA512) used to create signature and passed in GET payment request header
+  Given I am an authorized user
+  And I have valid payment details
+  And I make a request for the payment
+  And I should recieve a successful payment response
+  And I have a valid payment id
+  When I make a request for the payment status with a different signing algo
+  Then I should recieve a "TODO" error response with "TODO" error description and "TODO" errorcode within check status response
+  And error message should be "TODO" within check status response
 
 
+@regression @trial
+Scenario Outline: Negative flow- Incomplete Header Set used to create signature and passed in GET payment request
+  Given I am an authorized user
+  And I have valid payment details
+  And I make a request for the payment
+  And I should recieve a successful payment response
+  And I have a valid payment id
+  When I make a request for the payment status with header "<header>" value missing from the signature
+  Then I should recieve a "TODO" error response with "TODO" error description and "TODO" errorcode within check status response
+  And error message should be "TODO" within check status response
+
+Examples:
+|header|
+|authorization|
+|trace-id|
+|api-version|
+|request-date-time|
+
+
+@regression 
+Scenario Outline: Negative flow- New POST Payment request sent with tampered header values
+  Given I am an authorized user
+  And I have valid payment details
+  And I make a request for the payment
+  And I should recieve a successful payment response
+  And I have a valid payment id
+  And I create a signature for the payment status
+  When I use the same signature to trigger another payment status request but with different value in "<header>"
+  Then I should recieve a "TODO" error response with "TODO" error description and "TODO" errorcode within check status response
+  And error message should be "TODO" within check status response
+
+Examples:
+|header|
+|trace-id|
+|request-date-time|
+|Authorization|
 
 
 
