@@ -104,7 +104,7 @@ public class PaymentRequest_StepDefs implements BaseStep {
 
     @Given("^I have valid payment details$")
     public void i_have_valid_payment_details(){
-        paymentRequest.setTotalAmount("20");
+        paymentRequest.setTotalAmount("100");
         paymentRequest.setCurrency("HKD");
         paymentRequest.setNotificationURI("https://pizzahut.com/return");
         paymentRequest.setAppSuccessCallback("https://pizzahut.com/confirmation");
