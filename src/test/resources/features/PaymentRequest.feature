@@ -251,7 +251,7 @@ Scenario Outline: Negative flow- verify Error message if the additionalData is o
   And the additionalData is of more than 1024 characters
   When I make a request for the payment
   Then I should recieve a "400" error response with "Additional Data has too many characters. limit: 1024" error description and "EA002" errorcode within payment response
-  And error message should be "Service Request Validation Failed" within payment response
+  And error message should be "Validation Fail!" within payment response
 
 Examples:
 |totalamount|currency |notificationURL            |description          |orderId |effectiveDuration |appSuccessCallback|appFailCallback|additionalData|
