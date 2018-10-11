@@ -154,7 +154,7 @@ Scenario: Positive flow- The outbound messages from DRAGON are also signed- POST
   Then I should recieve a successful payment response
   And the payment request response should be signed
 
-
+@trial
 Scenario: Positive flow- The outbound messages from DRAGON are also signed- GET Payment Request
   Given I am an authorized user
   And I have valid payment details

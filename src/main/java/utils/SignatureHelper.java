@@ -42,7 +42,7 @@ public class SignatureHelper {
         String signatureHeaderVal = response.getHeader("Signature");
 
         if (StringUtils.isEmpty(signatureHeaderVal)) {
-            return;
+            throw new Exception("No Signature Found");
         }
 
         Signature parsedSig = Signature.fromString(String.format("Signature %s", signatureHeaderVal));

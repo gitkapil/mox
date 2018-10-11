@@ -190,24 +190,40 @@ public class MessageSigning_StepDefs implements BaseStep{
     @Then("^the payment request response should be signed$")
     public void the_payment_request_response_should_be_signed() {
         try {
+            logger.info("*** Payment Request Response Headers***");
+            restHelper.logResponseHeaders(paymentRequest.getPaymentRequestResponse());
+
             signatureHelper.verifySignature(paymentRequest.getPaymentRequestResponse(), "POST",
                     restHelper.getBaseURI() + fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
                     Base64.getDecoder().decode(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key")),
                     fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"));
+
         } catch (Exception e) {
-            Assert.assertTrue("Payment Request Signature Verification Failed", false);
+            if (e.getMessage().equalsIgnoreCase("Signature failed validation"))
+                Assert.assertTrue("Payment Request Response Signature Verification Failed", false);
+
+            if (e.getMessage().equalsIgnoreCase("No Signature Found"))
+                Assert.assertTrue("No Signature Found in the Payment Request Response", false);
         }
     }
 
     @Then("^the payment status response should be signed$")
     public void the_payment_status_should_be_signed() {
         try {
+            logger.info("*** Payment Status Response Headers***");
+            restHelper.logResponseHeaders(paymentStatus.getPaymentStatusResponse());
+
             signatureHelper.verifySignature(paymentStatus.getPaymentStatusResponse(),"GET",
                     restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
                     Base64.getDecoder().decode(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key")),
                     fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"));
+
         } catch (Exception e) {
-            Assert.assertTrue("Payment status Signature Verification Failed", false);
+            if (e.getMessage().equalsIgnoreCase("Signature failed validation"))
+                Assert.assertTrue("Payment status Response Signature Verification Failed", false);
+
+            if (e.getMessage().equalsIgnoreCase("No Signature Found"))
+                Assert.assertTrue("No Signature Found in the Payment Status Response", false);
         }
     }
 
