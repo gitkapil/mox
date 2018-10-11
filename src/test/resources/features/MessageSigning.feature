@@ -146,6 +146,13 @@ Examples:
 |request-date-time|
 |Authorization|
 
+@trial
+Scenario: Positive flow- The outbound messages from DRAGON are also signed- POST Payment Request
+  Given I am an authorized user
+  And I have valid payment details
+  When I make a request for the payment
+  Then I should recieve a successful payment response
+  And the payment request response should be signed
 
 
 

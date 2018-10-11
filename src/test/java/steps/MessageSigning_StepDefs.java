@@ -2,13 +2,16 @@ package steps;
 
 
 import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 import utils.BaseStep;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.HashSet;
 
 
@@ -182,6 +185,30 @@ public class MessageSigning_StepDefs implements BaseStep{
             e.printStackTrace();
         }
 
+    }
+
+    @Then("^the payment request response should be signed$")
+    public void the_payment_request_response_should_be_signed() {
+        try {
+            signatureHelper.verifySignature(paymentRequest.getPaymentRequestResponse(), "POST",
+                    restHelper.getBaseURI() + fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                    Base64.getDecoder().decode(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key")),
+                    fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"));
+        } catch (Exception e) {
+            Assert.assertTrue("Payment Request Signature Verification Failed", false);
+        }
+    }
+
+    @Then("^the payment status response should be signed$")
+    public void the_payment_status_should_be_signed() {
+        try {
+            signatureHelper.verifySignature(paymentStatus.getPaymentStatusResponse(),"GET",
+                    restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                    Base64.getDecoder().decode(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key")),
+                    fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"));
+        } catch (Exception e) {
+            Assert.assertTrue("Payment status Signature Verification Failed", false);
+        }
     }
 
 }
