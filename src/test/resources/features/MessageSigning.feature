@@ -146,7 +146,7 @@ Examples:
 |request-date-time|
 |Authorization|
 
-@trial
+
 Scenario: Positive flow- The outbound messages from DRAGON are also signed- POST Payment Request
   Given I am an authorized user
   And I have valid payment details
@@ -155,6 +155,14 @@ Scenario: Positive flow- The outbound messages from DRAGON are also signed- POST
   And the payment request response should be signed
 
 
-
+Scenario: Positive flow- The outbound messages from DRAGON are also signed- GET Payment Request
+  Given I am an authorized user
+  And I have valid payment details
+  And I make a request for the payment
+  And I should recieve a successful payment response
+  And I have a valid payment id
+  When I make a request for the check status
+  Then I should recieve a successful check status response
+  And the payment status response should be signed
 
 
