@@ -157,7 +157,7 @@ public class PaymentRequest_StepDefs implements BaseStep {
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
-                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list").split(","))));
+                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
 
     }
 
@@ -167,7 +167,7 @@ public class PaymentRequest_StepDefs implements BaseStep {
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
-                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list").split(","))));
+                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
 
     }
 
