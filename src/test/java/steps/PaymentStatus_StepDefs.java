@@ -58,14 +58,34 @@ public class PaymentStatus_StepDefs implements BaseStep {
 
         if (paymentRequest.getAppSuccessCallback()==null)
             Assert.assertNull(paymentStatus.appSuccessCallbackInResponse(), "App Success Call Back is present within the response when it should not be");
-        else
-            Assert.assertEquals(paymentStatus.appSuccessCallbackInResponse(), paymentRequest.getAppSuccessCallback(), "App Success Callback isn't matching!");
+        else{
+            if (accessToken.getType().equalsIgnoreCase("merchant"))
+            {
+                if(System.getProperty("env").equalsIgnoreCase("ci"))
+                    Assert.assertEquals(paymentStatus.appSuccessCallbackInResponse(),"http://localhost/success", "App Success Callback isn't matching with emulator!");
+                else
+                    Assert.assertEquals(paymentStatus.appSuccessCallbackInResponse(), paymentRequest.getAppSuccessCallback(), "App Success Callback isn't matching!");
+            }
+            else
+                Assert.assertEquals(paymentStatus.appSuccessCallbackInResponse(),"http://localhost/success", "App Success Callback isn't matching with emulator!");
+        }
 
 
         if (paymentRequest.getAppFailCallback()==null)
             Assert.assertNull(paymentStatus.appFailCallbackInResponse(), "App Fail Call Back is present within the response when it should not be");
         else
-            Assert.assertEquals(paymentStatus.appFailCallbackInResponse(), paymentRequest.getAppFailCallback(), "App Fail Callback isn't matching!");
+        {
+            if (accessToken.getType().equalsIgnoreCase("merchant"))
+            {
+                if(System.getProperty("env").equalsIgnoreCase("ci"))
+                    Assert.assertEquals(paymentStatus.appSuccessCallbackInResponse(),"http://localhost/success", "App Fail Callback isn't matching with emulator!");
+                else
+                    Assert.assertEquals(paymentStatus.appSuccessCallbackInResponse(), paymentRequest.getAppSuccessCallback(), "App Fail Callback isn't matching!");
+
+            }
+            else
+                Assert.assertEquals(paymentStatus.appSuccessCallbackInResponse(),"http://localhost/fail", "App Fail Callback isn't matching with emulator!");
+        }
 
 
     }
