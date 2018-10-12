@@ -1,6 +1,7 @@
 package steps;
 
 
+import com.google.common.base.Splitter;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -10,9 +11,7 @@ import utils.BaseStep;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.HashSet;
+import java.util.*;
 
 
 public class MessageSigning_StepDefs implements BaseStep{
@@ -25,7 +24,7 @@ public class MessageSigning_StepDefs implements BaseStep{
                 "random_signing_key_id",
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
-                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list").split(","))));
+                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
     }
 
     @When("^I make a request for the payment with invalid signing key$")
@@ -35,7 +34,7 @@ public class MessageSigning_StepDefs implements BaseStep{
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 "cGFzc3BocmFzZQ11",
-                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list").split(","))));
+                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
     }
 
     @When("^I make a request for the payment with a different signing algo$")
@@ -46,12 +45,12 @@ public class MessageSigning_StepDefs implements BaseStep{
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
                 "HmacSHA512",
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
-                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list").split(","))));
+                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
     }
 
     @When("^I make a request for the payment with header \"([^\"]*)\" value missing from the signature$")
     public void i_make_a_request_for_the_payment_with_header_value_missing_from_the_signature(String missingFromHeader) {
-        HashSet invalidHeaderElements= new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list").split(",")));
+        HashSet invalidHeaderElements= new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(",")));
         invalidHeaderElements.remove(missingFromHeader);
 
         paymentRequest.retrievePaymentRequest(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
@@ -90,7 +89,7 @@ public class MessageSigning_StepDefs implements BaseStep{
                     fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
                     fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                     fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
-                    new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list").split(","))));
+                    new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -114,7 +113,7 @@ public class MessageSigning_StepDefs implements BaseStep{
                 "random_signing_key_id",
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
-                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list").split(","))));
+                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
     }
 
     @When("^I make a request for the payment status with invalid signing key$")
@@ -124,7 +123,7 @@ public class MessageSigning_StepDefs implements BaseStep{
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 "cGFzc3BocmFzZQ11",
-                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list").split(","))));
+                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
     }
 
     @When("^I make a request for the payment status with a different signing algo$")
@@ -135,13 +134,13 @@ public class MessageSigning_StepDefs implements BaseStep{
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
                 "HmacSHA512",
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
-                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list").split(","))));
+                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
     }
 
 
     @When("^I make a request for the payment status with header \"([^\"]*)\" value missing from the signature$")
     public void i_make_a_request_for_the_payment_status_with_header_value_missing_from_the_signature(String missingFromHeader) {
-        HashSet invalidHeaderElements= new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list").split(",")));
+        HashSet invalidHeaderElements= new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(",")));
         invalidHeaderElements.remove(missingFromHeader);
 
         paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
@@ -179,7 +178,7 @@ public class MessageSigning_StepDefs implements BaseStep{
                     fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
                     fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                     fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
-                    new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list").split(","))));
+                    new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -195,10 +194,12 @@ public class MessageSigning_StepDefs implements BaseStep{
 
             signatureHelper.verifySignature(paymentRequest.getPaymentRequestResponse(), "POST",
                     restHelper.getBaseURI() + fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                    Base64.getDecoder().decode(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key")),
+                    Base64.getDecoder().decode(accessToken.getClientId()),
+                   // Base64.getDecoder().decode(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key")),
                     fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"));
 
         } catch (Exception e) {
+            e.printStackTrace();
             if (e.getMessage().equalsIgnoreCase("Signature failed validation"))
                 Assert.assertTrue("Payment Request Response Signature Verification Failed", false);
 
@@ -215,7 +216,8 @@ public class MessageSigning_StepDefs implements BaseStep{
 
             signatureHelper.verifySignature(paymentStatus.getPaymentStatusResponse(),"GET",
                     restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                    Base64.getDecoder().decode(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key")),
+                    Base64.getDecoder().decode(accessToken.getClientId()),
+                   // Base64.getDecoder().decode(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key")),
                     fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"));
 
         } catch (Exception e) {

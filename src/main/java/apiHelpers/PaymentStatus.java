@@ -145,12 +145,12 @@ public class PaymentStatus implements BaseStep {
         paymentStatusHeader.put("Api-Version", System.getProperty("version"));
         paymentStatusHeader.put("Request-Date-Time", getRequestDateTime());
         try{
-            paymentStatusHeader.put("Signature", signatureHelper.calculateSignature(method, new URL(url).getPath(),
-                    Base64.getDecoder().decode(signingKey), signingAlgorithm, signingKeyId,
+            paymentStatusHeader.put("Signature", signatureHelper.calculateSignature(method, url, Base64.getDecoder().decode(signingKey), signingAlgorithm, signingKeyId,
                     headerElementsforSignature, paymentStatusHeader)
             );
         }
         catch (IOException e){
+            e.printStackTrace();
             Assert.assertTrue("Trouble creating signature!", false);
 
         }

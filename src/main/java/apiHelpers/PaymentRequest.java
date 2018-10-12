@@ -140,7 +140,7 @@ public class PaymentRequest implements BaseStep {
         paymentRequestHeader.put("Accept-Language", "en-US");
         paymentRequestHeader.put("Request-Date-Time", getRequestDateTime());
         paymentRequestHeader.put("Api-Version", System.getProperty("version"));
-        try {
+     /*   try {
            paymentRequestHeader.put("Digest", signatureHelper.calculateContentDigestHeader(new ObjectMapper().writeValueAsBytes(paymentRequestBody)));
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -148,7 +148,7 @@ public class PaymentRequest implements BaseStep {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             Assert.assertTrue("Trouble creating Digest!", false);
-        }
+        } */
 
         try{
             paymentRequestHeader.put("Signature", signatureHelper.calculateSignature(method, url,
