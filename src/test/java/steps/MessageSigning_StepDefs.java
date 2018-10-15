@@ -238,6 +238,21 @@ public class MessageSigning_StepDefs implements BaseStep{
                 new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
     }
 
+    @When("^I make a request for the payment with digest in the signature header list but not sent in the headers$")
+    public void i_make_a_request_for_the_payment_with_digest_in_the_signature_header_list_but_not_sent_in_the_headers(){
+        try {
+            paymentRequest.retrievePaymentRequestWithMissingHeaderKeys(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),"Digest",
+                    fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
+                    fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                    fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                    new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
+            } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        paymentRequest.returnPaymentRequestBody();
+    }
+
 }
 
 
