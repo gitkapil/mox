@@ -4,6 +4,9 @@ import cucumber.api.java.en.When;
 import org.apache.log4j.Logger;
 import utils.BaseStep;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 
 public class TraceIdLimiting_StepDefs implements BaseStep{
     final static Logger logger = Logger.getLogger(TraceIdLimiting_StepDefs.class);
@@ -13,7 +16,11 @@ public class TraceIdLimiting_StepDefs implements BaseStep{
       paymentRequest.setRequestDateTime(dateHelper.getUTCNowDateTime());
 
       logger.info("********** Triggering Payment Request Again With the same Trace Id***********");
-      paymentRequest.retrievePaymentRequest(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"));
+      paymentRequest.retrievePaymentRequest(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+              fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
+              fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+              fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+              new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
 
     }
 
@@ -22,7 +29,11 @@ public class TraceIdLimiting_StepDefs implements BaseStep{
         paymentStatus.setRequestDateTime(dateHelper.getUTCNowDateTime());
 
         logger.info("********** Triggering Payment Status Again With the same Trace Id***********");
-        paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"));
+        paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
 
     }
 
@@ -33,7 +44,11 @@ public class TraceIdLimiting_StepDefs implements BaseStep{
         paymentRequest.setRequestDateTime(dateHelper.getUTCNowDateTime());
 
         logger.info("********** Triggering Payment Request Again With the same Trace Id After "+mins+" mins ***********");
-        paymentRequest.retrievePaymentRequest(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"));
+        paymentRequest.retrievePaymentRequest(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
 
     }
 
@@ -44,7 +59,11 @@ public class TraceIdLimiting_StepDefs implements BaseStep{
         paymentStatus.setRequestDateTime(dateHelper.getUTCNowDateTime());
 
         logger.info("********** Triggering Payment Status Again With the same Trace Id After "+mins+" mins ***********");
-        paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"));
+        paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
 
     }
 
@@ -54,7 +73,11 @@ public class TraceIdLimiting_StepDefs implements BaseStep{
         paymentRequest.setTraceId(general.generateUniqueUUID());
 
         logger.info("********** Triggering Payment Request Again With a different Trace Id***********");
-        paymentRequest.retrievePaymentRequest(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"));
+        paymentRequest.retrievePaymentRequest(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
 
     }
 
@@ -64,7 +87,11 @@ public class TraceIdLimiting_StepDefs implements BaseStep{
         paymentStatus.setTraceId(general.generateUniqueUUID());
 
         logger.info("********** Triggering Payment Status Again With a different Trace Id***********");
-        paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"));
+        paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
 
     }
 
@@ -74,7 +101,11 @@ public class TraceIdLimiting_StepDefs implements BaseStep{
         paymentRequest.setTraceId(general.generateUniqueUUID());
 
         logger.info("********** Triggering Payment Request Again With a different Trace Id but request date timestamp more than "+mins+" mins older than current timestamp***********");
-        paymentRequest.retrievePaymentRequest(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"));
+        paymentRequest.retrievePaymentRequest(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
 
     }
 
@@ -84,7 +115,11 @@ public class TraceIdLimiting_StepDefs implements BaseStep{
         paymentStatus.setTraceId(general.generateUniqueUUID());
 
         logger.info("********** Triggering Payment Status Again With a different Trace Id but request date timestamp more than "+mins+" mins older than current timestamp***********");
-        paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"));
+        paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
 
     }
 
@@ -94,7 +129,11 @@ public class TraceIdLimiting_StepDefs implements BaseStep{
         paymentRequest.setRequestDateTime(dateHelper.subtractMinutesFromUTCNowDateTime(mins+2));
 
         logger.info("********** Triggering Payment Request Again With the same Trace Id but request date timestamp more than "+mins+" mins older than current timestamp***********");
-        paymentRequest.retrievePaymentRequest(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"));
+        paymentRequest.retrievePaymentRequest(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
 
     }
 
@@ -103,7 +142,11 @@ public class TraceIdLimiting_StepDefs implements BaseStep{
         paymentStatus.setRequestDateTime(dateHelper.subtractMinutesFromUTCNowDateTime(mins+2));
 
         logger.info("********** Triggering Payment Status Again With the same Trace Id but request date timestamp more than "+mins+" mins older than current timestamp***********");
-        paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"));
+        paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
 
     }
 

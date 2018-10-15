@@ -1,8 +1,11 @@
 package utils;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.path.json.JsonPath;
+import com.jayway.restassured.response.Header;
+import com.jayway.restassured.response.Headers;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import org.apache.log4j.Logger;
@@ -89,9 +92,9 @@ public class RestHelper {
     }
 
     public Response postRequestWithHeaderAndBody(String url, HashMap headers,HashMap body){
-
         Response response=null;
         try{
+            String jsonBody = new ObjectMapper().writeValueAsString(body);
             response = given().log().all().headers(headers).body(body).when().post(url);
 
         }catch(Exception e){
@@ -216,6 +219,16 @@ public class RestHelper {
         }
 
         return errorCode;
+    }
+
+    public void logResponseHeaders(Response response){
+        Headers allHeaders = response.headers();
+
+        // Iterate over all the Headers
+        for(Header header : allHeaders)
+        {
+            System.out.println(header.getName() + " = " + header.getValue());
+        }
     }
 
 

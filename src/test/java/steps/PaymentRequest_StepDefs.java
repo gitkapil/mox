@@ -9,6 +9,8 @@ import org.apache.log4j.Logger;
 import org.testng.Assert;
 import utils.BaseStep;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 
@@ -31,19 +33,19 @@ public class PaymentRequest_StepDefs implements BaseStep {
 
         if(accessToken.getType().equalsIgnoreCase("merchant")){
             if (System.getProperty("env").equals("playpen"))
-                restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI"));
+                restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI"));
             else
                 restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_1")
-                        +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_2")
+                        +fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI_Part_2")
                         +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
         }
 
         else{
             if (System.getProperty("env").equals("playpen"))
-                restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI"));
+                restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI"));
             else
                 restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_1")
-                        +"sandbox-"+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_2")
+                        +"sandbox-"+fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI_Part_2")
                         +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
         }
 
@@ -65,19 +67,19 @@ public class PaymentRequest_StepDefs implements BaseStep {
 
         if(accessToken.getType().equalsIgnoreCase("merchant")){
             if (System.getProperty("env").equals("playpen"))
-                restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI"));
+                restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI"));
             else
                 restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_1")
-                        +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_2")
+                        +fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI_Part_2")
                         +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
         }
 
         else{
             if (System.getProperty("env").equals("playpen"))
-                restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI"));
+                restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI"));
             else
                 restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_1")
-                        +"sandbox-"+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_2")
+                        +"sandbox-"+fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI_Part_2")
                         +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
         }
 
@@ -151,25 +153,33 @@ public class PaymentRequest_StepDefs implements BaseStep {
     @When("^I make a request for the payment$")
     public void i_make_a_request_for_the_payment()  {
         logger.info("********** Creating Payment Request ***********");
-        paymentRequest.retrievePaymentRequest(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"));
+        paymentRequest.retrievePaymentRequest(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
 
     }
 
     @When("^I make a request for the payment with \"([^\"]*)\" missing in the header$")
     public void i_make_a_request_for_the_payment_with_missing_in_the_header(String key)  {
-        paymentRequest.retrievePaymentRequestWithMissingHeaderKeys(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"), key);
+        paymentRequest.retrievePaymentRequestWithMissingHeaderKeys(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"), key,
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
 
     }
 
     @Then("^I should recieve a successful payment response$")
     public void i_should_recieve_a_successful_response()  {
-
         Assert.assertEquals(restHelper.getResponseStatusCode(paymentRequest.getPaymentRequestResponse()), 200,"Request was not successful!");
+        Assert.assertNotNull(paymentRequest.getPaymentRequestResponse(), "The response for Create Payment Request was null");
 
     }
 
     @Then("^the response body should contain valid payment request id, created timestamp, web link, app link, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration$")
-    public void the_response_body_should_contain_valid_payment_id_created_timestamp_links() throws Throwable {
+    public void the_response_body_should_contain_valid_payment_id_created_timestamp_links(){
         Assert.assertNotNull(paymentRequest.paymentRequestIdInResponse(), "Payment Request Id is not present in the response!!");
 
         Assert.assertNotNull(paymentRequest.createdTimestampInResponse(), "Created Timestamp is not present in the response!!");

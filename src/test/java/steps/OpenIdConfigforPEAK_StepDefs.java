@@ -8,7 +8,7 @@ import utils.BaseStep;
 public class OpenIdConfigforPEAK_StepDefs implements BaseStep {
     @When("^I hit the openid config URI$")
     public void i_hit_the_openid_config_URI()  {
-        openIdConfig.retrieveOpenIdConfigResponse(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "openid-configuration-for-PEAK"));
+        openIdConfig.retrieveOpenIdConfigResponse(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "openid-configuration-for-PEAK"));
     }
 
     @Then("^I recieve a successful response$")

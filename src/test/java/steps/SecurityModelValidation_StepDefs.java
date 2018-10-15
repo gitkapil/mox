@@ -11,7 +11,7 @@ import utils.BaseStep;
 public class SecurityModelValidation_StepDefs implements BaseStep{
     final static Logger logger = Logger.getLogger(SecurityModelValidation_StepDefs.class);
     private String baseURI1= fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_1");
-    private String baseURI2= fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_2");
+    private String baseURI2= fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI_Part_2");
     private String basePathToken= fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token");
     private String basePathAPI= fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs");
 
@@ -19,8 +19,8 @@ public class SecurityModelValidation_StepDefs implements BaseStep{
     @Given("^I am a merchant with no paymentrequest role$")
     public void i_am_a_merchant_with_no_paymentrequest_role(){
 
-        accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "merchant-client-id-no-paymentrequest-role"),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "merchant-client-secret-no-paymentrequest-role"));
+        accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-id-no-paymentrequest-role"),
+                fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-secret-no-paymentrequest-role"));
 
         accessToken.createBody_RetrieveAccessToken();
     }
@@ -29,8 +29,8 @@ public class SecurityModelValidation_StepDefs implements BaseStep{
     @Given("^I am a developer with no paymentrequest role$")
     public void i_am_a_developer_with_no_paymentrequest_role(){
 
-        accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "developer-client-id-no-paymentrequest-role"),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "developer-client-secret-no-paymentrequest-role"));
+        accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "developer-client-id-no-paymentrequest-role"),
+                fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "developer-client-secret-no-paymentrequest-role"));
 
         accessToken.createBody_RetrieveAccessToken();
     }
@@ -40,8 +40,8 @@ public class SecurityModelValidation_StepDefs implements BaseStep{
     @Given("^I am a merchant$")
     public void i_am_a_merchant() {
 
-        accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "merchant-client-id"),
-                                       fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "merchant-client-secret"));
+        accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-id"),
+                                       fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-secret"));
 
         accessToken.createBody_RetrieveAccessToken();
 
@@ -51,8 +51,8 @@ public class SecurityModelValidation_StepDefs implements BaseStep{
     @Given("^I am a developer$")
     public void i_am_a_developer() {
 
-        accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "developer-client-id"),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "developer-client-secret"));
+        accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "developer-client-id"),
+                fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "developer-client-secret"));
 
         accessToken.createBody_RetrieveAccessToken();
 
@@ -61,8 +61,8 @@ public class SecurityModelValidation_StepDefs implements BaseStep{
     @Given("^I am a client app with access to both sandbox & merchant server apps$")
     public void client_app_access_to_both_servers() {
 
-        accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "client-id-access-both-servers"),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "client-secret-access-both-servers"));
+        accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "client-id-access-both-servers"),
+                fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "client-secret-access-both-servers"));
 
         accessToken.createBody_RetrieveAccessToken();
 
@@ -76,7 +76,7 @@ public class SecurityModelValidation_StepDefs implements BaseStep{
         logger.info("********* Hitting Sandbox APIM ****************");
 
         if (System.getProperty("env").equalsIgnoreCase("playpen"))
-            accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path"));
+            accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "retrieve_access_token_base_path"));
         else
             accessToken.setEndpoint(baseURI1 +"sandbox-"+baseURI2 +basePathToken);
 
@@ -90,7 +90,7 @@ public class SecurityModelValidation_StepDefs implements BaseStep{
         logger.info("********* Hitting Merchant (Live) APIM ****************");
 
         if (System.getProperty("env").equalsIgnoreCase("playpen"))
-            accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_base_path"));
+            accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "retrieve_access_token_base_path"));
         else
             accessToken.setEndpoint(baseURI1 +baseURI2 +basePathToken);
 
@@ -106,13 +106,13 @@ public class SecurityModelValidation_StepDefs implements BaseStep{
 
     @Then("^the aud should be sandbox server app id$")
     public void the_aud_should_be_sandbox_server_app_id() {
-        Assert.assertEquals("Incorrect Aud", fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "sandbox-server-application-id"), accessToken.retrieveAudInClaimSet());
+        Assert.assertEquals("Incorrect Aud", fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "sandbox-server-application-id"), accessToken.retrieveAudInClaimSet());
 
     }
 
     @Then("^the aud should be merchant server app id$")
     public void the_aud_should_be_merchant_server_app_id() {
-        Assert.assertEquals("Incorrect Aud", fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "merchant-server-application-id"), accessToken.retrieveAudInClaimSet());
+        Assert.assertEquals("Incorrect Aud", fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "merchant-server-application-id"), accessToken.retrieveAudInClaimSet());
 
     }
 
@@ -143,7 +143,7 @@ public class SecurityModelValidation_StepDefs implements BaseStep{
         paymentStatus.setAuthTokenwithBearer();
 
         if (System.getProperty("env").equals("playpen"))
-            restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI"));
+            restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI"));
         else
             restHelper.setBaseURI(baseURI1 +"sandbox-"+baseURI2 +basePathAPI);
 
@@ -159,7 +159,7 @@ public class SecurityModelValidation_StepDefs implements BaseStep{
         paymentStatus.setAuthTokenwithBearer();
 
         if (System.getProperty("env").equals("playpen"))
-            restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI"));
+            restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI"));
         else
             restHelper.setBaseURI(baseURI1 +baseURI2 +basePathAPI);
 
