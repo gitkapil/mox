@@ -21,13 +21,15 @@ Scenario: Negative flow- Invalid signing key used to create signature and passed
   Then I should recieve a "401" error response with "Signature failed verification" error description and "BNA001" errorcode within payment response
   And error message should be "Unauthorized Operation!" within payment response
 
-
+@trial
 Scenario: Negative flow- Different signing algo (HmacSHA512) used to create signature and passed in POST payment request header
   Given I am an authorized user
   And I have valid payment details
   When I make a request for the payment with a different signing algo
-  Then I should recieve a "401" error response with "Signature failed verification" error description and "BNA001" errorcode within payment response
-  And error message should be "Unauthorized Operation!" within payment response
+  Then I should recieve a successful payment response
+  And the payment request response should be signed
+  #Then I should recieve a "401" error response with "Signature failed verification" error description and "BNA001" errorcode within payment response
+  #And error message should be "Unauthorized Operation!" within payment response
 
 
 
@@ -63,7 +65,7 @@ Examples:
 
 
 @regression
-Scenario: Negative flow-
+Scenario: Negative flow-New POST Payment request sent with tampered body
 
   Given I am an authorized user
   And I have valid payment details
