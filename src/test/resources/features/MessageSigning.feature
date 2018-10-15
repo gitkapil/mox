@@ -5,7 +5,7 @@ Given I am an user
 When I make a request to the Dragon ID Manager
 Then I recieve an access_token
 
-@trial
+@regression
 Scenario: Negative flow- Invalid signing key id used to create signature and passed in POST payment request header
   Given I am an authorized user
   And I have valid payment details
@@ -13,7 +13,7 @@ Scenario: Negative flow- Invalid signing key id used to create signature and pas
   Then I should recieve a "401" error response with "Unable to verify signature" error description and "BNA001" errorcode within payment response
   And error message should be "Unauthorized Operation!" within payment response
 
-@trial
+@regression
 Scenario: Negative flow- Invalid signing key used to create signature and passed in POST payment request header
   Given I am an authorized user
   And I have valid payment details
@@ -46,7 +46,7 @@ Examples:
 |request-date-time|
 
 
-@trial
+@regression
 Scenario Outline: Negative flow- New POST Payment request sent with tampered header values
   Given I am an authorized user
   And I have valid payment details
@@ -62,8 +62,9 @@ Examples:
 |Authorization|
 
 
-@trial
-Scenario: Negative flow- Body Values tampered in the request
+@regression
+Scenario: Negative flow-
+
   Given I am an authorized user
   And I have valid payment details
   And I create a signature for the payment request
@@ -72,7 +73,7 @@ Scenario: Negative flow- Body Values tampered in the request
   And error message should be "Unauthorized Operation!" within payment response
 
 
-@trial
+@regression
 Scenario: Negative flow- Invalid signing key id used to create signature and passed in GET payment request header
   Given I am an authorized user
   And I have valid payment details
@@ -84,7 +85,7 @@ Scenario: Negative flow- Invalid signing key id used to create signature and pas
   And error message should be "Unauthorized Operation!" within check status response
 
 
-@trial
+@regression
 Scenario: Negative flow- Invalid signing key used to create signature and passed in GET payment request header
   Given I am an authorized user
   And I have valid payment details
@@ -127,7 +128,7 @@ Examples:
 |request-date-time|
 
 
- @trial
+ @regression
 Scenario Outline: Negative flow- New GET Payment request sent with tampered header values
   Given I am an authorized user
   And I have valid payment details
@@ -146,7 +147,7 @@ Examples:
 |Authorization|
 
 
-@trial
+
 Scenario: Positive flow- The outbound messages from DRAGON are also signed- POST Payment Request
   Given I am an authorized user
   And I have valid payment details
@@ -155,7 +156,7 @@ Scenario: Positive flow- The outbound messages from DRAGON are also signed- POST
   And the payment request response should be signed
 
 
-@trial
+
 Scenario: Positive flow- The outbound messages from DRAGON are also signed- GET Payment Request
   Given I am an authorized user
   And I have valid payment details

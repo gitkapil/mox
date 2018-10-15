@@ -192,8 +192,8 @@ public class MessageSigning_StepDefs implements BaseStep{
 
             signatureHelper.verifySignature(paymentRequest.getPaymentRequestResponse(), "POST",
                     restHelper.getBaseURI() + fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                    Base64.getDecoder().decode(accessToken.getClientId()),
-                   // Base64.getDecoder().decode(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key")),
+//                    Base64.getDecoder().decode(accessToken.getClientId()),
+                   Base64.getDecoder().decode(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key")),
                     fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"));
 
         } catch (Exception e) {
