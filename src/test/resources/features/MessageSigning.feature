@@ -147,24 +147,14 @@ Examples:
 |Authorization|
 
 
-
-Scenario: Positive flow- The outbound messages from DRAGON are also signed- POST Payment Request
+@regression
+Scenario: Positive flow- POST Payment Request digest is not a mandatory header field
   Given I am an authorized user
   And I have valid payment details
-  When I make a request for the payment
+  When I make a request for the payment without digest in the header
   Then I should recieve a successful payment response
   And the payment request response should be signed
 
 
-
-Scenario: Positive flow- The outbound messages from DRAGON are also signed- GET Payment Request
-  Given I am an authorized user
-  And I have valid payment details
-  And I make a request for the payment
-  And I should recieve a successful payment response
-  And I have a valid payment id
-  When I make a request for the check status
-  Then I should recieve a successful check status response
-  And the payment status response should be signed
 
 

@@ -227,6 +227,17 @@ public class MessageSigning_StepDefs implements BaseStep{
         }
     }
 
+
+    @When("^I make a request for the payment without digest in the header$")
+    public void i_make_a_request_for_the_payment_without_digest_in_the_header()  {
+        logger.info("********** Creating Payment Request ***********");
+        paymentRequest.retrievePaymentRequestWithoutDigest(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
+    }
+
 }
 
 

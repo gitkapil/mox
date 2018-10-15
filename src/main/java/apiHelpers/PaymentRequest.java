@@ -404,7 +404,6 @@ public class PaymentRequest implements BaseStep {
     }
 
 
-
     public String paymentRequestIdInResponse(){
         return restHelper.getResponseBodyValue(paymentRequestResponse, "paymentRequestId");
 
@@ -466,7 +465,45 @@ public class PaymentRequest implements BaseStep {
 
     }
 
+    public Response retrievePaymentRequestWithoutDigest(String url, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature)  {
 
+        try {
+            returnPaymentRequestBody();
+            HashMap<String, String> header = returnPaymentRequestHeaderWithoutDigest("POST", new URL(url).getPath(), signingKeyId, signingAlgorithm, signingKey, headerElementsForSignature);
+            paymentRequestResponse = restHelper.postRequestWithHeaderAndBody(url, header, paymentRequestBody);
+
+            //signatureHelper.verifySignature(paymentRequestResponse, "GET", url, Base64.getDecoder().decode(signingKey), signingAlgorithm);
+            logger.info("Response: "+ paymentRequestResponse.getBody().asString());
+        }
+        catch (Exception e){
+            Assert.assertTrue("Verification of signature failed!", false);
+        }
+
+        return paymentRequestResponse;
+    }
+
+
+    public HashMap<String,String> returnPaymentRequestHeaderWithoutDigest(String method, String url, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature) {
+        paymentRequestHeader.put("Accept","application/json");
+        paymentRequestHeader.put("Content-Type","application/json");
+        paymentRequestHeader.put("Authorization", authToken);
+        paymentRequestHeader.put("Trace-Id",traceId);
+        paymentRequestHeader.put("Accept-Language", "en-US");
+        paymentRequestHeader.put("Request-Date-Time", getRequestDateTime());
+        paymentRequestHeader.put("Api-Version", System.getProperty("version"));
+
+        try{
+            paymentRequestHeader.put("Signature", signatureHelper.calculateSignature(method, url,
+                    Base64.getDecoder().decode(signingKey), signingAlgorithm, signingKeyId,
+                    headerElementsForSignature, paymentRequestHeader));
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            Assert.assertTrue("Trouble creating Signature!", false);
+        }
+        return paymentRequestHeader;
+    }
 
 
 
