@@ -89,7 +89,7 @@ Scenario Outline: Negative flow- Invalid auth token
  |Signature validation failed |TokenInvalidSignature  |eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c|
 
 
-  @regression   @skiponcimerchant @skiponsitmerchant
+  @regression @skiponsitmerchant
 Scenario Outline: Negative flow- Invalid PaymentIds sent in the request
   Given I am an authorized user
   And I have valid payment details

@@ -85,13 +85,13 @@ public class PaymentStatus_StepDefs implements BaseStep {
             if (accessToken.getType().equalsIgnoreCase("merchant"))
             {
                 if(System.getProperty("env").equalsIgnoreCase("ci"))
-                    Assert.assertEquals(paymentStatus.appSuccessCallbackInResponse(),"http://localhost/success", "App Fail Callback isn't matching with emulator!");
+                    Assert.assertEquals(paymentStatus.appFailCallbackInResponse(),"http://localhost/fail", "App Fail Callback isn't matching with emulator!");
                 else
-                    Assert.assertEquals(paymentStatus.appSuccessCallbackInResponse(), paymentRequest.getAppSuccessCallback(), "App Fail Callback isn't matching!");
+                    Assert.assertEquals(paymentStatus.appFailCallbackInResponse(), paymentRequest.getAppSuccessCallback(), "App Fail Callback isn't matching!");
 
             }
             else
-                Assert.assertEquals(paymentStatus.appSuccessCallbackInResponse(),"http://localhost/fail", "App Fail Callback isn't matching with emulator!");
+                Assert.assertEquals(paymentStatus.appFailCallbackInResponse(),"http://localhost/fail", "App Fail Callback isn't matching with emulator!");
         }
 
 

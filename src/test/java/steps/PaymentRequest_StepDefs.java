@@ -241,7 +241,7 @@ public class PaymentRequest_StepDefs implements BaseStep {
     @Then("^error message should be \"([^\"]*)\" within payment response$")
     public void i_should_recieve_a_error_message(String errorMessage) {
 
-        Assert.assertTrue(restHelper.getErrorMessage(paymentRequest.getPaymentRequestResponse()).contains(errorMessage) ,"Different error message being returned");
+        Assert.assertTrue(restHelper.getErrorMessage(paymentRequest.getPaymentRequestResponse()).contains(errorMessage) ,"Different error message being returned..Expected: "+ errorMessage+ " Actual: "+restHelper.getErrorMessage(paymentRequest.getPaymentRequestResponse()));
 
     }
 
