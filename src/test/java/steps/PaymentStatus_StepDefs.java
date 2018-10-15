@@ -87,7 +87,7 @@ public class PaymentStatus_StepDefs implements BaseStep {
                 if(System.getProperty("env").equalsIgnoreCase("ci"))
                     Assert.assertEquals(paymentStatus.appFailCallbackInResponse(),"http://localhost/fail", "App Fail Callback isn't matching with emulator!");
                 else
-                    Assert.assertEquals(paymentStatus.appFailCallbackInResponse(), paymentRequest.getAppSuccessCallback(), "App Fail Callback isn't matching!");
+                    Assert.assertEquals(paymentStatus.appFailCallbackInResponse(), paymentRequest.getAppFailCallback(), "App Fail Callback isn't matching!");
 
             }
             else
