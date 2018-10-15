@@ -156,7 +156,7 @@ Scenario: Positive flow- POST Payment Request digest is not a mandatory header f
   And the payment request response should be signed
 
 
-@regression
+
 Scenario: Negative flow- Dragon server should throw an error if digest is used to create a signature but it is not send in the header
   Given I am an authorized user
   And I have valid payment details
