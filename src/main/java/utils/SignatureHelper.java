@@ -42,7 +42,15 @@ public class SignatureHelper {
     public void verifySignature(Response response, String method, String url, byte[] keyData, String algorithm) throws Exception {
         String signatureHeaderVal = response.getHeader("Signature");
 
-        if (StringUtils.isEmpty(signatureHeaderVal)) {
+        if (response.getStatusCode() < 200 || response.getStatusCode() >= 300) {
+            if (StringUtils.isNotEmpty(signatureHeaderVal)) {
+                throw new Exception("Signature header found where it wasn't expected");
+            } else {
+                return;  // Nothing to verify.
+            }
+        }
+
+        if (StringUtils.isEmpty(signatureHeaderVal) && response.getStatusCode() >= 200 && response.getStatusCode() < 300) {
             throw new Exception("No Signature Found");
         }
 
