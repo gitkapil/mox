@@ -127,6 +127,9 @@ Scenario Outline: Positive flow- A merchant is able to create a check status req
   |25f90d96-4052-4c47-8ec1-f818c0e7a212 |Payment Request Expired      |PR007       |
   |b15e090a-5e97-4b44-a67e-542eb2aa0f4d |Request for Payment Initiated|PR001       |
   |9dbcf291-d71e-4c9f-938c-1fdf4035b5f5 |Payment Success              |PR005       |
+  |b15e090a-5e97-4b44-a67e-542eb2aa0f4d |Request for Payment Initiated|PR001       |
+  |33f8b91c-82ed-4bb5-a771-40daa14a5d3e |Payment Success              |PR005       |
+  |839040ff-128f-47ec-b69a-d44ae05aae80 |Payment Success              |PR005       |
 
 
 @regression
