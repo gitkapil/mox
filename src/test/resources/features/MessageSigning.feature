@@ -18,7 +18,7 @@ Scenario: Negative flow- Invalid signing key used to create signature and passed
   Given I am an authorized user
   And I have valid payment details
   When I make a request for the payment with invalid signing key
-  Then I should recieve a "401" error response with "Signature failed verification" error description and "BNA001" errorcode within payment response
+  Then I should recieve a "401" error response with "Unable to verify signature" error description and "BNA001" errorcode within payment response
   And error message should be "Unauthorized Operation!" within payment response
 
 
@@ -26,7 +26,7 @@ Scenario: Negative flow- Different signing algo (HmacSHA512) used to create sign
   Given I am an authorized user
   And I have valid payment details
   When I make a request for the payment with a different signing algo
-  Then I should recieve a "401" error response with "Signature failed verification" error description and "BNA001" errorcode within payment response
+  Then I should recieve a "401" error response with "Unable to verify signature" error description and "BNA001" errorcode within payment response
   And error message should be "Unauthorized Operation!" within payment response
 
 
@@ -35,7 +35,7 @@ Scenario Outline: Negative flow- Incomplete Header Set used to create signature 
   Given I am an authorized user
   And I have valid payment details
   When I make a request for the payment with header "<header>" value missing from the signature
-  Then I should recieve a "401" error response with "Signature failed verification" error description and "BNA001" errorcode within payment response
+  Then I should recieve a "401" error response with "Unable to verify signature" error description and "BNA001" errorcode within payment response
   And error message should be "Unauthorized Operation!" within payment response
 
 Examples:
