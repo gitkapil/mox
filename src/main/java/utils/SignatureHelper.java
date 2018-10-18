@@ -55,8 +55,9 @@ public class SignatureHelper {
     }
 
     public String calculateContentDigestHeader(byte[] content) throws NoSuchAlgorithmException {
-        final byte[] digest = MessageDigest.getInstance("SHA-256").digest(content);
-        final String digestHeader = "SHA-256=" + new String(Base64.encodeBase64(digest));
+        //final byte[] digest = MessageDigest.getInstance("SHA-256").digest(content);
+        final String digest = DigestUtils.sha256Hex(content);
+        final String digestHeader = "SHA-256=" + new String(Base64.encodeBase64(digest.getBytes()));
         return digestHeader;
     }
 }
