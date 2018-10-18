@@ -5,7 +5,7 @@ Given I am an user
 When I make a request to the Dragon ID Manager
 Then I recieve an access_token
 
-@regression
+@regression 
 Scenario: Negative flow- Invalid signing key id used to create signature and passed in POST payment request header
   Given I am an authorized user
   And I have valid payment details
@@ -13,7 +13,7 @@ Scenario: Negative flow- Invalid signing key id used to create signature and pas
   Then I should recieve a "401" error response with "Unable to verify signature" error description and "BNA001" errorcode within payment response
   And error message should be "Unauthorized Operation!" within payment response
 
-@regression
+@regression 
 Scenario: Negative flow- Invalid signing key used to create signature and passed in POST payment request header
   Given I am an authorized user
   And I have valid payment details
@@ -21,7 +21,7 @@ Scenario: Negative flow- Invalid signing key used to create signature and passed
   Then I should recieve a "401" error response with "Unable to verify signature" error description and "BNA001" errorcode within payment response
   And error message should be "Unauthorized Operation!" within payment response
 
-
+@regression
 Scenario: Negative flow- Different signing algo (HmacSHA512) used to create signature and passed in POST payment request header
   Given I am an authorized user
   And I have valid payment details
@@ -46,7 +46,7 @@ Examples:
 |request-date-time|
 
 
-@regression
+@regression 
 Scenario Outline: Negative flow- New POST Payment request sent with tampered header values
   Given I am an authorized user
   And I have valid payment details
@@ -62,7 +62,7 @@ Examples:
 |Authorization|
 
 
-@regression
+@regression 
 Scenario: Negative flow-New POST Payment request sent with tampered body
 
   Given I am an authorized user
@@ -73,7 +73,7 @@ Scenario: Negative flow-New POST Payment request sent with tampered body
   And error message should be "Unauthorized Operation!" within payment response
 
 
-@regression
+@regression 
 Scenario: Negative flow- Invalid signing key id used to create signature and passed in GET payment request header
   Given I am an authorized user
   And I have valid payment details
@@ -85,7 +85,7 @@ Scenario: Negative flow- Invalid signing key id used to create signature and pas
   And error message should be "Unauthorized Operation!" within check status response
 
 
-@regression
+@regression 
 Scenario: Negative flow- Invalid signing key used to create signature and passed in GET payment request header
   Given I am an authorized user
   And I have valid payment details
@@ -97,7 +97,7 @@ Scenario: Negative flow- Invalid signing key used to create signature and passed
   And error message should be "Unauthorized Operation!" within check status response
 
 
-
+@regression
 Scenario: Negative flow- Different signing algo (HmacSHA512) used to create signature and passed in GET payment request header
   Given I am an authorized user
   And I have valid payment details
@@ -128,7 +128,7 @@ Examples:
 |request-date-time|
 
 
- @regression
+ @regression 
 Scenario Outline: Negative flow- New GET Payment request sent with tampered header values
   Given I am an authorized user
   And I have valid payment details
@@ -147,7 +147,7 @@ Examples:
 |Authorization|
 
 
-@regression
+@regression 
 Scenario: Positive flow- POST Payment Request digest is not a mandatory header field
   Given I am an authorized user
   And I have valid payment details
@@ -156,7 +156,7 @@ Scenario: Positive flow- POST Payment Request digest is not a mandatory header f
   And the payment request response should be signed
 
 
-
+@regression
 Scenario: Negative flow- Dragon server should throw an error if digest is used to create a signature but it is not send in the header
   Given I am an authorized user
   And I have valid payment details
