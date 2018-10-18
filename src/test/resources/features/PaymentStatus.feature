@@ -114,7 +114,7 @@ Scenario Outline: Negative flow- Invalid PaymentIds sent in the request
 
 
  @regression  @skiponsitmerchant
-Scenario Outline: Positive flow- A merchant is able to create a check status request with all the valid inputs
+Scenario Outline: Emuator Scenarios
   Given I am an authorized user
   And I have a payment id "<payment_id>"
   When I make a request for the check status
