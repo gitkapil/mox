@@ -61,10 +61,6 @@ public class PaymentStatus implements BaseStep {
 
     }
 
-    public String transactionIdInResponse(){
-        return restHelper.getResponseBodyValue(paymentStatusResponse, "transactionId");
-
-    }
 
     public void retrievePaymentStatusWithMissingHeaderKeys(String url, String key, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature) {
         try{

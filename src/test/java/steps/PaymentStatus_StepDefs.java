@@ -97,13 +97,7 @@ public class PaymentStatus_StepDefs implements BaseStep {
 
     }
 
-
-    @Then("^the response body should have transactionid if the payment status is success within check status response$")
-    public void transaction_id_within_check_status_response() {
-        if (paymentStatus.statusCodeInResponse().equals("PR005"))
-            Assert.assertNotNull(paymentStatus.transactionIdInResponse(), "Transaction Id is not present in the response!!");
-    }
-
+    
     @Given("^I dont send Bearer with the auth token in the check status request$")
     public void i_dont_send_Bearer_with_the_auth_token_in_the_check_status_request(){
 
