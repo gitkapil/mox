@@ -173,7 +173,7 @@ public class PaymentRequest_StepDefs implements BaseStep {
 
     @Then("^I should recieve a successful payment response$")
     public void i_should_recieve_a_successful_response()  {
-        Assert.assertEquals(restHelper.getResponseStatusCode(paymentRequest.getPaymentRequestResponse()), 200,"Request was not successful!");
+        Assert.assertEquals(restHelper.getResponseStatusCode(paymentRequest.getPaymentRequestResponse()), 201,"Request was not successful!");
         Assert.assertNotNull(paymentRequest.getPaymentRequestResponse(), "The response for Create Payment Request was null");
 
     }

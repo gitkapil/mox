@@ -18,7 +18,7 @@ public class PaymentRequest implements BaseStep {
 
     private HashMap merchantData= new HashMap();
     private List<HashMap> shoppingCart=new ArrayList<HashMap>();
-    private HashMap<String, String> paymentRequestHeader= new HashMap<String, String>();
+    private HashMap<String, String> paymentRequestHeader;
 
     public HashMap<String, String> getPaymentRequestHeader() {
         return paymentRequestHeader;
@@ -133,6 +133,7 @@ public class PaymentRequest implements BaseStep {
     }
 
     public HashMap<String,String> returnPaymentRequestHeader(String method, String url, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature) {
+        paymentRequestHeader= new HashMap<String, String>();
         paymentRequestHeader.put("Accept","application/json");
         paymentRequestHeader.put("Content-Type","application/json");
         paymentRequestHeader.put("Authorization", authToken);
@@ -484,6 +485,7 @@ public class PaymentRequest implements BaseStep {
 
 
     public HashMap<String,String> returnPaymentRequestHeaderWithoutDigest(String method, String url, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature) {
+        paymentRequestHeader= new HashMap<String, String>();
         paymentRequestHeader.put("Accept","application/json");
         paymentRequestHeader.put("Content-Type","application/json");
         paymentRequestHeader.put("Authorization", authToken);

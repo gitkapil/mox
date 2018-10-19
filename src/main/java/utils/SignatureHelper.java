@@ -2,6 +2,7 @@ package utils;
 
 import com.jayway.restassured.response.Header;
 import com.jayway.restassured.response.Response;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.tomitribe.auth.signatures.*;
 
@@ -41,7 +42,15 @@ public class SignatureHelper {
     public void verifySignature(Response response, String method, String url, byte[] keyData, String algorithm) throws Exception {
         String signatureHeaderVal = response.getHeader("Signature");
 
-        if (StringUtils.isEmpty(signatureHeaderVal)) {
+        if (response.getStatusCode() < 200 || response.getStatusCode() >= 300) {
+            if (StringUtils.isNotEmpty(signatureHeaderVal)) {
+                throw new Exception("Signature header found where it wasn't expected");
+            } else {
+                return;  // Nothing to verify.
+            }
+        }
+
+        if (StringUtils.isEmpty(signatureHeaderVal) && response.getStatusCode() >= 200 && response.getStatusCode() < 300) {
             throw new Exception("No Signature Found");
         }
 
@@ -55,8 +64,9 @@ public class SignatureHelper {
     }
 
     public String calculateContentDigestHeader(byte[] content) throws NoSuchAlgorithmException {
-        final byte[] digest = MessageDigest.getInstance("SHA-256").digest(content);
-        final String digestHeader = "SHA-256=" + new String(Base64.encodeBase64(digest));
+        //final byte[] digest = MessageDigest.getInstance("SHA-256").digest(content);
+        final String digest = DigestUtils.sha256Hex(content);
+        final String digestHeader = "SHA-256=" + new String(Base64.encodeBase64(digest.getBytes()));
         return digestHeader;
     }
 }
