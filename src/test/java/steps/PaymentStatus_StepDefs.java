@@ -161,9 +161,9 @@ public class PaymentStatus_StepDefs implements BaseStep {
 
     @Then("^the response body should contain correct \"([^\"]*)\" and \"([^\"]*)\"$")
     public void the_response_body_should_contain_correct_and(String statusDesc, String statusCode)  {
-        Assert.assertEquals(statusDesc, paymentStatus.statusDescriptionInResponse(), "Status Description is not correct!");
+        Assert.assertEquals(paymentStatus.statusDescriptionInResponse(), statusDesc,"Status Description is not correct!");
 
-        Assert.assertEquals(statusCode, paymentStatus.statusCodeInResponse(), "Status Code is not correct!");
+        Assert.assertEquals(paymentStatus.statusCodeInResponse(), statusCode,"Status Code is not correct!");
     }
 
     @When("^I make a request for the check status with invalid value for request date time \"([^\"]*)\"$")
