@@ -30,7 +30,7 @@ Scenario: Negative flow- Different signing algo (HmacSHA512) used to create sign
   And error message should be "Unauthorized Operation!" within payment response
 
 
-
+@regression
 Scenario Outline: Negative flow- Incomplete Header Set used to create signature and passed in POST payment request
   Given I am an authorized user
   And I have valid payment details
@@ -109,7 +109,7 @@ Scenario: Negative flow- Different signing algo (HmacSHA512) used to create sign
   And error message should be "Unauthorized Operation!" within check status response
 
 
-
+@regression
 Scenario Outline: Negative flow- Incomplete Header Set used to create signature and passed in GET payment request
   Given I am an authorized user
   And I have valid payment details
