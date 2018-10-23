@@ -26,7 +26,7 @@ public class PaymentStatus_StepDefs implements BaseStep {
     public void i_make_a_request_for_the_check_status(){
 
        paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-               fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_key_id"),
+               accessToken.getClientId(),
                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_algorithm"),
                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_key"),
                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
@@ -128,7 +128,7 @@ public class PaymentStatus_StepDefs implements BaseStep {
         paymentStatus.setRequestDateTime(dateHelper.getUTCNowDateTime());
         
         paymentStatus.retrievePaymentStatusWithMissingHeaderKeys(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"), key,
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_key_id"),
+                accessToken.getClientId(),
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_algorithm"),
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_key"),
                 new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
@@ -166,7 +166,7 @@ public class PaymentStatus_StepDefs implements BaseStep {
         paymentStatus.setRequestDateTime(value);
 
         paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_key_id"),
+                accessToken.getClientId(),
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_algorithm"),
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_key"),
                 new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));

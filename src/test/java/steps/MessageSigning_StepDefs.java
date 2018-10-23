@@ -29,7 +29,7 @@ public class MessageSigning_StepDefs implements BaseStep{
     public void i_make_a_request_for_the_payment_with_invalid_signing_key()  {
         logger.info("********** Creating Payment Request with invalid signing key***********");
         paymentRequest.retrievePaymentRequest(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
+                accessToken.getClientId(),
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 "cGFzc3BocmFzZQ11",
                 new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
@@ -40,7 +40,7 @@ public class MessageSigning_StepDefs implements BaseStep{
 
         logger.info("********** Creating Payment Request with different signing algo***********");
         paymentRequest.retrievePaymentRequest(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
+                accessToken.getClientId(),
                 "HmacSHA512",
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
                 new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
@@ -52,7 +52,7 @@ public class MessageSigning_StepDefs implements BaseStep{
         invalidHeaderElements.remove(missingFromHeader);
 
         paymentRequest.retrievePaymentRequest(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
+                accessToken.getClientId(),
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"), invalidHeaderElements);
 
@@ -84,7 +84,7 @@ public class MessageSigning_StepDefs implements BaseStep{
     public void i_create_a_signature_payment_request() {
         try {
             paymentRequest.returnPaymentRequestHeader("POST", new URL(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource")).getPath(),
-                    fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
+                    accessToken.getClientId(),
                     fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                     fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
                     new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
@@ -118,7 +118,7 @@ public class MessageSigning_StepDefs implements BaseStep{
     public void i_make_a_request_for_the_payment_status_with_invalid_signing_key()  {
         logger.info("********** Creating Payment Status Request with invalid signing key***********");
         paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
+                accessToken.getClientId(),
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 "cGFzc3BocmFzZQ11",
                 new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
@@ -129,7 +129,7 @@ public class MessageSigning_StepDefs implements BaseStep{
 
         logger.info("********** Creating Payment Status Request with different signing algo***********");
         paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
+                accessToken.getClientId(),
                 "HmacSHA512",
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
                 new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
@@ -142,7 +142,7 @@ public class MessageSigning_StepDefs implements BaseStep{
         invalidHeaderElements.remove(missingFromHeader);
 
         paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
+                accessToken.getClientId(),
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"), invalidHeaderElements);
 
@@ -173,7 +173,7 @@ public class MessageSigning_StepDefs implements BaseStep{
     public void i_create_a_signature_payment_status() {
         try {
             paymentStatus.returnPaymentStatusHeader("GET", new URL(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource")).getPath(),
-                    fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
+                    accessToken.getClientId(),
                     fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                     fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
                     new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
@@ -232,7 +232,7 @@ public class MessageSigning_StepDefs implements BaseStep{
     public void i_make_a_request_for_the_payment_without_digest_in_the_header()  {
         logger.info("********** Creating Payment Request ***********");
         paymentRequest.retrievePaymentRequestWithoutDigest(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
+                accessToken.getClientId(),
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
                 new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
@@ -242,7 +242,7 @@ public class MessageSigning_StepDefs implements BaseStep{
     public void i_make_a_request_for_the_payment_with_digest_in_the_signature_header_list_but_not_sent_in_the_headers(){
         try {
             paymentRequest.retrievePaymentRequestWithMissingHeaderKeys(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),"Digest",
-                    fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key_id"),
+                    accessToken.getClientId(),
                     fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                     fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
                     new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
