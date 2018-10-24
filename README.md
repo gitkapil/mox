@@ -18,6 +18,10 @@ To run functional tests on playpen/dev env
 
 command: verify -Pregression -Denv=playpen -Dversion=0.5 -Dusertype=developer
 
+##Report
+----------
+Genertaed Extent Test Report can be found here:
+digital-dragon-testing/target/cucumber-reports/report.html
 
 ##PreRequisites
 -----------------
