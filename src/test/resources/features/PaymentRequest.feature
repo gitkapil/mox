@@ -26,6 +26,7 @@ Scenario Outline: Positive flow- A merchant is able to create a payment request 
   Then I should recieve a successful payment response
   And the response body should contain valid payment request id, created timestamp, web link, app link, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration
   And the response body should also have notification URI, app success callback URL, app fail Callback Url if applicable
+  And the payment request response should be signed
 
 Examples:
 |totalamount|currency |notificationURL              |description          |orderId |effectiveDuration |appSuccessCallback               |appFailCallback|additionalData|
@@ -55,6 +56,7 @@ Scenario Outline: Positive flow- A merchant is able to create a payment request 
   Then I should recieve a successful payment response
   And the response body should contain valid payment request id, created timestamp, web link, app link, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration
   And the response body should also have notification URI, app success callback URL, app fail Callback Url if applicable
+  And the payment request response should be signed
 
 Examples:
 |totalamount|currency |notificationURL              |description          |orderId |effectiveDuration |appSuccessCallback               |appFailCallback|additionalData|
@@ -83,6 +85,7 @@ Scenario: Positive flow- A merchant is able to create a payment request with all
   Then I should recieve a successful payment response
   And the response body should contain valid payment request id, created timestamp, web link, app link, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration
   And the response body should also have notification URI, app success callback URL, app fail Callback Url if applicable
+  And the payment request response should be signed
 
 
 # For the parametres where value is "no_value" within the table, while creating request the parameter (key) will be included but will have no value
@@ -95,6 +98,7 @@ Scenario Outline: Positive flow- A merchant is able to create a payment request 
   Then I should recieve a successful payment response
   And the response body should contain valid payment request id, created timestamp, web link, app link, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration
   And the response body should also have notification URI, app success callback URL, app fail Callback Url if applicable
+  And the payment request response should be signed
 
 Examples:
 |totalamount|currency |notificationURL            |description          |orderId |effectiveDuration |appSuccessCallback|appFailCallback|additionalData|
@@ -125,6 +129,7 @@ Scenario Outline: Positive flow- A merchant is able to create a payment request 
   Then I should recieve a successful payment response
   And the response body should contain valid payment request id, created timestamp, web link, app link, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration
   And the response body should also have notification URI, app success callback URL, app fail Callback Url if applicable
+  And the payment request response should be signed
 
 Examples:
 |totalamount|currency |notificationURL            |description          |orderId |effectiveDuration |appSuccessCallback|appFailCallback|additionalData|
@@ -139,6 +144,7 @@ Scenario: Negative flow- Invalid auth token (without Bearer in the header)
   When I make a request for the payment
   Then I should recieve a "401" error response with "JWT not present." error description and "401" errorcode within payment response
   And error message should be "TokenNotPresent" within payment response
+  #And the payment request response should be signed
 
 
   @regression  
@@ -146,15 +152,16 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the header
   Given I am an authorized user
   And I have valid payment details
   When I make a request for the payment with "<key>" missing in the header
-  Then I should recieve a "<error_code>" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
+  Then I should recieve a "<response_code>" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
   And error message should be "<error_message>" within payment response
+  #And the payment request response should be signed
 
  Examples:
- |error_description                                                    |error_message  | key             |error_code |
- |Header Authorization was not found in the request. Access denied.    | HeaderNotFound|Authorization    |401        |
- |Header Request-Date-Time was not found in the request. Access denied.| HeaderNotFound|Request-Date-Time|400        |
- |Header Trace-Id was not found in the request. Access denied.         | HeaderNotFound|Trace-Id         |400        |
-
+ |error_description                                                    |error_message  | key             |error_code |response_code|
+ |Header Authorization was not found in the request. Access denied.    | HeaderNotFound|Authorization    |401        |401        |
+ |Header Request-Date-Time was not found in the request. Access denied.| HeaderNotFound|Request-Date-Time|400        |400        |
+ |Header Trace-Id was not found in the request. Access denied.         | HeaderNotFound|Trace-Id         |400        |400        |
+ |Unable to verify signature                                           | Unauthorized Operation!|Signature|BNA001    |401        |
 
  @regression  
 Scenario Outline: Negative flow- Mandatory fields not sent in the header
@@ -162,6 +169,7 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the header
   And I have valid payment details
   When I make a request for the payment with "<key>" missing in the header
   And error message should be "Resource not found" within payment response
+  #And the payment request response should be signed
 
  Examples:
  | key             |
@@ -176,6 +184,7 @@ Scenario Outline: Negative flow- Invalid auth token
   When I make a request for the payment
   Then I should recieve a "401" error response with "<error_description>" error description and "401" errorcode within payment response
   And error message should be "<error_message>" within payment response
+  #And the payment request response should be signed
 
  Examples:
  |error_description           |error_message          |auth_token|
@@ -196,6 +205,7 @@ Scenario Outline: Negative flow- Peak error response parsed by DRAGON
    When I make a request for the payment
    Then I should recieve a "400" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
    And error message should be "<error_message>" within payment response
+   #And the payment request response should be signed
 
    Examples:
   |error_description             |error_message          |error_code| parameter      | invalid_value |
@@ -209,6 +219,7 @@ Scenario Outline: Negative flow- Mandatory fields from the body missing
   When I make a request for the payment
   Then I should recieve a "400" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
   And error message should be "<error_message>" within payment response
+  #And the payment request response should be signed
 
 
 Examples:
@@ -223,6 +234,7 @@ Scenario Outline: Negative flow- TraceId's value missing from the header
    When I make a request for the payment
    Then I should recieve a "400" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
    And error message should be "<error_message>" within payment response
+   And the payment request response should be signed
 
    Examples:
   |error_description             |error_message          |error_code|
@@ -236,6 +248,7 @@ Scenario Outline: Negative flow- Request Date Time's invalid values set within t
    When I make a request for the payment
    Then I should recieve a "400" error response with "Service Request Validation Failed" error description and "BNA002" errorcode within payment response
    And error message should be "Something went wrong. Sorry, we are unable to perform this action right now. Please try again." within payment response
+   #And the payment request response should be signed
 
    Examples:
   |value|
@@ -252,6 +265,7 @@ Scenario Outline: Negative flow- verify Error message if the additionalData is o
   When I make a request for the payment
   Then I should recieve a "400" error response with "Additional Data has too many characters. limit: 1024" error description and "EA002" errorcode within payment response
   And error message should be "Validation Fail!" within payment response
+  #And the payment request response should be signed
 
 Examples:
 |totalamount|currency |notificationURL            |description          |orderId |effectiveDuration |appSuccessCallback|appFailCallback|additionalData|

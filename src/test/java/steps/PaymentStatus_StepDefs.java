@@ -7,6 +7,9 @@ import org.apache.log4j.Logger;
 import org.testng.Assert;
 import utils.BaseStep;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 public class PaymentStatus_StepDefs implements BaseStep {
 
     final static Logger logger = Logger.getLogger(PaymentStatus_StepDefs.class);
@@ -22,7 +25,11 @@ public class PaymentStatus_StepDefs implements BaseStep {
     @When("^I make a request for the check status$")
     public void i_make_a_request_for_the_check_status(){
 
-       paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"));
+       paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+               accessToken.getClientId(),
+               fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_algorithm"),
+               fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_key"),
+               new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
 
     }
 
@@ -90,13 +97,7 @@ public class PaymentStatus_StepDefs implements BaseStep {
 
     }
 
-
-    @Then("^the response body should have transactionid if the payment status is success within check status response$")
-    public void transaction_id_within_check_status_response() {
-        if (paymentStatus.statusCodeInResponse().equals("PR005"))
-            Assert.assertNotNull(paymentStatus.transactionIdInResponse(), "Transaction Id is not present in the response!!");
-    }
-
+    
     @Given("^I dont send Bearer with the auth token in the check status request$")
     public void i_dont_send_Bearer_with_the_auth_token_in_the_check_status_request(){
 
@@ -121,12 +122,16 @@ public class PaymentStatus_StepDefs implements BaseStep {
     }
 
     @When("^I make a request for the payment status with \"([^\"]*)\" missing in the header$")
-    public void i_make_a_request_for_the_payment_status_with_missing_in_the_header(String key)  {
+    public void i_make_a_request_for_the_payment_status_with_missing_in_the_header(String key) {
         paymentStatus.setTraceId(general.generateUniqueUUID());
         //paymentStatus.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
         paymentStatus.setRequestDateTime(dateHelper.getUTCNowDateTime());
         
-        paymentStatus.retrievePaymentStatusWithMissingHeaderKeys(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"), key);
+        paymentStatus.retrievePaymentStatusWithMissingHeaderKeys(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"), key,
+                accessToken.getClientId(),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_algorithm"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_key"),
+                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
 
     }
 
@@ -150,17 +155,21 @@ public class PaymentStatus_StepDefs implements BaseStep {
 
     @Then("^the response body should contain correct \"([^\"]*)\" and \"([^\"]*)\"$")
     public void the_response_body_should_contain_correct_and(String statusDesc, String statusCode)  {
-        Assert.assertEquals(statusDesc, paymentStatus.statusDescriptionInResponse(), "Status Description is not correct!");
+        Assert.assertEquals(paymentStatus.statusDescriptionInResponse(), statusDesc,"Status Description is not correct!");
 
-        Assert.assertEquals(statusCode, paymentStatus.statusCodeInResponse(), "Status Code is not correct!");
+        Assert.assertEquals(paymentStatus.statusCodeInResponse(), statusCode,"Status Code is not correct!");
     }
 
     @When("^I make a request for the check status with invalid value for request date time \"([^\"]*)\"$")
-    public void invalid_value_request_date_time(String value){
+    public void invalid_value_request_date_time(String value)  {
         paymentStatus.setTraceId(general.generateUniqueUUID());
         paymentStatus.setRequestDateTime(value);
 
-        paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"));
+        paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                accessToken.getClientId(),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_algorithm"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_key"),
+                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
 
     }
 

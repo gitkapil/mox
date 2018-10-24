@@ -6,7 +6,7 @@
 
     <groupId>com.dragon.test.harness</groupId>
     <artifactId>dragon</artifactId>
-    <version>0.7</version>
+    <version>0.8</version>
 
     <dependencies>
 
@@ -77,6 +77,12 @@
             <version>5.12</version>
         </dependency>
 
+        <!-- Message Signing Library -->
+        <dependency>
+            <groupId>org.tomitribe</groupId>
+            <artifactId>tomitribe-http-signatures</artifactId>
+            <version>1.1</version>
+        </dependency>
     </dependencies>
 
     <profiles>

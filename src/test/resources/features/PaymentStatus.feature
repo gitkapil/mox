@@ -5,7 +5,7 @@ Given I am an user
 When I make a request to the Dragon ID Manager
 Then I recieve an access_token
 
-  @regression  
+  @regression
 Scenario: Positive flow- A merchant is able to create a check status request with all the valid inputs
   Given I am an authorized user
   And I have valid payment details
@@ -16,7 +16,7 @@ Scenario: Positive flow- A merchant is able to create a check status request wit
   Then I should recieve a successful check status response
   And the response body should contain valid payment request id, created timestamp, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration within check status response
   And the response body should also have app success callback URL, app fail Callback Url if applicable within check status response
-  And the response body should have transactionid if the payment status is success within check status response
+  And the payment status response should be signed
 
 
   @regression   
@@ -30,6 +30,7 @@ Scenario: Negative flow- Invalid auth token (without Bearer in the header)
   When I make a request for the check status
   Then I should recieve a "401" error response with "JWT not present." error description and "401" errorcode within check status response
   And error message should be "TokenNotPresent" within check status response
+  And the payment status response should be signed
 
 
   @regression   
@@ -42,6 +43,7 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the header
   When I make a request for the payment status with "<key>" missing in the header
   Then I should recieve a "<error_code>" error response with "<error_description>" error description and "<error_code>" errorcode within check status response
   And error message should be "<error_message>" within check status response
+  And the payment status response should be signed
 
  Examples:
  |error_description                                                    |error_message         | key             |error_code |
@@ -60,6 +62,7 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the header
   And I have a valid payment id
   When I make a request for the payment status with "<key>" missing in the header
   Then error message should be "Resource not found" within check status response
+  And the payment status response should be signed
 
  Examples:
  | key       |
@@ -76,6 +79,7 @@ Scenario Outline: Negative flow- Invalid auth token
   When I make a request for the check status
   Then I should recieve a "401" error response with "<error_description>" error description and "401" errorcode within check status response
   And error message should be "<error_message>" within check status response
+  And the payment status response should be signed
 
  Examples:
  |error_description           |error_message          |auth_token|
@@ -99,6 +103,7 @@ Scenario Outline: Negative flow- Invalid PaymentIds sent in the request
   When I make a request for the check status
   Then I should recieve a "<response_code>" error response with "<error_description>" error description and "<error_code>" errorcode within check status response
   And error message should be "<error_message>" within check status response
+  And the payment status response should be signed
 
  Examples:
  |error_description             |error_message                     | payment_id                          |error_code |response_code|
@@ -108,18 +113,22 @@ Scenario Outline: Negative flow- Invalid PaymentIds sent in the request
 
 
  @regression  @skiponsitmerchant
-Scenario Outline: Positive flow- A merchant is able to create a check status request with all the valid inputs
+Scenario Outline: Emulator Scenarios
   Given I am an authorized user
   And I have a payment id "<payment_id>"
   When I make a request for the check status
   Then I should recieve a successful check status response
   And the response body should contain correct "<status_description>" and "<status_code>"
+  And the payment status response should be signed
 
   Examples:
   |payment_id                           | status_description          | status_code|
   |25f90d96-4052-4c47-8ec1-f818c0e7a212 |Payment Request Expired      |PR007       |
   |b15e090a-5e97-4b44-a67e-542eb2aa0f4d |Request for Payment Initiated|PR001       |
   |9dbcf291-d71e-4c9f-938c-1fdf4035b5f5 |Payment Success              |PR005       |
+  |b15e090a-5e97-4b44-a67e-542eb2aa0f4d |Request for Payment Initiated|PR001       |
+  |33f8b91c-82ed-4bb5-a771-40daa14a5d3e |Payment Success              |PR005       |
+  |839040ff-128f-47ec-b69a-d44ae05aae80 |Payment Success              |PR005       |
 
 
 @regression
@@ -132,6 +141,7 @@ Scenario Outline: Negative flow- Request Date Time's invalid values set within t
    When I make a request for the check status with invalid value for request date time "<value>"
    Then I should recieve a "400" error response with "Service Request Validation Failed" error description and "BNA002" errorcode within check status response
    And error message should be "Something went wrong. Sorry, we are unable to perform this action right now. Please try again." within check status response
+   And the payment status response should be signed
 
    Examples:
   |value|

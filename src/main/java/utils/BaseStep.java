@@ -4,7 +4,6 @@ import apiHelpers.*;
 
 
 public interface BaseStep {
-
     RestHelper restHelper= new RestHelper();
     AccessTokenForMerchants accessToken= new AccessTokenForMerchants();
     PaymentRequest paymentRequest= new PaymentRequest();
@@ -15,9 +14,7 @@ public interface BaseStep {
     JWTHelper jwtHelper= new JWTHelper();
     General general= new General();
     OpenIdConfigForPEAK openIdConfig= new OpenIdConfigForPEAK();
-
-
-
+    SignatureHelper signatureHelper = new SignatureHelper();
 
   /*  default Properties loadGeneralProperties(){
         System.out.println("version:: "+ System.getProperty("version"));
