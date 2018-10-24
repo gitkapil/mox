@@ -3,10 +3,11 @@ package testSuite;
 import com.github.mkolisnyk.cucumber.runner.ExtendedCucumber;
 import com.github.mkolisnyk.cucumber.runner.ExtendedCucumberOptions;
 import cucumber.api.CucumberOptions;
+import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
 
 
-@RunWith(ExtendedCucumber.class)
+@RunWith(Cucumber.class)
 /*@ExtendedCucumberOptions(jsonReport = "target/cucumber.json",
         overviewReport = true,
         outputFolder = "target") */
