@@ -1,11 +1,14 @@
 package steps;
 
+import com.cucumber.listener.Reporter;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.parsing.Parser;
 import cucumber.api.java.Before;
+import org.junit.AfterClass;
 import org.junit.AssumptionViolatedException;
 import utils.BaseStep;
 
+import java.io.File;
 import java.util.Properties;
 
 public class Hooks implements BaseStep {
@@ -22,18 +25,18 @@ public class Hooks implements BaseStep {
 
     }
 
-  @Before("@skiponcimerchant")
-  public void beforeScenario() {
-    if(System.getProperty("env").equalsIgnoreCase("ci") && System.getProperty("usertype").equalsIgnoreCase("merchant")) {
-      throw new AssumptionViolatedException("Not supported on CI merchant env");
-    }
-  }
 
     @Before("@skiponsitmerchant")
     public void beforeScenario2() {
         if(System.getProperty("env").equalsIgnoreCase("sit") && System.getProperty("usertype").equalsIgnoreCase("merchant")) {
             throw new AssumptionViolatedException("Not supported on SIT merchant env");
         }
+    }
+
+
+    @AfterClass
+    public static void writeExtentReport() {
+        Reporter.loadXMLConfig(new File(System.getProperty("user.dir")+"/src/test/resources/extent-config.xml"));
     }
 
 }

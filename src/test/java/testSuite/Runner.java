@@ -7,13 +7,14 @@ import org.junit.runner.RunWith;
 
 
 @RunWith(ExtendedCucumber.class)
-@ExtendedCucumberOptions(jsonReport = "target/cucumber.json",
+/*@ExtendedCucumberOptions(jsonReport = "target/cucumber.json",
         overviewReport = true,
-        outputFolder = "target")
+        outputFolder = "target") */
 @CucumberOptions(
         format = {"pretty", "html:target/cucumber-html-report", "json:target/cucumber.json", "pretty:target/cucumber-pretty.txt", "usage:target/cucumber-usage.json", "junit:target/cucumber-results.xml" },
         glue={"steps"},
-        features = {"src/test/resources/features"}
+        features = {"src/test/resources/features"},
+        plugin = { "com.cucumber.listener.ExtentCucumberFormatter:target/cucumber-reports/report.html"}
         //tags ={"@skiponcimerchant"}
         )
 public class Runner {
