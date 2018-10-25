@@ -27,8 +27,7 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
                 if (System.getProperty("env").equalsIgnoreCase("playpen"))
                     accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "retrieve_access_token_base_path"));
                 else
-                    accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_1")
-                            +fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI_Part_2")
+                    accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
                             +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
 
             } else {
@@ -41,8 +40,7 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
                 if (System.getProperty("env").equalsIgnoreCase("playpen"))
                     accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "retrieve_access_token_base_path"));
                 else
-                    accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_1")
-                            +"sandbox-"+fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI_Part_2")
+                    accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
                             +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
 
             }
@@ -57,8 +55,7 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
             if (System.getProperty("env").equalsIgnoreCase("playpen"))
                 accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "retrieve_access_token_base_path"));
             else
-                accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_1")
-                        +"sandbox-"+fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI_Part_2")
+                accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
                         +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
 
         }

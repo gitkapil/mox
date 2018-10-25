@@ -75,9 +75,8 @@ merchant-client-secret-no-paymentrequest-role --> This is the client secret for 
 
 jwks_uri_idp= https://login.microsoftonline.com/<Azure AD Tenant>/discovery/v2.0/keys
 
-Base_URI_Part_1 --> First part of the DNS name
-Base_URI_Part_2 --> Second bit of the DNS name
-                    <env>.open-paymentsapi.com
+merchant-api-management-url --> URL of merchant API managment
+sandbox-api-management-url --> URL of sandbox API management
 
 Base_Path_APIs= /payments/
 Base_Path_Token=/oauth2/

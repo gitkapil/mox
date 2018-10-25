@@ -35,8 +35,7 @@ public class PaymentRequest_StepDefs implements BaseStep {
             if (System.getProperty("env").equals("playpen"))
                 restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI"));
             else
-                restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_1")
-                        +fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI_Part_2")
+                restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
                         +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
         }
 
@@ -44,8 +43,7 @@ public class PaymentRequest_StepDefs implements BaseStep {
             if (System.getProperty("env").equals("playpen"))
                 restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI"));
             else
-                restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_1")
-                        +"sandbox-"+fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI_Part_2")
+                restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
                         +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
         }
 
@@ -69,8 +67,7 @@ public class PaymentRequest_StepDefs implements BaseStep {
             if (System.getProperty("env").equals("playpen"))
                 restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI"));
             else
-                restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_1")
-                        +fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI_Part_2")
+                restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
                         +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
         }
 
@@ -78,8 +75,7 @@ public class PaymentRequest_StepDefs implements BaseStep {
             if (System.getProperty("env").equals("playpen"))
                 restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI"));
             else
-                restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_URI_Part_1")
-                        +"sandbox-"+fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI_Part_2")
+                restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
                         +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
         }
 
