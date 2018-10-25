@@ -5,6 +5,7 @@ import com.jayway.restassured.response.Response;
 import org.junit.Assert;
 import utils.BaseStep;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -88,7 +89,7 @@ public class PaymentStatus implements BaseStep {
         try{
             url= appendPaymentIdInURL(url);
 
-        paymentStatusResponse= restHelper.getRequestWithHeaders(url, returnPaymentStatusHeader("GET", url, signingKeyId, signingAlgorithm, signingKey,headerElementsForSignature));
+        paymentStatusResponse= restHelper.getRequestWithHeaders(url, returnPaymentStatusHeader("GET", new URL(url).getPath(), signingKeyId, signingAlgorithm, signingKey,headerElementsForSignature));
 
        // signatureHelper.verifySignature(paymentStatusResponse, "GET", url, Base64.getDecoder().decode(signingKey), signingAlgorithm);
 
