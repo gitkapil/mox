@@ -35,10 +35,10 @@ digital-dragon-testing/target/cucumber-reports/report.html
 
 ## Env Values
 --------------
-playpen
 sit
 ci
 pre
+(Tests cannot be run on playpen as the URLs/ configs are totally different)
 
 ## Profiles (All the tests are marked as regression at the moment)
 ------------

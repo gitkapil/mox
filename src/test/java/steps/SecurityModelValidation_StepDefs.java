@@ -75,10 +75,7 @@ public class SecurityModelValidation_StepDefs implements BaseStep{
     public void i_make_a_request_to_the_sandbox_Dragon_ID_Manager() {
         logger.info("********* Hitting Sandbox APIM ****************");
 
-        if (System.getProperty("env").equalsIgnoreCase("playpen"))
-            accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "retrieve_access_token_base_path"));
-        else
-            accessToken.setEndpoint(sandboxApiManagementUrl +basePathToken);
+        accessToken.setEndpoint(sandboxApiManagementUrl +basePathToken);
 
         logger.info("********** Retrieving Access Token***********");
         accessToken.retrieveAccessToken(accessToken.getEndpoint() +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
@@ -89,10 +86,7 @@ public class SecurityModelValidation_StepDefs implements BaseStep{
     public void i_make_a_request_to_the_merchant_Dragon_ID_Manager() {
         logger.info("********* Hitting Merchant (Live) APIM ****************");
 
-        if (System.getProperty("env").equalsIgnoreCase("playpen"))
-            accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "retrieve_access_token_base_path"));
-        else
-            accessToken.setEndpoint(merchantApiManagementUrl +basePathToken);
+        accessToken.setEndpoint(merchantApiManagementUrl +basePathToken);
 
         logger.info("********** Retrieving Access Token***********");
         accessToken.retrieveAccessToken(accessToken.getEndpoint() +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
@@ -142,10 +136,7 @@ public class SecurityModelValidation_StepDefs implements BaseStep{
         paymentStatus.setAuthToken(accessToken.getAccessToken());
         paymentStatus.setAuthTokenwithBearer();
 
-        if (System.getProperty("env").equals("playpen"))
-            restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI"));
-        else
-            restHelper.setBaseURI(sandboxApiManagementUrl +basePathAPI);
+        restHelper.setBaseURI(sandboxApiManagementUrl +basePathAPI);
 
     }
 
@@ -158,10 +149,7 @@ public class SecurityModelValidation_StepDefs implements BaseStep{
         paymentStatus.setAuthToken(accessToken.getAccessToken());
         paymentStatus.setAuthTokenwithBearer();
 
-        if (System.getProperty("env").equals("playpen"))
-            restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI"));
-        else
-            restHelper.setBaseURI(merchantApiManagementUrl +basePathAPI);
+        restHelper.setBaseURI(merchantApiManagementUrl +basePathAPI);
 
     }
 

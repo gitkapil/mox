@@ -32,17 +32,11 @@ public class PaymentRequest_StepDefs implements BaseStep {
         refunds.setAuthTokenwithBearer();
 
         if(accessToken.getType().equalsIgnoreCase("merchant")){
-            if (System.getProperty("env").equals("playpen"))
-                restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI"));
-            else
                 restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
                         +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
         }
 
         else{
-            if (System.getProperty("env").equals("playpen"))
-                restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI"));
-            else
                 restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
                         +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
         }
@@ -64,17 +58,11 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setAuthTokenwithBearer(paymentRequest.getAuthToken());
 
         if(accessToken.getType().equalsIgnoreCase("merchant")){
-            if (System.getProperty("env").equals("playpen"))
-                restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI"));
-            else
                 restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
                         +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
         }
 
         else{
-            if (System.getProperty("env").equals("playpen"))
-                restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "Base_URI"));
-            else
                 restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
                         +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
         }

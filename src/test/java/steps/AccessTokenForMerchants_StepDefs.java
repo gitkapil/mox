@@ -24,10 +24,7 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
                 accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-id"),
                         fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-secret"));
 
-                if (System.getProperty("env").equalsIgnoreCase("playpen"))
-                    accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "retrieve_access_token_base_path"));
-                else
-                    accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
+                accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
                             +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
 
             } else {
@@ -37,10 +34,7 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
                 accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "developer-client-id"),
                         fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "developer-client-secret"));
 
-                if (System.getProperty("env").equalsIgnoreCase("playpen"))
-                    accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "retrieve_access_token_base_path"));
-                else
-                    accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
+                accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
                             +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
 
             }
@@ -52,10 +46,7 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
             accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "developer-client-id"),
                     fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "developer-client-secret"));
 
-            if (System.getProperty("env").equalsIgnoreCase("playpen"))
-                accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "retrieve_access_token_base_path"));
-            else
-                accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
+            accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
                         +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
 
         }
