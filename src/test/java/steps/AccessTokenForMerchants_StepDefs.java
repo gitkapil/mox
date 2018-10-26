@@ -25,7 +25,7 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
                         fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-secret"));
 
                 accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
-                            +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
+                        +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
 
             } else {
                 logger.info("********* Hitting Sandbox APIM ****************");
@@ -35,7 +35,7 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
                         fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "developer-client-secret"));
 
                 accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
-                            +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
+                        +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
 
             }
         }
@@ -47,7 +47,7 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
                     fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "developer-client-secret"));
 
             accessToken.setEndpoint(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
-                        +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
+                    +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
 
         }
 
@@ -94,8 +94,6 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
 
     @Then("^I shouldnot recieve an access_token$")
     public void i_should_not_recieve_an_access_token() {
-
-
         Assert.assertNull("Access Token generated",accessToken.getAccessToken());
 
         logger.info("Response failed because of Error: "+ restHelper.getErrorMessage(accessToken.getAccessTokenResponse()));
@@ -111,7 +109,7 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
 
     @Then("^I should get a \"([^\"]*)\"$")
     public void i_should_get_a_error_code(String responseCode)  {
-       Assert.assertEquals("Different response code is returned!",Integer.parseInt(responseCode),  restHelper.getResponseStatusCode(accessToken.getAccessTokenResponse()));
+        Assert.assertEquals("Different response code is returned!",Integer.parseInt(responseCode),  restHelper.getResponseStatusCode(accessToken.getAccessTokenResponse()));
 
 
     }
@@ -150,7 +148,7 @@ public class AccessTokenForMerchants_StepDefs implements BaseStep{
 
     @Then("^error message should be \"([^\"]*)\" within token response$")
     public void error_message_should_be_within_token_response(String errorMessage)  {
-       Assert.assertTrue("Different error message being returned...Expected: "+ errorMessage+ "Actual: "+ restHelper.getErrorMessage(accessToken.getAccessTokenResponse()), restHelper.getErrorMessage(accessToken.getAccessTokenResponse()).contains(errorMessage) );
+        Assert.assertTrue("Different error message being returned...Expected: "+ errorMessage+ "Actual: "+ restHelper.getErrorMessage(accessToken.getAccessTokenResponse()), restHelper.getErrorMessage(accessToken.getAccessTokenResponse()).contains(errorMessage) );
 
     }
 

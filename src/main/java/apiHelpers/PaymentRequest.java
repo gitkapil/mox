@@ -473,7 +473,6 @@ public class PaymentRequest implements BaseStep {
             HashMap<String, String> header = returnPaymentRequestHeaderWithoutDigest("POST", new URL(url).getPath(), signingKeyId, signingAlgorithm, signingKey, headerElementsForSignature);
             paymentRequestResponse = restHelper.postRequestWithHeaderAndBody(url, header, paymentRequestBody);
 
-            //signatureHelper.verifySignature(paymentRequestResponse, "GET", url, Base64.getDecoder().decode(signingKey), signingAlgorithm);
             logger.info("Response: "+ paymentRequestResponse.getBody().asString());
         }
         catch (Exception e){

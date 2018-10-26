@@ -16,20 +16,19 @@ public class PaymentStatus_StepDefs implements BaseStep {
 
     @Given("^I have a valid payment id$")
     public void i_have_a()  {
-       paymentStatus.setPaymentRequestId(paymentRequest.paymentRequestIdInResponse());
+        paymentStatus.setPaymentRequestId(paymentRequest.paymentRequestIdInResponse());
         paymentStatus.setTraceId(general.generateUniqueUUID());
-        //paymentStatus.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
         paymentStatus.setRequestDateTime(dateHelper.getUTCNowDateTime());
     }
 
     @When("^I make a request for the check status$")
     public void i_make_a_request_for_the_check_status(){
 
-       paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-               accessToken.getClientId(),
-               fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_algorithm"),
-               fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_key"),
-               new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
+        paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                accessToken.getClientId(),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_algorithm"),
+                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_key"),
+                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
 
     }
 
@@ -97,7 +96,7 @@ public class PaymentStatus_StepDefs implements BaseStep {
 
     }
 
-    
+
     @Given("^I dont send Bearer with the auth token in the check status request$")
     public void i_dont_send_Bearer_with_the_auth_token_in_the_check_status_request(){
 
@@ -124,9 +123,8 @@ public class PaymentStatus_StepDefs implements BaseStep {
     @When("^I make a request for the payment status with \"([^\"]*)\" missing in the header$")
     public void i_make_a_request_for_the_payment_status_with_missing_in_the_header(String key) {
         paymentStatus.setTraceId(general.generateUniqueUUID());
-        //paymentStatus.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
         paymentStatus.setRequestDateTime(dateHelper.getUTCNowDateTime());
-        
+
         paymentStatus.retrievePaymentStatusWithMissingHeaderKeys(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"), key,
                 accessToken.getClientId(),
                 fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_algorithm"),
@@ -145,9 +143,7 @@ public class PaymentStatus_StepDefs implements BaseStep {
     public void i_have_a_valid(String paymentReqId) {
         paymentStatus.setPaymentRequestId(paymentReqId);
         paymentStatus.setTraceId(general.generateUniqueUUID());
-        //paymentStatus.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
         paymentStatus.setRequestDateTime(dateHelper.getUTCNowDateTime());
-
         paymentRequest.setNotificationURI(null);
         paymentRequest.setAppFailCallback(null);
         paymentRequest.setAppSuccessCallback(null);

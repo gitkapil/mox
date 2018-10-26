@@ -72,9 +72,6 @@ public class PaymentStatus implements BaseStep {
 
             paymentStatusResponse= restHelper.getRequestWithHeaders(url, header);
 
-            // If the verification message is returned by APIMs it won't be signed so verification will fail.
-           // signatureHelper.verifySignature(paymentStatusResponse, "GET", url, Base64.getDecoder().decode(signingKey), signingAlgorithm);
-
             logger.info("********** Payment Request Status Response *********** ---> "+ paymentStatusResponse.getBody().asString());
         }
         catch (Exception e){
@@ -89,11 +86,9 @@ public class PaymentStatus implements BaseStep {
         try{
             url= appendPaymentIdInURL(url);
 
-        paymentStatusResponse= restHelper.getRequestWithHeaders(url, returnPaymentStatusHeader("GET", new URL(url).getPath(), signingKeyId, signingAlgorithm, signingKey,headerElementsForSignature));
+            paymentStatusResponse= restHelper.getRequestWithHeaders(url, returnPaymentStatusHeader("GET", new URL(url).getPath(), signingKeyId, signingAlgorithm, signingKey,headerElementsForSignature));
 
-       // signatureHelper.verifySignature(paymentStatusResponse, "GET", url, Base64.getDecoder().decode(signingKey), signingAlgorithm);
-
-        logger.info("********** Payment Request Status Response *********** ---> "+ paymentStatusResponse.getBody().asString());
+            logger.info("********** Payment Request Status Response *********** ---> "+ paymentStatusResponse.getBody().asString());
         }
         catch (Exception e){
             Assert.assertTrue("Verification of signature failed!", false);

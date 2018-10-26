@@ -41,7 +41,7 @@ public class SecurityModelValidation_StepDefs implements BaseStep{
     public void i_am_a_merchant() {
 
         accessToken.setMerchantDetails(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-id"),
-                                       fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-secret"));
+                fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-secret"));
 
         accessToken.createBody_RetrieveAccessToken();
 
@@ -95,7 +95,7 @@ public class SecurityModelValidation_StepDefs implements BaseStep{
 
     @Then("^the role should be \"([^\"]*)\"$")
     public void the_role_should_be(String expectedRole) {
-      Assert.assertEquals("Incorrect Role!", expectedRole, accessToken.checkDevOrMerchantRoleInClaimSet());
+        Assert.assertEquals("Incorrect Role!", expectedRole, accessToken.checkDevOrMerchantRoleInClaimSet());
     }
 
     @Then("^the aud should be sandbox server app id$")

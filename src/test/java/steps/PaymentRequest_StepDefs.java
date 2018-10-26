@@ -32,13 +32,13 @@ public class PaymentRequest_StepDefs implements BaseStep {
         refunds.setAuthTokenwithBearer();
 
         if(accessToken.getType().equalsIgnoreCase("merchant")){
-                restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
-                        +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
+            restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
+                    +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
         }
 
         else{
-                restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
-                        +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
+            restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
+                    +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
         }
 
     }
@@ -58,13 +58,13 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setAuthTokenwithBearer(paymentRequest.getAuthToken());
 
         if(accessToken.getType().equalsIgnoreCase("merchant")){
-                restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
-                        +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
+            restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
+                    +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
         }
 
         else{
-                restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
-                        +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
+            restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
+                    +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
         }
 
     }
@@ -79,8 +79,6 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setEffectiveDuration(effectiveDuration);
         paymentRequest.setShoppingCart(null);
         paymentRequest.setMerchantData(null);
-
-        //paymentRequest.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
         paymentRequest.setRequestDateTime(dateHelper.getUTCNowDateTime());
         paymentRequest.setTraceId(general.generateUniqueUUID());
     }
@@ -96,8 +94,6 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setEffectiveDuration("600");
         paymentRequest.setShoppingCart(null);
         paymentRequest.setMerchantData(null);
-
-       // paymentRequest.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
         paymentRequest.setRequestDateTime(dateHelper.getUTCNowDateTime());
         paymentRequest.setTraceId(general.generateUniqueUUID());
     }
@@ -110,27 +106,27 @@ public class PaymentRequest_StepDefs implements BaseStep {
 
     @Given("^I have merchant data \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$")
     public void i_have_merchant_data(String description, String orderId, String additionalData) {
-         paymentRequest.createMerchantData(description, orderId,additionalData);
+        paymentRequest.createMerchantData(description, orderId,additionalData);
     }
 
     @Given("^the additionalData is of more than (\\d+) characters$")
     public void the_additionalData_is_of_more_than_characters(int arg1) {
-       String invalidAdditionalData="Morethan1024charactersMorethan1024characters" +
-               "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
-               "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
-               "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
-               "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
-               "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
-               "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
-               "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
-               "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
-               "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
-               "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
-               "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
-               "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
-               "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
-               "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
-               "Morethan1024charactersMorethan1024charactersMorethan1024characters";
+        String invalidAdditionalData="Morethan1024charactersMorethan1024characters" +
+                "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
+                "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
+                "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
+                "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
+                "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
+                "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
+                "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
+                "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
+                "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
+                "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
+                "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
+                "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
+                "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
+                "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
+                "Morethan1024charactersMorethan1024charactersMorethan1024characters";
         paymentRequest.createMerchantData("description", "B12421832", invalidAdditionalData);
     }
 
@@ -210,13 +206,9 @@ public class PaymentRequest_StepDefs implements BaseStep {
 
     @Then("^I should recieve a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within payment response$")
     public void i_should_recieve_a_error_response_with_error_description_and_errorcode(int responseCode, String errorDesc, String errorCode) {
-       // logger.info(" Error message: "+ restHelper.getErrorMessage(paymentRequest.getPaymentRequestResponse()));
-
         Assert.assertEquals(restHelper.getResponseStatusCode(paymentRequest.getPaymentRequestResponse()), responseCode,"Different response code being returned");
 
         Assert.assertEquals(restHelper.getErrorCode(paymentRequest.getPaymentRequestResponse()), errorCode,"Different error code being returned");
-
-       // Assert.assertEquals(restHelper.getErrorDescription(paymentRequest.getPaymentRequestResponse()), errorDesc,"Different error description being returned");
 
         Assert.assertTrue(restHelper.getErrorDescription(paymentRequest.getPaymentRequestResponse()).contains(errorDesc) ,"Different error description being returned..Expected: "+ errorDesc+ "Actual: "+ restHelper.getErrorDescription(paymentRequest.getPaymentRequestResponse()));
 
@@ -259,8 +251,6 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setAppSuccessCallback("https://pizzahut.com/confirmation");
         paymentRequest.setAppFailCallback("https://pizzahut.com/unsuccessful");
         paymentRequest.setEffectiveDuration("600");
-
-        //paymentRequest.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
         paymentRequest.setRequestDateTime(dateHelper.getUTCNowDateTime());
         paymentRequest.setTraceId(general.generateUniqueUUID());
 
@@ -278,8 +268,6 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setAppSuccessCallback("https://pizzahut.com/confirmation");
         paymentRequest.setAppFailCallback("https://pizzahut.com/unsuccessful");
         paymentRequest.setEffectiveDuration("600");
-
-       // paymentRequest.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
         paymentRequest.setRequestDateTime(dateHelper.getUTCNowDateTime());
 
 
@@ -293,7 +281,6 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setAppSuccessCallback("https://pizzahut.com/confirmation");
         paymentRequest.setAppFailCallback("https://pizzahut.com/unsuccessful");
         paymentRequest.setEffectiveDuration("600");
-
         paymentRequest.setTraceId(general.generateUniqueUUID());
         paymentRequest.setRequestDateTime(value);
 
