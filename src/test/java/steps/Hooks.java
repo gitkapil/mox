@@ -6,21 +6,25 @@ import com.jayway.restassured.parsing.Parser;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import org.junit.AssumptionViolatedException;
-import utils.BaseStep;
+import apiHelpers.TestContext;
 import java.io.File;
 import java.util.Properties;
 
-public class Hooks implements BaseStep {
-
+public class Hooks{
+    TestContext testContext;
     static Properties envProperties=new Properties();
     static Properties generalProperties=new Properties();
 
-  @Before
-  public void setUp(){
+    public Hooks(TestContext testContext) {
+        this.testContext = testContext;
+    }
+
+    @Before
+    public void setUp(){
       RestAssured.defaultParser = Parser.JSON;
       String generalPropertiesFilePath=System.getProperty("user.dir")+"/src/test/resources/configs/"+System.getProperty("env")+".properties";
-      envProperties= fileHelper.loadPropertiesFile(generalPropertiesFilePath);
-      generalProperties = fileHelper.loadPropertiesFile(System.getProperty("user.dir")+"/src/test/resources/configs/general.properties");
+      envProperties= testContext.getFileHelper().loadPropertiesFile(generalPropertiesFilePath);
+      generalProperties = testContext.getFileHelper().loadPropertiesFile(System.getProperty("user.dir")+"/src/test/resources/configs/general.properties");
 
     }
 

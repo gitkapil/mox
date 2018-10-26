@@ -1,5 +1,9 @@
 package steps;
 
+import apiHelpers.AccessTokenForMerchants;
+import apiHelpers.PaymentRequest;
+import apiHelpers.PaymentStatus;
+import apiHelpers.TestContext;
 import com.jayway.restassured.response.Response;
 import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
@@ -7,14 +11,24 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
-import utils.BaseStep;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
 
-public class PaymentRequest_StepDefs implements BaseStep {
+public class PaymentRequest_StepDefs{
+    TestContext testContext;
+    PaymentRequest paymentRequest;
+    PaymentStatus paymentStatus;
+    AccessTokenForMerchants accessToken;
+
+    public PaymentRequest_StepDefs(TestContext testContext) {
+        this.testContext = testContext;
+        this.paymentRequest = new PaymentRequest(testContext);
+        this.paymentStatus= new PaymentStatus(testContext);
+        this.accessToken= new AccessTokenForMerchants(testContext);
+    }
 
     final static Logger logger = Logger.getLogger(PaymentRequest_StepDefs.class);
     List<Response> paymentResponses= new ArrayList<Response>();
@@ -28,17 +42,17 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentStatus.setAuthToken(accessToken.getAccessToken());
         paymentStatus.setAuthTokenwithBearer();
 
-        refunds.setAuthToken(accessToken.getAccessToken());
-        refunds.setAuthTokenwithBearer();
+       // refunds.setAuthToken(accessToken.getAccessToken());
+       // refunds.setAuthTokenwithBearer();
 
         if(accessToken.getType().equalsIgnoreCase("merchant")){
-            restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
-                    +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
+            testContext.getRestHelper().setBaseURI(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
+                    +testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
         }
 
         else{
-            restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
-                    +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
+            testContext.getRestHelper().setBaseURI(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
+                    +testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
         }
 
     }
@@ -58,13 +72,13 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setAuthTokenwithBearer(paymentRequest.getAuthToken());
 
         if(accessToken.getType().equalsIgnoreCase("merchant")){
-            restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
-                    +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
+            testContext.getRestHelper().setBaseURI(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
+                    +testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
         }
 
         else{
-            restHelper.setBaseURI(fileHelper.getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
-                    +fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
+            testContext.getRestHelper().setBaseURI(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
+                    +testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
         }
 
     }
@@ -79,8 +93,8 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setEffectiveDuration(effectiveDuration);
         paymentRequest.setShoppingCart(null);
         paymentRequest.setMerchantData(null);
-        paymentRequest.setRequestDateTime(dateHelper.getUTCNowDateTime());
-        paymentRequest.setTraceId(general.generateUniqueUUID());
+        paymentRequest.setRequestDateTime(testContext.getDateHelper().getUTCNowDateTime());
+        paymentRequest.setTraceId(testContext.getGeneral().generateUniqueUUID());
     }
 
 
@@ -94,8 +108,8 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setEffectiveDuration("600");
         paymentRequest.setShoppingCart(null);
         paymentRequest.setMerchantData(null);
-        paymentRequest.setRequestDateTime(dateHelper.getUTCNowDateTime());
-        paymentRequest.setTraceId(general.generateUniqueUUID());
+        paymentRequest.setRequestDateTime(testContext.getDateHelper().getUTCNowDateTime());
+        paymentRequest.setTraceId(testContext.getGeneral().generateUniqueUUID());
     }
 
     @Given("^I have shopping cart details$")
@@ -133,27 +147,27 @@ public class PaymentRequest_StepDefs implements BaseStep {
     @When("^I make a request for the payment$")
     public void i_make_a_request_for_the_payment()  {
         logger.info("********** Creating Payment Request ***********");
-        paymentRequest.retrievePaymentRequest(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+        paymentRequest.retrievePaymentRequest(testContext.getRestHelper().getBaseURI()+testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
                 accessToken.getClientId(),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
-                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
+                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
 
     }
 
     @When("^I make a request for the payment with \"([^\"]*)\" missing in the header$")
     public void i_make_a_request_for_the_payment_with_missing_in_the_header(String key)  {
-        paymentRequest.retrievePaymentRequestWithMissingHeaderKeys(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"), key,
+        paymentRequest.retrievePaymentRequestWithMissingHeaderKeys(testContext.getRestHelper().getBaseURI()+testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"), key,
                 accessToken.getClientId(),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
-                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
+                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
 
     }
 
     @Then("^I should recieve a successful payment response$")
     public void i_should_recieve_a_successful_response()  {
-        Assert.assertEquals(restHelper.getResponseStatusCode(paymentRequest.getPaymentRequestResponse()), 201,"Request was not successful!");
+        Assert.assertEquals(testContext.getRestHelper().getResponseStatusCode(paymentRequest.getPaymentRequestResponse()), 201,"Request was not successful!");
         Assert.assertNotNull(paymentRequest.getPaymentRequestResponse(), "The response for Create Payment Request was null");
 
     }
@@ -206,39 +220,39 @@ public class PaymentRequest_StepDefs implements BaseStep {
 
     @Then("^I should recieve a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within payment response$")
     public void i_should_recieve_a_error_response_with_error_description_and_errorcode(int responseCode, String errorDesc, String errorCode) {
-        Assert.assertEquals(restHelper.getResponseStatusCode(paymentRequest.getPaymentRequestResponse()), responseCode,"Different response code being returned");
+        Assert.assertEquals(testContext.getRestHelper().getResponseStatusCode(paymentRequest.getPaymentRequestResponse()), responseCode,"Different response code being returned");
 
-        Assert.assertEquals(restHelper.getErrorCode(paymentRequest.getPaymentRequestResponse()), errorCode,"Different error code being returned");
+        Assert.assertEquals(testContext.getRestHelper().getErrorCode(paymentRequest.getPaymentRequestResponse()), errorCode,"Different error code being returned");
 
-        Assert.assertTrue(restHelper.getErrorDescription(paymentRequest.getPaymentRequestResponse()).contains(errorDesc) ,"Different error description being returned..Expected: "+ errorDesc+ "Actual: "+ restHelper.getErrorDescription(paymentRequest.getPaymentRequestResponse()));
+        Assert.assertTrue(testContext.getRestHelper().getErrorDescription(paymentRequest.getPaymentRequestResponse()).contains(errorDesc) ,"Different error description being returned..Expected: "+ errorDesc+ "Actual: "+ testContext.getRestHelper().getErrorDescription(paymentRequest.getPaymentRequestResponse()));
 
     }
 
     @Then("^error message should be \"([^\"]*)\" within payment response$")
     public void i_should_recieve_a_error_message(String errorMessage) {
 
-        Assert.assertTrue(restHelper.getErrorMessage(paymentRequest.getPaymentRequestResponse()).contains(errorMessage) ,"Different error message being returned..Expected: "+ errorMessage+ " Actual: "+restHelper.getErrorMessage(paymentRequest.getPaymentRequestResponse()));
+        Assert.assertTrue(testContext.getRestHelper().getErrorMessage(paymentRequest.getPaymentRequestResponse()).contains(errorMessage) ,"Different error message being returned..Expected: "+ errorMessage+ " Actual: "+testContext.getRestHelper().getErrorMessage(paymentRequest.getPaymentRequestResponse()));
 
     }
 
 
     @Then("^I should recieve a (\\d+) error response within payment response$")
     public void i_should_recieve_a_error_response_within_payment_response(int errorCode) {
-        Assert.assertEquals(restHelper.getResponseStatusCode(paymentRequest.getPaymentRequestResponse()), errorCode,"Different response code being returned");
+        Assert.assertEquals(testContext.getRestHelper().getResponseStatusCode(paymentRequest.getPaymentRequestResponse()), errorCode,"Different response code being returned");
 
     }
 
     @Given("^I send request date timestamp in an invalid \"([^\"]*)\"$")
     public void i_send_request_date_timestamp_in_an_invalid(String format) {
-        paymentRequest.setRequestDateTime(dateHelper.convertDateTimeIntoAFormat(dateHelper.getSystemDateandTimeStamp(), format));
+        paymentRequest.setRequestDateTime(testContext.getDateHelper().convertDateTimeIntoAFormat(testContext.getDateHelper().getSystemDateandTimeStamp(), format));
 
     }
 
     @Then("^\"([^\"]*)\" error description and \"([^\"]*)\" errorcode within payment response$")
     public void error_description_and_errorcode_within_payment_response(String errorDesc, String errorCode)  {
-        Assert.assertEquals(restHelper.getErrorCode(paymentResponses.get(1)), errorCode,"Different error code being returned");
+        Assert.assertEquals(testContext.getRestHelper().getErrorCode(paymentResponses.get(1)), errorCode,"Different error code being returned");
 
-        Assert.assertEquals(restHelper.getErrorDescription(paymentResponses.get(1)), errorDesc,"Different error description being returned");
+        Assert.assertEquals(testContext.getRestHelper().getErrorDescription(paymentResponses.get(1)), errorDesc,"Different error description being returned");
 
     }
 
@@ -251,8 +265,8 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setAppSuccessCallback("https://pizzahut.com/confirmation");
         paymentRequest.setAppFailCallback("https://pizzahut.com/unsuccessful");
         paymentRequest.setEffectiveDuration("600");
-        paymentRequest.setRequestDateTime(dateHelper.getUTCNowDateTime());
-        paymentRequest.setTraceId(general.generateUniqueUUID());
+        paymentRequest.setRequestDateTime(testContext.getDateHelper().getUTCNowDateTime());
+        paymentRequest.setTraceId(testContext.getGeneral().generateUniqueUUID());
 
         if (parameter.equalsIgnoreCase("totalamount"))
             paymentRequest.setTotalAmount(invalid_value);
@@ -268,7 +282,7 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setAppSuccessCallback("https://pizzahut.com/confirmation");
         paymentRequest.setAppFailCallback("https://pizzahut.com/unsuccessful");
         paymentRequest.setEffectiveDuration("600");
-        paymentRequest.setRequestDateTime(dateHelper.getUTCNowDateTime());
+        paymentRequest.setRequestDateTime(testContext.getDateHelper().getUTCNowDateTime());
 
 
     }
@@ -281,7 +295,7 @@ public class PaymentRequest_StepDefs implements BaseStep {
         paymentRequest.setAppSuccessCallback("https://pizzahut.com/confirmation");
         paymentRequest.setAppFailCallback("https://pizzahut.com/unsuccessful");
         paymentRequest.setEffectiveDuration("600");
-        paymentRequest.setTraceId(general.generateUniqueUUID());
+        paymentRequest.setTraceId(testContext.getGeneral().generateUniqueUUID());
         paymentRequest.setRequestDateTime(value);
 
     }

@@ -7,6 +7,12 @@ import java.util.HashMap;
 
 
 public class Refunds implements BaseStep {
+    TestContext testContext;
+
+    public Refunds(TestContext testContext) {
+        this.testContext = testContext;
+    }
+
     final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(Refunds.class);
     String transactionId, url, authToken, traceId,requestDateTime, currencyCode, reason;
     Double amount;
@@ -110,32 +116,32 @@ public class Refunds implements BaseStep {
     }
 
     public String refundIdInResponse(){
-        return restHelper.getResponseBodyValue(refundsResponse, "refundId");
+        return testContext.getUtilManager().getRestHelper().getResponseBodyValue(refundsResponse, "refundId");
 
     }
 
     public String amountInResponse(){
-        return restHelper.getResponseBodyValue(refundsResponse, "amount");
+        return testContext.getUtilManager().getRestHelper().getResponseBodyValue(refundsResponse, "amount");
 
     }
 
     public String currencyCodeInResponse(){
-        return restHelper.getResponseBodyValue(refundsResponse, "currencyCode");
+        return testContext.getUtilManager().getRestHelper().getResponseBodyValue(refundsResponse, "currencyCode");
 
     }
 
     public String reasonCodeInResponse(){
-        return restHelper.getResponseBodyValue(refundsResponse, "reasonCode");
+        return testContext.getUtilManager().getRestHelper().getResponseBodyValue(refundsResponse, "reasonCode");
 
     }
 
     public String reasonInResponse(){
-        return restHelper.getResponseBodyValue(refundsResponse, "reason");
+        return testContext.getUtilManager().getRestHelper().getResponseBodyValue(refundsResponse, "reason");
 
     }
 
     public String transactionIdInResponse(){
-        return restHelper.getResponseBodyValue(refundsResponse, "transactionId");
+        return testContext.getUtilManager().getRestHelper().getResponseBodyValue(refundsResponse, "transactionId");
 
     }
 
@@ -149,7 +155,7 @@ public class Refunds implements BaseStep {
         HashMap<String, String> header= returnRefundsHeader();
         header.remove(key);
 
-        refundsResponse= restHelper.postRequestWithHeaderAndBody(url,header, returnRefundsBody());
+        refundsResponse= testContext.getUtilManager().getRestHelper().postRequestWithHeaderAndBody(url,header, returnRefundsBody());
 
         logger.info("********** Refunds Response *********** ---> "+ refundsResponse.getBody().asString());
 
@@ -161,7 +167,7 @@ public class Refunds implements BaseStep {
         HashMap<String, String> body= returnRefundsBody();
         body.remove(key);
 
-        refundsResponse= restHelper.postRequestWithHeaderAndBody(url,returnRefundsHeader(), body);
+        refundsResponse= testContext.getUtilManager().getRestHelper().postRequestWithHeaderAndBody(url,returnRefundsHeader(), body);
 
         logger.info("********** Refunds Response *********** ---> "+ refundsResponse.getBody().asString());
 
@@ -204,7 +210,7 @@ public class Refunds implements BaseStep {
     public Response retrieveRefunds(String urlPart1, String urlPart2){
         url= addTransactionIdInURL(urlPart1, urlPart2);
 
-        refundsResponse= restHelper.postRequestWithHeaderAndBody(url,returnRefundsHeader(), returnRefundsBody());
+        refundsResponse= testContext.getUtilManager().getRestHelper().postRequestWithHeaderAndBody(url,returnRefundsHeader(), returnRefundsBody());
 
         logger.info("********** Refunds Response *********** ---> "+ refundsResponse.getBody().asString());
 

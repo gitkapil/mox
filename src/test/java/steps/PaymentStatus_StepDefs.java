@@ -1,5 +1,9 @@
 package steps;
 
+import apiHelpers.AccessTokenForMerchants;
+import apiHelpers.PaymentRequest;
+import apiHelpers.PaymentStatus;
+import apiHelpers.TestContext;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -10,32 +14,44 @@ import utils.BaseStep;
 import java.util.Arrays;
 import java.util.HashSet;
 
-public class PaymentStatus_StepDefs implements BaseStep {
+public class PaymentStatus_StepDefs{
+
+    TestContext testContext;
+    PaymentRequest paymentRequest;
+    PaymentStatus paymentStatus;
+    AccessTokenForMerchants accessToken;
+
+    public PaymentStatus_StepDefs(TestContext testContext) {
+        this.testContext = testContext;
+        this.paymentRequest = new PaymentRequest(testContext);
+        this.paymentStatus= new PaymentStatus(testContext);
+        this.accessToken= new AccessTokenForMerchants(testContext);
+    }
 
     final static Logger logger = Logger.getLogger(PaymentStatus_StepDefs.class);
 
     @Given("^I have a valid payment id$")
     public void i_have_a()  {
         paymentStatus.setPaymentRequestId(paymentRequest.paymentRequestIdInResponse());
-        paymentStatus.setTraceId(general.generateUniqueUUID());
-        paymentStatus.setRequestDateTime(dateHelper.getUTCNowDateTime());
+        paymentStatus.setTraceId(testContext.getGeneral().generateUniqueUUID());
+        paymentStatus.setRequestDateTime(testContext.getDateHelper().getUTCNowDateTime());
     }
 
     @When("^I make a request for the check status$")
     public void i_make_a_request_for_the_check_status(){
 
-        paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+        paymentStatus.retrievePaymentStatus(testContext.getRestHelper().getBaseURI()+testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
                 accessToken.getClientId(),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_algorithm"),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_key"),
-                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
+                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,"signing_algorithm"),
+                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,"signing_key"),
+                new HashSet(Arrays.asList(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
 
     }
 
     @Then("^I should recieve a successful check status response$")
     public void i_should_recieve_a_successful_check_status_response() {
         logger.info("********** Retrieving Payment Request Status ***********");
-        Assert.assertEquals(restHelper.getResponseStatusCode(paymentStatus.getPaymentStatusResponse()), 200,"Check Payment Status was not successful!");
+        Assert.assertEquals(testContext.getRestHelper().getResponseStatusCode(paymentStatus.getPaymentStatusResponse()), 200,"Check Payment Status was not successful!");
 
     }
 
@@ -106,30 +122,30 @@ public class PaymentStatus_StepDefs implements BaseStep {
 
     @Then("^I should recieve a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within check status response$")
     public void i_should_recieve_a_error_response_with_error_description_and_errorcode_within_check_status_response(int responseCode, String errorDesc, String errorCode) {
-        Assert.assertEquals(restHelper.getResponseStatusCode(paymentStatus.getPaymentStatusResponse()), responseCode,"Different response code being returned");
+        Assert.assertEquals(testContext.getRestHelper().getResponseStatusCode(paymentStatus.getPaymentStatusResponse()), responseCode,"Different response code being returned");
 
-        Assert.assertEquals(restHelper.getErrorCode(paymentStatus.getPaymentStatusResponse()), errorCode,"Different error code being returned");
+        Assert.assertEquals(testContext.getRestHelper().getErrorCode(paymentStatus.getPaymentStatusResponse()), errorCode,"Different error code being returned");
 
-        Assert.assertTrue(restHelper.getErrorDescription(paymentStatus.getPaymentStatusResponse()).contains(errorDesc) ,"Different error description being returned..Expected: "+ errorDesc+ "  Actual: "+ restHelper.getErrorDescription(paymentStatus.getPaymentStatusResponse()));
+        Assert.assertTrue(testContext.getRestHelper().getErrorDescription(paymentStatus.getPaymentStatusResponse()).contains(errorDesc) ,"Different error description being returned..Expected: "+ errorDesc+ "  Actual: "+ testContext.getRestHelper().getErrorDescription(paymentStatus.getPaymentStatusResponse()));
 
     }
 
     @Then("^error message should be \"([^\"]*)\" within check status response$")
     public void error_message_should_be_within_check_status_response(String errorMessage) {
-        Assert.assertTrue(restHelper.getErrorMessage(paymentStatus.getPaymentStatusResponse()).contains(errorMessage) ,"Different error message being returned..Expected: "+ errorMessage+ "  Actual: "+ restHelper.getErrorMessage(paymentStatus.getPaymentStatusResponse()));
+        Assert.assertTrue(testContext.getRestHelper().getErrorMessage(paymentStatus.getPaymentStatusResponse()).contains(errorMessage) ,"Different error message being returned..Expected: "+ errorMessage+ "  Actual: "+ testContext.getRestHelper().getErrorMessage(paymentStatus.getPaymentStatusResponse()));
 
     }
 
     @When("^I make a request for the payment status with \"([^\"]*)\" missing in the header$")
     public void i_make_a_request_for_the_payment_status_with_missing_in_the_header(String key) {
-        paymentStatus.setTraceId(general.generateUniqueUUID());
-        paymentStatus.setRequestDateTime(dateHelper.getUTCNowDateTime());
+        paymentStatus.setTraceId(testContext.getGeneral().generateUniqueUUID());
+        paymentStatus.setRequestDateTime(testContext.getDateHelper().getUTCNowDateTime());
 
-        paymentStatus.retrievePaymentStatusWithMissingHeaderKeys(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"), key,
+        paymentStatus.retrievePaymentStatusWithMissingHeaderKeys(testContext.getRestHelper().getBaseURI()+testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"), key,
                 accessToken.getClientId(),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_algorithm"),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_key"),
-                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
+                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,"signing_algorithm"),
+                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,"signing_key"),
+                new HashSet(Arrays.asList(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
 
     }
 
@@ -142,8 +158,8 @@ public class PaymentStatus_StepDefs implements BaseStep {
     @Given("^I have a payment id \"([^\"]*)\"$")
     public void i_have_a_valid(String paymentReqId) {
         paymentStatus.setPaymentRequestId(paymentReqId);
-        paymentStatus.setTraceId(general.generateUniqueUUID());
-        paymentStatus.setRequestDateTime(dateHelper.getUTCNowDateTime());
+        paymentStatus.setTraceId(testContext.getGeneral().generateUniqueUUID());
+        paymentStatus.setRequestDateTime(testContext.getDateHelper().getUTCNowDateTime());
         paymentRequest.setNotificationURI(null);
         paymentRequest.setAppFailCallback(null);
         paymentRequest.setAppSuccessCallback(null);
@@ -158,14 +174,14 @@ public class PaymentStatus_StepDefs implements BaseStep {
 
     @When("^I make a request for the check status with invalid value for request date time \"([^\"]*)\"$")
     public void invalid_value_request_date_time(String value)  {
-        paymentStatus.setTraceId(general.generateUniqueUUID());
+        paymentStatus.setTraceId(testContext.getGeneral().generateUniqueUUID());
         paymentStatus.setRequestDateTime(value);
 
-        paymentStatus.retrievePaymentStatus(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+        paymentStatus.retrievePaymentStatus(testContext.getRestHelper().getBaseURI()+testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
                 accessToken.getClientId(),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_algorithm"),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties,"signing_key"),
-                new HashSet(Arrays.asList(fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
+                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,"signing_algorithm"),
+                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,"signing_key"),
+                new HashSet(Arrays.asList(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
 
     }
 

@@ -1,5 +1,8 @@
 package steps;
 
+import apiHelpers.AccessTokenForMerchants;
+import apiHelpers.Refunds;
+import apiHelpers.TestContext;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -7,7 +10,16 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import utils.BaseStep;
 
-public class Refunds_StepDefs implements BaseStep {
+public class Refunds_StepDefs {
+    TestContext testContext;
+    Refunds refunds;
+    AccessTokenForMerchants accessToken;
+
+    public Refunds_StepDefs(TestContext testContext) {
+        this.testContext = testContext;
+        this.refunds= new Refunds(testContext);
+        this.accessToken= new AccessTokenForMerchants(testContext);
+    }
 
     final static Logger logger = Logger.getLogger(Refunds_StepDefs.class);
 
@@ -16,22 +28,22 @@ public class Refunds_StepDefs implements BaseStep {
        refunds.setAmount(Double.parseDouble(amount));
        refunds.setCurrencyCode(currency);
        refunds.setReason(reason);
-       refunds.setRequestDateTime(dateHelper.getUTCNowDateTime());
-       refunds.setTraceId(general.generateUniqueUUID());
-       refunds.setTransactionId(general.generateUniqueUUID());
+       refunds.setRequestDateTime(testContext.getDateHelper().getUTCNowDateTime());
+       refunds.setTraceId(testContext.getGeneral().generateUniqueUUID());
+       refunds.setTransactionId(testContext.getGeneral().generateUniqueUUID());
     }
 
     @When("^I make a request for the refund$")
     public void i_make_a_request_for_the_refund()   {
         logger.info("********** Creating Refund Request ***********");
-        refunds.retrieveRefunds(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_1"),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"));
+        refunds.retrieveRefunds(testContext.getRestHelper().getBaseURI()+testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_1"),
+                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"));
 
     }
 
     @Then("^I should recieve a successful refund response$")
     public void i_should_recieve_a_successful_refund_response()   {
-        Assert.assertEquals("Refund request was not successful!", 200, restHelper.getResponseStatusCode(refunds.getRefundsResponse()));
+        Assert.assertEquals("Refund request was not successful!", 200, testContext.getRestHelper().getResponseStatusCode(refunds.getRefundsResponse()));
     }
 
     @Then("^the response body should contain valid refund id, amount, currencyCode, reasonCode, transaction Id$")
@@ -60,9 +72,9 @@ public class Refunds_StepDefs implements BaseStep {
         refunds.setAmount(23.33);
         refunds.setCurrencyCode("HKD");
         refunds.setReason("customer requested");
-        refunds.setRequestDateTime(dateHelper.getUTCNowDateTime());
-        refunds.setTraceId(general.generateUniqueUUID());
-        refunds.setTransactionId(general.generateUniqueUUID());
+        refunds.setRequestDateTime(testContext.getDateHelper().getUTCNowDateTime());
+        refunds.setTraceId(testContext.getGeneral().generateUniqueUUID());
+        refunds.setTransactionId(testContext.getGeneral().generateUniqueUUID());
     }
 
     @Given("^I dont send Bearer with the auth token in the refund request$")
@@ -72,31 +84,31 @@ public class Refunds_StepDefs implements BaseStep {
 
     @Then("^I should recieve a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within refund response$")
     public void i_should_recieve_a_error_response_with_error_description_and_errorcode_within_refund_response(int responseCode, String errorDesc, String errorCode)   {
-        Assert.assertEquals("Different response code being returned", responseCode, restHelper.getResponseStatusCode(refunds.getRefundsResponse()));
+        Assert.assertEquals("Different response code being returned", responseCode, testContext.getRestHelper().getResponseStatusCode(refunds.getRefundsResponse()));
 
-        Assert.assertEquals("Different error code being returned", errorCode, restHelper.getErrorCode(refunds.getRefundsResponse()));
+        Assert.assertEquals("Different error code being returned", errorCode, testContext.getRestHelper().getErrorCode(refunds.getRefundsResponse()));
 
-        Assert.assertTrue("Different error description being returned..Expected: "+ errorDesc+ "  Actual: "+ restHelper.getErrorDescription(refunds.getRefundsResponse()), restHelper.getErrorDescription(refunds.getRefundsResponse()).contains(errorDesc));
+        Assert.assertTrue("Different error description being returned..Expected: "+ errorDesc+ "  Actual: "+ testContext.getRestHelper().getErrorDescription(refunds.getRefundsResponse()), testContext.getRestHelper().getErrorDescription(refunds.getRefundsResponse()).contains(errorDesc));
 
     }
 
     @Then("^error message should be \"([^\"]*)\" within refund response$")
     public void error_message_should_be_within_refund_response(String errorMessage)   {
-        Assert.assertTrue("Different error message being returned..Expected: "+ errorMessage+ "  Actual: "+ restHelper.getErrorMessage(refunds.getRefundsResponse()), restHelper.getErrorMessage(refunds.getRefundsResponse()).contains(errorMessage) );
+        Assert.assertTrue("Different error message being returned..Expected: "+ errorMessage+ "  Actual: "+ testContext.getRestHelper().getErrorMessage(refunds.getRefundsResponse()), testContext.getRestHelper().getErrorMessage(refunds.getRefundsResponse()).contains(errorMessage) );
 
     }
 
     @When("^I make a request for the refund with \"([^\"]*)\" missing in the header$")
     public void i_make_a_request_for_the_refund_with_missing_in_the_header(String key)  {
-        refunds.retrieveRefundWithMissingHeaderKeys(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_1"),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"), key);
+        refunds.retrieveRefundWithMissingHeaderKeys(testContext.getRestHelper().getBaseURI()+testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_1"),
+                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"), key);
 
     }
 
     @When("^I make a request for the refund with \"([^\"]*)\" missing in the body$")
     public void i_make_a_request_for_the_refund_with_missing_in_the_body(String key)  {
-        refunds.retrieveRefundWithMissingBodyKeys(restHelper.getBaseURI()+fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_1"),
-                fileHelper.getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"), key);
+        refunds.retrieveRefundWithMissingBodyKeys(testContext.getRestHelper().getBaseURI()+testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_1"),
+                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"), key);
 
     }
 

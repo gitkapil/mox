@@ -2,13 +2,17 @@ package apiHelpers;
 
 import com.jayway.restassured.response.Response;
 import org.apache.log4j.Logger;
-import utils.BaseStep;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class OpenIdConfigForPEAK implements BaseStep {
+public class OpenIdConfigForPEAK{
+    TestContext testContext;
+
+    public OpenIdConfigForPEAK(TestContext testContext) {
+        this.testContext = testContext;
+    }
+
     final static Logger logger = Logger.getLogger(OpenIdConfigForPEAK.class);
     Response openIdConfigResponse, jwksUriResponse; String jwksURI=null; List<HashMap<String, String>> keysValue= new ArrayList<>();
 
@@ -29,13 +33,13 @@ public class OpenIdConfigForPEAK implements BaseStep {
     }
 
     public void retrieveOpenIdConfigResponse(String url){
-        openIdConfigResponse= restHelper.getResponse(url);
+        openIdConfigResponse= testContext.getUtilManager().getRestHelper().getResponse(url);
         logger.info("Response: "+ openIdConfigResponse.getBody().asString());
 
     }
 
     public void retrieveJwksUriResponse(){
-        jwksUriResponse= restHelper.getResponse(jwksURI);
+        jwksUriResponse= testContext.getUtilManager().getRestHelper().getResponse(jwksURI);
         logger.info("Response of JWKS URI: "+ jwksUriResponse.getBody().asString());
 
     }
@@ -45,16 +49,16 @@ public class OpenIdConfigForPEAK implements BaseStep {
     }
 
     public String jwksUriInResponse(){
-        return restHelper.getResponseBodyValue(openIdConfigResponse, "jwks_uri");
+        return testContext.getUtilManager().getRestHelper().getResponseBodyValue(openIdConfigResponse, "jwks_uri");
     }
 
     public String issuerInResponse(){
-        return restHelper.getResponseBodyValue(openIdConfigResponse, "issuer");
+        return testContext.getUtilManager().getRestHelper().getResponseBodyValue(openIdConfigResponse, "issuer");
     }
 
     public String responseTypesSupportedInResponse(){
         try{
-            return restHelper.getJsonArray(openIdConfigResponse, "response_types_supported").get(0).toString();
+            return testContext.getUtilManager().getRestHelper().getJsonArray(openIdConfigResponse, "response_types_supported").get(0).toString();
         }
         catch (NullPointerException e){}
 
@@ -64,7 +68,7 @@ public class OpenIdConfigForPEAK implements BaseStep {
     public String algValueInResponse(){
 
         try{
-            return restHelper.getJsonArray(openIdConfigResponse, "id_token_signing_alg_values_supported").get(0).toString();
+            return testContext.getUtilManager().getRestHelper().getJsonArray(openIdConfigResponse, "id_token_signing_alg_values_supported").get(0).toString();
         }
         catch (NullPointerException e){}
 
@@ -73,7 +77,7 @@ public class OpenIdConfigForPEAK implements BaseStep {
 
     public String scopesSupportedInResponse(){
         try{
-            return restHelper.getJsonArray(openIdConfigResponse, "scopes_supported").get(0).toString();
+            return testContext.getUtilManager().getRestHelper().getJsonArray(openIdConfigResponse, "scopes_supported").get(0).toString();
         }
         catch (NullPointerException e){}
 
@@ -82,7 +86,7 @@ public class OpenIdConfigForPEAK implements BaseStep {
 
     public String subjectTypesSupportedInResponse(){
         try{
-            return restHelper.getJsonArray(openIdConfigResponse, "subject_types_supported").get(0).toString();
+            return testContext.getUtilManager().getRestHelper().getJsonArray(openIdConfigResponse, "subject_types_supported").get(0).toString();
         }
         catch (NullPointerException e){}
 
@@ -91,7 +95,7 @@ public class OpenIdConfigForPEAK implements BaseStep {
 
     public String claimsSupportedInResponse(){
         try{
-            return restHelper.getJsonArray(openIdConfigResponse, "claims_supported").get(0).toString();
+            return testContext.getUtilManager().getRestHelper().getJsonArray(openIdConfigResponse, "claims_supported").get(0).toString();
         }
         catch (NullPointerException e){}
 
@@ -99,7 +103,7 @@ public class OpenIdConfigForPEAK implements BaseStep {
     }
 
     public void retrieveKeysValues(){
-        keysValue= restHelper.getJsonArray(jwksUriResponse, "keys");
+        keysValue= testContext.getUtilManager().getRestHelper().getJsonArray(jwksUriResponse, "keys");
     }
 
     public String algInJWKSResponse(){
