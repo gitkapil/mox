@@ -5,7 +5,6 @@ import managers.TestContext;
 import managers.UtilManager;
 import org.apache.log4j.Logger;
 
-
 public class TimestampVerificationPolicy_StepDefs extends UtilManager {
 
     TestContext testContext;

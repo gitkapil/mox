@@ -18,6 +18,7 @@ public class SecurityModelValidation_StepDefs extends UtilManager {
     }
     
     final static Logger logger = Logger.getLogger(SecurityModelValidation_StepDefs.class);
+
     private String merchantApiManagementUrl= getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url");
     private String sandboxApiManagementUrl= getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url");
     private String basePathToken= getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token");

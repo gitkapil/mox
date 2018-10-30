@@ -7,7 +7,6 @@ import cucumber.api.java.en.When;
 import managers.UtilManager;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
-
 import java.util.Arrays;
 import java.util.HashSet;
 
