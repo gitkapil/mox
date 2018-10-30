@@ -3,20 +3,19 @@ package steps;
 import apiHelpers.*;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import managers.UtilManager;
 import org.testng.Assert;
-import utils.BaseStep;
 
-public class OpenIdConfigforPEAK_StepDefs {
+public class OpenIdConfigforPEAK_StepDefs extends UtilManager{
     TestContext testContext;
     OpenIdConfigForPEAK openIdConfig;
 
     public OpenIdConfigforPEAK_StepDefs(TestContext testContext) {
         this.testContext = testContext;
-        this.openIdConfig= new OpenIdConfigForPEAK(testContext);
     }
     @When("^I hit the openid config URI$")
     public void i_hit_the_openid_config_URI()  {
-        openIdConfig.retrieveOpenIdConfigResponse(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "openid-configuration-for-PEAK"));
+        openIdConfig.retrieveOpenIdConfigResponse(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "openid-configuration-for-PEAK"));
     }
 
     @Then("^I recieve a successful response$")

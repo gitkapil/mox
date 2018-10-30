@@ -1,54 +1,46 @@
 package steps;
 
-import apiHelpers.AccessTokenForMerchants;
-import apiHelpers.PaymentRequest;
-import apiHelpers.PaymentStatus;
 import apiHelpers.TestContext;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import managers.UtilManager;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 
 
-public class SecurityModelValidation_StepDefs{
+public class SecurityModelValidation_StepDefs extends UtilManager {
 
     TestContext testContext;
-    PaymentRequest paymentRequest;
-    PaymentStatus paymentStatus;
-    AccessTokenForMerchants accessToken;
 
     public SecurityModelValidation_StepDefs(TestContext testContext) {
         this.testContext = testContext;
-        this.paymentRequest = new PaymentRequest(testContext);
-        this.paymentStatus= new PaymentStatus(testContext);
-        this.accessToken= new AccessTokenForMerchants(testContext);
     }
     
     final static Logger logger = Logger.getLogger(SecurityModelValidation_StepDefs.class);
-    private String merchantApiManagementUrl= testContext.getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url");
-    private String sandboxApiManagementUrl= testContext.getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url");
-    private String basePathToken= testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token");
-    private String basePathAPI= testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs");
+    private String merchantApiManagementUrl= getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url");
+    private String sandboxApiManagementUrl= getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url");
+    private String basePathToken= getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token");
+    private String basePathAPI= getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs");
 
 
-    @Given("^I am a merchant with no paymentrequest role$")
+    @Given("^I am a merchant with no testContext.getApiManager().getPaymentRequest() role$")
     public void i_am_a_merchant_with_no_paymentrequest_role(){
 
-        accessToken.setMerchantDetails(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-id-no-paymentrequest-role"),
-                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-secret-no-paymentrequest-role"));
+        testContext.getApiManager().getAccessToken().setMerchantDetails(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-id-no-testContext.getApiManager().getPaymentRequest()-role"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-secret-no-testContext.getApiManager().getPaymentRequest()-role"));
 
-        accessToken.createBody_RetrieveAccessToken();
+        testContext.getApiManager().getAccessToken().createBody_RetrieveAccessToken();
     }
 
 
-    @Given("^I am a developer with no paymentrequest role$")
+    @Given("^I am a developer with no testContext.getApiManager().getPaymentRequest() role$")
     public void i_am_a_developer_with_no_paymentrequest_role(){
 
-        accessToken.setMerchantDetails(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-id-no-paymentrequest-role"),
-                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-secret-no-paymentrequest-role"));
+        testContext.getApiManager().getAccessToken().setMerchantDetails(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-id-no-testContext.getApiManager().getPaymentRequest()-role"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-secret-no-testContext.getApiManager().getPaymentRequest()-role"));
 
-        accessToken.createBody_RetrieveAccessToken();
+        testContext.getApiManager().getAccessToken().createBody_RetrieveAccessToken();
     }
 
 
@@ -56,10 +48,10 @@ public class SecurityModelValidation_StepDefs{
     @Given("^I am a merchant$")
     public void i_am_a_merchant() {
 
-        accessToken.setMerchantDetails(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-id"),
-                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-secret"));
+        testContext.getApiManager().getAccessToken().setMerchantDetails(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-id"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-secret"));
 
-        accessToken.createBody_RetrieveAccessToken();
+        testContext.getApiManager().getAccessToken().createBody_RetrieveAccessToken();
 
 
     }
@@ -67,20 +59,20 @@ public class SecurityModelValidation_StepDefs{
     @Given("^I am a developer$")
     public void i_am_a_developer() {
 
-        accessToken.setMerchantDetails(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-id"),
-                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-secret"));
+        testContext.getApiManager().getAccessToken().setMerchantDetails(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-id"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-secret"));
 
-        accessToken.createBody_RetrieveAccessToken();
+        testContext.getApiManager().getAccessToken().createBody_RetrieveAccessToken();
 
     }
 
     @Given("^I am a client app with access to both sandbox & merchant server apps$")
     public void client_app_access_to_both_servers() {
 
-        accessToken.setMerchantDetails(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "client-id-access-both-servers"),
-                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "client-secret-access-both-servers"));
+        testContext.getApiManager().getAccessToken().setMerchantDetails(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "client-id-access-both-servers"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "client-secret-access-both-servers"));
 
-        accessToken.createBody_RetrieveAccessToken();
+        testContext.getApiManager().getAccessToken().createBody_RetrieveAccessToken();
 
 
     }
@@ -91,10 +83,10 @@ public class SecurityModelValidation_StepDefs{
     public void i_make_a_request_to_the_sandbox_Dragon_ID_Manager() {
         logger.info("********* Hitting Sandbox APIM ****************");
 
-        accessToken.setEndpoint(sandboxApiManagementUrl +basePathToken);
+        testContext.getApiManager().getAccessToken().setEndpoint(sandboxApiManagementUrl +basePathToken);
 
         logger.info("********** Retrieving Access Token***********");
-        accessToken.retrieveAccessToken(accessToken.getEndpoint() +testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+        testContext.getApiManager().getAccessToken().retrieveAccessToken(testContext.getApiManager().getAccessToken().getEndpoint() +getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
 
     }
 
@@ -102,70 +94,70 @@ public class SecurityModelValidation_StepDefs{
     public void i_make_a_request_to_the_merchant_Dragon_ID_Manager() {
         logger.info("********* Hitting Merchant (Live) APIM ****************");
 
-        accessToken.setEndpoint(merchantApiManagementUrl +basePathToken);
+        testContext.getApiManager().getAccessToken().setEndpoint(merchantApiManagementUrl +basePathToken);
 
         logger.info("********** Retrieving Access Token***********");
-        accessToken.retrieveAccessToken(accessToken.getEndpoint() +testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+        testContext.getApiManager().getAccessToken().retrieveAccessToken(testContext.getApiManager().getAccessToken().getEndpoint() +getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
 
     }
 
     @Then("^the role should be \"([^\"]*)\"$")
     public void the_role_should_be(String expectedRole) {
-        Assert.assertEquals("Incorrect Role!", expectedRole, accessToken.checkDevOrMerchantRoleInClaimSet());
+        Assert.assertEquals("Incorrect Role!", expectedRole, testContext.getApiManager().getAccessToken().checkDevOrMerchantRoleInClaimSet());
     }
 
     @Then("^the aud should be sandbox server app id$")
     public void the_aud_should_be_sandbox_server_app_id() {
-        Assert.assertEquals("Incorrect Aud", testContext.getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "sandbox-server-application-id"), accessToken.retrieveAudInClaimSet());
+        Assert.assertEquals("Incorrect Aud", getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "sandbox-server-application-id"), testContext.getApiManager().getAccessToken().retrieveAudInClaimSet());
 
     }
 
     @Then("^the aud should be merchant server app id$")
     public void the_aud_should_be_merchant_server_app_id() {
-        Assert.assertEquals("Incorrect Aud", testContext.getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-server-application-id"), accessToken.retrieveAudInClaimSet());
+        Assert.assertEquals("Incorrect Aud", getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-server-application-id"), testContext.getApiManager().getAccessToken().retrieveAudInClaimSet());
 
     }
 
     @Then("^there should be no role$")
     public void there_should_be_no_role() {
-        Assert.assertEquals("Check roles within claim set ", "no \"developer\" or \"merchant\" role present within roles", accessToken.checkDevOrMerchantRoleInClaimSet());
+        Assert.assertEquals("Check roles within claim set ", "no \"developer\" or \"merchant\" role present within roles", testContext.getApiManager().getAccessToken().checkDevOrMerchantRoleInClaimSet());
 
     }
 
     @When("^the role should have paymentrequest$")
     public void role_has_payment_request() {
-        Assert.assertTrue("PaymentRequest role not within the roles! ", accessToken.isPaymentRequestRolePresentInClaimSet());
+        Assert.assertTrue("testContext.getApiManager().getPaymentRequest() role not within the roles! ", testContext.getApiManager().getAccessToken().isPaymentRequestRolePresentInClaimSet());
 
     }
 
     @When("^the role should not have paymentrequest$")
     public void role_does_not_have_payment_request() {
-        Assert.assertFalse("PaymentRequest present within the roles! ", accessToken.isPaymentRequestRolePresentInClaimSet());
+        Assert.assertFalse("testContext.getApiManager().getPaymentRequest() present within the roles! ", testContext.getApiManager().getAccessToken().isPaymentRequestRolePresentInClaimSet());
 
     }
 
     @When("^I hit sandbox APIs$")
     public void I_hit_sandbox_APIs() {
-        paymentRequest.setAuthToken(accessToken.getAccessToken());
-        paymentRequest.setAuthTokenwithBearer(paymentRequest.getAuthToken());
+        testContext.getApiManager().getPaymentRequest().setAuthToken(testContext.getApiManager().getAccessToken().getAccessToken());
+        testContext.getApiManager().getPaymentRequest().setAuthTokenwithBearer(testContext.getApiManager().getPaymentRequest().getAuthToken());
 
-        paymentStatus.setAuthToken(accessToken.getAccessToken());
-        paymentStatus.setAuthTokenwithBearer();
+        testContext.getApiManager().getPaymentStatus().setAuthToken(testContext.getApiManager().getAccessToken().getAccessToken());
+        testContext.getApiManager().getPaymentStatus().setAuthTokenwithBearer();
 
-        testContext.getRestHelper().setBaseURI(sandboxApiManagementUrl +basePathAPI);
+        getRestHelper().setBaseURI(sandboxApiManagementUrl +basePathAPI);
 
     }
 
 
     @When("^I hit merchant APIs$")
     public void I_hit_merchant_APIs() {
-        paymentRequest.setAuthToken(accessToken.getAccessToken());
-        paymentRequest.setAuthTokenwithBearer(paymentRequest.getAuthToken());
+        testContext.getApiManager().getPaymentRequest().setAuthToken(testContext.getApiManager().getAccessToken().getAccessToken());
+        testContext.getApiManager().getPaymentRequest().setAuthTokenwithBearer(testContext.getApiManager().getPaymentRequest().getAuthToken());
 
-        paymentStatus.setAuthToken(accessToken.getAccessToken());
-        paymentStatus.setAuthTokenwithBearer();
+        testContext.getApiManager().getPaymentStatus().setAuthToken(testContext.getApiManager().getAccessToken().getAccessToken());
+        testContext.getApiManager().getPaymentStatus().setAuthTokenwithBearer();
 
-        testContext.getRestHelper().setBaseURI(merchantApiManagementUrl +basePathAPI);
+        getRestHelper().setBaseURI(merchantApiManagementUrl +basePathAPI);
 
     }
 

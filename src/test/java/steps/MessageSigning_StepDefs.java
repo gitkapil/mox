@@ -1,12 +1,10 @@
 package steps;
 
-import apiHelpers.AccessTokenForMerchants;
-import apiHelpers.PaymentRequest;
-import apiHelpers.PaymentStatus;
 import apiHelpers.TestContext;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import managers.UtilManager;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import java.net.MalformedURLException;
@@ -14,17 +12,11 @@ import java.net.URL;
 import java.util.*;
 
 
-public class MessageSigning_StepDefs{
+public class MessageSigning_StepDefs extends UtilManager{
     TestContext testContext;
-    PaymentRequest paymentRequest;
-    PaymentStatus paymentStatus;
-    AccessTokenForMerchants accessToken;
 
     public MessageSigning_StepDefs(TestContext testContext) {
         this.testContext = testContext;
-        this.paymentRequest = new PaymentRequest(testContext);
-        this.paymentStatus= new PaymentStatus(testContext);
-        this.accessToken= new AccessTokenForMerchants(testContext);
     }
 
     final static Logger logger = Logger.getLogger(MessageSigning_StepDefs.class);
@@ -32,165 +24,165 @@ public class MessageSigning_StepDefs{
     @When("^I make a request for the payment with invalid signing key id$")
     public void i_make_a_request_for_the_payment_with_invalid_signing_key_id()  {
         logger.info("********** Creating Payment Request with invalid signing key id ***********");
-        paymentRequest.retrievePaymentRequest(testContext.getRestHelper().getBaseURI()+testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+        testContext.getApiManager().getPaymentRequest().retrievePaymentRequest(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
                 "random_signing_key_id",
-                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
-                new HashSet(Arrays.asList(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
     }
 
     @When("^I make a request for the payment with invalid signing key$")
     public void i_make_a_request_for_the_payment_with_invalid_signing_key()  {
         logger.info("********** Creating Payment Request with invalid signing key***********");
-        paymentRequest.retrievePaymentRequest(testContext.getRestHelper().getBaseURI()+testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                accessToken.getClientId(),
-                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+        testContext.getApiManager().getPaymentRequest().retrievePaymentRequest(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                testContext.getApiManager().getAccessToken().getClientId(),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 "cGFzc3BocmFzZQ11",
-                new HashSet(Arrays.asList(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
+                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
     }
 
     @When("^I make a request for the payment with a different signing algo$")
     public void i_make_a_request_for_the_payment_with_a_different_signing_algo() {
 
         logger.info("********** Creating Payment Request with different signing algo***********");
-        paymentRequest.retrievePaymentRequest(testContext.getRestHelper().getBaseURI()+testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                accessToken.getClientId(),
+        testContext.getApiManager().getPaymentRequest().retrievePaymentRequest(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                testContext.getApiManager().getAccessToken().getClientId(),
                 "HmacSHA512",
-                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
-                new HashSet(Arrays.asList(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
     }
 
     @When("^I make a request for the payment with header \"([^\"]*)\" value missing from the signature$")
     public void i_make_a_request_for_the_payment_with_header_value_missing_from_the_signature(String missingFromHeader) {
-        HashSet invalidHeaderElements= new HashSet(Arrays.asList(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(",")));
+        HashSet invalidHeaderElements= new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(",")));
         invalidHeaderElements.remove(missingFromHeader);
 
-        paymentRequest.retrievePaymentRequest(testContext.getRestHelper().getBaseURI()+testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                accessToken.getClientId(),
-                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"), invalidHeaderElements);
+        testContext.getApiManager().getPaymentRequest().retrievePaymentRequest(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                testContext.getApiManager().getAccessToken().getClientId(),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"), invalidHeaderElements);
 
     }
 
     @When("^I use the same signature to trigger another payment request but with different value in \"([^\"]*)\"$")
     public void i_use_the_same_signature_to_trigger_another_payment_request_but_with_different_value_in(String headerElement)  {
         if (headerElement.equalsIgnoreCase("trace-id")){
-            paymentRequest.getPaymentRequestHeader().put("Trace-Id", testContext.getGeneral().generateUniqueUUID());
+            testContext.getApiManager().getPaymentRequest().getPaymentRequestHeader().put("Trace-Id", getGeneral().generateUniqueUUID());
         }
 
         if (headerElement.equalsIgnoreCase("request-date-time")){
 
-            paymentRequest.getPaymentRequestHeader().put("Request-Date-Time", testContext.getDateHelper().getUTCNowDateTime());
+            testContext.getApiManager().getPaymentRequest().getPaymentRequestHeader().put("Request-Date-Time", getDateHelper().getUTCNowDateTime());
         }
 
         if (headerElement.equalsIgnoreCase("Authorization")){
-            accessToken.retrieveAccessToken(accessToken.getEndpoint() +testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+            testContext.getApiManager().getAccessToken().retrieveAccessToken(testContext.getApiManager().getAccessToken().getEndpoint() +getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
 
-            paymentRequest.getPaymentRequestHeader().put("Authorization", "Bearer "+accessToken.getAccessToken());
+            testContext.getApiManager().getPaymentRequest().getPaymentRequestHeader().put("Authorization", "Bearer "+testContext.getApiManager().getAccessToken().getAccessToken());
         }
 
-        paymentRequest.retrievePaymentRequestExistingHeaderBody(testContext.getRestHelper().getBaseURI()+testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                paymentRequest.getPaymentRequestHeader(), paymentRequest.getPaymentRequestBody());
+        testContext.getApiManager().getPaymentRequest().retrievePaymentRequestExistingHeaderBody(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                testContext.getApiManager().getPaymentRequest().getPaymentRequestHeader(), testContext.getApiManager().getPaymentRequest().getPaymentRequestBody());
     }
 
 
     @Given("^I create a signature for the payment request$")
     public void i_create_a_signature_payment_request() {
         try {
-            paymentRequest.returnPaymentRequestHeader("POST", new URL(testContext.getRestHelper().getBaseURI()+testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource")).getPath(),
-                    accessToken.getClientId(),
-                    testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                    testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
-                    new HashSet(Arrays.asList(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
+            testContext.getApiManager().getPaymentRequest().returnPaymentRequestHeader("POST", new URL(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource")).getPath(),
+                    testContext.getApiManager().getAccessToken().getClientId(),
+                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                    new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
 
-        paymentRequest.returnPaymentRequestBody();
+        testContext.getApiManager().getPaymentRequest().returnPaymentRequestBody();
     }
 
     @When("^I use the generated signature with tampered body$")
     public void i_use_the_generated_signature_with_tampered_body() {
-        paymentRequest.getPaymentRequestBody().put("totalAmount", 888888);
+        testContext.getApiManager().getPaymentRequest().getPaymentRequestBody().put("totalAmount", 888888);
 
-        paymentRequest.retrievePaymentRequestExistingHeaderBody(testContext.getRestHelper().getBaseURI()+testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                paymentRequest.getPaymentRequestHeader(), paymentRequest.getPaymentRequestBody());
+        testContext.getApiManager().getPaymentRequest().retrievePaymentRequestExistingHeaderBody(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                testContext.getApiManager().getPaymentRequest().getPaymentRequestHeader(), testContext.getApiManager().getPaymentRequest().getPaymentRequestBody());
     }
 
     @When("^I make a request for the payment status with invalid signing key id$")
     public void i_make_a_request_for_the_payment_status_with_invalid_signing_key_id()  {
         logger.info("********** Creating Payment Status Request with invalid signing key id ***********");
-        paymentStatus.retrievePaymentStatus(testContext.getRestHelper().getBaseURI()+testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+        testContext.getApiManager().getPaymentStatus().retrievePaymentStatus(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
                 "random_signing_key_id",
-                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
-                new HashSet(Arrays.asList(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
     }
 
     @When("^I make a request for the payment status with invalid signing key$")
     public void i_make_a_request_for_the_payment_status_with_invalid_signing_key()  {
         logger.info("********** Creating Payment Status Request with invalid signing key***********");
-        paymentStatus.retrievePaymentStatus(testContext.getRestHelper().getBaseURI()+testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                accessToken.getClientId(),
-                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+        testContext.getApiManager().getPaymentStatus().retrievePaymentStatus(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                testContext.getApiManager().getAccessToken().getClientId(),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 "cGFzc3BocmFzZQ11",
-                new HashSet(Arrays.asList(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
+                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
     }
 
     @When("^I make a request for the payment status with a different signing algo$")
     public void i_make_a_request_status_for_the_payment_with_a_different_signing_algo() {
 
         logger.info("********** Creating Payment Status Request with different signing algo***********");
-        paymentStatus.retrievePaymentStatus(testContext.getRestHelper().getBaseURI()+testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                accessToken.getClientId(),
+        testContext.getApiManager().getPaymentStatus().retrievePaymentStatus(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                testContext.getApiManager().getAccessToken().getClientId(),
                 "HmacSHA512",
-                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
-                new HashSet(Arrays.asList(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
     }
 
 
     @When("^I make a request for the payment status with header \"([^\"]*)\" value missing from the signature$")
     public void i_make_a_request_for_the_payment_status_with_header_value_missing_from_the_signature(String missingFromHeader) {
-        HashSet invalidHeaderElements= new HashSet(Arrays.asList(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(",")));
+        HashSet invalidHeaderElements= new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(",")));
         invalidHeaderElements.remove(missingFromHeader);
 
-        paymentStatus.retrievePaymentStatus(testContext.getRestHelper().getBaseURI()+testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                accessToken.getClientId(),
-                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"), invalidHeaderElements);
+        testContext.getApiManager().getPaymentStatus().retrievePaymentStatus(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                testContext.getApiManager().getAccessToken().getClientId(),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"), invalidHeaderElements);
 
     }
 
     @When("^I use the same signature to trigger another payment status request but with different value in \"([^\"]*)\"$")
     public void i_use_the_same_status_signature_to_trigger_another_payment_request_but_with_different_value_in(String headerElement)  {
         if (headerElement.equalsIgnoreCase("trace-id")){
-            paymentStatus.getPaymentStatusHeader().put("Trace-Id", testContext.getGeneral().generateUniqueUUID());
+            testContext.getApiManager().getPaymentStatus().getPaymentStatusHeader().put("Trace-Id", getGeneral().generateUniqueUUID());
         }
 
         if (headerElement.equalsIgnoreCase("request-date-time")){
-            paymentStatus.getPaymentStatusHeader().put("Request-Date-Time", testContext.getDateHelper().getUTCNowDateTime());
+            testContext.getApiManager().getPaymentStatus().getPaymentStatusHeader().put("Request-Date-Time", getDateHelper().getUTCNowDateTime());
         }
 
         if (headerElement.equalsIgnoreCase("Authorization")){
-            accessToken.retrieveAccessToken(accessToken.getEndpoint() +testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+            testContext.getApiManager().getAccessToken().retrieveAccessToken(testContext.getApiManager().getAccessToken().getEndpoint() +getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
 
-            paymentStatus.getPaymentStatusHeader().put("Authorization", "Bearer "+accessToken.getAccessToken());
+            testContext.getApiManager().getPaymentStatus().getPaymentStatusHeader().put("Authorization", "Bearer "+testContext.getApiManager().getAccessToken().getAccessToken());
         }
 
-        paymentStatus.retrievePaymentStatusExistingHeader(testContext.getRestHelper().getBaseURI()+testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                paymentStatus.getPaymentStatusHeader());
+        testContext.getApiManager().getPaymentStatus().retrievePaymentStatusExistingHeader(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                testContext.getApiManager().getPaymentStatus().getPaymentStatusHeader());
     }
 
 
     @Given("^I create a signature for the payment status")
     public void i_create_a_signature_payment_status() {
         try {
-            paymentStatus.returnPaymentStatusHeader("GET", new URL(testContext.getRestHelper().getBaseURI()+testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource")).getPath(),
-                    accessToken.getClientId(),
-                    testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                    testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
-                    new HashSet(Arrays.asList(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
+            testContext.getApiManager().getPaymentStatus().returnPaymentStatusHeader("GET", new URL(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource")).getPath(),
+                    testContext.getApiManager().getAccessToken().getClientId(),
+                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                    new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -202,13 +194,13 @@ public class MessageSigning_StepDefs{
     public void the_payment_request_response_should_be_signed() {
         try {
             logger.info("*** Payment Request Response Headers***");
-            testContext.getRestHelper().logResponseHeaders(paymentRequest.getPaymentRequestResponse());
+            getRestHelper().logResponseHeaders(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse());
 
-            testContext.getSignatureHelper().verifySignature(paymentRequest.getPaymentRequestResponse(), "POST",
-                    testContext.getRestHelper().getBaseURI() + testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-//                    Base64.getDecoder().decode(accessToken.getClientId()),
-                    Base64.getDecoder().decode(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key")),
-                    testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"));
+            getSignatureHelper().verifySignature(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse(), "POST",
+                    getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+//                    Base64.getDecoder().decode(testContext.getApiManager().getAccessToken().getClientId()),
+                    Base64.getDecoder().decode(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key")),
+                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -224,13 +216,13 @@ public class MessageSigning_StepDefs{
     public void the_payment_status_should_be_signed() {
         try {
             logger.info("*** Payment Status Response Headers***");
-            testContext.getRestHelper().logResponseHeaders(paymentStatus.getPaymentStatusResponse());
+            getRestHelper().logResponseHeaders(testContext.getApiManager().getPaymentStatus().getPaymentStatusResponse());
 
-            testContext.getSignatureHelper().verifySignature(paymentStatus.getPaymentStatusResponse(),"GET",
-                    testContext.getRestHelper().getBaseURI()+testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                    Base64.getDecoder().decode(accessToken.getClientId()),
-                    // Base64.getDecoder().decode(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key")),
-                    testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"));
+            getSignatureHelper().verifySignature(testContext.getApiManager().getPaymentStatus().getPaymentStatusResponse(),"GET",
+                    getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                    Base64.getDecoder().decode(testContext.getApiManager().getAccessToken().getClientId()),
+                    // Base64.getDecoder().decode(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key")),
+                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"));
 
         } catch (Exception e) {
             if (e.getMessage().equalsIgnoreCase("Signature failed validation"))
@@ -245,26 +237,26 @@ public class MessageSigning_StepDefs{
     @When("^I make a request for the payment without digest in the header$")
     public void i_make_a_request_for_the_payment_without_digest_in_the_header()  {
         logger.info("********** Creating Payment Request ***********");
-        paymentRequest.retrievePaymentRequestWithoutDigest(testContext.getRestHelper().getBaseURI()+testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                accessToken.getClientId(),
-                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
-                new HashSet(Arrays.asList(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
+        testContext.getApiManager().getPaymentRequest().retrievePaymentRequestWithoutDigest(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                testContext.getApiManager().getAccessToken().getClientId(),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
     }
 
     @When("^I make a request for the payment with digest in the signature header list but not sent in the headers$")
     public void i_make_a_request_for_the_payment_with_digest_in_the_signature_header_list_but_not_sent_in_the_headers(){
         try {
-            paymentRequest.retrievePaymentRequestWithMissingHeaderKeys(testContext.getRestHelper().getBaseURI()+testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),"Digest",
-                    accessToken.getClientId(),
-                    testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                    testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
-                    new HashSet(Arrays.asList(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
+            testContext.getApiManager().getPaymentRequest().retrievePaymentRequestWithMissingHeaderKeys(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),"Digest",
+                    testContext.getApiManager().getAccessToken().getClientId(),
+                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                    new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        paymentRequest.returnPaymentRequestBody();
+        testContext.getApiManager().getPaymentRequest().returnPaymentRequestBody();
     }
 
 }

@@ -1,22 +1,15 @@
 package apiHelpers;
 
 import managers.ApiManager;
-import managers.UtilManager;
 
 public class TestContext {
-    private ApiManager apiManager;
-    private UtilManager utilManager;
+    ApiManager apiManager;
 
     public TestContext() {
-        this.apiManager = new ApiManager();
-        this.utilManager = new UtilManager();
+        apiManager= new ApiManager();
     }
 
     public ApiManager getApiManager() {
         return apiManager;
-    }
-
-    public UtilManager getUtilManager() {
-        return utilManager;
     }
 }

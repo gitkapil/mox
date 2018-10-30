@@ -6,6 +6,7 @@ import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.nimbusds.jwt.JWTClaimsSet;
+import managers.UtilManager;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import java.text.ParseException;
@@ -14,15 +15,9 @@ import java.util.List;
 import java.util.concurrent.*;
 import static com.jayway.restassured.config.EncoderConfig.encoderConfig;
 
-public class AccessTokenForMerchants {
+public class AccessTokenForMerchants extends UtilManager{
     final static Logger logger = Logger.getLogger(AccessTokenForMerchants.class);
     private String clientId, clientSecret, appId, type, endpoint;
-    
-    TestContext testContext;
-
-    public AccessTokenForMerchants(TestContext testContext) {
-        this.testContext = testContext;
-    }
 
     RequestSpecification request=null;
 
@@ -80,11 +75,11 @@ public class AccessTokenForMerchants {
     }
 
     public String expiresOnInResponse(){
-        return testContext.getUtilManager().getRestHelper().getResponseBodyValue(accessTokenResponse, "expiresOn");
+        return getRestHelper().getResponseBodyValue(accessTokenResponse, "expiresOn");
     }
 
     public String tokenTypeInResponse(){
-        return testContext.getUtilManager().getRestHelper().getResponseBodyValue(accessTokenResponse, "tokenType");
+        return getRestHelper().getResponseBodyValue(accessTokenResponse, "tokenType");
     }
 
 
@@ -129,7 +124,7 @@ public class AccessTokenForMerchants {
                 .body(body)
                 .request();
 
-        accessTokenResponse= testContext.getUtilManager().getRestHelper().postRequestWithEncodedBody(url,request);
+        accessTokenResponse= getRestHelper().postRequestWithEncodedBody(url,request);
         logger.info("response --> "+ accessTokenResponse.getBody().asString());
 
     }
@@ -272,7 +267,7 @@ public class AccessTokenForMerchants {
         List<Response> responseList= new ArrayList<>();
 
         Callable<Response> callable = () -> {
-            return testContext.getUtilManager().getRestHelper().postRequestWithEncodedBody(url,request);
+            return getRestHelper().postRequestWithEncodedBody(url,request);
         };
 
 
@@ -306,7 +301,7 @@ public class AccessTokenForMerchants {
      */
     public Response retrieveAccessToken(String endPoint)
     {
-        accessTokenResponse= testContext.getUtilManager().getRestHelper().postRequestWithEncodedBody(endPoint,request);
+        accessTokenResponse= getRestHelper().postRequestWithEncodedBody(endPoint,request);
         logger.info("********** Access Token Response *********** --> "+ accessTokenResponse.getBody().asString());
         return accessTokenResponse;
 
@@ -319,7 +314,7 @@ public class AccessTokenForMerchants {
      * @return claimset within the JWT access token generated
      */
     public JWTClaimsSet retrieveClaimSet(String jwks_uri){
-       setAccessTokenClaimSet(testContext.getUtilManager().getJwtHelper().validateJWT(getAccessToken(), jwks_uri));
+       setAccessTokenClaimSet(getJwtHelper().validateJWT(getAccessToken(), jwks_uri));
        return accessTokenClaimSet;
     }
 

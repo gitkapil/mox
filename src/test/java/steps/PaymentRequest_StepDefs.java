@@ -1,14 +1,12 @@
 package steps;
 
-import apiHelpers.AccessTokenForMerchants;
-import apiHelpers.PaymentRequest;
-import apiHelpers.PaymentStatus;
 import apiHelpers.TestContext;
 import com.jayway.restassured.response.Response;
 import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import managers.UtilManager;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import java.util.ArrayList;
@@ -17,17 +15,11 @@ import java.util.HashSet;
 import java.util.List;
 
 
-public class PaymentRequest_StepDefs{
+public class PaymentRequest_StepDefs extends UtilManager{
     TestContext testContext;
-    PaymentRequest paymentRequest;
-    PaymentStatus paymentStatus;
-    AccessTokenForMerchants accessToken;
 
     public PaymentRequest_StepDefs(TestContext testContext) {
         this.testContext = testContext;
-        this.paymentRequest = new PaymentRequest(testContext);
-        this.paymentStatus= new PaymentStatus(testContext);
-        this.accessToken= new AccessTokenForMerchants(testContext);
     }
 
     final static Logger logger = Logger.getLogger(PaymentRequest_StepDefs.class);
@@ -36,23 +28,23 @@ public class PaymentRequest_StepDefs{
     @Given("^I am an authorized user$")
     public void i_am_an_authorized_user()  {
 
-        paymentRequest.setAuthToken(accessToken.getAccessToken());
-        paymentRequest.setAuthTokenwithBearer(paymentRequest.getAuthToken());
+        testContext.getApiManager().getPaymentRequest().setAuthToken(testContext.getApiManager().getAccessToken().getAccessToken());
+        testContext.getApiManager().getPaymentRequest().setAuthTokenwithBearer(testContext.getApiManager().getPaymentRequest().getAuthToken());
 
-        paymentStatus.setAuthToken(accessToken.getAccessToken());
-        paymentStatus.setAuthTokenwithBearer();
+        testContext.getApiManager().getPaymentStatus().setAuthToken(testContext.getApiManager().getAccessToken().getAccessToken());
+        testContext.getApiManager().getPaymentStatus().setAuthTokenwithBearer();
 
-       // refunds.setAuthToken(accessToken.getAccessToken());
+       // refunds.setAuthToken(testContext.getApiManager().getAccessToken().getAccessToken());
        // refunds.setAuthTokenwithBearer();
 
-        if(accessToken.getType().equalsIgnoreCase("merchant")){
-            testContext.getRestHelper().setBaseURI(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
-                    +testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
+        if(testContext.getApiManager().getAccessToken().getType().equalsIgnoreCase("merchant")){
+            getRestHelper().setBaseURI(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
+                    +getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
         }
 
         else{
-            testContext.getRestHelper().setBaseURI(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
-                    +testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
+            getRestHelper().setBaseURI(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
+                    +getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
         }
 
     }
@@ -60,7 +52,7 @@ public class PaymentRequest_StepDefs{
     @Given("^I dont send Bearer with the auth token$")
     public void no_bearer_as_prefix()  {
 
-        paymentRequest.setAuthToken(accessToken.getAccessToken());
+        testContext.getApiManager().getPaymentRequest().setAuthToken(testContext.getApiManager().getAccessToken().getAccessToken());
 
     }
 
@@ -68,59 +60,59 @@ public class PaymentRequest_StepDefs{
 
     @Given("^I am a merchant with invalid \"([^\"]*)\"$")
     public void i_am_a_merchant_with_invalid_token(String token)  {
-        paymentRequest.setAuthToken(token);
-        paymentRequest.setAuthTokenwithBearer(paymentRequest.getAuthToken());
+        testContext.getApiManager().getPaymentRequest().setAuthToken(token);
+        testContext.getApiManager().getPaymentRequest().setAuthTokenwithBearer(testContext.getApiManager().getPaymentRequest().getAuthToken());
 
-        if(accessToken.getType().equalsIgnoreCase("merchant")){
-            testContext.getRestHelper().setBaseURI(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
-                    +testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
+        if(testContext.getApiManager().getAccessToken().getType().equalsIgnoreCase("merchant")){
+            getRestHelper().setBaseURI(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
+                    +getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
         }
 
         else{
-            testContext.getRestHelper().setBaseURI(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
-                    +testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
+            getRestHelper().setBaseURI(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
+                    +getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
         }
 
     }
 
     @Given("^I have payment details \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$")
     public void i_have_payment_details(String totalAmount, String currency, String notificationURI, String appSuccessCallback, String appFailCallback, String effectiveDuration){
-        paymentRequest.setTotalAmount(totalAmount);
-        paymentRequest.setCurrency(currency);
-        paymentRequest.setNotificationURI(notificationURI);
-        paymentRequest.setAppSuccessCallback(appSuccessCallback);
-        paymentRequest.setAppFailCallback(appFailCallback);
-        paymentRequest.setEffectiveDuration(effectiveDuration);
-        paymentRequest.setShoppingCart(null);
-        paymentRequest.setMerchantData(null);
-        paymentRequest.setRequestDateTime(testContext.getDateHelper().getUTCNowDateTime());
-        paymentRequest.setTraceId(testContext.getGeneral().generateUniqueUUID());
+        testContext.getApiManager().getPaymentRequest().setTotalAmount(totalAmount);
+        testContext.getApiManager().getPaymentRequest().setCurrency(currency);
+        testContext.getApiManager().getPaymentRequest().setNotificationURI(notificationURI);
+        testContext.getApiManager().getPaymentRequest().setAppSuccessCallback(appSuccessCallback);
+        testContext.getApiManager().getPaymentRequest().setAppFailCallback(appFailCallback);
+        testContext.getApiManager().getPaymentRequest().setEffectiveDuration(effectiveDuration);
+        testContext.getApiManager().getPaymentRequest().setShoppingCart(null);
+        testContext.getApiManager().getPaymentRequest().setMerchantData(null);
+        testContext.getApiManager().getPaymentRequest().setRequestDateTime(getDateHelper().getUTCNowDateTime());
+        testContext.getApiManager().getPaymentRequest().setTraceId(getGeneral().generateUniqueUUID());
     }
 
 
     @Given("^I have valid payment details$")
     public void i_have_valid_payment_details(){
-        paymentRequest.setTotalAmount("100");
-        paymentRequest.setCurrency("HKD");
-        paymentRequest.setNotificationURI("https://pizzahut.com/return");
-        paymentRequest.setAppSuccessCallback("https://pizzahut.com/confirmation");
-        paymentRequest.setAppFailCallback("https://pizzahut.com/unsuccessful");
-        paymentRequest.setEffectiveDuration("600");
-        paymentRequest.setShoppingCart(null);
-        paymentRequest.setMerchantData(null);
-        paymentRequest.setRequestDateTime(testContext.getDateHelper().getUTCNowDateTime());
-        paymentRequest.setTraceId(testContext.getGeneral().generateUniqueUUID());
+        testContext.getApiManager().getPaymentRequest().setTotalAmount("100");
+        testContext.getApiManager().getPaymentRequest().setCurrency("HKD");
+        testContext.getApiManager().getPaymentRequest().setNotificationURI("https://pizzahut.com/return");
+        testContext.getApiManager().getPaymentRequest().setAppSuccessCallback("https://pizzahut.com/confirmation");
+        testContext.getApiManager().getPaymentRequest().setAppFailCallback("https://pizzahut.com/unsuccessful");
+        testContext.getApiManager().getPaymentRequest().setEffectiveDuration("600");
+        testContext.getApiManager().getPaymentRequest().setShoppingCart(null);
+        testContext.getApiManager().getPaymentRequest().setMerchantData(null);
+        testContext.getApiManager().getPaymentRequest().setRequestDateTime(getDateHelper().getUTCNowDateTime());
+        testContext.getApiManager().getPaymentRequest().setTraceId(getGeneral().generateUniqueUUID());
     }
 
     @Given("^I have shopping cart details$")
     public void i_have_shopping_cart_details(DataTable dt) {
-        paymentRequest.createShoppingCart(dt);
+        testContext.getApiManager().getPaymentRequest().createShoppingCart(dt);
     }
 
 
     @Given("^I have merchant data \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$")
     public void i_have_merchant_data(String description, String orderId, String additionalData) {
-        paymentRequest.createMerchantData(description, orderId,additionalData);
+        testContext.getApiManager().getPaymentRequest().createMerchantData(description, orderId,additionalData);
     }
 
     @Given("^the additionalData is of more than (\\d+) characters$")
@@ -141,78 +133,78 @@ public class PaymentRequest_StepDefs{
                 "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
                 "Morethan1024charactersMorethan1024charactersMorethan1024characters" +
                 "Morethan1024charactersMorethan1024charactersMorethan1024characters";
-        paymentRequest.createMerchantData("description", "B12421832", invalidAdditionalData);
+        testContext.getApiManager().getPaymentRequest().createMerchantData("description", "B12421832", invalidAdditionalData);
     }
 
     @When("^I make a request for the payment$")
     public void i_make_a_request_for_the_payment()  {
         logger.info("********** Creating Payment Request ***********");
-        paymentRequest.retrievePaymentRequest(testContext.getRestHelper().getBaseURI()+testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                accessToken.getClientId(),
-                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
-                new HashSet(Arrays.asList(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
+        testContext.getApiManager().getPaymentRequest().retrievePaymentRequest(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                testContext.getApiManager().getAccessToken().getClientId(),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
 
     }
 
     @When("^I make a request for the payment with \"([^\"]*)\" missing in the header$")
     public void i_make_a_request_for_the_payment_with_missing_in_the_header(String key)  {
-        paymentRequest.retrievePaymentRequestWithMissingHeaderKeys(testContext.getRestHelper().getBaseURI()+testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"), key,
-                accessToken.getClientId(),
-                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
-                new HashSet(Arrays.asList(testContext.getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
+        testContext.getApiManager().getPaymentRequest().retrievePaymentRequestWithMissingHeaderKeys(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"), key,
+                testContext.getApiManager().getAccessToken().getClientId(),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
 
     }
 
     @Then("^I should recieve a successful payment response$")
     public void i_should_recieve_a_successful_response()  {
-        Assert.assertEquals(testContext.getRestHelper().getResponseStatusCode(paymentRequest.getPaymentRequestResponse()), 201,"Request was not successful!");
-        Assert.assertNotNull(paymentRequest.getPaymentRequestResponse(), "The response for Create Payment Request was null");
+        Assert.assertEquals(getRestHelper().getResponseStatusCode(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()), 201,"Request was not successful!");
+        Assert.assertNotNull(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse(), "The response for Create Payment Request was null");
 
     }
 
     @Then("^the response body should contain valid payment request id, created timestamp, web link, app link, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration$")
     public void the_response_body_should_contain_valid_payment_id_created_timestamp_links(){
-        Assert.assertNotNull(paymentRequest.paymentRequestIdInResponse(), "Payment Request Id is not present in the response!!");
+        Assert.assertNotNull(testContext.getApiManager().getPaymentRequest().paymentRequestIdInResponse(), "Payment Request Id is not present in the response!!");
 
-        Assert.assertNotNull(paymentRequest.createdTimestampInResponse(), "Created Timestamp is not present in the response!!");
+        Assert.assertNotNull(testContext.getApiManager().getPaymentRequest().createdTimestampInResponse(), "Created Timestamp is not present in the response!!");
 
-        Assert.assertNotNull(paymentRequest.webLinkInResponse(), "Web Link is not present in the response!!");
+        Assert.assertNotNull(testContext.getApiManager().getPaymentRequest().webLinkInResponse(), "Web Link is not present in the response!!");
 
-        Assert.assertNotNull(paymentRequest.appLinkInResponse(), "App Link is not present in the response!!");
+        Assert.assertNotNull(testContext.getApiManager().getPaymentRequest().appLinkInResponse(), "App Link is not present in the response!!");
 
-        Assert.assertEquals(paymentRequest.effectiveDurationInResponse().toString(), "600", "Effective Duration isn't 600!");
+        Assert.assertEquals(testContext.getApiManager().getPaymentRequest().effectiveDurationInResponse().toString(), "600", "Effective Duration isn't 600!");
 
-        Assert.assertEquals(paymentRequest.statusCodeInResponse(), "PR001", "Status Code is not PR001");
+        Assert.assertEquals(testContext.getApiManager().getPaymentRequest().statusCodeInResponse(), "PR001", "Status Code is not PR001");
 
-        Assert.assertEquals(paymentRequest.statusDescriptionInResponse(), "Request for Payment Initiated", "Status Description is not \"Request for Payment Initiated\"");
+        Assert.assertEquals(testContext.getApiManager().getPaymentRequest().statusDescriptionInResponse(), "Request for Payment Initiated", "Status Description is not \"Request for Payment Initiated\"");
 
-        Assert.assertEquals(String.format("%.2f", Double.parseDouble(paymentRequest.totalAmountInResponse())), String.format("%.2f", paymentRequest.getTotalAmountInDouble()), "Total Amount isn't matching!");
+        Assert.assertEquals(String.format("%.2f", Double.parseDouble(testContext.getApiManager().getPaymentRequest().totalAmountInResponse())), String.format("%.2f", testContext.getApiManager().getPaymentRequest().getTotalAmountInDouble()), "Total Amount isn't matching!");
 
-        Assert.assertEquals(paymentRequest.currencyCodeInResponse(), paymentRequest.getCurrency(), "Currency Code isn't matching!");
+        Assert.assertEquals(testContext.getApiManager().getPaymentRequest().currencyCodeInResponse(), testContext.getApiManager().getPaymentRequest().getCurrency(), "Currency Code isn't matching!");
 
 
-        // Assert.assertEquals(paymentRequest.effectiveDurationInResponse(), paymentRequest.getEffectiveDuration(), "Effective Duration isn't matching!");
+        // Assert.assertEquals(testContext.getApiManager().getPaymentRequest().effectiveDurationInResponse(), testContext.getApiManager().getPaymentRequest().getEffectiveDuration(), "Effective Duration isn't matching!");
     }
 
     @Then("^the response body should also have notification URI, app success callback URL, app fail Callback Url if applicable$")
     public void the_response_body_should_also_have_notification_url_app_success_callback_app_fail_callback_uri_if_applicable() throws Throwable {
-        if (paymentRequest.getnotificationURI()==null)
-            Assert.assertNull(paymentRequest.notificationURIInResponse(), "NotificationUri is present within the response when it should not be");
+        if (testContext.getApiManager().getPaymentRequest().getnotificationURI()==null)
+            Assert.assertNull(testContext.getApiManager().getPaymentRequest().notificationURIInResponse(), "NotificationUri is present within the response when it should not be");
         else
-            Assert.assertEquals(paymentRequest.notificationURIInResponse(), paymentRequest.getnotificationURI(), "Notification Uri isn't matching!");
+            Assert.assertEquals(testContext.getApiManager().getPaymentRequest().notificationURIInResponse(), testContext.getApiManager().getPaymentRequest().getnotificationURI(), "Notification Uri isn't matching!");
 
-        if (paymentRequest.getAppSuccessCallback()==null)
-            Assert.assertNull(paymentRequest.appSuccessCallbackInResponse(), "App Success Call Back is present within the response when it should not be");
+        if (testContext.getApiManager().getPaymentRequest().getAppSuccessCallback()==null)
+            Assert.assertNull(testContext.getApiManager().getPaymentRequest().appSuccessCallbackInResponse(), "App Success Call Back is present within the response when it should not be");
         else
-            Assert.assertEquals(paymentRequest.appSuccessCallbackInResponse(), paymentRequest.getAppSuccessCallback(), "App Success Callback isn't matching!");
+            Assert.assertEquals(testContext.getApiManager().getPaymentRequest().appSuccessCallbackInResponse(), testContext.getApiManager().getPaymentRequest().getAppSuccessCallback(), "App Success Callback isn't matching!");
 
 
-        if (paymentRequest.getAppFailCallback()==null)
-            Assert.assertNull(paymentRequest.appFailCallbackInResponse(), "App Fail Call Back is present within the response when it should not be");
+        if (testContext.getApiManager().getPaymentRequest().getAppFailCallback()==null)
+            Assert.assertNull(testContext.getApiManager().getPaymentRequest().appFailCallbackInResponse(), "App Fail Call Back is present within the response when it should not be");
         else
-            Assert.assertEquals(paymentRequest.appFailCallbackInResponse(), paymentRequest.getAppFailCallback(), "App Fail Callback isn't matching!");
+            Assert.assertEquals(testContext.getApiManager().getPaymentRequest().appFailCallbackInResponse(), testContext.getApiManager().getPaymentRequest().getAppFailCallback(), "App Fail Callback isn't matching!");
 
 
     }
@@ -220,83 +212,83 @@ public class PaymentRequest_StepDefs{
 
     @Then("^I should recieve a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within payment response$")
     public void i_should_recieve_a_error_response_with_error_description_and_errorcode(int responseCode, String errorDesc, String errorCode) {
-        Assert.assertEquals(testContext.getRestHelper().getResponseStatusCode(paymentRequest.getPaymentRequestResponse()), responseCode,"Different response code being returned");
+        Assert.assertEquals(getRestHelper().getResponseStatusCode(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()), responseCode,"Different response code being returned");
 
-        Assert.assertEquals(testContext.getRestHelper().getErrorCode(paymentRequest.getPaymentRequestResponse()), errorCode,"Different error code being returned");
+        Assert.assertEquals(getRestHelper().getErrorCode(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()), errorCode,"Different error code being returned");
 
-        Assert.assertTrue(testContext.getRestHelper().getErrorDescription(paymentRequest.getPaymentRequestResponse()).contains(errorDesc) ,"Different error description being returned..Expected: "+ errorDesc+ "Actual: "+ testContext.getRestHelper().getErrorDescription(paymentRequest.getPaymentRequestResponse()));
+        Assert.assertTrue(getRestHelper().getErrorDescription(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()).contains(errorDesc) ,"Different error description being returned..Expected: "+ errorDesc+ "Actual: "+ getRestHelper().getErrorDescription(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()));
 
     }
 
     @Then("^error message should be \"([^\"]*)\" within payment response$")
     public void i_should_recieve_a_error_message(String errorMessage) {
 
-        Assert.assertTrue(testContext.getRestHelper().getErrorMessage(paymentRequest.getPaymentRequestResponse()).contains(errorMessage) ,"Different error message being returned..Expected: "+ errorMessage+ " Actual: "+testContext.getRestHelper().getErrorMessage(paymentRequest.getPaymentRequestResponse()));
+        Assert.assertTrue(getRestHelper().getErrorMessage(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()).contains(errorMessage) ,"Different error message being returned..Expected: "+ errorMessage+ " Actual: "+getRestHelper().getErrorMessage(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()));
 
     }
 
 
     @Then("^I should recieve a (\\d+) error response within payment response$")
     public void i_should_recieve_a_error_response_within_payment_response(int errorCode) {
-        Assert.assertEquals(testContext.getRestHelper().getResponseStatusCode(paymentRequest.getPaymentRequestResponse()), errorCode,"Different response code being returned");
+        Assert.assertEquals(getRestHelper().getResponseStatusCode(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()), errorCode,"Different response code being returned");
 
     }
 
     @Given("^I send request date timestamp in an invalid \"([^\"]*)\"$")
     public void i_send_request_date_timestamp_in_an_invalid(String format) {
-        paymentRequest.setRequestDateTime(testContext.getDateHelper().convertDateTimeIntoAFormat(testContext.getDateHelper().getSystemDateandTimeStamp(), format));
+        testContext.getApiManager().getPaymentRequest().setRequestDateTime(getDateHelper().convertDateTimeIntoAFormat(getDateHelper().getSystemDateandTimeStamp(), format));
 
     }
 
     @Then("^\"([^\"]*)\" error description and \"([^\"]*)\" errorcode within payment response$")
     public void error_description_and_errorcode_within_payment_response(String errorDesc, String errorCode)  {
-        Assert.assertEquals(testContext.getRestHelper().getErrorCode(paymentResponses.get(1)), errorCode,"Different error code being returned");
+        Assert.assertEquals(getRestHelper().getErrorCode(paymentResponses.get(1)), errorCode,"Different error code being returned");
 
-        Assert.assertEquals(testContext.getRestHelper().getErrorDescription(paymentResponses.get(1)), errorDesc,"Different error description being returned");
+        Assert.assertEquals(getRestHelper().getErrorDescription(paymentResponses.get(1)), errorDesc,"Different error description being returned");
 
     }
 
 
     @Given("^I have payment details with \"([^\"]*)\" set for the \"([^\"]*)\"$")
     public void i_have_payment_details_with_set_for_the(String invalid_value, String parameter) {
-        paymentRequest.setTotalAmount("20");
-        paymentRequest.setCurrency("HKD");
-        paymentRequest.setNotificationURI("https://pizzahut.com/return");
-        paymentRequest.setAppSuccessCallback("https://pizzahut.com/confirmation");
-        paymentRequest.setAppFailCallback("https://pizzahut.com/unsuccessful");
-        paymentRequest.setEffectiveDuration("600");
-        paymentRequest.setRequestDateTime(testContext.getDateHelper().getUTCNowDateTime());
-        paymentRequest.setTraceId(testContext.getGeneral().generateUniqueUUID());
+        testContext.getApiManager().getPaymentRequest().setTotalAmount("20");
+        testContext.getApiManager().getPaymentRequest().setCurrency("HKD");
+        testContext.getApiManager().getPaymentRequest().setNotificationURI("https://pizzahut.com/return");
+        testContext.getApiManager().getPaymentRequest().setAppSuccessCallback("https://pizzahut.com/confirmation");
+        testContext.getApiManager().getPaymentRequest().setAppFailCallback("https://pizzahut.com/unsuccessful");
+        testContext.getApiManager().getPaymentRequest().setEffectiveDuration("600");
+        testContext.getApiManager().getPaymentRequest().setRequestDateTime(getDateHelper().getUTCNowDateTime());
+        testContext.getApiManager().getPaymentRequest().setTraceId(getGeneral().generateUniqueUUID());
 
         if (parameter.equalsIgnoreCase("totalamount"))
-            paymentRequest.setTotalAmount(invalid_value);
+            testContext.getApiManager().getPaymentRequest().setTotalAmount(invalid_value);
 
 
     }
 
     @Given("^I have valid payment details with no TraceId sent in the header$")
     public void i_have_valid_payment_details_with_no_TraceId_sent_in_the_header() {
-        paymentRequest.setTotalAmount("20");
-        paymentRequest.setCurrency("HKD");
-        paymentRequest.setNotificationURI("https://pizzahut.com/return");
-        paymentRequest.setAppSuccessCallback("https://pizzahut.com/confirmation");
-        paymentRequest.setAppFailCallback("https://pizzahut.com/unsuccessful");
-        paymentRequest.setEffectiveDuration("600");
-        paymentRequest.setRequestDateTime(testContext.getDateHelper().getUTCNowDateTime());
+        testContext.getApiManager().getPaymentRequest().setTotalAmount("20");
+        testContext.getApiManager().getPaymentRequest().setCurrency("HKD");
+        testContext.getApiManager().getPaymentRequest().setNotificationURI("https://pizzahut.com/return");
+        testContext.getApiManager().getPaymentRequest().setAppSuccessCallback("https://pizzahut.com/confirmation");
+        testContext.getApiManager().getPaymentRequest().setAppFailCallback("https://pizzahut.com/unsuccessful");
+        testContext.getApiManager().getPaymentRequest().setEffectiveDuration("600");
+        testContext.getApiManager().getPaymentRequest().setRequestDateTime(getDateHelper().getUTCNowDateTime());
 
 
     }
 
     @Given("^I have valid payment details with invalid value \"([^\"]*)\" set for Request Date Time sent in the header$")
     public void i_have_valid_payment_details_with_no_RequestDateTime_sent_in_the_header(String value) {
-        paymentRequest.setTotalAmount("20");
-        paymentRequest.setCurrency("HKD");
-        paymentRequest.setNotificationURI("https://pizzahut.com/return");
-        paymentRequest.setAppSuccessCallback("https://pizzahut.com/confirmation");
-        paymentRequest.setAppFailCallback("https://pizzahut.com/unsuccessful");
-        paymentRequest.setEffectiveDuration("600");
-        paymentRequest.setTraceId(testContext.getGeneral().generateUniqueUUID());
-        paymentRequest.setRequestDateTime(value);
+        testContext.getApiManager().getPaymentRequest().setTotalAmount("20");
+        testContext.getApiManager().getPaymentRequest().setCurrency("HKD");
+        testContext.getApiManager().getPaymentRequest().setNotificationURI("https://pizzahut.com/return");
+        testContext.getApiManager().getPaymentRequest().setAppSuccessCallback("https://pizzahut.com/confirmation");
+        testContext.getApiManager().getPaymentRequest().setAppFailCallback("https://pizzahut.com/unsuccessful");
+        testContext.getApiManager().getPaymentRequest().setEffectiveDuration("600");
+        testContext.getApiManager().getPaymentRequest().setTraceId(getGeneral().generateUniqueUUID());
+        testContext.getApiManager().getPaymentRequest().setRequestDateTime(value);
 
     }
 

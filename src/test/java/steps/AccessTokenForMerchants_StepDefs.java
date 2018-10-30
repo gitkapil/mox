@@ -3,12 +3,13 @@ package steps;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import managers.UtilManager;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import apiHelpers.TestContext;
 
 
-public class AccessTokenForMerchants_StepDefs{
+public class AccessTokenForMerchants_StepDefs extends UtilManager{
     TestContext testContext;
 
     public AccessTokenForMerchants_StepDefs(TestContext testContext) {
@@ -27,21 +28,21 @@ public class AccessTokenForMerchants_StepDefs{
                 logger.info("********* Hitting Merchant (Live) APIM ****************");
 
                 testContext.getApiManager().getAccessToken().setType("merchant");
-                testContext.getApiManager().getAccessToken().setMerchantDetails(testContext.getUtilManager().getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-id"),
-                        testContext.getUtilManager().getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-secret"));
+                testContext.getApiManager().getAccessToken().setMerchantDetails(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-id"),
+                        getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-secret"));
 
-                testContext.getApiManager().getAccessToken().setEndpoint(testContext.getUtilManager().getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
-                        +testContext.getUtilManager().getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
+                testContext.getApiManager().getAccessToken().setEndpoint(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
+                        +getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
 
             } else {
                 logger.info("********* Hitting Sandbox APIM ****************");
 
                 testContext.getApiManager().getAccessToken().setType("sandbox");
-                testContext.getApiManager().getAccessToken().setMerchantDetails(testContext.getUtilManager().getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-id"),
-                        testContext.getUtilManager().getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-secret"));
+                testContext.getApiManager().getAccessToken().setMerchantDetails(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-id"),
+                        getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-secret"));
 
-                testContext.getApiManager().getAccessToken().setEndpoint(testContext.getUtilManager().getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
-                        +testContext.getUtilManager().getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
+                testContext.getApiManager().getAccessToken().setEndpoint(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
+                        +getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
 
             }
         }
@@ -49,11 +50,11 @@ public class AccessTokenForMerchants_StepDefs{
             logger.info("********* Hitting Sandbox APIM ****************");
 
             testContext.getApiManager().getAccessToken().setType("sandbox");
-            testContext.getApiManager().getAccessToken().setMerchantDetails(testContext.getUtilManager().getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-id"),
-                    testContext.getUtilManager().getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-secret"));
+            testContext.getApiManager().getAccessToken().setMerchantDetails(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-id"),
+                    getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-secret"));
 
-            testContext.getApiManager().getAccessToken().setEndpoint(testContext.getUtilManager().getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
-                    +testContext.getUtilManager().getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
+            testContext.getApiManager().getAccessToken().setEndpoint(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
+                    +getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
 
         }
 
@@ -78,7 +79,7 @@ public class AccessTokenForMerchants_StepDefs{
     @When("^I make a request to the Dragon ID Manager$")
     public void i_make_a_request_to_the_Dragon_ID_Manager()  {
         logger.info("********** Retrieving Access Token***********");
-        testContext.getApiManager().getAccessToken().retrieveAccessToken(testContext.getApiManager().getAccessToken().getEndpoint() +testContext.getUtilManager().getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+        testContext.getApiManager().getAccessToken().retrieveAccessToken(testContext.getApiManager().getAccessToken().getEndpoint() +getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
 
     }
 
@@ -94,7 +95,7 @@ public class AccessTokenForMerchants_StepDefs{
     @Then("^it should be a valid JWT$")
     public void valid_jwt_token() {
 
-        Assert.assertNotNull("Generated access token is not valid", testContext.getApiManager().getAccessToken().retrieveClaimSet(testContext.getUtilManager().getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "jwks_uri_idp")));
+        Assert.assertNotNull("Generated access token is not valid", testContext.getApiManager().getAccessToken().retrieveClaimSet(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "jwks_uri_idp")));
 
     }
 
@@ -102,7 +103,7 @@ public class AccessTokenForMerchants_StepDefs{
     public void i_should_not_recieve_an_access_token() {
         Assert.assertNull("Access Token generated",testContext.getApiManager().getAccessToken().getAccessToken());
 
-        logger.info("Response failed because of Error: "+ testContext.getUtilManager().getRestHelper().getErrorMessage(testContext.getApiManager().getAccessToken().getAccessTokenResponse()));
+        logger.info("Response failed because of Error: "+ getRestHelper().getErrorMessage(testContext.getApiManager().getAccessToken().getAccessTokenResponse()));
 
 
     }
@@ -115,7 +116,7 @@ public class AccessTokenForMerchants_StepDefs{
 
     @Then("^I should get a \"([^\"]*)\"$")
     public void i_should_get_a_error_code(String responseCode)  {
-        Assert.assertEquals("Different response code is returned!",Integer.parseInt(responseCode),  testContext.getUtilManager().getRestHelper().getResponseStatusCode(testContext.getApiManager().getAccessToken().getAccessTokenResponse()));
+        Assert.assertEquals("Different response code is returned!",Integer.parseInt(responseCode),  getRestHelper().getResponseStatusCode(testContext.getApiManager().getAccessToken().getAccessTokenResponse()));
 
 
     }
@@ -124,7 +125,7 @@ public class AccessTokenForMerchants_StepDefs{
     public void i_make_a_request_to_the_Dragon_ID_Manager_with_body_in_JSON_format() {
 
         logger.info("********** Retrieving Access Token***********");
-        testContext.getApiManager().getAccessToken().sendBodyInJsonFormat(testContext.getApiManager().getAccessToken().getEndpoint() +testContext.getUtilManager().getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+        testContext.getApiManager().getAccessToken().sendBodyInJsonFormat(testContext.getApiManager().getAccessToken().getEndpoint() +getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
 
 
     }
@@ -144,17 +145,17 @@ public class AccessTokenForMerchants_StepDefs{
 
     @Then("^I should recieve a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within token response$")
     public void i_should_recieve_a_error_response_with_error_description_and_errorcode_within_token_response(String responseCode, String errorDesc, String errorCode) {
-        Assert.assertEquals("Different response code being returned ", Integer.parseInt(responseCode), testContext.getUtilManager().getRestHelper().getResponseStatusCode(testContext.getApiManager().getAccessToken().getAccessTokenResponse()));
+        Assert.assertEquals("Different response code being returned ", Integer.parseInt(responseCode), getRestHelper().getResponseStatusCode(testContext.getApiManager().getAccessToken().getAccessTokenResponse()));
 
-        Assert.assertEquals("Different error code being returned", errorCode, testContext.getUtilManager().getRestHelper().getErrorCode(testContext.getApiManager().getAccessToken().getAccessTokenResponse()));
+        Assert.assertEquals("Different error code being returned", errorCode, getRestHelper().getErrorCode(testContext.getApiManager().getAccessToken().getAccessTokenResponse()));
 
-        Assert.assertTrue("Different error description being returned..Expected: "+ errorDesc+ "Actual: "+ testContext.getUtilManager().getRestHelper().getErrorDescription(testContext.getApiManager().getAccessToken().getAccessTokenResponse()), testContext.getUtilManager().getRestHelper().getErrorDescription(testContext.getApiManager().getAccessToken().getAccessTokenResponse()).contains(errorDesc));
+        Assert.assertTrue("Different error description being returned..Expected: "+ errorDesc+ "Actual: "+ getRestHelper().getErrorDescription(testContext.getApiManager().getAccessToken().getAccessTokenResponse()), getRestHelper().getErrorDescription(testContext.getApiManager().getAccessToken().getAccessTokenResponse()).contains(errorDesc));
 
     }
 
     @Then("^error message should be \"([^\"]*)\" within token response$")
     public void error_message_should_be_within_token_response(String errorMessage)  {
-        Assert.assertTrue("Different error message being returned...Expected: "+ errorMessage+ "Actual: "+ testContext.getUtilManager().getRestHelper().getErrorMessage(testContext.getApiManager().getAccessToken().getAccessTokenResponse()), testContext.getUtilManager().getRestHelper().getErrorMessage(testContext.getApiManager().getAccessToken().getAccessTokenResponse()).contains(errorMessage) );
+        Assert.assertTrue("Different error message being returned...Expected: "+ errorMessage+ "Actual: "+ getRestHelper().getErrorMessage(testContext.getApiManager().getAccessToken().getAccessTokenResponse()), getRestHelper().getErrorMessage(testContext.getApiManager().getAccessToken().getAccessTokenResponse()).contains(errorMessage) );
 
     }
 

@@ -2,6 +2,7 @@ package apiHelpers;
 
 
 import com.jayway.restassured.response.Response;
+import managers.UtilManager;
 import org.junit.Assert;
 import java.io.IOException;
 import java.net.URL;
@@ -10,13 +11,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 
-public class PaymentStatus {
-    TestContext testContext;
-
-    public PaymentStatus(TestContext testContext) {
-        this.testContext = testContext;
-    }
-
+public class PaymentStatus extends UtilManager{
     final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(PaymentStatus.class);
 
     String paymentRequestId, traceId, authToken, requestDateTime;
@@ -58,12 +53,12 @@ public class PaymentStatus {
     }
 
     public String statusDescriptionInResponse(){
-        return testContext.getUtilManager().getRestHelper().getResponseBodyValue(paymentStatusResponse, "statusDescription");
+        return getRestHelper().getResponseBodyValue(paymentStatusResponse, "statusDescription");
 
     }
 
     public String statusCodeInResponse(){
-        return testContext.getUtilManager().getRestHelper().getResponseBodyValue(paymentStatusResponse, "statusCode");
+        return getRestHelper().getResponseBodyValue(paymentStatusResponse, "statusCode");
 
     }
 
@@ -75,7 +70,7 @@ public class PaymentStatus {
             HashMap<String, String> header= returnPaymentStatusHeader("GET", url, signingKeyId, signingAlgorithm, signingKey, headerElementsForSignature);
             header.remove(key);
 
-            paymentStatusResponse= testContext.getUtilManager().getRestHelper().getRequestWithHeaders(url, header);
+            paymentStatusResponse= getRestHelper().getRequestWithHeaders(url, header);
 
             logger.info("********** Payment Request Status Response *********** ---> "+ paymentStatusResponse.getBody().asString());
         }
@@ -91,7 +86,7 @@ public class PaymentStatus {
         try{
             url= appendPaymentIdInURL(url);
 
-            paymentStatusResponse= testContext.getUtilManager().getRestHelper().getRequestWithHeaders(url, returnPaymentStatusHeader("GET", new URL(url).getPath(), signingKeyId, signingAlgorithm, signingKey,headerElementsForSignature));
+            paymentStatusResponse= getRestHelper().getRequestWithHeaders(url, returnPaymentStatusHeader("GET", new URL(url).getPath(), signingKeyId, signingAlgorithm, signingKey,headerElementsForSignature));
 
             logger.info("********** Payment Request Status Response *********** ---> "+ paymentStatusResponse.getBody().asString());
         }
@@ -109,7 +104,7 @@ public class PaymentStatus {
 
         url= appendPaymentIdInURL(url);
 
-        paymentStatusResponse= testContext.getUtilManager().getRestHelper().getRequestWithHeaders(url, header);
+        paymentStatusResponse= getRestHelper().getRequestWithHeaders(url, header);
 
 
         logger.info("********** Payment Request Status Response *********** ---> "+ paymentStatusResponse.getBody().asString());
@@ -141,7 +136,7 @@ public class PaymentStatus {
         paymentStatusHeader.put("Api-Version", System.getProperty("version"));
         paymentStatusHeader.put("Request-Date-Time", getRequestDateTime());
         try{
-            paymentStatusHeader.put("Signature", testContext.getUtilManager().getSignatureHelper().calculateSignature(method, url, Base64.getDecoder().decode(signingKey), signingAlgorithm, signingKeyId,
+            paymentStatusHeader.put("Signature", getSignatureHelper().calculateSignature(method, url, Base64.getDecoder().decode(signingKey), signingAlgorithm, signingKeyId,
                     headerElementsforSignature, paymentStatusHeader)
             );
         }
@@ -154,40 +149,40 @@ public class PaymentStatus {
     }
 
     public String paymentRequestIdInResponse(){
-        return testContext.getUtilManager().getRestHelper().getResponseBodyValue(paymentStatusResponse, "paymentRequestId");
+        return getRestHelper().getResponseBodyValue(paymentStatusResponse, "paymentRequestId");
 
     }
 
     public Integer effectiveDurationInResponse(){
-        return Integer.parseInt(testContext.getUtilManager().getRestHelper().getResponseBodyValue(paymentStatusResponse, "effectiveDuration"));
+        return Integer.parseInt(getRestHelper().getResponseBodyValue(paymentStatusResponse, "effectiveDuration"));
 
     }
 
 
     public String totalAmountInResponse(){
-        return testContext.getUtilManager().getRestHelper().getResponseBodyValue(paymentStatusResponse, "totalAmount");
+        return getRestHelper().getResponseBodyValue(paymentStatusResponse, "totalAmount");
 
     }
 
     public String currencyCodeInResponse(){
-        return testContext.getUtilManager().getRestHelper().getResponseBodyValue(paymentStatusResponse, "currencyCode");
+        return getRestHelper().getResponseBodyValue(paymentStatusResponse, "currencyCode");
 
     }
 
 
     public String createdTimestampInResponse(){
-        return testContext.getUtilManager().getRestHelper().getResponseBodyValue(paymentStatusResponse, "createdTime");
+        return getRestHelper().getResponseBodyValue(paymentStatusResponse, "createdTime");
 
     }
 
 
     public String appSuccessCallbackInResponse(){
-        return testContext.getUtilManager().getRestHelper().getResponseBodyValue(paymentStatusResponse, "appSuccessCallback");
+        return getRestHelper().getResponseBodyValue(paymentStatusResponse, "appSuccessCallback");
 
     }
 
     public String appFailCallbackInResponse(){
-        return testContext.getUtilManager().getRestHelper().getResponseBodyValue(paymentStatusResponse, "appFailCallback");
+        return getRestHelper().getResponseBodyValue(paymentStatusResponse, "appFailCallback");
 
     }
 

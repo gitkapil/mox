@@ -1,17 +1,13 @@
 package apiHelpers;
 
 import com.jayway.restassured.response.Response;
+import managers.UtilManager;
 import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class OpenIdConfigForPEAK{
-    TestContext testContext;
-
-    public OpenIdConfigForPEAK(TestContext testContext) {
-        this.testContext = testContext;
-    }
+public class OpenIdConfigForPEAK extends UtilManager{
 
     final static Logger logger = Logger.getLogger(OpenIdConfigForPEAK.class);
     Response openIdConfigResponse, jwksUriResponse; String jwksURI=null; List<HashMap<String, String>> keysValue= new ArrayList<>();
@@ -33,13 +29,13 @@ public class OpenIdConfigForPEAK{
     }
 
     public void retrieveOpenIdConfigResponse(String url){
-        openIdConfigResponse= testContext.getUtilManager().getRestHelper().getResponse(url);
+        openIdConfigResponse= getRestHelper().getResponse(url);
         logger.info("Response: "+ openIdConfigResponse.getBody().asString());
 
     }
 
     public void retrieveJwksUriResponse(){
-        jwksUriResponse= testContext.getUtilManager().getRestHelper().getResponse(jwksURI);
+        jwksUriResponse= getRestHelper().getResponse(jwksURI);
         logger.info("Response of JWKS URI: "+ jwksUriResponse.getBody().asString());
 
     }
@@ -49,16 +45,16 @@ public class OpenIdConfigForPEAK{
     }
 
     public String jwksUriInResponse(){
-        return testContext.getUtilManager().getRestHelper().getResponseBodyValue(openIdConfigResponse, "jwks_uri");
+        return getRestHelper().getResponseBodyValue(openIdConfigResponse, "jwks_uri");
     }
 
     public String issuerInResponse(){
-        return testContext.getUtilManager().getRestHelper().getResponseBodyValue(openIdConfigResponse, "issuer");
+        return getRestHelper().getResponseBodyValue(openIdConfigResponse, "issuer");
     }
 
     public String responseTypesSupportedInResponse(){
         try{
-            return testContext.getUtilManager().getRestHelper().getJsonArray(openIdConfigResponse, "response_types_supported").get(0).toString();
+            return getRestHelper().getJsonArray(openIdConfigResponse, "response_types_supported").get(0).toString();
         }
         catch (NullPointerException e){}
 
@@ -68,7 +64,7 @@ public class OpenIdConfigForPEAK{
     public String algValueInResponse(){
 
         try{
-            return testContext.getUtilManager().getRestHelper().getJsonArray(openIdConfigResponse, "id_token_signing_alg_values_supported").get(0).toString();
+            return getRestHelper().getJsonArray(openIdConfigResponse, "id_token_signing_alg_values_supported").get(0).toString();
         }
         catch (NullPointerException e){}
 
@@ -77,7 +73,7 @@ public class OpenIdConfigForPEAK{
 
     public String scopesSupportedInResponse(){
         try{
-            return testContext.getUtilManager().getRestHelper().getJsonArray(openIdConfigResponse, "scopes_supported").get(0).toString();
+            return getRestHelper().getJsonArray(openIdConfigResponse, "scopes_supported").get(0).toString();
         }
         catch (NullPointerException e){}
 
@@ -86,7 +82,7 @@ public class OpenIdConfigForPEAK{
 
     public String subjectTypesSupportedInResponse(){
         try{
-            return testContext.getUtilManager().getRestHelper().getJsonArray(openIdConfigResponse, "subject_types_supported").get(0).toString();
+            return getRestHelper().getJsonArray(openIdConfigResponse, "subject_types_supported").get(0).toString();
         }
         catch (NullPointerException e){}
 
@@ -95,7 +91,7 @@ public class OpenIdConfigForPEAK{
 
     public String claimsSupportedInResponse(){
         try{
-            return testContext.getUtilManager().getRestHelper().getJsonArray(openIdConfigResponse, "claims_supported").get(0).toString();
+            return getRestHelper().getJsonArray(openIdConfigResponse, "claims_supported").get(0).toString();
         }
         catch (NullPointerException e){}
 
@@ -103,7 +99,7 @@ public class OpenIdConfigForPEAK{
     }
 
     public void retrieveKeysValues(){
-        keysValue= testContext.getUtilManager().getRestHelper().getJsonArray(jwksUriResponse, "keys");
+        keysValue= getRestHelper().getJsonArray(jwksUriResponse, "keys");
     }
 
     public String algInJWKSResponse(){
