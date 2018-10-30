@@ -6,7 +6,7 @@ import cucumber.api.java.en.When;
 import managers.UtilManager;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
-import apiHelpers.TestContext;
+import managers.TestContext;
 
 
 public class AccessTokenForMerchants_StepDefs extends UtilManager{

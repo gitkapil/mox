@@ -17,9 +17,11 @@ import static com.jayway.restassured.config.EncoderConfig.encoderConfig;
 
 public class AccessTokenForMerchants extends UtilManager{
     final static Logger logger = Logger.getLogger(AccessTokenForMerchants.class);
-    private String clientId, clientSecret, appId, type, endpoint;
 
-    RequestSpecification request=null;
+    private String clientId, clientSecret, appId, type, endpoint;
+    private RequestSpecification request=null;
+    private Response accessTokenResponse=null;
+    private JWTClaimsSet accessTokenClaimSet=null;
 
     public String getType() {
         return type;
@@ -36,10 +38,6 @@ public class AccessTokenForMerchants extends UtilManager{
     public void setType(String type) {
         this.type = type;
     }
-
-    Response accessTokenResponse=null;  JWTClaimsSet accessTokenClaimSet=null;
-
-
 
     public JWTClaimsSet getAccessTokenClaimSet() {
         return accessTokenClaimSet;

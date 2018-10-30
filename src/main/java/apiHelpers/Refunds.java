@@ -8,13 +8,11 @@ import java.util.HashMap;
 
 public class Refunds extends UtilManager {
     final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(Refunds.class);
-    String transactionId, url, authToken, traceId,requestDateTime, currencyCode, reason;
-    Double amount;
-
-
-    Response refundsResponse= null;
-    HashMap<String,String> refundsHeader= new HashMap<>();
-    HashMap refundsBody= new HashMap<>();
+    private String transactionId, url, authToken, traceId,requestDateTime, currencyCode, reason;
+    private Double amount;
+    private Response refundsResponse= null;
+    private HashMap<String,String> refundsHeader= new HashMap<>();
+    private HashMap refundsBody= new HashMap<>();
 
     public String getTransactionId() {
         return transactionId;

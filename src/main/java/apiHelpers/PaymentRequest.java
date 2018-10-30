@@ -13,11 +13,14 @@ import java.util.*;
 
 public class PaymentRequest extends UtilManager{
     final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(PaymentRequest.class);
+
     private String authToken, requestDateTime="",  currency, notificationURI=null, traceId="", appSuccessCallback=null, appFailCallback=null, effectiveDuration, totalAmount;
     private Double totalAmountInDouble;
     private HashMap merchantData= new HashMap();
     private List<HashMap> shoppingCart=new ArrayList<HashMap>();
     private HashMap<String, String> paymentRequestHeader;
+    private HashMap paymentRequestBody = new HashMap();
+    private Response paymentRequestResponse= null;
 
     public HashMap<String, String> getPaymentRequestHeader() {
         return paymentRequestHeader;
@@ -27,8 +30,6 @@ public class PaymentRequest extends UtilManager{
         return paymentRequestBody;
     }
 
-    private HashMap paymentRequestBody = new HashMap();
-    private Response paymentRequestResponse= null;
 
     public String getAppSuccessCallback() {
         return appSuccessCallback;

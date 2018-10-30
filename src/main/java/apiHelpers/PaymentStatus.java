@@ -14,9 +14,9 @@ import java.util.HashSet;
 public class PaymentStatus extends UtilManager{
     final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(PaymentStatus.class);
 
-    String paymentRequestId, traceId, authToken, requestDateTime;
-    Response paymentStatusResponse= null;
-    HashMap<String,String> paymentStatusHeader= new HashMap<>();
+    private String paymentRequestId, traceId, authToken, requestDateTime;
+    private Response paymentStatusResponse= null;
+    private HashMap<String,String> paymentStatusHeader= new HashMap<>();
 
     public String getTraceId() {
         return traceId;

@@ -1,6 +1,6 @@
 package steps;
 
-import apiHelpers.TestContext;
+import managers.TestContext;
 import com.jayway.restassured.response.Response;
 import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;

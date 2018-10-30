@@ -8,9 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public class OpenIdConfigForPEAK extends UtilManager{
-
     final static Logger logger = Logger.getLogger(OpenIdConfigForPEAK.class);
-    Response openIdConfigResponse, jwksUriResponse; String jwksURI=null; List<HashMap<String, String>> keysValue= new ArrayList<>();
+
+    private Response openIdConfigResponse, jwksUriResponse; String jwksURI=null;
+    private List<HashMap<String, String>> keysValue= new ArrayList<>();
 
     public String getJwksURI() {
         return jwksURI;

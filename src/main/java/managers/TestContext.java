@@ -1,6 +1,4 @@
-package apiHelpers;
-
-import managers.ApiManager;
+package managers;
 
 public class TestContext {
     ApiManager apiManager;

@@ -1,6 +1,6 @@
 package steps;
 
-import apiHelpers.TestContext;
+import managers.TestContext;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -24,21 +24,21 @@ public class SecurityModelValidation_StepDefs extends UtilManager {
     private String basePathAPI= getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs");
 
 
-    @Given("^I am a merchant with no testContext.getApiManager().getPaymentRequest() role$")
+    @Given("^I am a merchant with no paymentrequest role$")
     public void i_am_a_merchant_with_no_paymentrequest_role(){
 
-        testContext.getApiManager().getAccessToken().setMerchantDetails(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-id-no-testContext.getApiManager().getPaymentRequest()-role"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-secret-no-testContext.getApiManager().getPaymentRequest()-role"));
+        testContext.getApiManager().getAccessToken().setMerchantDetails(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-id-no-paymentrequest-role"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-secret-no-paymentrequest-role"));
 
         testContext.getApiManager().getAccessToken().createBody_RetrieveAccessToken();
     }
 
 
-    @Given("^I am a developer with no testContext.getApiManager().getPaymentRequest() role$")
+    @Given("^I am a developer with no paymentrequest role$")
     public void i_am_a_developer_with_no_paymentrequest_role(){
 
-        testContext.getApiManager().getAccessToken().setMerchantDetails(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-id-no-testContext.getApiManager().getPaymentRequest()-role"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-secret-no-testContext.getApiManager().getPaymentRequest()-role"));
+        testContext.getApiManager().getAccessToken().setMerchantDetails(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-id-no-paymentrequest-role"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-secret-no-paymentrequest-role"));
 
         testContext.getApiManager().getAccessToken().createBody_RetrieveAccessToken();
     }
