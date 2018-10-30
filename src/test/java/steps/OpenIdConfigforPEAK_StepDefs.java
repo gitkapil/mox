@@ -8,32 +8,32 @@ import org.testng.Assert;
 
 public class OpenIdConfigforPEAK_StepDefs extends UtilManager{
     TestContext testContext;
-    OpenIdConfigForPEAK openIdConfig;
-
+    
     public OpenIdConfigforPEAK_StepDefs(TestContext testContext) {
         this.testContext = testContext;
     }
+    
     @When("^I hit the openid config URI$")
     public void i_hit_the_openid_config_URI()  {
-        openIdConfig.retrieveOpenIdConfigResponse(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "openid-configuration-for-PEAK"));
+        testContext.getApiManager().getOpenIdConfig().retrieveOpenIdConfigResponse(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "openid-configuration-for-PEAK"));
     }
 
     @Then("^I recieve a successful response$")
     public void i_should_recieve_a_successful_response() {
-        Assert.assertEquals(openIdConfig.getOpenIdConfigResponse().getStatusCode(), 200, "OpenId Config request was not successful");
+        Assert.assertEquals(testContext.getApiManager().getOpenIdConfig().getOpenIdConfigResponse().getStatusCode(), 200, "OpenId Config request was not successful");
     }
 
     @Then("^the response body should have valid values$")
     public void the_response_body_should_have_valid_values()  {
 
-        Assert.assertNotNull(openIdConfig.issuerInResponse(), "Incorrect Issuer Returned!");
-        Assert.assertNotNull(openIdConfig.jwksUriInResponse(), "Incorrect jwks Returned!");
+        Assert.assertNotNull(testContext.getApiManager().getOpenIdConfig().issuerInResponse(), "Incorrect Issuer Returned!");
+        Assert.assertNotNull(testContext.getApiManager().getOpenIdConfig().jwksUriInResponse(), "Incorrect jwks Returned!");
 
-        Assert.assertEquals(openIdConfig.responseTypesSupportedInResponse(), "id_token token", "Value for Response Types supported within response is incorrect!");
-        Assert.assertEquals(openIdConfig.scopesSupportedInResponse(), "openid", "Value for scopes supported within response is incorrect!");
-        Assert.assertEquals(openIdConfig.subjectTypesSupportedInResponse(), "pairwise", "Value for subject types supported within response is incorrect!");
-        Assert.assertEquals(openIdConfig.algValueInResponse(), "RS256", "Value for alg supported within response is incorrect!");
-        Assert.assertEquals(openIdConfig.claimsSupportedInResponse(), "sub", "Value for claims supported within response is incorrect!");
+        Assert.assertEquals(testContext.getApiManager().getOpenIdConfig().responseTypesSupportedInResponse(), "id_token token", "Value for Response Types supported within response is incorrect!");
+        Assert.assertEquals(testContext.getApiManager().getOpenIdConfig().scopesSupportedInResponse(), "openid", "Value for scopes supported within response is incorrect!");
+        Assert.assertEquals(testContext.getApiManager().getOpenIdConfig().subjectTypesSupportedInResponse(), "pairwise", "Value for subject types supported within response is incorrect!");
+        Assert.assertEquals(testContext.getApiManager().getOpenIdConfig().algValueInResponse(), "RS256", "Value for alg supported within response is incorrect!");
+        Assert.assertEquals(testContext.getApiManager().getOpenIdConfig().claimsSupportedInResponse(), "sub", "Value for claims supported within response is incorrect!");
 
 
     }
@@ -41,26 +41,26 @@ public class OpenIdConfigforPEAK_StepDefs extends UtilManager{
 
     @When("^I obtain the JWKS URI$")
     public void i_obtain_the_JWKS_URI()  {
-        openIdConfig.setJwksURI(openIdConfig.jwksUriInResponse());
+        testContext.getApiManager().getOpenIdConfig().setJwksURI(testContext.getApiManager().getOpenIdConfig().jwksUriInResponse());
     }
 
     @When("^I hit the JWKS URI$")
     public void i_hit_the_JWKS_URI()  {
-       openIdConfig.retrieveJwksUriResponse();
+       testContext.getApiManager().getOpenIdConfig().retrieveJwksUriResponse();
     }
 
     @Then("^I should recieve a successful response from JWKS URI Request$")
     public void i_should_recieve_a_successful_response_from_JWKS_URI_Request()  {
-        Assert.assertEquals(openIdConfig.getJwksUriResponse().getStatusCode(), 200, "JWKS URI request was not successful");
+        Assert.assertEquals(testContext.getApiManager().getOpenIdConfig().getJwksUriResponse().getStatusCode(), 200, "JWKS URI request was not successful");
     }
 
     @Then("^the response body should have valid keys values$")
     public void the_response_body_should_have_valid_keys_values()  {
-        openIdConfig.retrieveKeysValues();
+        testContext.getApiManager().getOpenIdConfig().retrieveKeysValues();
 
-        Assert.assertEquals(openIdConfig.algInJWKSResponse(), "RS256", "Value for alg supported within JWKS URI response is incorrect!");
-        Assert.assertEquals(openIdConfig.ktyInJWKSResponse(), "RSA", "Value for kty within JWKS URI response is incorrect!");
-        Assert.assertEquals(openIdConfig.useInJWKSResponse(), "sig", "Value for use within JWKS URI response is incorrect!");
+        Assert.assertEquals(testContext.getApiManager().getOpenIdConfig().algInJWKSResponse(), "RS256", "Value for alg supported within JWKS URI response is incorrect!");
+        Assert.assertEquals(testContext.getApiManager().getOpenIdConfig().ktyInJWKSResponse(), "RSA", "Value for kty within JWKS URI response is incorrect!");
+        Assert.assertEquals(testContext.getApiManager().getOpenIdConfig().useInJWKSResponse(), "sig", "Value for use within JWKS URI response is incorrect!");
 
 
     }
