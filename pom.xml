@@ -10,7 +10,7 @@
 
     <dependencies>
 
-        <!-->Test Context <-->
+        <!-->Dependency Injection <-->
         <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-picocontainer</artifactId>
