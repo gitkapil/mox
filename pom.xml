@@ -140,6 +140,7 @@
     </profiles>
 
     <build>
+        <outputDirectory>${basedir}/target/cucumber-reports</outputDirectory>
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -161,6 +162,25 @@
                         <source>8</source>
                         <target>8</target>
                     </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>net.masterthought</groupId>
+                    <artifactId>maven-cucumber-reporting</artifactId>
+                    <version>4.1.1</version>
+                    <executions>
+                        <execution>
+                            <id>execution</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>generate</goal>
+                            </goals>
+                            <configuration>
+                                <!--projectName>${project.name}</projectName-->
+                                <cucumberOutput>${basedir}/cucumber.json</cucumberOutput>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
     </build>
