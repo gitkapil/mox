@@ -5,12 +5,10 @@ import com.jayway.restassured.response.Response;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.tomitribe.auth.signatures.*;
-
 import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
 import java.net.URL;
 import java.security.Key;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
