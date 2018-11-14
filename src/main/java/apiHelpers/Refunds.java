@@ -8,26 +8,23 @@ import java.util.HashMap;
 
 public class Refunds extends UtilManager {
     final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(Refunds.class);
+
     private String transactionId, url, authToken, traceId,requestDateTime, currencyCode, reason;
     private Double amount;
     private Response refundsResponse= null;
     private HashMap<String,String> refundsHeader= new HashMap<>();
     private HashMap refundsBody= new HashMap<>();
 
+    /**
+     *
+     * Getters
+     */
     public String getTransactionId() {
         return transactionId;
     }
 
-    public void setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
-    }
-
     public String getUrl() {
         return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public String getAuthToken() {
@@ -38,36 +35,64 @@ public class Refunds extends UtilManager {
         return traceId;
     }
 
-    public void setTraceId(String traceId) {
-        this.traceId = traceId;
-    }
-
     public String getRequestDateTime() {
         return requestDateTime;
-    }
-
-    public void setRequestDateTime(String requestDateTime) {
-        this.requestDateTime = requestDateTime;
     }
 
     public String getCurrencyCode() {
         return currencyCode;
     }
 
-    public void setCurrencyCode(String currencyCode) {
-        this.currencyCode = currencyCode;
-    }
-
     public String getReason() {
         return reason;
     }
 
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
-
     public Double getAmount() {
         return amount;
+    }
+
+    public HashMap<String, String> getRefundsHeader() {
+        return refundsHeader;
+    }
+
+    public HashMap getRefundsBody() {
+        return refundsBody;
+    }
+
+    public Response getRefundsResponse() {
+        return refundsResponse;
+    }
+
+
+
+
+
+    /**
+     *
+     * Setters
+     */
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setTraceId(String traceId) {
+        this.traceId = traceId;
+    }
+
+    public void setRequestDateTime(String requestDateTime) {
+        this.requestDateTime = requestDateTime;
+    }
+
+    public void setCurrencyCode(String currencyCode) {
+        this.currencyCode = currencyCode;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
     public void setAmount(Double amount) {
@@ -78,24 +103,12 @@ public class Refunds extends UtilManager {
         this.refundsResponse = refundsResponse;
     }
 
-    public HashMap<String, String> getRefundsHeader() {
-        return refundsHeader;
-    }
-
     public void setRefundsHeader(HashMap<String, String> refundsHeader) {
         this.refundsHeader = refundsHeader;
     }
 
-    public HashMap getRefundsBody() {
-        return refundsBody;
-    }
-
     public void setRefundsBody(HashMap refundsBody) {
         this.refundsBody = refundsBody;
-    }
-
-    public Response getRefundsResponse() {
-        return refundsResponse;
     }
 
     public void setAuthToken(String authToken) {
@@ -107,40 +120,67 @@ public class Refunds extends UtilManager {
         this.authToken = "Bearer "+ authToken;
     }
 
+
+    /**
+     *
+     * returns refundId from the response
+     */
     public String refundIdInResponse(){
         return getRestHelper().getResponseBodyValue(refundsResponse, "refundId");
 
     }
 
+    /**
+     *
+     * returns refundId from the response
+     */
     public String amountInResponse(){
         return getRestHelper().getResponseBodyValue(refundsResponse, "amount");
 
     }
 
+    /**
+     *
+     * returns refundId from the response
+     */
     public String currencyCodeInResponse(){
         return getRestHelper().getResponseBodyValue(refundsResponse, "currencyCode");
 
     }
 
+    /**
+     *
+     * returns refundId from the response
+     */
     public String reasonCodeInResponse(){
         return getRestHelper().getResponseBodyValue(refundsResponse, "reasonCode");
 
     }
 
+    /**
+     *
+     * returns refundId from the response
+     */
     public String reasonInResponse(){
         return getRestHelper().getResponseBodyValue(refundsResponse, "reason");
 
     }
 
+    /**
+     *
+     * returns refundId from the response
+     */
     public String transactionIdInResponse(){
         return getRestHelper().getResponseBodyValue(refundsResponse, "transactionId");
 
     }
 
-
-
-
-
+    /**
+     * This methid hits POST refund endpoint with invalid header. "Key" values are missing from the header
+     * @param urlPart1
+     * @param urlPart2
+     * @param key
+     */
     public void retrieveRefundWithMissingHeaderKeys(String urlPart1, String urlPart2, String key){
         url= addTransactionIdInURL(urlPart1, urlPart2);
 
@@ -153,6 +193,12 @@ public class Refunds extends UtilManager {
 
     }
 
+    /**
+     * This methid hits POST refund endpoint with invalid body. "Key" values are missing from the body
+     * @param urlPart1
+     * @param urlPart2
+     * @param key
+     */
     public void retrieveRefundWithMissingBodyKeys(String urlPart1, String urlPart2, String key){
         url= addTransactionIdInURL(urlPart1, urlPart2);
 
@@ -165,6 +211,10 @@ public class Refunds extends UtilManager {
 
     }
 
+    /**
+     * This methid creates a valid body for POST refund endpoint
+     * @return
+     */
     public HashMap returnRefundsBody(){
         refundsBody=new HashMap();
 
@@ -198,7 +248,12 @@ public class Refunds extends UtilManager {
     }
 
 
-
+    /**
+     * This method creates valid header & body and hits the POST refund endpoint
+     * @param urlPart1
+     * @param urlPart2
+     * @return
+     */
     public Response retrieveRefunds(String urlPart1, String urlPart2){
         url= addTransactionIdInURL(urlPart1, urlPart2);
 
@@ -209,6 +264,13 @@ public class Refunds extends UtilManager {
         return refundsResponse;
     }
 
+
+    /**
+     * Following two methods appends transaction id in endpoint
+     * @param urlPart1
+     * @param urlPart2
+     * @return
+     */
     public String addTransactionIdInURL(String urlPart1, String urlPart2){
         return urlPart1+"/"+transactionId+urlPart2;
     }
@@ -218,6 +280,10 @@ public class Refunds extends UtilManager {
     }
 
 
+    /**
+     * This method creates a valid body for the POST refunds endpoint
+     * @return
+     */
     public HashMap<String,String> returnRefundsHeader(){
 
         refundsHeader= new HashMap<>();

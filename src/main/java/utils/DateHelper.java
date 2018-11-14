@@ -58,12 +58,21 @@ public class DateHelper{
     }
 
 
+    /**
+     * This method returns now UTC time
+     * @return
+     */
     public String getUTCNowDateTime(){
         ZonedDateTime utc = ZonedDateTime.now(ZoneOffset.UTC);
 
         return utc.toString();
     }
 
+    /**
+     * This method subtracts mins from the now UTC time
+     * @param mins
+     * @return
+     */
     public String subtractMinutesFromUTCNowDateTime(long mins){
         ZonedDateTime utc = ZonedDateTime.now(ZoneOffset.UTC);
 

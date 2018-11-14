@@ -23,25 +23,16 @@ public class RestHelper {
         RestAssured.baseURI = baseURI;
     }
 
-    public  void setBasePath(String basePath){
-        RestAssured.basePath = basePath;
-    }
-
     public  String getBaseURI(){
         return RestAssured.baseURI;
     }
 
-    public  String getBasePath(){
-        return RestAssured.basePath;
-    }
 
-
-    public  void setcontentType(ContentType type){
-        given().contentType(type);
-
-    }
-
-    // get Response from an endpoint
+    /**
+     * This method GETS a request (no headers)
+     * @param url
+     * @return
+     */
     public  Response getResponse(String url){
 
         Response response= null;
@@ -55,7 +46,12 @@ public class RestHelper {
         return response;
     }
 
-    // get Response from an endpoint with Headers
+    /**
+     * This method GETS a request with headers
+     * @param url
+     * @param headers
+     * @return
+     */
     public  Response getRequestWithHeaders(String url, HashMap<String, String> headers){
 
         Response res=null;
@@ -77,6 +73,12 @@ public class RestHelper {
     }
 
 
+    /**
+     * This method POSTS a request with a body
+     * @param url
+     * @param body
+     * @return
+     */
     public Response postRequestWithBody(String url, HashMap<String, String> body){
 
         Response response=null;
@@ -91,6 +93,12 @@ public class RestHelper {
         return response;
     }
 
+    /**
+     * This method POSTS a request with a header and body
+     * @param url
+     * @param body
+     * @return
+     */
     public Response postRequestWithHeaderAndBody(String url, HashMap headers,HashMap body){
         Response response=null;
         try{
@@ -106,6 +114,12 @@ public class RestHelper {
     }
 
 
+    /**
+     * This method POSTS a request with an encoded body
+     * @param url
+     * @param requestSpecification
+     * @return
+     */
     public Response postRequestWithEncodedBody(String url, RequestSpecification requestSpecification){
         Response response=null;
         try{
@@ -120,12 +134,23 @@ public class RestHelper {
     }
 
 
+    /**
+     * This method returns the response as json string
+     * @param res
+     * @return
+     */
     public  JsonPath getJsonPath (Response res) {
         String json = res.asString();
         return new JsonPath(json);
     }
 
 
+    /**
+     * This method returns a specific value from the response header
+     * @param res
+     * @param headerName
+     * @return
+     */
     public String getResponseHeaderValue(Response res, String headerName){
         String value=null;
 
@@ -143,6 +168,12 @@ public class RestHelper {
     }
 
 
+    /**
+     * This method returns a specific value from the response body
+     * @param res
+     * @param key
+     * @return
+     */
     public String getResponseBodyValue(Response res, String key){
         String value=null;
 
@@ -159,6 +190,13 @@ public class RestHelper {
         return value;
     }
 
+
+    /**
+     * This method returns a specific value from the response body as Json Array
+     * @param res
+     * @param key
+     * @return
+     */
     public List getJsonArray(Response res, String key){
         List<HashMap<String, String>> list= null;
        try {
@@ -171,15 +209,30 @@ public class RestHelper {
         return list;
     }
 
+    /**
+     * This method returns a status code of the response
+     * @param res
+     * @return
+     */
     public int getResponseStatusCode(Response res){
         return res.statusCode();
     }
 
+    /**
+     * This method returns error message within the response
+     * @param res
+     * @return
+     */
     public String getErrorMessage(Response res){
         return getResponseBodyValue(res, "message");
 
     }
 
+    /**
+     * This method returns error description within the response
+     * @param res
+     * @return
+     */
     public String getErrorDescription(Response res){
 
         List<HashMap<String, String>> errorDetails= getJsonArray(res, "errors");
@@ -201,6 +254,11 @@ public class RestHelper {
     }
 
 
+    /**
+     * This method returns error code within the response
+     * @param res
+     * @return
+     */
     public String getErrorCode(Response res){
 
         List<HashMap<String, String>> errorDetails= getJsonArray(res, "errors");
@@ -221,6 +279,11 @@ public class RestHelper {
         return errorCode;
     }
 
+
+    /**
+     * This method logs the response header values
+     * @param response
+     */
     public void logResponseHeaders(Response response){
         Headers allHeaders = response.headers();
 
@@ -230,7 +293,5 @@ public class RestHelper {
             System.out.println(header.getName() + " = " + header.getValue());
         }
     }
-
-
-
+    
 }

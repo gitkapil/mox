@@ -18,11 +18,15 @@ import static com.jayway.restassured.config.EncoderConfig.encoderConfig;
 public class AccessTokenForMerchants extends UtilManager{
     final static Logger logger = Logger.getLogger(AccessTokenForMerchants.class);
 
-    private String clientId, clientSecret, appId, type, endpoint;
+    private String clientId, clientSecret, type, endpoint;
     private RequestSpecification request=null;
     private Response accessTokenResponse=null;
     private JWTClaimsSet accessTokenClaimSet=null;
 
+    /**
+     *
+     * Getters
+     */
     public String getType() {
         return type;
     }
@@ -31,6 +35,26 @@ public class AccessTokenForMerchants extends UtilManager{
         return endpoint;
     }
 
+    public JWTClaimsSet getAccessTokenClaimSet() {
+        return accessTokenClaimSet;
+    }
+
+    public Response getAccessTokenResponse() {
+        return accessTokenResponse;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public String getClientSecret() {
+        return clientSecret;
+    }
+
+    /**
+     *
+     * Setters
+     */
     public void setEndpoint(String endpoint) {
         this.endpoint = endpoint;
     }
@@ -39,45 +63,18 @@ public class AccessTokenForMerchants extends UtilManager{
         this.type = type;
     }
 
-    public JWTClaimsSet getAccessTokenClaimSet() {
-        return accessTokenClaimSet;
-    }
 
     public void setAccessTokenClaimSet(JWTClaimsSet accessTokenClaimSet) {
         this.accessTokenClaimSet = accessTokenClaimSet;
     }
 
-    public String getClientId() {
-        return clientId;
-    }
-
-
     public void setClientId(String clientId) {
         this.clientId = clientId;
     }
 
-    public String getClientSecret() {
-        return clientSecret;
-    }
 
     public void setClientSecret(String clientSecret) {
         this.clientSecret = clientSecret;
-    }
-
-    public String getAppId() {
-        return appId;
-    }
-
-    public void setAppId(String appId) {
-        this.appId = appId;
-    }
-
-    public String expiresOnInResponse(){
-        return getRestHelper().getResponseBodyValue(accessTokenResponse, "expiresOn");
-    }
-
-    public String tokenTypeInResponse(){
-        return getRestHelper().getResponseBodyValue(accessTokenResponse, "tokenType");
     }
 
 
@@ -103,7 +100,10 @@ public class AccessTokenForMerchants extends UtilManager{
 
     }
 
-
+    /**
+     * This method creates a JSON body and includes it within the request. This is to test a negative scenario.
+     * @param url
+     */
     public void sendBodyInJsonFormat(String url){
 
         String body="{\n" +
@@ -127,6 +127,11 @@ public class AccessTokenForMerchants extends UtilManager{
 
     }
 
+
+    /**
+     * This method creates an invalid body for the request. The "missing key" parameter is not included as a part of the request.
+     * @param missingKey
+     */
     public void createInvalidBody(String missingKey){
         try{
             if (missingKey.equalsIgnoreCase("clientId"))
@@ -180,7 +185,10 @@ public class AccessTokenForMerchants extends UtilManager{
 
     }
 
-
+    /**
+     * This method creates an invalid header for the request. The "key" parameter is not included as a part of the request.
+     * @param key
+     */
     public void createInvalidHeader(String key){
         try{
             if (key.equalsIgnoreCase("Accept"))
@@ -226,8 +234,6 @@ public class AccessTokenForMerchants extends UtilManager{
 
     }
 
-
-
     /**
      * Sets valid details for a client/ merchant
      * @param clientId
@@ -238,64 +244,10 @@ public class AccessTokenForMerchants extends UtilManager{
         setClientSecret(clientSecret);
     }
 
-    public Response getAccessTokenResponse() {
-        return accessTokenResponse;
-    }
-
-    public String getAccessToken() {
-        String accessToken= null;
-        try{
-            accessToken= accessTokenResponse.path("accessToken").toString();
-        }
-        catch (Exception e){
-
-        }
-        return accessToken;
-    }
-
-
-    /**
-     * This method triggers multiple accesstoken post requests
-     * @param noOfRequests needed to be triggered
-     * @return
-     */
-    public List<Response> triggerMultipleRequests(int noOfRequests, String url){
-        ExecutorService ex= Executors.newFixedThreadPool(noOfRequests);
-        List<Future<Response>> futureList= new ArrayList<>() ;
-        List<Response> responseList= new ArrayList<>();
-
-        Callable<Response> callable = () -> {
-            return getRestHelper().postRequestWithEncodedBody(url,request);
-        };
-
-
-        for(int i=1;i<noOfRequests+1;i++)
-        {
-
-            futureList.add(ex.submit(callable));
-        }
-        ex.shutdown();
-
-
-        for(Future<Response> fut : futureList){
-            try {
-                responseList.add(fut.get());
-               // System.out.println(new Date()+ "-->  "+fut.get().path("access_token"));
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return responseList;
-
-
-    }
 
     /**
      *
-     * @return the access token generated for the merchant.
+     * @return POST Access Token endpoint
      */
     public Response retrieveAccessToken(String endPoint)
     {
@@ -304,7 +256,6 @@ public class AccessTokenForMerchants extends UtilManager{
         return accessTokenResponse;
 
     }
-
 
     /**
      *
@@ -321,8 +272,6 @@ public class AccessTokenForMerchants extends UtilManager{
      * @returns if the role within claim set is developer or merchant
      */
     public String checkDevOrMerchantRoleInClaimSet(){
-        String role= "nothing Provisioned";
-
         try {
             List<String> roles= accessTokenClaimSet.getStringListClaim("roles");
 
@@ -375,7 +324,7 @@ public class AccessTokenForMerchants extends UtilManager{
 
     /**
      *
-     * @returns aud's value within claim set
+     * @returns aud's value within response claim set
      */
     public String retrieveAudInClaimSet(){
 
@@ -390,6 +339,40 @@ public class AccessTokenForMerchants extends UtilManager{
             return "no aud found within claim set";
         }
 
+    }
+
+
+    /**
+     *
+     * @returns expiresOn from the response
+     */
+    public String expiresOnInResponse(){
+        return getRestHelper().getResponseBodyValue(accessTokenResponse, "expiresOn");
+    }
+
+
+    /**
+     *
+     * @returns tokenType from the response
+     */
+    public String tokenTypeInResponse(){
+        return getRestHelper().getResponseBodyValue(accessTokenResponse, "tokenType");
+    }
+
+
+    /**
+     *
+     * @returns accessToken from the response
+     */
+    public String getAccessToken() {
+        String accessToken= null;
+        try{
+            accessToken= accessTokenResponse.path("accessToken").toString();
+        }
+        catch (Exception e){
+
+        }
+        return accessToken;
     }
 
 

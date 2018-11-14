@@ -22,6 +22,10 @@ public class PaymentRequest extends UtilManager{
     private HashMap paymentRequestBody = new HashMap();
     private Response paymentRequestResponse= null;
 
+    /**
+     *
+     * Getters
+     */
     public HashMap<String, String> getPaymentRequestHeader() {
         return paymentRequestHeader;
     }
@@ -30,21 +34,12 @@ public class PaymentRequest extends UtilManager{
         return paymentRequestBody;
     }
 
-
     public String getAppSuccessCallback() {
         return appSuccessCallback;
     }
 
-    public void setAppSuccessCallback(String appSuccessCallback) {
-        this.appSuccessCallback = appSuccessCallback;
-    }
-
     public String getAppFailCallback() {
         return appFailCallback;
-    }
-
-    public void setAppFailCallback(String appFailCallback) {
-        this.appFailCallback = appFailCallback;
     }
 
     public String getTraceId() {
@@ -55,37 +50,16 @@ public class PaymentRequest extends UtilManager{
         return shoppingCart;
     }
 
-    public void setShoppingCart(List<HashMap> shoppingCart) {
-        this.shoppingCart = shoppingCart;
-    }
-
-    public void setTraceId(String traceId) {
-        this.traceId = traceId;
-    }
-
     public HashMap getMerchantData() {
         return merchantData;
     }
-
-    public void setMerchantData(HashMap merchantData) {
-        this.merchantData = merchantData;
-    }
-
 
     public String getCurrency() {
         return currency;
     }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
     public String getnotificationURI() {
         return notificationURI;
-    }
-
-    public void setNotificationURI(String notificationURI) {
-        this.notificationURI = notificationURI;
     }
 
     public String getTotalAmount() {
@@ -96,42 +70,81 @@ public class PaymentRequest extends UtilManager{
         return totalAmountInDouble;
     }
 
-    public void setTotalAmount(String totalAmount) {
-        this.totalAmount = totalAmount;
-    }
-
     public Response getPaymentRequestResponse() {
         return paymentRequestResponse;
     }
 
+    public String getRequestDateTime() { return requestDateTime; }
 
-    public String getRequestDateTime() {
-        return requestDateTime;
+    public String getAuthToken() { return authToken; }
 
+    public String getEffectiveDuration() { return effectiveDuration; }
+
+    /**
+     *
+     * Setters
+     */
+    public void setAppSuccessCallback(String appSuccessCallback) {
+        this.appSuccessCallback = appSuccessCallback;
+    }
+
+    public void setAppFailCallback(String appFailCallback) {
+        this.appFailCallback = appFailCallback;
+    }
+
+    public void setShoppingCart(List<HashMap> shoppingCart) {
+        this.shoppingCart = shoppingCart;
+    }
+
+    public void setTraceId(String traceId) {
+        this.traceId = traceId;
+    }
+
+    public void setMerchantData(HashMap merchantData) {
+        this.merchantData = merchantData;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public void setNotificationURI(String notificationURI) {
+        this.notificationURI = notificationURI;
+    }
+
+    public void setTotalAmount(String totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     public void setRequestDateTime(String requestDateTime) {
         this.requestDateTime = requestDateTime;
     }
 
+    public void setAuthToken(String authToken) { this.authToken = authToken; }
+
+    public void setEffectiveDuration(String effectiveDuration) { this.effectiveDuration = effectiveDuration; }
 
 
-    public String getAuthToken() {
-
-        return authToken;
-    }
-
-
-    public void setAuthToken(String authToken) {
-
-        this.authToken = authToken;
-    }
-
+    /**
+     * Prefixes authToken with "Bearer"
+     * @param authToken
+     */
     public void setAuthTokenwithBearer(String authToken) {
 
         this.authToken = "Bearer "+ authToken;
     }
 
+
+    /**
+     * This method creates valid header for the POST Payment Request
+     * @param method
+     * @param url
+     * @param signingKeyId
+     * @param signingAlgorithm
+     * @param signingKey
+     * @param headerElementsForSignature
+     * @return
+     */
     public HashMap<String,String> returnPaymentRequestHeader(String method, String url, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature) {
         paymentRequestHeader= new HashMap<String, String>();
         paymentRequestHeader.put("Accept","application/json");
@@ -141,6 +154,7 @@ public class PaymentRequest extends UtilManager{
         paymentRequestHeader.put("Accept-Language", "en-US");
         paymentRequestHeader.put("Request-Date-Time", getRequestDateTime());
         paymentRequestHeader.put("Api-Version", System.getProperty("version"));
+
         try {
            paymentRequestHeader.put("Digest", getSignatureHelper().calculateContentDigestHeader(new ObjectMapper().writeValueAsBytes(paymentRequestBody)));
         } catch (NoSuchAlgorithmException e) {
@@ -164,14 +178,10 @@ public class PaymentRequest extends UtilManager{
         return paymentRequestHeader;
     }
 
-    public String getEffectiveDuration() {
-        return effectiveDuration;
-    }
-
-    public void setEffectiveDuration(String effectiveDuration) {
-        this.effectiveDuration = effectiveDuration;
-    }
-
+    /**
+     * This method creates valid body for the POST payment Request
+     * @return
+     */
     public HashMap<String,HashMap> returnPaymentRequestBody(){
         paymentRequestBody= new HashMap();
 
@@ -251,6 +261,12 @@ public class PaymentRequest extends UtilManager{
          return paymentRequestBody;
     }
 
+    /**
+     * This method compiles merchant data to be included within the body for POST payment Request
+     * @param description
+     * @param orderId
+     * @param additionalData
+     */
     public void createMerchantData(String description, String orderId, String additionalData){
         merchantData= new HashMap();
         if (!description.equals(""))
@@ -285,6 +301,10 @@ public class PaymentRequest extends UtilManager{
     }
 
 
+    /**
+     * This method compiles shopping cart data to be included within the body(within merchant) for POST payment Request
+     * @param dt
+     */
     public void createShoppingCart(DataTable dt){
         shoppingCart= new ArrayList<>();
         List<Map<String, String>> list = dt.asMaps(String.class, String.class);
@@ -357,6 +377,14 @@ public class PaymentRequest extends UtilManager{
 
     }
 
+
+    /**
+     * This method hits POST payment request endpoint with an existing header and body
+     * @param url
+     * @param header
+     * @param body
+     * @return
+     */
     public Response retrievePaymentRequestExistingHeaderBody(String url, HashMap header, HashMap body) {
 
         paymentRequestResponse= getRestHelper().postRequestWithHeaderAndBody(url, header, body);
@@ -367,6 +395,15 @@ public class PaymentRequest extends UtilManager{
     }
 
 
+    /**
+     * This method hits POST payment request endpoint and creates header and body values
+     * @param url
+     * @param signingKeyId
+     * @param signingAlgorithm
+     * @param signingKey
+     * @param headerElementsForSignature
+     * @return
+     */
     public Response retrievePaymentRequest(String url, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature) {
 
         try{
@@ -386,6 +423,16 @@ public class PaymentRequest extends UtilManager{
     }
 
 
+    /**
+     * This method hits POST payment request endpoint with invalid header values. "key" values are missing from the header.
+     * @param url
+     * @param key
+     * @param signingKeyId
+     * @param signingAlgorithm
+     * @param signingKey
+     * @param headerElementsForSignature
+     * @return
+     */
     public Response retrievePaymentRequestWithMissingHeaderKeys(String url, String key, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature)  {
 
         try {
@@ -405,67 +452,125 @@ public class PaymentRequest extends UtilManager{
     }
 
 
+    /**
+     *
+     * @returns paymentRequestId from the response
+     */
     public String paymentRequestIdInResponse(){
         return getRestHelper().getResponseBodyValue(paymentRequestResponse, "paymentRequestId");
 
     }
 
+    /**
+     *
+     * @returns effectiveDuration from the response
+     */
     public Integer effectiveDurationInResponse(){
         return Integer.parseInt(getRestHelper().getResponseBodyValue(paymentRequestResponse, "effectiveDuration"));
 
     }
 
+    /**
+     *
+     * @returns webLink from the response
+     */
     public String webLinkInResponse(){
         return getRestHelper().getResponseBodyValue(paymentRequestResponse, "webLink");
 
     }
 
+    /**
+     *
+     * @returns appLink from the response
+     */
     public String appLinkInResponse(){
         return getRestHelper().getResponseBodyValue(paymentRequestResponse, "appLink");
 
     }
 
+    /**
+     *
+     * @returns statusCode from the response
+     */
     public String statusCodeInResponse(){
         return getRestHelper().getResponseBodyValue(paymentRequestResponse, "statusCode");
 
     }
 
+    /**
+     *
+     * @returns statusDescription from the response
+     */
     public String statusDescriptionInResponse(){
         return getRestHelper().getResponseBodyValue(paymentRequestResponse, "statusDescription");
 
     }
 
+
+    /**
+     *
+     * @returns totalAmount from the response
+     */
     public String totalAmountInResponse(){
         return getRestHelper().getResponseBodyValue(paymentRequestResponse, "totalAmount");
 
     }
 
+    /**
+     *
+     * @returns currencyCode from the response
+     */
     public String currencyCodeInResponse(){
         return getRestHelper().getResponseBodyValue(paymentRequestResponse, "currencyCode");
 
     }
 
 
+    /**
+     *
+     * @returns createdTime from the response
+     */
     public String createdTimestampInResponse(){
         return getRestHelper().getResponseBodyValue(paymentRequestResponse, "createdTime");
 
     }
 
+    /**
+     *
+     * @returns notificationUri from the response
+     */
     public String notificationURIInResponse(){
         return getRestHelper().getResponseBodyValue(paymentRequestResponse, "notificationUri");
 
     }
 
+    /**
+     *
+     * @returns appSuccessCallback from the response
+     */
     public String appSuccessCallbackInResponse(){
         return getRestHelper().getResponseBodyValue(paymentRequestResponse, "appSuccessCallback");
 
     }
 
+    /**
+     *
+     * @returns appFailCallback from the response
+     */
     public String appFailCallbackInResponse(){
         return getRestHelper().getResponseBodyValue(paymentRequestResponse, "appFailCallback");
 
     }
 
+    /**
+     * This method hits POST payment request and the "digest" is not included for signature calculation
+     * @param url
+     * @param signingKeyId
+     * @param signingAlgorithm
+     * @param signingKey
+     * @param headerElementsForSignature
+     * @return
+     */
     public Response retrievePaymentRequestWithoutDigest(String url, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature)  {
 
         try {
@@ -483,6 +588,16 @@ public class PaymentRequest extends UtilManager{
     }
 
 
+    /**
+     * This method creates a valid header but without digest
+     * @param method
+     * @param url
+     * @param signingKeyId
+     * @param signingAlgorithm
+     * @param signingKey
+     * @param headerElementsForSignature
+     * @return
+     */
     public HashMap<String,String> returnPaymentRequestHeaderWithoutDigest(String method, String url, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature) {
         paymentRequestHeader= new HashMap<String, String>();
         paymentRequestHeader.put("Accept","application/json");
@@ -505,8 +620,5 @@ public class PaymentRequest extends UtilManager{
         }
         return paymentRequestHeader;
     }
-
-
-
 
 }
