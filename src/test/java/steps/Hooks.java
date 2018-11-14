@@ -33,13 +33,13 @@ public class Hooks extends UtilManager{
     }
 
 
-    @After
+   /* @After
     public static void writeExtentReport() {
         Reporter.loadXMLConfig(new File(System.getProperty("user.dir")+"/src/test/resources/extent-config.xml"));
         Reporter.setSystemInfo("Environment", System.getProperty("env"));
         Reporter.setSystemInfo("API Version", System.getProperty("version"));
         Reporter.setSystemInfo("User Type", System.getProperty("usertype"));
 
-    }
+    } */
 
 }
