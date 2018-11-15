@@ -35,14 +35,14 @@ public class Hooks extends UtilManager{
     @Before("@developeronly")
     public void beforeScenario3() {
         if(System.getProperty("usertype").equalsIgnoreCase("developer")) {
-            throw new AssumptionViolatedException("Not supported on SIT Sandbox env");
+            throw new AssumptionViolatedException("Not supported on Sandbox env");
         }
     }
 
     @Before("@merchantonly")
     public void beforeScenario4() {
         if(System.getProperty("usertype").equalsIgnoreCase("merchant")) {
-            throw new AssumptionViolatedException("Not supported on SIT Merchant env");
+            throw new AssumptionViolatedException("Not supported on Merchant env");
         }
     }
 
