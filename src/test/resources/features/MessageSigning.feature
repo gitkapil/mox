@@ -152,9 +152,8 @@ Scenario: Positive flow- POST Payment Request digest is a mandatory header field
   Given I am an authorized user
   And I have valid payment details
   When I make a request for the payment without digest in the header
-  Then I should recieve a successful payment response
-  Then I should recieve a "401" error response with "Unable to verify signature" error description and "BNA001" errorcode within check status response
-  And error message should be "Unauthorized Operation!" within check status response
+  Then I should recieve a "401" error response with "Unable to verify signature" error description and "BNA001" errorcode within payment response
+  And error message should be "Unauthorized Operation!" within payment response
 
 
 @regression
