@@ -1,6 +1,6 @@
 Feature: Security Model Validation - DRAG- 362
 
-@regression @developeronly
+@regression @skiponmerchant
 Scenario: Validate that a developer hitting sandbox APIM gets 'developer' role and 'sandbox server app id' as aud within claimset in token (sandbox client app has permission only to access sandbox server app)
   Given I am a developer
   When I make a request to the sandbox Dragon ID Manager
@@ -9,7 +9,7 @@ Scenario: Validate that a developer hitting sandbox APIM gets 'developer' role a
   And the role should be "developer"
   And the aud should be sandbox server app id
 
-@regression @merchantonly
+@regression @skiponsandbox
 Scenario: Validate that a merchant hitting merchant APIM gets 'merchant' role and 'merchant server app id' as aud within claimset in token (merchant client app has permission only to access merchant server app)
   Given I am a merchant
   When I make a request to the merchant Dragon ID Manager
@@ -54,7 +54,7 @@ Scenario: Validate that a developer hitting merchant APIM gets no role and 'merc
   Then I should recieve a "401" error response with "Missing claims: roles." error description and "401" errorcode within check status response
   And error message should be "TokenMissingClaims" within check status response
 
-@regression @developeronly
+@regression @skiponmerchant
 Scenario: Validate that a developer with valid token and paymentRequest as role is able to access sandbox payment request and check status APIs (sandbox client app has permission to access sandbox server app)
   Given I am a developer
   And I make a request to the sandbox Dragon ID Manager
@@ -70,7 +70,7 @@ Scenario: Validate that a developer with valid token and paymentRequest as role 
   And I make a request for the check status
   Then I should recieve a successful check status response
 
-@regression @merchantonly
+@regression @skiponsandbox
 Scenario: Validate that a merchant with valid token and paymentRequest as role is able to access merchant payment request and check status APIs(merchant client app has permission to access merchant server app)
   Given I am a merchant
   And I make a request to the merchant Dragon ID Manager
@@ -86,7 +86,7 @@ Scenario: Validate that a merchant with valid token and paymentRequest as role i
   And I make a request for the check status
   Then I should recieve a successful check status response
 
-@regression @developeronly
+@regression @skiponmerchant
 Scenario: Validate that a developer with valid token and no paymentRequest as role is not able to access sandbox payment request and check status APIs (sandbox client app has permission to access sandbox server app)
   Given I am a developer with no paymentrequest role
   And I make a request to the sandbox Dragon ID Manager
@@ -104,7 +104,7 @@ Scenario: Validate that a developer with valid token and no paymentRequest as ro
   Then I should recieve a "401" error response with "Claim value mismatch: roles=paymentRequest" error description and "401" errorcode within check status response
   And error message should be "TokenClaimValueMismatch" within check status response
 
-@regression @merchantonly
+@regression @skiponsandbox
 Scenario: Validate that a merchant with valid token and no paymentRequest as role is not able to access merchant payment request and check status APIs (merchant client app has permission to access merchant server app)
   Given I am a merchant with no paymentrequest role
   And I make a request to the merchant Dragon ID Manager
@@ -196,7 +196,7 @@ Scenario: Validate that a user with (merchant) token and paymentRequest as role 
   Then I should recieve a "401" error response with "Claim value mismatch: aud=" error description and "401" errorcode within check status response
   And error message should be "TokenClaimValueMismatch" within check status response
 
-@regression @merchantonly
+@regression @skiponsandbox
 Scenario: Validate that a user with (merchant) token and paymentRequest as role is able to access merchant payment request and check status APIs (merchant client app has access to both the server apps)
   Given I am a client app with access to both sandbox & merchant server apps
   And I make a request to the merchant Dragon ID Manager
@@ -212,7 +212,7 @@ Scenario: Validate that a user with (merchant) token and paymentRequest as role 
   And I make a request for the check status
   Then I should recieve a successful check status response
 
-@regression @developeronly
+@regression @skiponmerchant
 Scenario: Validate that a user with (developer) token and paymentRequest as role is able to access sandbox payment request and check status APIs (sandbox client app has access to both the server apps)
   Given I am a client app with access to both sandbox & merchant server apps
   And I make a request to the sandbox Dragon ID Manager

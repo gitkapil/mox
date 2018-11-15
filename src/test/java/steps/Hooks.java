@@ -32,17 +32,17 @@ public class Hooks extends UtilManager{
         }
     }
 
-    @Before("@developeronly")
+    @Before("@skiponsandbox")
     public void beforeScenario3() {
         if(System.getProperty("usertype").equalsIgnoreCase("developer")) {
-            throw new AssumptionViolatedException("Not supported on Sandbox env");
+            throw new AssumptionViolatedException("Not to be executed in Sandbox");
         }
     }
 
-    @Before("@merchantonly")
+    @Before("@skiponmerchant")
     public void beforeScenario4() {
         if(System.getProperty("usertype").equalsIgnoreCase("merchant")) {
-            throw new AssumptionViolatedException("Not supported on Merchant env");
+            throw new AssumptionViolatedException("Not to be executed in Merchant");
         }
     }
 
