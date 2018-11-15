@@ -27,7 +27,7 @@ public class Hooks extends UtilManager{
 
     @Before("@skiponsitmerchant")
     public void beforeScenario2() {
-        if(System.getProperty("env").equalsIgnoreCase("sit") && System.getProperty("usertype").equalsIgnoreCase("merchant")) {
+        if(System.getProperty("env").contains("sit") && System.getProperty("usertype").equalsIgnoreCase("merchant")) {
             throw new AssumptionViolatedException("Not supported on SIT merchant env");
         }
     }
