@@ -157,9 +157,6 @@ public class PaymentRequest extends UtilManager{
 
         try {
            paymentRequestHeader.put("Digest", getSignatureHelper().calculateContentDigestHeader(new ObjectMapper().writeValueAsBytes(paymentRequestBody)));
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            Assert.assertTrue("Trouble creating Digest!", false);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             Assert.assertTrue("Trouble creating Digest!", false);

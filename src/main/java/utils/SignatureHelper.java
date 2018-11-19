@@ -9,7 +9,6 @@ import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
 import java.net.URL;
 import java.security.Key;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
