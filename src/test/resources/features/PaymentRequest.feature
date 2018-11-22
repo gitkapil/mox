@@ -30,21 +30,21 @@ Scenario Outline: Positive flow- A merchant is able to create a payment request 
 
 Examples:
 |totalamount|currency |notificationURL              |description          |orderId |effectiveDuration |appSuccessCallback               |appFailCallback|additionalData|
-|100.00     |HKD      |https://pizzahut.com/return3 |message from merchant|B1242183|60                |https://pizzahut.com/confirmation1|https://pizzahut.com/unsuccessful9|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|100.00     |HKD      |/return3 |message from merchant|B1242183|60                |/confirmation1|/unsuccessful9|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #description within Merchant Data missing
-|300.12     |HKD      |https://pizzahut.com/return4 |                     |XYZ456  |30                |https://pizzahut.com/confirmation2|https://pizzahut.com/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|300.12     |HKD      |/return4 |                     |XYZ456  |30                |/confirmation2|/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #orderId within Merchant Data missing
-|0.01       |HKD      |https://pizzahut.com/return44|message from merchant|        |60                |https://pizzahut.com/confirmation3|https://pizzahut.com/unsuccessful5|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|0.01       |HKD      |/return44|message from merchant|        |60                |/confirmation3|/unsuccessful5|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #effectiveDuration missing
-|1          |HKD      |https://pizzahut.com/return12|message from merchant|XYZ123  |                  |https://pizzahut.com/confirmation4|https://pizzahut.com/unsuccessful4|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|1          |HKD      |/return12|message from merchant|XYZ123  |                  |/confirmation4|/unsuccessful4|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #notificationURI missing
-|500.00     |HKD      |                             |message from merchant|B1242183|60                |https://pizzahut.com/confirmation5|https://pizzahut.com/unsuccessful1|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|500.00     |HKD      |                             |message from merchant|B1242183|60                |/confirmation5|/unsuccessful1|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #appSuccessCallback missing
-|800.00     |HKD      |https://pizzahut.com/return09|message from merchant|B1242183|60                ||https://pizzahut.com/unsuccessful6|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|800.00     |HKD      |/return09|message from merchant|B1242183|60                ||/unsuccessful6|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #appFailCallback missing
-|900.00     |HKD      |https://pizzahut.com/return11|message from merchant|B1242183|60                |https://pizzahut.com/confirmation7||pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|900.00     |HKD      |/return11|message from merchant|B1242183|60                |/confirmation7||pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #additionalData  within Merchant Data missing
-|550.00     |HKD      |https://pizzahut.com/return2 |message from merchant|B1242183|60                |https://pizzahut.com/confirmation8|https://pizzahut.com/unsuccessful0||
+|550.00     |HKD      |/return2 |message from merchant|B1242183|60                |/confirmation8|/unsuccessful0||
 
 
   @regression    
@@ -60,21 +60,21 @@ Scenario Outline: Positive flow- A merchant is able to create a payment request 
 
 Examples:
 |totalamount|currency |notificationURL              |description          |orderId |effectiveDuration |appSuccessCallback               |appFailCallback|additionalData|
-|100.00     |HKD      |https://pizzahut.com/return45|message from merchant|B1242183|60                |https://pizzahut.com/confirmation5|https://pizzahut.com/unsuccessful1|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|100.00     |HKD      |/return45|message from merchant|B1242183|60                |/confirmation5|/unsuccessful1|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #description within Merchant Data missing
-|300.12     |HKD      |https://pizzahut.com/return12|                     |XYZ456  |30                |https://pizzahut.com/confirmation1|https://pizzahut.com/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|300.12     |HKD      |/return12|                     |XYZ456  |30                |/confirmation1|/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #orderId within Merchant Data missing
-|0.01       |HKD      |https://pizzahut.com/return98|message from merchant|        |60                |https://pizzahut.com/confirmation7|https://pizzahut.com/unsuccessful9|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|0.01       |HKD      |/return98|message from merchant|        |60                |/confirmation7|/unsuccessful9|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #effectiveDuration missing
-|1          |HKD      |https://pizzahut.com/return42|message from merchant|XYZ123  |                  |https://pizzahut.com/confirmation8|https://pizzahut.com/unsuccessful3|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|1          |HKD      |/return42|message from merchant|XYZ123  |                  |/confirmation8|/unsuccessful3|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #notificationURI missing
-|500.00     |HKD      |                             |message from merchant|B1242183|60                |https://pizzahut.com/confirmation0|https://pizzahut.com/unsuccessful2|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|500.00     |HKD      |                             |message from merchant|B1242183|60                |/confirmation0|/unsuccessful2|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #appSuccessCallback missing
-|800.00     |HKD      |https://pizzahut.com/return29|message from merchant|B1242183|60                ||https://pizzahut.com/unsuccessful6|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|800.00     |HKD      |/return29|message from merchant|B1242183|60                ||/unsuccessful6|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #appFailCallback missing
-|900.00     |HKD      |https://pizzahut.com/return13|message from merchant|B1242183|60                |https://pizzahut.com/confirmation3||pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|900.00     |HKD      |/return13|message from merchant|B1242183|60                |/confirmation3||pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #additionalData  within Merchant Data missing
-|550.00     |HKD      |https://pizzahut.com/return26|message from merchant|B1242183|60                |https://pizzahut.com/confirmations|https://pizzahut.com/unsuccessfuls||
+|550.00     |HKD      |/return26|message from merchant|B1242183|60                |/confirmations|/unsuccessfuls||
 
 
   @regression    
@@ -102,12 +102,12 @@ Scenario Outline: Positive flow- A merchant is able to create a payment request 
 
 Examples:
 |totalamount|currency |notificationURL            |description          |orderId |effectiveDuration |appSuccessCallback|appFailCallback|additionalData|
-|100.00     |HKD      |https://pizzahut.com/return|no_value             |B1242183|60                |https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
-|150.00     |HKD      |https://pizzahut.com/return|message from merchant|no_value|60                |https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
-|900        |HKD      |no_value                   |message from merchant|B1242183|60                |https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
-|133     |HKD      |https://pizzahut.com/return|message from merchant|B1242183|60                |no_value|https://pizzahut.com/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
-|876     |HKD      |https://pizzahut.com/return|message from merchant|B1242183|60                |https://pizzahut.com/confirmation|no_value|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
-|77     |HKD      |https://pizzahut.com/return|message from merchant|B1242183|60                |https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful|no_value|
+|100.00     |HKD      |/return|no_value             |B1242183|60                |/confirmation|/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|150.00     |HKD      |/return|message from merchant|no_value|60                |/confirmation|/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|900        |HKD      |no_value                   |message from merchant|B1242183|60                |/confirmation|/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|133     |HKD      |/return|message from merchant|B1242183|60                |no_value|/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|876     |HKD      |/return|message from merchant|B1242183|60                |/confirmation|no_value|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|77     |HKD      |/return|message from merchant|B1242183|60                |/confirmation|/unsuccessful|no_value|
 
 
 # For the parametres where value is "no_value" within the table, while creating request the parameter (key) will be included but will have no value
@@ -133,7 +133,7 @@ Scenario Outline: Positive flow- A merchant is able to create a payment request 
 
 Examples:
 |totalamount|currency |notificationURL            |description          |orderId |effectiveDuration |appSuccessCallback|appFailCallback|additionalData|
-|100.00     |HKD      |https://pizzahut.com/return|message from merchant|B1242183|60                |https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|100.00     |HKD      |/return|message from merchant|B1242183|60                |/confirmation|/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 
 
   @regression   
@@ -142,8 +142,8 @@ Scenario: Negative flow- Invalid auth token (without Bearer in the header)
   And I dont send Bearer with the auth token
   And I have valid payment details
   When I make a request for the payment
-  Then I should recieve a "401" error response with "JWT not present." error description and "401" errorcode within payment response
-  And error message should be "TokenNotPresent" within payment response
+  Then I should recieve a "401" error response with "JWT not present." error description and "EA001" errorcode within payment response
+  And error message should be "Service Request Authentication Failed" within payment response
   #And the payment request response should be signed
 
 
@@ -183,20 +183,20 @@ Scenario Outline: Negative flow- Invalid auth token
   Given I am a merchant with invalid "<auth_token>"
   And I have valid payment details
   When I make a request for the payment
-  Then I should recieve a "401" error response with "<error_description>" error description and "401" errorcode within payment response
+  Then I should recieve a "401" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
   And error message should be "<error_message>" within payment response
   #And the payment request response should be signed
 
  Examples:
- |error_description           |error_message          |auth_token|
+ |error_description           |error_message          |auth_token|error_code|
  #Auth Token missing
- |JWT not present.            |TokenNotPresent        ||
+ |JWT not present.            |Service Request Authentication Failed  ||EA001|
  # Auth token not a JWT
- |JWT is not well formed      |Invalid JWT            |random_auth_token|
+ |JWT is not well formed      |Service Request Authentication Failed  |random_auth_token|EA001|
  # Expired auth token
- |Signature validation failed.|TokenSignatureKeyNotFound  |eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Imk2bEdrM0ZaenhSY1ViMkMzbkVRN3N5SEpsWSIsImtpZCI6Imk2bEdrM0ZaenhSY1ViMkMzbkVRN3N5SEpsWSJ9.eyJhdWQiOiI1MTczYTVhOS00MjEyLTQ4NzctODYyMS03YmMxNjRjZjE3OGIiLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC8yZmY5M2NjZS1lZmQxLTRlMTYtOTJiYS1hZmI1M2U5ZTA5ZmMvIiwiaWF0IjoxNTM3MTY4NzAzLCJuYmYiOjE1MzcxNjg3MDMsImV4cCI6MTUzNzE3MjYwMywiYWlvIjoiNDJCZ1lKaDlXbFZsNFh1SjZFMHZsMDMvY25TOU5nQT0iLCJhcHBpZCI6IjEwOTMyM2UzLWM1NWUtNDI0Yy1iNzEyLTJlODJmMTY5NWU5OCIsImFwcGlkYWNyIjoiMSIsImlkcCI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzJmZjkzY2NlLWVmZDEtNGUxNi05MmJhLWFmYjUzZTllMDlmYy8iLCJvaWQiOiI4NjM3MjIwNi1jZWZhLTQ1ZWEtOTM0Ni0xNjNiYmFiYzc3MDYiLCJyb2xlcyI6WyJwYXltZW50UmVxdWVzdCIsInJlZnVuZCIsImRldmVsb3BlciJdLCJzdWIiOiI4NjM3MjIwNi1jZWZhLTQ1ZWEtOTM0Ni0xNjNiYmFiYzc3MDYiLCJ0aWQiOiIyZmY5M2NjZS1lZmQxLTRlMTYtOTJiYS1hZmI1M2U5ZTA5ZmMiLCJ1dGkiOiI3bUd1b0FRMUQwZTFGMks0Sy1ZWEFBIiwidmVyIjoiMS4wIn0.gCfn6QNUjzENuKvVN0bdkWgRwN-1ipovSq5Yb8IjCRfRhZNTFffLP1oIVw_8sPQxTFfV8CBOcQG385n-r_tIWBlMANHdKmpmwmOTz4J08EWzz_SY4zWdvMlF7quCYdrXVIXaKd-PLtO0UDTI7CsSAso7OAOsHBNrn3ITBoR0aMo_lM8X5dJM5fleSHFiJPMYDHpawZuy_BBXC0AUdcVT61NHkdO7sDV4Dc_C12CsShEqMi3Nj-uzr5wYHmPTxi3nk2px-_yiVaAHxxCmE0f7rWdM4BjVB89j_xtZrn1-VovgUUn_QDppY9yOgKx831xXBMX0Tz293V8g7BkagVI3lw|
+ |Signature validation failed.|Service Request Authentication Failed  |eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Imk2bEdrM0ZaenhSY1ViMkMzbkVRN3N5SEpsWSIsImtpZCI6Imk2bEdrM0ZaenhSY1ViMkMzbkVRN3N5SEpsWSJ9.eyJhdWQiOiI1MTczYTVhOS00MjEyLTQ4NzctODYyMS03YmMxNjRjZjE3OGIiLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC8yZmY5M2NjZS1lZmQxLTRlMTYtOTJiYS1hZmI1M2U5ZTA5ZmMvIiwiaWF0IjoxNTM3MTY4NzAzLCJuYmYiOjE1MzcxNjg3MDMsImV4cCI6MTUzNzE3MjYwMywiYWlvIjoiNDJCZ1lKaDlXbFZsNFh1SjZFMHZsMDMvY25TOU5nQT0iLCJhcHBpZCI6IjEwOTMyM2UzLWM1NWUtNDI0Yy1iNzEyLTJlODJmMTY5NWU5OCIsImFwcGlkYWNyIjoiMSIsImlkcCI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzJmZjkzY2NlLWVmZDEtNGUxNi05MmJhLWFmYjUzZTllMDlmYy8iLCJvaWQiOiI4NjM3MjIwNi1jZWZhLTQ1ZWEtOTM0Ni0xNjNiYmFiYzc3MDYiLCJyb2xlcyI6WyJwYXltZW50UmVxdWVzdCIsInJlZnVuZCIsImRldmVsb3BlciJdLCJzdWIiOiI4NjM3MjIwNi1jZWZhLTQ1ZWEtOTM0Ni0xNjNiYmFiYzc3MDYiLCJ0aWQiOiIyZmY5M2NjZS1lZmQxLTRlMTYtOTJiYS1hZmI1M2U5ZTA5ZmMiLCJ1dGkiOiI3bUd1b0FRMUQwZTFGMks0Sy1ZWEFBIiwidmVyIjoiMS4wIn0.gCfn6QNUjzENuKvVN0bdkWgRwN-1ipovSq5Yb8IjCRfRhZNTFffLP1oIVw_8sPQxTFfV8CBOcQG385n-r_tIWBlMANHdKmpmwmOTz4J08EWzz_SY4zWdvMlF7quCYdrXVIXaKd-PLtO0UDTI7CsSAso7OAOsHBNrn3ITBoR0aMo_lM8X5dJM5fleSHFiJPMYDHpawZuy_BBXC0AUdcVT61NHkdO7sDV4Dc_C12CsShEqMi3Nj-uzr5wYHmPTxi3nk2px-_yiVaAHxxCmE0f7rWdM4BjVB89j_xtZrn1-VovgUUn_QDppY9yOgKx831xXBMX0Tz293V8g7BkagVI3lw|EA001|
  # Auth token unverified
- |Signature validation failed |TokenInvalidSignature  |eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c|
+ |Signature validation failed |TokenInvalidSignature  |eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c|401|
 
 
   @regression @skiponsitmerchant
@@ -225,8 +225,8 @@ Scenario Outline: Negative flow- Mandatory fields from the body missing
 
 Examples:
 |totalamount|currency |notificationURL            |error_description                |error_message|error_code|appSuccessCallback|appFailCallback|effectiveDuration|
-|150.00     |         |https://pizzahut.com/return|Validation failed|Spring Framework exception|BNA030|https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful|6|
-|           |HKD      |https://pizzahut.com/return|Validation failed|Spring Framework exception|BNA030|https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful|6|
+|150.00     |         |/return|Validation failed|Spring Framework exception|BNA030|/confirmation|/unsuccessful|6|
+|           |HKD      |/return|Validation failed|Spring Framework exception|BNA030|/confirmation|/unsuccessful|6|
 
 
 Scenario Outline: Negative flow- TraceId's value missing from the header
@@ -270,7 +270,7 @@ Scenario Outline: Negative flow- verify Error message if the additionalData is o
 
 Examples:
 |totalamount|currency |notificationURL            |description          |orderId |effectiveDuration |appSuccessCallback|appFailCallback|additionalData|
-|100.00     |HKD      |https://pizzahut.com/return|message from merchant|B1242183|60                |https://pizzahut.com/confirmation|https://pizzahut.com/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|100.00     |HKD      |/return|message from merchant|B1242183|60                |/confirmation|/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 
    # Peak errors - same transaction sent twice, random merchant id
    # Manual test cases - peak timeout & peak server down (switch off peak mock), Restrict Caller IPs Policy, large amount

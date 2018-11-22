@@ -57,11 +57,12 @@ public class JWTHelper {
         } catch (BadJOSEException e) {
             Assert.assertTrue(e.getMessage(), false);
         } catch (JOSEException e) {
-            if (e.getMessage().equalsIgnoreCase("Couldn't retrieve remote JWK set: Read timed out")){
+            if (e.getMessage().contains("Couldn't retrieve remote JWK set") ){
                 return validateJWT(token, jwks_uri);
             }
             Assert.assertTrue(e.getMessage(), false);
-        } catch (Exception e){
+        }
+        catch (Exception e){
             System.out.println(e.getMessage());
 //            Assert.assertTrue(e.getMessage(), false);
         }

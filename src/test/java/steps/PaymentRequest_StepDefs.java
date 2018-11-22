@@ -79,9 +79,9 @@ public class PaymentRequest_StepDefs extends UtilManager{
     public void i_have_payment_details(String totalAmount, String currency, String notificationURI, String appSuccessCallback, String appFailCallback, String effectiveDuration){
         testContext.getApiManager().getPaymentRequest().setTotalAmount(totalAmount);
         testContext.getApiManager().getPaymentRequest().setCurrency(currency);
-        testContext.getApiManager().getPaymentRequest().setNotificationURI(notificationURI);
-        testContext.getApiManager().getPaymentRequest().setAppSuccessCallback(appSuccessCallback);
-        testContext.getApiManager().getPaymentRequest().setAppFailCallback(appFailCallback);
+        testContext.getApiManager().getPaymentRequest().setNotificationURI(Hooks.hostIP+notificationURI);
+        testContext.getApiManager().getPaymentRequest().setAppSuccessCallback(Hooks.hostIP+appSuccessCallback);
+        testContext.getApiManager().getPaymentRequest().setAppFailCallback(Hooks.hostIP+appFailCallback);
         testContext.getApiManager().getPaymentRequest().setEffectiveDuration(effectiveDuration);
         testContext.getApiManager().getPaymentRequest().setShoppingCart(null);
         testContext.getApiManager().getPaymentRequest().setMerchantData(null);
@@ -94,9 +94,12 @@ public class PaymentRequest_StepDefs extends UtilManager{
     public void i_have_valid_payment_details(){
         testContext.getApiManager().getPaymentRequest().setTotalAmount("100");
         testContext.getApiManager().getPaymentRequest().setCurrency("HKD");
-        testContext.getApiManager().getPaymentRequest().setNotificationURI("https://pizzahut.com/return");
-        testContext.getApiManager().getPaymentRequest().setAppSuccessCallback("https://pizzahut.com/confirmation");
-        testContext.getApiManager().getPaymentRequest().setAppFailCallback("https://pizzahut.com/unsuccessful");
+        //testContext.getApiManager().getPaymentRequest().setNotificationURI("https://pizzahut.com/return");
+        //testContext.getApiManager().getPaymentRequest().setAppSuccessCallback("https://pizzahut.com/confirmation");
+        //testContext.getApiManager().getPaymentRequest().setAppFailCallback("https://pizzahut.com/unsuccessful");
+        testContext.getApiManager().getPaymentRequest().setNotificationURI(Hooks.hostIP+"/return");
+        testContext.getApiManager().getPaymentRequest().setAppSuccessCallback(Hooks.hostIP+"/confirmation");
+        testContext.getApiManager().getPaymentRequest().setAppFailCallback(Hooks.hostIP+"/unsuccessful");
         testContext.getApiManager().getPaymentRequest().setEffectiveDuration("600");
         testContext.getApiManager().getPaymentRequest().setShoppingCart(null);
         testContext.getApiManager().getPaymentRequest().setMerchantData(null);
@@ -253,9 +256,12 @@ public class PaymentRequest_StepDefs extends UtilManager{
     public void i_have_payment_details_with_set_for_the(String invalid_value, String parameter) {
         testContext.getApiManager().getPaymentRequest().setTotalAmount("20");
         testContext.getApiManager().getPaymentRequest().setCurrency("HKD");
-        testContext.getApiManager().getPaymentRequest().setNotificationURI("https://pizzahut.com/return");
-        testContext.getApiManager().getPaymentRequest().setAppSuccessCallback("https://pizzahut.com/confirmation");
-        testContext.getApiManager().getPaymentRequest().setAppFailCallback("https://pizzahut.com/unsuccessful");
+        //testContext.getApiManager().getPaymentRequest().setNotificationURI("https://pizzahut.com/return");
+        //testContext.getApiManager().getPaymentRequest().setAppSuccessCallback("https://pizzahut.com/confirmation");
+        //testContext.getApiManager().getPaymentRequest().setAppFailCallback("https://pizzahut.com/unsuccessful");
+        testContext.getApiManager().getPaymentRequest().setNotificationURI(Hooks.hostIP+"/return");
+        testContext.getApiManager().getPaymentRequest().setAppSuccessCallback(Hooks.hostIP+"/confirmation");
+        testContext.getApiManager().getPaymentRequest().setAppFailCallback(Hooks.hostIP+"/unsuccessful");
         testContext.getApiManager().getPaymentRequest().setEffectiveDuration("600");
         testContext.getApiManager().getPaymentRequest().setRequestDateTime(getDateHelper().getUTCNowDateTime());
         testContext.getApiManager().getPaymentRequest().setTraceId(getGeneral().generateUniqueUUID());
@@ -270,9 +276,12 @@ public class PaymentRequest_StepDefs extends UtilManager{
     public void i_have_valid_payment_details_with_no_TraceId_sent_in_the_header() {
         testContext.getApiManager().getPaymentRequest().setTotalAmount("20");
         testContext.getApiManager().getPaymentRequest().setCurrency("HKD");
-        testContext.getApiManager().getPaymentRequest().setNotificationURI("https://pizzahut.com/return");
+        /*testContext.getApiManager().getPaymentRequest().setNotificationURI("https://pizzahut.com/return");
         testContext.getApiManager().getPaymentRequest().setAppSuccessCallback("https://pizzahut.com/confirmation");
-        testContext.getApiManager().getPaymentRequest().setAppFailCallback("https://pizzahut.com/unsuccessful");
+        testContext.getApiManager().getPaymentRequest().setAppFailCallback("https://pizzahut.com/unsuccessful");*/
+        testContext.getApiManager().getPaymentRequest().setNotificationURI(Hooks.hostIP+"/return");
+        testContext.getApiManager().getPaymentRequest().setAppSuccessCallback(Hooks.hostIP+"/confirmation");
+        testContext.getApiManager().getPaymentRequest().setAppFailCallback(Hooks.hostIP+"/unsuccessful");
         testContext.getApiManager().getPaymentRequest().setEffectiveDuration("600");
         testContext.getApiManager().getPaymentRequest().setRequestDateTime(getDateHelper().getUTCNowDateTime());
 
@@ -283,9 +292,12 @@ public class PaymentRequest_StepDefs extends UtilManager{
     public void i_have_valid_payment_details_with_no_RequestDateTime_sent_in_the_header(String value) {
         testContext.getApiManager().getPaymentRequest().setTotalAmount("20");
         testContext.getApiManager().getPaymentRequest().setCurrency("HKD");
-        testContext.getApiManager().getPaymentRequest().setNotificationURI("https://pizzahut.com/return");
+        /*testContext.getApiManager().getPaymentRequest().setNotificationURI("https://pizzahut.com/return");
         testContext.getApiManager().getPaymentRequest().setAppSuccessCallback("https://pizzahut.com/confirmation");
-        testContext.getApiManager().getPaymentRequest().setAppFailCallback("https://pizzahut.com/unsuccessful");
+        testContext.getApiManager().getPaymentRequest().setAppFailCallback("https://pizzahut.com/unsuccessful")*/;
+        testContext.getApiManager().getPaymentRequest().setNotificationURI(Hooks.hostIP+"/return");
+        testContext.getApiManager().getPaymentRequest().setAppSuccessCallback(Hooks.hostIP+"/confirmation");
+        testContext.getApiManager().getPaymentRequest().setAppFailCallback(Hooks.hostIP+"/unsuccessful");
         testContext.getApiManager().getPaymentRequest().setEffectiveDuration("600");
         testContext.getApiManager().getPaymentRequest().setTraceId(getGeneral().generateUniqueUUID());
         testContext.getApiManager().getPaymentRequest().setRequestDateTime(value);

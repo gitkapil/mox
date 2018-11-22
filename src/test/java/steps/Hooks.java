@@ -8,11 +8,14 @@ import cucumber.api.java.Before;
 import managers.UtilManager;
 import org.junit.AssumptionViolatedException;
 import java.io.File;
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
 import java.util.Properties;
 
 public class Hooks extends UtilManager{
     static Properties envProperties=new Properties();
     static Properties generalProperties=new Properties();
+    static String hostIP=null;
 
 
     @Before
@@ -21,6 +24,11 @@ public class Hooks extends UtilManager{
       String generalPropertiesFilePath=System.getProperty("user.dir")+"/src/test/resources/configs/"+System.getProperty("env")+".properties";
       envProperties= getFileHelper().loadPropertiesFile(generalPropertiesFilePath);
       generalProperties = getFileHelper().loadPropertiesFile(System.getProperty("user.dir")+"/src/test/resources/configs/general.properties");
+        try {
+            hostIP= Inet4Address.getLocalHost().getHostAddress();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
 
     }
 
