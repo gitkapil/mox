@@ -7,24 +7,24 @@ Every env has two APIMs. One is sandbox APIM which talks to PEAK emulator and an
 
 (Although for CI env merchant APIM doesnot talk to PEAK but the emulator). Playpen only has one APIM
 
-## How to Run
----------------
+## How to Run ##
+------------------
 
 verify -P<profile> -Denv=<Env Name> -Dversion=<version number> -Dusertype=<merchant/ developer>
 
 <i>Example: </i>
 
-To run functional tests on playpen/dev env
+To run functional tests on sit-sea env
 
-command: verify -Pregression -Denv=playpen -Dversion=0.5 -Dusertype=developer
+command: verify -Pregression -Denv=sit-sea -Dversion=0.8 -Dusertype=developer
 
-##Report
+## Report ##
 ----------
-Genertaed Extent Test Report can be found here:
-digital-dragon-testing/target/cucumber-reports/report.html
+Cucumber-Maven-Reporting is used to generate reports
+digital-dragon-testing/target/cucumber-html-report/index.html
 
-##PreRequisites
------------------
+## PreRequisites ##
+--------------------
 
 - Java 8
 - Every env should have a config file under test/ resources
@@ -33,15 +33,17 @@ digital-dragon-testing/target/cucumber-reports/report.html
 - There are four cucumber tags created (3 of them are associated with respective profiles). One tag @skiponcimerchant is used to skip test cases which are not suppose to run when env is CI and usertype is merchant
 
 
-## Env Values
---------------
+## Env Values ##
+-----------------
 sit
 ci
 pre
+sit-sea
+ci-sea
 (Tests cannot be run on playpen as the URLs/ configs are totally different)
 
-## Profiles (All the tests are marked as regression at the moment)
-------------
+## Profiles ## (All the tests are marked as regression at the moment)
+----------------
 functional --> to run functional tests
 regression --> To run regression tests
 
