@@ -147,6 +147,7 @@
                     <!--version>2.19.1</version-->
                     <version>3.0.0-M1</version>
                     <configuration>
+                        <testFailureIgnore>true</testFailureIgnore>
                         <systemPropertyVariables>
                             <cucumber.options>${cucumber.options}</cucumber.options>
                         </systemPropertyVariables>
@@ -163,6 +164,27 @@
                         <source>8</source>
                         <target>8</target>
                     </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>net.masterthought</groupId>
+                    <artifactId>maven-cucumber-reporting</artifactId>
+                    <version>3.13.0</version>
+                    <executions>
+                        <execution>
+                            <id>execution</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>generate</goal>
+                            </goals>
+                            <configuration>
+                                <projectName>Dragon</projectName>
+                                <outputDirectory>${basedir}/site/cucumber-reports</outputDirectory>
+                                <cucumberOutput>${project.build.directory}/cucumber.json</cucumberOutput>
+                                <checkBuildResult>false</checkBuildResult>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
     </build>
