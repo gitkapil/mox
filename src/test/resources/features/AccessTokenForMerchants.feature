@@ -60,7 +60,7 @@ Scenario Outline: Negative flow- Mandatory Fields missing from the header
   |parameter  |
   |Api-Version|
   
-@regression   
+
 Scenario: Negative flow- Body sent in an invalid format
   Given I am an user
   When I make a request to the Dragon ID Manager with body in JSON format
