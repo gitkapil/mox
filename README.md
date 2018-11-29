@@ -14,9 +14,9 @@ verify -P<profile> -Denv=<Env Name> -Dversion=<version number> -Dusertype=<merch
 
 <i>Example: </i>
 
-To run functional tests on sit-sea env
+To run functional tests on sit-sa env
 
-command: verify -Pregression -Denv=sit-sea -Dversion=0.8 -Dusertype=developer
+command: verify -Pregression -Denv=sit-sa -Dversion=0.8 -Dusertype=developer
 
 ## Report ##
 ----------
@@ -35,12 +35,12 @@ digital-dragon-testing/target/cucumber-html-report/index.html
 
 ## Env Values ##
 -----------------
-sit
-ci
+sit (SIT- HK)
+ci  (CI-HK)
 pre
-sit-sea
-ci-sea
-(Tests cannot be run on playpen as the URLs/ configs are totally different)
+sit-sa (SIT-Southeast Asia)
+ci-sea (CI-Southeast Asia)
+(Tests cannot be run on playpen as the URLs/ configs are totally different) 
 
 ## Profiles ## (All the tests are marked as regression at the moment)
 ----------------
