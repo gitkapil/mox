@@ -62,8 +62,7 @@ public class SignatureHelper {
 
     public String calculateContentDigestHeader(byte[] content){
         //final byte[] digest = MessageDigest.getInstance("SHA-256").digest(content);
-        final String digest = DigestUtils.sha256Hex(content);
-        final String digestHeader = "SHA-256=" + new String(digest.getBytes());
+        final String digestHeader = "SHA-256=" + new String(content);
         return digestHeader;
     }
 }
