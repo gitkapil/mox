@@ -5,9 +5,11 @@ import com.jayway.restassured.response.Response;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.Assert;
 import org.tomitribe.auth.signatures.*;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.security.Key;
 import java.util.List;
@@ -64,7 +66,12 @@ public class SignatureHelper {
     public String calculateContentDigestHeader(byte[] content){
         //final byte[] digest = MessageDigest.getInstance("SHA-256").digest(content);
 
-        final String digestHeader = "SHA-256=" + new String(Base64.encodeBase64(content));
+        String digestHeader="";
+        try {
+            digestHeader = "SHA-256=" + new String(Base64.encodeBase64(content), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            Assert.assertTrue("Not able to encode digest in UTF-8", false);
+        }
         return digestHeader;
     }
 }
