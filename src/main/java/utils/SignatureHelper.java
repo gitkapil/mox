@@ -2,7 +2,6 @@ package utils;
 
 import com.jayway.restassured.response.Header;
 import com.jayway.restassured.response.Response;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
