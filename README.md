@@ -21,7 +21,8 @@ command: verify -Pregression -Denv=sit-sa -Dversion=0.8 -Dusertype=developer
 ## Report ##
 ----------
 Cucumber-Maven-Reporting is used to generate reports
-digital-dragon-testing/target/cucumber-html-report/index.html
+digital-dragon-testing/target/cucumber-reports/cucumber-html-reports
+
 
 ## PreRequisites ##
 --------------------
