@@ -179,7 +179,7 @@
                             </goals>
                             <configuration>
                                 <projectName>Dragon</projectName>
-                                <outputDirectory>${basedir}/site/cucumber-reports</outputDirectory>
+                                <outputDirectory>${basedir}/target/cucumber-reports</outputDirectory>
                                 <cucumberOutput>${project.build.directory}/cucumber.json</cucumberOutput>
                                 <checkBuildResult>false</checkBuildResult>
                             </configuration>
