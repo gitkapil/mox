@@ -162,9 +162,9 @@ public class PaymentRequest extends UtilManager{
         }
 
         try{
-            paymentRequestHeader.put("Signature", getSignatureHelper().calculateSignature(method, url,
-                    Base64.getDecoder().decode(signingKey), signingAlgorithm, signingKeyId,
-                    headerElementsForSignature, paymentRequestHeader));
+            byte[] sigKey = Base64.getDecoder().decode(signingKey);
+            String signature = getSignatureHelper().calculateSignature(method, url, sigKey, signingAlgorithm, signingKeyId, headerElementsForSignature, paymentRequestHeader);
+            paymentRequestHeader.put("Signature", signature);
         }
         catch (Exception e)
         {
