@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.security.Key;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -63,13 +65,16 @@ public class SignatureHelper {
     }
 
     public String calculateContentDigestHeader(byte[] content){
-        //final byte[] digest = MessageDigest.getInstance("SHA-256").digest(content);
+
 
         String digestHeader="";
         try {
-            digestHeader = "SHA-256=" + new String(Base64.encodeBase64(content), "UTF-8");
+            final byte[] digest = MessageDigest.getInstance("SHA-256").digest(content);
+            digestHeader = "SHA-256=" + new String(Base64.encodeBase64(digest), "UTF-8");
         } catch (UnsupportedEncodingException e) {
             Assert.assertTrue("Not able to encode digest in UTF-8", false);
+        } catch (NoSuchAlgorithmException e) {
+            Assert.assertTrue("No such algorithm exception", false);
         }
         return digestHeader;
     }

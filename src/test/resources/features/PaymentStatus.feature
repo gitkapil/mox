@@ -41,17 +41,16 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the header
   And I should recieve a successful payment response
   And I have a valid payment id
   When I make a request for the payment status with "<key>" missing in the header
-  Then I should recieve a "<error_code>" error response with "<error_description>" error description and "<error_code>" errorcode within check status response
+  Then I should recieve a "<response_code>" error response with "<error_description>" error description and "<error_code>" errorcode within check status response
   And error message should be "<error_message>" within check status response
   And the payment status response should be signed
 
  Examples:
- |error_description                                                    |error_message         | key             |error_code |
- |Header Authorization was not found in the request. Access denied.    | HeaderNotFound       |Authorization    |401        |
- |Header Accept does not contain required value. Access denied.        | HeaderValueNotAllowed|Accept           |400        |
- |Header Request-Date-Time was not found in the request. Access denied.| HeaderNotFound       |Request-Date-Time|400        |
- |Header Trace-Id was not found in the request. Access denied.         | HeaderNotFound       |Trace-Id         |400        |
- |Header Accept does not contain required value.  Access denied.        | Request Header Not Acceptable|Accept|EA008|406     |
+ |error_description                                                    |error_message         | key             |response_code |error_code  |
+ |Header Authorization was not found in the request. Access denied.    | HeaderNotFound       |Authorization    |401           |401         |
+ |Header Request-Date-Time was not found in the request. Access denied.| HeaderNotFound       |Request-Date-Time|400           |400         |
+ |Header Trace-Id was not found in the request. Access denied.         | HeaderNotFound       |Trace-Id         |400           |400         |
+ |Header Accept does not contain required value.  Access denied.       | Request Header Not Acceptable|Accept   |406           |EA008       |
 
 
 Scenario Outline: Negative flow- Mandatory fields not sent in the header
