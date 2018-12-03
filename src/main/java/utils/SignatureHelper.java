@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import static java.util.stream.Collectors.toMap;
 
@@ -63,14 +64,9 @@ public class SignatureHelper {
     }
 
     public String calculateContentDigestHeader(byte[] content){
-        //final byte[] digest = MessageDigest.getInstance("SHA-256").digest(content);
-
+        final byte[] digest = DigestUtils.sha256(content);
         String digestHeader="";
-        try {
-            digestHeader = "SHA-256=" + new String(Base64.encodeBase64(content), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            Assert.assertTrue("Not able to encode digest in UTF-8", false);
-        }
+        digestHeader = "SHA-256=" + new String(Base64.encodeBase64(digest));
         return digestHeader;
     }
 }
