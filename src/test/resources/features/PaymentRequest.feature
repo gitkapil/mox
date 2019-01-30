@@ -214,6 +214,22 @@ Scenario Outline: Negative flow- Peak error response parsed by DRAGON
   | Payment Amount error_Dynamic | Validation Fail!      |BG2002    | totalamount    | -10           |
 
   @regression
+Scenario Outline: Negative flow - Invalid currency code (DRAG-1126)
+  Given I am an authorized user
+  And I have payment details "<totalamount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
+  When I make a request for the payment
+  Then I should recieve a "400" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
+  And error message should be "<error_message>" within payment response
+
+Examples:
+  |totalamount|currency |notificationURL            |error_description                |error_message|error_code|appSuccessCallback|appFailCallback|effectiveDuration|
+  |150.00     |         |/return|Validation failed|Invalid currency code|EA014|/confirmation|/unsuccessful|6|
+  |150.00     |HKD      |/return|Validation failed|Invalid currency code|EA014|/confirmation|/unsuccessful|6|
+  |150.00     |-        |/return|Validation failed|Invalid currency code|EA014|/confirmation|/unsuccessful|6|
+  |150.00     |RS       |/return|Validation failed|Invalid currency code|EA014|/confirmation|/unsuccessful|6|
+  |150.00     |USD      |/return|Validation failed|Invalid currency code|EA014|/confirmation|/unsuccessful|6|
+
+  @regression
 Scenario Outline: Negative flow- Mandatory fields from the body missing
   Given I am an authorized user
   And I have payment details "<totalamount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
