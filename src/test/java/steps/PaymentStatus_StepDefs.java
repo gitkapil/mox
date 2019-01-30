@@ -41,6 +41,7 @@ public class PaymentStatus_StepDefs extends UtilManager{
     @Then("^I should recieve a successful check status response$")
     public void i_should_recieve_a_successful_check_status_response() {
         logger.info("********** Retrieving Payment Request Status ***********");
+        Assert.assertEquals(getRestHelper().getResponseHeaderValue(testContext.getApiManager().getPaymentStatus().getPaymentStatusResponse(), "X-Application-Context "), null, "Expects X-Application-Context header to not exists");
         Assert.assertEquals(getRestHelper().getResponseStatusCode(testContext.getApiManager().getPaymentStatus().getPaymentStatusResponse()), 200,"Check Payment Status was not successful!");
 
     }
