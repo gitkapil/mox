@@ -158,10 +158,10 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the header
 
  Examples:
  |error_description                                                     |error_message  | key             |error_code |response_code|
- |Header Authorization was not found in the request. Access denied.     | HeaderNotFound|Authorization    |401        |401        |
+ |Header Authorization was not found in the request. Access denied.     | HeaderNotFound|Authorization    |401        |EA001      |
  |Header Request-Date-Time was not found in the request. Access denied. | HeaderNotFound|Request-Date-Time|400        |400        |
  |Header Trace-Id was not found in the request. Access denied.          | HeaderNotFound|Trace-Id         |EA002      |400        |
- |Missing request header 'Signature' for method parameter of type String| Spring Framework exception|Signature|BNA030    |400        |
+ |Missing request header 'Signature' for method parameter of type String| Spring Framework exception|Signature|BNA030 |400        |
  |Header Accept does not contain required value.  Access denied.        | Request Header Not Acceptable|Accept|EA008|406          |
 
  @regression  
