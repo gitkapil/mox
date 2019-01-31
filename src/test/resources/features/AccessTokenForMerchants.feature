@@ -51,7 +51,7 @@ Feature: Retrieve Access Token - DRAG-310
       |clientsecret          |401           |EA001     |Service Request Authentication Failed |AADSTS70002: 'client_assertion', 'client_secret' or 'request' is required for the 'client_credentials' grant type.|
       |clientid&clientsecret |400           |EA002     |Service Request Validation Failed     |client_id and client_secret are both missing|
 
-#DRAG-1138- fix
+#DRAG-1138- fix --- Error description for the Content-Type need to be updated when it is defined.
   @regression
   Scenario Outline: Negative flow- Mandatory Fields missing from the header
     Given I am an user
