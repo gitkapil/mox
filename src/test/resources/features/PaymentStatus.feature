@@ -103,12 +103,12 @@ Scenario Outline: Negative flow- Invalid PaymentIds sent in the request
   Then I should recieve a "<response_code>" error response with "<error_description>" error description and "<error_code>" errorcode within check status response
   And error message should be "<error_message>" within check status response
   And the payment status response should be signed
-
+#DRAG-1133 - updated the error_description and the error_code
  Examples:
- |error_description             |error_message                     | payment_id                          |error_code |response_code|
- #|null                         | Resource not found               |                                     |null       |404|
- |QR code not found when scans  | Resource Not Found!              | 591ec407-401d-40a6-9db0-b48a35fad8a3|CF2003     |404|
- |Payment Request Id is invalid | Service Request Validation Failed| random_payment_id                   |EA002      |400|
+|error_description                                                      |error_message      | payment_id |error_code |response_code|
+ |Header Payment Request Id was not found in the request. Access denied.| Resource not found|            |EA010       |404|
+ |QR code not found when scans                                          | Resource Not Found!| 591ec407-401d-40a6-9db0-b48a35fad8a3|CF2003|404|
+ |Payment Request Id is invalid                                         | Service Request Validation Failed| random_payment_id     |EA002      |400|
 
 
  @regression  @skiponsitmerchant
