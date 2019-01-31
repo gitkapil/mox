@@ -37,15 +37,15 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the header
   Given I am an authorized user
   And I have a valid transaction for refund
   When I make a request for the refund with "<key>" missing in the header
-  Then I should recieve a "<error_code>" error response with "<error_description>" error description and "<error_code>" errorcode within refund response
+  Then I should recieve a "<response_code>" error response with "<error_description>" error description and "<error_code>" errorcode within refund response
   And error message should be "<error_message>" within refund response
 
  Examples:
- |error_description                                                    |error_message         | key             |error_code |
- |Header Authorization was not found in the request. Access denied.    | HeaderNotFound       |Authorization    |EA001      |
- |Header Accept does not contain required value. Access denied.        | HeaderValueNotAllowed|Accept           |400        |
- |Header Request-Date-Time was not found in the request. Access denied.| HeaderNotFound       |Request-Date-Time|400        |
- |Header Trace-Id was not found in the request. Access denied.         | HeaderNotFound       |Trace-Id         |EA002      |
+ |error_description                                                    |error_message         | key             |error_code |response_code |
+ |Header Authorization was not found in the request. Access denied.    | HeaderNotFound       |Authorization    |EA001      |401           |
+ |Header Accept does not contain required value. Access denied.        | HeaderValueNotAllowed|Accept           |400        |400           |
+ |Header Request-Date-Time was not found in the request. Access denied.| HeaderNotFound       |Request-Date-Time|400        |400           |
+ |Header Trace-Id was not found in the request. Access denied.         | HeaderNotFound       |Trace-Id         |EA002      |400           |
 
 
     @skiponcimerchant @skiponsitmerchant  
