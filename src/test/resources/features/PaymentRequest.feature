@@ -223,7 +223,6 @@ Scenario Outline: Negative flow - Invalid currency code (DRAG-1126)
 
 Examples:
   |totalamount|currency |notificationURL            |error_description                |error_message|error_code|appSuccessCallback|appFailCallback|effectiveDuration|
-  |150.00     |         |/return|Validation failed|Invalid currency code|EA014|/confirmation|/unsuccessful|6|
   |150.00     |-        |/return|Validation failed|Invalid currency code|EA014|/confirmation|/unsuccessful|6|
   |150.00     |RS       |/return|Validation failed|Invalid currency code|EA014|/confirmation|/unsuccessful|6|
   |150.00     |USD      |/return|Validation failed|Invalid currency code|EA014|/confirmation|/unsuccessful|6|
