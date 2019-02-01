@@ -47,9 +47,9 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the header
 
  Examples:
  |error_description                                                    |error_message         | key             |response_code |error_code  |
- |Header Authorization was not found in the request. Access denied.    | HeaderNotFound       |Authorization    |401           |401         |
+ |Header Authorization was not found in the request. Access denied.    | HeaderNotFound       |Authorization    |400           |EA002       |
  |Header Request-Date-Time was not found in the request. Access denied.| HeaderNotFound       |Request-Date-Time|400           |400         |
- |Header Trace-Id was not found in the request. Access denied.         | HeaderNotFound       |Trace-Id         |400           |400         |
+ |Header Trace-Id was not found in the request. Access denied.         | HeaderNotFound       |Trace-Id         |400           |EA002       |
  |Header Accept does not contain required value.  Access denied.       | Request Header Not Acceptable|Accept   |406           |EA008       |
 
 
