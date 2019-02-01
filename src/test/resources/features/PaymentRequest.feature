@@ -239,7 +239,7 @@ Examples:
       |totalamount|currency|notificationURL|error_description                                                                                            |error_message                    |error_code|appSuccessCallback|appFailCallback|effectiveDuration|
       |150.00     |        |/return        |Field error in object 'paymentRequestInputModel': field 'currencyCode' may not be null; rejected value [null]|Service Request Validation Failed|EA002     |/confirmation     |/unsuccessful  |6                |
       |           |HKD     |/return        |Field error in object 'paymentRequestInputModel': field 'totalAmount' may not be null; rejected value [null] |Service Request Validation Failed|EA002     |/confirmation     |/unsuccessful  |6                |
-      |%%         |HKD     |/return        |Unable to read or parse message body: json parse error at [line: 1, column: 16]                              |Service Request Validation Failed|EA002     |/confirmation     |/unsuccessful  |6                |
+      |"%%"       |HKD     |/return        |Unable to read or parse message body: json parse error at [line: 2, column: 19]                              |Service Request Validation Failed|EA002     |/confirmation     |/unsuccessful  |6                |
 
 
 Scenario Outline: Negative flow- TraceId's value missing from the header
