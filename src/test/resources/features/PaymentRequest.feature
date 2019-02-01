@@ -136,7 +136,7 @@ Examples:
 |100.00     |HKD      |/return|message from merchant|B1242183|60                |/confirmation|/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 
 
-  @regression   
+  @regression
 Scenario: Negative flow- Invalid auth token (without Bearer in the header)
   Given I am an authorized user
   And I dont send Bearer with the auth token
@@ -228,19 +228,18 @@ Examples:
   |150.00     |USD      |/return|Validation failed|Invalid currency code|EA014|/confirmation|/unsuccessful|6|
 
   @regression
-Scenario Outline: Negative flow- Mandatory fields from the body missing
-  Given I am an authorized user
-  And I have payment details "<totalamount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
-  When I make a request for the payment
-  Then I should recieve a "400" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
-  And error message should be "<error_message>" within payment response
+  Scenario Outline: Negative flow- Mandatory fields from the body missing or invalid
+    Given I am an authorized user
+    And I have payment details "<totalamount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
+    When I make a request for the payment
+    Then I should recieve a "400" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
+    And error message should be "<error_message>" within payment response
   #And the payment request response should be signed
-
-
-Examples:
-|totalamount|currency |notificationURL            |error_description                |error_message|error_code|appSuccessCallback|appFailCallback|effectiveDuration|
-|150.00     |         |/return|Validation failed|Spring Framework exception|BNA030|/confirmation|/unsuccessful|6|
-|           |HKD      |/return|Validation failed|Spring Framework exception|BNA030|/confirmation|/unsuccessful|6|
+    Examples:
+      |totalamount|currency|notificationURL|error_description                                                                                            |error_message                    |error_code|appSuccessCallback|appFailCallback|effectiveDuration|
+      |150.00     |        |/return        |Field error in object 'paymentRequestInputModel': field 'currencyCode' may not be null; rejected value [null]|Service Request Validation Failed|EA002     |/confirmation     |/unsuccessful  |6                |
+      |           |HKD     |/return        |Field error in object 'paymentRequestInputModel': field 'totalAmount' may not be null; rejected value [null] |Service Request Validation Failed|EA002     |/confirmation     |/unsuccessful  |6                |
+      |%%         |HKD     |/return        |Unable to read or parse message body: json parse error at [line: 1, column: 16]                              |Service Request Validation Failed|EA002     |/confirmation     |/unsuccessful  |6                |
 
 
 Scenario Outline: Negative flow- TraceId's value missing from the header
