@@ -42,7 +42,7 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the header
 
  Examples:
  |error_description                                                    |error_message         | key             |error_code |response_code |
- |Header Authorization was not found in the request. Access denied.    | HeaderNotFound       |Authorization    |EA001      |401           |
+ |Header Authorization was not found in the request. Access denied.    | HeaderNotFound       |Authorization    |EA002      |400           |
  |Header Accept does not contain required value. Access denied.        | HeaderValueNotAllowed|Accept           |400        |400           |
  |Header Request-Date-Time was not found in the request. Access denied.| HeaderNotFound       |Request-Date-Time|400        |400           |
  |Header Trace-Id was not found in the request. Access denied.         | HeaderNotFound       |Trace-Id         |EA002      |400           |
@@ -97,8 +97,6 @@ Scenario Outline: Negative flow- Invalid auth token
 
  Examples:
  |error_description           |error_message          |auth_token|
- #Auth Token missing
- |JWT not present.            |TokenNotPresent        ||
  # Auth token not a JWT
  |JWT is not well formed      |Invalid JWT            |random_auth_token|
  # Expired auth token
