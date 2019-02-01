@@ -210,8 +210,8 @@ Scenario Outline: Negative flow- Peak error response parsed by DRAGON
 
    Examples:
   |error_description             |error_message          |error_code| parameter      | invalid_value |
-  | Payment Amount error_Dynamic | Validation Fail!      |BG2002    | totalamount    | 0             |
-  | Payment Amount error_Dynamic | Validation Fail!      |BG2002    | totalamount    | -10           |
+  |Invalid total amount          |                       |EB001     | totalamount    | 0             |
+  |Invalid total amount          |                       |EB001     | totalamount    | -10           |
 
   @regression
 Scenario Outline: Negative flow - Invalid currency code (DRAG-1126)
@@ -252,7 +252,7 @@ Scenario Outline: Negative flow- TraceId's value missing from the header
 
    Examples:
   |error_description             |error_message          |error_code|
-  | Payment Amount error_Dynamic | Validation Fail!      |BG2002    |
+  |Invalid total amount          |                       |EB001     |
 
 
 @regression
