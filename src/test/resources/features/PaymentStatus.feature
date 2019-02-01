@@ -107,7 +107,7 @@ Scenario Outline: Negative flow- Invalid PaymentIds sent in the request
  Examples:
  |error_description             |error_message                     | payment_id                          |error_code |response_code|
  #|null                         | Resource not found               |                                     |null       |404|
- |QR code not found when scans  | Resource Not Found!              | 591ec407-401d-40a6-9db0-b48a35fad8a3|EB008      |400|
+ |PayCode not found             |                                  | 591ec407-401d-40a6-9db0-b48a35fad8a3|EB008      |400|
  |Payment Request Id is invalid | Service Request Validation Failed| random_payment_id                   |EA002      |400|
 
 
