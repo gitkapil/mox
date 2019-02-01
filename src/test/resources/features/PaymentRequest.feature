@@ -209,9 +209,9 @@ Scenario Outline: Negative flow- Peak error response parsed by DRAGON
    #And the payment request response should be signed
 
    Examples:
-  |error_description             |error_message          |error_code| parameter      | invalid_value |
-  |Invalid total amount          |                       |EB001     | totalamount    | 0             |
-  |Invalid total amount          |                       |EB001     | totalamount    | -10           |
+  |error_description     |error_message    |error_code| parameter      | invalid_value |
+  | Invalid total amount |                 |EB001     | totalamount    | 0             |
+  | Invalid total amount |                 |EB001     | totalamount    | -10           |
 
   @regression
 Scenario Outline: Negative flow - Invalid currency code (DRAG-1126)
