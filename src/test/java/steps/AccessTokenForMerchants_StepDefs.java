@@ -142,17 +142,36 @@ public class AccessTokenForMerchants_StepDefs extends UtilManager{
         testContext.getApiManager().getAccessToken().createInvalidHeader(key);
     }
 
+    @Given("^I have \"([^\"]*)\" for the header Accept-type$")
+    public void i_have_for_the_header_Accept_type(String key) {
+        testContext.getApiManager().getAccessToken().createInvalidHeader(key);
 
-    @Then("^I should recieve a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within token response$")
-    public void i_should_recieve_a_error_response_with_error_description_and_errorcode_within_token_response(String responseCode, String errorDesc, String errorCode) {
-        Assert.assertEquals("Different response code being returned ", Integer.parseInt(responseCode), getRestHelper().getResponseStatusCode(testContext.getApiManager().getAccessToken().getAccessTokenResponse()));
-
-        Assert.assertEquals("Different error code being returned", errorCode, getRestHelper().getErrorCode(testContext.getApiManager().getAccessToken().getAccessTokenResponse()));
-
-        Assert.assertTrue("Different error description being returned..Expected: "+ errorDesc+ "Actual: "+ getRestHelper().getErrorDescription(testContext.getApiManager().getAccessToken().getAccessTokenResponse()), getRestHelper().getErrorDescription(testContext.getApiManager().getAccessToken().getAccessTokenResponse()).contains(errorDesc));
+    }
+    @Given("^I have \"([^\"]*)\" for the header content-type$")
+    public void i_have_for_the_header_content_type(String key)  {
+        testContext.getApiManager().getAccessToken().createInvalidHeader(key);
 
     }
 
+
+
+//    @Then("^I should recieve a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode and \"([^\"]*)\" error message within token response$")
+//    public void i_should_recieve_a_error_response_with_error_description_and_errorcode_and_error_message_within_token_response(String responseCode, String errorDesc, String errorCode) {
+//        Assert.assertEquals("Different response code being returned ", Integer.parseInt(responseCode), getRestHelper().getResponseStatusCode(testContext.getApiManager().getAccessToken().getAccessTokenResponse()));
+//        Assert.assertEquals("Different error code being returned", errorCode, getRestHelper().getErrorCode(testContext.getApiManager().getAccessToken().getAccessTokenResponse()));
+//        Assert.assertTrue("Different error description being returned..Expected: "+ errorDesc+ "Actual: "+ getRestHelper().getErrorDescription(testContext.getApiManager().getAccessToken().getAccessTokenResponse()), getRestHelper().getErrorDescription(testContext.getApiManager().getAccessToken().getAccessTokenResponse()).contains(errorDesc));
+//
+//    }
+
+
+
+    @Then("^I should recieve a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within token response$")
+    public void i_should_recieve_a_error_response_with_error_description_and_errorcode_within_token_response(String responseCode, String errorDesc, String errorCode)  {
+        Assert.assertEquals("Different response code being returned ", Integer.parseInt(responseCode), getRestHelper().getResponseStatusCode(testContext.getApiManager().getAccessToken().getAccessTokenResponse()));
+        Assert.assertEquals("Different error code being returned", errorCode, getRestHelper().getErrorCode(testContext.getApiManager().getAccessToken().getAccessTokenResponse()));
+        Assert.assertTrue("Different error description being returned..Expected: "+ errorDesc+ "Actual: "+ getRestHelper().getErrorDescription(testContext.getApiManager().getAccessToken().getAccessTokenResponse()), getRestHelper().getErrorDescription(testContext.getApiManager().getAccessToken().getAccessTokenResponse()).contains(errorDesc));
+
+    }
     @Then("^error message should be \"([^\"]*)\" within token response$")
     public void error_message_should_be_within_token_response(String errorMessage)  {
         Assert.assertTrue("Different error message being returned...Expected: "+ errorMessage+ "Actual: "+ getRestHelper().getErrorMessage(testContext.getApiManager().getAccessToken().getAccessTokenResponse()), getRestHelper().getErrorMessage(testContext.getApiManager().getAccessToken().getAccessTokenResponse()).contains(errorMessage) );
@@ -161,8 +180,6 @@ public class AccessTokenForMerchants_StepDefs extends UtilManager{
 
 
 
-
 }
-
 
 
