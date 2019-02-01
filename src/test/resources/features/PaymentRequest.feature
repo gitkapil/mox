@@ -136,7 +136,7 @@ Examples:
 |100.00     |HKD      |/return|message from merchant|B1242183|60                |/confirmation|/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 
 
-  @regression   
+  @regression
 Scenario: Negative flow- Invalid auth token (without Bearer in the header)
   Given I am an authorized user
   And I dont send Bearer with the auth token
@@ -146,7 +146,7 @@ Scenario: Negative flow- Invalid auth token (without Bearer in the header)
   And error message should be "Service Request Authentication Failed" within payment response
   #And the payment request response should be signed
 
-
+#DRAG-1157 - Please update the correct error_message for the signature in the examples.
   @regression  
 Scenario Outline: Negative flow- Mandatory fields not sent in the header
   Given I am an authorized user
@@ -161,7 +161,7 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the header
  |Header Authorization was not found in the request. Access denied.     | HeaderNotFound|Authorization    |401        |401        |
  |Header Request-Date-Time was not found in the request. Access denied. | HeaderNotFound|Request-Date-Time|400        |400        |
  |Header Trace-Id was not found in the request. Access denied.          | HeaderNotFound|Trace-Id         |400        |400        |
- |Missing request header 'Signature' for method parameter of type String| Spring Framework exception|Signature|BNA030    |400        |
+ |Missing request header 'Signature' for method parameter of type String|               |Signature        |EA002      |400        |
  |Header Accept does not contain required value.  Access denied.        | Request Header Not Acceptable|Accept|EA008|406          |
 
  @regression  
@@ -186,17 +186,17 @@ Scenario Outline: Negative flow- Invalid auth token
   Then I should recieve a "401" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
   And error message should be "<error_message>" within payment response
   #And the payment request response should be signed
-
+#DRAG-1130 -Updated the error description and error message for all the auth token validation scenarios
  Examples:
  |error_description           |error_message          |auth_token|error_code|
  #Auth Token missing
- |JWT not present.            |Service Request Authentication Failed  ||EA001|
+ |Error validating JWT        |API Gateway Authentication Failed  ||EA001|
  # Auth token not a JWT
- |JWT is not well formed      |Service Request Authentication Failed  |random_auth_token|EA001|
+ |Error validating JWT        |API Gateway Authentication Failed  |random_auth_token|EA001|
  # Expired auth token
- |Signature validation failed.|Service Request Authentication Failed  |eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Imk2bEdrM0ZaenhSY1ViMkMzbkVRN3N5SEpsWSIsImtpZCI6Imk2bEdrM0ZaenhSY1ViMkMzbkVRN3N5SEpsWSJ9.eyJhdWQiOiI1MTczYTVhOS00MjEyLTQ4NzctODYyMS03YmMxNjRjZjE3OGIiLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC8yZmY5M2NjZS1lZmQxLTRlMTYtOTJiYS1hZmI1M2U5ZTA5ZmMvIiwiaWF0IjoxNTM3MTY4NzAzLCJuYmYiOjE1MzcxNjg3MDMsImV4cCI6MTUzNzE3MjYwMywiYWlvIjoiNDJCZ1lKaDlXbFZsNFh1SjZFMHZsMDMvY25TOU5nQT0iLCJhcHBpZCI6IjEwOTMyM2UzLWM1NWUtNDI0Yy1iNzEyLTJlODJmMTY5NWU5OCIsImFwcGlkYWNyIjoiMSIsImlkcCI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzJmZjkzY2NlLWVmZDEtNGUxNi05MmJhLWFmYjUzZTllMDlmYy8iLCJvaWQiOiI4NjM3MjIwNi1jZWZhLTQ1ZWEtOTM0Ni0xNjNiYmFiYzc3MDYiLCJyb2xlcyI6WyJwYXltZW50UmVxdWVzdCIsInJlZnVuZCIsImRldmVsb3BlciJdLCJzdWIiOiI4NjM3MjIwNi1jZWZhLTQ1ZWEtOTM0Ni0xNjNiYmFiYzc3MDYiLCJ0aWQiOiIyZmY5M2NjZS1lZmQxLTRlMTYtOTJiYS1hZmI1M2U5ZTA5ZmMiLCJ1dGkiOiI3bUd1b0FRMUQwZTFGMks0Sy1ZWEFBIiwidmVyIjoiMS4wIn0.gCfn6QNUjzENuKvVN0bdkWgRwN-1ipovSq5Yb8IjCRfRhZNTFffLP1oIVw_8sPQxTFfV8CBOcQG385n-r_tIWBlMANHdKmpmwmOTz4J08EWzz_SY4zWdvMlF7quCYdrXVIXaKd-PLtO0UDTI7CsSAso7OAOsHBNrn3ITBoR0aMo_lM8X5dJM5fleSHFiJPMYDHpawZuy_BBXC0AUdcVT61NHkdO7sDV4Dc_C12CsShEqMi3Nj-uzr5wYHmPTxi3nk2px-_yiVaAHxxCmE0f7rWdM4BjVB89j_xtZrn1-VovgUUn_QDppY9yOgKx831xXBMX0Tz293V8g7BkagVI3lw|EA001|
+ |Error validating JWT        |API Gateway Authentication Failed   |eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Imk2bEdrM0ZaenhSY1ViMkMzbkVRN3N5SEpsWSIsImtpZCI6Imk2bEdrM0ZaenhSY1ViMkMzbkVRN3N5SEpsWSJ9.eyJhdWQiOiI1MTczYTVhOS00MjEyLTQ4NzctODYyMS03YmMxNjRjZjE3OGIiLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC8yZmY5M2NjZS1lZmQxLTRlMTYtOTJiYS1hZmI1M2U5ZTA5ZmMvIiwiaWF0IjoxNTM3MTY4NzAzLCJuYmYiOjE1MzcxNjg3MDMsImV4cCI6MTUzNzE3MjYwMywiYWlvIjoiNDJCZ1lKaDlXbFZsNFh1SjZFMHZsMDMvY25TOU5nQT0iLCJhcHBpZCI6IjEwOTMyM2UzLWM1NWUtNDI0Yy1iNzEyLTJlODJmMTY5NWU5OCIsImFwcGlkYWNyIjoiMSIsImlkcCI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzJmZjkzY2NlLWVmZDEtNGUxNi05MmJhLWFmYjUzZTllMDlmYy8iLCJvaWQiOiI4NjM3MjIwNi1jZWZhLTQ1ZWEtOTM0Ni0xNjNiYmFiYzc3MDYiLCJyb2xlcyI6WyJwYXltZW50UmVxdWVzdCIsInJlZnVuZCIsImRldmVsb3BlciJdLCJzdWIiOiI4NjM3MjIwNi1jZWZhLTQ1ZWEtOTM0Ni0xNjNiYmFiYzc3MDYiLCJ0aWQiOiIyZmY5M2NjZS1lZmQxLTRlMTYtOTJiYS1hZmI1M2U5ZTA5ZmMiLCJ1dGkiOiI3bUd1b0FRMUQwZTFGMks0Sy1ZWEFBIiwidmVyIjoiMS4wIn0.gCfn6QNUjzENuKvVN0bdkWgRwN-1ipovSq5Yb8IjCRfRhZNTFffLP1oIVw_8sPQxTFfV8CBOcQG385n-r_tIWBlMANHdKmpmwmOTz4J08EWzz_SY4zWdvMlF7quCYdrXVIXaKd-PLtO0UDTI7CsSAso7OAOsHBNrn3ITBoR0aMo_lM8X5dJM5fleSHFiJPMYDHpawZuy_BBXC0AUdcVT61NHkdO7sDV4Dc_C12CsShEqMi3Nj-uzr5wYHmPTxi3nk2px-_yiVaAHxxCmE0f7rWdM4BjVB89j_xtZrn1-VovgUUn_QDppY9yOgKx831xXBMX0Tz293V8g7BkagVI3lw|EA001|
  # Auth token unverified
- |Signature validation failed |TokenInvalidSignature  |eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c|401|
+ |Error validating JWT        |API Gateway Authentication Failed |nbCwW11w3XkB-xUaXwKRSLjMHGQ|EA001|
 
 
   @regression @skiponsitmerchant
@@ -214,19 +214,32 @@ Scenario Outline: Negative flow- Peak error response parsed by DRAGON
   | Invalid total amount |                 |EB001     | totalamount    | -10           |
 
   @regression
-Scenario Outline: Negative flow- Mandatory fields from the body missing
+Scenario Outline: Negative flow - Invalid currency code (DRAG-1126)
   Given I am an authorized user
   And I have payment details "<totalamount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
   When I make a request for the payment
   Then I should recieve a "400" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
   And error message should be "<error_message>" within payment response
-  #And the payment request response should be signed
-
 
 Examples:
-|totalamount|currency |notificationURL            |error_description                |error_message|error_code|appSuccessCallback|appFailCallback|effectiveDuration|
-|150.00     |         |/return|Validation failed|Spring Framework exception|BNA030|/confirmation|/unsuccessful|6|
-|           |HKD      |/return|Validation failed|Spring Framework exception|BNA030|/confirmation|/unsuccessful|6|
+  |totalamount|currency |notificationURL            |error_message                    |error_description    |error_code|appSuccessCallback|appFailCallback|effectiveDuration|
+  |150.00     |-        |/return                    |Validation Fail!                 |Invalid currency code|EA014     |/confirmation|/unsuccessful|6|
+  |150.00     |RS       |/return                    |Validation Fail!                 |Invalid currency code|EA014     |/confirmation|/unsuccessful|6|
+  |150.00     |USD      |/return                    |Validation Fail!                 |Invalid currency code|EA014     |/confirmation|/unsuccessful|6|
+
+  @regression
+  Scenario Outline: Negative flow- Mandatory fields from the body missing or invalid
+    Given I am an authorized user
+    And I have payment details "<totalamount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
+    When I make a request for the payment
+    Then I should recieve a "400" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
+    And error message should be "<error_message>" within payment response
+  #And the payment request response should be signed
+    Examples:
+      |totalamount|currency|notificationURL|error_description                                                                                            |error_message                    |error_code|appSuccessCallback|appFailCallback|effectiveDuration|
+      |150.00     |        |/return        |Field error in object 'paymentRequestInputModel': field 'currencyCode' may not be null; rejected value [null]|Service Request Validation Failed|EA002     |/confirmation     |/unsuccessful  |6                |
+      |           |HKD     |/return        |Field error in object 'paymentRequestInputModel': field 'totalAmount' may not be null; rejected value [null] |Service Request Validation Failed|EA002     |/confirmation     |/unsuccessful  |6                |
+      |%%         |HKD     |/return        |Unable to read or parse message body: json parse error at [line: 1, column: 16]                              |Service Request Validation Failed|EA002     |/confirmation     |/unsuccessful  |6                |
 
 
 Scenario Outline: Negative flow- TraceId's value missing from the header
