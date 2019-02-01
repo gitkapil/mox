@@ -161,7 +161,7 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the header
  |Header Authorization was not found in the request. Access denied.     | HeaderNotFound|Authorization    |EA002      |400      |
  |Header Request-Date-Time was not found in the request. Access denied. | HeaderNotFound|Request-Date-Time|EA002      |400        |
  |Header Trace-Id was not found in the request. Access denied.          | HeaderNotFound|Trace-Id         |EA002      |400        |
- |Missing request header 'Signature' for method parameter of type String| |Signature|EA002  |400        |
+ |Header Signature was not found in the request. Access denied.         | HeaderNotFound|Signature        |EA002      |400        |
  |Header Accept does not contain required value.  Access denied.        | Request Header Not Acceptable|Accept|EA008|406          |
 
  @regression  
