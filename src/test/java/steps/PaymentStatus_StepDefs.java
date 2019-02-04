@@ -38,8 +38,8 @@ public class PaymentStatus_StepDefs extends UtilManager{
 
     }
 
-    @Then("^I should recieve a successful check status response$")
-    public void i_should_recieve_a_successful_check_status_response() {
+    @Then("^I should receive a successful check status response$")
+    public void i_should_receive_a_successful_check_status_response() {
         logger.info("********** Retrieving Payment Request Status ***********");
         Assert.assertEquals(getRestHelper().getResponseHeaderValue(testContext.getApiManager().getPaymentStatus().getPaymentStatusResponse(), "X-Application-Context "), null, "Expects X-Application-Context header to not exists");
         Assert.assertEquals(getRestHelper().getResponseStatusCode(testContext.getApiManager().getPaymentStatus().getPaymentStatusResponse()), 200,"Check Payment Status was not successful!");
@@ -111,8 +111,8 @@ public class PaymentStatus_StepDefs extends UtilManager{
 
     }
 
-    @Then("^I should recieve a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within check status response$")
-    public void i_should_recieve_a_error_response_with_error_description_and_errorcode_within_check_status_response(int responseCode, String errorDesc, String errorCode) {
+    @Then("^I should receive a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within check status response$")
+    public void i_should_receive_a_error_response_with_error_description_and_errorcode_within_check_status_response(int responseCode, String errorDesc, String errorCode) {
         Assert.assertEquals(getRestHelper().getResponseStatusCode(testContext.getApiManager().getPaymentStatus().getPaymentStatusResponse()), responseCode,"Different response code being returned");
 
         Assert.assertEquals(getRestHelper().getErrorCode(testContext.getApiManager().getPaymentStatus().getPaymentStatusResponse()), errorCode,"Different error code being returned");

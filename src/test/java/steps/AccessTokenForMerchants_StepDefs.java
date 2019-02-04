@@ -79,14 +79,16 @@ public class AccessTokenForMerchants_StepDefs extends UtilManager{
     @When("^I make a request to the Dragon ID Manager$")
     public void i_make_a_request_to_the_Dragon_ID_Manager()  {
         logger.info("********** Retrieving Access Token***********");
-        testContext.getApiManager().getAccessToken().retrieveAccessToken(testContext.getApiManager().getAccessToken().getEndpoint() +getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
+        testContext.getApiManager().getAccessToken().retrieveAccessToken(
+                testContext.getApiManager().getAccessToken().getEndpoint() +
+                        getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "retrieve_access_token_resource"));
 
     }
 
 
 
-    @Then("^I recieve an access_token$")
-    public void i_recieve_a_valid_access_token() {
+    @Then("^I receive an access_token$")
+    public void i_receive_a_valid_access_token() {
         Assert.assertEquals("Access Token Not generated. Error Description: "+ testContext.getApiManager().getAccessToken().getAccessTokenResponse().path("error_description"), 200,testContext.getApiManager().getAccessToken().getAccessTokenResponse().getStatusCode());
 
 
@@ -99,8 +101,8 @@ public class AccessTokenForMerchants_StepDefs extends UtilManager{
 
     }
 
-    @Then("^I shouldnot recieve an access_token$")
-    public void i_should_not_recieve_an_access_token() {
+    @Then("^I shouldnot receive an access_token$")
+    public void i_should_not_receive_an_access_token() {
         Assert.assertNull("Access Token generated",testContext.getApiManager().getAccessToken().getAccessToken());
 
         logger.info("Response failed because of Error: "+ getRestHelper().getErrorMessage(testContext.getApiManager().getAccessToken().getAccessTokenResponse()));
@@ -139,24 +141,19 @@ public class AccessTokenForMerchants_StepDefs extends UtilManager{
 
     @Given("^I have invalid_value for the header \"([^\"]*)\"$")
     public void i_have_invalid_value_for_the_header(String key)  {
-        testContext.getApiManager().getAccessToken().createInvalidHeader(key);
+        testContext.getApiManager().getAccessToken().createInvalidHeader(key, "somerandomvalue");
     }
 
-    @Given("^I have \"([^\"]*)\" for the header Accept-type$")
-    public void i_have_for_the_header_Accept_type(String key) {
-        testContext.getApiManager().getAccessToken().createInvalidHeader(key);
-
-    }
-    @Given("^I have \"([^\"]*)\" for the header content-type$")
-    public void i_have_for_the_header_content_type(String key)  {
-        testContext.getApiManager().getAccessToken().createInvalidHeader(key);
+    @Given("^I have \"([^\"]*)\" value for the header \"([^\"]*)\"$")
+    public void i_have_for_the_header_Accept_type(String value, String key) {
+        testContext.getApiManager().getAccessToken().createInvalidHeader(key, value);
 
     }
 
 
 
-//    @Then("^I should recieve a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode and \"([^\"]*)\" error message within token response$")
-//    public void i_should_recieve_a_error_response_with_error_description_and_errorcode_and_error_message_within_token_response(String responseCode, String errorDesc, String errorCode) {
+//    @Then("^I should receive a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode and \"([^\"]*)\" error message within token response$")
+//    public void i_should_receive_a_error_response_with_error_description_and_errorcode_and_error_message_within_token_response(String responseCode, String errorDesc, String errorCode) {
 //        Assert.assertEquals("Different response code being returned ", Integer.parseInt(responseCode), getRestHelper().getResponseStatusCode(testContext.getApiManager().getAccessToken().getAccessTokenResponse()));
 //        Assert.assertEquals("Different error code being returned", errorCode, getRestHelper().getErrorCode(testContext.getApiManager().getAccessToken().getAccessTokenResponse()));
 //        Assert.assertTrue("Different error description being returned..Expected: "+ errorDesc+ "Actual: "+ getRestHelper().getErrorDescription(testContext.getApiManager().getAccessToken().getAccessTokenResponse()), getRestHelper().getErrorDescription(testContext.getApiManager().getAccessToken().getAccessTokenResponse()).contains(errorDesc));
@@ -164,9 +161,8 @@ public class AccessTokenForMerchants_StepDefs extends UtilManager{
 //    }
 
 
-
-    @Then("^I should recieve a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within token response$")
-    public void i_should_recieve_a_error_response_with_error_description_and_errorcode_within_token_response(String responseCode, String errorDesc, String errorCode)  {
+    @Then("^I should receive a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within token response$")
+    public void i_should_receive_a_error_response_with_error_description_and_errorcode_within_token_response(String responseCode, String errorDesc, String errorCode)  {
         Assert.assertEquals("Different response code being returned ", Integer.parseInt(responseCode), getRestHelper().getResponseStatusCode(testContext.getApiManager().getAccessToken().getAccessTokenResponse()));
         Assert.assertEquals("Different error code being returned", errorCode, getRestHelper().getErrorCode(testContext.getApiManager().getAccessToken().getAccessTokenResponse()));
         Assert.assertTrue("Different error description being returned..Expected: "+ errorDesc+ "Actual: "+ getRestHelper().getErrorDescription(testContext.getApiManager().getAccessToken().getAccessTokenResponse()), getRestHelper().getErrorDescription(testContext.getApiManager().getAccessToken().getAccessTokenResponse()).contains(errorDesc));

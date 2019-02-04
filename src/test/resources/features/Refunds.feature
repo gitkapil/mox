@@ -3,14 +3,14 @@ Feature: Refund - DRAG- 179
 Background: Retrieving access Token
 Given I am an user
 When I make a request to the Dragon ID Manager
-Then I recieve an access_token
+Then I receive an access_token
 
     @skiponcimerchant @skiponsitmerchant
 Scenario Outline: Positive flow- A merchant is able to perform refund with all the valid inputs
   Given I am an authorized user
   And I have a "<refundamount>", "<currency>", "<reason>"
   When I make a request for the refund
-  Then I should recieve a successful refund response
+  Then I should receive a successful refund response
   And the response body should contain valid refund id, amount, currencyCode, reasonCode, transaction Id
   And the response body should also have reason if applicable
 
@@ -28,7 +28,7 @@ Scenario: Negative flow- Invalid auth token (without Bearer in the header)
   And I have a valid transaction for refund
   And I dont send Bearer with the auth token in the refund request
   When I make a request for the refund
-  Then I should recieve a "401" error response with "JWT not present." error description and "401" errorcode within refund response
+  Then I should receive a "401" error response with "Error validating JWT" error description and "401" errorcode within refund response
   And error message should be "TokenNotPresent" within refund response
 
 
@@ -37,12 +37,12 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the header
   Given I am an authorized user
   And I have a valid transaction for refund
   When I make a request for the refund with "<key>" missing in the header
-  Then I should recieve a "<response_code>" error response with "<error_description>" error description and "<error_code>" errorcode within refund response
+  Then I should receive a "<response_code>" error response with "<error_description>" error description and "<error_code>" errorcode within refund response
   And error message should be "<error_message>" within refund response
 
  Examples:
  |error_description                                                    |error_message         | key             |error_code |response_code |
- |Header Authorization was not found in the request. Access denied.    | HeaderNotFound       |Authorization    |EA002      |400           |
+ |Error validating JWT    | API Gateway Authentication Failed       |Authorization    |EA001      |401           |
  |Header Accept does not contain required value. Access denied.        | HeaderValueNotAllowed|Accept           |400        |400           |
  |Header Request-Date-Time was not found in the request. Access denied.| HeaderNotFound       |Request-Date-Time|400        |400           |
  |Header Trace-Id was not found in the request. Access denied.         | HeaderNotFound       |Trace-Id         |EA002      |400           |
@@ -53,7 +53,7 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the body
   Given I am an authorized user
   And I have a valid transaction for refund
   When I make a request for the refund with "<key>" missing in the body
-  Then I should recieve a "400" error response with "<error_description>" error description and "EA002" errorcode within refund response
+  Then I should receive a "400" error response with "<error_description>" error description and "EA002" errorcode within refund response
   And error message should be "Service Request Validation Failed" within refund response
 
  Examples:
@@ -67,7 +67,7 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the body
   Given I am an authorized user
   And I have a "<refundamount>", "<currency>", "<reason>"
   When I make a request for the refund
-  Then I should recieve a "400" error response with "<error_description>" error description and "EA002" errorcode within refund response
+  Then I should receive a "400" error response with "<error_description>" error description and "EA002" errorcode within refund response
   And error message should be "Service Request Validation Failed" within refund response
 
  Examples:
@@ -92,7 +92,7 @@ Scenario Outline: Negative flow- Invalid auth token
   And I have a valid transaction for refund
   And I send invalid auth token "<auth_token>" in the refund request
   When I make a request for the refund
-  Then I should recieve a "401" error response with "<error_description>" error description and "401" errorcode within refund response
+  Then I should receive a "401" error response with "<error_description>" error description and "401" errorcode within refund response
   And error message should be "<error_message>" within refund response
 
  Examples:
@@ -111,7 +111,7 @@ Scenario Outline: Negative flow- Invalid refund amount sent in the request (erro
   Given I am an authorized user
   And I have a "<refundamount>", "HKD", "customer initiated"
   When I make a request for the refund
-  Then I should recieve a "400" error response with "<error_description>" error description and "<error_code>" errorcode within refund response
+  Then I should receive a "400" error response with "<error_description>" error description and "<error_code>" errorcode within refund response
   And error message should be "<error_message>" within refund response
 
  Examples:
@@ -130,7 +130,7 @@ Scenario Outline: Negative flow- Request Date Time's invalid values set within t
    And I have a valid transaction for refund
    And I send invalid value "<value>" for the request date time in the refund request
    When I make a request for the refund
-   Then I should recieve a "400" error response with "Service Request Validation Failed" error description and "BNA002" errorcode within refund response
+   Then I should receive a "400" error response with "Service Request Validation Failed" error description and "BNA002" errorcode within refund response
    And error message should be "Something went wrong. Sorry, we are unable to perform this action right now. Please try again." within refund response
 
    Examples:

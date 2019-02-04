@@ -36,8 +36,8 @@ public class Refunds_StepDefs extends UtilManager {
 
     }
 
-    @Then("^I should recieve a successful refund response$")
-    public void i_should_recieve_a_successful_refund_response()   {
+    @Then("^I should receive a successful refund response$")
+    public void i_should_receive_a_successful_refund_response()   {
         Assert.assertEquals("Refund request was not successful!", 200, getRestHelper().getResponseStatusCode(testContext.getApiManager().getRefunds().getRefundsResponse()));
     }
 
@@ -77,8 +77,8 @@ public class Refunds_StepDefs extends UtilManager {
         testContext.getApiManager().getRefunds().setAuthToken(testContext.getApiManager().getAccessToken().getAccessToken());
     }
 
-    @Then("^I should recieve a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within refund response$")
-    public void i_should_recieve_a_error_response_with_error_description_and_errorcode_within_refund_response(int responseCode, String errorDesc, String errorCode)   {
+    @Then("^I should receive a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within refund response$")
+    public void i_should_receive_a_error_response_with_error_description_and_errorcode_within_refund_response(int responseCode, String errorDesc, String errorCode)   {
         Assert.assertEquals("Different response code being returned", responseCode, getRestHelper().getResponseStatusCode(testContext.getApiManager().getRefunds().getRefundsResponse()));
 
         Assert.assertEquals("Different error code being returned", errorCode, getRestHelper().getErrorCode(testContext.getApiManager().getRefunds().getRefundsResponse()));

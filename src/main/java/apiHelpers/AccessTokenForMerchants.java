@@ -176,6 +176,25 @@ public class AccessTokenForMerchants extends UtilManager{
                         .formParam("client_id", clientId)
                         .formParam("client_secret", clientSecret)
                         .request();
+            else if (missingKey.equalsIgnoreCase("accept")) {
+                request = RestAssured.given().config(RestAssured.config().encoderConfig(EncoderConfig.encoderConfig()
+                        .encodeContentTypeAs("x-www-form-urlencoded",
+                                ContentType.URLENC)))
+                        .config(RestAssured.config().encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
+                        .contentType("application/x-www-form-urlencoded")
+                        .header("Api-Version", System.getProperty("version"))
+                        .formParam("client_id", clientId)
+                        .formParam("client_secret", clientSecret)
+                        .request();
+            } else if (missingKey.equalsIgnoreCase("content-type")) {
+
+                request = RestAssured.given()
+                        .header("Api-Version", System.getProperty("version"))
+                        .accept("application/json")
+                        .formParam("client_id", clientId)
+                        .formParam("client_secret", clientSecret)
+                        .request();
+            }
         }
         catch(Exception e){
             Assert.assertTrue(e.getMessage(), false);
@@ -189,7 +208,7 @@ public class AccessTokenForMerchants extends UtilManager{
      * This method creates an invalid header for the request. The "key" parameter is not included as a part of the request.
      * @param key
      */
-    public void createInvalidHeader(String key){
+    public void createInvalidHeader(String key, String value){
         try{
             if (key.equalsIgnoreCase("Accept"))
                 request = RestAssured.given().config(RestAssured.config().encoderConfig(EncoderConfig.encoderConfig()
@@ -198,19 +217,16 @@ public class AccessTokenForMerchants extends UtilManager{
                         .config(RestAssured.config().encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
                         .contentType("application/x-www-form-urlencoded")
                         .header("Api-Version", System.getProperty("version"))
+                        .accept(value)
                         .formParam("client_id", clientId)
                         .formParam("client_secret", clientSecret)
                         .request();
 
             else if (key.equalsIgnoreCase("content-type"))
-                request = RestAssured.given().config(RestAssured.config().encoderConfig(EncoderConfig.encoderConfig()
-                        .encodeContentTypeAs("x-www-form-urlencoded",
-                                ContentType.URLENC)))
-                        .contentType("application/x-www-form-urlencoded")
+                request = RestAssured.given()
+                        .contentType(value)
                         .header("Api-Version", System.getProperty("version"))
                         .accept("application/json")
-                        .formParam("client_id", clientId)
-                        .formParam("client_secret", clientSecret)
                         .request();
 
             else if (key.equalsIgnoreCase("Api-Version"))
