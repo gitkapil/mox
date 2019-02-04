@@ -8,19 +8,19 @@ Feature: Retrieve Access Token - DRAG-310
     And it should be a valid JWT
     And response should also have expiresOn, token type
 
-# DRAG-1165 Accurate Error description need to be added
+# DRAG-1165
   @regression
   Scenario Outline: Negative flow- An invalid merchant (invalid client id) should not recieve a valid access token
     Given I am an user
     And I have "<invalid_value>" as client id
     When I make a request to the Dragon ID Manager
-    Then I should recieve a "400" error response with "<error_description>" error description and "EA002" errorcode within token response
+    Then I should recieve a "401" error response with "<error_description>" error description and "EA001" errorcode within token response
     And error message should be "Service Request Validation Failed" within token response
 
     Examples:
       |invalid_value    |error_description|
-      |random_client_id |                 |
-      |                 |AADSTS900144: The request body must contain the following parameter: 'client_id'.|
+      |random_client_id | Authorisation failure. Please check the client_id and client_secret and try again. |
+      |                 |Authorisation failure. Please check the client_id and client_secret and try again.|
 # DRAG-1166 Accurate Error description need to be added
   @regression
   Scenario Outline: Negative flow- An invalid merchant (invalid client secret) should not recieve a valid access token
@@ -32,8 +32,8 @@ Feature: Retrieve Access Token - DRAG-310
 
     Examples:
       |invalid_value       |error_description|
-      |random_client_secret|AADSTS70002: Error validating credentials. AADSTS50012: Invalid client secret is provided.|
-      |                    |AADSTS70002: 'client_assertion', 'client_secret' or 'request' is required for the 'client_credentials' grant type.|
+      |random_client_secret|Authorisation failure. Please check the client_id and client_secret and try again.|
+      |                    |Authorisation failure. Please check the client_id and client_secret and try again.|
 
 
 
@@ -47,9 +47,9 @@ Feature: Retrieve Access Token - DRAG-310
 
     Examples:
       |parameter             |error_response|error_code|error_message                         |error_description|
-      |clientid              |400           |EA002     |Service Request Validation Failed     |AADSTS900144: The request body must contain the following parameter: 'client_id'.|
-      |clientsecret          |401           |EA001     |Service Request Authentication Failed |AADSTS70002: 'client_assertion', 'client_secret' or 'request' is required for the 'client_credentials' grant type.|
-      |clientid&clientsecret |400           |EA002     |Service Request Validation Failed     |client_id and client_secret are both missing|
+      |clientid              |400           |EA002     |Service Request Authentication Failed    |Request could not be understood. Please modify the request and try again|
+      |clientsecret          |400           |EA001     |Service Request Authentication Failed |Request could not be understood. Please modify the request and try again|
+      |clientid&clientsecret |400           |EA002     |Service Request Authentication Failed    |Request could not be understood. Please modify the request and try again|
 
 #DRAG-1138- fix --- Error description for the Content-Type need to be updated when it is defined.
   @regression
@@ -61,8 +61,8 @@ Feature: Retrieve Access Token - DRAG-310
 
     Examples:
       |parameter   |error_response|error_code|error_message                         |error_description|
-      |Accept      |     400      | EA002    | Service Request Validation Failed    | Header Accept does not contain required value. Access denied.|
-      |Content-Type|     400      | EA002    | Service Request Validation Failed    | Header Content-type does not contain required value. Access denied.                |
+      |Accept      |     400      | EA002    |API Gateway Validation Failed   | Header Accept does not contain required value. Access denied.|
+      |Content-Type|     400      | EA002    |API Gateway Validation Failed    | Header Content-type does not contain required value. Access denied.                |
 
   @regression
   Scenario Outline: Negative flow- Mandatory Fields missing from the header
@@ -80,7 +80,7 @@ Feature: Retrieve Access Token - DRAG-310
   Scenario: Negative flow- Body sent in an invalid format
     Given I am an user
     When I make a request to the Dragon ID Manager with body in JSON format
-    Then I should recieve a "401" error response with "AADSTS70002: 'client_assertion', 'client_secret' or 'request' is required for the 'client_credentials' grant type." error description and "EA001" errorcode within token response
+    Then I should recieve a "401" error response with "Authorisation failure. Please check the client_id and client_secret and try again." error description and "EA001" errorcode within token response
     And error message should be "Service Request Authentication Failed" within token response
 # DRAG-1138 - fix
 
