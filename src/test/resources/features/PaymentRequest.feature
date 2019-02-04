@@ -214,21 +214,7 @@ Scenario Outline: Negative flow- Peak error response parsed by DRAGON
   | Invalid total amount |                 |EB001     | totalamount    | -10           |
 
   @regression
-Scenario Outline: Negative flow - Invalid currency code (DRAG-1126)
-  Given I am an authorized user
-  And I have payment details "<totalamount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
-  When I make a request for the payment
-  Then I should receive a "400" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
-  And error message should be "<error_message>" within payment response
-
-Examples:
-  |totalamount|currency |notificationURL            |error_message                    |error_description    |error_code|appSuccessCallback|appFailCallback|effectiveDuration|
-  |150.00     |-        |/return                    |Validation Fail!                 |Invalid currency code|EA014     |/confirmation|/unsuccessful|6|
-  |150.00     |RS       |/return                    |Validation Fail!                 |Invalid currency code|EA014     |/confirmation|/unsuccessful|6|
-  |150.00     |USD      |/return                    |Validation Fail!                 |Invalid currency code|EA014     |/confirmation|/unsuccessful|6|
-
-  @regression
-  Scenario Outline: Negative flow- Mandatory fields from the body missing or invalid
+  Scenario Outline: Negative flow- Mandatory fields from the body missing or invalid (DRAG-1126, DRAG-1125, DRAG-1124, DRAG-1131, DRAG-1081)
     Given I am an authorized user
     And I have payment details "<totalamount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
     When I make a request for the payment
@@ -236,10 +222,18 @@ Examples:
     And error message should be "<error_message>" within payment response
   #And the payment request response should be signed
     Examples:
-      |totalamount|currency|notificationURL|error_description                                                                                            |error_message                    |error_code|appSuccessCallback|appFailCallback|effectiveDuration|
-      |150.00     |        |/return        |Field error in object 'paymentRequestInputModel': field 'currencyCode' may not be null; rejected value [null]|Service Request Validation Failed|EA002     |/confirmation     |/unsuccessful  |6                |
-      |           |HKD     |/return        |Field error in object 'paymentRequestInputModel': field 'totalAmount' may not be null; rejected value [null] |Service Request Validation Failed|EA002     |/confirmation     |/unsuccessful  |6                |
-      |"%%"       |HKD     |/return        |Unable to read or parse message body: json parse error at [line: 2, column: 19]                              |Service Request Validation Failed|EA002     |/confirmation     |/unsuccessful  |6                |
+      |totalamount|currency|notificationURL|error_description                                                                                                                                         |error_message                    |error_code|appSuccessCallback|appFailCallback|effectiveDuration|
+      |150.00     |        |/return        |Field error in object 'paymentRequestInputModel': field 'currencyCode' may not be null; rejected value [null]                                             |Service Request Validation Failed|EA002     |/confirmation     |/unsuccessful  |6                |
+      |150.00     |-       |/return        |Invalid currency code                                                                                                                                     |Service Request Validation Failed|EA014     |/confirmation     |/unsuccessful  |6                |
+      |150.00     |RS      |/return        |Invalid currency code                                                                                                                                     |Service Request Validation Failed|EA014     |/confirmation     |/unsuccessful  |6                |
+      |150.00     |USD     |/return        |Invalid currency code                                                                                                                                     |Service Request Validation Failed|EA014     |/confirmation     |/unsuccessful  |6                |
+      |           |HKD     |/return        |Field error in object 'paymentRequestInputModel': field 'totalAmount' may not be null; rejected value [null]                                              |Service Request Validation Failed|EA002     |/confirmation     |/unsuccessful  |6                |
+      |%%         |HKD     |/return        |Unable to read or parse message body: json parse error at [line: 1, column: 16]                                                                           |Service Request Validation Failed|EA002     |/confirmation     |/unsuccessful  |6                |
+      |0.00       |HKD     |/return        |Field error in object 'paymentRequestInputModel': field 'totalAmount' must be greater than or equal to 0.01; rejected value [0.0]                         |Service Request Validation Failed|EA002     |/confirmation     |/unsuccessful  |6                |
+      |-0.01      |HKD     |/return        |Field error in object 'paymentRequestInputModel': field 'totalAmount' must be greater than or equal to 0.01; rejected value [-0.01]                       |Service Request Validation Failed|EA002     |/confirmation     |/unsuccessful  |6                |
+      |1000001    |HKD     |/return        |Field error in object 'paymentRequestInputModel': field 'totalAmount' must be less than or equal to 1000000.0; rejected value [1000001.0]                 |Service Request Validation Failed|EA002     |/confirmation     |/unsuccessful  |6                |
+      |0.011      |HKD     |/return        |Field error in object 'paymentRequestInputModel': field 'totalAmount' numeric value out of bounds (<7 digits>.<2 digits> expected); rejected value [0.011]|Service Request Validation Failed|EA002     |/confirmation     |/unsuccessful  |6                |
+
 
 
 Scenario Outline: Negative flow- TraceId's value missing from the header

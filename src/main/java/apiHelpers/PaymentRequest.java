@@ -193,8 +193,12 @@ public class PaymentRequest extends UtilManager{
 
         if (!getTotalAmount().equals(""))
         {
-            totalAmountInDouble= Double.parseDouble(totalAmount);
-            paymentRequestBody.put("totalAmount", totalAmountInDouble);
+            try {
+                totalAmountInDouble= Double.parseDouble(totalAmount);
+                paymentRequestBody.put("totalAmount", totalAmountInDouble);
+            } catch (NumberFormatException e) {
+                paymentRequestBody.put("totalAmount", getTotalAmount());
+            }
         }
 
 
@@ -412,6 +416,7 @@ public class PaymentRequest extends UtilManager{
             logger.info("********** Payment Request Response *********** ----> "+ paymentRequestResponse.getBody().asString());
         }
         catch (Exception e){
+            e.printStackTrace();
             Assert.assertTrue("Verification of signature failed!", false);
 
         }
