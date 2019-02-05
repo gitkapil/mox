@@ -64,8 +64,8 @@ Feature: Retrieve Access Token - DRAG-310
 
     Examples:
       |parameter   |http_status   |error_code|error_message                        |error_description                                                    |
-      |Accept      |     400      | EA002    |API Gateway Validation Failed        | Header Accept does not contain required value. Access denied.       |
-      |Content-Type|     400      | EA002    |API Gateway Validation Failed        | Header Content-Type does not contain required value. Access denied. |
+      |Accept      |     406      | EA008    |API Gateway Validation Failed        | Header Accept does not contain required value. Access denied.       |
+      |Content-Type|     415      | EA002    |API Gateway Validation Failed        | Header Content-Type does not contain required value. Access denied. |
 
   @regression
   Scenario Outline: Negative flow- Mandatory Fields missing from the header
