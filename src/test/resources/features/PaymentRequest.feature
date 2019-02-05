@@ -152,7 +152,7 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the header
   Given I am an authorized user
   And I have valid payment details
   When I make a request for the payment with "<key>" missing in the header
-  Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
+  Then I should receive a "<response_code>" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
   And error message should be "<error_message>" within payment response
   #And the payment request response should be signed
 
