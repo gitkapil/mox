@@ -48,8 +48,8 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the header
  Examples:
  |error_description                                                    |error_message                            | key             |response_code |error_code  |
  |Error validating JWT                                                 | API Gateway Authentication Failed       |Authorization    |401           |EA001       |
- |Header Request-Date-Time was not found in the request. Access denied.| API Gateway validation error            |Request-Date-Time|400           |EA002       |
- |Header Trace-Id was not found in the request. Access denied.         | API Gateway validation error            |Trace-Id         |400           |EA002       |
+ |Header Request-Date-Time was not found in the request. Access denied.| API Gateway Validation Failed           |Request-Date-Time|400           |EA002       |
+ |Header Trace-Id was not found in the request. Access denied.         | API Gateway Validation Failed           |Trace-Id         |400           |EA002       |
  |Header Accept does not contain required value.  Access denied.       | Request Header Not Acceptable           |Accept           |406           |EA008       |
 
 
