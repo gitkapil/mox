@@ -18,8 +18,8 @@ public class OpenIdConfigforPEAK_StepDefs extends UtilManager{
         testContext.getApiManager().getOpenIdConfig().retrieveOpenIdConfigResponse(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "openid-configuration-for-PEAK"));
     }
 
-    @Then("^I recieve a successful response$")
-    public void i_should_recieve_a_successful_response() {
+    @Then("^I receive a successful response$")
+    public void i_should_receive_a_successful_response() {
         Assert.assertEquals(testContext.getApiManager().getOpenIdConfig().getOpenIdConfigResponse().getStatusCode(), 200, "OpenId Config request was not successful");
     }
 
@@ -49,8 +49,8 @@ public class OpenIdConfigforPEAK_StepDefs extends UtilManager{
        testContext.getApiManager().getOpenIdConfig().retrieveJwksUriResponse();
     }
 
-    @Then("^I should recieve a successful response from JWKS URI Request$")
-    public void i_should_recieve_a_successful_response_from_JWKS_URI_Request()  {
+    @Then("^I should receive a successful response from JWKS URI Request$")
+    public void i_should_receive_a_successful_response_from_JWKS_URI_Request()  {
         Assert.assertEquals(testContext.getApiManager().getOpenIdConfig().getJwksUriResponse().getStatusCode(), 200, "JWKS URI request was not successful");
     }
 

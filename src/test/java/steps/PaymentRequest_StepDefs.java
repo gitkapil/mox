@@ -160,8 +160,8 @@ public class PaymentRequest_StepDefs extends UtilManager{
 
     }
 
-    @Then("^I should recieve a successful payment response$")
-    public void i_should_recieve_a_successful_response()  {
+    @Then("^I should receive a successful payment response$")
+    public void i_should_receive_a_successful_response()  {
         Assert.assertEquals(getRestHelper().getResponseStatusCode(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()), 201,"Request was not successful!");
         Assert.assertEquals(getRestHelper().getResponseHeaderValue(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse(), "X-Application-Context "), null, "Expects X-Application-Context header to not exists");
         Assert.assertNotNull(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse(), "The response for Create Payment Request was null");
@@ -214,26 +214,27 @@ public class PaymentRequest_StepDefs extends UtilManager{
     }
 
 
-    @Then("^I should recieve a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within payment response$")
-    public void i_should_recieve_a_error_response_with_error_description_and_errorcode(int responseCode, String errorDesc, String errorCode) {
+    @Then("^I should receive a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within payment response$")
+    public void i_should_receive_a_error_response_with_error_description_and_errorcode(int responseCode, String errorDesc, String errorCode) {
         Assert.assertEquals(getRestHelper().getResponseStatusCode(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()), responseCode,"Different response code being returned");
 
         Assert.assertEquals(getRestHelper().getErrorCode(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()), errorCode,"Different error code being returned");
 
-        Assert.assertTrue(getRestHelper().getErrorDescription(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()).contains(errorDesc) ,"Different error description being returned..Expected: "+ errorDesc+ "Actual: "+ getRestHelper().getErrorDescription(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()));
+        Assert.assertTrue(getRestHelper().getErrorDescription(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()).contains(errorDesc) ,
+                "Different error description being returned..Expected: "+ errorDesc+ "Actual: "+ getRestHelper().getErrorDescription(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()));
 
     }
 
     @Then("^error message should be \"([^\"]*)\" within payment response$")
-    public void i_should_recieve_a_error_message(String errorMessage) {
+    public void i_should_receive_a_error_message(String errorMessage) {
 
         Assert.assertTrue(getRestHelper().getErrorMessage(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()).contains(errorMessage) ,"Different error message being returned..Expected: "+ errorMessage+ " Actual: "+getRestHelper().getErrorMessage(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()));
 
     }
 
 
-    @Then("^I should recieve a (\\d+) error response within payment response$")
-    public void i_should_recieve_a_error_response_within_payment_response(int errorCode) {
+    @Then("^I should receive a (\\d+) error response within payment response$")
+    public void i_should_receive_a_error_response_within_payment_response(int errorCode) {
         Assert.assertEquals(getRestHelper().getResponseStatusCode(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()), errorCode,"Different response code being returned");
 
     }
@@ -273,7 +274,7 @@ public class PaymentRequest_StepDefs extends UtilManager{
 
     }
 
-    @Given("^I have valid payment details with no TraceId sent in the header$")
+    @Given("^I have valid payment details with no TraceId value sent in the header$")
     public void i_have_valid_payment_details_with_no_TraceId_sent_in_the_header() {
         testContext.getApiManager().getPaymentRequest().setTotalAmount("20");
         testContext.getApiManager().getPaymentRequest().setCurrency("HKD");
