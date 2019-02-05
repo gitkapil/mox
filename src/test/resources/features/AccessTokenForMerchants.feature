@@ -64,8 +64,8 @@ Feature: Retrieve Access Token - DRAG-310
 
     Examples:
       |parameter   |http_status   |error_code|error_message                        |error_description                                                    |
-      |Accept      |     400      | EA002    |API Gateway Validation error         | Header Accept does not contain required value. Access denied.       |
-      |Content-Type|     400      | EA002    |API Gateway Validation error         | Header Content-Type does not contain required value. Access denied. |
+      |Accept      |     400      | EA002    |API Gateway Validation Failed        | Header Accept does not contain required value. Access denied.       |
+      |Content-Type|     400      | EA002    |API Gateway Validation Failed        | Header Content-Type does not contain required value. Access denied. |
 
   @regression
   Scenario Outline: Negative flow- Mandatory Fields missing from the header
@@ -92,7 +92,7 @@ Feature: Retrieve Access Token - DRAG-310
     And I have "<invalid_value>" value for the header "Accept"
     When I make a request to the Dragon ID Manager
     Then I should receive a "400" error response with "<error_description>" error description and "EA002" errorcode within token response
-    And error message should be "API Gateway Validation error" within token response
+    And error message should be "API Gateway Validation Failed" within token response
 
     Examples:
 
@@ -106,7 +106,7 @@ Feature: Retrieve Access Token - DRAG-310
     And I have "<invalid_value>" value for the header "Content-Type"
     When I make a request to the Dragon ID Manager
     Then I should receive a "400" error response with "<error_description>" error description and "EA002" errorcode within token response
-    And error message should be "API Gateway Validation error" within token response
+    And error message should be "API Gateway Validation Failed" within token response
 
     Examples:
       |invalid_value    |error_description|
