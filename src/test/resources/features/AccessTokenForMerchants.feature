@@ -15,7 +15,7 @@ Feature: Retrieve Access Token - DRAG-310
     And I have "<invalid_value>" as client id
     When I make a request to the Dragon ID Manager
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within token response
-    And error message should be "Service Request Validation error" within token response
+    And error message should be "Service Request Validation Failed" within token response
 
     Examples:
       |invalid_value                        |error_description                                                                  |http_status|error_code|
@@ -64,8 +64,8 @@ Feature: Retrieve Access Token - DRAG-310
 
     Examples:
       |parameter   |http_status   |error_code|error_message                        |error_description                                                    |
-      |Accept      |     406      | EA008    |API Gateway Validation Failed        | Header Accept does not contain required value. Access denied.       |
-      |Content-Type|     415      | EA018    |API Gateway Validation Failed        | Header Content-Type does not contain required value. Access denied. |
+      |Accept      |     406      | EA008    |Request Header Not Acceptable        | Header Accept does not contain required value. Access denied.       |
+      |Content-Type|     415      | EA018    |Content-Type Unsupported       | Header Content-Type does not contain required value. Access denied. |
 
   @regression
   Scenario Outline: Negative flow- Mandatory Fields missing from the header
@@ -91,8 +91,8 @@ Feature: Retrieve Access Token - DRAG-310
     Given I am an user
     And I have "<invalid_value>" value for the header "Accept"
     When I make a request to the Dragon ID Manager
-    Then I should receive a "400" error response with "<error_description>" error description and "EA002" errorcode within token response
-    And error message should be "API Gateway Validation Failed" within token response
+    Then I should receive a "406" error response with "<error_description>" error description and "EA008" errorcode within token response
+    And error message should be "Request Header Not Acceptable" within token response
 
     Examples:
 
