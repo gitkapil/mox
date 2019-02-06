@@ -159,9 +159,9 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the header
  Examples:
  |error_description                                                     |error_message                     | key             |error_code |http_status|
  |Error validating JWT                                                  | API Gateway Authentication Failed|Authorization    |EA001      |401        |
- |Header Request-Date-Time was not found in the request. Access denied. | API Gateway validation error     |Request-Date-Time|EA002      |400        |
- |Header Trace-Id was not found in the request. Access denied.          | API Gateway validation error     |Trace-Id         |EA002      |400        |
- |Missing request header 'Signature' for method parameter of type String| API Gateway validation error     |Signature        |EA002      |400        |
+      | Header Request-Date-Time was not found in the request. Access denied. | API Gateway Validation Failed | Request-Date-Time | EA002 | 400 |
+      | Header Trace-Id was not found in the request. Access denied. | API Gateway Validation Failed | Trace-Id | EA002 | 400 |
+      | Header Signature was not found in the request. Access denied. | API Gateway Validation Failed | Signature | EA002 | 400 |
  |Header Accept does not contain required value.  Access denied.        | Request Header Not Acceptable    |Accept           |EA008      |406        |
 
  @regression  
