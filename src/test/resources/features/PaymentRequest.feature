@@ -240,13 +240,13 @@ Scenario Outline: Negative flow- TraceId's value missing from the header
    Given I am an authorized user
    And I have valid payment details with no TraceId value sent in the header
    When I make a request for the payment
-   Then I should receive a "400" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
+   Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
    And error message should be "<error_message>" within payment response
    And the payment request response should be signed
 
    Examples:
-  |error_description             |error_message          |error_code|
-  |Invalid total amount          |                       |EB001     |
+  | error_description | error_message | error_code |http_status|
+  |Header Trace-Id was not found in the request. Access denied.          |  API Gateway Validation Failed                     |EA002     |400|
 
 
 @regression

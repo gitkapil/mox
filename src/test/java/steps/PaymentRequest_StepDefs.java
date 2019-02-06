@@ -286,8 +286,6 @@ public class PaymentRequest_StepDefs extends UtilManager{
         testContext.getApiManager().getPaymentRequest().setAppFailCallback(Hooks.hostIP+"/unsuccessful");
         testContext.getApiManager().getPaymentRequest().setEffectiveDuration("600");
         testContext.getApiManager().getPaymentRequest().setRequestDateTime(getDateHelper().getUTCNowDateTime());
-
-
     }
 
     @Given("^I have valid payment details with invalid value \"([^\"]*)\" set for Request Date Time sent in the header$")
