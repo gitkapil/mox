@@ -210,8 +210,8 @@ Scenario Outline: Negative flow- Peak error response parsed by DRAGON
 
    Examples:
   |error_description     |error_message    |error_code| parameter      | invalid_value |
-  | Invalid total amount |                 |EB001     | totalamount    | 0             |
-  | Invalid total amount |                 |EB001     | totalamount    | -10           |
+  | Invalid total amount |                 |EA017     | totalamount    | 0             |
+  | Invalid total amount |                 |EA017     | totalamount    | -10           |
 
   @regression
   Scenario Outline: Negative flow- Mandatory fields from the body missing or invalid (DRAG-1126, DRAG-1125, DRAG-1124, DRAG-1131, DRAG-1081)
