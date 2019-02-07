@@ -246,7 +246,7 @@ Scenario Outline: Negative flow- TraceId's value missing from the header
 
    Examples:
   | error_description | error_message | error_code |http_status|
-  |Header Trace-Id was not found in the request. Access denied.          |  API Gateway Validation Failed                     |EA002     |400|
+  |Trace-Id can not be empty.          |  API Gateway Validation Failed                     |EA002     |400|
 
 
 @regression
@@ -271,7 +271,7 @@ Scenario Outline: Negative flow- verify Error message if the additionalData is o
   And I have merchant data "<description>","<orderId>","<additionalData>"
   And the additionalData is of more than 1024 characters
   When I make a request for the payment
-  Then I should receive a "400" error response with "Additional Data has too many characters. limit: 1024" error description and "EA002" errorcode within payment response
+    Then I should receive a "400" error response with "Field error in object 'paymentRequestInputModel': field 'merchantData.additionalData' size must be between 0 and 1024; rejected value [Morethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024characters]" error description and "EA002" errorcode within payment response
   And error message should be "Validation Fail!" within payment response
   #And the payment request response should be signed
 
