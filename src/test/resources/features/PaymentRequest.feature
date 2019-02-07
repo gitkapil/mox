@@ -254,8 +254,8 @@ Scenario Outline: Negative flow- Request Date Time's invalid values set within t
    Given I am an authorized user
    And I have valid payment details with invalid value "<value>" set for Request Date Time sent in the header
    When I make a request for the payment
-   Then I should receive a "400" error response with "Service Request Validation Failed" error description and "BNA002" errorcode within payment response
-   And error message should be "Something went wrong. Sorry, we are unable to perform this action right now. Please try again." within payment response
+   Then I should receive a "400" error response with "Service Request Validation Failed" error description and "EA002" errorcode within payment response
+   And error message should be "Request timestamp too old" within payment response
    #And the payment request response should be signed
 
    Examples:
