@@ -130,8 +130,8 @@ Scenario Outline: Negative flow- Request Date Time's invalid values set within t
    And I have a valid transaction for refund
    And I send invalid value "<value>" for the request date time in the refund request
    When I make a request for the refund
-   Then I should receive a "400" error response with "Service Request Validation Failed" error description and "BNA002" errorcode within refund response
-   And error message should be "Something went wrong. Sorry, we are unable to perform this action right now. Please try again." within refund response
+   Then I should receive a "400" error response with "Service Request Validation Failed" error description and "EA002" errorcode within refund response
+   And error message should be "Request timestamp not a valid RFC3339 date-time" within refund response
 
    Examples:
   |value|
