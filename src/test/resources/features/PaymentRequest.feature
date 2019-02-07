@@ -246,7 +246,7 @@ Scenario Outline: Negative flow- TraceId's value missing from the header
 
    Examples:
   | error_description | error_message | error_code |http_status|
-  |Trace-Id can not be empty.          |  API Gateway Validation Failed                     |EA002     |400|
+  |Header Trace-Id was not found in the request. Access denied.          |  API Gateway Validation Failed                     |EA002     |400|
 
 
 @regression
@@ -255,7 +255,7 @@ Scenario Outline: Negative flow- Request Date Time's invalid values set within t
    And I have valid payment details with invalid value "<value>" set for Request Date Time sent in the header
    When I make a request for the payment
    Then I should receive a "400" error response with "Service Request Validation Failed" error description and "EA002" errorcode within payment response
-   And error message should be "Request timestamp too old" within payment response
+   And error message should be "Request timestamp not a valid RFC3339 date-time" within payment response
    #And the payment request response should be signed
 
    Examples:
