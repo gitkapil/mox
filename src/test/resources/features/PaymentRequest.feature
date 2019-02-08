@@ -246,8 +246,8 @@ Scenario Outline: Negative flow- TraceId's value missing from the header
    And the payment request response should be signed
 
    Examples:
-  | error_description | error_message | error_code |http_status|
-  |Header Trace-Id was not found in the request. Access denied.          |  API Gateway Validation Failed                     |EA002     |400|
+  | error_description                  | error_message                                         | error_code |http_status|
+  |Trace-Id can not be empty.          | Service Request Validation Failed                     |EA002       |400        |
 
 
 @regression
