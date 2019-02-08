@@ -213,6 +213,10 @@ public class PaymentRequest_StepDefs extends UtilManager{
 
     }
 
+    @Then("^I should receive a quoted \"([^\"]*)\" error response with \'(.*)\' error description and \"([^\"]*)\" errorcode within payment response$")
+    public void i_should_receive_a_error_response_with_error_description_and_errorcode_1(int responseCode, String errorDesc, String errorCode) {
+        i_should_receive_a_error_response_with_error_description_and_errorcode(responseCode, errorDesc, errorCode);
+    }
 
     @Then("^I should receive a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within payment response$")
     public void i_should_receive_a_error_response_with_error_description_and_errorcode(int responseCode, String errorDesc, String errorCode) {
@@ -222,7 +226,6 @@ public class PaymentRequest_StepDefs extends UtilManager{
 
         Assert.assertTrue(getRestHelper().getErrorDescription(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()).contains(errorDesc) ,
                 "Different error description being returned..Expected: "+ errorDesc+ "Actual: "+ getRestHelper().getErrorDescription(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()));
-
     }
 
     @Then("^error message should be \"([^\"]*)\" within payment response$")
