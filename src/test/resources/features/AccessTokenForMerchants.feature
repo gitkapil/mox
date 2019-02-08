@@ -105,11 +105,11 @@ Feature: Retrieve Access Token - DRAG-310
     Given I am an user
     And I have "<invalid_value>" value for the header "Content-Type"
     When I make a request to the Dragon ID Manager
-    Then I should receive a "400" error response with "<error_description>" error description and "EA002" errorcode within token response
-    And error message should be "API Gateway Validation Failed" within token response
+    Then I should receive a "415" error response with "<error_description>" error description and "EA018" errorcode within token response
+    And error message should be "Content-Type Unsupported" within token response
 
     Examples:
-      |invalid_value    |error_description|
+      |invalid_value    |error_description                                                  |
       |application/json |Header Content-Type does not contain required value. Access denied.|
 
 
