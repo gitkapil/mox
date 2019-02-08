@@ -199,7 +199,8 @@ Scenario Outline: Negative flow- Invalid auth token
  |Error validating JWT        |API Gateway Authentication Failed |nbCwW11w3XkB-xUaXwKRSLjMHGQ|EA001|
 
 
-  @regression @skiponsitmerchant
+## No error from peak currently
+## @regression @skiponsitmerchant
 Scenario Outline: Negative flow- Peak error response parsed by DRAGON
    Given I am an authorized user
    And I have payment details with "<invalid_value>" set for the "<parameter>"
