@@ -10,7 +10,7 @@ Scenario: Negative flow- Invalid signing key id used to create signature and pas
   Given I am an authorized user
   And I have valid payment details
   When I make a request for the payment with invalid signing key id
-  Then I should receive a "401" error response with "Unable to verify signature" error description and "BNA001" errorcode within payment response
+  Then I should receive a "401" error response with "Unable to verify signature" error description and "EA001" errorcode within payment response
   And error message should be "Unauthorized Operation!" within payment response
 
 @regression 
@@ -18,7 +18,7 @@ Scenario: Negative flow- Invalid signing key used to create signature and passed
   Given I am an authorized user
   And I have valid payment details
   When I make a request for the payment with invalid signing key
-  Then I should receive a "401" error response with "Unable to verify signature" error description and "BNA001" errorcode within payment response
+  Then I should receive a "401" error response with "Unable to verify signature" error description and "EA001" errorcode within payment response
   And error message should be "Unauthorized Operation!" within payment response
 
 @regression
@@ -26,7 +26,7 @@ Scenario: Negative flow- Different signing algo (HmacSHA512) used to create sign
   Given I am an authorized user
   And I have valid payment details
   When I make a request for the payment with a different signing algo
-  Then I should receive a "401" error response with "Unable to verify signature" error description and "BNA001" errorcode within payment response
+  Then I should receive a "401" error response with "Unable to verify signature" error description and "EA001" errorcode within payment response
   And error message should be "Unauthorized Operation!" within payment response
 
 
@@ -35,7 +35,7 @@ Scenario Outline: Negative flow- Incomplete Header Set used to create signature 
   Given I am an authorized user
   And I have valid payment details
   When I make a request for the payment with header "<header>" value missing from the signature
-  Then I should receive a "401" error response with "Unable to verify signature" error description and "BNA001" errorcode within payment response
+  Then I should receive a "401" error response with "Unable to verify signature" error description and "EA001" errorcode within payment response
   And error message should be "Unauthorized Operation!" within payment response
 
 Examples:
@@ -52,7 +52,7 @@ Scenario Outline: Negative flow- New POST Payment request sent with tampered hea
   And I have valid payment details
   And I create a signature for the payment request
   When I use the same signature to trigger another payment request but with different value in "<header>"
-  Then I should receive a "401" error response with "Unable to verify signature" error description and "BNA001" errorcode within payment response
+  Then I should receive a "401" error response with "Unable to verify signature" error description and "EA001" errorcode within payment response
   And error message should be "Unauthorized Operation!" within payment response
 
 Examples:
@@ -69,7 +69,7 @@ Scenario: Negative flow-New POST Payment request sent with tampered body
   And I have valid payment details
   And I create a signature for the payment request
   When I use the generated signature with tampered body
-  Then I should receive a "401" error response with "Unable to verify signature" error description and "BNA001" errorcode within payment response
+  Then I should receive a "401" error response with "Unable to verify signature" error description and "EA001" errorcode within payment response
   And error message should be "Unauthorized Operation!" within payment response
 
 
@@ -81,7 +81,7 @@ Scenario: Negative flow- Invalid signing key id used to create signature and pas
   And I should receive a successful payment response
   And I have a valid payment id
   When I make a request for the payment status with invalid signing key id
-  Then I should receive a "401" error response with "Unable to verify signature" error description and "BNA001" errorcode within check status response
+  Then I should receive a "401" error response with "Unable to verify signature" error description and "EA001" errorcode within check status response
   And error message should be "Unauthorized Operation!" within check status response
 
 
@@ -93,7 +93,7 @@ Scenario: Negative flow- Invalid signing key used to create signature and passed
   And I should receive a successful payment response
   And I have a valid payment id
   When I make a request for the payment status with invalid signing key
-  Then I should receive a "401" error response with "Unable to verify signature" error description and "BNA001" errorcode within check status response
+  Then I should receive a "401" error response with "Unable to verify signature" error description and "EA001" errorcode within check status response
   And error message should be "Unauthorized Operation!" within check status response
 
 
@@ -105,7 +105,7 @@ Scenario: Negative flow- Different signing algo (HmacSHA512) used to create sign
   And I should receive a successful payment response
   And I have a valid payment id
   When I make a request for the payment status with a different signing algo
-  Then I should receive a "401" error response with "Unable to verify signature" error description and "BNA001" errorcode within check status response
+  Then I should receive a "401" error response with "Unable to verify signature" error description and "EA001" errorcode within check status response
   And error message should be "Unauthorized Operation!" within check status response
 
 
@@ -117,7 +117,7 @@ Scenario Outline: Negative flow- Incomplete Header Set used to create signature 
   And I should receive a successful payment response
   And I have a valid payment id
   When I make a request for the payment status with header "<header>" value missing from the signature
-  Then I should receive a "401" error response with "Unable to verify signature" error description and "BNA001" errorcode within check status response
+  Then I should receive a "401" error response with "Unable to verify signature" error description and "EA001" errorcode within check status response
   And error message should be "Unauthorized Operation!" within check status response
 
 Examples:
@@ -137,7 +137,7 @@ Scenario Outline: Negative flow- New GET Payment request sent with tampered head
   And I have a valid payment id
   And I create a signature for the payment status
   When I use the same signature to trigger another payment status request but with different value in "<header>"
-  Then I should receive a "401" error response with "Unable to verify signature" error description and "BNA001" errorcode within check status response
+  Then I should receive a "401" error response with "Unable to verify signature" error description and "EA001" errorcode within check status response
   And error message should be "Unauthorized Operation!" within check status response
 
 Examples:
@@ -152,7 +152,7 @@ Scenario: Positive flow- POST Payment Request digest is a mandatory header field
   Given I am an authorized user
   And I have valid payment details
   When I make a request for the payment without digest in the header
-  Then I should receive a "401" error response with "Unable to verify signature" error description and "BNA001" errorcode within payment response
+  Then I should receive a "401" error response with "Unable to verify signature: Missing required signature header \"digest\"" error description and "EA001" errorcode within payment response
   And error message should be "Unauthorized Operation!" within payment response
 
 
@@ -161,7 +161,7 @@ Scenario: Negative flow- Dragon server should throw an error if digest is used t
   Given I am an authorized user
   And I have valid payment details
   When I make a request for the payment with digest in the signature header list but not sent in the headers
-  Then I should receive a "400" error response with "Header Signature was not found in the request. Access denied." error description and "EA002" errorcode within payment response
-  And error message should be "API Gateway Validation Failed" within payment response
+  Then I should receive a "401" error response with "Unable to verify signature: Missing required signature header \"digest\"" error description and "EA001" errorcode within payment response
+  And error message should be "Unauthorized Operation!" within payment response
 
 
