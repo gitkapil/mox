@@ -161,7 +161,7 @@ Scenario: Negative flow- Dragon server should throw an error if digest is used t
   Given I am an authorized user
   And I have valid payment details
   When I make a request for the payment with digest in the signature header list but not sent in the headers
-  Then I should receive a "401" error response with "Unable to verify signature" error description and "BNA001" errorcode within payment response
-  And error message should be "Unauthorized Operation!" within payment response
+  Then I should receive a "400" error response with "Header Signature was not found in the request. Access denied." error description and "EA002" errorcode within payment response
+  And error message should be "API Gateway Validation Failed" within payment response
 
 
