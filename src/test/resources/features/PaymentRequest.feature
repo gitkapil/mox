@@ -254,14 +254,15 @@ Scenario Outline: Negative flow- Request Date Time's invalid values set within t
    Given I am an authorized user
    And I have valid payment details with invalid value "<value>" set for Request Date Time sent in the header
    When I make a request for the payment
-   Then I should receive a "400" error response with "Service Request Validation Failed" error description and "EA002" errorcode within payment response
-   And error message should be "Request timestamp not a valid RFC3339 date-time" within payment response
+   Then I should receive a "400" error response with "<error_description>" error description and "EA002" errorcode within payment response
+  And error message should be "Service Request Validation Failed" within payment response
    #And the payment request response should be signed
 
    Examples:
-  |value|
-  ||
-  |xyz|
+  |value|error_description|
+  |  | Request timestamp not a valid RFC3339 date-time |
+  | xyz | Request timestamp not a valid RFC3339 date-time |
+  | 2019-02-04T00:42:45.237Z | Request timestamp too old |
 
 
   @regression   
