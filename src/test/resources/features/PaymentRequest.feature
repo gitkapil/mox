@@ -211,8 +211,8 @@ Scenario Outline: Negative flow- Peak error response parsed by DRAGON
 
    Examples:
   |error_description     |error_message    |error_code| parameter      | invalid_value |
-  | Invalid total amount |                 |EA017     | totalamount    | 0             |
-  | Invalid total amount |                 |EA017     | totalamount    | -10           |
+  | Field error in object 'paymentRequestInputModel': field 'totalAmount' must be greater than or equal to 0.01; rejected value [0.0] |                 |EA017     | totalamount    | 0             |
+  | Field error in object 'paymentRequestInputModel': field 'totalAmount' must be greater than or equal to 0.01; rejected value [-10.0] |                 |EA017     | totalamount    | -10           |
 
   @regression
   Scenario Outline: Negative flow- Mandatory fields from the body missing or invalid (DRAG-1126, DRAG-1125, DRAG-1124, DRAG-1131, DRAG-1081)
@@ -247,7 +247,7 @@ Scenario Outline: Negative flow- TraceId's value missing from the header
 
    Examples:
   | error_description | error_message | error_code |http_status|
-  |Trace-Id can not be empty.          |  API Gateway Validation Failed                     |EA002     |400|
+  |Header Trace-Id was not found in the request. Access denied.          |  API Gateway Validation Failed                     |EA002     |400|
 
 
 @regression
@@ -255,14 +255,15 @@ Scenario Outline: Negative flow- Request Date Time's invalid values set within t
    Given I am an authorized user
    And I have valid payment details with invalid value "<value>" set for Request Date Time sent in the header
    When I make a request for the payment
-   Then I should receive a "400" error response with "Service Request Validation Failed" error description and "EA002" errorcode within payment response
-   And error message should be "Request timestamp too old" within payment response
+   Then I should receive a "400" error response with "<error_description>" error description and "EA002" errorcode within payment response
+  And error message should be "Service Request Validation Failed" within payment response
    #And the payment request response should be signed
 
    Examples:
-  |value|
-  ||
-  |xyz|
+  |value|error_description|
+  |  | Request timestamp not a valid RFC3339 date-time |
+  | xyz | Request timestamp not a valid RFC3339 date-time |
+  | 2019-02-04T00:42:45.237Z | Request timestamp too old |
 
 
   @regression   
@@ -272,8 +273,8 @@ Scenario Outline: Negative flow- verify Error message if the additionalData is o
   And I have merchant data "<description>","<orderId>","<additionalData>"
   And the additionalData is of more than 1024 characters
   When I make a request for the payment
-    Then I should receive a "400" error response with "Field error in object 'paymentRequestInputModel': field 'merchantData.additionalData' size must be between 0 and 1024; rejected value [Morethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024characters]" error description and "EA002" errorcode within payment response
-  And error message should be "Validation Fail!" within payment response
+  Then I should receive a "400" error response with "Field error in object 'paymentRequestInputModel': field 'merchantData.additionalData' size must be between 0 and 1024; rejected value [Morethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024characters]" error description and "EA002" errorcode within payment response
+  And error message should be "Service Request Validation Failed" within payment response
   #And the payment request response should be signed
 
 Examples:
