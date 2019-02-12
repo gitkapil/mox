@@ -59,22 +59,22 @@ Scenario Outline: Positive flow- A merchant is able to create a payment request 
   And the payment request response should be signed
 
 Examples:
-|totalamount|currency |notificationURL              |description          |orderId |effectiveDuration |appSuccessCallback               |appFailCallback|additionalData|
-|100.00     |HKD      |/return45|message from merchant|B1242183|60                |/confirmation5|/unsuccessful1|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|totalamount|currency|notificationURL|description          |orderId |effectiveDuration|appSuccessCallback|appFailCallback|additionalData|
+|100.00     |HKD     |/return45      |message from merchant|B1242183|60               |/confirmation5    |/unsuccessful1 |pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #description within Merchant Data missing
-|300.12     |HKD      |/return12|                     |XYZ456  |30                |/confirmation1|/unsuccessful|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|300.12     |HKD     |/return12      |null                 |XYZ456  |30               |/confirmation1    |/unsuccessful  |pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #orderId within Merchant Data missing
-|0.01       |HKD      |/return98|message from merchant|        |60                |/confirmation7|/unsuccessful9|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|0.01       |HKD     |/return98      |message from merchant|        |60               |/confirmation7    |/unsuccessful9 |pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #effectiveDuration missing
-|1          |HKD      |/return42|message from merchant|XYZ123  |                  |/confirmation8|/unsuccessful3|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|1          |HKD     |/return42      |message from merchant|XYZ123  |                 |/confirmation8    |/unsuccessful3 |pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #notificationURI missing
-|500.00     |HKD      |                             |message from merchant|B1242183|60                |/confirmation0|/unsuccessful2|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|500.00     |HKD     |               |message from merchant|B1242183|60               |/confirmation0    |/unsuccessful2 |pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #appSuccessCallback missing
-|800.00     |HKD      |/return29|message from merchant|B1242183|60                ||/unsuccessful6|pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|800.00     |HKD     |/return29      |message from merchant|B1242183|60               |                  |/unsuccessful6 |pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #appFailCallback missing
-|900.00     |HKD      |/return13|message from merchant|B1242183|60                |/confirmation3||pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
+|900.00     |HKD     |/return13      |message from merchant|B1242183|60               |/confirmation3    |               |pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD|
 #additionalData  within Merchant Data missing
-|550.00     |HKD      |/return26|message from merchant|B1242183|60                |/confirmations|/unsuccessfuls||
+|550.00     |HKD     |/return26      |message from merchant|B1242183|60               |/confirmations    |/unsuccessfuls |                                                                             |
 
 
   @regression    

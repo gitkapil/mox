@@ -269,12 +269,10 @@ public class PaymentRequest extends UtilManager{
      */
     public void createMerchantData(String description, String orderId, String additionalData){
         merchantData= new HashMap();
-        if (!description.equals(""))
+        if (!"".equals(description))
         {
-            if (!description.equals("no_value"))
+            if (!description.equals("null"))
                 merchantData.put("orderDescription", description);
-            else
-                merchantData.put("orderDescription", "");
         }
 
         if (!orderId.equals(""))

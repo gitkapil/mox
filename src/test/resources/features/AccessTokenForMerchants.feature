@@ -109,7 +109,7 @@ Feature: Retrieve Access Token - DRAG-310
     And error message should be "Content-Type Unsupported" within token response
 
     Examples:
-      |invalid_value    |error_description|
+      |invalid_value    |error_description                                                  |
       |application/json |Header Content-Type does not contain required value. Access denied.|
 
 
