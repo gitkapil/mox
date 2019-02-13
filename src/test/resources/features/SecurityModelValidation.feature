@@ -115,11 +115,11 @@ Scenario: Validate that a merchant with valid token and no paymentRequest as rol
   When I hit merchant APIs
   And I have valid payment details
   And I make a request for the payment
-  And I should receive a "401" error response with "Error validating JWT expected" error description and "EA001" errorcode within payment response
+  And I should receive a "401" error response with "Error validating JWT" error description and "EA001" errorcode within payment response
   And error message should be "API Gateway Authentication Failed" within payment response
   And I have a payment id "b15e090a-5e97-4b44-a67e-542eb2aa0f4d"
   And I make a request for the check status
-  Then I should receive a "401" error response with "Error validating JWT expected" error description and "EA001" errorcode within check status response
+  Then I should receive a "401" error response with "Error validating JWT" error description and "EA001" errorcode within check status response
   And error message should be "API Gateway Authentication Failed" within check status response
 
 
