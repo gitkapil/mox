@@ -200,7 +200,7 @@ Scenario Outline: Negative flow- Invalid auth token
 
 
 ## No error from peak currently
-## @regression @skiponsitmerchant
+ @regression
 Scenario Outline: Negative flow- Peak error response parsed by DRAGON
    Given I am an authorized user
    And I have payment details with "<invalid_value>" set for the "<parameter>"
