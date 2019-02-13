@@ -22,7 +22,7 @@ Scenario Outline: Positive flow- A merchant is able to perform refund with all t
  | 500          | HKD      ||
  | 10           | HKD      |no_value|
 
-    @skiponcimerchant @skiponsitmerchant  
+@skiponcimerchant @skiponsitmerchant
 Scenario: Negative flow- Invalid auth token (without Bearer in the header)
   Given I am an authorized user
   And I have a valid transaction for refund
@@ -31,8 +31,7 @@ Scenario: Negative flow- Invalid auth token (without Bearer in the header)
   Then I should receive a "401" error response with "Error validating JWT" error description and "401" errorcode within refund response
   And error message should be "TokenNotPresent" within refund response
 
-
-    @skiponcimerchant @skiponsitmerchant  
+@skiponcimerchant @skiponsitmerchant
 Scenario Outline: Negative flow- Mandatory fields not sent in the header
   Given I am an authorized user
   And I have a valid transaction for refund
@@ -48,7 +47,7 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the header
  |Header Trace-Id was not found in the request. Access denied.         | HeaderNotFound       |Trace-Id         |EA002      |400           |
 
 
-    @skiponcimerchant @skiponsitmerchant  
+@skiponcimerchant @skiponsitmerchant
 Scenario Outline: Negative flow- Mandatory fields not sent in the body
   Given I am an authorized user
   And I have a valid transaction for refund
@@ -62,7 +61,7 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the body
  |currencyCode missing| currencyCode|
 
 
-    @skiponcimerchant @skiponsitmerchant 
+@skiponcimerchant @skiponsitmerchant
 Scenario Outline: Negative flow- Mandatory fields not sent in the body
   Given I am an authorized user
   And I have a "<refundamount>", "<currency>", "<reason>"
@@ -74,7 +73,7 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the body
  | refundamount | currency |reason               |error_description   |
  | 22.99        | no_value |requested by customer|currencyCode missing|
 
-     @skiponcimerchant @skiponsitmerchant  
+  @skiponcimerchant @skiponsitmerchant  
  Scenario Outline: Negative flow- Mandatory fields not sent in the header
    Given I am an authorized user
    And I have a valid transaction for refund
@@ -86,7 +85,7 @@ Scenario Outline: Negative flow- Mandatory fields not sent in the body
   |Api-Version|
 
 
-    @skiponcimerchant @skiponsitmerchant  
+@skiponcimerchant @skiponsitmerchant
 Scenario Outline: Negative flow- Invalid auth token
   Given I am an authorized user
   And I have a valid transaction for refund
@@ -106,7 +105,7 @@ Scenario Outline: Negative flow- Invalid auth token
 
 
 #wallet balance= 2000 HKD and total amount within the transaction = 1000HKD set within the emulator
-    @skiponcimerchant @skiponsitmerchant 
+@skiponcimerchant @skiponsitmerchant
 Scenario Outline: Negative flow- Invalid refund amount sent in the request (error responses set within emulator)
   Given I am an authorized user
   And I have a "<refundamount>", "HKD", "customer initiated"
@@ -124,16 +123,17 @@ Scenario Outline: Negative flow- Invalid refund amount sent in the request (erro
  |Refund amount > net refundable amount| Business Rules Incorrect!  |BG2009      | 2200        |
 
 
-   @skiponcimerchant @skiponsitmerchant 
+@skiponcimerchant @skiponsitmerchant 
 Scenario Outline: Negative flow- Request Date Time's invalid values set within the header
    Given I am an authorized user
    And I have a valid transaction for refund
    And I send invalid value "<value>" for the request date time in the refund request
    When I make a request for the refund
-   Then I should receive a "400" error response with "Service Request Validation Failed" error description and "BNA002" errorcode within refund response
-   And error message should be "Something went wrong. Sorry, we are unable to perform this action right now. Please try again." within refund response
+   Then I should receive a "400" error response with "<error_description>" error description and "EA002" errorcode within refund response
+   And error message should be "Service Request Validation Failed" within refund response
 
    Examples:
-  |value|
-  ||
-  |xyz|
+  |value|error_description|
+  |  | Request timestamp not a valid RFC3339 date-time |
+  | xyz | Request timestamp not a valid RFC3339 date-time |
+  | 2019-02-04T00:42:45.237Z | Request timestamp too old |
