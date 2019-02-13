@@ -92,7 +92,7 @@ Scenario Outline: Negative flow- Invalid auth token
  |Error validating JWT        |401        |API Gateway Authentication Failed  |eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c|EA001|
 
 
-  @regression @skiponsitmerchant
+ @regression
 Scenario Outline: Negative flow- Invalid PaymentIds sent in the request
   Given I am an authorized user
   And I have valid payment details
@@ -111,7 +111,7 @@ Scenario Outline: Negative flow- Invalid PaymentIds sent in the request
  |Payment Request Id is invalid | Service Request Validation Failed| random_payment_id                   |EA002      |400|
 
 
- @regression  @skiponsitmerchant
+#  @regression  @skiponsitmerchant
 Scenario Outline: Emulator Scenarios
   Given I am an authorized user
   And I have a payment id "<payment_id>"

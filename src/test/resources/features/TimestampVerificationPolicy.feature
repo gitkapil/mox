@@ -46,7 +46,6 @@ Scenario: Positive flow- (System time) < (Request-Date-Time + Tolerance) within 
   Then I should receive a successful check status response
   And the payment status response should be signed
 
-
 Scenario: Positive flow- (System time) = (Request-Date-Time + Tolerance) within payment status request
   Given I am an authorized user
   And I have valid payment details
@@ -71,7 +70,6 @@ Scenario: Negative flow- (System time) > (Request-Date-Time + Tolerance) within 
   And error message should be "Service Request Validation Failed" within check status response
   And the payment status response should be signed
 
-
 Scenario: Positive flow- (System time) < (Request-Date-Time + Tolerance) within refund request
   Given I am an authorized user
   And I have a valid transaction for refund
@@ -79,15 +77,12 @@ Scenario: Positive flow- (System time) < (Request-Date-Time + Tolerance) within 
   When I make a request for the refund
   Then I should receive a successful refund response
 
-
 Scenario: Positive flow- (System time) = (Request-Date-Time + Tolerance) within refund request
   Given I am an authorized user
   And I have a valid transaction for refund
   And request date timestamp in the refund header is exactly 5 mins behind than the current timestamp
   When I make a request for the refund
   Then I should receive a successful refund response
-
-
 
 Scenario: Negative flow- (System time) > (Request-Date-Time + Tolerance) within refund request
   Given I am an authorized user
