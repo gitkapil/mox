@@ -52,7 +52,8 @@ public class PaymentStatus_StepDefs extends UtilManager{
 
         Assert.assertNotNull(testContext.getApiManager().getPaymentStatus().createdTimestampInResponse(), "Created Timestamp is not present in the response!!");
 
-        Assert.assertEquals(testContext.getApiManager().getPaymentStatus().effectiveDurationInResponse().toString(), "600", "Effective Duration isn't 600!");
+        Assert.assertEquals(testContext.getApiManager().getPaymentStatus().effectiveDurationInResponse().toString(),
+                testContext.getApiManager().getPaymentRequest().getEffectiveDuration(), "Effective Duration does not match");
 
         Assert.assertNotNull(testContext.getApiManager().getPaymentStatus().statusCodeInResponse(), "Status Code is not present in the response!!");
 

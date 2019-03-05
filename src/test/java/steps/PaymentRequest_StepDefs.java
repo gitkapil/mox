@@ -178,13 +178,16 @@ public class PaymentRequest_StepDefs extends UtilManager{
 
         Assert.assertNotNull(testContext.getApiManager().getPaymentRequest().appLinkInResponse(), "App Link is not present in the response!!");
 
-        Assert.assertEquals(testContext.getApiManager().getPaymentRequest().effectiveDurationInResponse().toString(), "600", "Effective Duration isn't 600!");
+        Assert.assertEquals(testContext.getApiManager().getPaymentRequest().effectiveDurationInResponse().toString(),
+                testContext.getApiManager().getPaymentRequest().getEffectiveDuration(),
+                "Effective Duration returned does not match.");
 
         Assert.assertEquals(testContext.getApiManager().getPaymentRequest().statusCodeInResponse(), "PR001", "Status Code is not PR001");
 
         Assert.assertEquals(testContext.getApiManager().getPaymentRequest().statusDescriptionInResponse(), "Request for Payment Initiated", "Status Description is not \"Request for Payment Initiated\"");
 
-        Assert.assertEquals(String.format("%.2f", Double.parseDouble(testContext.getApiManager().getPaymentRequest().totalAmountInResponse())), String.format("%.2f", testContext.getApiManager().getPaymentRequest().getTotalAmountInDouble()), "Total Amount isn't matching!");
+        Assert.assertEquals(String.format("%.2f", Double.parseDouble(testContext.getApiManager().getPaymentRequest().totalAmountInResponse())),
+                String.format("%.2f", testContext.getApiManager().getPaymentRequest().getTotalAmountInDouble()), "Total Amount isn't matching!");
 
         Assert.assertEquals(testContext.getApiManager().getPaymentRequest().currencyCodeInResponse(), testContext.getApiManager().getPaymentRequest().getCurrency(), "Currency Code isn't matching!");
 
