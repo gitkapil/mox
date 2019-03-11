@@ -1,89 +1,95 @@
-# Project Title
+# DRAGON TEST HARNESS
+=======================
 
-One Paragraph of project description goes here
+Closed Dragon is a set of open APIs which are basically payment services and would be used by the third party merchants and their technical team to integrate within their apps or websites.
 
-## Getting Started
+Every env has two APIMs. One is sandbox APIM which talks to PEAK emulator and another is merchant APIM which interacts with real PEAK services.
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+(Although for CI env merchant APIM doesnot talk to PEAK but the emulator). Playpen only has one APIM
 
-### Prerequisites
+## How to Run ##
+------------------
 
-What things you need to install the software and how to install them
+verify -P<profile> -Denv=<Env Name> -Dversion=<version number> -Dusertype=<merchant/ developer>
 
-```
-Give examples
-```
+<i>Example: </i>
 
-### Installing
+To run functional tests on sit-sa env
 
-A step by step series of examples that tell you how to get a development env running
+command: verify -Pregression -Denv=sit-sa -Dversion=0.8 -Dusertype=developer
 
-Say what the step will be
+## Report ##
+----------
+Cucumber-Maven-Reporting is used to generate reports
+digital-dragon-testing/target/cucumber-reports/cucumber-html-reports
 
-```
-Give the example
-```
 
-And repeat
+## PreRequisites ##
+--------------------
 
-```
-until finished
-```
+- Java 8
+- Every env should have a config file under test/ resources
+- All the values explained below should be present within the config file
+- All the test cases need to be tagged with relevant profiles/ tags
+- There are four cucumber tags created (3 of them are associated with respective profiles). One tag @skiponcimerchant is used to skip test cases which are not suppose to run when env is CI and usertype is merchant
 
-End with an example of getting some data out of the system or using it for a little demo
 
-## Running the tests
+## Env Values ##
+-----------------
+sit (SIT- HK)
+ci  (CI-HK)
+pre
+sit-sa (SIT-Southeast Asia)
+ci-sea (CI-Southeast Asia)
+(Tests cannot be run on playpen as the URLs/ configs are totally different) 
 
-Explain how to run the automated tests for this system
+## Profiles ## (All the tests are marked as regression at the moment)
+----------------
+functional --> to run functional tests
+regression --> To run regression tests
 
-### Break down into end to end tests
 
-Explain what these tests test and why
+## UserType Values
+-------------------
+developer --> to run the sandbox APIM in an env
+merchant --> to run live/ merchant APIM in an env
 
-```
-Give an example
-```
+Note: By default the user type is 'developer'
 
-### And coding style tests
 
-Explain what these tests test and why
+Explanation of Properties (config) file & its Values
+-----------------------------------------------------
 
-```
-Give an example
-```
+sandbox-server-application-id --> This is the app id of the sandbox server application in Azure AD
+merchant-server-application-id --> This is the app id of the merchant server application in Azure AD
 
-## Deployment
+developer-client-id --> This is the app id of the sandbox client application in Azure AD. Minimum roles required: developer, paymentRequest. This client app should have access to only sandbox server app.
+developer-client-secret --> This is the client secret for the above client id
+merchant-client-id --> This is the app id of the merchant client application in Azure AD. Minimum roles required: merchant, paymentRequest. This client app should have access to only merchant server app.
+merchant-client-secret --> This is the client secret for the above client id
 
-Add additional notes about how to deploy this on a live system
+client-id-access-both-servers --> This is the app id of a client application in Azure AD having access to both sandbox & merchant server app. Minimum roles required: developer/ merchant, paymentRequest.
+client-secret-access-both-servers --> This is the client secret for the above client id
 
-## Built With
+developer-client-id-no-paymentrequest-role --> This is the app id of the sandbox client application in Azure AD without 'paymentRequest' role. Roles required: developer. This client app should have access to only sandbox server app.
+developer-client-secret-no-paymentrequest-role --> This is the client secret for the above client id
+merchant-client-id-no-paymentrequest-role --> This is the app id of the merchant client application in Azure AD without 'paymentRequest' role. Roles required: merchant. This client app should have access to only merchant server app.
+merchant-client-secret-no-paymentrequest-role --> This is the client secret for the above client id
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+jwks_uri_idp= https://login.microsoftonline.com/<Azure AD Tenant>/discovery/v2.0/keys
 
-## Contributing
+merchant-api-management-url --> URL of merchant API managment
+sandbox-api-management-url --> URL of sandbox API management
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+Base_Path_APIs= /payments/
+Base_Path_Token=/oauth2/
 
-## Versioning
+create_payment_request_resource= paymentrequests
+check_payment_status_resource= paymentRequestStatus
+retrieve_access_token_resource= token
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
+openid-configuration-for-PEAK --> This is Dragon's internal token issuer. Peak uses this open id config to retrive the JWKS
+                                  https://paymedev-api-<env>.open-paymentsapi.com/internal-token/.well-known/openid-configuration
 
-## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
 
 
