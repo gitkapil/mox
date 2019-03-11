@@ -6,15 +6,36 @@
 
     <groupId>com.dragon.test.harness</groupId>
     <artifactId>dragon</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.10.0</version>
 
     <dependencies>
+
+        <!-->Dependency Injection <-->
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-picocontainer</artifactId>
+            <version>1.2.5</version>
+            <scope>test</scope>
+        </dependency>
 
         <!-->Extended Cucumber Option for reporting <-->
         <dependency>
             <groupId>com.github.mkolisnyk</groupId>
             <artifactId>cucumber-runner</artifactId>
             <version>1.0.8</version>
+        </dependency>
+
+        <!-->Extent Reports <-->
+        <dependency>
+            <groupId>com.vimalselvam</groupId>
+            <artifactId>cucumber-extentsreport</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.aventstack</groupId>
+            <artifactId>extentreports</artifactId>
+            <version>3.1.2</version>
         </dependency>
 
         <!-->Rest Assured <-->
@@ -70,26 +91,6 @@
             <version>1.2.17</version>
         </dependency>
 
-        <!-->WireMock <-->
-        <dependency>
-            <groupId>com.github.tomakehurst</groupId>
-            <artifactId>wiremock</artifactId>
-            <version>2.18.0</version>
-        </dependency>
-
-        <!-->QR Code Generator(ZXing)  <-->
-        <dependency>
-            <groupId>com.google.zxing</groupId>
-            <artifactId>core</artifactId>
-            <version>3.3.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.zxing</groupId>
-            <artifactId>javase</artifactId>
-            <version>3.3.3</version>
-        </dependency>
-
         <!-->JWT Validation Library <-->
         <dependency>
             <groupId>com.nimbusds</groupId>
@@ -97,6 +98,12 @@
             <version>5.12</version>
         </dependency>
 
+        <!-- Message Signing Library -->
+        <dependency>
+            <groupId>org.tomitribe</groupId>
+            <artifactId>tomitribe-http-signatures</artifactId>
+            <version>1.1</version>
+        </dependency>
     </dependencies>
 
     <profiles>
@@ -120,6 +127,16 @@
                 </cucumber.options>
             </properties>
         </profile>
+
+        <profile>
+            <id>regression</id>
+            <properties>
+                <cucumber.options>
+                    --tags @regression
+                </cucumber.options>
+            </properties>
+        </profile>
+
     </profiles>
 
     <build>
@@ -127,15 +144,47 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.19.1</version>
+                    <!--version>2.19.1</version-->
+                    <version>3.0.0-M1</version>
                     <configuration>
+                        <testFailureIgnore>true</testFailureIgnore>
                         <systemPropertyVariables>
                             <cucumber.options>${cucumber.options}</cucumber.options>
                         </systemPropertyVariables>
                         <includes>
                             <include>**/Runner.class</include>
                         </includes>
+                        <shutdown>kill</shutdown>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>8</source>
+                        <target>8</target>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>net.masterthought</groupId>
+                    <artifactId>maven-cucumber-reporting</artifactId>
+                    <version>3.13.0</version>
+                    <executions>
+                        <execution>
+                            <id>execution</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>generate</goal>
+                            </goals>
+                            <configuration>
+                                <projectName>Dragon</projectName>
+                                <outputDirectory>${basedir}/target/cucumber-reports</outputDirectory>
+                                <cucumberOutput>${project.build.directory}/cucumber.json</cucumberOutput>
+                                <checkBuildResult>false</checkBuildResult>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
     </build>
