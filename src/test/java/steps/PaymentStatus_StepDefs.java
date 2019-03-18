@@ -1,5 +1,7 @@
 package steps;
 
+import apiHelpers.Transaction;
+import cucumber.api.java.en.And;
 import managers.TestContext;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -7,8 +9,11 @@ import cucumber.api.java.en.When;
 import managers.UtilManager;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
+import utils.PropertyHelper;
+
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 public class PaymentStatus_StepDefs extends UtilManager{
 
@@ -75,7 +80,7 @@ public class PaymentStatus_StepDefs extends UtilManager{
         else{
             if (testContext.getApiManager().getAccessToken().getType().equalsIgnoreCase("merchant"))
             {
-                if(System.getProperty("env").equalsIgnoreCase("ci"))
+                if(PropertyHelper.getInstance().getPropertyCascading("env").equalsIgnoreCase("ci"))
                     Assert.assertEquals(testContext.getApiManager().getPaymentStatus().appSuccessCallbackInResponse(),"http://localhost/success", "App Success Callback isn't matching with emulator!");
                 else
                     Assert.assertEquals(testContext.getApiManager().getPaymentStatus().appSuccessCallbackInResponse(), testContext.getApiManager().getPaymentRequest().getAppSuccessCallback(), "App Success Callback isn't matching!");
@@ -91,7 +96,7 @@ public class PaymentStatus_StepDefs extends UtilManager{
         {
             if (testContext.getApiManager().getAccessToken().getType().equalsIgnoreCase("merchant"))
             {
-                if(System.getProperty("env").equalsIgnoreCase("ci"))
+                if(PropertyHelper.getInstance().getPropertyCascading("env").equalsIgnoreCase("ci"))
                     Assert.assertEquals(testContext.getApiManager().getPaymentStatus().appFailCallbackInResponse(),"http://localhost/fail", "App Fail Callback isn't matching with emulator!");
                 else
                     Assert.assertEquals(testContext.getApiManager().getPaymentStatus().appFailCallbackInResponse(), testContext.getApiManager().getPaymentRequest().getAppFailCallback(), "App Fail Callback isn't matching!");
@@ -178,5 +183,10 @@ public class PaymentStatus_StepDefs extends UtilManager{
     }
 
 
-
+    @And("^the response body should contain a list of transactions$")
+    public void theResponseBodyShouldContainListOfTransactions() {
+        // ToDo: verify with exact fields on final spec
+        List<Transaction> listOfTransactions = testContext.getApiManager().getPaymentStatus().getTransactions();
+        Assert.assertNotNull(listOfTransactions);
+    }
 }

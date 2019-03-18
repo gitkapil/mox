@@ -9,10 +9,12 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import managers.UtilManager;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
+import utils.EnvHelper;
+import utils.PropertyHelper;
+
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.*;
+
 import static com.jayway.restassured.config.EncoderConfig.encoderConfig;
 
 public class AccessTokenForMerchants extends UtilManager{
@@ -89,7 +91,7 @@ public class AccessTokenForMerchants extends UtilManager{
                     .config(RestAssured.config().encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
                     .contentType("application/x-www-form-urlencoded")
                     .accept("application/json")
-                    .header("Api-Version", System.getProperty("version"))
+                    .header("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"))
                     .formParam("client_id", clientId)
                     .formParam("client_secret", clientSecret)
                     .request();
@@ -118,7 +120,7 @@ public class AccessTokenForMerchants extends UtilManager{
                 .config(RestAssured.config().encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
                 .contentType("application/x-www-form-urlencoded")
                 .accept("application/json")
-                .header("Api-Version", System.getProperty("version"))
+                .header("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"))
                 .body(body)
                 .request();
 
@@ -141,7 +143,7 @@ public class AccessTokenForMerchants extends UtilManager{
                        .config(RestAssured.config().encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
                     .contentType("application/x-www-form-urlencoded")
                        .accept("application/json")
-                       .header("Api-Version", System.getProperty("version"))
+                       .header("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"))
                     .formParam("client_secret", clientSecret)
                     .request();
 
@@ -152,7 +154,7 @@ public class AccessTokenForMerchants extends UtilManager{
                         .config(RestAssured.config().encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
                         .contentType("application/x-www-form-urlencoded")
                         .accept("application/json")
-                        .header("Api-Version", System.getProperty("version"))
+                        .header("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"))
                         .formParam("client_id", clientId)
                         .request();
 
@@ -162,7 +164,7 @@ public class AccessTokenForMerchants extends UtilManager{
                                 ContentType.URLENC)))
                         .config(RestAssured.config().encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
                         .contentType("application/x-www-form-urlencoded")
-                        .header("Api-Version", System.getProperty("version"))
+                        .header("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"))
                         .accept("application/json")
                         .request();
 
@@ -182,14 +184,14 @@ public class AccessTokenForMerchants extends UtilManager{
                                 ContentType.URLENC)))
                         .config(RestAssured.config().encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
                         .contentType("application/x-www-form-urlencoded")
-                        .header("Api-Version", System.getProperty("version"))
+                        .header("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"))
                         .formParam("client_id", clientId)
                         .formParam("client_secret", clientSecret)
                         .request();
             } else if (missingKey.equalsIgnoreCase("content-type")) {
 
                 request = RestAssured.given()
-                        .header("Api-Version", System.getProperty("version"))
+                        .header("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"))
                         .accept("application/json")
                         .formParam("client_id", clientId)
                         .formParam("client_secret", clientSecret)
@@ -216,7 +218,7 @@ public class AccessTokenForMerchants extends UtilManager{
                                 ContentType.URLENC)))
                         .config(RestAssured.config().encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false)))
                         .contentType("application/x-www-form-urlencoded")
-                        .header("Api-Version", System.getProperty("version"))
+                        .header("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"))
                         .accept(value)
                         .formParam("client_id", clientId)
                         .formParam("client_secret", clientSecret)
@@ -225,7 +227,7 @@ public class AccessTokenForMerchants extends UtilManager{
             else if (key.equalsIgnoreCase("content-type"))
                 request = RestAssured.given()
                         .contentType(value)
-                        .header("Api-Version", System.getProperty("version"))
+                        .header("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"))
                         .accept("application/json")
                         .request();
 
@@ -267,6 +269,10 @@ public class AccessTokenForMerchants extends UtilManager{
      */
     public Response retrieveAccessToken(String endPoint)
     {
+        if (EnvHelper.getInstance().isLocalDevMode()) {
+            accessTokenResponse = EnvHelper.getInstance().getLocalDevModeAccessTokenResponse();
+            return accessTokenResponse;
+        }
         accessTokenResponse= getRestHelper().postRequestWithEncodedBody(endPoint,request);
         logger.info("********** Access Token Response *********** --> "+ accessTokenResponse.getBody().asString());
         return accessTokenResponse;

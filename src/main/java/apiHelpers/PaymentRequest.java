@@ -6,6 +6,9 @@ import com.jayway.restassured.response.Response;
 import cucumber.api.DataTable;
 import managers.UtilManager;
 import org.junit.Assert;
+import utils.EnvHelper;
+import utils.PropertyHelper;
+
 import java.net.URL;
 import java.util.*;
 
@@ -152,7 +155,11 @@ public class PaymentRequest extends UtilManager{
         paymentRequestHeader.put("Trace-Id",traceId);
         paymentRequestHeader.put("Accept-Language", "en-US");
         paymentRequestHeader.put("Request-Date-Time", getRequestDateTime());
-        paymentRequestHeader.put("Api-Version", System.getProperty("version"));
+        paymentRequestHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
+
+        if (EnvHelper.getInstance().isLocalDevMode()) {
+            EnvHelper.getInstance().addMissingHeaderForLocalDevMode(paymentRequestHeader);
+        }
 
         try {
            paymentRequestHeader.put("Digest", getSignatureHelper().calculateContentDigestHeader(new ObjectMapper().writeValueAsBytes(paymentRequestBody)));
@@ -605,7 +612,7 @@ public class PaymentRequest extends UtilManager{
         paymentRequestHeader.put("Trace-Id",traceId);
         paymentRequestHeader.put("Accept-Language", "en-US");
         paymentRequestHeader.put("Request-Date-Time", getRequestDateTime());
-        paymentRequestHeader.put("Api-Version", System.getProperty("version"));
+        paymentRequestHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
 
         try{
             paymentRequestHeader.put("Signature", getSignatureHelper().calculateSignature(method, url,

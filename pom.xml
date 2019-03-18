@@ -10,6 +10,13 @@
 
     <dependencies>
 
+        <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>2.25.1</version>
+        </dependency>
+
         <!-->Dependency Injection <-->
         <dependency>
             <groupId>info.cukes</groupId>
@@ -109,9 +116,7 @@
     <profiles>
         <profile>
             <id>functional</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
+
             <properties>
             <cucumber.options>
                 --tags @functional
@@ -121,6 +126,9 @@
 
         <profile>
             <id>trial</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <properties>
                 <cucumber.options>
                     --tags @trial
