@@ -235,8 +235,8 @@ Scenario Outline: Negative flow- Peak error response parsed by DRAGON
       |1000001    |HKD     |/return        |Field error in object 'paymentRequestInputModel': field 'totalAmount' must be less than or equal to 1000000.0; rejected value [1000001.0]                 |Service Request Validation Failed|EA017     |/confirmation     |/unsuccessful  |6                |
       |0.011      |HKD     |/return        |Field error in object 'paymentRequestInputModel': field 'totalAmount' numeric value out of bounds (<7 digits>.<2 digits> expected); rejected value [0.011]|Service Request Validation Failed|EA017     |/confirmation     |/unsuccessful  |6                |
       # DRAG-1258: Effective Duration Business Boundaries
-      |150.00     |USD     |/return        |Invalid currency code                                                                                                                                     |Service Request Validation Failed|EA017     |/confirmation     |/unsuccessful  |14               |
-      |150.00     |USD     |/return        |Invalid currency code                                                                                                                                     |Service Request Validation Failed|EA017     |/confirmation     |/unsuccessful  |3601             |
+      |150.00     |USD     |/return        |Invalid currency code                                                                                                                                     |Service Request Validation Failed|EA014     |/confirmation     |/unsuccessful  |14               |
+      |150.00     |USD     |/return        |Invalid currency code                                                                                                                                     |Service Request Validation Failed|EA014     |/confirmation     |/unsuccessful  |3601             |
 
 
 
