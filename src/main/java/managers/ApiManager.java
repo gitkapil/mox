@@ -8,6 +8,7 @@ public class ApiManager {
     PaymentStatus paymentStatus;
     Refunds refunds;
     OpenIdConfigForPEAK openIdConfig;
+    Transaction transaction;
 
     public ApiManager() {
         accessToken= new AccessTokenForMerchants();
@@ -15,6 +16,7 @@ public class ApiManager {
         paymentStatus= new PaymentStatus();
         refunds= new Refunds();
         openIdConfig= new OpenIdConfigForPEAK();
+        transaction = new Transaction();
     }
 
     public AccessTokenForMerchants getAccessToken() {
@@ -35,5 +37,9 @@ public class ApiManager {
 
     public OpenIdConfigForPEAK getOpenIdConfig() {
         return (openIdConfig == null) ? openIdConfig = new OpenIdConfigForPEAK() : openIdConfig;
+    }
+
+    public Transaction getTransaction() {
+        return (transaction == null) ? transaction = new Transaction(): transaction;
     }
 }

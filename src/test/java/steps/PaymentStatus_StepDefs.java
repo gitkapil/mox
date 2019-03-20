@@ -49,6 +49,12 @@ public class PaymentStatus_StepDefs extends UtilManager{
         Assert.assertEquals(getRestHelper().getResponseHeaderValue(testContext.getApiManager().getPaymentStatus().getPaymentStatusResponse(), "X-Application-Context "), null, "Expects X-Application-Context header to not exists");
         Assert.assertEquals(getRestHelper().getResponseStatusCode(testContext.getApiManager().getPaymentStatus().getPaymentStatusResponse()), 200,"Check Payment Status was not successful!");
 
+        System.out.println("+++++++++++++++++++++++ Payment Status Response from Realisation +++++++++++++++++++++++");
+        System.out.println();
+        System.out.println(testContext.getApiManager().getPaymentStatus().getPaymentStatusResponse().asString());
+        System.out.println();
+        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
     }
 
     @Then("^the response body should contain valid payment request id, created timestamp, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration within check status response$")

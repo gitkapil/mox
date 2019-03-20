@@ -36,6 +36,9 @@ public class PaymentRequest_StepDefs extends UtilManager{
         testContext.getApiManager().getPaymentStatus().setAuthToken(testContext.getApiManager().getAccessToken().getAccessToken());
         testContext.getApiManager().getPaymentStatus().setAuthTokenwithBearer();
 
+        testContext.getApiManager().getTransaction().setAuthToken(testContext.getApiManager().getAccessToken().getAccessToken());
+        testContext.getApiManager().getTransaction().setAuthTokenwithBearer();
+
        // refunds.setAuthToken(testContext.getApiManager().getAccessToken().getAccessToken());
        // refunds.setAuthTokenwithBearer();
 
