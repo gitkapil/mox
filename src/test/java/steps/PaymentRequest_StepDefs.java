@@ -9,6 +9,8 @@ import cucumber.api.java.en.When;
 import managers.UtilManager;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
+import utils.EnvHelper;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -34,19 +36,29 @@ public class PaymentRequest_StepDefs extends UtilManager{
         testContext.getApiManager().getPaymentStatus().setAuthToken(testContext.getApiManager().getAccessToken().getAccessToken());
         testContext.getApiManager().getPaymentStatus().setAuthTokenwithBearer();
 
+        testContext.getApiManager().getTransaction().setAuthToken(testContext.getApiManager().getAccessToken().getAccessToken());
+        testContext.getApiManager().getTransaction().setAuthTokenwithBearer();
+
        // refunds.setAuthToken(testContext.getApiManager().getAccessToken().getAccessToken());
        // refunds.setAuthTokenwithBearer();
 
         if(testContext.getApiManager().getAccessToken().getType().equalsIgnoreCase("merchant")){
             getRestHelper().setBaseURI(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
-                    +getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
+                    +getEnvSpecificBasePathAPIs());
         }
 
         else{
             getRestHelper().setBaseURI(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
-                    +getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
+                    +getEnvSpecificBasePathAPIs());
         }
 
+    }
+
+    private String getEnvSpecificBasePathAPIs() {
+        if (EnvHelper.getInstance().isLocalDevMode()) {
+            return getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "Base_Path_APIs");
+        }
+        return getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs");
     }
 
     @Given("^I dont send Bearer with the auth token$")

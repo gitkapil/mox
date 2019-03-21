@@ -15,6 +15,7 @@ Scenario: Positive flow- A merchant is able to create a check status request wit
   When I make a request for the check status
   Then I should receive a successful check status response
   And the response body should contain valid payment request id, created timestamp, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration within check status response
+  And the response body should contain a list of transactions
   And the response body should also have app success callback URL, app fail Callback Url if applicable within check status response
   And the payment status response should be signed
 

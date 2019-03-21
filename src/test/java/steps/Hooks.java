@@ -1,13 +1,12 @@
 package steps;
 
-import com.cucumber.listener.Reporter;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.parsing.Parser;
-import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import managers.UtilManager;
 import org.junit.AssumptionViolatedException;
-import java.io.File;
+import utils.PropertyHelper;
+
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.util.Properties;
@@ -17,13 +16,12 @@ public class Hooks extends UtilManager{
     static Properties generalProperties=new Properties();
     static String hostIP=null;
 
-
     @Before
     public void setUp(){
       RestAssured.defaultParser = Parser.JSON;
-      String generalPropertiesFilePath=System.getProperty("user.dir")+"/src/test/resources/configs/"+System.getProperty("env")+".properties";
+      String generalPropertiesFilePath=PropertyHelper.getInstance().getPropertyCascading("user.dir")+"/src/test/resources/configs/"+PropertyHelper.getInstance().getPropertyCascading("env")+".properties";
       envProperties= getFileHelper().loadPropertiesFile(generalPropertiesFilePath);
-      generalProperties = getFileHelper().loadPropertiesFile(System.getProperty("user.dir")+"/src/test/resources/configs/general.properties");
+      generalProperties = getFileHelper().loadPropertiesFile(PropertyHelper.getInstance().getPropertyCascading("user.dir")+"/src/test/resources/configs/general.properties");
         try {
             hostIP= Inet4Address.getLocalHost().getHostAddress();
         } catch (UnknownHostException e) {
@@ -32,36 +30,25 @@ public class Hooks extends UtilManager{
 
     }
 
-
     @Before("@skiponsitmerchant")
     public void beforeScenario2() {
-        if(System.getProperty("env").contains("sit") && System.getProperty("usertype").equalsIgnoreCase("merchant")) {
+        if(PropertyHelper.getInstance().getPropertyCascading("env").contains("sit")
+                && PropertyHelper.getInstance().getPropertyCascading("usertype").equalsIgnoreCase("merchant")) {
             throw new AssumptionViolatedException("Not supported on SIT merchant env");
         }
     }
 
     @Before("@skiponsandbox")
     public void beforeScenario3() {
-        if(System.getProperty("usertype").equalsIgnoreCase("developer")) {
+        if(PropertyHelper.getInstance().getPropertyCascading("usertype").equalsIgnoreCase("developer")) {
             throw new AssumptionViolatedException("Not to be executed in Sandbox");
         }
     }
 
     @Before("@skiponmerchant")
     public void beforeScenario4() {
-        if(System.getProperty("usertype").equalsIgnoreCase("merchant")) {
+        if(PropertyHelper.getInstance().getPropertyCascading("usertype").equalsIgnoreCase("merchant")) {
             throw new AssumptionViolatedException("Not to be executed in Merchant");
         }
     }
-
-
-   /* @After
-    public static void writeExtentReport() {
-        Reporter.loadXMLConfig(new File(System.getProperty("user.dir")+"/src/test/resources/extent-config.xml"));
-        Reporter.setSystemInfo("Environment", System.getProperty("env"));
-        Reporter.setSystemInfo("API Version", System.getProperty("version"));
-        Reporter.setSystemInfo("User Type", System.getProperty("usertype"));
-
-    } */
-
 }

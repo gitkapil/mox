@@ -4,19 +4,25 @@ package apiHelpers;
 import com.jayway.restassured.response.Response;
 import managers.UtilManager;
 import org.junit.Assert;
+import utils.EnvHelper;
+import utils.PropertyHelper;
+
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 
-public class PaymentStatus extends UtilManager{
+public class PaymentStatus extends UtilManager {
     final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(PaymentStatus.class);
 
     private String paymentRequestId, traceId, authToken, requestDateTime;
     private Response paymentStatusResponse= null;
     private HashMap<String,String> paymentStatusHeader= new HashMap<>();
+    private List<Transaction> transactions = new ArrayList<>();
 
     /**
      *
@@ -42,6 +48,7 @@ public class PaymentStatus extends UtilManager{
         return requestDateTime;
     }
 
+    public List<Transaction> getTransactions() { return transactions; }
 
     /**
      *
@@ -69,6 +76,7 @@ public class PaymentStatus extends UtilManager{
         this.requestDateTime = requestDateTime;
     }
 
+    public void setTransactions(List<Transaction> transactions) { this.transactions = transactions; }
 
     /***
      * This method hits GET payment request with invalid header values. "Key" value is not included within the header.
@@ -171,8 +179,13 @@ public class PaymentStatus extends UtilManager{
         paymentStatusHeader.put("Accept","application/json");
         paymentStatusHeader.put("Authorization", authToken);
         paymentStatusHeader.put("Trace-Id",traceId);
-        paymentStatusHeader.put("Api-Version", System.getProperty("version"));
+        paymentStatusHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
         paymentStatusHeader.put("Request-Date-Time", getRequestDateTime());
+
+        if (EnvHelper.getInstance().isLocalDevMode()) {
+            EnvHelper.getInstance().addMissingHeaderForLocalDevMode(paymentStatusHeader);
+        }
+
         try{
             paymentStatusHeader.put("Signature", getSignatureHelper().calculateSignature(method, url, Base64.getDecoder().decode(signingKey), signingAlgorithm, signingKeyId,
                     headerElementsforSignature, paymentStatusHeader)
@@ -267,5 +280,4 @@ public class PaymentStatus extends UtilManager{
         return getRestHelper().getResponseBodyValue(paymentStatusResponse, "statusCode");
 
     }
-
 }
