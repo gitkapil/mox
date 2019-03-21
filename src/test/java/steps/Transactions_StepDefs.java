@@ -41,8 +41,8 @@ public class Transactions_StepDefs extends UtilManager {
                 queryStringParams);
     }
 
-    @When("^I query for a list of transactions between \"([^\"]*)\" and \"([^\"]*)\" with (\\d+)$")
-    public void i_query_for_a_list_of_transactions_between_with(String from, String to, Integer limit) {
+    @When("^I query for a list of transactions between \"([^\"]*)\" and \"([^\"]*)\" with \"([^\"]*)\"$")
+    public void i_query_for_a_list_of_transactions_between_with(String from, String to, String limit) {
         HashMap<String, String> queryStringParams = new HashMap<>();
         queryStringParams.put("from", from);
         queryStringParams.put("to", to);
@@ -61,8 +61,8 @@ public class Transactions_StepDefs extends UtilManager {
         Assert.assertEquals(getRestHelper().getResponseStatusCode(
                 testContext.getApiManager().getTransaction().getTransactionListResponse()),
                 200,
-                "Check Payment Status was not successful!");
-        System.out.println("+++++++++++++++++++++++ Payment Status Response from Realisation +++++++++++++++++++++++");
+                "Get Transaction List was not successful!");
+        System.out.println("+++++++++++++++++++++++ Get Transaction List Response from Realisation +++++++++++++++++++++++");
         System.out.println();
         System.out.println(testContext.getApiManager().getTransaction().getTransactionListResponse().asString());
         System.out.println();
@@ -113,5 +113,20 @@ public class Transactions_StepDefs extends UtilManager {
         queryStringParams.put("to", to);
 
         queryTransactionListWithQueryStringParams(queryStringParams);
+    }
+
+    @When("^I query for a list of transactions starting after \"([^\"]*)\"$")
+    public void iQueryForAListOfTransactionsStartingAfter(String startingAfter) throws Throwable {
+        HashMap<String, String> queryStringParams = new HashMap<>();
+        queryStringParams.put("startingAfter", startingAfter);
+        queryTransactionListWithQueryStringParams(queryStringParams);
+    }
+
+    @Then("^I should receive a error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within transaction response$")
+    public void iShouldReceiveAErrorResponseWithErrorDescriptionAndErrorcodeWithinTransactionResponse(String errDesc, String errCode) throws Throwable {
+        ArrayList errors = testContext.getApiManager().getTransaction().getTransactionListResponse().path("errors");
+        HashMap<String, String> error1 = (HashMap)errors.get(0);
+        Assert.assertEquals(errCode, error1.get("errorCode"));
+        Assert.assertTrue(error1.get("errorDescription").indexOf(errDesc) > -1);
     }
 }
