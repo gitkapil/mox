@@ -152,7 +152,7 @@ Scenario: Positive flow- POST Payment Request digest is a mandatory header field
   Given I am an authorized user
   And I have valid payment details
   When I make a request for the payment without digest in the header
-  Then I should receive a quoted "400" error response with "Missing request header 'Digest' for method parameter of type String" error description and "EA002" errorcode within payment response
+  Then I should receive a quoted "401" error response with "Missing request header 'Digest' for method parameter of type String" error description and "EA002" errorcode within payment response
   And error message should be "Service Request Validation Failed" within payment response
 
 
@@ -161,7 +161,7 @@ Scenario: Negative flow- Dragon server should throw an error if digest is used t
   Given I am an authorized user
   And I have valid payment details
   When I make a request for the payment with digest in the signature header list but not sent in the headers
-  Then I should receive a quoted "400" error response with "Missing request header 'Digest' for method parameter of type String" error description and "EA002" errorcode within payment response
+  Then I should receive a quoted "401" error response with "Missing request header 'Digest' for method parameter of type String" error description and "EA002" errorcode within payment response
   And error message should be "Service Request Validation Failed" within payment response
 
 
