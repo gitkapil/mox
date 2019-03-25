@@ -32,6 +32,27 @@ Feature: Transactions List
       | 2019-01-01T10:00:00-05:00 | 2050-01-10T10:00:00-05:00 | XXX   | NumberFormatException | EA002      |
 
   @regression @trial
+    Scenario Outline: Negative flow - Limit not in acceptable range
+      Given I am an authorized user
+      When I query for a list of transactions with "<limit>"
+      Then I should receive "<actual>" number of transactions
+    Examples:
+      | limit | actual |
+      |  0    |    1   |
+      |  -1     |    1    |
+      |   31     |    30    |
+
+  @regression @trial
+  Scenario Outline: Negative flow - Limit not specified returning default limit
+    Given I am an authorized user
+    When I query for a list of transactions between "<fromTime>" and "<toTime>"
+    Then I should receive "<actual>" number of transactions
+    Examples:
+      |fromTime                 | toTime           | actual |
+      |2000-01-01T00:00:00Z | 2100-02-01T00:00:00Z | 20     |
+
+
+  @regression @trial
   Scenario Outline: Negative flow - Send invalid startingAfter
     Given I am an authorized user
     When I query for a list of transactions starting after "<startingAfter>"
