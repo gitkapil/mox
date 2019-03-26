@@ -13,8 +13,8 @@ Feature: Transactions List
     Then I should receive a error response with "<error_description>" error description and "<error_code>" errorcode within transaction response
     Examples:
       | fromTime                  | toTime                    | error_description | error_code |
-      | 2019-01-02T10:00:00-05:00 | 2019-01-01T10:00:00-05:00 | time cannot be before | EA020 |
-      | 2019-01-02T10:00:00-05:00 | 2019-01-02T09:00:00-05:00 | (to) time cannot be before (from) time | EA020 |
+      | 2019-01-02T10:00:00-05:00 | 2019-01-01T10:00:00-05:00 | (from) is after (to) | EA020 |
+      | 2019-01-02T10:00:00-05:00 | 2019-01-02T09:00:00-05:00 | (from) is after (to) | EA020 |
       | abc                       | 2019-01-02T09:00:00-05:00 | Invalid RFC3339 | EA019 |
       | 2019                      | 2019-01-02T09:00:00-05:00 | Invalid RFC3339 | EA019 |
       | 2019-JAN-01               | 2019-01-02T09:00:00-05:00 | Invalid RFC3339 | EA019 |
