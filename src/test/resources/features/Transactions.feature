@@ -13,8 +13,8 @@ Feature: Transactions List
     Then I should receive a error response with "<error_description>" error description and "<error_code>" errorcode within transaction response
     Examples:
       | fromTime                  | toTime                    | error_description | error_code |
-      | 2019-01-02T10:00:00-05:00 | 2019-01-01T10:00:00-05:00 | time cannot be before | EA020 |
-      | 2019-01-02T10:00:00-05:00 | 2019-01-02T09:00:00-05:00 | (to) time cannot be before (from) time | EA020 |
+      | 2019-01-02T10:00:00-05:00 | 2019-01-01T10:00:00-05:00 | (from) is after (to) | EA020 |
+      | 2019-01-02T10:00:00-05:00 | 2019-01-02T09:00:00-05:00 | (from) is after (to) | EA020 |
       | abc                       | 2019-01-02T09:00:00-05:00 | Invalid RFC3339 | EA019 |
       | 2019                      | 2019-01-02T09:00:00-05:00 | Invalid RFC3339 | EA019 |
       | 2019-JAN-01               | 2019-01-02T09:00:00-05:00 | Invalid RFC3339 | EA019 |
@@ -30,6 +30,27 @@ Feature: Transactions List
     Examples:
       | fromTime                  | toTime                    | limit | error_description | error_code |
       | 2019-01-01T10:00:00-05:00 | 2050-01-10T10:00:00-05:00 | XXX   | NumberFormatException | EA002      |
+
+  @regression @trial
+    Scenario Outline: Negative flow - Limit not in acceptable range
+      Given I am an authorized user
+      When I query for a list of transactions with "<limit>"
+      Then I should receive "<actual>" number of transactions
+    Examples:
+      | limit | actual |
+      |  0    |    1   |
+      |  -1     |    1    |
+      |   31     |    30    |
+
+  @regression @trial
+  Scenario Outline: Negative flow - Limit not specified returning default limit
+    Given I am an authorized user
+    When I query for a list of transactions between "<fromTime>" and "<toTime>"
+    Then I should receive "<actual>" number of transactions
+    Examples:
+      |fromTime                 | toTime           | actual |
+      |2000-01-01T00:00:00Z | 2100-02-01T00:00:00Z | 20     |
+
 
   @regression @trial
   Scenario Outline: Negative flow - Send invalid startingAfter

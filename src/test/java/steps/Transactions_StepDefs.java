@@ -129,4 +129,18 @@ public class Transactions_StepDefs extends UtilManager {
         Assert.assertEquals(errCode, error1.get("errorCode"));
         Assert.assertTrue(error1.get("errorDescription").indexOf(errDesc) > -1);
     }
+
+    @When("^I query for a list of transactions with \"([^\"]*)\"$")
+    public void iQueryForAListOfTransactionsWithLimit(String limit) {
+        HashMap<String, String> queryStringParams = new HashMap<>();
+        queryStringParams.put("limit", String.valueOf(limit));
+
+        queryTransactionListWithQueryStringParams(queryStringParams);
+    }
+
+    @Then("^I should receive \"([^\"]*)\" number of transactions$")
+    public void iShouldReceiveNumberOfTransactions(String actual) {
+        ArrayList returnedTransactions = testContext.getApiManager().getTransaction().getTransactionListResponse().path("transactions");
+        Assert.assertTrue(returnedTransactions.size() == Integer.parseInt(actual));
+    }
 }
