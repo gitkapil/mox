@@ -2,6 +2,7 @@ package apiHelpers;
 
 import com.jayway.restassured.response.Response;
 import managers.UtilManager;
+import utils.PropertyHelper;
 
 import java.util.HashMap;
 
@@ -291,7 +292,7 @@ public class Refunds extends UtilManager {
         refundsHeader.put("Content-Type","application/json");
         refundsHeader.put("Authorization", authToken);
         refundsHeader.put("Trace-Id",traceId);
-        refundsHeader.put("Api-Version", System.getProperty("version"));
+        refundsHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
         refundsHeader.put("Request-Date-Time", requestDateTime);
 
         return refundsHeader;

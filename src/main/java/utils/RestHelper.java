@@ -72,6 +72,23 @@ public class RestHelper {
 
     }
 
+    public Response getRequestWithHeadersAndQueryStringParams(String url, HashMap<String, String> headers, HashMap<String, String> queryStringParams) {
+        Response res=null;
+        try{
+            res= given()
+                    .queryParameters(queryStringParams)
+                    .log()
+                    .all()
+                    .headers(headers)
+                    .when()
+                    .get(url);
+        }
+        catch(Exception e){
+            Assert.assertTrue(e.getMessage(), false);
+        }
+        return res;
+    }
+
 
     /**
      * This method POSTS a request with a body

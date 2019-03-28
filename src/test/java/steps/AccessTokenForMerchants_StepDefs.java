@@ -7,7 +7,7 @@ import managers.UtilManager;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import managers.TestContext;
-
+import utils.PropertyHelper;
 
 public class AccessTokenForMerchants_StepDefs extends UtilManager{
     TestContext testContext;
@@ -22,9 +22,9 @@ public class AccessTokenForMerchants_StepDefs extends UtilManager{
     @Given("^I am an user$")
     public void i_am_an_user() {
         try {
-            logger.info("********* User Type: " + System.getProperty("usertype") + " ****************");
+            logger.info("********* User Type: " + PropertyHelper.getInstance().getPropertyCascading("usertype") + " ****************");
 
-            if (System.getProperty("usertype").equalsIgnoreCase("merchant")) {
+            if (PropertyHelper.getInstance().getPropertyCascading("usertype").equalsIgnoreCase("merchant")) {
                 logger.info("********* Hitting Merchant (Live) APIM ****************");
 
                 testContext.getApiManager().getAccessToken().setType("merchant");
