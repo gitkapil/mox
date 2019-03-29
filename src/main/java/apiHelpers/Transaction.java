@@ -100,8 +100,8 @@ public class Transaction extends UtilManager {
                                             HashMap<String, String> queryStringParams) {
         try {
             transactionListResponse = getRestHelper().getRequestWithHeadersAndQueryStringParams(url, returnTransactionListHeader(
-                    "Get",
-                    url,
+                    "GET",
+                    "/transactions",
                     signingKeyId,
                     signingAlgorithm,
                     signingKey,
