@@ -1,7 +1,5 @@
 package apiHelpers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.restassured.response.Response;
 import managers.UtilManager;
 import org.junit.Assert;
@@ -9,6 +7,7 @@ import utils.EnvHelper;
 import utils.PropertyHelper;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -100,8 +99,8 @@ public class Transaction extends UtilManager {
                                             HashMap<String, String> queryStringParams) {
         try {
             transactionListResponse = getRestHelper().getRequestWithHeadersAndQueryStringParams(url, returnTransactionListHeader(
-                    "Get",
-                    url,
+                    "GET",
+                    new URL(url).getPath(),
                     signingKeyId,
                     signingAlgorithm,
                     signingKey,
