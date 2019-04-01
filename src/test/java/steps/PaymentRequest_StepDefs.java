@@ -247,8 +247,10 @@ public class PaymentRequest_StepDefs extends UtilManager{
 
     @Then("^error message should be \"([^\"]*)\" within payment response$")
     public void i_should_receive_a_error_message(String errorMessage) {
-
-        Assert.assertTrue(getRestHelper().getErrorMessage(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()).contains(errorMessage) ,"Different error message being returned..Expected: "+ errorMessage+ " Actual: "+getRestHelper().getErrorMessage(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()));
+        Assert.assertTrue(
+                getRestHelper().getErrorMessage(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()).contains(errorMessage) ,
+                "Different error message being returned..Expected: "+ errorMessage+ " Actual: " +
+                        getRestHelper().getErrorMessage(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()));
 
     }
 
