@@ -126,7 +126,7 @@ public class Transactions_StepDefs extends UtilManager {
     public void iShouldReceiveAErrorResponseWithErrorDescriptionAndErrorcodeWithinTransactionResponse(String errDesc, String errCode) throws Throwable {
         ArrayList errors = testContext.getApiManager().getTransaction().getTransactionListResponse().path("errors");
         HashMap<String, String> error1 = (HashMap)errors.get(0);
-        Assert.assertEquals(errCode, error1.get("errorCode"));
+        Assert.assertEquals(error1.get("errorCode"), errCode);
         Assert.assertTrue(error1.get("errorDescription").indexOf(errDesc) > -1);
     }
 
