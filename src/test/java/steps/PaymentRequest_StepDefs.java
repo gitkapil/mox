@@ -238,8 +238,10 @@ public class PaymentRequest_StepDefs extends UtilManager{
         Assert.assertEquals(getRestHelper().getResponseStatusCode(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()), responseCode,"Different response code being returned");
 
         Assert.assertTrue(
-                getRestHelper().getErrorDescription(
-                        testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()).contains(errorDesc) ,
+
+                getRestHelper().getErrorDescription(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse())
+                        .replace("\"", "")
+                        .contains(errorDesc) ,
                 "Different error description being returned..Expected: "+ errorDesc+ "Actual: "+ getRestHelper().getErrorDescription(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()));
 
         Assert.assertEquals(getRestHelper().getErrorCode(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()), errorCode,"Different error code being returned");
