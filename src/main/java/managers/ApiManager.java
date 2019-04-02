@@ -9,6 +9,7 @@ public class ApiManager {
     Refunds refunds;
     OpenIdConfigForPEAK openIdConfig;
     Transaction transaction;
+    PostClient postClient;
 
     public ApiManager() {
         accessToken= new AccessTokenForMerchants();
@@ -17,6 +18,7 @@ public class ApiManager {
         refunds= new Refunds();
         openIdConfig= new OpenIdConfigForPEAK();
         transaction = new Transaction();
+        postClient = new PostClient();
     }
 
     public AccessTokenForMerchants getAccessToken() {
@@ -41,5 +43,9 @@ public class ApiManager {
 
     public Transaction getTransaction() {
         return (transaction == null) ? transaction = new Transaction(): transaction;
+    }
+
+    public PostClient getPostClient() {
+        return (postClient == null) ? postClient = new PostClient() : postClient;
     }
 }
