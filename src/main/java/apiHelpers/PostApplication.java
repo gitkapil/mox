@@ -14,8 +14,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 
-public class PostClient extends UtilManager{
-    final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(PostClient.class);
+public class PostApplication extends UtilManager{
+    final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(PostApplication.class);
 
     private String authToken;
     private String clientId;
@@ -44,7 +44,7 @@ public class PostClient extends UtilManager{
         return traceId;
     }
 
-    public Response getPostClientRequestResponse() {
+    public Response getPostApplicationRequestResponse() {
         return response;
     }
 

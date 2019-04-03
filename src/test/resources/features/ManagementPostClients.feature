@@ -53,8 +53,8 @@ Feature: Management Post Clients API - DRAG-1416
     And I dont send Bearer with the auth token
     And I have valid client details
     When I make a POST request to the application endpoint
-    Then I should receive a "401" error response with "Error validating JWT" error description and "EA001" errorcode within the create client response
-    And error message should be "API Gateway Authentication Failed" within the create client response
+    Then I should receive a "401" error response with "Error validating JWT" error description and "EA001" errorcode within the POST application response
+    And error message should be "API Gateway Authentication Failed" within the POST application response
   #And the payment request response should be signed
 
 #DRAG-1157 - Please update the correct error_message for the signature in the examples.
@@ -63,8 +63,8 @@ Feature: Management Post Clients API - DRAG-1416
     Given I am an authorized user
     And I have valid client details
     When I make a POST request to the application endpoint with "<key>" missing in the header
-    Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within the create client response
-    And error message should be "<error_message>" within the create client response
+    Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within the POST application response
+    And error message should be "<error_message>" within the POST application response
   #And the payment request response should be signed
 
     Examples:
@@ -78,9 +78,9 @@ Feature: Management Post Clients API - DRAG-1416
   @regression
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
     Given I am an authorized user
-    And I have valid client details
+    And I have valid application details
     When I make a POST request to the application endpoint with "<key>" missing in the header
-    And error message should be "Resource not found" within the create client response
+    And error message should be "Resource not found" within the POST application response
   #And the payment request response should be signed
 
     Examples:
@@ -92,10 +92,10 @@ Feature: Management Post Clients API - DRAG-1416
   @regression
   Scenario Outline: Negative flow- Invalid auth token
     Given I am a merchant with invalid "<auth_token>"
-    And I have valid client details
+    And I have valid application details
     When I make a POST request to the application endpoint
-    Then I should receive a "401" error response with "<error_description>" error description and "<error_code>" errorcode within the create client response
-    And error message should be "<error_message>" within the create client response
+    Then I should receive a "401" error response with "<error_description>" error description and "<error_code>" errorcode within the POST application response
+    And error message should be "<error_message>" within the POST application response
     Examples:
       |error_description           |error_message          |auth_token|error_code|
  #Auth Token missing
@@ -115,8 +115,8 @@ Feature: Management Post Clients API - DRAG-1416
     And I have a "<clientId>" from an existing AAD application
     And I have a "<peakId>", "<subUnitId>" and "<organisationId>" from an existing PM4B merchant identity
     When I make a POST request to the application endpoint
-    Then I should receive a "400" error response with "<error_description>" error description and "<error_code>" errorcode within the create client response
-    And error message should be "<error_message>" within the create client response
+    Then I should receive a "400" error response with "<error_description>" error description and "<error_code>" errorcode within the POST application response
+    And error message should be "<error_message>" within the POST application response
     Examples:
       |clientId                            |peakId                              |subUnitId                           |organisationId                      |error_description                                                                                                                                         |error_message                    |error_code|
       |no_value                            |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|Field error in object 'paymentRequestInputModel': field 'currencyCode' may not be null; rejected value [null]                                             |Service Request Validation Failed|EA014     |
@@ -132,10 +132,10 @@ Feature: Management Post Clients API - DRAG-1416
 
   Scenario Outline: Negative flow- TraceId's value missing from the header
     Given I am an authorized user
-    And I have valid client details with no TraceId value sent in the header
+    And I have valid application details with no TraceId value sent in the header
     When I make a POST request to the application endpoint
-    Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within the create client response
-    And error message should be "<error_message>" within the create client response
+    Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within the POST application response
+    And error message should be "<error_message>" within the POST application response
 
     Examples:
       | error_description                  | error_message                                         | error_code |http_status|
@@ -145,10 +145,10 @@ Feature: Management Post Clients API - DRAG-1416
   @regression
   Scenario Outline: Negative flow- Request Date Time's invalid values set within the header
     Given I am an authorized user
-    And I have valid client details with invalid value "<value>" set for Request Date Time sent in the header
+    And I have valid application details with invalid value "<value>" set for Request Date Time sent in the header
     When I make a POST request to the application endpoint
-    Then I should receive a "400" error response with "<error_description>" error description and "EA002" errorcode within the create client response
-    And error message should be "Service Request Validation Failed" within the create client response
+    Then I should receive a "400" error response with "<error_description>" error description and "EA002" errorcode within the POST application response
+    And error message should be "Service Request Validation Failed" within the POST application response
 
     Examples:
       |value|error_description|
