@@ -212,14 +212,14 @@ public class MessageSigning_StepDefs extends UtilManager{
         }
     }
 
-    @Then("^the POST client request response should be signed$")
-    public void the_post_client_request_response_should_be_signed() {
+    @Then("^the POST application request response should be signed$")
+    public void the_post_application_request_response_should_be_signed() {
         try {
-            logger.info("*** Payment Request Response Headers***");
-            getRestHelper().logResponseHeaders(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse());
+            logger.info("*** POST Application Response Headers***");
+            getRestHelper().logResponseHeaders(testContext.getApiManager().getPostApplication().getPostApplicationRequestResponse());
 
-            getSignatureHelper().verifySignature(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse(), "POST",
-                    getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+            getSignatureHelper().verifySignature(testContext.getApiManager().getPostApplication().getPostApplicationRequestResponse(), "POST",
+                    getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource"),
 //                    Base64.getDecoder().decode(testContext.getApiManager().getAccessToken().getClientId()),
                     Base64.getDecoder().decode(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key")),
                     getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"));
@@ -227,10 +227,10 @@ public class MessageSigning_StepDefs extends UtilManager{
         } catch (Exception e) {
             e.printStackTrace();
             if (e.getMessage().equalsIgnoreCase("Signature failed validation"))
-                Assert.assertTrue("Payment Request Response Signature Verification Failed", false);
+                Assert.assertTrue("Post Application Response Signature Verification Failed", false);
 
             if (e.getMessage().equalsIgnoreCase("No Signature Found"))
-                Assert.assertTrue("No Signature Found in the Payment Request Response", false);
+                Assert.assertTrue("No Signature Found in the Post Application Response", false);
         }
     }
 

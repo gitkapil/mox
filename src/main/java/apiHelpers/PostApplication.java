@@ -109,7 +109,7 @@ public class PostApplication extends UtilManager{
 
 
     /**
-     * This method creates valid header for the POST Payment Request
+     * This method creates valid header for the POST Application Request
      * @param method
      * @param url
      * @param signingKeyId
@@ -189,7 +189,7 @@ public class PostApplication extends UtilManager{
 
         response = getRestHelper().postRequestWithHeaderAndBody(url, header, body);
 
-        logger.info("********** Payment Request Response *********** ----> "+ response.getBody().asString());
+        logger.info("********** POST Application Response *********** ----> "+ response.getBody().asString());
 
         return response;
     }
@@ -213,7 +213,7 @@ public class PostApplication extends UtilManager{
                     requestBody);
 
             //testContext.getUtilManager().getSignatureHelper().verifySignature(paymentRequestResponse, "POST", url, Base64.getDecoder().decode(signingKey), signingAlgorithm);
-            logger.info("********** Payment Request Response *********** ----> "+ response.getBody().asString());
+            logger.info("********** POST Application Response *********** ----> "+ response.getBody().asString());
         }
         catch (Exception e){
             e.printStackTrace();

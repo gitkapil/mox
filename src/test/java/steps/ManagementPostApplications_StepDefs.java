@@ -18,7 +18,8 @@ import static org.junit.Assert.assertTrue;
 
 public class ManagementPostApplications_StepDefs extends UtilManager{
     // NB: These are the dragon token (for testing) roles.  CSO tokens use claim {"role": "user"}
-    private static final Set<String> CSO_ROLE_SET = Sets.newHashSet("Application.ReadWrite.All", "Application.ReadWrite.All");
+    private static final Set<String> CSO_ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
+    private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_application_resource";
 
     TestContext testContext;
 
@@ -27,12 +28,11 @@ public class ManagementPostApplications_StepDefs extends UtilManager{
     }
 
     final static Logger logger = Logger.getLogger(ManagementPostApplications_StepDefs.class);
-    List<Response> paymentResponses= new ArrayList<Response>();
 
     @Given("^I am an authorized CSO user$")
     public void i_am_an_authorized_CSO_user()  {
 
-        boolean isAuthorisedInCsoRole = Optional.ofNullable(testContext.getApiManager().getAccessToken().getAccessTokenClaimSet().getClaim("roles"))
+        boolean isAuthorisedInCsoRole = Optional.ofNullable(testContext.getApiManager().getAccessToken().retrieveClaimSet(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "jwks_uri_idp")).getClaim("roles"))
                 .filter(v -> v instanceof List)
                 .map(v -> (List)v)
                 .orElse(Collections.emptyList())
@@ -54,21 +54,14 @@ public class ManagementPostApplications_StepDefs extends UtilManager{
 
     private String getEnvSpecificBasePathAPIs() {
         if (EnvHelper.getInstance().isLocalDevMode()) {
-            return getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "Base_Path_APIs");
+            return getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "Base_Path_Management");
         }
-        return getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs");
+        return getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Management");
     }
 
-    @Given("^I dont send Bearer with the auth token$")
-    public void no_bearer_as_prefix()  {
-        testContext.getApiManager().getPaymentRequest().setAuthToken(testContext.getApiManager().getAccessToken().getAccessToken());
-    }
-
-
-    @Given("^I am a merchant with invalid \"([^\"]*)\"$")
-    public void i_am_a_merchant_with_invalid_token(String token)  {
-        testContext.getApiManager().getPaymentRequest().setAuthToken(token);
-        testContext.getApiManager().getPaymentRequest().setAuthTokenwithBearer(testContext.getApiManager().getPaymentRequest().getAuthToken());
+    @Given("^I am a CSO user with invalid \"([^\"]*)\"$")
+    public void i_am_a_CSO_user_with_invalid_token(String token)  {
+        testContext.getApiManager().getPostApplication().setAuthToken(token);
 
         if(testContext.getApiManager().getAccessToken().getType().equalsIgnoreCase("merchant")){
             getRestHelper().setBaseURI(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
@@ -82,8 +75,8 @@ public class ManagementPostApplications_StepDefs extends UtilManager{
     @Given("^I have a \"([^\"]*)\" from an existing AAD application$")
     public void i_have_a_clientId_from_an_existing_AAD_application(String clientId){
         testContext.getApiManager().getPostApplication().setClientId(clientId);
-        testContext.getApiManager().getPaymentRequest().setRequestDateTime(getDateHelper().getUTCNowDateTime());
-        testContext.getApiManager().getPaymentRequest().setTraceId(getGeneral().generateUniqueUUID());
+        testContext.getApiManager().getPostApplication().setRequestDateTime(getDateHelper().getUTCNowDateTime());
+        testContext.getApiManager().getPostApplication().setTraceId(getGeneral().generateUniqueUUID());
     }
 
     @Given("^I have a \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\" from an existing PM4B merchant identity$")
@@ -103,8 +96,8 @@ public class ManagementPostApplications_StepDefs extends UtilManager{
 
     @When("^I make a POST request to the application endpoint$")
     public void i_make_a_post_request_to_the_application_endpoint()  {
-        logger.info("********** Creating Payment Request ***********");
-        testContext.getApiManager().getPostApplication().executeRequest(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource"),
+        logger.info("********** Executing POST Application Request ***********");
+        testContext.getApiManager().getPostApplication().executeRequest(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME),
                 testContext.getApiManager().getAccessToken().getClientId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
@@ -113,7 +106,7 @@ public class ManagementPostApplications_StepDefs extends UtilManager{
 
     @When("^I make a POST request to the application endpoint with \"([^\"]*)\" missing in the header$")
     public void i_make_a_post_request_to_the_application_endpoint_with_key_missing_in_the_header(String key)  {
-        testContext.getApiManager().getPostApplication().executeRequestWithMissingHeaderKeys(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"), key,
+        testContext.getApiManager().getPostApplication().executeRequestWithMissingHeaderKeys(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME), key,
                 testContext.getApiManager().getAccessToken().getClientId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
@@ -122,9 +115,10 @@ public class ManagementPostApplications_StepDefs extends UtilManager{
 
     @Then("^I should receive a successful applications response$")
     public void i_should_receive_a_successful_applications_response()  {
-        Assert.assertEquals(getRestHelper().getResponseStatusCode(testContext.getApiManager().getPostApplication().getPostApplicationRequestResponse()), 201,"Request was not successful!");
-        Assert.assertEquals(getRestHelper().getResponseHeaderValue(testContext.getApiManager().getPostApplication().getPostApplicationRequestResponse(), "X-Application-Context "), null, "Expects X-Application-Context header to not exists");
-        Assert.assertNotNull(testContext.getApiManager().getPostApplication().getPostApplicationRequestResponse(), "The response for Post Client Request was null");
+        Response response = testContext.getApiManager().getPostApplication().getPostApplicationRequestResponse();
+        Assert.assertEquals(getRestHelper().getResponseStatusCode(response), 201,"Request was not successful!");
+        Assert.assertEquals(getRestHelper().getResponseHeaderValue(response, "X-Application-Context "), null, "Expects X-Application-Context header to not exists");
+        Assert.assertNotNull(response, "The response for Post Client Request was null");
     }
 
     @Then("^the response body should contain a valid applicationId, clientId, peakId, subUnitId and organisationId$")
@@ -171,73 +165,33 @@ public class ManagementPostApplications_StepDefs extends UtilManager{
                 "notificationHost returned is not the empty string");
     }
 
-    @Then("^I should receive a quoted \"([^\"]*)\" error response with \'(.*)\' error description and \"([^\"]*)\" errorcode within payment response$")
-    public void i_should_receive_a_error_response_with_error_description_and_errorcode_1(int responseCode, String errorDesc, String errorCode) {
-        i_should_receive_a_error_response_with_error_description_and_errorcode(responseCode, errorDesc, errorCode);
+    @Then("^I should receive a quoted \"([^\"]*)\" error response with \'(.*)\' error description and \"([^\"]*)\" errorcode within the POST application response$")
+    public void i_should_receive_a_quoted_error_response_with_error_description_and_errorcode(int responseCode, String errorDesc, String errorCode) {
+        i_should_receive_an_error_response_with_error_description_and_errorcode(responseCode, errorDesc, errorCode);
     }
 
     @Then("^I should receive a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within the POST application response$")
-    public void i_should_receive_a_error_response_with_error_description_and_errorcode(int responseCode, String errorDesc, String errorCode) {
-        Assert.assertEquals(getRestHelper().getResponseStatusCode(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()), responseCode,"Different response code being returned");
+    public void i_should_receive_an_error_response_with_error_description_and_errorcode(int responseCode, String errorDesc, String errorCode) {
+        Response response = testContext.getApiManager().getPostApplication().getPostApplicationRequestResponse();
+        Assert.assertEquals(getRestHelper().getResponseStatusCode(response), responseCode,"Different response code being returned");
 
         Assert.assertTrue(
 
-                getRestHelper().getErrorDescription(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse())
+                getRestHelper().getErrorDescription(response)
                         .replace("\"", "")
                         .contains(errorDesc) ,
-                "Different error description being returned..Expected: "+ errorDesc+ "Actual: "+ getRestHelper().getErrorDescription(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()));
+                "Different error description being returned..Expected: "+ errorDesc+ "Actual: "+ getRestHelper().getErrorDescription(response));
 
-        Assert.assertEquals(getRestHelper().getErrorCode(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()), errorCode,"Different error code being returned");
+        Assert.assertEquals(getRestHelper().getErrorCode(response), errorCode,"Different error code being returned");
     }
 
     @Then("^error message should be \"([^\"]*)\" within the POST application response$")
     public void i_should_receive_a_error_message(String errorMessage) {
+        Response response = testContext.getApiManager().getPostApplication().getPostApplicationRequestResponse();
         Assert.assertTrue(
-                getRestHelper().getErrorMessage(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()).contains(errorMessage) ,
+                getRestHelper().getErrorMessage(response).contains(errorMessage) ,
                 "Different error message being returned..Expected: "+ errorMessage+ " Actual: " +
-                        getRestHelper().getErrorMessage(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()));
-
-    }
-
-
-    @Then("^I should receive a (\\d+) error response within payment response$")
-    public void i_should_receive_a_error_response_within_payment_response(int errorCode) {
-        Assert.assertEquals(getRestHelper().getResponseStatusCode(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()), errorCode,"Different response code being returned");
-
-    }
-
-    @Given("^I send request date timestamp in an invalid \"([^\"]*)\"$")
-    public void i_send_request_date_timestamp_in_an_invalid(String format) {
-        testContext.getApiManager().getPaymentRequest().setRequestDateTime(getDateHelper().convertDateTimeIntoAFormat(getDateHelper().getSystemDateandTimeStamp(), format));
-
-    }
-
-    @Then("^\"([^\"]*)\" error description and \"([^\"]*)\" errorcode within payment response$")
-    public void error_description_and_errorcode_within_payment_response(String errorDesc, String errorCode)  {
-        Assert.assertEquals(getRestHelper().getErrorCode(paymentResponses.get(1)), errorCode,"Different error code being returned");
-
-        Assert.assertEquals(getRestHelper().getErrorDescription(paymentResponses.get(1)), errorDesc,"Different error description being returned");
-
-    }
-
-
-    @Given("^I have payment details with \"([^\"]*)\" set for the \"([^\"]*)\"$")
-    public void i_have_payment_details_with_set_for_the(String invalid_value, String parameter) {
-        testContext.getApiManager().getPaymentRequest().setTotalAmount("20");
-        testContext.getApiManager().getPaymentRequest().setCurrency("HKD");
-        //testContext.getApiManager().getPaymentRequest().setNotificationURI("https://pizzahut.com/return");
-        //testContext.getApiManager().getPaymentRequest().setAppSuccessCallback("https://pizzahut.com/confirmation");
-        //testContext.getApiManager().getPaymentRequest().setAppFailCallback("https://pizzahut.com/unsuccessful");
-        testContext.getApiManager().getPaymentRequest().setNotificationURI(Hooks.hostIP+"/return");
-        testContext.getApiManager().getPaymentRequest().setAppSuccessCallback(Hooks.hostIP+"/confirmation");
-        testContext.getApiManager().getPaymentRequest().setAppFailCallback(Hooks.hostIP+"/unsuccessful");
-        testContext.getApiManager().getPaymentRequest().setEffectiveDuration("600");
-        testContext.getApiManager().getPaymentRequest().setRequestDateTime(getDateHelper().getUTCNowDateTime());
-        testContext.getApiManager().getPaymentRequest().setTraceId(getGeneral().generateUniqueUUID());
-
-        if (parameter.equalsIgnoreCase("totalamount"))
-            testContext.getApiManager().getPaymentRequest().setTotalAmount(invalid_value);
-
+                        getRestHelper().getErrorMessage(response));
 
     }
 
@@ -250,6 +204,6 @@ public class ManagementPostApplications_StepDefs extends UtilManager{
     @Given("^I have valid application details with invalid value \"([^\"]*)\" set for Request Date Time sent in the header$")
     public void i_have_valid_application_details_with_no_RequestDateTime_sent_in_the_header(String value) {
         i_have_valid_application_details();
-        testContext.getApiManager().getPaymentRequest().setRequestDateTime(value);
+        testContext.getApiManager().getPostApplication().setRequestDateTime(value);
     }
 }
