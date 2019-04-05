@@ -20,6 +20,7 @@ public class ManagementPostApplications_StepDefs extends UtilManager{
     // NB: These are the dragon token (for testing) roles.  CSO tokens use claim {"role": "user"}
     private static final Set<String> CSO_ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
     private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_application_resource";
+    private static final String SIG_HEADER_LIST_POST_APPLICATION = "header-list-post-application";
 
     TestContext testContext;
 
@@ -101,7 +102,7 @@ public class ManagementPostApplications_StepDefs extends UtilManager{
                 testContext.getApiManager().getAccessToken().getClientId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
-                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
+                Sets.newHashSet(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, SIG_HEADER_LIST_POST_APPLICATION).split(",")));
     }
 
     @When("^I make a POST request to the application endpoint with \"([^\"]*)\" missing in the header$")
@@ -110,7 +111,7 @@ public class ManagementPostApplications_StepDefs extends UtilManager{
                 testContext.getApiManager().getAccessToken().getClientId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
-                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
+                Sets.newHashSet(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, SIG_HEADER_LIST_POST_APPLICATION).split(",")));
     }
 
     @Then("^I should receive a successful applications response$")

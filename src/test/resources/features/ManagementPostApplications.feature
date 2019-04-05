@@ -15,7 +15,7 @@ Feature: Management Post Clients API - DRAG-1416
     Then I should receive a successful applications response
     And the response body should contain a valid applicationId, clientId, peakId, subUnitId and organisationId
     And the response body should also have empty notificationPath and empty notificationHost
-    And the POST application request response should be signed
+#    And the POST application request response should be signed
     Examples:
       |clientId                            |peakId                              |subUnitId                           |organisationId                      |
       |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|
@@ -28,14 +28,14 @@ Feature: Management Post Clients API - DRAG-1416
     When I make a POST request to the application endpoint with "<key>" missing in the header
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within the POST application response
     And error message should be "<error_message>" within the POST application response
-  #And the payment request response should be signed
     Examples:
       |error_description                                                     |error_message                     | key             |error_code |http_status|
       |Error validating JWT                                                  | API Gateway Authentication Failed|Authorization    |EA001      |401        |
-      | Header Request-Date-Time was not found in the request. Access denied. | API Gateway Validation Failed | Request-Date-Time | EA002 | 400 |
+#      | Header Request-Date-Time was not found in the request. Access denied. | API Gateway Validation Failed | Request-Date-Time | EA002 | 400 |
       | Header Trace-Id was not found in the request. Access denied. | API Gateway Validation Failed | Trace-Id | EA002 | 400 |
-      | Header Signature was not found in the request. Access denied. | API Gateway Validation Failed | Signature | EA002 | 400 |
+#      | Header Signature was not found in the request. Access denied. | API Gateway Validation Failed | Signature | EA002 | 400 |
       |Header Accept does not contain required value.  Access denied.        | Request Header Not Acceptable    |Accept           |EA008      |406        |
+      |Header Accept does not contain required value.  Access denied.        | Request Header Not Acceptable    |Content-Type           |EA008      |406        |
 
   @regression
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
@@ -43,7 +43,6 @@ Feature: Management Post Clients API - DRAG-1416
     And I have valid application details
     When I make a POST request to the application endpoint with "<key>" missing in the header
     And error message should be "Resource not found" within the POST application response
-  #And the payment request response should be signed
     Examples:
       | key             |
       |Api-Version      |
@@ -78,38 +77,25 @@ Feature: Management Post Clients API - DRAG-1416
     Then I should receive a "400" error response with "<error_description>" error description and "<error_code>" errorcode within the POST application response
     And error message should be "<error_message>" within the POST application response
     Examples:
-      |clientId                            |peakId                              |subUnitId                           |organisationId                      |error_description                                                                                                                                         |error_message                    |error_code|
-      |no_value                            |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|Field error in object 'paymentRequestInputModel': field 'currencyCode' may not be null; rejected value [null]                                             |Service Request Validation Failed|EA014     |
-      |3fa85f64-5717-4562-b3fc-2c963f66afa6|no_value                            |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|Field error in object 'paymentRequestInputModel': field 'currencyCode' may not be null; rejected value [null]                                             |Service Request Validation Failed|EA014     |
-      |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|no_value                            |3fa85f64-5717-4562-b3fc-2c963f66afa6|Field error in object 'paymentRequestInputModel': field 'currencyCode' may not be null; rejected value [null]                                             |Service Request Validation Failed|EA014     |
-      |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|no_value                            |Field error in object 'paymentRequestInputModel': field 'currencyCode' may not be null; rejected value [null]                                             |Service Request Validation Failed|EA014     |
-      |not a UUID                          |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|Field error in object 'paymentRequestInputModel': field 'currencyCode' may not be null; rejected value [null]                                             |Service Request Validation Failed|EA014     |
-      |3fa85f64-5717-4562-b3fc-2c963f66afa6|not a UUID                          |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|Field error in object 'paymentRequestInputModel': field 'currencyCode' may not be null; rejected value [null]                                             |Service Request Validation Failed|EA014     |
-      |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|not a UUID                          |3fa85f64-5717-4562-b3fc-2c963f66afa6|Field error in object 'paymentRequestInputModel': field 'currencyCode' may not be null; rejected value [null]                                             |Service Request Validation Failed|EA014     |
-      |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|not a UUID                          |Field error in object 'paymentRequestInputModel': field 'currencyCode' may not be null; rejected value [null]                                             |Service Request Validation Failed|EA014     |
+      |clientId                            |peakId                              |subUnitId                           |organisationId                      |error_description                                                                                                                |error_message                    |error_code|
+      |no_value                            |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|Field error in object 'createMerchantApplicationMappingInputModel': field 'clientId' may not be null; rejected value [null]      |Service Request Validation Failed|EA002     |
+      |3fa85f64-5717-4562-b3fc-2c963f66afa6|no_value                            |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|Field error in object 'createMerchantApplicationMappingInputModel': field 'peakId' may not be null; rejected value [null]        |Service Request Validation Failed|EA002     |
+      |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|no_value                            |3fa85f64-5717-4562-b3fc-2c963f66afa6|Field error in object 'createMerchantApplicationMappingInputModel': field 'subUnitId' may not be null; rejected value [null]     |Service Request Validation Failed|EA002     |
+      |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|no_value                            |Field error in object 'createMerchantApplicationMappingInputModel': field 'organisationId' may not be null; rejected value [null]|Service Request Validation Failed|EA002     |
+      |not a UUID                          |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|Unable to read or parse message body: json parse error at [line: 1, column: 61]                                                  |Service Request Validation Failed|EA002     |
+      |3fa85f64-5717-4562-b3fc-2c963f66afa6|not a UUID                          |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|Unable to read or parse message body: json parse error at [line: 1, column: 11]                                                  |Service Request Validation Failed|EA002     |
+      |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|not a UUID                          |3fa85f64-5717-4562-b3fc-2c963f66afa6|Unable to read or parse message body: json parse error at [line: 1, column: 168]                                                 |Service Request Validation Failed|EA002     |
+      |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|not a UUID                          |Unable to read or parse message body: json parse error at [line: 1, column: 117]                                                 |Service Request Validation Failed|EA002     |
 
-
-
-  Scenario Outline: Negative flow- TraceId's value missing from the header
-    Given I am an authorized CSO user
-    And I have valid application details with no TraceId value sent in the header
-    When I make a POST request to the application endpoint
-    Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within the POST application response
-    And error message should be "<error_message>" within the POST application response
-    Examples:
-      | error_description                  | error_message                                         | error_code |http_status|
-      |Trace-Id can not be empty.          | Service Request Validation Failed                     |EA002       |400        |
-
-
-  @regression
-  Scenario Outline: Negative flow- Request Date Time's invalid values set within the header
-    Given I am an authorized CSO user
-    And I have valid application details with invalid value "<value>" set for Request Date Time sent in the header
-    When I make a POST request to the application endpoint
-    Then I should receive a "400" error response with "<error_description>" error description and "EA002" errorcode within the POST application response
-    And error message should be "Service Request Validation Failed" within the POST application response
-    Examples:
-      |value|error_description|
-      |  | Request timestamp not a valid RFC3339 date-time |
-      | xyz | Request timestamp not a valid RFC3339 date-time |
-      | 2019-02-04T00:42:45.237Z | Request timestamp too old |
+#  @regression
+#  Scenario Outline: Negative flow- Request Date Time's invalid values set within the header
+#    Given I am an authorized CSO user
+#    And I have valid application details with invalid value "<value>" set for Request Date Time sent in the header
+#    When I make a POST request to the application endpoint
+#    Then I should receive a "400" error response with "<error_description>" error description and "EA002" errorcode within the POST application response
+#    And error message should be "Service Request Validation Failed" within the POST application response
+#    Examples:
+#      |value|error_description|
+#      |  | Request timestamp not a valid RFC3339 date-time |
+#      | xyz | Request timestamp not a valid RFC3339 date-time |
+#      | 2019-02-04T00:42:45.237Z | Request timestamp too old |
