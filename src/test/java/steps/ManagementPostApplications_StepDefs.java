@@ -66,10 +66,10 @@ public class ManagementPostApplications_StepDefs extends UtilManager{
 
         if(testContext.getApiManager().getAccessToken().getType().equalsIgnoreCase("merchant")){
             getRestHelper().setBaseURI(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
-                    +getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
+                    +getEnvSpecificBasePathAPIs());
         } else {
             getRestHelper().setBaseURI(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
-                    +getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs"));
+                    +getEnvSpecificBasePathAPIs());
         }
     }
 
