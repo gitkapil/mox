@@ -284,7 +284,18 @@ public class AccessTokenForMerchants extends UtilManager{
      * @param jwks_uri
      * @return claimset within the JWT access token generated
      */
-    public JWTClaimsSet retrieveClaimSet(String jwks_uri){
+    public JWTClaimsSet retrieveClaimSet(String jwks_uri) {
+       if (EnvHelper.getInstance().isLocalDevMode()) {
+           JWTClaimsSet localJWTClaimSet;
+           try {
+               localJWTClaimSet = JWTClaimsSet.parse(EnvHelper.LOCAL_DEV_MODE_CLAIM_SET_STR);
+               setAccessTokenClaimSet(localJWTClaimSet);
+           } catch (ParseException pex) {
+               logger.error("retrieveClaimSet, isLocalDevMode == true, parseException = " + pex);
+               setAccessTokenClaimSet(null);
+           }
+           return accessTokenClaimSet;
+       }
        setAccessTokenClaimSet(getJwtHelper().validateJWT(getAccessToken(), jwks_uri));
        return accessTokenClaimSet;
     }
