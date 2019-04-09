@@ -18,7 +18,7 @@ import static org.junit.Assert.assertTrue;
 
 public class ManagementPostApplications_StepDefs extends UtilManager{
     // NB: These are the dragon token (for testing) roles.  CSO tokens use claim {"role": "user"}
-    private static final Set<String> CSO_ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
+    private static final Set<String> CSO_ROLE_SET = Sets.newHashSet("paymentRequest");
     private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_application_resource";
     private static final String SIG_HEADER_LIST_POST_APPLICATION = "header-list-post-application";
 

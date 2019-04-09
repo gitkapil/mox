@@ -6,6 +6,7 @@ Feature: Management Post Clients API - DRAG-1416
     Then I receive an access_token
 
   # For the parametres where values are missing within the table, while creating request, the parameter will not be included at all as a a part of the payload
+  # @trial
   @regression
   Scenario Outline: Positive flow- A CSO user is able to create an application
     Given I am an authorized CSO user
