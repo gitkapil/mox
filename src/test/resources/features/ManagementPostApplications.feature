@@ -19,7 +19,7 @@ Feature: Management Post Applications API - DRAG-1416
 #    And the POST application request response should be signed
     Examples:
       |clientId                            |peakId                              |subUnitId                           |organisationId                      |
-      |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|
+      |00000002-0000-0000-c000-000000000000|00000002-0000-0000-c000-000000000000|00000002-0000-0000-c000-000000000000|00000002-0000-0000-c000-000000000000|
 
   #DRAG-1157 - Please update the correct error_message for the signature in the examples.
   @regression
