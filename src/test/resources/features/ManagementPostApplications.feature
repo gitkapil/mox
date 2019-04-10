@@ -1,4 +1,4 @@
-Feature: Management Post Clients API - DRAG-1416
+Feature: Management Post Applications API - DRAG-1416
 
   Background: Retrieving access Token
     Given I am an user
@@ -8,8 +8,8 @@ Feature: Management Post Clients API - DRAG-1416
   # For the parametres where values are missing within the table, while creating request, the parameter will not be included at all as a a part of the payload
   # @trial
   @regression
-  Scenario Outline: Positive flow- A CSO user is able to create an application
-    Given I am an authorized CSO user
+  Scenario Outline: Positive flow- A DRAGON user with Application.ReadWrite.All privilege is able to create an application
+    Given I am an authorized DRAGON user with the Application.ReadWrite.All privilege
     And I have a "<clientId>" from an existing AAD application
     And I have a "<peakId>", "<subUnitId>" and "<organisationId>" from an existing PM4B merchant identity
     When I make a POST request to the application endpoint
@@ -24,7 +24,7 @@ Feature: Management Post Clients API - DRAG-1416
   #DRAG-1157 - Please update the correct error_message for the signature in the examples.
   @regression
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
-    Given I am an authorized CSO user
+    Given I am an authorized DRAGON user with the Application.ReadWrite.All privilege
     And I have valid application details
     When I make a POST request to the application endpoint with "<key>" missing in the header
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within the POST application response
@@ -40,7 +40,7 @@ Feature: Management Post Clients API - DRAG-1416
 
   @regression
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
-    Given I am an authorized CSO user
+    Given I am an authorized DRAGON user with the Application.ReadWrite.All privilege
     And I have valid application details
     When I make a POST request to the application endpoint with "<key>" missing in the header
     And error message should be "Resource not found" within the POST application response
@@ -52,7 +52,7 @@ Feature: Management Post Clients API - DRAG-1416
 
   @regression
   Scenario Outline: Negative flow- Invalid auth token
-    Given I am a CSO user with invalid "<auth_token>"
+    Given I am a DRAGON user with invalid "<auth_token>"
     And I have valid application details
     When I make a POST request to the application endpoint
     Then I should receive a "401" error response with "<error_description>" error description and "<error_code>" errorcode within the POST application response
@@ -71,7 +71,7 @@ Feature: Management Post Clients API - DRAG-1416
 
   @regression
   Scenario Outline: Negative flow- Mandatory fields from the body missing or invalid
-    Given I am an authorized CSO user
+    Given I am an authorized DRAGON user with the Application.ReadWrite.All privilege
     And I have a "<clientId>" from an existing AAD application
     And I have a "<peakId>", "<subUnitId>" and "<organisationId>" from an existing PM4B merchant identity
     When I make a POST request to the application endpoint
@@ -90,7 +90,7 @@ Feature: Management Post Clients API - DRAG-1416
 
 #  @regression
 #  Scenario Outline: Negative flow- Request Date Time's invalid values set within the header
-#    Given I am an authorized CSO user
+#    Given I am an authorized DRAGON user with the Application.ReadWrite.All privilege
 #    And I have valid application details with invalid value "<value>" set for Request Date Time sent in the header
 #    When I make a POST request to the application endpoint
 #    Then I should receive a "400" error response with "<error_description>" error description and "EA002" errorcode within the POST application response

@@ -17,8 +17,8 @@ import static org.junit.Assert.assertTrue;
 
 
 public class ManagementPostApplications_StepDefs extends UtilManager{
-    // NB: These are the dragon token (for testing) roles.  CSO tokens use claim {"role": "user"}
-    private static final Set<String> CSO_ROLE_SET = Sets.newHashSet("paymentRequest");
+    // NB: These are the dragon token (for testing) roles {"roles": ["Application.ReadWrite.All"]}.  CSO tokens use claim {"role": "user"}
+    private static final Set<String> ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
     private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_application_resource";
     private static final String SIG_HEADER_LIST_POST_APPLICATION = "header-list-post-application";
 
@@ -30,17 +30,17 @@ public class ManagementPostApplications_StepDefs extends UtilManager{
 
     final static Logger logger = Logger.getLogger(ManagementPostApplications_StepDefs.class);
 
-    @Given("^I am an authorized CSO user$")
-    public void i_am_an_authorized_CSO_user()  {
+    @Given("^I am an authorized DRAGON user with the Application.ReadWrite.All privilege$")
+    public void i_am_an_authorized_DRAGON_user_with_role()  {
 
-        boolean isAuthorisedInCsoRole = Optional.ofNullable(testContext.getApiManager().getAccessToken().retrieveClaimSet(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "jwks_uri_idp")).getClaim("roles"))
+        boolean hasRequiredRoles = Optional.ofNullable(testContext.getApiManager().getAccessToken().retrieveClaimSet(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "jwks_uri_idp")).getClaim("roles"))
                 .filter(v -> v instanceof List)
                 .map(v -> (List)v)
                 .orElse(Collections.emptyList())
                 .stream()
-                .anyMatch(v -> CSO_ROLE_SET.contains(v));
+                .anyMatch(v -> ROLE_SET.contains(v));
 
-        assertTrue(String.format("Expected token to have one of the CSO roles %s", CSO_ROLE_SET.toString()), isAuthorisedInCsoRole);
+        assertTrue(String.format("Expected token to have one of the PayMe API Application roles %s", ROLE_SET.toString()), hasRequiredRoles);
 
         testContext.getApiManager().getPostApplication().setAuthTokenWithBearer(testContext.getApiManager().getAccessToken().getAccessToken());
 
@@ -60,8 +60,8 @@ public class ManagementPostApplications_StepDefs extends UtilManager{
         return getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Management");
     }
 
-    @Given("^I am a CSO user with invalid \"([^\"]*)\"$")
-    public void i_am_a_CSO_user_with_invalid_token(String token)  {
+    @Given("^I am a DRAGON user with invalid \"([^\"]*)\"$")
+    public void i_am_a_DRAGON_user_with_invalid_token(String token)  {
         testContext.getApiManager().getPostApplication().setAuthToken(token);
 
         if(testContext.getApiManager().getAccessToken().getType().equalsIgnoreCase("merchant")){
