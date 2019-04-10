@@ -7,7 +7,7 @@ Feature: Management Post Clients API - DRAG-1416
 
   # For the parametres where values are missing within the table, while creating request, the parameter will not be included at all as a a part of the payload
   # @trial
-  @regression
+  @regression @merchantManagement @merchantManagementPost
   Scenario Outline: Positive flow- A CSO user is able to create an application
     Given I am an authorized CSO user
     And I have a "<clientId>" from an existing AAD application
@@ -22,7 +22,7 @@ Feature: Management Post Clients API - DRAG-1416
       |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|
 
   #DRAG-1157 - Please update the correct error_message for the signature in the examples.
-  @regression
+  @regression @merchantManagement @merchantManagementPost
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
     Given I am an authorized CSO user
     And I have valid application details
@@ -38,7 +38,7 @@ Feature: Management Post Clients API - DRAG-1416
       |Header Accept does not contain required value.  Access denied.        | Request Header Not Acceptable    |Accept           |EA008      |406        |
       |Header Accept does not contain required value.  Access denied.        | Request Header Not Acceptable    |Content-Type           |EA008      |406        |
 
-  @regression
+  @regression @merchantManagement @merchantManagementPost
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
     Given I am an authorized CSO user
     And I have valid application details
@@ -50,7 +50,7 @@ Feature: Management Post Clients API - DRAG-1416
 
 
 
-  @regression
+  @regression @merchantManagement @merchantManagementPost
   Scenario Outline: Negative flow- Invalid auth token
     Given I am a CSO user with invalid "<auth_token>"
     And I have valid application details
@@ -69,7 +69,7 @@ Feature: Management Post Clients API - DRAG-1416
       |Error validating JWT        |API Gateway Authentication Failed |Bearer nbCwW11w3XkB-xUaXwKRSLjMHGQ|EA001|
 
 
-  @regression
+  @regression @merchantManagement @merchantManagementPost
   Scenario Outline: Negative flow- Mandatory fields from the body missing or invalid
     Given I am an authorized CSO user
     And I have a "<clientId>" from an existing AAD application
