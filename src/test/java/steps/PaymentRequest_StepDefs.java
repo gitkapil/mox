@@ -238,8 +238,10 @@ public class PaymentRequest_StepDefs extends UtilManager{
         Assert.assertEquals(getRestHelper().getResponseStatusCode(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()), responseCode,"Different response code being returned");
 
         Assert.assertTrue(
-                getRestHelper().getErrorDescription(
-                        testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()).contains(errorDesc) ,
+
+                getRestHelper().getErrorDescription(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse())
+                        .replace("\"", "")
+                        .contains(errorDesc) ,
                 "Different error description being returned..Expected: "+ errorDesc+ "Actual: "+ getRestHelper().getErrorDescription(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()));
 
         Assert.assertEquals(getRestHelper().getErrorCode(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()), errorCode,"Different error code being returned");
@@ -247,8 +249,10 @@ public class PaymentRequest_StepDefs extends UtilManager{
 
     @Then("^error message should be \"([^\"]*)\" within payment response$")
     public void i_should_receive_a_error_message(String errorMessage) {
-
-        Assert.assertTrue(getRestHelper().getErrorMessage(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()).contains(errorMessage) ,"Different error message being returned..Expected: "+ errorMessage+ " Actual: "+getRestHelper().getErrorMessage(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()));
+        Assert.assertTrue(
+                getRestHelper().getErrorMessage(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()).contains(errorMessage) ,
+                "Different error message being returned..Expected: "+ errorMessage+ " Actual: " +
+                        getRestHelper().getErrorMessage(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()));
 
     }
 
