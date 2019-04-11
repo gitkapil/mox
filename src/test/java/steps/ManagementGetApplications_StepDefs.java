@@ -16,10 +16,11 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
 
     final static Logger logger = Logger.getLogger(ManagementGetApplications_StepDefs.class);
 
-    @And("" +
-            "^I then clean and create 30 test applications$")
+    @And("^I then clean and create 30 test applications$")
     public void clean_and_create_applications() {
+        for (int x = 0; x < 30; x++) {
 
+        }
     }
 
     @When("^I get a list of applications without any filters$")
