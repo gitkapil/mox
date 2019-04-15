@@ -98,11 +98,14 @@ public class ManagementPostApplications_StepDefs extends UtilManager{
     @When("^I make a POST request to the application endpoint$")
     public void i_make_a_post_request_to_the_application_endpoint()  {
         logger.info("********** Executing POST Application Request ***********");
-        testContext.getApiManager().getPostApplication().executeRequest(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME),
+        testContext.getApiManager().getPostApplication().executeRequest(
+                getRestHelper().getBaseURI()+getFileHelper()
+                        .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME),
                 testContext.getApiManager().getAccessToken().getClientId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
-                Sets.newHashSet(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, SIG_HEADER_LIST_POST_APPLICATION).split(",")));
+                Sets.newHashSet(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
+                        SIG_HEADER_LIST_POST_APPLICATION).split(",")));
     }
 
     @When("^I make a POST request to the application endpoint with \"([^\"]*)\" missing in the header$")
@@ -176,12 +179,21 @@ public class ManagementPostApplications_StepDefs extends UtilManager{
         Response response = testContext.getApiManager().getPostApplication().getPostApplicationRequestResponse();
         Assert.assertEquals(getRestHelper().getResponseStatusCode(response), responseCode,"Different response code being returned");
 
-        Assert.assertTrue(
 
-                getRestHelper().getErrorDescription(response)
-                        .replace("\"", "")
-                        .contains(errorDesc) ,
-                "Different error description being returned..Expected: "+ errorDesc+ "Actual: "+ getRestHelper().getErrorDescription(response));
+
+        if (getRestHelper().getErrorDescription(response) != null) {
+
+            if (getRestHelper().getErrorDescription(response).contains("'")) {
+                System.out.println("here : " + getRestHelper().getErrorDescription(response));
+                System.out.println("there: " + errorDesc);
+            }
+
+            Assert.assertTrue(
+                    getRestHelper().getErrorDescription(response)
+                            .replace("\"", "")
+                            .contains(errorDesc),
+                    "Different error description being returned..Expected: " + errorDesc + "Actual: " + getRestHelper().getErrorDescription(response));
+        }
 
         Assert.assertEquals(getRestHelper().getErrorCode(response), errorCode,"Different error code being returned");
     }
