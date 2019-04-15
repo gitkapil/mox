@@ -22,8 +22,8 @@ Feature: Management Post Applications API - DRAG-1416
 
 #  @trial
   @regression @merchantManagement @merchantManagementPost
-  Scenario Outline: Negative flow- A CSO user is unable to create a duplicate application
-    Given I am an authorized CSO user
+  Scenario Outline: Negative flow- A DRAGON with Application.ReadWrite.All privilege user is unable to create a duplicate application
+    Given I am an authorized DRAGON user with the Application.ReadWrite.All privilege
     And I have a "<clientId>" from an existing AAD application
     And I have a "<peakId>", "<subUnitId>" and "<organisationId>" from an existing PM4B merchant identity
     When I make a POST request to the application endpoint
