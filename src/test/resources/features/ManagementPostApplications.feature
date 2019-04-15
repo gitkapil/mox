@@ -6,7 +6,7 @@ Feature: Management Post Clients API - DRAG-1416
     Then I receive an access_token
 
   # For the parametres where values are missing within the table, while creating request, the parameter will not be included at all as a a part of the payload
-  # @trial
+#  @trial
   @regression @merchantManagement @merchantManagementPost
   Scenario Outline: Positive flow- A CSO user is able to create an application
     Given I am an authorized CSO user
@@ -16,10 +16,23 @@ Feature: Management Post Clients API - DRAG-1416
     Then I should receive a successful applications response
     And the response body should contain a valid applicationId, clientId, peakId, subUnitId and organisationId
     And the response body should also have empty notificationPath and empty notificationHost
-#    And the POST application request response should be signed
     Examples:
       |clientId                            |peakId                              |subUnitId                           |organisationId                      |
-      |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|
+      |random                              |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|
+
+#  @trial
+  @regression @merchantManagement @merchantManagementPost
+  Scenario Outline: Negative flow- A CSO user is unable to create a duplicate application
+    Given I am an authorized CSO user
+    And I have a "<clientId>" from an existing AAD application
+    And I have a "<peakId>", "<subUnitId>" and "<organisationId>" from an existing PM4B merchant identity
+    When I make a POST request to the application endpoint
+    Then I should receive a successful applications response
+    And I make a POST request with the same client Id to the application endpoint
+    Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within the POST application response
+  Examples:
+    |clientId                            |peakId                              |subUnitId                           |organisationId                      |error_description                                                      |error_code |http_status|
+    |random                              |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|Merchant Application Mapping record with same client Id already existed|EA021      |400        |
 
   #DRAG-1157 - Please update the correct error_message for the signature in the examples.
   @regression @merchantManagement @merchantManagementPost
