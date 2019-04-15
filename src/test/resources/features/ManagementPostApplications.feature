@@ -31,8 +31,8 @@ Feature: Management Post Clients API - DRAG-1416
     And I make a POST request with the same client Id to the application endpoint
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within the POST application response
   Examples:
-    |clientId                            |peakId                              |subUnitId                           |organisationId                      |error_description                                                      |error_code |http_status|
-    |random                              |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|Merchant Application Mapping record with same client Id already existed|EA021      |400        |
+    |clientId                            |peakId                              |subUnitId                           |organisationId                      |error_description                                                    |error_code |http_status|
+    |random                              |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|Merchant Application Mapping record with same client Id already exist|EA021      |400        |
 
   #DRAG-1157 - Please update the correct error_message for the signature in the examples.
   @regression @merchantManagement @merchantManagementPost
@@ -61,8 +61,7 @@ Feature: Management Post Clients API - DRAG-1416
       | key             |
       |Api-Version      |
 
-
-
+#  @trial
   @regression @merchantManagement @merchantManagementPost
   Scenario Outline: Negative flow- Invalid auth token
     Given I am a CSO user with invalid "<auth_token>"
@@ -81,7 +80,7 @@ Feature: Management Post Clients API - DRAG-1416
  # Auth token unverified
       |Error validating JWT        |API Gateway Authentication Failed |Bearer nbCwW11w3XkB-xUaXwKRSLjMHGQ|EA001|401                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 
-
+#  @trial
   @regression @merchantManagement @merchantManagementPost
   Scenario Outline: Negative flow- Mandatory fields from the body missing or invalid
     Given I am an authorized CSO user
