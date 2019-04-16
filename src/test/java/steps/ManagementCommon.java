@@ -20,7 +20,7 @@ public class ManagementCommon extends UtilManager {
         this.testContext = testContext;
     }
 
-    public void iAmAnAuthorizedCSOUser(Set<String> roleSet, Consumer<String> tokenConsumer)  {
+    public void iAmAnAuthorizedDragonUser(Set<String> roleSet, Consumer<String> tokenConsumer)  {
 
         boolean isAuthorisedInCsoRole = Optional.ofNullable(testContext.getApiManager().getAccessToken().retrieveClaimSet(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "jwks_uri_idp")).getClaim("roles"))
                 .filter(v -> v instanceof List)
@@ -42,7 +42,7 @@ public class ManagementCommon extends UtilManager {
         }
     }
 
-    public void iAmACsoUserWithToken(String token, Consumer<String> tokenConsumer)  {
+    public void iAmADragonUserWithToken(String token, Consumer<String> tokenConsumer)  {
         tokenConsumer.accept(token);
 
         if(testContext.getApiManager().getAccessToken().getType().equalsIgnoreCase("merchant")){

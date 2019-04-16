@@ -33,12 +33,12 @@ public class ManagementPostApplications_StepDefs extends UtilManager{
 
     @Given("^I am a POST application authorized DRAGON user with the Application.ReadWrite.All privilege$")
     public void i_am_an_authorized_DRAGON_user_with_role()  {
-        common.iAmAnAuthorizedCSOUser(ROLE_SET, token -> testContext.getApiManager().getPostApplication().setAuthTokenWithBearer(token));
+        common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getPostApplication().setAuthTokenWithBearer(token));
     }
 
     @Given("^I am a DRAGON user with invalid \"([^\"]*)\"$")
     public void i_am_a_DRAGON_user_with_invalid_token(String token)  {
-        common.iAmACsoUserWithToken(token, tokenArg -> testContext.getApiManager().getPostApplication().setAuthToken(tokenArg));
+        common.iAmADragonUserWithToken(token, tokenArg -> testContext.getApiManager().getPostApplication().setAuthToken(tokenArg));
     }
 
     @Given("^I have a \"([^\"]*)\" from an existing AAD application$")

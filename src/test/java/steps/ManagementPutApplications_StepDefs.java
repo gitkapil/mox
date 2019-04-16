@@ -34,12 +34,12 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
 
     @Given("^I am a PUT application authorized CSO user$")
     public void i_am_an_authorized_CSO_user()  {
-        common.iAmAnAuthorizedCSOUser(CSO_ROLE_SET, token -> testContext.getApiManager().getPutApplication().setAuthTokenWithBearer(token));
+        common.iAmAnAuthorizedDragonUser(CSO_ROLE_SET, token -> testContext.getApiManager().getPutApplication().setAuthTokenWithBearer(token));
     }
 
     @Given("^I am a PUT application CSO user with invalid \"([^\"]*)\"$")
     public void i_am_a_CSO_user_with_invalid_token(String token)  {
-        common.iAmACsoUserWithToken(token, tokenArg -> testContext.getApiManager().getPutApplication().setAuthToken(tokenArg));
+        common.iAmADragonUserWithToken(token, tokenArg -> testContext.getApiManager().getPutApplication().setAuthToken(tokenArg));
     }
 
     @Given("^I have an \"([^\"]*)\" from an existing application$")
