@@ -1,15 +1,14 @@
-Feature: Merchant Management API - GET applications
+Feature: Merchant Management API - GET /applications
 
   Background: Retrieving access Token
-    Given I am an authorized CSO user
+    Given I am an authorized DRAGON user with the Application.ReadWrite.All privilege
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
-#    And I then clean and create 30 test applications     NOT Sure how to do this yet.
 
   @trial
   @regression @merchantManagement @merchantManagementGet
   Scenario Outline: Positive flow - Get a list of applications
-    Given I am an authorized CSO user
+    Given I am an authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of applications without any filters
     Then I should receive a successful response
     And the response should have a list of <numberOfResponses> applications
@@ -22,7 +21,7 @@ Feature: Merchant Management API - GET applications
 #  @trial
   @regression @merchantManagement @merchantManagementGet
   Scenario Outline: Positive flow - Get a list of application using filters
-    Given I am an authorized CSO user
+    Given I am an authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of applications using filters to filter "<filterName>" with "<filterValue>"
     Then I should receive a successful response
     And the response should have a list of <numberOfResponses> applications
@@ -42,7 +41,7 @@ Feature: Merchant Management API - GET applications
 #  @trial
   @regression @merchantManagement @merchantManagementGet
     Scenario Outline: Positive flow - Get a list of application using paging and limits
-    Given I am an authorized CSO user
+    Given I am an authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of applications using filters to filter "<filterName>" with "<filterValue>" with <limit> limits
     Then I should receive a successful response
     And the response should have a list of <numberOfResponses> applications
