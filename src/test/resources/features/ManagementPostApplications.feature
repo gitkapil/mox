@@ -9,14 +9,13 @@ Feature: Management Post Clients API - DRAG-1416
   # @trial
   @regression @trial
   Scenario Outline: Positive flow- A CSO user is able to create an application
-    Given I am an authorized CSO user
+    Given I am a POST application authorized CSO user
     And I have a "<clientId>" from an existing AAD application
     And I have a "<peakId>", "<subUnitId>" and "<organisationId>" from an existing PM4B merchant identity
     When I make a POST request to the application endpoint
     Then I should receive a successful applications response
     And the response body should contain a valid applicationId, clientId, peakId, subUnitId and organisationId
     And the response body should also have empty notificationPath and empty notificationHost
-#    And the POST application request response should be signed
     Examples:
       |clientId                            |peakId                              |subUnitId                           |organisationId                      |
       |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|
@@ -24,7 +23,7 @@ Feature: Management Post Clients API - DRAG-1416
   #DRAG-1157 - Please update the correct error_message for the signature in the examples.
   @regression @trial
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
-    Given I am an authorized CSO user
+    Given I am a POST application authorized CSO user
     And I have valid application details
     When I make a POST request to the application endpoint with "<key>" missing in the header
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within the POST application response
@@ -40,7 +39,7 @@ Feature: Management Post Clients API - DRAG-1416
 
   @regression @trial
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
-    Given I am an authorized CSO user
+    Given I am a POST application authorized CSO user
     And I have valid application details
     When I make a POST request to the application endpoint with "<key>" missing in the header
     And error message should be "Resource not found" within the POST application response
@@ -71,7 +70,7 @@ Feature: Management Post Clients API - DRAG-1416
 
   @regression @trial
   Scenario Outline: Negative flow- Mandatory fields from the body missing or invalid
-    Given I am an authorized CSO user
+    Given I am a POST application authorized CSO user
     And I have a "<clientId>" from an existing AAD application
     And I have a "<peakId>", "<subUnitId>" and "<organisationId>" from an existing PM4B merchant identity
     When I make a POST request to the application endpoint

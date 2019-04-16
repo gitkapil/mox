@@ -10,6 +10,7 @@ public class ApiManager {
     OpenIdConfigForPEAK openIdConfig;
     Transaction transaction;
     PostApplication postApplication;
+    PutApplication putApplication;
 
     public ApiManager() {
         accessToken= new AccessTokenForMerchants();
@@ -19,6 +20,7 @@ public class ApiManager {
         openIdConfig= new OpenIdConfigForPEAK();
         transaction = new Transaction();
         postApplication = new PostApplication();
+        putApplication = new PutApplication();
     }
 
     public AccessTokenForMerchants getAccessToken() {
@@ -47,5 +49,9 @@ public class ApiManager {
 
     public PostApplication getPostApplication() {
         return (postApplication == null) ? postApplication = new PostApplication() : postApplication;
+    }
+
+    public PutApplication getPutApplication() {
+        return (putApplication == null) ? putApplication = new PutApplication() : putApplication;
     }
 }

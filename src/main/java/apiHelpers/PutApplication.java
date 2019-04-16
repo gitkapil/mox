@@ -14,10 +14,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 
-public class PostApplication extends UtilManager{
-    final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(PostApplication.class);
+public class PutApplication extends UtilManager{
+    final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(PutApplication.class);
 
     private String authToken;
+    private String applicationId;
     private String clientId;
     private String peakId;
     private String subUnitId;
@@ -44,13 +45,17 @@ public class PostApplication extends UtilManager{
         return traceId;
     }
 
-    public Response getPostApplicationRequestResponse() {
+    public Response getResponse() {
         return response;
     }
 
     public String getRequestDateTime() { return requestDateTime; }
 
     public String getAuthToken() { return authToken; }
+
+    public String getApplicationId() {
+        return applicationId;
+    }
 
     public String getClientId() {
         return clientId;
@@ -82,6 +87,10 @@ public class PostApplication extends UtilManager{
 
     public void setAuthToken(String authToken) { this.authToken = authToken; }
 
+    public void setApplicationId(String applicationId) {
+        this.applicationId = applicationId;
+    }
+
     public void setClientId(String clientId) {
         this.clientId = clientId;
     }
@@ -109,7 +118,7 @@ public class PostApplication extends UtilManager{
 
 
     /**
-     * This method creates valid header for the POST Application Request
+     * This method creates valid header for the PUT Application Request
      * @param method
      * @param url
      * @param signingKeyId
@@ -153,7 +162,7 @@ public class PostApplication extends UtilManager{
     }
 
     /**
-     * This method creates valid body for the POST create client request.
+     * This method creates valid body for the PUT create client request.
      * @return
      */
     public HashMap<String,HashMap> returnRequestBody(){
@@ -179,7 +188,7 @@ public class PostApplication extends UtilManager{
     }
 
     /**
-     * This method hits POST create client Request endpoint with an existing header and body
+     * This method hits PUT create client Request endpoint with an existing header and body
      * @param url
      * @param header
      * @param body
@@ -187,16 +196,16 @@ public class PostApplication extends UtilManager{
      */
     public Response retrieveExistingHeaderBody(String url, HashMap header, HashMap body) {
 
-        response = getRestHelper().postRequestWithHeaderAndBody(url, header, body);
+        response = getRestHelper().putRequestWithHeaderAndBody(url, header, body);
 
-        logger.info("********** POST Application Response *********** ----> "+ response.getBody().asString());
+        logger.info("********** PUT Application Response *********** ----> "+ response.getBody().asString());
 
         return response;
     }
 
 
     /**
-     * This method hits POST payment request endpoint and creates header and body values
+     * This method hits PUT payment request endpoint and creates header and body values
      * @param url
      * @param signingKeyId
      * @param signingAlgorithm
@@ -208,12 +217,12 @@ public class PostApplication extends UtilManager{
 
         try{
             returnRequestBody();
-            response = getRestHelper().postRequestWithHeaderAndBody(url,
-                    returnRequestHeader("POST", new URL(url).getPath(), signingKeyId, signingAlgorithm, signingKey, headerElementsForSignature),
+            response = getRestHelper().putRequestWithHeaderAndBody(url,
+                    returnRequestHeader("PUT", new URL(url).getPath(), signingKeyId, signingAlgorithm, signingKey, headerElementsForSignature),
                     requestBody);
 
-            //testContext.getUtilManager().getSignatureHelper().verifySignature(paymentRequestResponse, "POST", url, Base64.getDecoder().decode(signingKey), signingAlgorithm);
-            logger.info("********** POST Application Response *********** ----> "+ response.getBody().asString());
+            //testContext.getUtilManager().getSignatureHelper().verifySignature(paymentRequestResponse, "PUT", url, Base64.getDecoder().decode(signingKey), signingAlgorithm);
+            logger.info("********** PUT Application Response *********** ----> "+ response.getBody().asString());
         }
         catch (Exception e){
             e.printStackTrace();
@@ -225,7 +234,7 @@ public class PostApplication extends UtilManager{
 
 
     /**
-     * This method hits POST payment request endpoint with invalid header values. "key" values are missing from the header.
+     * This method hits PUT payment request endpoint with invalid header values. "key" values are missing from the header.
      * @param url
      * @param key
      * @param signingKeyId
@@ -238,9 +247,9 @@ public class PostApplication extends UtilManager{
 
         try {
             returnRequestBody();
-            HashMap<String, String> header = returnRequestHeader("POST", new URL(url).getPath(), signingKeyId, signingAlgorithm, signingKey, headerElementsForSignature);
+            HashMap<String, String> header = returnRequestHeader("PUT", new URL(url).getPath(), signingKeyId, signingAlgorithm, signingKey, headerElementsForSignature);
             header.remove(key);
-            response = getRestHelper().postRequestWithHeaderAndBody(url, header, requestBody);
+            response = getRestHelper().putRequestWithHeaderAndBody(url, header, requestBody);
 
             //testContext.getUtilManager().getSignatureHelper().verifySignature(paymentRequestResponse, "GET", url, Base64.getDecoder().decode(signingKey), signingAlgorithm);
             logger.info("Response: "+ response.getBody().asString());
@@ -317,7 +326,7 @@ public class PostApplication extends UtilManager{
     }
 
     /**
-     * This method hits POST payment request and the "digest" is not included for signature calculation
+     * This method hits PUT payment request and the "digest" is not included for signature calculation
      * @param url
      * @param signingKeyId
      * @param signingAlgorithm
@@ -329,8 +338,8 @@ public class PostApplication extends UtilManager{
 
         try {
             returnRequestBody();
-            HashMap<String, String> header = returnRequestHeaderWithoutDigest("POST", new URL(url).getPath(), signingKeyId, signingAlgorithm, signingKey, headerElementsForSignature);
-            response = getRestHelper().postRequestWithHeaderAndBody(url, header, requestBody);
+            HashMap<String, String> header = returnRequestHeaderWithoutDigest("PUT", new URL(url).getPath(), signingKeyId, signingAlgorithm, signingKey, headerElementsForSignature);
+            response = getRestHelper().putRequestWithHeaderAndBody(url, header, requestBody);
 
             logger.info("Response: "+ response.getBody().asString());
         }
