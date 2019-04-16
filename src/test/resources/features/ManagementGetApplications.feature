@@ -4,7 +4,7 @@ Feature: Merchant Management API - GET applications
     Given I am an authorized CSO user
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
-    And I then clean and create 30 test applications
+#    And I then clean and create 30 test applications     NOT Sure how to do this yet.
 
   @regression @merchantManagement @merchantManagementGet
   Scenario Outline: Positive flow - Get a list of applications

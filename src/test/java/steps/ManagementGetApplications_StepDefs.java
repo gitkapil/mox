@@ -16,16 +16,29 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
 
     final static Logger logger = Logger.getLogger(ManagementGetApplications_StepDefs.class);
 
-    @And("^I then clean and create 30 test applications$")
-    public void clean_and_create_applications() {
-        for (int x = 0; x < 30; x++) {
-
-        }
-    }
+//    private String templateId = "00000002-0000-0000-0000-0000000000"; //The end has 2 digits missing.
+//
+//    @And("^I then clean and create 30 test applications$")
+//    public void clean_and_create_applications() {
+//        for (int x = 0; x < 30; x++) {
+//            String sampleText = String.format("%d", x);
+//            if (sampleText.length() == 1) {
+//                sampleText = "0" + sampleText;
+//            }
+//            String sampleId = templateId + sampleText;
+//            testContext.getApiManager().getPostApplication().setClientId(clientId);
+//            testContext.getApiManager().getPostApplication().setRequestDateTime(getDateHelper().getUTCNowDateTime());
+//            testContext.getApiManager().getPostApplication().setPeakId(sampleId);
+//            testContext.getApiManager().getPostApplication().setSubUnitId(sampleId);
+//            testContext.getApiManager().getPostApplication().setOrganisationId(sampleId);
+//            testContext.getApiManager().getPostApplication().setRequestDateTime(getDateHelper().getUTCNowDateTime());
+//            testContext.getApiManager().getPostApplication().setTraceId(getGeneral().generateUniqueUUID());
+//        }
+//    }
 
     @When("^I get a list of applications without any filters$")
     public void list_of_applications_without_any_filters() {
-
+        testContext.getApiManager().getGetApplication().getListOfApplications();
     }
 
     @Then("^I should receive a successful response$")
