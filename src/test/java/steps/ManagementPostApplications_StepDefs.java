@@ -2,6 +2,7 @@ package steps;
 
 import com.google.common.collect.Sets;
 import com.jayway.restassured.response.Response;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -15,8 +16,8 @@ import java.util.UUID;
 
 
 public class ManagementPostApplications_StepDefs extends UtilManager{
-    // NB: These are the dragon token (for testing) roles.  CSO tokens use claim {"role": "user"}
-    private static final Set<String> CSO_ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
+    // NB: These are the dragon token (for testing) roles {"roles": ["Application.ReadWrite.All"]}.  CSO tokens use claim {"role": "user"}
+    private static final Set<String> ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
     private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_application_resource";
     private static final String SIG_HEADER_LIST_POST_APPLICATION = "header-list-post-application";
 
@@ -30,19 +31,27 @@ public class ManagementPostApplications_StepDefs extends UtilManager{
 
     final static Logger logger = Logger.getLogger(ManagementPostApplications_StepDefs.class);
 
-    @Given("^I am a POST application authorized CSO user$")
-    public void i_am_an_authorized_CSO_user()  {
-        common.iAmAnAuthorizedCSOUser(CSO_ROLE_SET, token -> testContext.getApiManager().getPostApplication().setAuthTokenWithBearer(token));
+    @Given("^I am a POST application authorized DRAGON user with the Application.ReadWrite.All privilege$")
+    public void i_am_an_authorized_DRAGON_user_with_role()  {
+        common.iAmAnAuthorizedCSOUser(ROLE_SET, token -> testContext.getApiManager().getPostApplication().setAuthTokenWithBearer(token));
     }
 
-    @Given("^I am a CSO user with invalid \"([^\"]*)\"$")
-    public void i_am_a_CSO_user_with_invalid_token(String token)  {
+    @Given("^I am a DRAGON user with invalid \"([^\"]*)\"$")
+    public void i_am_a_DRAGON_user_with_invalid_token(String token)  {
         common.iAmACsoUserWithToken(token, tokenArg -> testContext.getApiManager().getPostApplication().setAuthToken(tokenArg));
     }
 
     @Given("^I have a \"([^\"]*)\" from an existing AAD application$")
     public void i_have_a_clientId_from_an_existing_AAD_application(String clientId){
-        testContext.getApiManager().getPostApplication().setClientId(clientId);
+        if (clientId.trim().toUpperCase().equals("RANDOM")) {
+            logger.info("input clientId is: " + clientId);
+            UUID randomUuid = UUID.randomUUID();
+            logger.info("randomUuid is: " + randomUuid);
+            logger.info("set " + randomUuid + " as clientId ");
+            testContext.getApiManager().getPostApplication().setClientId(randomUuid.toString());
+        } else {
+            testContext.getApiManager().getPostApplication().setClientId(clientId);
+        }
         testContext.getApiManager().getPostApplication().setRequestDateTime(getDateHelper().getUTCNowDateTime());
         testContext.getApiManager().getPostApplication().setTraceId(getGeneral().generateUniqueUUID());
     }
@@ -185,5 +194,10 @@ public class ManagementPostApplications_StepDefs extends UtilManager{
     public void i_have_valid_application_details_with_no_RequestDateTime_sent_in_the_header(String value) {
         i_have_valid_application_details();
         testContext.getApiManager().getPostApplication().setRequestDateTime(value);
+    }
+
+    @And("^I make a POST request with the same client Id to the application endpoint$")
+    public void iMakeAPOSTRequestWithTheSameClientIdToTheApplicationEndpoint() {
+        i_make_a_post_request_to_the_application_endpoint();
     }
 }
