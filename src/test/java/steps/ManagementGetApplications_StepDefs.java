@@ -163,7 +163,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
 
 
         Assert.assertTrue(
-                "There are not " + totalNumberOfPages + " in the list",
+                "response should have number of total pages " + totalNumberOfPages + " but got " + total,
                 total == totalNumberOfPages
         );
     }
