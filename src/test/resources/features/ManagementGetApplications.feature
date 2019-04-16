@@ -6,6 +6,7 @@ Feature: Merchant Management API - GET applications
     Then I receive an access_token
 #    And I then clean and create 30 test applications     NOT Sure how to do this yet.
 
+  @trial
   @regression @merchantManagement @merchantManagementGet
   Scenario Outline: Positive flow - Get a list of applications
     Given I am an authorized CSO user
@@ -18,6 +19,7 @@ Feature: Merchant Management API - GET applications
     |numberOfResponses|
     |20               |
 
+#  @trial
   @regression @merchantManagement @merchantManagementGet
   Scenario Outline: Positive flow - Get a list of application using filters
     Given I am an authorized CSO user
@@ -37,6 +39,7 @@ Feature: Merchant Management API - GET applications
     |clientid,peakid,subunitid||                 |
     |clientid,peakid,subunitid,organisationid||  |
 
+#  @trial
   @regression @merchantManagement @merchantManagementGet
     Scenario Outline: Positive flow - Get a list of application using paging and limits
     Given I am an authorized CSO user
