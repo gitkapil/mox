@@ -2,6 +2,7 @@ package steps;
 
 import com.google.common.collect.Sets;
 import com.jayway.restassured.response.Response;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -75,7 +76,15 @@ public class ManagementPostApplications_StepDefs extends UtilManager{
 
     @Given("^I have a \"([^\"]*)\" from an existing AAD application$")
     public void i_have_a_clientId_from_an_existing_AAD_application(String clientId){
-        testContext.getApiManager().getPostApplication().setClientId(clientId);
+        if (clientId.trim().toUpperCase().equals("RANDOM")) {
+            logger.info("input clientId is: " + clientId);
+            UUID randomUuid = UUID.randomUUID();
+            logger.info("randomUuid is: " + randomUuid);
+            logger.info("set " + randomUuid + " as clientId ");
+            testContext.getApiManager().getPostApplication().setClientId(randomUuid.toString());
+        } else {
+            testContext.getApiManager().getPostApplication().setClientId(clientId);
+        }
         testContext.getApiManager().getPostApplication().setRequestDateTime(getDateHelper().getUTCNowDateTime());
         testContext.getApiManager().getPostApplication().setTraceId(getGeneral().generateUniqueUUID());
     }
@@ -218,5 +227,10 @@ public class ManagementPostApplications_StepDefs extends UtilManager{
     public void i_have_valid_application_details_with_no_RequestDateTime_sent_in_the_header(String value) {
         i_have_valid_application_details();
         testContext.getApiManager().getPostApplication().setRequestDateTime(value);
+    }
+
+    @And("^I make a POST request with the same client Id to the application endpoint$")
+    public void iMakeAPOSTRequestWithTheSameClientIdToTheApplicationEndpoint() {
+        i_make_a_post_request_to_the_application_endpoint();
     }
 }
