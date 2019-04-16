@@ -34,11 +34,12 @@ public class GetApplication extends UtilManager {
         signatureHelper = new SignatureHelper();
     }
 
-    public void getListOfApplications(String url, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature) {
+    public void getListOfApplications(String url, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature, String authToken) {
         try {
             response = getRestHelper().getRequestWithHeaders(url,
                     getListHeader("GET", new URL(url).getPath(), signingKeyId,
-                            signingAlgorithm, signingKey, headerElementsForSignature));
+                            signingAlgorithm, signingKey, headerElementsForSignature,
+                            authToken));
 
             logger.info("****************List of application response ******************** --> " + response.getBody().asString());
         } catch (MalformedURLException e) {
@@ -47,13 +48,16 @@ public class GetApplication extends UtilManager {
         }
     }
 
-    private HashMap<String, String> getListHeader(String method, String url,String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsforSignature) {
+    private HashMap<String, String> getListHeader(String method, String url,String signingKeyId,
+                                                  String signingAlgorithm, String signingKey,
+                                                  HashSet headerElementsforSignature, String authToken) {
         HashMap<String,String> header = new HashMap<>();
         header.put("ACCEPT", "application/json");
         header.put("Authorization", authToken);
         header.put("Trace-Id", general.generateUniqueUUID());
         header.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
         header.put("Request-Date-Time", dateHelper.getUTCNowDateTime());
+        header.put("Content-Type", "application/json");
 
         if (EnvHelper.getInstance().isLocalDevMode()) {
             EnvHelper.getInstance().addMissingHeaderForLocalDevMode(header);
