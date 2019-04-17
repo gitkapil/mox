@@ -16,7 +16,7 @@ import java.util.UUID;
 
 public class ManagementPutApplications_StepDefs extends UtilManager{
     // NB: These are the dragon token (for testing) roles.  CSO tokens use claim {"role": "user"}
-    private static final Set<String> CSO_ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
+    private static final Set<String> ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
     private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_application_resource";
     private static final String SIG_HEADER_LIST_POST_APPLICATION = "header-list-post-application";
 
@@ -32,13 +32,13 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
 
     final static Logger logger = Logger.getLogger(ManagementPutApplications_StepDefs.class);
 
-    @Given("^I am a PUT application authorized CSO user$")
-    public void i_am_an_authorized_CSO_user()  {
-        common.iAmAnAuthorizedDragonUser(CSO_ROLE_SET, token -> testContext.getApiManager().getPutApplication().setAuthTokenWithBearer(token));
+    @Given("^I am a PUT application authorized DRAGON user with Application.ReadWrite.All$")
+    public void i_am_an_authorized_DRAGON_user()  {
+        common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getPutApplication().setAuthTokenWithBearer(token));
     }
 
-    @Given("^I am a PUT application CSO user with invalid \"([^\"]*)\"$")
-    public void i_am_a_CSO_user_with_invalid_token(String token)  {
+    @Given("^I am a PUT application DRAGON user with Application.ReadWrite.All with invalid \"([^\"]*)\"$")
+    public void i_am_a_DRAGON_user_with_invalid_token(String token)  {
         common.iAmADragonUserWithToken(token, tokenArg -> testContext.getApiManager().getPutApplication().setAuthToken(tokenArg));
     }
 

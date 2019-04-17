@@ -6,10 +6,10 @@ Feature: Management Put Clients API - DRAG-1446
     Then I receive an access_token
 
   # For the parametres where values are missing within the table, while creating request, the parameter will not be included at all as a a part of the payload
-#  @trial
+  @trial
   @regression
-  Scenario Outline: Positive flow- A CSO user is able to update an existing application
-    Given I am a PUT application authorized CSO user
+  Scenario Outline: Positive flow- A DRAGON user with Application.ReadWrite.All is able to update an existing application
+    Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     And I have an "<applicationId>" from an existing application
     And I have updated "<clientId>", "<peakId>", "<subUnitId>" and "<organisationId>" values
     When I make a PUT request to the application endpoint
@@ -21,10 +21,10 @@ Feature: Management Put Clients API - DRAG-1446
       |new                                 |random                              |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|
 
   #DRAG-1157 - Please update the correct error_message for the signature in the examples.
-  # @trial
+   @trial
   @regression
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
-    Given I am a PUT application authorized CSO user
+    Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     And I have valid update values for the application
     When I make a PUT request to the application endpoint with "<key>" missing in the header
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within the PUT application response
@@ -38,10 +38,10 @@ Feature: Management Put Clients API - DRAG-1446
       |Header Accept does not contain required value.  Access denied.        | Request Header Not Acceptable    |Accept           |EA008      |406        |
       |Content type 'text/plain;charset=ISO-8859-1' not supported | Service Request Validation Failed    |Content-Type           |EA002      |415        |
 
-  # @trial
+   @trial
   @regression
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
-    Given I am a PUT application authorized CSO user
+    Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     And I have valid update values for the application
     When I make a PUT request to the application endpoint with "<key>" missing in the header
     And error message should be "Resource not found" within the PUT application response
@@ -49,10 +49,10 @@ Feature: Management Put Clients API - DRAG-1446
       | key             |
       |Api-Version      |
 
-  # @trial
+   @trial
   @regression
   Scenario Outline: Negative flow- Invalid auth token
-    Given I am a PUT application CSO user with invalid "<auth_token>"
+    Given I am a PUT application DRAGON user with Application.ReadWrite.All with invalid "<auth_token>"
     And I have valid update values for the application
     When I make a PUT request to the application endpoint
     Then I should receive a "<http_code>" error response with "<error_description>" error description and "<error_code>" errorcode within the PUT application response
@@ -68,10 +68,10 @@ Feature: Management Put Clients API - DRAG-1446
  # Auth token unverified
       |Error validating JWT        |API Gateway Authentication Failed |Bearer nbCwW11w3XkB-xUaXwKRSLjMHGQ|EA001|401                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 
-  # @trial
+   @trial
   @regression
   Scenario Outline: Negative flow- Mandatory fields from the body missing or invalid
-    Given I am a PUT application authorized CSO user
+    Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     And I have an "<applicationId>" from an existing application
     And I have updated "<clientId>", "<peakId>", "<subUnitId>" and "<organisationId>" values
     When I make a PUT request to the application endpoint
@@ -90,7 +90,7 @@ Feature: Management Put Clients API - DRAG-1446
 
 #  @regression
 #  Scenario Outline: Negative flow- Request Date Time's invalid values set within the header
-#    Given I am an authorized CSO user
+#    Given I am an authorized DRAGON user with Application.ReadWrite.All
 #    And I have valid application details with invalid value "<value>" set for Request Date Time sent in the header
 #    When I make a POST request to the application endpoint
 #    Then I should receive a "400" error response with "<error_description>" error description and "EA002" errorcode within the POST application response
