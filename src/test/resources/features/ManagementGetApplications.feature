@@ -5,7 +5,7 @@ Feature: Merchant Management API - GET /applications
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  @trial
+#  @trial
   @regression @merchantManagement @merchantManagementGet
   Scenario Outline: Positive flow - Get a list of applications
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
@@ -44,7 +44,7 @@ Feature: Merchant Management API - GET /applications
     When I get a list of application using multiple filters with correct uuids
     Then I should get an error message with status 400 error code "EA002" and error description "Only one of peakId or clientId query can be used at the same time"
 
-#  @trial
+  @trial
   @regression @merchantManagement @merchantManagementGet
     Scenario Outline: Positive flow - Get a list of application using paging and limits
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
@@ -52,17 +52,17 @@ Feature: Merchant Management API - GET /applications
     Then I should receive a successful response
     And the response should have a list of <numberOfResponses> applications
     And the response should have more than or equal to <numberOfResponses> in total
-    And the response should have a <totalNumberOfPages> number of total pages
+    And the response should have a <totalNumberOfItems> number of total items
     And the response should be on page <currentPageNumber>
     When I move to page <nextPageNumber>
     Then I should receive a successful response
     And the response should have a list of <nextNumberOfResponses> applications
     And the response should have more than or equal to <nextNumberOfResponses> in total
-    And the response should have a <totalNumberOfPages> number of total pages
+    And the response should have a <totalNumberOfItems> number of total items
     And the response should be on page <nextPageNumber>
 
     Examples:
-    |filterName|filterValue                                    |limit|numberOfResponses|totalNumberOfPages|currentPageNumber|nextPageNumber|nextNumberOfResponses|
+    |filterName|filterValue                                    |limit|numberOfResponses|totalNumberOfItems|currentPageNumber|nextPageNumber|nextNumberOfResponses|
     |peakId    |00000002-0000-0000-c000-000000000000           | 1   |1                |2                 |0                |1             |1                    |
     |peakId    |00000002-0000-0000-c000-000000000000           |30   |2                |1                 |0                |2             |2                    |
 

@@ -161,16 +161,16 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
                 testContext.getApiManager().getPostApplication().getAuthToken());
     }
 
-    @And("^the response should have a ([^\"]*) number of total pages$")
-    public void response_should_have_number_of_total_pages(int totalNumberOfPages) {
+    @And("^the response should have a ([^\"]*) number of total items$")
+    public void response_should_have_number_of_total_pages(int totalNumberOfItems) {
         JsonPath objItem = getRestHelper().getJsonPath(testContext.getApiManager().getGetApplication().getResponse());
         int total = 0;
-        total = Integer.parseInt("" + objItem.getMap("page").get("total"));
+        total = Integer.parseInt("" + objItem.getMap("page").get("totalItems"));
 
 
         Assert.assertTrue(
-                "response should have number of total pages " + totalNumberOfPages + " but got " + total,
-                total == totalNumberOfPages
+                "response should have number of total items " + totalNumberOfItems + " but got " + total,
+                total == totalNumberOfItems
         );
     }
 
