@@ -1,7 +1,9 @@
 package steps;
 
+import com.google.common.collect.Sets;
 import com.jayway.restassured.path.json.JsonPath;
 import cucumber.api.java.en.And;
+import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import managers.TestContext;
@@ -11,15 +13,19 @@ import org.junit.Assert;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
 public class ManagementGetApplications_StepDefs extends UtilManager {
     TestContext testContext;
 
     public ManagementGetApplications_StepDefs(TestContext testContext) {
         this.testContext = testContext;
+        common = new ManagementCommon(testContext);
     }
 
     private String currentUrl;
+    ManagementCommon common;
+    private static final Set<String> ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
 
     final static Logger logger = Logger.getLogger(ManagementGetApplications_StepDefs.class);
 
@@ -166,6 +172,11 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
                 "response should have number of total pages " + totalNumberOfPages + " but got " + total,
                 total == totalNumberOfPages
         );
+    }
+
+    @Given("^I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege$")
+    public void i_am_an_authorized_DRAGON_user_with_role()  {
+        common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getPostApplication().setAuthTokenWithBearer(token));
     }
 
     @And("^the response should be on page ([^\"]*)$")

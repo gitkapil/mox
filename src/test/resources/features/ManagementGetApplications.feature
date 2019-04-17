@@ -5,10 +5,10 @@ Feature: Merchant Management API - GET /applications
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-#  @trial
+  @trial
   @regression @merchantManagement @merchantManagementGet
   Scenario Outline: Positive flow - Get a list of applications
-    Given I am an authorized DRAGON user with the Application.ReadWrite.All privilege
+    Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of applications without any filters
     Then I should receive a successful response
     And the response should have a list of <numberOfResponses> applications
@@ -21,7 +21,7 @@ Feature: Merchant Management API - GET /applications
 #  @trial
   @regression @merchantManagement @merchantManagementGet
   Scenario Outline: Positive flow - Get a list of application using filters
-    Given I am an authorized DRAGON user with the Application.ReadWrite.All privilege
+    Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of applications using filters to filter "<filterName>" with "<filterValue>"
     Then I should receive a successful response
     And the response should have a list of <numberOfResponses> applications
@@ -34,20 +34,20 @@ Feature: Merchant Management API - GET /applications
 
 #  @trial
   Scenario: Negative flow - Get a list of application using multi filters
-    Given I am an authorized DRAGON user with the Application.ReadWrite.All privilege
+    Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of application using multiple filters
     Then I should get an error message with status 400 error code "EA002" and error description "Failed to convert value of type"
 
 #  @trial
   Scenario: Negative flow - Get a list of application using multi filters
-    Given I am an authorized DRAGON user with the Application.ReadWrite.All privilege
+    Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of application using multiple filters with correct uuids
     Then I should get an error message with status 400 error code "EA002" and error description "Only one of peakId or clientId query can be used at the same time"
 
 #  @trial
   @regression @merchantManagement @merchantManagementGet
     Scenario Outline: Positive flow - Get a list of application using paging and limits
-    Given I am an authorized DRAGON user with the Application.ReadWrite.All privilege
+    Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of applications using filters to filter "<filterName>" with "<filterValue>" with <limit> limits
     Then I should receive a successful response
     And the response should have a list of <numberOfResponses> applications
