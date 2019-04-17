@@ -162,7 +162,7 @@ public class PutApplication extends UtilManager{
     }
 
     /**
-     * This method creates valid body for the PUT create client request.
+     * This method creates valid body for the PUT update client request.
      * @return
      */
     public HashMap<String,HashMap> returnRequestBody(){
@@ -188,7 +188,7 @@ public class PutApplication extends UtilManager{
     }
 
     /**
-     * This method hits PUT create client Request endpoint with an existing header and body
+     * This method hits PUT update client Request endpoint with an existing header and body
      * @param url
      * @param header
      * @param body
