@@ -91,7 +91,8 @@ public class PaymentStatus extends UtilManager {
         try{
             url= appendPaymentIdInURL(url);
 
-            HashMap<String, String> header= returnPaymentStatusHeader("GET", url, signingKeyId, signingAlgorithm, signingKey, headerElementsForSignature);
+            HashMap<String, String> header= returnPaymentStatusHeader("GET", url, signingKeyId, signingAlgorithm, signingKey,
+                    headerElementsForSignature);
             header.remove(key);
 
             paymentStatusResponse= getRestHelper().getRequestWithHeaders(url, header);

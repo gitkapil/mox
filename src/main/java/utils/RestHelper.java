@@ -311,4 +311,32 @@ public class RestHelper {
         }
     }
 
+    /**
+     * This method PUTS a request with a header and body
+     * @param url
+     * @param body
+     * @return
+     */
+    public Response putRequestWithHeaderAndBody(String url, HashMap headers,HashMap body){
+        Response response=null;
+        try{
+            String jsonBody = new ObjectMapper().writeValueAsString(body);
+            response = given()
+                    .log()
+                    .all()
+                    .headers(headers)
+                    .body(body)
+                    .when()
+                    .relaxedHTTPSValidation()
+                    .put(url);
+
+        }catch(Exception e){
+            e.printStackTrace();
+            Assert.assertTrue(e.getMessage(), false);
+        }
+
+        return response;
+    }
+
+
 }
