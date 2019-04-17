@@ -44,7 +44,7 @@ Feature: Merchant Management API - GET /applications
     When I get a list of application using multiple filters with correct uuids
     Then I should get an error message with status 400 error code "EA002" and error description "Only one of peakId or clientId query can be used at the same time"
 
-  @trial
+#  @trial
   @regression @merchantManagement @merchantManagementGet
     Scenario Outline: Positive flow - Get a list of application using paging and limits
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
