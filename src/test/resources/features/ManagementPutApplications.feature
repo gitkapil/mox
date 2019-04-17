@@ -1,4 +1,4 @@
-Feature: Management Put Clients API - DRAG-1446
+Feature: Management Put Applications API - DRAG-1446
 
   Background: Retrieving access Token
     Given I am an user
