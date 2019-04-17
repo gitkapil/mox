@@ -10,11 +10,9 @@ import managers.TestContext;
 import managers.UtilManager;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
-import utils.EnvHelper;
 
-import java.util.*;
-
-import static org.junit.Assert.assertTrue;
+import java.util.Set;
+import java.util.UUID;
 
 
 public class ManagementPostApplications_StepDefs extends UtilManager{
@@ -24,54 +22,23 @@ public class ManagementPostApplications_StepDefs extends UtilManager{
     private static final String SIG_HEADER_LIST_POST_APPLICATION = "header-list-post-application";
 
     TestContext testContext;
+    ManagementCommon common;
 
     public ManagementPostApplications_StepDefs(TestContext testContext) {
         this.testContext = testContext;
+        common = new ManagementCommon(testContext);
     }
 
     final static Logger logger = Logger.getLogger(ManagementPostApplications_StepDefs.class);
 
-    @Given("^I am an authorized DRAGON user with the Application.ReadWrite.All privilege$")
+    @Given("^I am a POST application authorized DRAGON user with the Application.ReadWrite.All privilege$")
     public void i_am_an_authorized_DRAGON_user_with_role()  {
-
-        boolean hasRequiredRoles = Optional.ofNullable(testContext.getApiManager().getAccessToken().retrieveClaimSet(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "jwks_uri_idp")).getClaim("roles"))
-                .filter(v -> v instanceof List)
-                .map(v -> (List)v)
-                .orElse(Collections.emptyList())
-                .stream()
-                .anyMatch(v -> ROLE_SET.contains(v));
-
-        assertTrue(String.format("Expected token to have one of the PayMe API Application roles %s", ROLE_SET.toString()), hasRequiredRoles);
-
-        testContext.getApiManager().getPostApplication().setAuthTokenWithBearer(testContext.getApiManager().getAccessToken().getAccessToken());
-
-        if(testContext.getApiManager().getAccessToken().getType().equalsIgnoreCase("merchant")){
-            getRestHelper().setBaseURI(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
-                    +getEnvSpecificBasePathAPIs());
-        } else {
-            getRestHelper().setBaseURI(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
-                    +getEnvSpecificBasePathAPIs());
-        }
-    }
-
-    private String getEnvSpecificBasePathAPIs() {
-        if (EnvHelper.getInstance().isLocalDevMode()) {
-            return getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "Base_Path_Management");
-        }
-        return getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Management");
+        common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getPostApplication().setAuthTokenWithBearer(token));
     }
 
     @Given("^I am a DRAGON user with invalid \"([^\"]*)\"$")
     public void i_am_a_DRAGON_user_with_invalid_token(String token)  {
-        testContext.getApiManager().getPostApplication().setAuthToken(token);
-
-        if(testContext.getApiManager().getAccessToken().getType().equalsIgnoreCase("merchant")){
-            getRestHelper().setBaseURI(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
-                    +getEnvSpecificBasePathAPIs());
-        } else {
-            getRestHelper().setBaseURI(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
-                    +getEnvSpecificBasePathAPIs());
-        }
+        common.iAmADragonUserWithToken(token, tokenArg -> testContext.getApiManager().getPostApplication().setAuthToken(tokenArg));
     }
 
     @Given("^I have a \"([^\"]*)\" from an existing AAD application$")
