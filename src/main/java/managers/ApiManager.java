@@ -11,6 +11,7 @@ public class ApiManager {
     Transaction transaction;
     PostApplication postApplication;
     GetApplication getApplication;
+    PutApplication putApplication;
 
     public ApiManager() {
         accessToken= new AccessTokenForMerchants();
@@ -21,6 +22,7 @@ public class ApiManager {
         transaction = new Transaction();
         postApplication = new PostApplication();
         getApplication = new GetApplication();
+        putApplication = new PutApplication();
     }
 
     public AccessTokenForMerchants getAccessToken() {
@@ -53,5 +55,9 @@ public class ApiManager {
 
     public GetApplication getGetApplication() {
         return (getApplication == null) ? getApplication = new GetApplication() : getApplication;
+    }
+
+    public PutApplication getPutApplication() {
+        return (putApplication == null) ? putApplication = new PutApplication() : putApplication;
     }
 }

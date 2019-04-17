@@ -16,7 +16,16 @@ verify -P<profile> -Denv=<Env Name> -Dversion=<version number> -Dusertype=<merch
 
 To run functional tests on sit-sa env
 
-command: verify -Pregression -Denv=sit-sa -Dversion=0.8 -Dusertype=developer
+command: `mvn clean verify -Pregression -Denv=sit -Dversion=0.10 -Dusertype=developer`
+
+options: 
+- run a specific feature file `-Dcucumber.options=”feature file path”`
+- run a specific test of a feature `-Dcucumber.options=”feature file path” + “line number of the scenario”`
+  - Single feature test: `-Dusertype=developer -Dcucumber.options="src/test/resources/features/AccessTokenForMerchants.feature:13"`
+  - Single feature: `-Dusertype=developer -Dcucumber.options="src/test/resources/features/AccessTokenForMerchants.feature"`
+
+
+
 
 ## Report ##
 ----------

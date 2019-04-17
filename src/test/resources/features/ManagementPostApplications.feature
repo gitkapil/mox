@@ -7,9 +7,9 @@ Feature: Management Post Applications API - DRAG-1416
 
   # For the parametres where values are missing within the table, while creating request, the parameter will not be included at all as a a part of the payload
 #  @trial
-  @regression @merchantManagement @merchantManagementPost
-  Scenario Outline: Positive flow - A DRAGON user with Application.ReadWrite.All privilege is able to create an application
-    Given I am an authorized DRAGON user with the Application.ReadWrite.All privilege
+  @regression
+  Scenario Outline: Positive flow- A DRAGON user with Application.ReadWrite.All privilege is able to create an application
+    Given I am a POST application authorized DRAGON user with the Application.ReadWrite.All privilege
     And I have a "<clientId>" from an existing AAD application
     And I have a "<peakId>", "<subUnitId>" and "<organisationId>" from an existing PM4B merchant identity
     When I make a POST request to the application endpoint
@@ -23,7 +23,7 @@ Feature: Management Post Applications API - DRAG-1416
 #  @trial
   @regression @merchantManagement @merchantManagementPost
   Scenario Outline: Negative flow- A DRAGON with Application.ReadWrite.All privilege user is unable to create a duplicate application
-    Given I am an authorized DRAGON user with the Application.ReadWrite.All privilege
+    Given I am a POST application authorized DRAGON user with the Application.ReadWrite.All privilege
     And I have a "<clientId>" from an existing AAD application
     And I have a "<peakId>", "<subUnitId>" and "<organisationId>" from an existing PM4B merchant identity
     When I make a POST request to the application endpoint
@@ -35,9 +35,10 @@ Feature: Management Post Applications API - DRAG-1416
     |random                              |00000002-0000-0000-c000-000000000000|00000002-0000-0000-c000-000000000000|00000002-0000-0000-c000-000000000000|Merchant Application Mapping record with same client Id already exist|EA021      |400        |
 
   #DRAG-1157 - Please update the correct error_message for the signature in the examples.
-  @regression @merchantManagement @merchantManagementPost
+#  @trial
+  @regression
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
-    Given I am an authorized DRAGON user with the Application.ReadWrite.All privilege
+    Given I am a POST application authorized DRAGON user with the Application.ReadWrite.All privilege
     And I have valid application details
     When I make a POST request to the application endpoint with "<key>" missing in the header
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within the POST application response
@@ -51,9 +52,10 @@ Feature: Management Post Applications API - DRAG-1416
       |Header Accept does not contain required value.  Access denied.        | Request Header Not Acceptable    |Accept           |EA008      |406        |
       |Content type 'text/plain;charset=ISO-8859-1' not supported | Service Request Validation Failed    |Content-Type           |EA002      |415        |
 
-  @regression @merchantManagement @merchantManagementPost
+#  @trial
+  @regression
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
-    Given I am an authorized DRAGON user with the Application.ReadWrite.All privilege
+    Given I am a POST application authorized DRAGON user with the Application.ReadWrite.All privilege
     And I have valid application details
     When I make a POST request to the application endpoint with "<key>" missing in the header
     And error message should be "Resource not found" within the POST application response
@@ -62,7 +64,7 @@ Feature: Management Post Applications API - DRAG-1416
       |Api-Version      |
 
 #  @trial
-  @regression @merchantManagement @merchantManagementPost
+  @regression
   Scenario Outline: Negative flow- Invalid auth token
     Given I am a DRAGON user with invalid "<auth_token>"
     And I have valid application details
@@ -81,9 +83,9 @@ Feature: Management Post Applications API - DRAG-1416
       |Error validating JWT        |API Gateway Authentication Failed |Bearer nbCwW11w3XkB-xUaXwKRSLjMHGQ|EA001|401                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 
 #  @trial
-  @regression @merchantManagement @merchantManagementPost
+  @regression
   Scenario Outline: Negative flow- Mandatory fields from the body missing or invalid
-    Given I am an authorized DRAGON user with the Application.ReadWrite.All privilege
+    Given I am a POST application authorized DRAGON user with the Application.ReadWrite.All privilege
     And I have a "<clientId>" from an existing AAD application
     And I have a "<peakId>", "<subUnitId>" and "<organisationId>" from an existing PM4B merchant identity
     When I make a POST request to the application endpoint
