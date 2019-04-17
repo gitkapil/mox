@@ -30,7 +30,7 @@ Feature: Merchant Management API - GET /applications
     |filterName | filterValue                          | numberOfResponses |
     |clientId   | 00000001-0000-0000-0000-000000000000 | 1                 |
     |clientId   | 00000001-0000-0000-0000-000000009999 | 0                 |
-    |peakId     | 00000002-0000-0000-c000-000000000000 | 2                 |
+    |peakId     | 00000002-0000-0000-c000-000000000001 | 2                 |
 
 #  @trial
   Scenario: Negative flow - Get a list of application using multi filters
@@ -63,7 +63,7 @@ Feature: Merchant Management API - GET /applications
 
     Examples:
     |filterName|filterValue                                    |limit|numberOfResponses|totalNumberOfItems|currentPageNumber|nextPageNumber|nextNumberOfResponses|
-    |peakId    |00000002-0000-0000-c000-000000000000           | 1   |1                |2                 |0                |1             |1                    |
-    |peakId    |00000002-0000-0000-c000-000000000000           |30   |2                |1                 |0                |2             |2                    |
+    |peakId    |00000002-0000-0000-c000-000000000001           | 1   |1                |2                 |0                |1             |1                    |
+    |peakId    |00000002-0000-0000-c000-000000000001           |30   |2                |1                 |0                |2             |2                    |
 
 
