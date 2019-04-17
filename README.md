@@ -36,6 +36,7 @@ digital-dragon-testing/target/cucumber-reports/cucumber-html-reports
 
 ## Env Values ##
 -----------------
+localDevMode (This is to run your tests against the localDevMode of the realisation Service)
 sit (SIT- HK)
 ci  (CI-HK)
 pre
