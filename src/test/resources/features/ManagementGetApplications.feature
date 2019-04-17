@@ -64,6 +64,6 @@ Feature: Merchant Management API - GET /applications
     Examples:
     |filterName|filterValue                                    |limit|numberOfResponses|totalNumberOfItems|currentPageNumber|nextPageNumber|nextNumberOfResponses|
     |peakId    |00000002-0000-0000-c000-000000000001           | 1   |1                |2                 |0                |1             |1                    |
-    |peakId    |00000002-0000-0000-c000-000000000001           |30   |2                |1                 |0                |2             |2                    |
+    |peakId    |00000002-0000-0000-c000-000000000001           |30   |2                |2                 |0                |2             |2                    |
 
 
