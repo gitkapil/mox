@@ -16,7 +16,7 @@ public class EnvHelper {
 
     public static final String LOCAL_DEV_MODE_X_HSBC_Request_Correlation_Id = "localDevMode";
 
-    public static final String LOCAL_DEV_MODE_CLAIM_SET_STR = "{\"sub\":\"86372206-cefa-45ea-9346-163bbabc7706\",\"ver\":\"1.0\",\"aio\":\"42ZgYEj6+vnYomn80fyF36+sfdB3EQA=\",\"roles\":[\"paymentRequest\",\"refund\",\"developer\"],\"iss\":\"https:\\/\\/sts.windows.net\\/2ff93cce-efd1-4e16-92ba-afb53e9e09fc\\/\",\"oid\":\"86372206-cefa-45ea-9346-163bbabc7706\",\"uti\":\"vCuBCT1C7ESiOC1-nEl1AA\",\"tid\":\"2ff93cce-efd1-4e16-92ba-afb53e9e09fc\",\"aud\":\"5173a5a9-4212-4877-8621-7bc164cf178b\",\"nbf\":1554789468,\"idp\":\"https:\\/\\/sts.windows.net\\/2ff93cce-efd1-4e16-92ba-afb53e9e09fc\\/\",\"appidacr\":\"1\",\"appid\":\"109323e3-c55e-424c-b712-2e82f1695e98\",\"exp\":1554793368,\"iat\":1554789468}";
+    public static final String LOCAL_DEV_MODE_CLAIM_SET_STR = "{\"sub\":\"86372206-cefa-45ea-9346-163bbabc7706\",\"ver\":\"1.0\",\"aio\":\"42ZgYEj6+vnYomn80fyF36+sfdB3EQA=\",\"roles\":[\"paymentRequest\",\"refund\",\"developer\",\"Application.ReadWrite.All\"],\"iss\":\"https:\\/\\/sts.windows.net\\/2ff93cce-efd1-4e16-92ba-afb53e9e09fc\\/\",\"oid\":\"86372206-cefa-45ea-9346-163bbabc7706\",\"uti\":\"vCuBCT1C7ESiOC1-nEl1AA\",\"tid\":\"2ff93cce-efd1-4e16-92ba-afb53e9e09fc\",\"aud\":\"5173a5a9-4212-4877-8621-7bc164cf178b\",\"nbf\":1554789468,\"idp\":\"https:\\/\\/sts.windows.net\\/2ff93cce-efd1-4e16-92ba-afb53e9e09fc\\/\",\"appidacr\":\"1\",\"appid\":\"109323e3-c55e-424c-b712-2e82f1695e98\",\"exp\":1554793368,\"iat\":1554789468}";
 
     private static final class LazyLoader {
         static final EnvHelper INSTANCE = new EnvHelper();

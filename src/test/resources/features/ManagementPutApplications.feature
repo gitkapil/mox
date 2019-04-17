@@ -6,8 +6,8 @@ Feature: Management Put Clients API - DRAG-1446
     Then I receive an access_token
 
   # For the parametres where values are missing within the table, while creating request, the parameter will not be included at all as a a part of the payload
-  # @trial
-  @regression @trial
+#  @trial
+  @regression
   Scenario Outline: Positive flow- A CSO user is able to update an existing application
     Given I am a PUT application authorized CSO user
     And I have an "<applicationId>" from an existing application
@@ -21,7 +21,8 @@ Feature: Management Put Clients API - DRAG-1446
       |new                                 |random                              |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|
 
   #DRAG-1157 - Please update the correct error_message for the signature in the examples.
-  @regression @trial
+  # @trial
+  @regression
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
     Given I am a PUT application authorized CSO user
     And I have valid update values for the application
@@ -37,7 +38,8 @@ Feature: Management Put Clients API - DRAG-1446
       |Header Accept does not contain required value.  Access denied.        | Request Header Not Acceptable    |Accept           |EA008      |406        |
       |Content type 'text/plain;charset=ISO-8859-1' not supported | Service Request Validation Failed    |Content-Type           |EA002      |415        |
 
-  @regression @trial
+  # @trial
+  @regression
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
     Given I am a PUT application authorized CSO user
     And I have valid update values for the application
@@ -47,9 +49,8 @@ Feature: Management Put Clients API - DRAG-1446
       | key             |
       |Api-Version      |
 
-
-
-  @regression @trial
+  # @trial
+  @regression
   Scenario Outline: Negative flow- Invalid auth token
     Given I am a PUT application CSO user with invalid "<auth_token>"
     And I have valid update values for the application
@@ -67,8 +68,8 @@ Feature: Management Put Clients API - DRAG-1446
  # Auth token unverified
       |Error validating JWT        |API Gateway Authentication Failed |Bearer nbCwW11w3XkB-xUaXwKRSLjMHGQ|EA001|401                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 
-
-  @regression @trial
+  # @trial
+  @regression
   Scenario Outline: Negative flow- Mandatory fields from the body missing or invalid
     Given I am a PUT application authorized CSO user
     And I have an "<applicationId>" from an existing application
