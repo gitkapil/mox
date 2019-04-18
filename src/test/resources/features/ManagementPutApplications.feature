@@ -53,7 +53,6 @@ Feature: Management Put Applications API - DRAG-1446
   @regression
   Scenario Outline: Negative flow- Invalid auth token
     Given I am a PUT application DRAGON user with Application.ReadWrite.All with invalid "<auth_token>"
-    And I have valid update values for the application
     When I make a PUT request to the application endpoint
     Then I should receive a "<http_code>" error response with "<error_description>" error description and "<error_code>" errorcode within the PUT application response
     And error message should be "<error_message>" within the PUT application response
