@@ -41,8 +41,8 @@ Feature: Transactions List
       Then I should receive "<actual>" number of transactions
     Examples:
       | limit | actual |
-      |  0    |    1   |
-      |  -1     |    1    |
+      |  0    |    10  |
+      |  -1     |    10   |
       |   31     |    30    |
 
 #  @trial
