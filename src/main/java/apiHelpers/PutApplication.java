@@ -23,6 +23,7 @@ public class PutApplication extends UtilManager{
     private String peakId;
     private String subUnitId;
     private String organisationId;
+    private String description;
     private String traceId;
     private String requestDateTime;
     private HashMap<String, String> requestHeader;
@@ -71,6 +72,14 @@ public class PutApplication extends UtilManager{
 
     public String getOrganisationId() {
         return organisationId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /**
@@ -296,6 +305,10 @@ public class PutApplication extends UtilManager{
     public String organisationIdInResponse(){
         return getRestHelper().getResponseBodyValue(response, "organisationId");
 
+    }
+
+    public String descriptionInResponse() {
+        return getRestHelper().getResponseBodyValue(response, "description");
     }
 
     /**

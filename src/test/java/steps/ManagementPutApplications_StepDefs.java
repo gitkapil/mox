@@ -7,6 +7,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import managers.TestContext;
 import managers.UtilManager;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 
@@ -53,12 +54,20 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
         testContext.getApiManager().getPutApplication().setTraceId(getGeneral().generateUniqueUUID());
     }
 
-    @Given("^I have updated \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\" values$")
-    public void i_have_updated_clientId_peakId_subUnitId_and_organisationId_values(String clientId, String peakId, String subUnitId, String organisationId){
+    @Given("^I have updated \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\" values$")
+    public void i_have_updated_clientId_peakId_subUnitId_and_organisationId_values(String clientId, String peakId,
+                                                                                   String subUnitId, String organisationId,
+                                                                                   String description){
         testContext.getApiManager().getPutApplication().setClientId(getSubstituteValue(clientId));
         testContext.getApiManager().getPutApplication().setPeakId(getSubstituteValue(peakId));
         testContext.getApiManager().getPutApplication().setSubUnitId(getSubstituteValue(subUnitId));
         testContext.getApiManager().getPutApplication().setOrganisationId(getSubstituteValue(organisationId));
+        if (description.equalsIgnoreCase("superlargestring")) {
+            String d = StringUtils.repeat("*", 257);
+            testContext.getApiManager().getPutApplication().setDescription(d);
+        } else {
+            testContext.getApiManager().getPutApplication().setDescription(description);
+        }
         testContext.getApiManager().getPutApplication().setRequestDateTime(getDateHelper().getUTCNowDateTime());
         testContext.getApiManager().getPutApplication().setTraceId(getGeneral().generateUniqueUUID());
     }
@@ -104,7 +113,7 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
         Assert.assertNotNull(response, "The response for PUT application Request was null");
     }
 
-    @Then("^the PUT response body should contain a valid applicationId, clientId, peakId, subUnitId and organisationId$")
+    @Then("^the PUT response body should contain a valid applicationId, clientId, peakId, subUnitId, organisationId and description$")
     public void the_response_body_should_contain_a_valid_applicationId_clientId_peakId_subUnitId_and_organisationId() {
         Assert.assertNotNull(testContext.getApiManager().getPutApplication().applicationIdInResponse(), "applicationId is not present in the response!!");
 
@@ -115,6 +124,8 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
         Assert.assertNotNull(testContext.getApiManager().getPutApplication().subUnitIdInResponse(), "subUnitId is not present in the response!!");
 
         Assert.assertNotNull(testContext.getApiManager().getPutApplication().organisationIdInResponse(), "organisationId is not present in the response!!");
+
+        Assert.assertNotNull(testContext.getApiManager().getPutApplication().getDescription(), "description is not present in the response");
 
         Assert.assertEquals(testContext.getApiManager().getPutApplication().applicationIdInResponse(),
                 testContext.getApiManager().getPutApplication().getApplicationId(),
@@ -135,6 +146,10 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
         Assert.assertEquals(testContext.getApiManager().getPutApplication().organisationIdInResponse(),
                 testContext.getApiManager().getPutApplication().getOrganisationId(),
                 "organisationId returned does not match.");
+
+        Assert.assertEquals(testContext.getApiManager().getPutApplication().descriptionInResponse(),
+                testContext.getApiManager().getPutApplication().getDescription(),
+                "description returned does not match.");
     }
 
     @Then("^the PUT response body should also have empty notificationPath and empty notificationHost$")
@@ -194,7 +209,7 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
     @Given("^I have valid update values for the application$")
     public void i_have_valid_update_values_for_the_application() {
         i_have_an_applicationId_from_an_existing_application("new");
-        i_have_updated_clientId_peakId_subUnitId_and_organisationId_values(UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString());
+        i_have_updated_clientId_peakId_subUnitId_and_organisationId_values(UUID.randomUUID().toString(),UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString());
     }
 
 
