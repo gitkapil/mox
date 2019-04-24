@@ -7,7 +7,7 @@ Feature: Management Put Applications API - DRAG-1446
 
   # For the parametres where values are missing within the table, while creating request, the parameter will not be included at all as a a part of the payload
 #  @trial
-  @regression
+  @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Positive flow- A DRAGON user with Application.ReadWrite.All is able to update an existing application
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     And I have an "<applicationId>" from an existing application
@@ -22,7 +22,7 @@ Feature: Management Put Applications API - DRAG-1446
 
   #DRAG-1157 - Please update the correct error_message for the signature in the examples.
 #   @trial
-  @regression
+  @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     And I have valid update values for the application
@@ -39,7 +39,7 @@ Feature: Management Put Applications API - DRAG-1446
       |Content type 'text/plain;charset=ISO-8859-1' not supported | Service Request Validation Failed    |Content-Type           |EA002      |415        |
 
 #   @trial
-  @regression
+  @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     And I have valid update values for the application
@@ -50,7 +50,7 @@ Feature: Management Put Applications API - DRAG-1446
       |Api-Version      |
 
 #   @trial
-  @regression
+  @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow- Invalid auth token
     Given I am a PUT application DRAGON user with Application.ReadWrite.All with invalid "<auth_token>"
     When I make a PUT request to the application endpoint
@@ -68,7 +68,7 @@ Feature: Management Put Applications API - DRAG-1446
       |Error validating JWT        |API Gateway Authentication Failed |Bearer nbCwW11w3XkB-xUaXwKRSLjMHGQ|EA001|401                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 
 #   @trial
-  @regression
+  @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow- Mandatory fields from the body missing or invalid
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     And I have an "<applicationId>" from an existing application
