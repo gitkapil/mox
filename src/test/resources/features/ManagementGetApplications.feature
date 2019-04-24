@@ -33,12 +33,14 @@ Feature: Merchant Management API - GET /applications
     |peakId     | 00000002-0000-0000-c000-000000000001 | 2                 |
 
 #  @trial
+  @regression @merchantManagement @merchantManagementGet
   Scenario: Negative flow - Get a list of application using multi filters
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of application using multiple filters
     Then I should get an error message with status 400 error code "EA002" and error description "Failed to convert value of type"
 
 #  @trial
+  @regression @merchantManagement @merchantManagementGet
   Scenario: Negative flow - Get a list of application using multi filters
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of application using multiple filters with correct uuids

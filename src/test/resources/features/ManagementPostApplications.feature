@@ -7,7 +7,7 @@ Feature: Management Post Applications API - DRAG-1416
 
   # For the parametres where values are missing within the table, while creating request, the parameter will not be included at all as a a part of the payload
 #  @trial
-  @regression
+  @regression @merchantManagement @merchantManagementPost
   Scenario Outline: Positive flow- A DRAGON user with Application.ReadWrite.All privilege is able to create an application
     Given I am a POST application authorized DRAGON user with the Application.ReadWrite.All privilege
     And I have a "<clientId>" from an existing AAD application
@@ -36,7 +36,7 @@ Feature: Management Post Applications API - DRAG-1416
 
   #DRAG-1157 - Please update the correct error_message for the signature in the examples.
 #  @trial
-  @regression
+  @regression @merchantManagement @merchantManagementPost
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
     Given I am a POST application authorized DRAGON user with the Application.ReadWrite.All privilege
     And I have valid application details
@@ -53,7 +53,7 @@ Feature: Management Post Applications API - DRAG-1416
       |Content type 'text/plain;charset=ISO-8859-1' not supported | Service Request Validation Failed    |Content-Type           |EA002      |415        |
 
 #  @trial
-  @regression
+  @regression @merchantManagement @merchantManagementPost
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
     Given I am a POST application authorized DRAGON user with the Application.ReadWrite.All privilege
     And I have valid application details
@@ -64,7 +64,7 @@ Feature: Management Post Applications API - DRAG-1416
       |Api-Version      |
 
 #  @trial
-  @regression
+  @regression @merchantManagement @merchantManagementPost
   Scenario Outline: Negative flow- Invalid auth token
     Given I am a DRAGON user with invalid "<auth_token>"
     And I have valid application details
@@ -83,7 +83,7 @@ Feature: Management Post Applications API - DRAG-1416
       |Error validating JWT        |API Gateway Authentication Failed |Bearer nbCwW11w3XkB-xUaXwKRSLjMHGQ|EA001|401                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 
 #  @trial
-  @regression
+  @regression @merchantManagement @merchantManagementPost
   Scenario Outline: Negative flow- Mandatory fields from the body missing or invalid
     Given I am a POST application authorized DRAGON user with the Application.ReadWrite.All privilege
     And I have a "<clientId>" from an existing AAD application
