@@ -95,7 +95,7 @@ public class Transactions_StepDefs extends UtilManager {
         returnedTransactions.stream().forEach(t -> {
             String source = (String)((HashMap)t).get("transactionSource");
             //should be Online or null
-            if (source == null || source.contentEquals("Online")) {
+            if (source == null || source.contentEquals("Online") || source.length() == 0) {
                 //right format
             } else {
                 Assert.assertEquals(true, false, "TransactionSource has an invalid value (" + source + ")");
@@ -111,7 +111,7 @@ public class Transactions_StepDefs extends UtilManager {
             //should be Online or null
             if (source == null || source.contentEquals("Collect payment") ||
                 source.contentEquals("Refund") || source.contentEquals("Bank Transfer") ||
-                source.contentEquals("Adjustment")) {
+                source.contentEquals("Adjustment") || source.length() == 0) {
                 //right format
             } else {
                 Assert.assertEquals(true, false, "transactionType has an invalid value (" + source + ")");
@@ -137,7 +137,7 @@ public class Transactions_StepDefs extends UtilManager {
     @And("^transaction object is a subset of the original list$")
     public void transactionObjectIsASubSet() {
         String[] predefinedSet = {
-                "transactionID",
+                "transactionId",
                 "payerId",
                 "transactionSource",
                 "transactionType",
