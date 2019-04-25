@@ -182,6 +182,7 @@ public class PutApplication extends UtilManager{
         populateRequestBody("peakId", getPeakId());
         populateRequestBody("subUnitId", getSubUnitId());
         populateRequestBody("organisationId", getOrganisationId());
+        populateRequestBody("description", getDescription());
 
         return requestBody;
     }
