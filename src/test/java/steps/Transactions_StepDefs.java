@@ -66,6 +66,11 @@ public class Transactions_StepDefs extends UtilManager {
         System.out.println(testContext.getApiManager().getTransaction().getTransactionListResponse().asString());
         System.out.println();
         System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
+        transactionObjectIsASubSet();
+        transactionSourceIsConvertedProperly();
+        transactionTypeIsConvertedProperly();
+        statusIsConvertedProperly();
     }
 
     @And("^I should have at least (\\d+) number of transactions returned$")
@@ -89,7 +94,6 @@ public class Transactions_StepDefs extends UtilManager {
         queryTransactionListWithQueryStringParams(queryStringParams);
     }
 
-    @And("^transactionSource is not numeric and converted properly$")
     public void transactionSourceIsConvertedProperly() {
         ArrayList returnedTransactions = testContext.getApiManager().getTransaction().getTransactionListResponse().path("transactions");
         returnedTransactions.stream().forEach(t -> {
@@ -103,7 +107,6 @@ public class Transactions_StepDefs extends UtilManager {
         });
     }
 
-    @And("^transactionType is not numeric and converted properly$")
     public void transactionTypeIsConvertedProperly() {
         ArrayList returnedTransactions = testContext.getApiManager().getTransaction().getTransactionListResponse().path("transactions");
         returnedTransactions.stream().forEach(t -> {
@@ -119,7 +122,6 @@ public class Transactions_StepDefs extends UtilManager {
         });
     }
 
-    @And("^status is convert properly$")
     public void statusIsConvertedProperly() {
         ArrayList returnedTransactions = testContext.getApiManager().getTransaction().getTransactionListResponse().path("transactions");
         returnedTransactions.stream().forEach(t -> {
@@ -134,7 +136,6 @@ public class Transactions_StepDefs extends UtilManager {
         });
     }
 
-    @And("^transaction object is a subset of the original list$")
     public void transactionObjectIsASubSet() {
         String[] predefinedSet = {
                 "transactionId",

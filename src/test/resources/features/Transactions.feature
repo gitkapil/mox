@@ -74,10 +74,6 @@ Feature: Transactions List
       Given I am an authorized user
       When I query for a list of transactions between "<fromTime>" and "<toTime>"
       Then I should receive a successful transaction response
-      And transaction object is a subset of the original list
-      And transactionSource is not numeric and converted properly
-      And transactionType is not numeric and converted properly
-      And status is convert properly
 
     Examples:
       |fromTime                 | toTime                    |
