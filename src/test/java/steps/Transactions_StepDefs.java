@@ -162,7 +162,8 @@ public class Transactions_StepDefs extends UtilManager {
             System.out.println("JT Diff " + String.join(",", diff));
             if (diff.size() == 0) {
             } else {
-                if (!diff.contains("transactionSource") && !diff.contains("transactionType")) {
+                if (!diff.contains("transactionSource") && !diff.contains("transactionType") &&
+                        !diff.contains("message") && !diff.contains("reasonCode")) {
                     Assert.assertEquals(true, false,
                             "Returned transaction object contain fields that are not a subset (" +
                                     String.join(",", diff) + ")");
