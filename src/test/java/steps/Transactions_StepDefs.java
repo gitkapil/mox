@@ -222,6 +222,7 @@ public class Transactions_StepDefs extends UtilManager {
     @Then("^I should receive \"([^\"]*)\" number of transactions$")
     public void iShouldReceiveNumberOfTransactions(String actual) {
         ArrayList returnedTransactions = testContext.getApiManager().getTransaction().getTransactionListResponse().path("transactions");
-        Assert.assertTrue(returnedTransactions.size() == Integer.parseInt(actual));
+        Assert.assertTrue(returnedTransactions.size() == Integer.parseInt(actual),
+                "Expected to have " + actual + " records, but got " + returnedTransactions.size());
     }
 }
