@@ -6,7 +6,7 @@ Feature: Transactions List
     Then I receive an access_token
 
   #Checking Input Parameters
-  @trial
+#  @trial
   @regression
   Scenario Outline: Negative flow - Send invalid fromTime and toTime
     Given I am an authorized user
@@ -23,7 +23,7 @@ Feature: Transactions List
       | 2019-02-01T00:00:00Z      | 2019                      | Invalid RFC3339 | EA019 |
       | 2019-02-01T00:00:00Z      | 2019-JAN-01               | Invalid RFC3339 | EA019 |
 
-  @trial
+#  @trial
   @regression
   Scenario Outline: Negative flow - Send invalid limit
     Given I am an authorized user
@@ -33,7 +33,7 @@ Feature: Transactions List
       | fromTime                  | toTime                    | limit | error_description | error_code |
       | 2019-01-01T10:00:00-05:00 | 2050-01-10T10:00:00-05:00 | XXX   | NumberFormatException | EA002      |
 
-  @trial
+#  @trial
   @regression
     Scenario Outline: Negative flow - Limit not in acceptable range
       Given I am an authorized user
@@ -45,7 +45,7 @@ Feature: Transactions List
       |  -1     |    10   |
       |   31     |    30    |
 
-  @trial
+#  @trial
   @regression
   Scenario Outline: Negative flow - Limit not specified returning default limit
     Given I am an authorized user
@@ -56,7 +56,7 @@ Feature: Transactions List
       |2000-01-01T00:00:00Z | 2100-02-01T00:00:00Z | 20     |
 
 
-  @trial
+#  @trial
   @regression
   Scenario Outline: Negative flow - Send invalid startingAfter
     Given I am an authorized user
@@ -69,7 +69,7 @@ Feature: Transactions List
 
 #    #Positive Flow
 #    @trial
-    @regression @trial
+    @regression
     Scenario Outline: Positive flow - Get a list of transactions for a merchant
       Given I am an authorized user
       When I query for a list of transactions between "<fromTime>" and "<toTime>"
@@ -85,7 +85,7 @@ Feature: Transactions List
       |2002-10-02T15:00:00Z     | 2002-10-03T15:00:00Z      |
       |2000-01-01T00:00:00Z     | 2021-01-01T00:00:00Z      |
 
-    @trial
+#    @trial
     @regression
     Scenario Outline: Positive flow - Get a list of transactions for a merchant with limit
       Given I am an authorized user
@@ -98,7 +98,7 @@ Feature: Transactions List
       |2018-01-01T00:00:00Z | 2050-02-01T00:00:00-04:00 | 10    |
       |2018-01-01T00:00:00+08:00 | 2050-02-01T00:00:00Z | 20    |
 
-    @trial
+#    @trial
     @regression
     Scenario Outline: Positive flow - Get a list of transactions for a merchant with limit and use startingAfter
       Given I am an authorized user
