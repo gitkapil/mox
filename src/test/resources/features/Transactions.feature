@@ -79,6 +79,7 @@ Feature: Transactions List
       |fromTime                 | toTime                    |
       |2019-01-01T00:00:00Z | 2019-02-01T00:00:00Z |
       |2002-10-02T15:00:00Z     | 2002-10-03T15:00:00Z      |
+      |2000-01-01T00:00:00Z     | 2021-01-01T00:00:00Z      |
 
 #    @trial
     @regression

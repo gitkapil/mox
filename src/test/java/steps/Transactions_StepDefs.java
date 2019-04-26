@@ -4,15 +4,14 @@ import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import joptsimple.internal.Strings;
 import managers.TestContext;
 import managers.UtilManager;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 public class Transactions_StepDefs extends UtilManager {
 
@@ -67,6 +66,11 @@ public class Transactions_StepDefs extends UtilManager {
         System.out.println(testContext.getApiManager().getTransaction().getTransactionListResponse().asString());
         System.out.println();
         System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
+        transactionObjectIsASubSet();
+        transactionSourceIsConvertedProperly();
+        transactionTypeIsConvertedProperly();
+        statusIsConvertedProperly();
     }
 
     @And("^I should have at least (\\d+) number of transactions returned$")
@@ -89,6 +93,84 @@ public class Transactions_StepDefs extends UtilManager {
 
         queryTransactionListWithQueryStringParams(queryStringParams);
     }
+
+    public void transactionSourceIsConvertedProperly() {
+        ArrayList returnedTransactions = testContext.getApiManager().getTransaction().getTransactionListResponse().path("transactions");
+        returnedTransactions.stream().forEach(t -> {
+            String source = (String)((HashMap)t).get("transactionSource");
+            //should be Online or null
+            if (source == null || source.contentEquals("Online") || source.length() == 0) {
+                //right format
+            } else {
+                Assert.assertEquals(true, false, "TransactionSource has an invalid value (" + source + ")");
+            }
+        });
+    }
+
+    public void transactionTypeIsConvertedProperly() {
+        ArrayList returnedTransactions = testContext.getApiManager().getTransaction().getTransactionListResponse().path("transactions");
+        returnedTransactions.stream().forEach(t -> {
+            String source = (String)((HashMap)t).get("transactionType");
+            //should be Online or null
+            if (source == null || source.contentEquals("Collect payment") ||
+                source.contentEquals("Refund") || source.contentEquals("Bank Transfer") ||
+                source.contentEquals("Adjustment") || source.length() == 0) {
+                //right format
+            } else {
+                Assert.assertEquals(true, false, "transactionType has an invalid value (" + source + ")");
+            }
+        });
+    }
+
+    public void statusIsConvertedProperly() {
+        ArrayList returnedTransactions = testContext.getApiManager().getTransaction().getTransactionListResponse().path("transactions");
+        returnedTransactions.stream().forEach(t -> {
+            String source = (String)((HashMap)t).get("status");
+            //should be Online or null
+            if (source == null || source.contentEquals("Success") || source.contentEquals("Failed")
+                || source.contentEquals("Submitted")) {
+                //right format
+            } else {
+                Assert.assertEquals(true, false, "source has an invalid value (" + source + ")");
+            }
+        });
+    }
+
+    public void transactionObjectIsASubSet() {
+        String[] predefinedSet = {
+                "transactionId",
+                "payerId",
+                "transactionSource",
+                "transactionType",
+                "transactionTime",
+                "transactionAmount",
+                "transactionCurrencyCode",
+                "feeAmount",
+                "feeCurrencyCode",
+                "status",
+                "payerName",
+                "message",
+                "reference",
+                "refundable",
+                "reasonCode"
+        };
+
+        ArrayList returnedTransactions = testContext.getApiManager().getTransaction().getTransactionListResponse().path("transactions");
+        returnedTransactions.stream().forEach(t -> {
+            Set<String> keySet = ((HashMap)t).keySet();
+            Collection<String> diff = CollectionUtils.disjunction(Arrays.asList(predefinedSet), keySet);
+            System.out.println("JT Diff " + String.join(",", diff));
+            if (diff.size() == 0) {
+            } else {
+                if (!diff.contains("transactionSource") && !diff.contains("transactionType")) {
+                    Assert.assertEquals(true, false,
+                            "Returned transaction object contain fields that are not a subset (" +
+                                    String.join(",", diff) + ")");
+                }
+            }
+        });
+    }
+
 
     @And("^the returned transactions list should not have the transaction id used in the request$")
     public void theReturnedTransactionsListShouldNotHaveTheTransactionIdUsedInTheRequest() {
@@ -141,6 +223,7 @@ public class Transactions_StepDefs extends UtilManager {
     @Then("^I should receive \"([^\"]*)\" number of transactions$")
     public void iShouldReceiveNumberOfTransactions(String actual) {
         ArrayList returnedTransactions = testContext.getApiManager().getTransaction().getTransactionListResponse().path("transactions");
-        Assert.assertTrue(returnedTransactions.size() == Integer.parseInt(actual));
+        Assert.assertTrue(returnedTransactions.size() == Integer.parseInt(actual),
+                "Expected to have " + actual + " records, but got " + returnedTransactions.size());
     }
 }
