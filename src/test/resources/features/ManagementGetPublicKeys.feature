@@ -24,3 +24,6 @@ Feature: Management GET public keys API - DRAG-1487
     Then the get public keys response should have a "<http_status>" error with "<error_description>" description and "<error_code>" error code
     Examples:
       |application_key|http_status|error_description|error_code|
+      # Empty Application Key
+      # Invalid Application Key Format
+      # Non-existing Application Key
