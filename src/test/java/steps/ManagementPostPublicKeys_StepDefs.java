@@ -15,6 +15,7 @@ import java.util.*;
 
 public class ManagementPostPublicKeys_StepDefs extends UtilManager {
     public static final Set<String> ROLE_SET = Sets.newHashSet("ApplicationKey.ReadWrite.All");
+    public static final Set<String> INCORRECT_ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
     private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_application_resource";
     private static final String EXISTING_PUBLIC_KEY = "public_key_application_id";
     private final static Logger logger = Logger.getLogger(ManagementPostPublicKeys_StepDefs.class);
@@ -31,6 +32,11 @@ public class ManagementPostPublicKeys_StepDefs extends UtilManager {
     @Given("^I am a POST create keys authorized DRAGON user with the correct privileges$")
     public void createUser() {
         common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getPostPublicKey().setAuthTokenWithBearer(token));
+    }
+
+    @Given("^I am a POST create key authorized DRAGON user with incorrect privileges$")
+    public void createIncorrectUser() {
+        common.iAmAnAuthorizedDragonUser(INCORRECT_ROLE_SET, token -> testContext.getApiManager().getPostPublicKey().setAuthTokenWithBearer(token));
     }
 
     @When("^I create a new public key based on using an existing application key$")
