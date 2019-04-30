@@ -5,6 +5,17 @@ Feature: Management Post Applications API - DRAG-1416
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
+    @regression @merchantManagement
+    Scenario Outline: Positive flow- A DRAGON user with Application.ReadWrite.All privilege is able to create an application
+      Given I am a POST application authorized DRAGON user with the ApplicationKey.ReadWrite.All privilege
+      And I have a "<clientId>" from an existing AAD application
+      And I have a "<peakId>", "<subUnitId>" and "<organisationId>" from an existing PM4B merchant identity
+      When I make a POST request to the application endpoint
+      Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within the POST application response
+    Examples:
+      |clientId                            |peakId                              |subUnitId                           |organisationId                      |http_status|error_description|error_code|
+      |random                              |00000002-0000-0000-c000-000000000000|00000002-0000-0000-c000-000000000000|00000002-0000-0000-c000-000000000000|           |                 |          |
+
   # For the parametres where values are missing within the table, while creating request, the parameter will not be included at all as a a part of the payload
 #  @trial
   @regression @merchantManagement @merchantManagementPost
