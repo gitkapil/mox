@@ -1,20 +1,23 @@
 Feature: Management POST public keys API - DRAG-1461
 
   @trial
+  @regression
   Scenario: Positive Flow - Able to create a public key successfully
     Given I am a POST create keys authorized DRAGON user with the correct privileges
     When I create a new public key based on using an existing application key
     Then I should receive a successful create public key response
 
   @trial
+  @regression
   Scenario Outline: Negative Flow - Unable to create a public key because of wrong credentials
     Given I am a POST create key authorized DRAGON user with incorrect privileges
     When I create a new public key based on using an existing application key
     Then the public keys response should receive a "<http_status>" error with "<error_description>" description and "<error_code>" error code
     Examples:
-      |applicationKey||http_status|error_description|error_code|
+      |http_status|error_description|error_code|
 
   @trial
+  @regression
   Scenario Outline: Positive Flow - Returns an error if application Id is incorrect
     Given I am a POST create keys authorized DRAGON user with the correct privileges
     When I create a new public key based on using "<applicationKey>" application key
@@ -27,6 +30,7 @@ Feature: Management POST public keys API - DRAG-1461
     # Non-existing Application Key
 
   @trial
+  @regression
   Scenario Outline: Negative Flow - Create public key with invalid json values
     Given I am a POST create keys authorized DRAGON user with the correct privileges
     When I create a new public key based on using "<applicationKey>" application key
