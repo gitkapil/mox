@@ -13,6 +13,7 @@ public class ApiManager {
     GetApplication getApplication;
     PutApplication putApplication;
     PostPublicKey postPublicKey;
+    GetPublicKey getPublicKey;
 
     public ApiManager() {
         accessToken= new AccessTokenForMerchants();
@@ -25,6 +26,15 @@ public class ApiManager {
         getApplication = new GetApplication();
         putApplication = new PutApplication();
         postPublicKey = new PostPublicKey();
+        getPublicKey = new GetPublicKey();
+    }
+
+    public GetPublicKey getGetPublicKey() {
+        return getPublicKey;
+    }
+
+    public void setGetPublicKey(GetPublicKey getPublicKey) {
+        this.getPublicKey = getPublicKey;
     }
 
     public PostPublicKey getPostPublicKey() {

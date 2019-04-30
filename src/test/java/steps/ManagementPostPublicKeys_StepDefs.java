@@ -18,7 +18,6 @@ public class ManagementPostPublicKeys_StepDefs extends UtilManager {
     public static final Set<String> INCORRECT_ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
     private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_application_resource";
     private static final String EXISTING_PUBLIC_KEY = "public_key_application_id";
-    private final static Logger logger = Logger.getLogger(ManagementPostPublicKeys_StepDefs.class);
 
 
     TestContext testContext;
