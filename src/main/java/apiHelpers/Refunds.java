@@ -10,11 +10,61 @@ import java.util.HashMap;
 public class Refunds extends UtilManager {
     final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(Refunds.class);
 
-    private String transactionId, url, authToken, traceId,requestDateTime, currencyCode, reason;
-    private Double amount;
+    private String transactionId, url, authToken, traceId,requestDateTime;
+    private String amount;
+    private String currencyCode;
+    private String feeAmount;
+    private String feeCurrencyCode;
+    private String reasonCode;
+    private String payerId;
+    private String reasonMessage;
     private Response refundsResponse= null;
     private HashMap<String,String> refundsHeader= new HashMap<>();
     private HashMap refundsBody= new HashMap<>();
+
+    public void setAmount(String amount) {
+        this.amount = amount;
+    }
+
+    public String getPayerId() {
+        return payerId;
+    }
+
+    public void setPayerId(String payerId) {
+        this.payerId = payerId;
+    }
+
+    public String getFeeAmount() {
+        return feeAmount;
+    }
+
+    public void setFeeAmount(String feeAmount) {
+        this.feeAmount = feeAmount;
+    }
+
+    public String getFeeCurrencyCode() {
+        return feeCurrencyCode;
+    }
+
+    public void setFeeCurrencyCode(String feeCurrencyCode) {
+        this.feeCurrencyCode = feeCurrencyCode;
+    }
+
+    public String getReasonCode() {
+        return reasonCode;
+    }
+
+    public void setReasonCode(String reasonCode) {
+        this.reasonCode = reasonCode;
+    }
+
+    public String getReasonMessage() {
+        return reasonMessage;
+    }
+
+    public void setReasonMessage(String reasonMessage) {
+        this.reasonMessage = reasonMessage;
+    }
 
     /**
      *
@@ -42,14 +92,6 @@ public class Refunds extends UtilManager {
 
     public String getCurrencyCode() {
         return currencyCode;
-    }
-
-    public String getReason() {
-        return reason;
-    }
-
-    public Double getAmount() {
-        return amount;
     }
 
     public HashMap<String, String> getRefundsHeader() {
@@ -92,13 +134,6 @@ public class Refunds extends UtilManager {
         this.currencyCode = currencyCode;
     }
 
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
-
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
 
     public void setRefundsResponse(Response refundsResponse) {
         this.refundsResponse = refundsResponse;
@@ -114,6 +149,10 @@ public class Refunds extends UtilManager {
 
     public void setAuthToken(String authToken) {
         this.authToken = authToken;
+    }
+
+    public void setAuthTokenWithBearer(String value) {
+        this.authToken = "Bearer " + value;
     }
 
     public void setAuthTokenwithBearer() {
@@ -219,31 +258,27 @@ public class Refunds extends UtilManager {
     public HashMap returnRefundsBody(){
         refundsBody=new HashMap();
 
-        refundsBody.put("amount", amount);
-
-        if (!currencyCode.equals(""))
-        {
-            if (!currencyCode.equals("no_value"))
-                refundsBody.put("currencyCode", currencyCode);
-            else
-            {
-                refundsBody.put("currencyCode", "");
-            }
+        if (payerId != null) {
+            refundsBody.put("payerId", payerId);
         }
-
-
-        if (!reason.equals(""))
-        {
-            if (!reason.equals("no_value"))
-                refundsBody.put("reason", reason);
-            else
-            {
-                refundsBody.put("reason", "");
-                reason="";
-            }
+        if (amount!= null) {
+            refundsBody.put("amount", Double.parseDouble(amount));
         }
-        else
-            reason=null;
+        if (currencyCode != null) {
+            refundsBody.put("currencyCode", currencyCode);
+        }
+        if (feeAmount != null) {
+            refundsBody.put("feeAmount", Double.parseDouble(feeAmount));
+        }
+        if (feeCurrencyCode != null) {
+            refundsBody.put("feeCurrencyCode", feeCurrencyCode);
+        }
+        if (reasonCode != null) {
+            refundsBody.put("reasonCode", reasonCode);
+        }
+        if (reasonMessage != null) {
+            refundsBody.put("reasonMessage", reasonMessage);
+        }
 
         return refundsBody;
     }
