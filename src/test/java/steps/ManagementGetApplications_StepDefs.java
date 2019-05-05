@@ -26,6 +26,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
     private String currentUrl;
     ManagementCommon common;
     private static final Set<String> ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
+    private static final Set<String> INCORRECT_ROLE_SET = Sets.newHashSet("ApplicationKey.ReadWrite.All");
 
     final static Logger logger = Logger.getLogger(ManagementGetApplications_StepDefs.class);
 
@@ -176,6 +177,11 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
 
     @Given("^I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege$")
     public void i_am_an_authorized_DRAGON_user_with_role()  {
+        common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getPostApplication().setAuthTokenWithBearer(token));
+    }
+
+    @Given("^I am a GET application authorized DRAGON user with the ApplicationKey.ReadWrite.All privilege$")
+    public void i_am_an_authorized_DRAGON_user_with_incorrect_role()  {
         common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getPostApplication().setAuthTokenWithBearer(token));
     }
 

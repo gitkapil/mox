@@ -18,6 +18,13 @@ Feature: Merchant Management API - GET /applications
     |numberOfResponses|
     |20               |
 
+    #  @trial
+  @regression @merchantManagement @merchantManagementGet
+  Scenario: Negative flow - Get a list of applications fails becuase of incorrect privileges
+    Given I am a GET application authorized DRAGON user with the ApplicationKey.ReadWrite.All privilege
+    When I get a list of applications without any filters
+    Then I should get an error message with status 400 error code "EA002" and error description "Failed to convert value of type"
+
 #  @trial
   @regression @merchantManagement @merchantManagementGet
   Scenario Outline: Positive flow - Get a list of application using filters

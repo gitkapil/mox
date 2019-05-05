@@ -5,6 +5,17 @@ Feature: Management Put Applications API - DRAG-1446
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
+  @regression @merchantManagement @merchantManagementPut
+  Scenario Outline: Positive flow- A DRAGON user with Application.ReadWrite.All is able to update an existing application
+    Given I am a PUT application authorized DRAGON user with ApplicationKey.ReadWrite.All
+    And I have an "<applicationId>" from an existing application
+    And I have updated "<clientId>", "<peakId>", "<subUnitId>" and "<organisationId>" values
+    When I make a PUT request to the application endpoint
+    Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within the PUT application response
+    Examples:
+      |applicationId                       |clientId                            |peakId                              |subUnitId                           |organisationId                      |http_status|error_description|error_code|
+      |new                                 |random                              |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|           |                 |          |
+
   # For the parametres where values are missing within the table, while creating request, the parameter will not be included at all as a a part of the payload
 #  @trial
   @regression @merchantManagement @merchantManagementPut
