@@ -5,8 +5,8 @@ Feature: Management Put Public Keys - DRAG-1558
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
+#    @trial
     @regression
-    @trial
     Scenario Outline: Negative flow - Unable to access the API after logging in with incorrect role
       Given I am a PUT public keys Dragon user with incorrect role
       And I have an "<applicationId>" and "<keyId>" from an existing public key
@@ -15,8 +15,8 @@ Feature: Management Put Public Keys - DRAG-1558
       Examples:
       |applicationId|keyId|description|value|activateAt|deactivateAt|entityStatus|http_status|err_code|err_description|
 
+#    @trial
     @regression
-    @trial
     Scenario Outline: Positive flow - Able to update a public key
       Given I am a PUT public keys DRAGON user with correct role
       And I have an "<applicationId>" and "<keyId>" from an existing public key
@@ -25,8 +25,8 @@ Feature: Management Put Public Keys - DRAG-1558
     Examples:
       |applicationId|keyId|description|value|activateAt|deactivateAt|entityStatus|
 
+#    @trial
     @regression
-    @trial
     Scenario Outline: Negative flow - invalid application id and key id
       Given I am a PUT public keys DRAGON user with correct role
       And I have an "<applicationId>" and "<keyId>" from an existing public key
@@ -41,8 +41,8 @@ Feature: Management Put Public Keys - DRAG-1558
       #null key id
       #key id not found
 
+#    @trial
     @regression
-    @trial
     Scenario Outline: Negative flow - Invalid body
       Given I am a PUT public keys DRAGON user with correct role
       And I have an "applicationId" and "keyId" from an existing public key

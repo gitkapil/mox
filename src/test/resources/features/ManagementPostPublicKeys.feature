@@ -1,13 +1,22 @@
 Feature: Management POST public keys API - DRAG-1461
 
-  @trial
-  @regression
-  Scenario: Positive Flow - Able to create a public key successfully
-    Given I am a POST create keys authorized DRAGON user with the correct privileges
-    When I create a new public key based on using an existing application key
-    Then I should receive a successful create public key response
+  Background: Retrieving access Token
+    Given I am an user
+    When I make a request to the Dragon ID Manager
+    Then I receive an access_token
 
   @trial
+  @regression
+  Scenario Outline: Positive Flow - Able to create a public key successfully
+    Given I am a POST create keys authorized DRAGON user with the correct privileges
+    When I create a new public key based on using "<applicationKey>" application key
+    And I have a value of 2048 characters, activate at "<activateAt>", deactivate at "<deactivateAt>", "<entityStatus>" as entity status and description is "<description>"
+    Then I should receive a successful create public key response
+  Examples:
+    |applicationKey                      |activateAt          |deactivateAt        |entityStatus|description       |
+    |816e207f-5f98-4051-ab87-ae7a1f2b8d4d|2019-01-01T00:00:00Z|2020-01-01T00:00:00Z|A           |this is a test key|
+
+#  @trial
   @regression
   Scenario Outline: Negative Flow - Unable to create a public key because of wrong credentials
     Given I am a POST create key authorized DRAGON user with incorrect privileges
@@ -16,7 +25,7 @@ Feature: Management POST public keys API - DRAG-1461
     Examples:
       |http_status|error_description|error_code|
 
-  @trial
+#  @trial
   @regression
   Scenario Outline: Positive Flow - Returns an error if application Id is incorrect
     Given I am a POST create keys authorized DRAGON user with the correct privileges
@@ -29,7 +38,7 @@ Feature: Management POST public keys API - DRAG-1461
     # Invalid Application Key Format
     # Non-existing Application Key
 
-  @trial
+#  @trial
   @regression
   Scenario Outline: Negative Flow - Create public key with invalid json values
     Given I am a POST create keys authorized DRAGON user with the correct privileges

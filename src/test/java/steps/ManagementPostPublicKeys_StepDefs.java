@@ -1,6 +1,7 @@
 package steps;
 
 import com.google.common.collect.Sets;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -61,10 +62,11 @@ public class ManagementPostPublicKeys_StepDefs extends UtilManager {
     public void successfulResponse() {
         Assert.assertEquals(
                 getRestHelper().getResponseStatusCode(testContext.getApiManager().getPostPublicKey().getResponse())
-                , 200);
+                , 201);
 
         String[] predefinedSet = {
                 "keyId",
+                "keyName",
                 "applicationId",
                 "value",
                 "type",
@@ -77,18 +79,27 @@ public class ManagementPostPublicKeys_StepDefs extends UtilManager {
                 "lastUpdatedAt"
         };
 
-        ArrayList returnedObject = testContext.getApiManager().getPostPublicKey().getResponse().path(".");
-        returnedObject.stream().forEach(t -> {
-            Set<String> keySet = ((HashMap)t).keySet();
-            Collection<String> diff = CollectionUtils.disjunction(Arrays.asList(predefinedSet), keySet);
+        HashMap t = testContext.getApiManager().getPostPublicKey().getResponse().path(".");
+        Set<String> keySet = ((HashMap)t).keySet();
+        Collection<String> diff = CollectionUtils.disjunction(Arrays.asList(predefinedSet), keySet);
 
-            if (diff.size() == 0) {
-            } else {
-                    Assert.assertEquals(true, false,
-                            "Returned object contain fields that are not a subset (" +
-                                    String.join(",", diff) + ")");
-            }
-        });
+        if (diff.size() == 0) {
+        } else {
+            Assert.assertEquals(true, false,
+                    "Returned object contain fields that are not a subset (" +
+                            String.join(",", diff) + ")");
+        }
+//        returnedObject.stream().forEach(t -> {
+//            Set<String> keySet = ((HashMap)t).keySet();
+//            Collection<String> diff = CollectionUtils.disjunction(Arrays.asList(predefinedSet), keySet);
+//
+//            if (diff.size() == 0) {
+//            } else {
+//                    Assert.assertEquals(true, false,
+//                            "Returned object contain fields that are not a subset (" +
+//                                    String.join(",", diff) + ")");
+//            }
+//        });
     }
 
     @Then("^the public keys response should receive a \"([^\"]*)\" error with \"([^\"]*)\" description and \"([^\"]*)\" error code$")
@@ -140,6 +151,23 @@ public class ManagementPostPublicKeys_StepDefs extends UtilManager {
         testContext.getApiManager().getPostPublicKey().postPublicKeys(
                 url,
                 value,
+                activateAt,
+                deactivateAt,
+                entityStatus,
+                description);
+    }
+
+    @And("^I have a value of (\\d+) characters, activate at \"([^\"]*)\", deactivate at \"([^\"]*)\", \"([^\"]*)\" as entity status and description is \"([^\"]*)\"$")
+    public void iHaveAValueOfCharactersActivateAtDeactivateAtAsEntityStatusAndDescriptionIs(int numOfCharsInValue, String activateAt, String deactivateAt, String entityStatus, String description) throws Throwable {
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < numOfCharsInValue; i++) {
+            sb.append("A");
+        }
+        String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
+                RESOURCE_ENDPOINT_PROPERTY_NAME) + "/";
+        testContext.getApiManager().getPostPublicKey().postPublicKeys(
+                url,
+                sb.toString(),
                 activateAt,
                 deactivateAt,
                 entityStatus,
