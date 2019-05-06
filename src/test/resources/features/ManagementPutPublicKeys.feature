@@ -55,8 +55,10 @@ Feature: Management Put Public Keys - DRAG-1558
       #value empty
       #activateAt empty
       #activateAt invalid date
+      #activateAt weird date format
       #deactiveAt empty
       #deactiveAt invalid date
+      #deactiveAt weird date format
       #deactiveAt before activateAt
       #enitytStatus = Z
       #entityStatus empty
