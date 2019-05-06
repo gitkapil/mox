@@ -5,7 +5,7 @@ Feature: Management POST public keys API - DRAG-1461
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-#  @trial
+  @trial
   @regression
   Scenario: Positive Flow - Able to create a public key successfully
     Given I am a POST create keys authorized DRAGON user with the correct privileges
@@ -38,7 +38,7 @@ Feature: Management POST public keys API - DRAG-1461
       # Non-existing Application Key
     |5d6bfbe6-504b-480b-a3e2-b71f07093f30              |400        |Application Id not found |EA025      |
 
-  @trial
+#  @trial
   @regression
   Scenario Outline: Negative Flow - Create public key with invalid json values
     Given I am a POST create keys authorized DRAGON user with the correct privileges

@@ -69,6 +69,7 @@ public class ManagementPostPublicKeys_StepDefs extends UtilManager {
                 "applicationId",
                 "value",
                 "type",
+                "keyName",
                 "size",
                 "activateAt",
                 "deactivateAt",
@@ -78,18 +79,16 @@ public class ManagementPostPublicKeys_StepDefs extends UtilManager {
                 "lastUpdatedAt"
         };
 
-        ArrayList returnedObject = testContext.getApiManager().getPostPublicKey().getResponse().path(".");
-        returnedObject.stream().forEach(t -> {
-            Set<String> keySet = ((HashMap)t).keySet();
-            Collection<String> diff = CollectionUtils.disjunction(Arrays.asList(predefinedSet), keySet);
+        HashMap returnedObject = testContext.getApiManager().getPostPublicKey().getResponse().path(".");
+        Set<String> keySet = returnedObject.keySet();
+        Collection<String> diff = CollectionUtils.disjunction(Arrays.asList(predefinedSet), keySet);
 
-            if (diff.size() == 0) {
-            } else {
-                    Assert.assertEquals(true, false,
-                            "Returned object contain fields that are not a subset (" +
-                                    String.join(",", diff) + ")");
-            }
-        });
+        if (diff.size() == 0) {
+        } else {
+            Assert.assertEquals(true, false,
+                    "Returned object contain fields that are not a subset (" +
+                            String.join(",", diff) + ")");
+        }
     }
 
     @Then("^the public keys response should receive a \"([^\"]*)\" error with \"([^\"]*)\" description and \"([^\"]*)\" error code$")
