@@ -9,12 +9,12 @@ Feature: Management POST public keys API - DRAG-1461
   @regression
   Scenario Outline: Positive Flow - Able to create a public key successfully
     Given I am a POST create keys authorized DRAGON user with the correct privileges
-    When I create a new public key based on using "<applicationKey>" application key
+    When I create a new public key based on using an existing application key
     And I have a value of 2048 characters, activate at "<activateAt>", deactivate at "<deactivateAt>", "<entityStatus>" as entity status and description is "<description>"
     Then I should receive a successful create public key response
   Examples:
-    |applicationKey                      |activateAt          |deactivateAt        |entityStatus|description       |
-    |816e207f-5f98-4051-ab87-ae7a1f2b8d4d|2019-01-01T00:00:00Z|2020-01-01T00:00:00Z|A           |this is a test key|
+    |activateAt          |deactivateAt        |entityStatus|description       |
+    |2019-01-01T00:00:00Z|2020-01-01T00:00:00Z|A           |this is a test key|
 
 #  @trial
   @regression
@@ -27,7 +27,7 @@ Feature: Management POST public keys API - DRAG-1461
 
 #  @trial
   @regression
-  Scenario Outline: Positive Flow - Returns an error if application Id is incorrect
+  Scenario Outline: Negative Flow - Returns an error if application Id is incorrect
     Given I am a POST create keys authorized DRAGON user with the correct privileges
     When I create a new public key based on using "<applicationKey>" application key
     And I give it in a valid JSON in the body
