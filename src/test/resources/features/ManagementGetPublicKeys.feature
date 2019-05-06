@@ -5,7 +5,7 @@ Feature: Management GET public keys API - DRAG-1487
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-#  @trial
+  @trial
   @regression
   Scenario: Positive Flow - Able to get a list of public keys successfully
     Given I am a GET create keys authorized DRAGON user with the correct privileges
