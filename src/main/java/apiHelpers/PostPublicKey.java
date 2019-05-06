@@ -2,6 +2,7 @@ package apiHelpers;
 
 import com.jayway.restassured.response.Response;
 import managers.UtilManager;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import utils.EnvHelper;
 import utils.PropertyHelper;
@@ -29,20 +30,28 @@ public class PostPublicKey extends UtilManager {
         HashMap<String, String> body = new HashMap<>();
         returnRequestHeader();
 
-        if (value != null){
-            body.put("value", value);
+        if (value != null && value.equalsIgnoreCase("value")) {
+            body.put("value", StringUtils.repeat("a", 2048));
+        } else {
+            if (value != null && !value.equalsIgnoreCase("null")) {
+                body.put("value", value);
+            }
         }
-        if (activateAt != null) {
+        if (activateAt != null && !activateAt.equalsIgnoreCase("null")) {
             body.put("activateAt", activateAt);
         }
-        if (deactivateAt != null) {
+        if (deactivateAt != null && !deactivateAt.equalsIgnoreCase("null")) {
             body.put("deactivateAt", deactivateAt);
         }
-        if (entityStatus != null) {
+        if (entityStatus != null && !entityStatus.equalsIgnoreCase("null")) {
             body.put("entityStatus", entityStatus);
         }
-        if (description != null) {
-            body.put("description", description);
+        if (description != null && description.equalsIgnoreCase("bigvalue")) {
+            body.put("description", StringUtils.repeat("a", 300));
+        }else {
+            if (description != null && !description.equalsIgnoreCase("null")) {
+                body.put("description", description);
+            }
         }
 
         response = getRestHelper().postRequestWithHeaderAndBody(url + applicationId + "/keys/public", requestHeader, body);
