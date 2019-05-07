@@ -308,6 +308,9 @@ public class Refunds extends UtilManager {
      * @return
      */
     public String addTransactionIdInURL(String urlPart1, String urlPart2){
+        if (transactionId.equalsIgnoreCase("null")) {
+            return urlPart1+"/"+urlPart2;
+        }
         return urlPart1+"/"+transactionId+urlPart2;
     }
 

@@ -30,7 +30,7 @@ public class Refunds_StepDefs extends UtilManager {
 
     @Given("^I am logging in as a user with incorrect role$")
     public void logIn() {
-        common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getRefunds().setAuthTokenWithBearer(token));
+        common.iAmAnAuthorizedDragonUserForRefunds(ROLE_SET, token -> testContext.getApiManager().getRefunds().setAuthTokenWithBearer(token));
     }
 
     @And("^I have a valid transaction for refund$")
@@ -55,7 +55,7 @@ public class Refunds_StepDefs extends UtilManager {
 
     @Given("^I am logging in as a user with refund role$")
     public void invalidLogIn() {
-        common.iAmAnAuthorizedDragonUser(INCORRECT_ROLE_SET, token -> testContext.getApiManager().getRefunds().setAuthTokenWithBearer(token));
+        common.iAmAnAuthorizedDragonUserForRefunds(INCORRECT_ROLE_SET, token -> testContext.getApiManager().getRefunds().setAuthTokenWithBearer(token));
     }
 
     @Given("^I try to make a call to refund with transaction id as \"([^\"]*)\"$")
@@ -73,7 +73,8 @@ public class Refunds_StepDefs extends UtilManager {
         testContext.getApiManager().getRefunds().setReasonCode(reasonCode);
         testContext.getApiManager().getRefunds().setReasonMessage(reasonMessage);
         testContext.getApiManager().getRefunds().retrieveRefunds(
-                getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_1"),
+                getRestHelper().getBaseURI() +
+                        getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_1"),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"));
     }
 
