@@ -9,8 +9,8 @@ Feature: Management POST public keys API - DRAG-1461
   @regression
   Scenario Outline: Positive Flow - Able to create a public key successfully
     Given I am a POST create keys authorized DRAGON user with the correct privileges
-    When I create a new public key based on using an existing application key
-    And I have a value of 2048 characters, activate at "<activateAt>", deactivate at "<deactivateAt>", "<entityStatus>" as entity status and description is "<description>"
+    When I have a value of 2048 characters, activate at "<activateAt>", deactivate at "<deactivateAt>", "<entityStatus>" as entity status and description is "<description>"
+    And I create a new public key based on using an existing application key
     Then I should receive a successful create public key response
   Examples:
     |activateAt          |deactivateAt        |entityStatus|description       |
@@ -24,6 +24,7 @@ Feature: Management POST public keys API - DRAG-1461
     Then the public keys response should receive a "<http_status>" error with "<error_description>" description and "<error_code>" error code
     Examples:
       |http_status|error_description|error_code|
+      |400           |   s              |     s     |
 
 #  @trial
   @regression

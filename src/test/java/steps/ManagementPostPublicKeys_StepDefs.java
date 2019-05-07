@@ -20,6 +20,11 @@ public class ManagementPostPublicKeys_StepDefs extends UtilManager {
     private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_application_resource";
     private static final String EXISTING_PUBLIC_KEY = "public_key_application_id";
 
+    String value;
+    String activateAt;
+    String deactivateAt;
+    String entityStatus;
+    String description;
 
     TestContext testContext;
     ManagementCommon common;
@@ -45,7 +50,18 @@ public class ManagementPostPublicKeys_StepDefs extends UtilManager {
                 EXISTING_PUBLIC_KEY);
 
         testContext.getApiManager().getPostPublicKey().setApplicationId(applicationId);
-        doValidJsonBodyCall();
+
+        // doValidJsonBodyCall();
+
+        String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
+                RESOURCE_ENDPOINT_PROPERTY_NAME) + "/";
+        testContext.getApiManager().getPostPublicKey().postPublicKeys(
+                url,
+                this.value,
+                this.activateAt,
+                this.deactivateAt,
+                this.entityStatus,
+                this.description);
     }
 
     @When("I create a new public key based on using \"([^\"]*)\" application key$")
@@ -163,14 +179,11 @@ public class ManagementPostPublicKeys_StepDefs extends UtilManager {
         for(int i = 0; i < numOfCharsInValue; i++) {
             sb.append("A");
         }
-        String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
-                RESOURCE_ENDPOINT_PROPERTY_NAME) + "/";
-        testContext.getApiManager().getPostPublicKey().postPublicKeys(
-                url,
-                sb.toString(),
-                activateAt,
-                deactivateAt,
-                entityStatus,
-                description);
+
+        this.value = sb.toString();
+        this.activateAt = activateAt;
+        this.deactivateAt = deactivateAt;
+        this.entityStatus = entityStatus;
+        this.description = description;
     }
 }
