@@ -1,10 +1,17 @@
 package apiHelpers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.restassured.response.Response;
 import managers.UtilManager;
+import org.apache.commons.lang3.StringUtils;
+import org.junit.Assert;
 import utils.PropertyHelper;
 
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.HashMap;
+import java.util.HashSet;
 
 
 public class Refunds extends UtilManager {
@@ -13,8 +20,6 @@ public class Refunds extends UtilManager {
     private String transactionId, url, authToken, traceId,requestDateTime;
     private String amount;
     private String currencyCode;
-    private String feeAmount;
-    private String feeCurrencyCode;
     private String reasonCode;
     private String payerId;
     private String reasonMessage;
@@ -34,21 +39,6 @@ public class Refunds extends UtilManager {
         this.payerId = payerId;
     }
 
-    public String getFeeAmount() {
-        return feeAmount;
-    }
-
-    public void setFeeAmount(String feeAmount) {
-        this.feeAmount = feeAmount;
-    }
-
-    public String getFeeCurrencyCode() {
-        return feeCurrencyCode;
-    }
-
-    public void setFeeCurrencyCode(String feeCurrencyCode) {
-        this.feeCurrencyCode = feeCurrencyCode;
-    }
 
     public String getReasonCode() {
         return reasonCode;
@@ -221,10 +211,10 @@ public class Refunds extends UtilManager {
      * @param urlPart2
      * @param key
      */
-    public void retrieveRefundWithMissingHeaderKeys(String urlPart1, String urlPart2, String key){
+    public void retrieveRefundWithMissingHeaderKeys(String urlPart1, String urlPart2, String key, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature){
         url= addTransactionIdInURL(urlPart1, urlPart2);
 
-        HashMap<String, String> header= returnRefundsHeader();
+        HashMap<String, String> header = returnRefundsHeader(signingKey, signingAlgorithm, headerElementsForSignature);
         header.remove(key);
 
         refundsResponse= getRestHelper().postRequestWithHeaderAndBody(url,header, returnRefundsBody());
@@ -239,13 +229,13 @@ public class Refunds extends UtilManager {
      * @param urlPart2
      * @param key
      */
-    public void retrieveRefundWithMissingBodyKeys(String urlPart1, String urlPart2, String key){
+    public void retrieveRefundWithMissingBodyKeys(String urlPart1, String urlPart2, String key, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature){
         url= addTransactionIdInURL(urlPart1, urlPart2);
 
         HashMap<String, String> body= returnRefundsBody();
         body.remove(key);
 
-        refundsResponse= getRestHelper().postRequestWithHeaderAndBody(url,returnRefundsHeader(), body);
+        refundsResponse= getRestHelper().postRequestWithHeaderAndBody(url,returnRefundsHeader(signingKey, signingAlgorithm, headerElementsForSignature), body);
 
         logger.info("********** Refunds Response *********** ---> "+ refundsResponse.getBody().asString());
 
@@ -258,26 +248,30 @@ public class Refunds extends UtilManager {
     public HashMap returnRefundsBody(){
         refundsBody=new HashMap();
 
-        if (payerId != null) {
-            refundsBody.put("payerId", payerId);
+        if (payerId != null && !payerId.equalsIgnoreCase("null")) {
+            if (payerId.equalsIgnoreCase("smalllength")) {
+                refundsBody.put("payerId", StringUtils.repeat("*", 21));
+            } else if (payerId.equalsIgnoreCase("biglength")) {
+                refundsBody.put("payerId", StringUtils.repeat("*", 23));
+            } else {
+                refundsBody.put("payerId", payerId);
+            }
         }
-        if (amount!= null) {
+        if (amount!= null && !amount.equalsIgnoreCase("null")) {
             refundsBody.put("amount", Double.parseDouble(amount));
         }
-        if (currencyCode != null) {
+        if (currencyCode != null && !currencyCode.equalsIgnoreCase("null")) {
             refundsBody.put("currencyCode", currencyCode);
         }
-        if (feeAmount != null) {
-            refundsBody.put("feeAmount", Double.parseDouble(feeAmount));
-        }
-        if (feeCurrencyCode != null) {
-            refundsBody.put("feeCurrencyCode", feeCurrencyCode);
-        }
-        if (reasonCode != null) {
+        if (reasonCode != null && !reasonCode.equalsIgnoreCase("null")) {
             refundsBody.put("reasonCode", reasonCode);
         }
-        if (reasonMessage != null) {
-            refundsBody.put("reasonMessage", reasonMessage);
+        if (reasonMessage != null && !reasonMessage.equalsIgnoreCase("null")) {
+            if (reasonMessage.equalsIgnoreCase("biglength")) {
+                refundsBody.put("reasonMessage", StringUtils.repeat("*", 150));
+            } else {
+                refundsBody.put("reasonMessage", reasonMessage);
+            }
         }
 
         return refundsBody;
@@ -290,10 +284,10 @@ public class Refunds extends UtilManager {
      * @param urlPart2
      * @return
      */
-    public Response retrieveRefunds(String urlPart1, String urlPart2){
+    public Response retrieveRefunds(String urlPart1, String urlPart2, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature){
         url= addTransactionIdInURL(urlPart1, urlPart2);
 
-        refundsResponse= getRestHelper().postRequestWithHeaderAndBody(url,returnRefundsHeader(), returnRefundsBody());
+        refundsResponse= getRestHelper().postRequestWithHeaderAndBody(url,returnRefundsHeader(signingKey, signingAlgorithm, headerElementsForSignature), returnRefundsBody());
 
         logger.info("********** Refunds Response *********** ---> "+ refundsResponse.getBody().asString());
 
@@ -323,15 +317,33 @@ public class Refunds extends UtilManager {
      * This method creates a valid body for the POST refunds endpoint
      * @return
      */
-    public HashMap<String,String> returnRefundsHeader(){
+    public HashMap<String,String> returnRefundsHeader(String signingKey, String signingAlgorithm, HashSet headerElementsForSignature){
 
         refundsHeader= new HashMap<>();
         refundsHeader.put("Accept","application/json");
         refundsHeader.put("Content-Type","application/json");
         refundsHeader.put("Authorization", authToken);
-        refundsHeader.put("Trace-Id",traceId);
+        refundsHeader.put("Trace-Id",getGeneral().generateUniqueUUID());
         refundsHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
-        refundsHeader.put("Request-Date-Time", requestDateTime);
+        refundsHeader.put("Request-Date-Time", getDateHelper().getUTCNowDateTime());
+        try {
+            refundsHeader.put("Digest", getSignatureHelper().calculateContentDigestHeader(new ObjectMapper().writeValueAsBytes(returnRefundsBody())));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            Assert.assertTrue("Trouble creating Digest!", false);
+        }
+
+        try{
+            byte[] sigKey = Base64.getDecoder().decode(signingKey);
+            String signature = getSignatureHelper().calculateSignature("POST", url, sigKey,
+                    signingAlgorithm, "random_signing_key_id", headerElementsForSignature, refundsHeader);
+            refundsHeader.put("Signature", signature);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            Assert.assertTrue("Trouble creating Signature!", false);
+        }
 
         return refundsHeader;
     }

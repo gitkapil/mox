@@ -10,6 +10,8 @@ import managers.UtilManager;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -44,13 +46,14 @@ public class Refunds_StepDefs extends UtilManager {
         testContext.getApiManager().getRefunds().setPayerId(VALID_PAYER_ID);
         testContext.getApiManager().getRefunds().setAmount("100");
         testContext.getApiManager().getRefunds().setCurrencyCode("HKD");
-        testContext.getApiManager().getRefunds().setFeeAmount("100");
-        testContext.getApiManager().getRefunds().setCurrencyCode("HKD");
         testContext.getApiManager().getRefunds().setReasonCode("00");
         testContext.getApiManager().getRefunds().setReasonMessage("test");
         testContext.getApiManager().getRefunds().retrieveRefunds(
                 getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_1"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"));
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
     }
 
     @Given("^I am logging in as a user with refund role$")
@@ -63,19 +66,20 @@ public class Refunds_StepDefs extends UtilManager {
         testContext.getApiManager().getRefunds().setTransactionId(transactionId);
     }
 
-    @And("^I enter the refund data with payerId \"([^\"]*)\", refund amount \"([^\"]*)\", refund currency \"([^\"]*)\", fee amount \"([^\"]*)\", fee currency \"([^\"]*)\", reason Code \"([^\"]*)\" and reason message \"([^\"]*)\"$")
-    public void enterBody(String payerId, String amount, String currencyCode, String feeAmount, String feeCurrencyCode, String reasonCode, String reasonMessage) {
+    @And("^I enter the refund data with payerId \"([^\"]*)\", refund amount \"([^\"]*)\", refund currency \"([^\"]*)\", reason Code \"([^\"]*)\" and reason message \"([^\"]*)\"$")
+    public void enterBody(String payerId, String amount, String currencyCode, String reasonCode, String reasonMessage) {
         testContext.getApiManager().getRefunds().setPayerId(payerId);
         testContext.getApiManager().getRefunds().setAmount(amount);
         testContext.getApiManager().getRefunds().setCurrencyCode(currencyCode);
-        testContext.getApiManager().getRefunds().setFeeAmount(feeAmount);
-        testContext.getApiManager().getRefunds().setFeeCurrencyCode(feeCurrencyCode);
         testContext.getApiManager().getRefunds().setReasonCode(reasonCode);
         testContext.getApiManager().getRefunds().setReasonMessage(reasonMessage);
         testContext.getApiManager().getRefunds().retrieveRefunds(
                 getRestHelper().getBaseURI() +
                         getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_1"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"));
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
     }
 
 
@@ -84,7 +88,10 @@ public class Refunds_StepDefs extends UtilManager {
     public void i_make_a_request_for_the_refund()   {
         logger.info("********** Creating Refund Request ***********");
         testContext.getApiManager().getRefunds().retrieveRefunds(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_1"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"));
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
 
     }
 
@@ -101,10 +108,13 @@ public class Refunds_StepDefs extends UtilManager {
     @Then("^I should receive a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within refund response$")
     public void i_should_receive_a_error_response_with_error_description_and_errorcode_within_refund_response(int responseCode, String errorDesc, String errorCode)   {
         Assert.assertEquals("Different response code being returned", responseCode, getRestHelper().getResponseStatusCode(testContext.getApiManager().getRefunds().getRefundsResponse()));
+        if (!errorCode.equalsIgnoreCase("null")) {
+            Assert.assertEquals("Different error code being returned", errorCode, getRestHelper().getErrorCode(testContext.getApiManager().getRefunds().getRefundsResponse()));
+        }
 
-        Assert.assertEquals("Different error code being returned", errorCode, getRestHelper().getErrorCode(testContext.getApiManager().getRefunds().getRefundsResponse()));
-
-        Assert.assertTrue("Different error description being returned..Expected: "+ errorDesc+ "  Actual: "+ getRestHelper().getErrorDescription(testContext.getApiManager().getRefunds().getRefundsResponse()), getRestHelper().getErrorDescription(testContext.getApiManager().getRefunds().getRefundsResponse()).contains(errorDesc));
+        if (!errorDesc.equalsIgnoreCase("null")) {
+            Assert.assertTrue("Different error description being returned..Expected: " + errorDesc + "  Actual: " + getRestHelper().getErrorDescription(testContext.getApiManager().getRefunds().getRefundsResponse()), getRestHelper().getErrorDescription(testContext.getApiManager().getRefunds().getRefundsResponse()).contains(errorDesc));
+        }
 
     }
 
@@ -116,15 +126,23 @@ public class Refunds_StepDefs extends UtilManager {
 
     @When("^I make a request for the refund with \"([^\"]*)\" missing in the header$")
     public void i_make_a_request_for_the_refund_with_missing_in_the_header(String key)  {
-        testContext.getApiManager().getRefunds().retrieveRefundWithMissingHeaderKeys(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_1"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"), key);
+        testContext.getApiManager().getRefunds().retrieveRefundWithMissingHeaderKeys(
+                getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_1"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"),
+                key,
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
 
     }
 
     @When("^I make a request for the refund with \"([^\"]*)\" missing in the body$")
     public void i_make_a_request_for_the_refund_with_missing_in_the_body(String key)  {
         testContext.getApiManager().getRefunds().retrieveRefundWithMissingBodyKeys(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_1"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"), key);
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"), key,
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
 
     }
 
