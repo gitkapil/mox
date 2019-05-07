@@ -9,6 +9,7 @@ import cucumber.api.java.en.When;
 import managers.TestContext;
 import managers.UtilManager;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 
@@ -105,41 +106,35 @@ public class ManagementPostPublicKeys_StepDefs extends UtilManager {
                     "Returned object contain fields that are not a subset (" +
                             String.join(",", diff) + ")");
         }
-//        returnedObject.stream().forEach(t -> {
-//            Set<String> keySet = ((HashMap)t).keySet();
-//            Collection<String> diff = CollectionUtils.disjunction(Arrays.asList(predefinedSet), keySet);
-//
-//            if (diff.size() == 0) {
-//            } else {
-//                    Assert.assertEquals(true, false,
-//                            "Returned object contain fields that are not a subset (" +
-//                                    String.join(",", diff) + ")");
-//            }
-//        });
     }
 
     @Then("^the public keys response should receive a \"([^\"]*)\" error with \"([^\"]*)\" description and \"([^\"]*)\" error code$")
     public void failedResponse(String httpStatus, String errorDescription, String errorCode) {
         Assert.assertEquals(
                 getRestHelper().getResponseStatusCode(testContext.getApiManager().getPostPublicKey().getResponse()),
-                httpStatus,
+                Integer.parseInt(httpStatus),
                 "Http status expected " + httpStatus + " but got " +
                         getRestHelper().getResponseStatusCode(testContext.getApiManager().getPostPublicKey().getResponse())
         );
 
-        Assert.assertEquals(
-                getRestHelper().getErrorCode(testContext.getApiManager().getPostPublicKey().getResponse()),
-                errorCode,
-        "Error code expected " + errorCode + " but got " +
-                    getRestHelper().getErrorCode(testContext.getApiManager().getPostPublicKey().getResponse())
-        );
-
-        Assert.assertEquals(
-                getRestHelper().getErrorDescription(testContext.getApiManager().getPostPublicKey().getResponse()),
-                errorDescription,
-                "Error description expected '" + errorDescription + "' but got '" +
-                        getRestHelper().getErrorDescription(testContext.getApiManager().getPostPublicKey().getResponse())
-        );
+        if (errorCode.length() > 0) {
+            Assert.assertEquals(
+                    getRestHelper().getErrorCode(testContext.getApiManager().getPostPublicKey().getResponse()),
+                    errorCode,
+                    "Error code expected " + errorCode + " but got " +
+                            getRestHelper().getErrorCode(testContext.getApiManager().getPostPublicKey().getResponse())
+            );
+        }
+        if (errorDescription.length() > 0) {
+            if (!getRestHelper().getErrorDescription(testContext.getApiManager().getPostPublicKey().getResponse()).contains(errorDescription)) {
+                Assert.assertEquals(
+                        getRestHelper().getErrorDescription(testContext.getApiManager().getPostPublicKey().getResponse()),
+                        errorDescription,
+                        "Error description expected '" + errorDescription + "' but got '" +
+                                getRestHelper().getErrorDescription(testContext.getApiManager().getPostPublicKey().getResponse())
+                );
+            }
+        }
     }
 
     @And("^I have \"([^\"]*)\" value, activate at \"([^\"]*)\", deactivate at \"([^\"]*)\", \"([^\"]*)\" as entity status and description is \"([^\"]*)\"$")
@@ -158,9 +153,9 @@ public class ManagementPostPublicKeys_StepDefs extends UtilManager {
     private void doValidJsonBodyCall() {
         String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
                 RESOURCE_ENDPOINT_PROPERTY_NAME) + "/";
-        String value = "abc";
-        String activateAt = "01-01-2019T00:00:00Z";
-        String deactivateAt = "03-03-2019T00:00:00Z";
+        String value = StringUtils.repeat("*", 2048);
+        String activateAt = "2019-01-01T00:00:00Z";
+        String deactivateAt = "2019-02-02T00:00:00Z";
         String entityStatus = "D";
         String description = "Test description";
 

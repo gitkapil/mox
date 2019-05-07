@@ -55,24 +55,31 @@ public class ManagementGetPublicKeys_StepDefs extends UtilManager {
     public void failedResponse(String httpStatus, String errorDescription, String errorCode) {
         Assert.assertEquals(
                 getRestHelper().getResponseStatusCode(testContext.getApiManager().getGetPublicKey().getResponse()),
-                httpStatus,
+                Integer.parseInt(httpStatus),
                 "Http status expected " + httpStatus + " but got " +
                         getRestHelper().getResponseStatusCode(testContext.getApiManager().getGetPublicKey().getResponse())
         );
 
-        Assert.assertEquals(
-                getRestHelper().getErrorCode(testContext.getApiManager().getGetPublicKey().getResponse()),
-                errorCode,
-                "Error code expected " + errorCode + " but got " +
-                        getRestHelper().getErrorCode(testContext.getApiManager().getGetPublicKey().getResponse())
-        );
+        if (errorCode.length() > 0) {
+            Assert.assertEquals(
+                    getRestHelper().getErrorCode(testContext.getApiManager().getGetPublicKey().getResponse()),
+                    errorCode,
+                    "Error code expected " + errorCode + " but got " +
+                            getRestHelper().getErrorCode(testContext.getApiManager().getGetPublicKey().getResponse())
+            );
+        }
 
-        Assert.assertEquals(
-                getRestHelper().getErrorDescription(testContext.getApiManager().getGetPublicKey().getResponse()),
-                errorDescription,
-                "Error description expected '" + errorDescription + "' but got '" +
-                        getRestHelper().getErrorDescription(testContext.getApiManager().getGetPublicKey().getResponse())
-        );
+        if (errorDescription.length() > 0) {
+            if (!getRestHelper().getErrorDescription(testContext.getApiManager().getGetPublicKey().getResponse()).contains(errorDescription)) {
+                Assert.assertEquals(
+                        getRestHelper().getErrorDescription(testContext.getApiManager().getGetPublicKey().getResponse()),
+                        errorDescription,
+                        "Error description expected '" + errorDescription + "' but got '" +
+                                getRestHelper().getErrorDescription(testContext.getApiManager().getGetPublicKey().getResponse())
+                );
+            }
+
+        }
     }
 
 
@@ -87,6 +94,7 @@ public class ManagementGetPublicKeys_StepDefs extends UtilManager {
         String[] predefinedSet = {
                 "keyId",
                 "applicationId",
+                "keyName",
                 "value",
                 "type",
                 "size",
@@ -98,18 +106,20 @@ public class ManagementGetPublicKeys_StepDefs extends UtilManager {
                 "lastUpdatedAt"
         };
 
-        ArrayList returnedObject = testContext.getApiManager().getPostPublicKey().getResponse().path(".");
-        returnedObject.stream().forEach(t -> {
-            Set<String> keySet = ((HashMap)t).keySet();
-            Collection<String> diff = CollectionUtils.disjunction(Arrays.asList(predefinedSet), keySet);
+        ArrayList returnedObject = testContext.getApiManager().getGetPublicKey().getResponse().path(".");
+        if (returnedObject != null) {
+            returnedObject.stream().forEach(t -> {
+                Set<String> keySet = ((HashMap) t).keySet();
+                Collection<String> diff = CollectionUtils.disjunction(Arrays.asList(predefinedSet), keySet);
 
-            if (diff.size() == 0) {
-            } else {
-                Assert.assertEquals(true, false,
-                        "Returned object contain fields that are not a subset (" +
-                                String.join(",", diff) + ")");
-            }
-        });
+                if (diff.size() == 0) {
+                } else {
+                    Assert.assertEquals(true, false,
+                            "Returned object contain fields that are not a subset (" +
+                                    String.join(",", diff) + ")");
+                }
+            });
+        }
     }
 
     private void getListOfKeys() {
