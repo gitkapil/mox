@@ -8,6 +8,8 @@ import managers.TestContext;
 import managers.UtilManager;
 import org.apache.commons.collections.CollectionUtils;
 import org.testng.Assert;
+import utils.EnvHelper;
+import utils.PropertyHelper;
 
 import java.util.*;
 
@@ -37,7 +39,12 @@ public class PutPublicKeys_StepDefs extends UtilManager {
     @And("^I have an \"([^\"]*)\" and \"([^\"]*)\" from an existing public key$")
     public void publicKeyParam(String applicationId, String keyId) {
         testContext.getApiManager().getPutPublicKeys().setApplicationId(applicationId);
-        testContext.getApiManager().getPutPublicKeys().setKeyId(keyId);
+        if (PropertyHelper.getInstance().getPropertyCascading("env").equalsIgnoreCase("ci")
+                && PropertyHelper.getInstance().getPropertyCascading("usertype").equalsIgnoreCase("merchant")) {
+            testContext.getApiManager().getPutPublicKeys().setKeyId("49582d55-4e29-4e38-b31c-a070d5152e1e");
+        } else {
+            testContext.getApiManager().getPutPublicKeys().setKeyId(keyId);
+        }
     }
 
     @And("^I enter a \"([^\"]*)\" description with value \"([^\"]*)\", activate At \"([^\"]*)\", deactivate at \"([^\"]*)\" and entity status \"([^\"]*)\"$")
