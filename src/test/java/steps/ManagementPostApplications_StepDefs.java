@@ -153,15 +153,13 @@ public class ManagementPostApplications_StepDefs extends UtilManager{
 
     @Then("^I should receive a quoted \"([^\"]*)\" error response with \'(.*)\' error description and \"([^\"]*)\" errorcode within the POST application response$")
     public void i_should_receive_a_quoted_error_response_with_error_description_and_errorcode(int responseCode, String errorDesc, String errorCode) {
-        i_should_receive_an_error_response_with_error_description_and_errorcode(responseCode, errorDesc, errorCode);
+        i_should_receive_an_error_response_with_error_description_and_errorcode("" + responseCode, errorDesc, errorCode);
     }
 
     @Then("^I should receive a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within the POST application response$")
-    public void i_should_receive_an_error_response_with_error_description_and_errorcode(int responseCode, String errorDesc, String errorCode) {
+    public void i_should_receive_an_error_response_with_error_description_and_errorcode(String responseCode, String errorDesc, String errorCode) {
         Response response = testContext.getApiManager().getPostApplication().getPostApplicationRequestResponse();
-        Assert.assertEquals(getRestHelper().getResponseStatusCode(response), responseCode,"Different response code being returned");
-
-
+        Assert.assertEquals(getRestHelper().getResponseStatusCode(response), Integer.parseInt(responseCode),"Different response code being returned");
 
         if (getRestHelper().getErrorDescription(response) != null) {
 

@@ -11,10 +11,12 @@ Feature: Management Post Applications API - DRAG-1416
       And I have a "<clientId>" from an existing AAD application
       And I have a "<peakId>", "<subUnitId>" and "<organisationId>" from an existing PM4B merchant identity
       When I make a POST request to the application endpoint
-      Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within the POST application response
+      Then I should receive a successful applications response
+      And the response body should contain a valid applicationId, clientId, peakId, subUnitId and organisationId
+      And the response body should also have empty notificationPath and empty notificationHost
     Examples:
-      |clientId                            |peakId                              |subUnitId                           |organisationId                      |http_status|error_description|error_code|
-      |random                              |00000002-0000-0000-c000-000000000000|00000002-0000-0000-c000-000000000000|00000002-0000-0000-c000-000000000000|           |                 |          |
+      |clientId                            |peakId                              |subUnitId                           |organisationId                      |
+      |random                              |00000002-0000-0000-c000-000000000000|00000002-0000-0000-c000-000000000000|00000002-0000-0000-c000-000000000000|
 
   # For the parametres where values are missing within the table, while creating request, the parameter will not be included at all as a a part of the payload
 #  @trial

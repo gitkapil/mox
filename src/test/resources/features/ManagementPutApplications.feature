@@ -11,10 +11,12 @@ Feature: Management Put Applications API - DRAG-1446
     And I have an "<applicationId>" from an existing application
     And I have updated "<clientId>", "<peakId>", "<subUnitId>" and "<organisationId>" values
     When I make a PUT request to the application endpoint
-    Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within the PUT application response
+    Then I should receive a successful PUT application response
+    And the PUT response body should contain a valid applicationId, clientId, peakId, subUnitId and organisationId
+    And the response body should also have empty notificationPath and empty notificationHost
     Examples:
-      |applicationId                       |clientId                            |peakId                              |subUnitId                           |organisationId                      |http_status|error_description|error_code|
-      |new                                 |random                              |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|           |                 |          |
+      |applicationId                       |clientId                            |peakId                              |subUnitId                           |organisationId                      |
+      |new                                 |random                              |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|
 
   # For the parametres where values are missing within the table, while creating request, the parameter will not be included at all as a a part of the payload
 #  @trial
