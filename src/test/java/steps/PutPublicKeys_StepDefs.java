@@ -60,7 +60,7 @@ public class PutPublicKeys_StepDefs extends UtilManager {
     public void checkErrorResponse(String httpStatus, String errorCode, String errorDescription) {
         Assert.assertEquals(
                 getRestHelper().getResponseStatusCode(testContext.getApiManager().getPutPublicKeys().getResponse()),
-                httpStatus,
+                Integer.parseInt(httpStatus),
                 "Http status is expected to be " + httpStatus + " but got " +
                         getRestHelper().getResponseStatusCode(testContext.getApiManager().getPutPublicKeys().getResponse())
         );
@@ -72,12 +72,14 @@ public class PutPublicKeys_StepDefs extends UtilManager {
                         getRestHelper().getErrorCode(testContext.getApiManager().getPutPublicKeys().getResponse())
         );
 
-        Assert.assertEquals(
-                getRestHelper().getErrorDescription(testContext.getApiManager().getPutPublicKeys().getResponse()),
-                errorDescription,
-                "Error description is expected to be " + errorDescription + " but got " +
-                        getRestHelper().getErrorDescription(testContext.getApiManager().getPutPublicKeys().getResponse())
-        );
+        if (!getRestHelper().getErrorDescription(testContext.getApiManager().getPutPublicKeys().getResponse()).contains(errorDescription)) {
+            Assert.assertEquals(
+                    getRestHelper().getErrorDescription(testContext.getApiManager().getPutPublicKeys().getResponse()),
+                    errorDescription,
+                    "Error description is expected to be " + errorDescription + " but got " +
+                            getRestHelper().getErrorDescription(testContext.getApiManager().getPutPublicKeys().getResponse())
+            );
+        }
     }
 
     @Then("^the PUT public key response should return success$")
@@ -98,20 +100,21 @@ public class PutPublicKeys_StepDefs extends UtilManager {
                 "deactivateAt",
                 "description",
                 "createdAt",
-                "lastUpdatedAt"
+                "lastUpdatedAt",
+                "size",
+                "entityStatus",
+                "type"
         };
 
-        ArrayList returnedTransactions = testContext.getApiManager().getPutPublicKeys().getResponse().path(".");
-        returnedTransactions.stream().forEach(t -> {
-            Set<String> keySet = ((HashMap) t).keySet();
-            Collection<String> diff = CollectionUtils.disjunction(Arrays.asList(predefinedSet), keySet);
-            System.out.println("JT Diff " + String.join(",", diff));
-            if (diff.size() == 0) {
-            } else {
-                Assert.assertEquals(true, false,
-                        "Returned transaction object contain fields that are not a subset (" +
-                                String.join(",", diff) + ")");
-            }
-        });
+        HashMap returnedTransactions = testContext.getApiManager().getPutPublicKeys().getResponse().path(".");
+        Set<String> keySet = returnedTransactions.keySet();
+        Collection<String> diff = CollectionUtils.disjunction(Arrays.asList(predefinedSet), keySet);
+        System.out.println("JT Diff " + String.join(",", diff));
+        if (diff.size() == 0) {
+        } else {
+            Assert.assertEquals(true, false,
+                    "Returned transaction object contain fields that are not a subset (" +
+                            String.join(",", diff) + ")");
+        }
     }
 }

@@ -5,7 +5,7 @@ Feature: Management POST public keys API - DRAG-1461
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  @trial
+#  @trial
   @regression
   Scenario Outline: Positive Flow - Able to create a public key successfully
     Given I am a POST create keys authorized DRAGON user with the correct privileges

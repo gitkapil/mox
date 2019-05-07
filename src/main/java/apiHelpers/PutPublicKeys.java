@@ -2,6 +2,7 @@ package apiHelpers;
 
 import managers.UtilManager;
 import com.jayway.restassured.response.Response;
+import org.apache.commons.lang3.StringUtils;
 import utils.PropertyHelper;
 
 import java.util.HashMap;
@@ -26,23 +27,34 @@ public class PutPublicKeys extends UtilManager {
     }
 
     public void makeApiCall(String url) {
-        response = getRestHelper().postRequestWithHeaderAndBody(url, returnHeader(), returnBody());
+        response = getRestHelper().putRequestWithHeaderAndBody(url, returnHeader(), returnBody());
     }
 
     private HashMap returnBody() {
         HashMap objReturn = new HashMap();
 
-        if (value != null) {
-            objReturn.put("value", value);
+        if (value.equalsIgnoreCase("bigvalue")) {
+            objReturn.put("value", StringUtils.repeat("i", 2048));
+        } else {
+            if (value != null && !value.equalsIgnoreCase("null")) {
+                objReturn.put("value", value);
+            }
         }
-        if (activateAt != null) {
+        if (activateAt != null && !activateAt.equalsIgnoreCase("null")) {
             objReturn.put("activateAt", activateAt);
         }
-        if (deactivateAt != null) {
+        if (deactivateAt != null && !deactivateAt.equalsIgnoreCase("null")) {
             objReturn.put("deactivateAt", deactivateAt);
         }
-        if (entityStatus != null) {
+        if (entityStatus != null && !entityStatus.equalsIgnoreCase("null")) {
             objReturn.put("entityStatus", entityStatus);
+        }
+        if (description != null && description.equalsIgnoreCase("bigbigvalue")) {
+            objReturn.put("description", StringUtils.repeat("a", 1000));
+        } else {
+            if (description != null && !description.equalsIgnoreCase("null")) {
+                objReturn.put("description", description);
+            }
         }
 
         return objReturn;
@@ -55,7 +67,7 @@ public class PutPublicKeys extends UtilManager {
         objReturn.put("Authorization", authToken);
         objReturn.put("Trace-Id", getGeneral().generateUniqueUUID());
         objReturn.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
-        objReturn.put("Requst-Date-Time", getDateHelper().getUTCNowDateTime());
+        objReturn.put("Request-Date-Time", getDateHelper().getUTCNowDateTime());
 
         return objReturn;
     }
