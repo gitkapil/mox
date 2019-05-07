@@ -26,7 +26,7 @@ Feature: Management Put Public Keys - DRAG-1558
       |applicationId                       |keyId                               |description|value    |activateAt          |deactivateAt     |entityStatus|
       |c9621185-b86d-48a9-97f0-eeddef7c3dc1|af3177e4-6304-4c66-946c-de6e382b336c|test       |bigvalue |2020-01-01T00:00:00Z|2020-02-02T00:00Z|A           |
 
-#    @trial
+   @trial
     @regression
     Scenario Outline: Negative flow - invalid application id and key id
       Given I am a PUT public keys DRAGON user with correct role

@@ -40,7 +40,8 @@ public class PutPublicKeys_StepDefs extends UtilManager {
     public void publicKeyParam(String applicationId, String keyId) {
         testContext.getApiManager().getPutPublicKeys().setApplicationId(applicationId);
         if (PropertyHelper.getInstance().getPropertyCascading("env").equalsIgnoreCase("ci")
-                && PropertyHelper.getInstance().getPropertyCascading("usertype").equalsIgnoreCase("merchant")) {
+                && PropertyHelper.getInstance().getPropertyCascading("usertype").equalsIgnoreCase("merchant") &&
+                keyId.equalsIgnoreCase("af3177e4-6304-4c66-946c-de6e382b336c")) {
             testContext.getApiManager().getPutPublicKeys().setKeyId("49582d55-4e29-4e38-b31c-a070d5152e1e");
         } else {
             testContext.getApiManager().getPutPublicKeys().setKeyId(keyId);
