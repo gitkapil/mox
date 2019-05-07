@@ -43,6 +43,10 @@ public class PutPublicKeys_StepDefs extends UtilManager {
                 && PropertyHelper.getInstance().getPropertyCascading("usertype").equalsIgnoreCase("merchant") &&
                 keyId.equalsIgnoreCase("af3177e4-6304-4c66-946c-de6e382b336c")) {
             testContext.getApiManager().getPutPublicKeys().setKeyId("49582d55-4e29-4e38-b31c-a070d5152e1e");
+        } else if (PropertyHelper.getInstance().getPropertyCascading("env").equalsIgnoreCase("sit") &&
+                PropertyHelper.getInstance().getPropertyCascading("usertype").equalsIgnoreCase("sandbox") &&
+                keyId.equalsIgnoreCase("af3177e4-6304-4c66-946c-de6e382b336c")) {
+            testContext.getApiManager().getPutPublicKeys().setKeyId("1a413877-6720-4df4-90d3-3598acbf7121");
         } else {
             testContext.getApiManager().getPutPublicKeys().setKeyId(keyId);
         }
