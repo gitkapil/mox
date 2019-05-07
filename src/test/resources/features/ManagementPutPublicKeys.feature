@@ -48,7 +48,7 @@ Feature: Management Put Public Keys - DRAG-1558
         #key id not found
         |c9621185-b86d-48a9-97f0-eeddef7c3dc1|af3177e4-6304-4c66-946c-de6e382b337c|400        |EA002    |Unable to read or parse message body|
 
-    @trial
+#    @trial
     @regression
     Scenario Outline: Negative flow - Invalid body
       Given I am a PUT public keys DRAGON user with correct role
