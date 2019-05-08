@@ -211,10 +211,10 @@ public class Refunds extends UtilManager {
      * @param urlPart2
      * @param key
      */
-    public void retrieveRefundWithMissingHeaderKeys(String urlPart1, String urlPart2, String key, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature){
+    public void retrieveRefundWithMissingHeaderKeys(String urlPart1, String urlPart2, String signingKeyId, String key, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature){
         url= addTransactionIdInURL(urlPart1, urlPart2);
 
-        HashMap<String, String> header = returnRefundsHeader(signingKey, signingAlgorithm, headerElementsForSignature);
+        HashMap<String, String> header = returnRefundsHeader(signingKeyId, signingKey, signingAlgorithm, headerElementsForSignature);
         header.remove(key);
 
         refundsResponse= getRestHelper().postRequestWithHeaderAndBody(url,header, returnRefundsBody());
@@ -229,13 +229,13 @@ public class Refunds extends UtilManager {
      * @param urlPart2
      * @param key
      */
-    public void retrieveRefundWithMissingBodyKeys(String urlPart1, String urlPart2, String key, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature){
+    public void retrieveRefundWithMissingBodyKeys(String urlPart1, String urlPart2, String signingKeyId,  String key, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature){
         url= addTransactionIdInURL(urlPart1, urlPart2);
 
         HashMap<String, String> body= returnRefundsBody();
         body.remove(key);
 
-        refundsResponse= getRestHelper().postRequestWithHeaderAndBody(url,returnRefundsHeader(signingKey, signingAlgorithm, headerElementsForSignature), body);
+        refundsResponse= getRestHelper().postRequestWithHeaderAndBody(url,returnRefundsHeader(signingKeyId, signingKey, signingAlgorithm, headerElementsForSignature), body);
 
         logger.info("********** Refunds Response *********** ---> "+ refundsResponse.getBody().asString());
 
@@ -284,10 +284,10 @@ public class Refunds extends UtilManager {
      * @param urlPart2
      * @return
      */
-    public Response retrieveRefunds(String urlPart1, String urlPart2, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature){
+    public Response retrieveRefunds(String urlPart1, String urlPart2, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature){
         url= addTransactionIdInURL(urlPart1, urlPart2);
 
-        refundsResponse= getRestHelper().postRequestWithHeaderAndBody(url,returnRefundsHeader(signingKey, signingAlgorithm, headerElementsForSignature), returnRefundsBody());
+        refundsResponse= getRestHelper().postRequestWithHeaderAndBody(url,returnRefundsHeader(signingKeyId, signingKey, signingAlgorithm, headerElementsForSignature), returnRefundsBody());
 
         logger.info("********** Refunds Response *********** ---> "+ refundsResponse.getBody().asString());
 
@@ -317,7 +317,7 @@ public class Refunds extends UtilManager {
      * This method creates a valid body for the POST refunds endpoint
      * @return
      */
-    public HashMap<String,String> returnRefundsHeader(String signingKey, String signingAlgorithm, HashSet headerElementsForSignature){
+    public HashMap<String,String> returnRefundsHeader(String signingKeyId, String signingKey, String signingAlgorithm, HashSet headerElementsForSignature){
 
         refundsHeader= new HashMap<>();
         refundsHeader.put("Accept","application/json");
@@ -335,8 +335,8 @@ public class Refunds extends UtilManager {
 
         try{
             byte[] sigKey = Base64.getDecoder().decode(signingKey);
-            String signature = getSignatureHelper().calculateSignature("POST", url, sigKey,
-                    signingAlgorithm, "random_signing_key_id", headerElementsForSignature, refundsHeader);
+            String signature = getSignatureHelper().calculateSignature("POST", url.replace("payments/", ""), sigKey,
+                    signingAlgorithm, signingKeyId, headerElementsForSignature, refundsHeader);
             refundsHeader.put("Signature", signature);
         }
         catch (Exception e)
