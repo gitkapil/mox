@@ -39,6 +39,8 @@ public class PutPublicKeys_StepDefs extends UtilManager {
     @And("^I have an \"([^\"]*)\" and \"([^\"]*)\" from an existing public key$")
     public void publicKeyParam(String applicationId, String keyId) {
         testContext.getApiManager().getPutPublicKeys().setApplicationId(applicationId);
+
+        //TODO: Need to refactor this.
         if (PropertyHelper.getInstance().getPropertyCascading("env").equalsIgnoreCase("ci")
                 && PropertyHelper.getInstance().getPropertyCascading("usertype").equalsIgnoreCase("merchant") &&
                 keyId.equalsIgnoreCase("af3177e4-6304-4c66-946c-de6e382b336c")) {
