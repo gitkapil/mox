@@ -123,13 +123,13 @@ public class Transactions_StepDefs extends UtilManager {
     public void statusIsConvertedProperly() {
         ArrayList returnedTransactions = testContext.getApiManager().getTransaction().getTransactionListResponse().path("transactions");
         returnedTransactions.stream().forEach(t -> {
-            String source = (String)((HashMap)t).get("status");
+            String statusCode = (String)((HashMap)t).get("statusCode");
             //should be Online or null
-            if (source == null || source.contentEquals("Success") || source.contentEquals("Failed")
-                || source.contentEquals("Submitted")) {
+            if (statusCode == null || statusCode.contentEquals("001") || statusCode.contentEquals("002")
+                || statusCode.contentEquals("003")) {
                 //right format
             } else {
-                Assert.assertEquals(true, false, "source has an invalid value (" + source + ")");
+                Assert.assertEquals(true, false, "statusCode has an invalid value (" + statusCode + ")");
             }
         });
     }
