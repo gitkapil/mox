@@ -8,6 +8,7 @@ import utils.PropertyHelper;
 import java.util.HashMap;
 
 public class PutPublicKeys extends UtilManager {
+
     private String authToken;
     private String applicationId;
     private String keyId;
@@ -32,14 +33,6 @@ public class PutPublicKeys extends UtilManager {
 
     private HashMap returnBody() {
         HashMap objReturn = new HashMap();
-
-        if (value.equalsIgnoreCase("bigvalue")) {
-            objReturn.put("value", StringUtils.repeat("i", 2048));
-        } else {
-            if (value != null && !value.equalsIgnoreCase("null")) {
-                objReturn.put("value", value);
-            }
-        }
         if (activateAt != null && !activateAt.equalsIgnoreCase("null")) {
             objReturn.put("activateAt", activateAt);
         }

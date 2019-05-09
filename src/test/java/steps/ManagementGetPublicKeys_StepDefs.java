@@ -94,7 +94,6 @@ public class ManagementGetPublicKeys_StepDefs extends UtilManager {
         String[] predefinedSet = {
                 "keyId",
                 "applicationId",
-                "keyName",
                 "value",
                 "type",
                 "size",

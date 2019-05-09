@@ -2,6 +2,7 @@ package steps;
 
 import com.google.common.collect.Sets;
 import com.jayway.restassured.response.Response;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -10,6 +11,7 @@ import managers.UtilManager;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 
+import java.util.HashMap;
 import java.util.Set;
 import java.util.UUID;
 
@@ -224,5 +226,15 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
         String applicationId = testContext.getApiManager().getPostApplication().applicationIdInResponse();
         Assert.assertNotNull(applicationId, "applicationId is not present in the response!!");
         return applicationId;
+    }
+
+    @And("^I retrieve the applicationId and the keyId from the response$")
+    public void iRetrieveTheKeyIdFromTheResponse() {
+        testContext.getApiManager().getPostPublicKey().getResponse();
+        HashMap dataMap = (HashMap)testContext.getApiManager().getPostPublicKey().getResponse().path(".");
+        String newKeyId = dataMap.get("keyId").toString();
+        String returnedApplicationId = dataMap.get("applicationId").toString();
+        testContext.getApiManager().getPutPublicKeys().setKeyId(newKeyId);
+        testContext.getApiManager().getPutPublicKeys().setApplicationId(returnedApplicationId);
     }
 }

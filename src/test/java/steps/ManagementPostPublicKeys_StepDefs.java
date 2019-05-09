@@ -20,6 +20,8 @@ public class ManagementPostPublicKeys_StepDefs extends UtilManager {
     public static final Set<String> INCORRECT_ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
     private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_application_resource";
     private static final String EXISTING_PUBLIC_KEY = "public_key_application_id";
+    private static final String VALID_BASE64_ENCODED_RSA_PUBLIC_KEY = "valid_base64_encoded_rsa_public_key";
+    private static final String INVALID_BASE64_ENCODED_RSA_PUBLIC_KEY = "invalid_base64_encoded_rsa_public_key";
 
     String value;
     String activateAt;
@@ -83,7 +85,6 @@ public class ManagementPostPublicKeys_StepDefs extends UtilManager {
 
         String[] predefinedSet = {
                 "keyId",
-                "keyName",
                 "applicationId",
                 "value",
                 "type",
@@ -95,7 +96,6 @@ public class ManagementPostPublicKeys_StepDefs extends UtilManager {
                 "createdAt",
                 "lastUpdatedAt"
         };
-
         HashMap t = testContext.getApiManager().getPostPublicKey().getResponse().path(".");
         Set<String> keySet = ((HashMap)t).keySet();
         Collection<String> diff = CollectionUtils.disjunction(Arrays.asList(predefinedSet), keySet);
@@ -153,7 +153,7 @@ public class ManagementPostPublicKeys_StepDefs extends UtilManager {
     private void doValidJsonBodyCall() {
         String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
                 RESOURCE_ENDPOINT_PROPERTY_NAME) + "/";
-        String value = StringUtils.repeat("*", 2048);
+        String value = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, VALID_BASE64_ENCODED_RSA_PUBLIC_KEY);
         String activateAt = "2019-01-01T00:00:00Z";
         String deactivateAt = "2019-02-02T00:00:00Z";
         String entityStatus = "D";
@@ -168,14 +168,18 @@ public class ManagementPostPublicKeys_StepDefs extends UtilManager {
                 description);
     }
 
-    @And("^I have a value of (\\d+) characters, activate at \"([^\"]*)\", deactivate at \"([^\"]*)\", \"([^\"]*)\" as entity status and description is \"([^\"]*)\"$")
-    public void iHaveAValueOfCharactersActivateAtDeactivateAtAsEntityStatusAndDescriptionIs(int numOfCharsInValue, String activateAt, String deactivateAt, String entityStatus, String description) throws Throwable {
-        StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < numOfCharsInValue; i++) {
-            sb.append("A");
-        }
+    @And("^I have a valid base64 encoded RSA public key, activate at \"([^\"]*)\", deactivate at \"([^\"]*)\", \"([^\"]*)\" as entity status and description is \"([^\"]*)\"$")
+    public void iHaveAValidBase64EncodedRSAPublicKeyActivateAtDeactivateAtAsEntityStatusAndDescriptionIs(String activateAt, String deactivateAt, String entityStatus, String description) throws Throwable {
+        this.value = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, VALID_BASE64_ENCODED_RSA_PUBLIC_KEY);
+        this.activateAt = activateAt;
+        this.deactivateAt = deactivateAt;
+        this.entityStatus = entityStatus;
+        this.description = description;
+    }
 
-        this.value = sb.toString();
+    @And("^I have an invalid base64 encoded RSA public key, activate at \"([^\"]*)\", deactivate at \"([^\"]*)\", \"([^\"]*)\" as entity status and description is \"([^\"]*)\"$")
+    public void iHaveAnInvalidBase64EncodedRSAPublicKeyActivateAtDeactivateAtAsEntityStatusAndDescriptionIs(String activateAt, String deactivateAt, String entityStatus, String description) throws Throwable {
+        this.value = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, INVALID_BASE64_ENCODED_RSA_PUBLIC_KEY);
         this.activateAt = activateAt;
         this.deactivateAt = deactivateAt;
         this.entityStatus = entityStatus;

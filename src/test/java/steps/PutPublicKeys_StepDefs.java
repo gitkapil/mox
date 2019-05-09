@@ -19,6 +19,8 @@ public class PutPublicKeys_StepDefs extends UtilManager {
     private static final Set<String> ROLE_SET = Sets.newHashSet("ApplicationKey.ReadWrite.All");
     private static final Set<String> INCORRECT_ROLE_SET = Sets.newHashSet("refund");
     private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_application_resource";
+    private static final String VALID_BASE64_ENCODED_RSA_PUBLIC_KEY = "valid_base64_encoded_rsa_public_key";
+    private static final String INVALID_BASE64_ENCODED_RSA_PUBLIC_KEY = "invalid_base64_encoded_rsa_public_key";
 
 
     public PutPublicKeys_StepDefs(TestContext testContext) {
@@ -58,10 +60,9 @@ public class PutPublicKeys_StepDefs extends UtilManager {
         }
     }
 
-    @And("^I enter a \"([^\"]*)\" description with value \"([^\"]*)\", activate At \"([^\"]*)\", deactivate at \"([^\"]*)\" and entity status \"([^\"]*)\"$")
-    public void enterBody(String description, String value, String activateAt, String deactivateAt, String entityStatus) {
+    @And("^I enter a \"([^\"]*)\" description, activate At \"([^\"]*)\", deactivate at \"([^\"]*)\" and entity status \"([^\"]*)\"$")
+    public void enterBody(String description, String activateAt, String deactivateAt, String entityStatus) {
         testContext.getApiManager().getPutPublicKeys().setDescription(description);
-        testContext.getApiManager().getPutPublicKeys().setValue(value);
         testContext.getApiManager().getPutPublicKeys().setActivateAt(activateAt);
         testContext.getApiManager().getPutPublicKeys().setDeactivateAt(deactivateAt);
         testContext.getApiManager().getPutPublicKeys().setEntityStatus(entityStatus);
@@ -111,7 +112,6 @@ public class PutPublicKeys_StepDefs extends UtilManager {
 
         String[] predefinedSet = {
                 "keyId",
-                "keyName",
                 "applicationId",
                 "value",
                 "activateAt",
