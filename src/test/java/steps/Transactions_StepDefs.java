@@ -68,7 +68,7 @@ public class Transactions_StepDefs extends UtilManager {
         transactionObjectIsASubSet();
         transactionSourceDescriptionIsConvertedProperly();
         transactionTypeDescriptionIsConvertedProperly();
-        statusIsConvertedProperly();
+        statusCodeIsConvertedProperly();
     }
 
     @And("^I should have at least (\\d+) number of transactions returned$")
@@ -120,7 +120,7 @@ public class Transactions_StepDefs extends UtilManager {
         });
     }
 
-    public void statusIsConvertedProperly() {
+    public void statusCodeIsConvertedProperly() {
         ArrayList returnedTransactions = testContext.getApiManager().getTransaction().getTransactionListResponse().path("transactions");
         returnedTransactions.stream().forEach(t -> {
             String statusCode = (String)((HashMap)t).get("statusCode");
