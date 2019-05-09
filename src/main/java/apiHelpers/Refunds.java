@@ -335,7 +335,8 @@ public class Refunds extends UtilManager {
 
         try{
             byte[] sigKey = Base64.getDecoder().decode(signingKey);
-            String signature = getSignatureHelper().calculateSignature("POST", url.replace("payments/", ""), sigKey,
+            String splitstr[] = url.split("/payments");
+            String signature = getSignatureHelper().calculateSignature("POST", splitstr[1], sigKey,
                     signingAlgorithm, signingKeyId, headerElementsForSignature, refundsHeader);
             refundsHeader.put("Signature", signature);
         }
