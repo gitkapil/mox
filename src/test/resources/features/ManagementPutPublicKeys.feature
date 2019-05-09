@@ -5,7 +5,7 @@ Feature: Management Put Public Keys - DRAG-1558
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-    @trial
+#    @trial
     @regression
     Scenario Outline: Positive flow - Able to update public key attributes
       Given I am a POST create keys authorized DRAGON user with the correct privileges
@@ -21,7 +21,7 @@ Feature: Management Put Public Keys - DRAG-1558
       |test 2     |2020-01-01T00:00:00Z|2020-02-02T00:00Z|A           |2019-01-01T00:00:00Z|2029-01-01T00:00:00Z|updated test 2    |D                 |
       |test 3     |2020-01-01T00:00:00Z|2020-02-02T00:00Z|A           |2019-01-01T00:00:00Z|2029-01-01T00:00:00Z|updated test 3    |D                 |
 
-    @trial
+#    @trial
     @regression
     Scenario Outline: Negative flow - invalid application id and key id
       Given I am a PUT public keys DRAGON user with correct role
@@ -43,7 +43,7 @@ Feature: Management Put Public Keys - DRAG-1558
         # key id illegal format
         |c9621185-b86d-48a9-97f0-eeddef7c3dc1|xxxxxxxx|400|EA002|Invalid UUID string|
 
-    @trial
+#    @trial
     @regression
     Scenario Outline: Negative flow - Invalid body
       Given I am a PUT public keys DRAGON user with correct role
