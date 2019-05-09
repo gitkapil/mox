@@ -12,6 +12,7 @@ public class ApiManager {
     PostApplication postApplication;
     GetApplication getApplication;
     PutApplication putApplication;
+    GetSigningKey getSigningKey;
 
     public ApiManager() {
         accessToken= new AccessTokenForMerchants();
@@ -23,6 +24,11 @@ public class ApiManager {
         postApplication = new PostApplication();
         getApplication = new GetApplication();
         putApplication = new PutApplication();
+        getSigningKey = new GetSigningKey();
+    }
+
+    public GetSigningKey getGetSigningKey() {
+        return getSigningKey;
     }
 
     public AccessTokenForMerchants getAccessToken() {
