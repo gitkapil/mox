@@ -16,16 +16,6 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
   Examples:
     |applicationId|activateAt|deactivateAt|entityStatus|description|
 
-  @trial
-  @regression
-  Scenario Outline: Negative flow - Unauthorized user
-    Given I am not an authorized Signing key DRAGON user
-    And I have a "<applicationId>" application id
-    And I have an activate date "<activateAt>" and deactivate date "<deactivateAt>", with entity status "<entityStatus>" and a description "<description>"
-    When I make a request to create a new signing key
-    Then the create signing key response should give a "<http_status>" http status with error code "<error_code>" and description "<error_description>"
-  Examples:
-    |applicationId|activateAt|deactivateAt|entityStatus|description|http_status|error_code|error_description|
 
   @trial
   @regression

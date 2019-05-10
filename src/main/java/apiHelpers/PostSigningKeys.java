@@ -62,13 +62,13 @@ public class PostSigningKeys extends UtilManager {
             EnvHelper.getInstance().addMissingHeaderForLocalDevMode(requestHeader);
         }
 
-        try {
-            requestHeader.put("Digest", getSignatureHelper().calculateContentDigestHeader(
-                    new ObjectMapper().writeValueAsBytes(requestBody)));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            Assert.assertTrue("Trouble creating Digest!", false);
-        }
+//        try {
+//            requestHeader.put("Digest", getSignatureHelper().calculateContentDigestHeader(
+//                    new ObjectMapper().writeValueAsBytes(requestBody)));
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//            Assert.assertTrue("Trouble creating Digest!", false);
+//        }
     }
 
     public void makeRequest(String url) {
