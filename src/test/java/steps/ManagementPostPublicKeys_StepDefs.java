@@ -168,7 +168,7 @@ public class ManagementPostPublicKeys_StepDefs extends UtilManager {
                 description);
     }
 
-    @And("^I have a valid base64 encoded RSA public key, activate at \"([^\"]*)\", deactivate at \"([^\"]*)\", \"([^\"]*)\" as entity status and description is \"([^\"]*)\"$")
+    @And("^I have a valid base64 encoded RSA public key value, activate at \"([^\"]*)\", deactivate at \"([^\"]*)\", \"([^\"]*)\" as entity status and description is \"([^\"]*)\"$")
     public void iHaveAValidBase64EncodedRSAPublicKeyActivateAtDeactivateAtAsEntityStatusAndDescriptionIs(String activateAt, String deactivateAt, String entityStatus, String description) throws Throwable {
         this.value = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, VALID_BASE64_ENCODED_RSA_PUBLIC_KEY);
         this.activateAt = activateAt;
@@ -177,7 +177,7 @@ public class ManagementPostPublicKeys_StepDefs extends UtilManager {
         this.description = description;
     }
 
-    @And("^I have an invalid base64 encoded RSA public key, activate at \"([^\"]*)\", deactivate at \"([^\"]*)\", \"([^\"]*)\" as entity status and description is \"([^\"]*)\"$")
+    @And("^I have an invalid base64 encoded RSA public key value, activate at \"([^\"]*)\", deactivate at \"([^\"]*)\", \"([^\"]*)\" as entity status and description is \"([^\"]*)\"$")
     public void iHaveAnInvalidBase64EncodedRSAPublicKeyActivateAtDeactivateAtAsEntityStatusAndDescriptionIs(String activateAt, String deactivateAt, String entityStatus, String description) throws Throwable {
         this.value = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, INVALID_BASE64_ENCODED_RSA_PUBLIC_KEY);
         this.activateAt = activateAt;

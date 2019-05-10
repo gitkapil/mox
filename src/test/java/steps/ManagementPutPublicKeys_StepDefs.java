@@ -13,7 +13,7 @@ import utils.PropertyHelper;
 
 import java.util.*;
 
-public class PutPublicKeys_StepDefs extends UtilManager {
+public class ManagementPutPublicKeys_StepDefs extends UtilManager {
     private TestContext testContext;
     private ManagementCommon common;
     private static final Set<String> ROLE_SET = Sets.newHashSet("ApplicationKey.ReadWrite.All");
@@ -23,7 +23,7 @@ public class PutPublicKeys_StepDefs extends UtilManager {
     private static final String INVALID_BASE64_ENCODED_RSA_PUBLIC_KEY = "invalid_base64_encoded_rsa_public_key";
 
 
-    public PutPublicKeys_StepDefs(TestContext testContext) {
+    public ManagementPutPublicKeys_StepDefs(TestContext testContext) {
         this.testContext = testContext;
         common = new ManagementCommon(testContext);
     }
