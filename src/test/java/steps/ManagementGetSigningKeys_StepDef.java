@@ -36,6 +36,29 @@ public class ManagementGetSigningKeys_StepDef extends UtilManager {
         testContext.getApiManager().getGetSigningKey().makeCall(url);
     }
 
+    @Then("^I should receive a signing key response error \"([^\"]*)\" status with code \"([^\"]*)\" and description \"([^\"]*)\"$")
+    public void failedResponse(String httpStatus, String errorCode, String errorDescription) {
+        Assert.assertEquals(
+                getRestHelper().getResponseStatusCode(testContext.getApiManager().getGetSigningKey().getResponse()),
+                Integer.parseInt(httpStatus),
+                "Status code expected " + httpStatus + " but got " + getRestHelper().getResponseStatusCode(testContext.getApiManager().getGetSigningKey().getResponse())
+        );
+
+        Assert.assertEquals(
+                getRestHelper().getErrorCode(testContext.getApiManager().getGetSigningKey().getResponse()),
+                errorCode,
+                "Error code expected " + errorCode + " but got " +
+                        getRestHelper().getErrorCode(testContext.getApiManager().getGetSigningKey().getResponse())
+        );
+
+        Assert.assertEquals(
+                getRestHelper().getErrorDescription(testContext.getApiManager().getGetSigningKey().getResponse()),
+                errorDescription,
+                "Error description expected " + errorDescription + " but got " +
+                        getRestHelper().getErrorDescription(testContext.getApiManager().getGetSigningKey().getResponse())
+        );
+    }
+
     @Then("^I should receive a successful signing key response$")
     public void successResponse() {
         Assert.assertEquals(
