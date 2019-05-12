@@ -2,6 +2,7 @@ package steps;
 
 import com.google.common.collect.Sets;
 import com.jayway.restassured.response.Response;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -10,6 +11,7 @@ import managers.UtilManager;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 
+import java.util.HashMap;
 import java.util.Set;
 import java.util.UUID;
 
@@ -17,6 +19,7 @@ import java.util.UUID;
 public class ManagementPutApplications_StepDefs extends UtilManager{
     // NB: These are the dragon token (for testing) roles.  CSO tokens use claim {"role": "user"}
     private static final Set<String> ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
+    private static final Set<String> INCORRECT_ROLE_SET = Sets.newHashSet("ApplicationKey.ReadWrite.All");
     private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_application_resource";
     private static final String SIG_HEADER_LIST_POST_APPLICATION = "header-list-post-application";
 
@@ -35,6 +38,11 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
     @Given("^I am a PUT application authorized DRAGON user with Application.ReadWrite.All$")
     public void i_am_an_authorized_DRAGON_user()  {
         common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getPutApplication().setAuthTokenWithBearer(token));
+    }
+
+    @Given("^I am a PUT application authorized DRAGON user with ApplicationKey.ReadWrite.All$")
+    public void i_am_an_authorized_DRAGON_incorrect_user()  {
+        common.iAmAnAuthorizedDragonUser(INCORRECT_ROLE_SET, token -> testContext.getApiManager().getPutApplication().setAuthTokenWithBearer(token));
     }
 
     @Given("^I am a PUT application DRAGON user with Application.ReadWrite.All with invalid \"([^\"]*)\"$")
@@ -218,5 +226,15 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
         String applicationId = testContext.getApiManager().getPostApplication().applicationIdInResponse();
         Assert.assertNotNull(applicationId, "applicationId is not present in the response!!");
         return applicationId;
+    }
+
+    @And("^I retrieve the applicationId and the keyId from the response$")
+    public void iRetrieveTheKeyIdFromTheResponse() {
+        testContext.getApiManager().getPostPublicKey().getResponse();
+        HashMap dataMap = (HashMap)testContext.getApiManager().getPostPublicKey().getResponse().path(".");
+        String newKeyId = dataMap.get("keyId").toString();
+        String returnedApplicationId = dataMap.get("applicationId").toString();
+        testContext.getApiManager().getPutPublicKeys().setKeyId(newKeyId);
+        testContext.getApiManager().getPutPublicKeys().setApplicationId(returnedApplicationId);
     }
 }
