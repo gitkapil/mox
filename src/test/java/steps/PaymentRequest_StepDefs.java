@@ -1,5 +1,6 @@
 package steps;
 
+import apiHelpers.PaymentRequest;
 import managers.TestContext;
 import com.jayway.restassured.response.Response;
 import cucumber.api.DataTable;
@@ -18,6 +19,7 @@ import java.util.List;
 
 
 public class PaymentRequest_StepDefs extends UtilManager{
+
     TestContext testContext;
 
     public PaymentRequest_StepDefs(TestContext testContext) {
@@ -180,9 +182,11 @@ public class PaymentRequest_StepDefs extends UtilManager{
 
     }
 
-    @Then("^the response body should contain valid payment request id, created timestamp, web link, app link, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration$")
+    @Then("^the response body should contain valid payment request id, business logos, created timestamp, web link, app link, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration$")
     public void the_response_body_should_contain_valid_payment_id_created_timestamp_links(){
         Assert.assertNotNull(testContext.getApiManager().getPaymentRequest().paymentRequestIdInResponse(), "Payment Request Id is not present in the response!!");
+
+        Assert.assertNotNull(testContext.getApiManager().getPaymentRequest().businessLogosInResponse(),  "Business Logos  are not present in the response!!");
 
         Assert.assertNotNull(testContext.getApiManager().getPaymentRequest().createdTimestampInResponse(), "Created Timestamp is not present in the response!!");
 
@@ -257,7 +261,7 @@ public class PaymentRequest_StepDefs extends UtilManager{
     }
 
 
-    @Then("^I should receive a (\\d+) error response within payment response$")
+       @Then("^I should receive a (\\d+) error response within payment response$")
     public void i_should_receive_a_error_response_within_payment_response(int errorCode) {
         Assert.assertEquals(getRestHelper().getResponseStatusCode(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse()), errorCode,"Different response code being returned");
 

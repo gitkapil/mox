@@ -5,6 +5,7 @@ Given I am an user
 When I make a request to the Dragon ID Manager
 Then I receive an access_token
 
+# DRAG-1280 - business logos added in payment response
 # For the parametres where values are missing within the table, while creating request, the parameter will not be included at all as a a part of the payload
   @regression    
 Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs
@@ -24,7 +25,7 @@ Scenario Outline: Positive flow- A merchant is able to create a payment request 
   And I have merchant data "<description>","<orderId>","<additionalData>"
   When I make a request for the payment
   Then I should receive a successful payment response
-  And the response body should contain valid payment request id, created timestamp, web link, app link, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration
+  And the response body should contain valid payment request id, business logos, created timestamp, web link, app link, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration
   And the response body should also have notification URI, app success callback URL, app fail Callback Url if applicable
   And the payment request response should be signed
 
@@ -47,14 +48,15 @@ Examples:
 |550.00     |HKD      |/return2                     |message from merchant|B1242183|60                |/confirmation8     |/unsuccessful0||
 
 
-  @regression    
+  @trial
+  @regression
 Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs without shopping cart
   Given I am an authorized user
   And I have payment details "<totalamount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
   And I have merchant data "<description>","<orderId>","<additionalData>"
   When I make a request for the payment
   Then I should receive a successful payment response
-  And the response body should contain valid payment request id, created timestamp, web link, app link, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration
+  And the response body should contain valid payment request id, business logos, created timestamp, web link, app link, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration
   And the response body should also have notification URI, app success callback URL, app fail Callback Url if applicable
   And the payment request response should be signed
 
@@ -83,7 +85,7 @@ Scenario: Positive flow- A merchant is able to create a payment request with all
   And I have valid payment details
   When I make a request for the payment
   Then I should receive a successful payment response
-  And the response body should contain valid payment request id, created timestamp, web link, app link, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration
+  And the response body should contain valid payment request id, business logos, created timestamp, web link, app link, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration
   And the response body should also have notification URI, app success callback URL, app fail Callback Url if applicable
   And the payment request response should be signed
 
@@ -96,7 +98,7 @@ Scenario Outline: Positive flow- A merchant is able to create a payment request 
   And I have merchant data "<description>","<orderId>","<additionalData>"
   When I make a request for the payment
   Then I should receive a successful payment response
-  And the response body should contain valid payment request id, created timestamp, web link, app link, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration
+  And the response body should contain valid payment request id, business logos, created timestamp, web link, app link, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration
   And the response body should also have notification URI, app success callback URL, app fail Callback Url if applicable
   And the payment request response should be signed
 
@@ -127,7 +129,7 @@ Scenario Outline: Positive flow- A merchant is able to create a payment request 
   And I have merchant data "<description>","<orderId>","<additionalData>"
   When I make a request for the payment
   Then I should receive a successful payment response
-  And the response body should contain valid payment request id, created timestamp, web link, app link, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration
+  And the response body should contain valid payment request id, business logos, created timestamp, web link, app link, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration
   And the response body should also have notification URI, app success callback URL, app fail Callback Url if applicable
   And the payment request response should be signed
 
