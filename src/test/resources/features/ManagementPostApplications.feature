@@ -8,7 +8,7 @@ Feature: Management Post Applications API - DRAG-1416
   # For the parametres where values are missing within the table, while creating request, the parameter will not be included at all as a a part of the payload
   @trial
   @regression @merchantManagement @merchantManagementPost
-  Scenario Outline: Posit ive flow- A DRAGON user with Application.ReadWrite.All privilege is able to create an application
+  Scenario Outline: Positive flow- A DRAGON user with Application.ReadWrite.All privilege is able to create an application
     Given I am a POST application authorized DRAGON user with the Application.ReadWrite.All privilege
     And I have a "<clientId>" from an existing AAD application
     And I have a "<peakId>", "<subUnitId>", "<organisationId>" and "<description>" from an existing PM4B merchant identity
