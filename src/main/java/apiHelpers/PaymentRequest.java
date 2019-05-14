@@ -419,8 +419,7 @@ public class PaymentRequest extends UtilManager{
                     returnPaymentRequestHeader("POST", new URL(url).getPath(), signingKeyId, signingAlgorithm, signingKey, headerElementsForSignature),
                     paymentRequestBody);
             //testContext.getUtilManager().getSignatureHelper().verifySignature(paymentRequestResponse, "POST", url, Base64.getDecoder().decode(signingKey), signingAlgorithm);
-            logger.info("********** Payment Request Response *********** ----> "+ paymentRequestResponse.getBody().asString());
-            System.out.println("********** Payment Request Json Response ***********" + paymentRequestResponse.prettyPrint());
+            logger.info("********** Payment Request Response *********** ----> "+ paymentRequestResponse.prettyPrint());
         }
         catch (Exception e){
             e.printStackTrace();
