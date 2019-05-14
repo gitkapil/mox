@@ -15,6 +15,7 @@ public class ApiManager {
     PutPublicKeys putPublicKeys;
     PostPublicKey postPublicKey;
     GetPublicKey getPublicKey;
+    PutSigningKeys putSigningKeys;
 
     public ApiManager() {
         accessToken= new AccessTokenForMerchants();
@@ -29,6 +30,11 @@ public class ApiManager {
         putPublicKeys = new PutPublicKeys();
         postPublicKey = new PostPublicKey();
         getPublicKey = new GetPublicKey();
+        putSigningKeys = new PutSigningKeys();
+    }
+
+    public PutSigningKeys getPutSigningKeys() {
+        return putSigningKeys;
     }
 
     public PutPublicKeys getPutPublicKeys() {
