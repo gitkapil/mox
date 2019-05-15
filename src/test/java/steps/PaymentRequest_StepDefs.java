@@ -1,6 +1,5 @@
 package steps;
 
-import apiHelpers.PaymentRequest;
 import managers.TestContext;
 import com.jayway.restassured.response.Response;
 import cucumber.api.DataTable;
