@@ -6,7 +6,7 @@ Feature: Management Post Applications API - DRAG-1416
     Then I receive an access_token
 
   # For the parametres where values are missing within the table, while creating request, the parameter will not be included at all as a a part of the payload
-#  @trial
+  #@trial
   @regression @merchantManagement @merchantManagementPost
   Scenario Outline: Positive flow- A DRAGON user with Application.ReadWrite.All privilege is able to create an application
     Given I am a POST application authorized DRAGON user with the Application.ReadWrite.All privilege
