@@ -48,7 +48,7 @@ Examples:
 |550.00     |HKD      |/return2                     |message from merchant|B1242183|60                |/confirmation8     |/unsuccessful0||
 
 
-  @trial
+  
   @regression
 Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs without shopping cart
   Given I am an authorized user
