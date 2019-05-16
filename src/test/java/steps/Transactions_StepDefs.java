@@ -147,7 +147,8 @@ public class Transactions_StepDefs extends UtilManager {
                 "transactionCurrencyCode",
                 "feeAmount",
                 "feeCurrencyCode",
-                "status",
+                "statusDescription",
+                "statusCode",
                 "payerName",
                 "message",
                 "reference",
@@ -159,7 +160,6 @@ public class Transactions_StepDefs extends UtilManager {
         returnedTransactions.stream().forEach(t -> {
             Set<String> keySet = ((HashMap)t).keySet();
             Collection<String> diff = CollectionUtils.disjunction(Arrays.asList(predefinedSet), keySet);
-            System.out.println("JT Diff " + String.join(",", diff));
             if (diff.size() != 0) {
                 if (!diff.contains("transactionSourceDescription") && !diff.contains("transactionTypeDescription") &&
                         !diff.contains("message") && !diff.contains("reasonCode")) {

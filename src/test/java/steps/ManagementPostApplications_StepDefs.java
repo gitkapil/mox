@@ -19,6 +19,7 @@ import java.util.UUID;
 public class ManagementPostApplications_StepDefs extends UtilManager{
     // NB: These are the dragon token (for testing) roles {"roles": ["Application.ReadWrite.All"]}.  CSO tokens use claim {"role": "user"}
     private static final Set<String> ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
+    private static final Set<String> INCORRECT_ROLE_SET = Sets.newHashSet("ApplicationKey.ReadWrite.All");
     private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_application_resource";
     private static final String SIG_HEADER_LIST_POST_APPLICATION = "header-list-post-application";
 
@@ -35,6 +36,11 @@ public class ManagementPostApplications_StepDefs extends UtilManager{
     @Given("^I am a POST application authorized DRAGON user with the Application.ReadWrite.All privilege$")
     public void i_am_an_authorized_DRAGON_user_with_role()  {
         common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getPostApplication().setAuthTokenWithBearer(token));
+    }
+
+    @Given("^I am a POST application authorized DRAGON user with the ApplicationKey.ReadWrite.All privilege$")
+    public void i_am_an_authorized_DRAGON_user_with_incorrect_role()  {
+        common.iAmAnAuthorizedDragonUser(INCORRECT_ROLE_SET, token -> testContext.getApiManager().getPostApplication().setAuthTokenWithBearer(token));
     }
 
     @Given("^I am a DRAGON user with invalid \"([^\"]*)\"$")
@@ -168,15 +174,13 @@ public class ManagementPostApplications_StepDefs extends UtilManager{
 
     @Then("^I should receive a quoted \"([^\"]*)\" error response with \'(.*)\' error description and \"([^\"]*)\" errorcode within the POST application response$")
     public void i_should_receive_a_quoted_error_response_with_error_description_and_errorcode(int responseCode, String errorDesc, String errorCode) {
-        i_should_receive_an_error_response_with_error_description_and_errorcode(responseCode, errorDesc, errorCode);
+        i_should_receive_an_error_response_with_error_description_and_errorcode("" + responseCode, errorDesc, errorCode);
     }
 
     @Then("^I should receive a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within the POST application response$")
-    public void i_should_receive_an_error_response_with_error_description_and_errorcode(int responseCode, String errorDesc, String errorCode) {
+    public void i_should_receive_an_error_response_with_error_description_and_errorcode(String responseCode, String errorDesc, String errorCode) {
         Response response = testContext.getApiManager().getPostApplication().getPostApplicationRequestResponse();
-        Assert.assertEquals(getRestHelper().getResponseStatusCode(response), responseCode,"Different response code being returned");
-
-
+        Assert.assertEquals(getRestHelper().getResponseStatusCode(response), Integer.parseInt(responseCode),"Different response code being returned");
 
         if (getRestHelper().getErrorDescription(response) != null) {
 
