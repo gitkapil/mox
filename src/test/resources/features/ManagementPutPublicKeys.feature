@@ -30,14 +30,10 @@ Feature: Management Put Public Keys - DRAG-1558
       Then the PUT public key response should have error status "<http_status>" with error code "<err_code>" and description "<err_description>"
       Examples:
         |applicationId                       |keyId                               |http_status|err_code|err_description                      |
-        # application id is empty
-        |                                    |af3177e4-6304-4c66-946c-de6e382b336c|404|  |  |
         # application id not found
         |c9621185-b86d-48a9-97f0-eeddef7c3dc2|af3177e4-6304-4c66-946c-de6e382b336c|400|EA025|Application Id not found|
         # application id illegal format
         |xxxxxxxx|af3177e4-6304-4c66-946c-de6e382b336c|400|EA002|Invalid UUID string|
-        # key id is empty
-        |c9621185-b86d-48a9-97f0-eeddef7c3dc1|                                    |404|  |  |
         # key id not found
         |c9621185-b86d-48a9-97f0-eeddef7c3dc1|00000000-6304-4c66-946c-de6e382b336c|400|EA027|Key Id not found|
         # key id illegal format
