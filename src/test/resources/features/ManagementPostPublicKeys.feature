@@ -24,8 +24,8 @@ Feature: Management POST public keys API - DRAG-1461
     And I create a new public key based on using an existing application key
     Then the public keys response should receive a "<http_status>" error with "<error_description>" description and "<error_code>" error code
   Examples:
-    |activateAt          |deactivateAt        |entityStatus|http_status|error_description                            |error_code|
-    |2019-01-01T00:00:00Z|2020-01-01T00:00:00Z|A           |400        |Value must be a base64-encoded RSA Public Key|EA023     |
+    |activateAt          |deactivateAt        |entityStatus|description|http_status|error_description                            |error_code|
+    |2019-01-01T00:00:00Z|2020-01-01T00:00:00Z|A           |test       |400        |Value must be a base64-encoded RSA Public Key|EA023     |
 
     #Refactor this feature to be on its own
 #  @trial
