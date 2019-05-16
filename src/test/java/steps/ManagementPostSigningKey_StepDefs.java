@@ -17,12 +17,43 @@ public class ManagementPostSigningKey_StepDefs extends UtilManager {
     private static final Set<String> APPLICATION_ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
     private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_application_resource";
     private static final String SIG_HEADER_LIST_POST_APPLICATION = "header-list-post-application";
+    private static final String VALID_BASE64_ENCODED_RSA_PUBLIC_KEY = "valid_base64_encoded_rsa_public_key";
     TestContext testContext;
     ManagementCommon common;
 
     public ManagementPostSigningKey_StepDefs(TestContext testContext) {
         this.testContext = testContext;
         common = new ManagementCommon(testContext);
+    }
+
+    @And("^I create a new pubic key for signing key purposes$")
+    public void createPublicKey() {
+        common.iAmAnAuthorizedDragonUser(ROLE_SET,
+                token -> testContext.getApiManager().getPostPublicKey().setAuthTokenWithBearer(token));
+        testContext.getApiManager().getPostPublicKey().setApplicationId(
+                testContext.getApiManager().getPostSigningKeys().getApplicationId()
+        );
+
+
+        String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
+                RESOURCE_ENDPOINT_PROPERTY_NAME) + "/";
+        String value = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, VALID_BASE64_ENCODED_RSA_PUBLIC_KEY);
+        String activateAt = "2019-01-01T00:00:00Z";
+        String deactivateAt = "2023-02-02T00:00:00Z";
+        String entityStatus = "A";
+        String description = "Test description";
+
+        testContext.getApiManager().getPostPublicKey().postPublicKeys(
+                url,
+                value,
+                activateAt,
+                deactivateAt,
+                entityStatus,
+                description);
+
+        Assert.assertEquals(201,
+                getRestHelper().getResponseStatusCode(testContext.getApiManager().getPostPublicKey().getResponse()),
+                "Unable to create Post public key");
     }
 
     @And("^I create a new application id for signing key$")
@@ -110,22 +141,20 @@ public class ManagementPostSigningKey_StepDefs extends UtilManager {
         );
 
         String[] predefinedSet = {
-                "keyId","keyName","applicationId",
-                "value","alg","type","size","activateAt","deactivateAt","entityStatus",
+                "keyId","applicationId",
+                "value","type","size","activateAt","deactivateAt","entityStatus",
                 "description","createdAt","lastUpdatedAt"
         };
 
-        ArrayList returnedTransactions = testContext.getApiManager().getPostSigningKeys().getResponse().path(".");
-        returnedTransactions.stream().forEach(t -> {
-            Set<String> keySet = ((HashMap)t).keySet();
-            Collection<String> diff = CollectionUtils.disjunction(Arrays.asList(predefinedSet), keySet);
-            System.out.println("JT Diff " + String.join(",", diff));
-            if (diff.size() == 0) {
-            } else {
-                    Assert.assertEquals(true, false,
-                            "Returned transaction object contain fields that are not a subset (" +
-                                    String.join(",", diff) + ")");
-            }
-        });
+        HashMap t = testContext.getApiManager().getPostPublicKey().getResponse().path(".");
+        Set<String> keySet = ((HashMap)t).keySet();
+        Collection<String> diff = CollectionUtils.disjunction(Arrays.asList(predefinedSet), keySet);
+
+        if (diff.size() == 0) {
+        } else {
+            Assert.assertEquals(true, false,
+                    "Returned object contain fields that are not a subset (" +
+                            String.join(",", diff) + ")");
+        }
     }
 }

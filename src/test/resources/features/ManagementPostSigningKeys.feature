@@ -5,6 +5,16 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
+  @trial
+  @regression
+  Scenario: Positive flow - Create a new application, new public key, new signing key
+    Given I am an authorized Signing Key DRAGON user
+    And I create a new application id for signing key
+    And I create a new pubic key for signing key purposes
+    And I have an activate date "2019-01-01T00:00:00Z" and deactivate date "2020-01-01T00:00:00Z", with entity status "A" and a description "test"
+    When I make a request to create a new signing key
+    Then the create signing key response should be successful
+
 #  @trial
   @regression
   Scenario Outline: Negative flow - Create a new application and signing key without public key

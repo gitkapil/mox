@@ -8,7 +8,7 @@ import utils.PropertyHelper;
 import java.util.HashMap;
 
 public class PutPublicKeys extends UtilManager {
-
+    final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(PutPublicKeys.class);
     private String authToken;
     private String applicationId;
     private String keyId;
@@ -29,6 +29,7 @@ public class PutPublicKeys extends UtilManager {
 
     public void makeApiCall(String url) {
         response = getRestHelper().putRequestWithHeaderAndBody(url, returnHeader(), returnBody());
+        logger.info("********** PUT Public Key Response *********** ----> "+ response.getBody().asString());
     }
 
     private HashMap returnBody() {
