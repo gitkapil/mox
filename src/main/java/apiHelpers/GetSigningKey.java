@@ -2,6 +2,7 @@ package apiHelpers;
 
 import managers.UtilManager;
 import com.jayway.restassured.response.Response;
+import org.apache.log4j.Logger;
 import utils.EnvHelper;
 import utils.PropertyHelper;
 
@@ -12,6 +13,7 @@ public class GetSigningKey extends UtilManager {
     private String applicationId;
     private Response response = null;
     private HashMap<String, String> requestHeader;
+    private static Logger logger = Logger.getLogger(GetPublicKey.class);
 
     public String getApplicationId() {
         return applicationId;
@@ -37,6 +39,7 @@ public class GetSigningKey extends UtilManager {
     public void makeCall(String url) {
         returnRequestHeader();
         response = getRestHelper().getRequestWithHeaders(url + applicationId + "/keys/signing", requestHeader);
+        logger.info("********** GET Public Key Response *********** ----> "+ response.getBody().asString());
     }
 
     private HashMap<String,String> returnRequestHeader() {
