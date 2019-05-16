@@ -4,22 +4,23 @@ import com.google.common.collect.Sets;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import managers.TestContext;
 import managers.UtilManager;
 import org.apache.commons.collections.CollectionUtils;
 import org.testng.Assert;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 
 public class ManagementPutSigningKeys_StepDefs extends UtilManager {
     private TestContext testContext;
     private ManagementCommon common;
     private static final Set<String> ROLE_SET = Sets.newHashSet("ApplicationKey.ReadWrite.All");
+    private static final Set<String> APPLICATION_ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
     private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_application_resource";
     private static final String EXISTING_PUBLIC_KEY = "public_key_application_id";
+    private static final String SIG_HEADER_LIST_POST_APPLICATION = "header-list-post-application";
+    private static final String VALID_BASE64_ENCODED_RSA_PUBLIC_KEY = "valid_base64_encoded_rsa_public_key";
 
     public ManagementPutSigningKeys_StepDefs(TestContext testContext) {
         this.testContext = testContext;
@@ -31,14 +32,80 @@ public class ManagementPutSigningKeys_StepDefs extends UtilManager {
         common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getPutSigningKeys().setAuthTokenWithBearer(token));
     }
 
-    @And("^I create a new signing key based on using an existing application key$")
-    public void createSigningKey() {
-        //TODO: THis needs to be done when we merge feature/DRAG-1568
-        String applicationId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties,
-                EXISTING_PUBLIC_KEY);
 
-        testContext.getApiManager().getPostSigningKeys().setApplicationId(applicationId);
-        //Do something here
+    @And("^I create a new public key for it$")
+    public void createPublicKey() {
+        common.iAmAnAuthorizedDragonUser(ROLE_SET,
+                token -> testContext.getApiManager().getPostPublicKey().setAuthTokenWithBearer(token));
+        testContext.getApiManager().getPostPublicKey().setApplicationId(
+                testContext.getApiManager().getPutSigningKeys().getApplicationId()
+        );
+
+
+        String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
+                RESOURCE_ENDPOINT_PROPERTY_NAME) + "/";
+        String value = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, VALID_BASE64_ENCODED_RSA_PUBLIC_KEY);
+        String activateAt = "2019-01-01T00:00:00Z";
+        String deactivateAt = "2023-02-02T00:00:00Z";
+        String entityStatus = "A";
+        String description = "Test description";
+
+        testContext.getApiManager().getPostPublicKey().postPublicKeys(
+                url,
+                value,
+                activateAt,
+                deactivateAt,
+                entityStatus,
+                description);
+
+        Assert.assertEquals(201,
+                getRestHelper().getResponseStatusCode(testContext.getApiManager().getPostPublicKey().getResponse()),
+                "Unable to create Post public key");
+    }
+
+    @When("^I create a new application id for PUT signing key$")
+    public void createApplication() {
+        common.iAmAnAuthorizedDragonUser(APPLICATION_ROLE_SET,
+                token -> testContext.getApiManager().getPostApplication().setAuthTokenWithBearer(token));
+        testContext.getApiManager().getPostApplication().setClientId(UUID.randomUUID().toString());
+        testContext.getApiManager().getPostApplication().setSubUnitId(UUID.randomUUID().toString());
+        testContext.getApiManager().getPostApplication().setPeakId(UUID.randomUUID().toString());
+        testContext.getApiManager().getPostApplication().setOrganisationId(UUID.randomUUID().toString());
+        testContext.getApiManager().getPostApplication().setRequestDateTime(getDateHelper().getUTCNowDateTime());
+        testContext.getApiManager().getPostApplication().setTraceId(getGeneral().generateUniqueUUID());
+        testContext.getApiManager().getPostApplication().executeRequest(
+                getRestHelper().getBaseURI()+getFileHelper()
+                        .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME),
+                testContext.getApiManager().getAccessToken().getClientId(),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                Sets.newHashSet(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
+                        SIG_HEADER_LIST_POST_APPLICATION).split(",")));
+        testContext.getApiManager().getPutSigningKeys().setApplicationId(
+                testContext.getApiManager().getPostApplication().applicationIdInResponse()
+        );
+    }
+
+    @And("^I create a new signing key$")
+    public void createSigningKeyExistingId() {
+        common.iAmAnAuthorizedDragonUser(ROLE_SET,
+                token -> testContext.getApiManager().getPostSigningKeys().setAuthTokenWithBearer(token));
+        testContext.getApiManager().getPostSigningKeys().setApplicationId(
+                testContext.getApiManager().getPutSigningKeys().getApplicationId()
+        );
+        testContext.getApiManager().getPostSigningKeys().setActivateAt("2019-01-01T00:00:00Z");
+        testContext.getApiManager().getPostSigningKeys().setDeactivateAt("2023-01-01T00:00:00Z");
+        testContext.getApiManager().getPostSigningKeys().setEntityStatus("A");
+        testContext.getApiManager().getPostSigningKeys().setDescription("Test");
+        String url = getRestHelper().getBaseURI() +
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                + "/" + testContext.getApiManager().getPostSigningKeys().getApplicationId() + "/keys/signing";
+        testContext.getApiManager().getPostSigningKeys().makeRequest(url);
+
+        Assert.assertEquals(201,
+                getRestHelper().getResponseStatusCode(testContext.getApiManager().getPostSigningKeys().getResponse()),
+                "Unable to create signing key");
+
     }
 
     @And("^I retrieve the applicationId and keyId from the signing key response$")
@@ -48,6 +115,11 @@ public class ManagementPutSigningKeys_StepDefs extends UtilManager {
         String returnedApplicationId = dataMap.get("applicationId").toString();
         testContext.getApiManager().getPutSigningKeys().setKeyId(newKeyId);
         testContext.getApiManager().getPutSigningKeys().setApplicationId(returnedApplicationId);
+    }
+
+    @And("^I update the key id to \"([^\"]*)\"$")
+    public void updateKeyId(String keyId) {
+        testContext.getApiManager().getPutSigningKeys().setKeyId(keyId);
     }
 
     @And("^I have an \"([^\"]*)\" and \"([^\"]*)\" from an existing signing key$")
@@ -115,6 +187,7 @@ public class ManagementPutSigningKeys_StepDefs extends UtilManager {
                 "description",
                 "createdAt",
                 "lastUpdatedAt",
+                "alg",
                 "size",
                 "entityStatus",
                 "type"

@@ -3,6 +3,7 @@ package apiHelpers;
 import com.jayway.restassured.response.Response;
 import managers.UtilManager;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import utils.PropertyHelper;
 
 import java.util.HashMap;
@@ -16,11 +17,13 @@ public class PutSigningKeys extends UtilManager {
     private String deactivateAt;
     private String description;
     private String entityStatus;
+    private static Logger logger = Logger.getLogger(PutSigningKeys.class);
 
     private final static String EXISTING_APPLICATION_ID = "";
 
     public void makeApiCall(String url) {
         response = getRestHelper().putRequestWithHeaderAndBody(url, returnHeader(), returnBody());
+        logger.info("********** PUT Signing Key Response *********** ----> "+ response.getBody().asString());
     }
 
     private HashMap returnBody() {
