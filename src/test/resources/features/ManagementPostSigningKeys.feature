@@ -5,7 +5,7 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  @trial
+#  @trial
   @regression
   Scenario: Positive flow - Create a new application, new public key, new signing key
     Given I am an authorized Signing Key DRAGON user
