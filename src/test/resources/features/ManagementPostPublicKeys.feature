@@ -16,7 +16,7 @@ Feature: Management POST public keys API - DRAG-1461
     |activateAt          |deactivateAt        |entityStatus|description       |
     |2019-01-01T00:00:00Z|2020-01-01T00:00:00Z|A           |this is a test key|
 
-  @trial
+#  @trial
   @regression
   Scenario Outline: Negative Flow - Invalid RSA value
     Given I am a POST create keys authorized DRAGON user with the correct privileges
