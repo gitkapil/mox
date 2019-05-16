@@ -12,6 +12,8 @@ public class ApiManager {
     PostApplication postApplication;
     GetApplication getApplication;
     PutApplication putApplication;
+    GetSigningKey getSigningKey;
+    PostSigningKeys postSigningKeys;
     PutPublicKeys putPublicKeys;
     PostPublicKey postPublicKey;
     GetPublicKey getPublicKey;
@@ -26,11 +28,24 @@ public class ApiManager {
         postApplication = new PostApplication();
         getApplication = new GetApplication();
         putApplication = new PutApplication();
+        postSigningKeys = new PostSigningKeys();
         putPublicKeys = new PutPublicKeys();
         postPublicKey = new PostPublicKey();
         getPublicKey = new GetPublicKey();
+        getSigningKey = new GetSigningKey();
     }
 
+    public GetSigningKey getGetSigningKey() {
+        return getSigningKey;
+    }
+
+    public PostSigningKeys getPostSigningKeys() {
+        return postSigningKeys;
+    }
+
+    public void setPostSigningKeys(PostSigningKeys postSigningKeys) {
+        this.postSigningKeys = postSigningKeys;
+    }
     public PutPublicKeys getPutPublicKeys() {
         return putPublicKeys;
     }
@@ -49,10 +64,6 @@ public class ApiManager {
 
     public PostPublicKey getPostPublicKey() {
         return postPublicKey;
-    }
-
-    public void setPostPublicKey(PostPublicKey postPublicKey) {
-        this.postPublicKey = postPublicKey;
     }
 
     public AccessTokenForMerchants getAccessToken() {
