@@ -1,10 +1,8 @@
 package steps;
 
-import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import joptsimple.internal.Strings;
 import managers.TestContext;
 import managers.UtilManager;
 import org.apache.commons.collections.CollectionUtils;
@@ -68,9 +66,9 @@ public class Transactions_StepDefs extends UtilManager {
         System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
         transactionObjectIsASubSet();
-        transactionSourceIsConvertedProperly();
-        transactionTypeIsConvertedProperly();
-        statusIsConvertedProperly();
+        transactionSourceDescriptionIsConvertedProperly();
+        transactionTypeDescriptionIsConvertedProperly();
+        statusCodeIsConvertedProperly();
     }
 
     @And("^I should have at least (\\d+) number of transactions returned$")
@@ -94,44 +92,44 @@ public class Transactions_StepDefs extends UtilManager {
         queryTransactionListWithQueryStringParams(queryStringParams);
     }
 
-    public void transactionSourceIsConvertedProperly() {
+    public void transactionSourceDescriptionIsConvertedProperly() {
         ArrayList returnedTransactions = testContext.getApiManager().getTransaction().getTransactionListResponse().path("transactions");
         returnedTransactions.stream().forEach(t -> {
-            String source = (String)((HashMap)t).get("transactionSource");
+            String sourceDescription = (String)((HashMap)t).get("transactionSourceDescription");
             //should be Online or null
-            if (source == null || source.contentEquals("Online") || source.length() == 0) {
+            if (sourceDescription == null || sourceDescription.contentEquals("Online") || sourceDescription.length() == 0) {
                 //right format
             } else {
-                Assert.assertEquals(true, false, "TransactionSource has an invalid value (" + source + ")");
+                Assert.assertEquals(true, false, "TransactionSourceDescription has an invalid value (" + sourceDescription + ")");
             }
         });
     }
 
-    public void transactionTypeIsConvertedProperly() {
+    public void transactionTypeDescriptionIsConvertedProperly() {
         ArrayList returnedTransactions = testContext.getApiManager().getTransaction().getTransactionListResponse().path("transactions");
         returnedTransactions.stream().forEach(t -> {
-            String source = (String)((HashMap)t).get("transactionType");
+            String typeDescription = (String)((HashMap)t).get("transactionTypeDescription");
             //should be Online or null
-            if (source == null || source.contentEquals("Collect payment") ||
-                source.contentEquals("Refund") || source.contentEquals("Bank Transfer") ||
-                source.contentEquals("Adjustment") || source.length() == 0) {
+            if (typeDescription == null || typeDescription.contentEquals("Collect payment") ||
+                typeDescription.contentEquals("Refund") || typeDescription.contentEquals("Bank Transfer") ||
+                typeDescription.contentEquals("Adjustment") || typeDescription.length() == 0) {
                 //right format
             } else {
-                Assert.assertEquals(true, false, "transactionType has an invalid value (" + source + ")");
+                Assert.assertEquals(true, false, "transactionTypeDescription has an invalid value (" + typeDescription + ")");
             }
         });
     }
 
-    public void statusIsConvertedProperly() {
+    public void statusCodeIsConvertedProperly() {
         ArrayList returnedTransactions = testContext.getApiManager().getTransaction().getTransactionListResponse().path("transactions");
         returnedTransactions.stream().forEach(t -> {
-            String source = (String)((HashMap)t).get("status");
+            String statusCode = (String)((HashMap)t).get("statusCode");
             //should be Online or null
-            if (source == null || source.contentEquals("Success") || source.contentEquals("Failed")
-                || source.contentEquals("Submitted")) {
+            if (statusCode == null || statusCode.contentEquals("001") || statusCode.contentEquals("002")
+                || statusCode.contentEquals("003")) {
                 //right format
             } else {
-                Assert.assertEquals(true, false, "source has an invalid value (" + source + ")");
+                Assert.assertEquals(true, false, "statusCode has an invalid value (" + statusCode + ")");
             }
         });
     }
@@ -141,13 +139,16 @@ public class Transactions_StepDefs extends UtilManager {
                 "transactionId",
                 "payerId",
                 "transactionSource",
+                "transactionSourceDescription",
                 "transactionType",
+                "transactionTypeDescription",
                 "transactionTime",
                 "transactionAmount",
                 "transactionCurrencyCode",
                 "feeAmount",
                 "feeCurrencyCode",
-                "status",
+                "statusDescription",
+                "statusCode",
                 "payerName",
                 "message",
                 "reference",
@@ -159,10 +160,8 @@ public class Transactions_StepDefs extends UtilManager {
         returnedTransactions.stream().forEach(t -> {
             Set<String> keySet = ((HashMap)t).keySet();
             Collection<String> diff = CollectionUtils.disjunction(Arrays.asList(predefinedSet), keySet);
-            System.out.println("JT Diff " + String.join(",", diff));
-            if (diff.size() == 0) {
-            } else {
-                if (!diff.contains("transactionSource") && !diff.contains("transactionType") &&
+            if (diff.size() != 0) {
+                if (!diff.contains("transactionSourceDescription") && !diff.contains("transactionTypeDescription") &&
                         !diff.contains("message") && !diff.contains("reasonCode")) {
                     Assert.assertEquals(true, false,
                             "Returned transaction object contain fields that are not a subset (" +
