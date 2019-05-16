@@ -22,7 +22,8 @@ public class PaymentRequest extends UtilManager{
     private List<HashMap> shoppingCart=new ArrayList<HashMap>();
     private HashMap<String, String> paymentRequestHeader;
     private HashMap paymentRequestBody = new HashMap();
-    private Response paymentRequestResponse= null;
+    private Response paymentRequestResponse = null;
+
 
     /**
      *
@@ -413,12 +414,12 @@ public class PaymentRequest extends UtilManager{
 
         try{
             returnPaymentRequestBody();
+
             paymentRequestResponse= getRestHelper().postRequestWithHeaderAndBody(url,
                     returnPaymentRequestHeader("POST", new URL(url).getPath(), signingKeyId, signingAlgorithm, signingKey, headerElementsForSignature),
                     paymentRequestBody);
-
             //testContext.getUtilManager().getSignatureHelper().verifySignature(paymentRequestResponse, "POST", url, Base64.getDecoder().decode(signingKey), signingAlgorithm);
-            logger.info("********** Payment Request Response *********** ----> "+ paymentRequestResponse.getBody().asString());
+            logger.info("********** Payment Request Response *********** ----> "+ paymentRequestResponse.prettyPrint());
         }
         catch (Exception e){
             e.printStackTrace();
@@ -465,6 +466,31 @@ public class PaymentRequest extends UtilManager{
     public String paymentRequestIdInResponse(){
         return getRestHelper().getResponseBodyValue(paymentRequestResponse, "paymentRequestId");
 
+    }
+
+    /**
+     *
+     * @returns businessLogos from the response
+     */
+    public boolean businessLogosInResponse(){
+        if (paymentRequestResponse.path("businessLogos")!=null){
+            String tiny = paymentRequestResponse.path("businessLogos.tiny");
+            Assert.assertTrue(tiny.contains("40x40.png"));
+            String small = paymentRequestResponse.path("businessLogos.small");
+            Assert.assertTrue(small.contains("60x60.png"));
+            String normal = paymentRequestResponse.path("businessLogos.normal");
+            Assert.assertTrue(normal.contains("300x300.png"));
+            String large = paymentRequestResponse.path("businessLogos.large");
+            Assert.assertTrue(large.contains("600x600.png"));
+            String full = paymentRequestResponse.path("businessLogos.full");
+            Assert.assertTrue(full.contains("businessLogo.png"));
+            return true;
+        }
+        else if( paymentRequestResponse.path("businessLogos")==null){
+          return true;
+        }
+
+        return false;
     }
 
     /**

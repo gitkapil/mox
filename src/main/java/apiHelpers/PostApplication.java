@@ -22,6 +22,7 @@ public class PostApplication extends UtilManager{
     private String peakId;
     private String subUnitId;
     private String organisationId;
+    private String description;
     private String traceId;
     private String requestDateTime;
     private HashMap<String, String> requestHeader;
@@ -66,6 +67,14 @@ public class PostApplication extends UtilManager{
 
     public String getOrganisationId() {
         return organisationId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /**
