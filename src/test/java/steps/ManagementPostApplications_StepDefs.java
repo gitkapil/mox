@@ -8,6 +8,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import managers.TestContext;
 import managers.UtilManager;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 
@@ -62,11 +63,30 @@ public class ManagementPostApplications_StepDefs extends UtilManager{
         testContext.getApiManager().getPostApplication().setTraceId(getGeneral().generateUniqueUUID());
     }
 
-    @Given("^I have a \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\" from an existing PM4B merchant identity$")
-    public void i_have_a_peakId_subUnitId_and_organisationId_from_an_existing_PM4B_merchant_identity(String peakId, String subUnitId, String organisationId){
+    @Given("^I have a \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\" and a super large description from an existing PM4B merchant identity$")
+    public void i_have_a_peakId_subUnitId_and_organisationId_from_an_existing_PM4B_merchant_identity(String peakId,
+                                                                                                     String subUnitId,
+                                                                                                     String organisationId){
+
+        String description = StringUtils.repeat("*", 257);
+
         testContext.getApiManager().getPostApplication().setPeakId(peakId);
         testContext.getApiManager().getPostApplication().setSubUnitId(subUnitId);
         testContext.getApiManager().getPostApplication().setOrganisationId(organisationId);
+        testContext.getApiManager().getPostApplication().setDescription(description);
+        testContext.getApiManager().getPostApplication().setRequestDateTime(getDateHelper().getUTCNowDateTime());
+        testContext.getApiManager().getPostApplication().setTraceId(getGeneral().generateUniqueUUID());
+    }
+
+    @Given("^I have a \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\" from an existing PM4B merchant identity$")
+    public void i_have_a_peakId_subUnitId_and_organisationId_from_an_existing_PM4B_merchant_identity(String peakId,
+                                                                                                     String subUnitId,
+                                                                                                     String organisationId,
+                                                                                                     String description){
+        testContext.getApiManager().getPostApplication().setPeakId(peakId);
+        testContext.getApiManager().getPostApplication().setSubUnitId(subUnitId);
+        testContext.getApiManager().getPostApplication().setOrganisationId(organisationId);
+        testContext.getApiManager().getPostApplication().setDescription(description);
         testContext.getApiManager().getPostApplication().setRequestDateTime(getDateHelper().getUTCNowDateTime());
         testContext.getApiManager().getPostApplication().setTraceId(getGeneral().generateUniqueUUID());
     }
@@ -74,7 +94,8 @@ public class ManagementPostApplications_StepDefs extends UtilManager{
     @Given("^I have valid application details$")
     public void i_have_valid_application_details(){
         i_have_a_clientId_from_an_existing_AAD_application(UUID.randomUUID().toString());
-        i_have_a_peakId_subUnitId_and_organisationId_from_an_existing_PM4B_merchant_identity(UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString());
+        i_have_a_peakId_subUnitId_and_organisationId_from_an_existing_PM4B_merchant_identity(
+                UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString());
     }
 
     @When("^I make a POST request to the application endpoint$")
