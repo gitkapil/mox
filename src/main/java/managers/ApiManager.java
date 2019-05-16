@@ -12,6 +12,7 @@ public class ApiManager {
     PostApplication postApplication;
     GetApplication getApplication;
     PutApplication putApplication;
+    GetSigningKey getSigningKey;
     PostSigningKeys postSigningKeys;
     PutPublicKeys putPublicKeys;
     PostPublicKey postPublicKey;
@@ -32,11 +33,16 @@ public class ApiManager {
         putPublicKeys = new PutPublicKeys();
         postPublicKey = new PostPublicKey();
         getPublicKey = new GetPublicKey();
+        getSigningKey = new GetSigningKey();
         putSigningKeys = new PutSigningKeys();
     }
 
     public PutSigningKeys getPutSigningKeys() {
         return putSigningKeys;
+    }
+
+    public GetSigningKey getGetSigningKey() {
+        return getSigningKey;
     }
 
     public PostSigningKeys getPostSigningKeys() {

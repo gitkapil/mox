@@ -37,13 +37,13 @@ public class ManagementPutSigningKeys_StepDefs extends UtilManager {
         String applicationId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties,
                 EXISTING_PUBLIC_KEY);
 
-        testContext.getApiManager().getPostSigningKey().setApplicationId(applicationId);
+        testContext.getApiManager().getPostSigningKeys().setApplicationId(applicationId);
         //Do something here
     }
 
     @And("^I retrieve the applicationId and keyId from the signing key response$")
     public void getSigningKey() {
-        HashMap dataMap = (HashMap)testContext.getApiManager().getPostSigningKey().getResponse().path(".");
+        HashMap dataMap = (HashMap)testContext.getApiManager().getPostSigningKeys().getResponse().path(".");
         String newKeyId = dataMap.get("keyId").toString();
         String returnedApplicationId = dataMap.get("applicationId").toString();
         testContext.getApiManager().getPutSigningKeys().setKeyId(newKeyId);
