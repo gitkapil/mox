@@ -14,8 +14,9 @@ import java.util.*;
 
 public class ManagementPostSigningKey_StepDefs extends UtilManager {
     private static final Set<String> ROLE_SET = Sets.newHashSet("ApplicationKey.ReadWrite.All");
-    private static final Set<String> INCORRECT_ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
+    private static final Set<String> APPLICATION_ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
     private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_application_resource";
+    private static final String SIG_HEADER_LIST_POST_APPLICATION = "header-list-post-application";
     TestContext testContext;
     ManagementCommon common;
 
@@ -24,14 +25,32 @@ public class ManagementPostSigningKey_StepDefs extends UtilManager {
         common = new ManagementCommon(testContext);
     }
 
+    @And("^I create a new application id for signing key$")
+    public void createApplication() {
+        common.iAmAnAuthorizedDragonUser(APPLICATION_ROLE_SET,
+                token -> testContext.getApiManager().getPostApplication().setAuthTokenWithBearer(token));
+        testContext.getApiManager().getPostApplication().setClientId(UUID.randomUUID().toString());
+        testContext.getApiManager().getPostApplication().setSubUnitId(UUID.randomUUID().toString());
+        testContext.getApiManager().getPostApplication().setPeakId(UUID.randomUUID().toString());
+        testContext.getApiManager().getPostApplication().setOrganisationId(UUID.randomUUID().toString());
+        testContext.getApiManager().getPostApplication().setRequestDateTime(getDateHelper().getUTCNowDateTime());
+        testContext.getApiManager().getPostApplication().setTraceId(getGeneral().generateUniqueUUID());
+        testContext.getApiManager().getPostApplication().executeRequest(
+                getRestHelper().getBaseURI()+getFileHelper()
+                        .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME),
+                testContext.getApiManager().getAccessToken().getClientId(),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                Sets.newHashSet(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
+                        SIG_HEADER_LIST_POST_APPLICATION).split(",")));
+        testContext.getApiManager().getPostSigningKeys().setApplicationId(
+                testContext.getApiManager().getPostApplication().applicationIdInResponse()
+        );
+    }
+
     @Given("^I am an authorized Signing Key DRAGON user$")
     public void login() {
         common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getPostSigningKeys().setAuthTokenWithBearer(token));
-    }
-
-    @Given("^I am not an authorized Signing key DRAGON user$")
-    public void invalidLogin() {
-        common.iAmAnAuthorizedDragonUser(INCORRECT_ROLE_SET, token -> testContext.getApiManager().getPostSigningKeys().setAuthTokenWithBearer(token));
     }
 
     @And("^I have a \"([^\"]*)\" application id$")
@@ -58,7 +77,7 @@ public class ManagementPostSigningKey_StepDefs extends UtilManager {
     @Then("^the create signing key response should give a \"([^\"]*)\" http status with error code \"([^\"]*)\" and description \"([^\"]*)\"$")
     public void invalidResponse(String httpStatus, String errorCode, String errorDescription) {
         Assert.assertEquals(
-                httpStatus,
+                Integer.parseInt(httpStatus),
                 getRestHelper().getResponseStatusCode(testContext.getApiManager().getPostSigningKeys().getResponse()),
                 "Expected http status " + httpStatus + " but got " +
                         getRestHelper().getResponseStatusCode(testContext.getApiManager().getPostSigningKeys().getResponse())
@@ -71,12 +90,14 @@ public class ManagementPostSigningKey_StepDefs extends UtilManager {
                         getRestHelper().getErrorCode(testContext.getApiManager().getPostSigningKeys().getResponse())
         );
 
-        Assert.assertEquals(
-                errorDescription,
-                getRestHelper().getErrorDescription(testContext.getApiManager().getPostSigningKeys().getResponse()),
-                "Expected error description " + errorDescription + " but got " +
-                        getRestHelper().getErrorDescription(testContext.getApiManager().getPostSigningKeys().getResponse())
-        );
+        if (!getRestHelper().getErrorDescription(testContext.getApiManager().getPostSigningKeys().getResponse()).contains(errorDescription)) {
+            Assert.assertEquals(
+                    errorDescription,
+                    getRestHelper().getErrorDescription(testContext.getApiManager().getPostSigningKeys().getResponse()),
+                    "Expected error description " + errorDescription + " but got " +
+                            getRestHelper().getErrorDescription(testContext.getApiManager().getPostSigningKeys().getResponse())
+            );
+        }
     }
 
     @Then("^the create signing key response should be successful$")
