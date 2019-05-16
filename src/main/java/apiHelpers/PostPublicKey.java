@@ -55,6 +55,7 @@ public class PostPublicKey extends UtilManager {
         }
 
         response = getRestHelper().postRequestWithHeaderAndBody(url + applicationId + "/keys/public", requestHeader, body);
+        logger.info("********** POST Public Key Response *********** ----> "+ response.getBody().asString());
         return response;
     }
 

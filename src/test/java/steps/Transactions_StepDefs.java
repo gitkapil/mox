@@ -68,7 +68,7 @@ public class Transactions_StepDefs extends UtilManager {
         transactionObjectIsASubSet();
         transactionSourceDescriptionIsConvertedProperly();
         transactionTypeDescriptionIsConvertedProperly();
-        statusIsConvertedProperly();
+        statusCodeIsConvertedProperly();
     }
 
     @And("^I should have at least (\\d+) number of transactions returned$")
@@ -120,16 +120,16 @@ public class Transactions_StepDefs extends UtilManager {
         });
     }
 
-    public void statusIsConvertedProperly() {
+    public void statusCodeIsConvertedProperly() {
         ArrayList returnedTransactions = testContext.getApiManager().getTransaction().getTransactionListResponse().path("transactions");
         returnedTransactions.stream().forEach(t -> {
-            String source = (String)((HashMap)t).get("status");
+            String statusCode = (String)((HashMap)t).get("statusCode");
             //should be Online or null
-            if (source == null || source.contentEquals("Success") || source.contentEquals("Failed")
-                || source.contentEquals("Submitted")) {
+            if (statusCode == null || statusCode.contentEquals("001") || statusCode.contentEquals("002")
+                || statusCode.contentEquals("003")) {
                 //right format
             } else {
-                Assert.assertEquals(true, false, "source has an invalid value (" + source + ")");
+                Assert.assertEquals(true, false, "statusCode has an invalid value (" + statusCode + ")");
             }
         });
     }
@@ -147,7 +147,8 @@ public class Transactions_StepDefs extends UtilManager {
                 "transactionCurrencyCode",
                 "feeAmount",
                 "feeCurrencyCode",
-                "status",
+                "statusDescription",
+                "statusCode",
                 "payerName",
                 "message",
                 "reference",
@@ -159,7 +160,6 @@ public class Transactions_StepDefs extends UtilManager {
         returnedTransactions.stream().forEach(t -> {
             Set<String> keySet = ((HashMap)t).keySet();
             Collection<String> diff = CollectionUtils.disjunction(Arrays.asList(predefinedSet), keySet);
-            System.out.println("JT Diff " + String.join(",", diff));
             if (diff.size() != 0) {
                 if (!diff.contains("transactionSourceDescription") && !diff.contains("transactionTypeDescription") &&
                         !diff.contains("message") && !diff.contains("reasonCode")) {

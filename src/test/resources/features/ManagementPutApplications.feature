@@ -5,6 +5,7 @@ Feature: Management Put Applications API - DRAG-1446
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
+#  @trial
   @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Positive flow- A DRAGON user with Application.ReadWrite.All is able to update an existing application
     Given I am a PUT application authorized DRAGON user with ApplicationKey.ReadWrite.All

@@ -9,7 +9,7 @@ Feature: Management Put Public Keys - DRAG-1558
     @regression
     Scenario Outline: Positive flow - Able to update public key attributes
       Given I am a POST create keys authorized DRAGON user with the correct privileges
-      When I have a valid base64 encoded RSA public key, activate at "<activateAt>", deactivate at "<deactivateAt>", "<entityStatus>" as entity status and description is "<description>"
+      When I have a valid base64 encoded RSA public key value, activate at "<activateAt>", deactivate at "<deactivateAt>", "<entityStatus>" as entity status and description is "<description>"
       And I create a new public key based on using an existing application key
       And I retrieve the applicationId and the keyId from the response
       And I am a PUT public keys DRAGON user with correct role
