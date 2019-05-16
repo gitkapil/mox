@@ -6,3 +6,5 @@ bin/
 .settings/
 .classpath
 .DS_Store
+.checkstyle
+.springBeans

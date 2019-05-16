@@ -5,34 +5,21 @@ Feature: Management Put Applications API - DRAG-1446
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-#  @trial
-  @regression @merchantManagement @merchantManagementPut
-  Scenario Outline: Positive flow- A DRAGON user with Application.ReadWrite.All is able to update an existing application
-    Given I am a PUT application authorized DRAGON user with ApplicationKey.ReadWrite.All
-    And I have an "<applicationId>" from an existing application
-    And I have updated "<clientId>", "<peakId>", "<subUnitId>" and "<organisationId>" values
-    When I make a PUT request to the application endpoint
-    Then I should receive a successful PUT application response
-    And the PUT response body should contain a valid applicationId, clientId, peakId, subUnitId and organisationId
-    And the response body should also have empty notificationPath and empty notificationHost
-    Examples:
-      |applicationId                       |clientId                            |peakId                              |subUnitId                           |organisationId                      |
-      |new                                 |random                              |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|
-
   # For the parametres where values are missing within the table, while creating request, the parameter will not be included at all as a a part of the payload
-#  @trial
+  
+  # @trial
   @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Positive flow- A DRAGON user with Application.ReadWrite.All is able to update an existing application
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     And I have an "<applicationId>" from an existing application
-    And I have updated "<clientId>", "<peakId>", "<subUnitId>" and "<organisationId>" values
+    And I have updated "<clientId>", "<peakId>", "<subUnitId>", "<organisationId>" and "<description>" values
     When I make a PUT request to the application endpoint
     Then I should receive a successful PUT application response
-    And the PUT response body should contain a valid applicationId, clientId, peakId, subUnitId and organisationId
+    And the PUT response body should contain a valid applicationId, clientId, peakId, subUnitId, organisationId and description
     And the response body should also have empty notificationPath and empty notificationHost
     Examples:
-      |applicationId                       |clientId                            |peakId                              |subUnitId                           |organisationId                      |
-      |new                                 |random                              |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|
+      |applicationId                       |clientId                            |peakId                              |subUnitId                           |organisationId                      |description |
+      |new                                 |random                              |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|test d      |
 
   #DRAG-1157 - Please update the correct error_message for the signature in the examples.
 #   @trial
@@ -86,20 +73,21 @@ Feature: Management Put Applications API - DRAG-1446
   Scenario Outline: Negative flow- Mandatory fields from the body missing or invalid
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     And I have an "<applicationId>" from an existing application
-    And I have updated "<clientId>", "<peakId>", "<subUnitId>" and "<organisationId>" values
+    And I have updated "<clientId>", "<peakId>", "<subUnitId>", "<organisationId>" and "<description>" values
     When I make a PUT request to the application endpoint
     Then I should receive a "400" error response with "<error_description>" error description and "<error_code>" errorcode within the PUT application response
     And error message should be "<error_message>" within the PUT application response
     Examples:
-      |applicationId|clientId                            |peakId                              |subUnitId                           |organisationId                      |error_description                                                                                                                |error_message                    |error_code|
-      |new          |no_value                            |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|Field error in object 'updateMerchantApplicationMappingInputModel': field 'clientId' may not be null; rejected value [null]      |Service Request Validation Failed|EA002     |
-      |new          |random                              |no_value                            |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|Field error in object 'updateMerchantApplicationMappingInputModel': field 'peakId' may not be null; rejected value [null]        |Service Request Validation Failed|EA002     |
-      |new          |random                              |3fa85f64-5717-4562-b3fc-2c963f66afa6|no_value                            |3fa85f64-5717-4562-b3fc-2c963f66afa6|Field error in object 'updateMerchantApplicationMappingInputModel': field 'subUnitId' may not be null; rejected value [null]     |Service Request Validation Failed|EA002     |
-      |new          |random                              |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|no_value                            |Field error in object 'updateMerchantApplicationMappingInputModel': field 'organisationId' may not be null; rejected value [null]|Service Request Validation Failed|EA002     |
-      |new          |not a UUID                          |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|Unable to read or parse message body: json parse error at [line: 1, column: 61]                                                  |Service Request Validation Failed|EA002     |
-      |new          |random                              |not a UUID                          |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|Unable to read or parse message body: json parse error at [line: 1, column: 11]                                                  |Service Request Validation Failed|EA002     |
-      |new          |random                              |3fa85f64-5717-4562-b3fc-2c963f66afa6|not a UUID                          |3fa85f64-5717-4562-b3fc-2c963f66afa6|Unable to read or parse message body: json parse error at [line: 1, column: 168]                                                 |Service Request Validation Failed|EA002     |
-      |new          |random                              |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|not a UUID                          |Unable to read or parse message body: json parse error at [line: 1, column: 117]                                                 |Service Request Validation Failed|EA002     |
+      |applicationId|clientId                            |peakId                              |subUnitId                           |organisationId                      |description|error_description                                                                                                                |error_message                    |error_code|
+      |new          |no_value                            |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6||Field error in object 'updateMerchantApplicationMappingInputModel': field 'clientId' may not be null; rejected value [null]      |Service Request Validation Failed|EA002     |
+      |new          |random                              |no_value                            |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6||Field error in object 'updateMerchantApplicationMappingInputModel': field 'peakId' may not be null; rejected value [null]        |Service Request Validation Failed|EA002     |
+      |new          |random                              |3fa85f64-5717-4562-b3fc-2c963f66afa6|no_value                            |3fa85f64-5717-4562-b3fc-2c963f66afa6||Field error in object 'updateMerchantApplicationMappingInputModel': field 'subUnitId' may not be null; rejected value [null]     |Service Request Validation Failed|EA002     |
+      |new          |random                              |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|no_value                            ||Field error in object 'updateMerchantApplicationMappingInputModel': field 'organisationId' may not be null; rejected value [null]|Service Request Validation Failed|EA002     |
+      |new          |not a UUID                          |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6||Unable to read or parse message body: json parse error at [line: 1, column: 61]                                                  |Service Request Validation Failed|EA002     |
+      |new          |random                              |not a UUID                          |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6||Unable to read or parse message body: json parse error at [line: 1, column: 11]                                                  |Service Request Validation Failed|EA002     |
+      |new          |random                              |3fa85f64-5717-4562-b3fc-2c963f66afa6|not a UUID                          |3fa85f64-5717-4562-b3fc-2c963f66afa6||Unable to read or parse message body: json parse error at [line: 1, column: 168]                                                 |Service Request Validation Failed|EA002     |
+      |new          |random                              |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|not a UUID                          ||Unable to read or parse message body: json parse error at [line: 1, column: 117]                                                 |Service Request Validation Failed|EA002     |
+      |new          |random                              |3fa85f64-5717-4562-b3fc-2c963f66afa6|3fa85f64-5717-4562-b3fc-2c963f66afa6|not a UUID                          |superlargestring|Unable to read or parse message body: json parse error at [line: 1, column: 117]                                                 |Service Request Validation Failed|EA002     |
 
 #  @regression
 #  Scenario Outline: Negative flow- Request Date Time's invalid values set within the header
