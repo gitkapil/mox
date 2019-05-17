@@ -1,5 +1,7 @@
 package steps;
 
+import com.google.common.collect.Sets;
+import cucumber.api.java.en.And;
 import managers.TestContext;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -8,68 +10,97 @@ import managers.UtilManager;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 
 public class Refunds_StepDefs extends UtilManager {
     TestContext testContext;
+    ManagementCommon common;
+    private static final Set<String> ROLE_SET = Sets.newHashSet("refund");
+    private static final Set<String> INCORRECT_ROLE_SET = Sets.newHashSet("paymentRequest");
+    private static final String VALID_TRANSACTION_ID = "";
+    private static final String VALID_PAYER_ID = "";
 
     public Refunds_StepDefs(TestContext testContext) {
         this.testContext = testContext;
+        common = new ManagementCommon(this.testContext);
     }
 
     final static Logger logger = Logger.getLogger(Refunds_StepDefs.class);
 
-    @Given("^I have a \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\"$")
-    public void i_have_a(String amount, String currency, String reason)   {
-       testContext.getApiManager().getRefunds().setAmount(Double.parseDouble(amount));
-       testContext.getApiManager().getRefunds().setCurrencyCode(currency);
-       testContext.getApiManager().getRefunds().setReason(reason);
-       testContext.getApiManager().getRefunds().setRequestDateTime(getDateHelper().getUTCNowDateTime());
-       testContext.getApiManager().getRefunds().setTraceId(getGeneral().generateUniqueUUID());
-       testContext.getApiManager().getRefunds().setTransactionId(getGeneral().generateUniqueUUID());
+    @Given("^I am logging in as a user with incorrect role$")
+    public void logIn() {
+        common.iAmAnAuthorizedDragonUserForRefunds(ROLE_SET, token -> testContext.getApiManager().getRefunds().setAuthTokenWithBearer(token));
     }
+
+    @And("^I have a valid transaction for refund$")
+    public void validTransactionForRefund() {
+        testContext.getApiManager().getRefunds().setTransactionId(VALID_TRANSACTION_ID);
+    }
+
+    @When("^I try to make a call to refund$")
+    public void callRefund() {
+        testContext.getApiManager().getRefunds().setTransactionId(VALID_TRANSACTION_ID);
+        testContext.getApiManager().getRefunds().setPayerId(VALID_PAYER_ID);
+        testContext.getApiManager().getRefunds().setAmount("100");
+        testContext.getApiManager().getRefunds().setCurrencyCode("HKD");
+        testContext.getApiManager().getRefunds().setReasonCode("00");
+        testContext.getApiManager().getRefunds().setReasonMessage("test");
+        testContext.getApiManager().getRefunds().retrieveRefunds(
+                getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_1"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"),
+                testContext.getApiManager().getAccessToken().getClientId(),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
+    }
+
+    @Given("^I am logging in as a user with refund role$")
+    public void invalidLogIn() {
+        common.iAmAnAuthorizedDragonUserForRefunds(INCORRECT_ROLE_SET, token -> testContext.getApiManager().getRefunds().setAuthTokenWithBearer(token));
+    }
+
+    @Given("^I try to make a call to refund with transaction id as \"([^\"]*)\"$")
+    public void callWithTransactionId(String transactionId) {
+        testContext.getApiManager().getRefunds().setTransactionId(transactionId);
+    }
+
+    @And("^I enter the refund data with payerId \"([^\"]*)\", refund amount \"([^\"]*)\", refund currency \"([^\"]*)\", reason Code \"([^\"]*)\" and reason message \"([^\"]*)\"$")
+    public void enterBody(String payerId, String amount, String currencyCode, String reasonCode, String reasonMessage) {
+        testContext.getApiManager().getRefunds().setPayerId(payerId);
+        testContext.getApiManager().getRefunds().setAmount(amount);
+        testContext.getApiManager().getRefunds().setCurrencyCode(currencyCode);
+        testContext.getApiManager().getRefunds().setReasonCode(reasonCode);
+        testContext.getApiManager().getRefunds().setReasonMessage(reasonMessage);
+        testContext.getApiManager().getRefunds().retrieveRefunds(
+                getRestHelper().getBaseURI() +
+                        getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_1"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"),
+                testContext.getApiManager().getAccessToken().getClientId(),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
+    }
+
+
 
     @When("^I make a request for the refund$")
     public void i_make_a_request_for_the_refund()   {
         logger.info("********** Creating Refund Request ***********");
         testContext.getApiManager().getRefunds().retrieveRefunds(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_1"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"));
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"),
+                testContext.getApiManager().getAccessToken().getClientId(),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
 
     }
 
     @Then("^I should receive a successful refund response$")
     public void i_should_receive_a_successful_refund_response()   {
         Assert.assertEquals("Refund request was not successful!", 200, getRestHelper().getResponseStatusCode(testContext.getApiManager().getRefunds().getRefundsResponse()));
-    }
-
-    @Then("^the response body should contain valid refund id, amount, currencyCode, reasonCode, transaction Id$")
-    public void the_response_body_should_contain_valid_refund_id_amount_currencyCode_reasonCode_transaction_Id()   {
-       Assert.assertNotNull("Refund Id is null!", testContext.getApiManager().getRefunds().refundIdInResponse());
-
-        Assert.assertNotNull("Response code is null!", testContext.getApiManager().getRefunds().reasonCodeInResponse());
-
-        Assert.assertEquals("Amount isn't matching", testContext.getApiManager().getRefunds().getAmount().toString(), testContext.getApiManager().getRefunds().amountInResponse());
-
-        Assert.assertEquals("Currency code isn't matching", testContext.getApiManager().getRefunds().getCurrencyCode(), testContext.getApiManager().getRefunds().currencyCodeInResponse());
-
-        Assert.assertEquals("TransactionId isn't matching", testContext.getApiManager().getRefunds().getTransactionId(), testContext.getApiManager().getRefunds().transactionIdInResponse());
-    }
-
-    @Then("^the response body should also have reason if applicable$")
-    public void the_response_body_should_also_have_reason_if_applicable()   {
-       if (testContext.getApiManager().getRefunds().getReason()==null)
-           Assert.assertNull("Reason is present when it should not be", testContext.getApiManager().getRefunds().reasonInResponse());
-       else
-           Assert.assertEquals("Reason isn't matching", testContext.getApiManager().getRefunds().getReason(), testContext.getApiManager().getRefunds().reasonInResponse());
-    }
-
-    @Given("^I have a valid transaction for refund$")
-    public void i_have_a_valid_transaction_for_refund()   {
-        testContext.getApiManager().getRefunds().setAmount(23.33);
-        testContext.getApiManager().getRefunds().setCurrencyCode("HKD");
-        testContext.getApiManager().getRefunds().setReason("customer requested");
-        testContext.getApiManager().getRefunds().setRequestDateTime(getDateHelper().getUTCNowDateTime());
-        testContext.getApiManager().getRefunds().setTraceId(getGeneral().generateUniqueUUID());
-        testContext.getApiManager().getRefunds().setTransactionId(getGeneral().generateUniqueUUID());
     }
 
     @Given("^I dont send Bearer with the auth token in the refund request$")
@@ -80,10 +111,13 @@ public class Refunds_StepDefs extends UtilManager {
     @Then("^I should receive a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within refund response$")
     public void i_should_receive_a_error_response_with_error_description_and_errorcode_within_refund_response(int responseCode, String errorDesc, String errorCode)   {
         Assert.assertEquals("Different response code being returned", responseCode, getRestHelper().getResponseStatusCode(testContext.getApiManager().getRefunds().getRefundsResponse()));
+        if (!errorCode.equalsIgnoreCase("null")) {
+            Assert.assertEquals("Different error code being returned", errorCode, getRestHelper().getErrorCode(testContext.getApiManager().getRefunds().getRefundsResponse()));
+        }
 
-        Assert.assertEquals("Different error code being returned", errorCode, getRestHelper().getErrorCode(testContext.getApiManager().getRefunds().getRefundsResponse()));
-
-        Assert.assertTrue("Different error description being returned..Expected: "+ errorDesc+ "  Actual: "+ getRestHelper().getErrorDescription(testContext.getApiManager().getRefunds().getRefundsResponse()), getRestHelper().getErrorDescription(testContext.getApiManager().getRefunds().getRefundsResponse()).contains(errorDesc));
+        if (!errorDesc.equalsIgnoreCase("null")) {
+            Assert.assertTrue("Different error description being returned..Expected: " + errorDesc + "  Actual: " + getRestHelper().getErrorDescription(testContext.getApiManager().getRefunds().getRefundsResponse()), getRestHelper().getErrorDescription(testContext.getApiManager().getRefunds().getRefundsResponse()).contains(errorDesc));
+        }
 
     }
 
@@ -95,15 +129,26 @@ public class Refunds_StepDefs extends UtilManager {
 
     @When("^I make a request for the refund with \"([^\"]*)\" missing in the header$")
     public void i_make_a_request_for_the_refund_with_missing_in_the_header(String key)  {
-        testContext.getApiManager().getRefunds().retrieveRefundWithMissingHeaderKeys(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_1"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"), key);
+        testContext.getApiManager().getRefunds().retrieveRefundWithMissingHeaderKeys(
+                getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_1"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"),
+                testContext.getApiManager().getAccessToken().getClientId(),
+                key,
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
 
     }
 
     @When("^I make a request for the refund with \"([^\"]*)\" missing in the body$")
     public void i_make_a_request_for_the_refund_with_missing_in_the_body(String key)  {
         testContext.getApiManager().getRefunds().retrieveRefundWithMissingBodyKeys(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_1"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"), key);
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"),
+                testContext.getApiManager().getAccessToken().getClientId(),
+                key,
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
 
     }
 

@@ -24,7 +24,8 @@ public class MessageSigning_StepDefs extends UtilManager{
     @When("^I make a request for the payment with invalid signing key id$")
     public void i_make_a_request_for_the_payment_with_invalid_signing_key_id()  {
         logger.info("********** Creating Payment Request with invalid signing key id ***********");
-        testContext.getApiManager().getPaymentRequest().retrievePaymentRequest(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+        testContext.getApiManager().getPaymentRequest().retrievePaymentRequest(
+                getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
                 "random_signing_key_id",
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
