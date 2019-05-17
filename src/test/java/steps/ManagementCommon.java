@@ -20,6 +20,28 @@ public class ManagementCommon extends UtilManager {
         this.testContext = testContext;
     }
 
+    public void iAmAnAuthorizedDragonUserForRefunds(Set<String> roleSet, Consumer<String> tokenConsumer)  {
+
+        boolean isAuthorisedInCsoRole = Optional.ofNullable(testContext.getApiManager().getAccessToken().retrieveClaimSet(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "jwks_uri_idp")).getClaim("roles"))
+                .filter(v -> v instanceof List)
+                .map(v -> (List)v)
+                .orElse(Collections.emptyList())
+                .stream()
+                .anyMatch(v -> roleSet.contains(v));
+
+        assertTrue(String.format("Expected token to have one of the CSO roles %s", roleSet.toString()), isAuthorisedInCsoRole);
+
+        tokenConsumer.accept(testContext.getApiManager().getAccessToken().getAccessToken());
+
+        if(testContext.getApiManager().getAccessToken().getType().equalsIgnoreCase("merchant")){
+            getRestHelper().setBaseURI(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
+                    +getEnvSpecificBasePathAPIs(false));
+        } else {
+            getRestHelper().setBaseURI(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
+                    +getEnvSpecificBasePathAPIs(false));
+        }
+    }
+
     public void iAmAnAuthorizedDragonUser(Set<String> roleSet, Consumer<String> tokenConsumer)  {
 
         boolean isAuthorisedInCsoRole = Optional.ofNullable(testContext.getApiManager().getAccessToken().retrieveClaimSet(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "jwks_uri_idp")).getClaim("roles"))
@@ -35,10 +57,10 @@ public class ManagementCommon extends UtilManager {
 
         if(testContext.getApiManager().getAccessToken().getType().equalsIgnoreCase("merchant")){
             getRestHelper().setBaseURI(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
-                    +getEnvSpecificBasePathAPIs());
+                    +getEnvSpecificBasePathAPIs(true));
         } else {
             getRestHelper().setBaseURI(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
-                    +getEnvSpecificBasePathAPIs());
+                    +getEnvSpecificBasePathAPIs(true));
         }
     }
 
@@ -47,18 +69,24 @@ public class ManagementCommon extends UtilManager {
 
         if(testContext.getApiManager().getAccessToken().getType().equalsIgnoreCase("merchant")){
             getRestHelper().setBaseURI(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
-                    +getEnvSpecificBasePathAPIs());
+                    +getEnvSpecificBasePathAPIs(true));
         } else {
             getRestHelper().setBaseURI(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
-                    +getEnvSpecificBasePathAPIs());
+                    +getEnvSpecificBasePathAPIs(true));
         }
     }
 
-    public String getEnvSpecificBasePathAPIs() {
+    public String getEnvSpecificBasePathAPIs(boolean forManagement) {
         if (EnvHelper.getInstance().isLocalDevMode()) {
-            return getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "Base_Path_Management");
+            if (forManagement) {
+                return getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "Base_Path_Management");
+            }
+            return getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "Base_Path_APIs");
         }
-        return getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Management");
+        if (forManagement) {
+            return getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Management");
+        }
+        return getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_APIs");
     }
 
 }
