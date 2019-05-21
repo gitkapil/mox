@@ -13,7 +13,7 @@ Background: Retrieving access Token
 #  When I try to make a call to refund
 #  Then I should receive a "401" error response with "Error validating JWT" error description and "401" errorcode within refund response
 
-@trial
+#@trial
 @regression
 Scenario Outline: Negative flow - Invalid transaction Id
   Given I am logging in as a user with refund role
@@ -27,7 +27,7 @@ Examples:
   #invalid UUID format
   |asd                                 |400        |Failed to convert value of type |EA002   |
 
-@trial
+#@trial
 @regression
 Scenario Outline: Negative flow - Invalid body contents
   Given I am logging in as a user with refund role

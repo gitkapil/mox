@@ -127,7 +127,7 @@ public class ManagementPutPublicKeys_StepDefs extends UtilManager {
         HashMap returnedTransactions = testContext.getApiManager().getPutPublicKeys().getResponse().path(".");
         Set<String> keySet = returnedTransactions.keySet();
         Collection<String> diff = CollectionUtils.disjunction(Arrays.asList(predefinedSet), keySet);
-        System.out.println("JT Diff " + String.join(",", diff));
+
         if (diff.size() == 0) {
         } else {
             Assert.assertEquals(true, false,
