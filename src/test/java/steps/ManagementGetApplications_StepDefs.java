@@ -36,7 +36,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
                 getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource"),
                 testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                testContext.getApiManager().getMerchantManagementSigningKey(),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
                         "header-list-get").split(","))),
                 testContext.getApiManager().getPostApplication().getAuthToken()
@@ -89,7 +89,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
                 url,
                 testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                testContext.getApiManager().getMerchantManagementSigningKey(),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
                         "header-list-get").split(","))),
                 testContext.getApiManager().getPostApplication().getAuthToken());
@@ -106,7 +106,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
                 url,
                 testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                testContext.getApiManager().getMerchantManagementSigningKey(),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
                         "header-list-get").split(","))),
                 testContext.getApiManager().getPostApplication().getAuthToken());
@@ -136,7 +136,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
                 url,
                 testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                testContext.getApiManager().getMerchantManagementSigningKey(),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
                         "header-list-get").split(","))),
                 testContext.getApiManager().getPostApplication().getAuthToken());
@@ -156,7 +156,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
                 url,
                 testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                testContext.getApiManager().getMerchantManagementSigningKey(),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
                         "header-list-get").split(","))),
                 testContext.getApiManager().getPostApplication().getAuthToken());
@@ -203,7 +203,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
                 url,
                 testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                testContext.getApiManager().getMerchantManagementSigningKey(),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
                         "header-list-get").split(","))),
                 testContext.getApiManager().getPostApplication().getAuthToken());

@@ -53,7 +53,7 @@ public class Refunds_StepDefs extends UtilManager {
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"),
                 testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                testContext.getApiManager().getMerchantManagementSigningKey(),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
     }
 
@@ -80,7 +80,7 @@ public class Refunds_StepDefs extends UtilManager {
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"),
                 testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                testContext.getApiManager().getMerchantManagementSigningKey(),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
     }
 
@@ -93,7 +93,7 @@ public class Refunds_StepDefs extends UtilManager {
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"),
                 testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                testContext.getApiManager().getMerchantManagementSigningKey(),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
 
     }
@@ -135,7 +135,7 @@ public class Refunds_StepDefs extends UtilManager {
                 testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 key,
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                testContext.getApiManager().getMerchantManagementSigningKey(),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
 
     }
@@ -147,7 +147,7 @@ public class Refunds_StepDefs extends UtilManager {
                 testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 key,
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                testContext.getApiManager().getMerchantManagementSigningKey(),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
 
     }

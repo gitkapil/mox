@@ -106,7 +106,7 @@ public class ManagementPostApplications_StepDefs extends UtilManager{
                         .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME),
                 testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                testContext.getApiManager().getMerchantManagementSigningKey(),
                 Sets.newHashSet(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
                         SIG_HEADER_LIST_POST_APPLICATION).split(",")));
     }
@@ -116,7 +116,7 @@ public class ManagementPostApplications_StepDefs extends UtilManager{
         testContext.getApiManager().getPostApplication().executeRequestWithMissingHeaderKeys(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME), key,
                 testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                testContext.getApiManager().getMerchantManagementSigningKey(),
                 Sets.newHashSet(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, SIG_HEADER_LIST_POST_APPLICATION).split(",")));
     }
 

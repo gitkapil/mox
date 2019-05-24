@@ -20,6 +20,7 @@ public class ApiManager {
     PutSigningKeys putSigningKeys;
 
     String merchantManagementSigningKeyId;
+    String merchantManagementSigningKey;
 
     public ApiManager() {
         accessToken= new AccessTokenForMerchants();
@@ -118,4 +119,11 @@ public class ApiManager {
         return merchantManagementSigningKeyId;
     }
 
+    public void setMerchantManagementSigningKey(String merchantManagementSigningKey) {
+        this.merchantManagementSigningKey = merchantManagementSigningKey;
+    }
+
+    public String getMerchantManagementSigningKey() {
+        return merchantManagementSigningKey;
+    }
 }
