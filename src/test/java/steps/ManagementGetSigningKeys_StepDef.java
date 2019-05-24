@@ -74,7 +74,7 @@ public class ManagementGetSigningKeys_StepDef extends UtilManager {
         testContext.getApiManager().getPostApplication().executeRequest(
                 getRestHelper().getBaseURI()+getFileHelper()
                         .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME),
-                testContext.getApiManager().getAccessToken().getClientId(),
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
                 Sets.newHashSet(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,

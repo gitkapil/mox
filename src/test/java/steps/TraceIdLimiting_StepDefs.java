@@ -22,7 +22,7 @@ public class TraceIdLimiting_StepDefs extends UtilManager {
 
       logger.info("********** Triggering Payment Request Again With the same Trace Id***********");
       testContext.getApiManager().getPaymentRequest().retrievePaymentRequest(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-              testContext.getApiManager().getAccessToken().getClientId(),
+              testContext.getApiManager().getMerchantManagementSigningKeyId(),
               getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
               getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
               new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
@@ -35,7 +35,7 @@ public class TraceIdLimiting_StepDefs extends UtilManager {
 
         logger.info("********** Triggering Payment Status Again With the same Trace Id***********");
         testContext.getApiManager().getPaymentStatus().retrievePaymentStatus(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                testContext.getApiManager().getAccessToken().getClientId(),
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
@@ -50,7 +50,7 @@ public class TraceIdLimiting_StepDefs extends UtilManager {
 
         logger.info("********** Triggering Payment Request Again With the same Trace Id After "+mins+" mins ***********");
         testContext.getApiManager().getPaymentRequest().retrievePaymentRequest(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                testContext.getApiManager().getAccessToken().getClientId(),
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
@@ -65,7 +65,7 @@ public class TraceIdLimiting_StepDefs extends UtilManager {
 
         logger.info("********** Triggering Payment Status Again With the same Trace Id After "+mins+" mins ***********");
         testContext.getApiManager().getPaymentStatus().retrievePaymentStatus(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                testContext.getApiManager().getAccessToken().getClientId(),
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
@@ -79,7 +79,7 @@ public class TraceIdLimiting_StepDefs extends UtilManager {
 
         logger.info("********** Triggering Payment Request Again With a different Trace Id***********");
         testContext.getApiManager().getPaymentRequest().retrievePaymentRequest(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                testContext.getApiManager().getAccessToken().getClientId(),
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
@@ -93,7 +93,7 @@ public class TraceIdLimiting_StepDefs extends UtilManager {
 
         logger.info("********** Triggering Payment Status Again With a different Trace Id***********");
         testContext.getApiManager().getPaymentStatus().retrievePaymentStatus(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                testContext.getApiManager().getAccessToken().getClientId(),
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
@@ -107,7 +107,7 @@ public class TraceIdLimiting_StepDefs extends UtilManager {
 
         logger.info("********** Triggering Payment Request Again With a different Trace Id but request date timestamp more than "+mins+" mins older than current timestamp***********");
         testContext.getApiManager().getPaymentRequest().retrievePaymentRequest(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                testContext.getApiManager().getAccessToken().getClientId(),
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
@@ -121,7 +121,7 @@ public class TraceIdLimiting_StepDefs extends UtilManager {
 
         logger.info("********** Triggering Payment Status Again With a different Trace Id but request date timestamp more than "+mins+" mins older than current timestamp***********");
         testContext.getApiManager().getPaymentStatus().retrievePaymentStatus(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                testContext.getApiManager().getAccessToken().getClientId(),
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
@@ -135,7 +135,7 @@ public class TraceIdLimiting_StepDefs extends UtilManager {
 
         logger.info("********** Triggering Payment Request Again With the same Trace Id but request date timestamp more than "+mins+" mins older than current timestamp***********");
         testContext.getApiManager().getPaymentRequest().retrievePaymentRequest(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                testContext.getApiManager().getAccessToken().getClientId(),
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
@@ -148,7 +148,7 @@ public class TraceIdLimiting_StepDefs extends UtilManager {
 
         logger.info("********** Triggering Payment Status Again With the same Trace Id but request date timestamp more than "+mins+" mins older than current timestamp***********");
         testContext.getApiManager().getPaymentStatus().retrievePaymentStatus(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                testContext.getApiManager().getAccessToken().getClientId(),
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));

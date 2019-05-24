@@ -19,6 +19,8 @@ public class ApiManager {
     GetPublicKey getPublicKey;
     PutSigningKeys putSigningKeys;
 
+    String merchantManagementSigningKeyId;
+
     public ApiManager() {
         accessToken= new AccessTokenForMerchants();
         paymentRequest= new PaymentRequest();
@@ -107,4 +109,13 @@ public class ApiManager {
     public PutApplication getPutApplication() {
         return (putApplication == null) ? putApplication = new PutApplication() : putApplication;
     }
+
+    public void setMerchantManagementSigningKeyId(String merchantManagementSigningKeyId) {
+        this.merchantManagementSigningKeyId = merchantManagementSigningKeyId;
+    }
+
+    public String getMerchantManagementSigningKeyId() {
+        return merchantManagementSigningKeyId;
+    }
+
 }

@@ -156,7 +156,7 @@ public class PaymentRequest_StepDefs extends UtilManager{
     public void i_make_a_request_for_the_payment()  {
         logger.info("********** Creating Payment Request ***********");
         testContext.getApiManager().getPaymentRequest().retrievePaymentRequest(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                testContext.getApiManager().getAccessToken().getClientId(),
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
@@ -166,7 +166,7 @@ public class PaymentRequest_StepDefs extends UtilManager{
     @When("^I make a request for the payment with \"([^\"]*)\" missing in the header$")
     public void i_make_a_request_for_the_payment_with_missing_in_the_header(String key)  {
         testContext.getApiManager().getPaymentRequest().retrievePaymentRequestWithMissingHeaderKeys(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"), key,
-                testContext.getApiManager().getAccessToken().getClientId(),
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));

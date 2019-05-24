@@ -31,7 +31,7 @@ public class Transactions_StepDefs extends UtilManager {
 
         testContext.getApiManager().getTransaction().retrieveTransactionList(
                 url,
-                testContext.getApiManager().getAccessToken().getClientId(),
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,"signing_algorithm"),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,"signing_key"),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))),

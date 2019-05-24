@@ -97,7 +97,7 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
         testContext.getApiManager().getPutApplication().executeRequest(
                 getRestHelper().getBaseURI()+getFileHelper()
                         .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" + testContext.getApiManager().getPutApplication().getApplicationId(),
-                testContext.getApiManager().getAccessToken().getClientId(),
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
                 Sets.newHashSet(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
@@ -107,7 +107,7 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
     @When("^I make a PUT request to the application endpoint with \"([^\"]*)\" missing in the header$")
     public void i_make_a_put_request_to_the_application_endpoint_with_key_missing_in_the_header(String key)  {
         testContext.getApiManager().getPutApplication().executeRequestWithMissingHeaderKeys(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" + testContext.getApiManager().getPutApplication().getApplicationId(), key,
-                testContext.getApiManager().getAccessToken().getClientId(),
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
                 Sets.newHashSet(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, SIG_HEADER_LIST_POST_APPLICATION).split(",")));

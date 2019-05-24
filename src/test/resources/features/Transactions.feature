@@ -68,7 +68,7 @@ Feature: Transactions List
     | XXXXXXXXXXXXXXXX |  Invalid UUID | EA002           |
 
 #    #Positive Flow
-#    @trial
+    @trial
     @regression
     Scenario Outline: Positive flow - Get a list of transactions for a merchant
       Given I am an authorized user
