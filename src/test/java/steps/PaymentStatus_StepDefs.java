@@ -36,9 +36,9 @@ public class PaymentStatus_StepDefs extends UtilManager{
     public void i_make_a_request_for_the_check_status(){
 
         testContext.getApiManager().getPaymentStatus().retrievePaymentStatus(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                testContext.getApiManager().getAccessToken().getClientId(),
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,"signing_algorithm"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,"signing_key"),
+                testContext.getApiManager().getMerchantManagementSigningKey(),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
 
     }
@@ -145,9 +145,9 @@ public class PaymentStatus_StepDefs extends UtilManager{
         testContext.getApiManager().getPaymentStatus().setRequestDateTime(getDateHelper().getUTCNowDateTime());
 
         testContext.getApiManager().getPaymentStatus().retrievePaymentStatusWithMissingHeaderKeys(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"), key,
-                testContext.getApiManager().getAccessToken().getClientId(),
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,"signing_algorithm"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,"signing_key"),
+                testContext.getApiManager().getMerchantManagementSigningKey(),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
 
     }
@@ -181,9 +181,9 @@ public class PaymentStatus_StepDefs extends UtilManager{
         testContext.getApiManager().getPaymentStatus().setRequestDateTime(value);
 
         testContext.getApiManager().getPaymentStatus().retrievePaymentStatus(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                testContext.getApiManager().getAccessToken().getClientId(),
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,"signing_algorithm"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,"signing_key"),
+                testContext.getApiManager().getMerchantManagementSigningKey(),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
 
     }
