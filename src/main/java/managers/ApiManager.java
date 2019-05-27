@@ -21,6 +21,9 @@ public class ApiManager {
     CreateClient createClient;
     CreateClientPassword createClientPassword;
 
+    String merchantManagementSigningKeyId;
+    String merchantManagementSigningKey;
+
     public ApiManager() {
         accessToken= new AccessTokenForMerchants();
         paymentRequest= new PaymentRequest();
@@ -118,5 +121,21 @@ public class ApiManager {
 
     public PutApplication getPutApplication() {
         return (putApplication == null) ? putApplication = new PutApplication() : putApplication;
+    }
+
+    public void setMerchantManagementSigningKeyId(String merchantManagementSigningKeyId) {
+        this.merchantManagementSigningKeyId = merchantManagementSigningKeyId;
+    }
+
+    public String getMerchantManagementSigningKeyId() {
+        return merchantManagementSigningKeyId;
+    }
+
+    public void setMerchantManagementSigningKey(String merchantManagementSigningKey) {
+        this.merchantManagementSigningKey = merchantManagementSigningKey;
+    }
+
+    public String getMerchantManagementSigningKey() {
+        return merchantManagementSigningKey;
     }
 }
