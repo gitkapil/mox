@@ -8,6 +8,8 @@ import cucumber.api.java.en.When;
 import managers.TestContext;
 import managers.UtilManager;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 
@@ -30,7 +32,9 @@ public class ManagementCreateClient_StepDefs extends UtilManager {
 
     @When("^I create a new client with a unique name and grant url$")
     public void createNewClient() {
-        testContext.getApiManager().getCreateClient().setClientName(getGeneral().generateUniqueUUID());
+        String random = RandomStringUtils.random(10, true, false);
+        String clientName = "app-hk-dragon-" + random.toLowerCase() + "-sandbox-client-app";
+        testContext.getApiManager().getCreateClient().setClientName(clientName);
         testContext.getApiManager().getCreateClient().setGrantUrl("http://localhost");
         makeRequest();
     }
@@ -118,9 +122,7 @@ public class ManagementCreateClient_StepDefs extends UtilManager {
     }
 
     public void makeRequest() {
-        String url = getRestHelper().getBaseURI() +
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
-                + "/clients";
+        String url = getRestHelper().getBaseURI() + "clients";
         testContext.getApiManager().getCreateClient().makeRequest(url);
     }
 }

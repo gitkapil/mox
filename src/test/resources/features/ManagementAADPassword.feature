@@ -5,19 +5,31 @@ Feature: Merchant Management AAD Password - DRAG-1481
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  @trial
-  @regression
-  Scenario: Positive flow - create AAD Password
+#  @trial
+#  @regression
+  Scenario: Negative flow - create AAD Password without public key
     Given I am logging in as a user with AAD Password role
     When I create a new AAD client
     And I get the client id from the response
     And I create an application with that client id
     And I get the application id from the response
     And I create a new AAD password
+    Then I should have an error with status "400", error code as "EA002" and description "encryption key not found"
+
+#  @trial
+#  @regression
+  Scenario: Positive flow - create AAD Password with public key
+    Given I am logging in as a user with AAD Password role
+    When I create a new AAD client
+    And I get the client id from the response
+    And I create an application with that client id
+    And I get the application id from the response
+    And I create a public key with the application id
+    And I create a new AAD password
     Then the password response should be successful
 
-  @trial
-  @regression
+#  @trial
+#  @regression
   Scenario Outline: Negative flow - unable to create password due to bad application id
     Given I am logging in as a user with AAD Password role
     When I set the application id as "<applicationId>"
@@ -29,8 +41,8 @@ Feature: Merchant Management AAD Password - DRAG-1481
     # invalid application id
     |00000002-1111-0000-c000-000000000000|400        |EA000     |test             |
 
-  @trial
-  @regression
+#  @trial
+#  @regression
   Scenario Outline: Negative flow - unable to create password due to bad data
     Given I am logging in as a user with AAD Password role
     When I get a list of applications

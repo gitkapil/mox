@@ -12,6 +12,7 @@ public class GetPublicKey extends UtilManager {
     private String applicationId;
     private HashMap<String, String> requestHeader;
     private Response response = null;
+    final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(GetPublicKey.class);
 
     public Response getResponse() {
         return response;
@@ -36,6 +37,8 @@ public class GetPublicKey extends UtilManager {
     public void getKeys(String url) {
         returnRequestHeader();
         response = getRestHelper().getRequestWithHeaders(url + applicationId + "/keys/public", requestHeader);
+
+        logger.info("********** Get Public Keys Request Response *********** ----> "+ response.getBody().asString());
     }
 
     private HashMap<String,String> returnRequestHeader() {

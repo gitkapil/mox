@@ -17,6 +17,12 @@ public class CreateClient extends UtilManager {
     private Response response = null;
     private HashMap<String, String> requestHeader;
 
+    public String getAuthToken() {
+        return authToken;
+    }
+
+    final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(CreateClient.class);
+
     public Response getResponse() {
         return response;
     }
@@ -39,6 +45,8 @@ public class CreateClient extends UtilManager {
         }
 
         response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader, body);
+
+        logger.info("********** Create Client Request Response *********** ----> "+ response.getBody().asString());
     }
 
     private HashMap<String,String> returnRequestHeader() {

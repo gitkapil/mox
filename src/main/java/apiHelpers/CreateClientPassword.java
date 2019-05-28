@@ -17,6 +17,8 @@ public class CreateClientPassword extends UtilManager {
     private String description;
     private Response response = null;
 
+    final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(CreateClientPassword.class);
+
     public String getActivateAt() {
         return activateAt;
     }
@@ -57,6 +59,8 @@ public class CreateClientPassword extends UtilManager {
         HashMap<String, Object> body = new HashMap<>();
 
         response = getRestHelper().postRequestWithHeaderAndBody(url, returnRequestHeader(), returnRequestBody());
+
+        logger.info("********** Create Client Password Request Response *********** ----> "+ response.getBody().asString());
     }
 
     private HashMap<String, String> returnRequestBody() {

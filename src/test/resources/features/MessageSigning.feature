@@ -5,6 +5,7 @@ Given I am an user
 When I make a request to the Dragon ID Manager
 Then I receive an access_token
 
+#@trial
 @regression 
 Scenario: Negative flow- Invalid signing key id used to create signature and passed in POST payment request header
   Given I am an authorized user
@@ -73,6 +74,7 @@ Scenario: Negative flow-New POST Payment request sent with tampered body
   And error message should be "Unauthorized Operation!" within payment response
 
 
+#@trial
 @regression 
 Scenario: Negative flow- Invalid signing key id used to create signature and passed in GET payment request header
   Given I am an authorized user

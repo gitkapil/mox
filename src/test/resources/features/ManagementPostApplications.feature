@@ -72,7 +72,7 @@ Feature: Management Post Applications API - DRAG-1416
     And error message should be "<error_message>" within the POST application response
     Examples:
       |error_description                                                     |error_message                     | key             |error_code |http_status|
-      |Error validating JWT                                                  | API Gateway Authentication Failed|Authorization    |EA001      |401        |
+      |Error validating JWT                                                  | API Gateway Authentication Failed|authorization    |EA001      |401        |
 #      | Header Request-Date-Time was not found in the request. Access denied. | API Gateway Validation Failed | Request-Date-Time | EA002 | 400 |
       | Header Trace-Id was not found in the request. Access denied. | API Gateway Validation Failed | Trace-Id | EA002 | 400 |
 #      | Header Signature was not found in the request. Access denied. | API Gateway Validation Failed | Signature | EA002 | 400 |

@@ -7,7 +7,8 @@ Then I receive an access_token
 
 # DRAG-1280 - business logos added in payment response
 # For the parametres where values are missing within the table, while creating request, the parameter will not be included at all as a a part of the payload
-  @regression    
+@trial
+@regression
 Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs
   Given I am an authorized user
   And I have payment details "<totalamount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
