@@ -93,6 +93,7 @@ Scenario Outline: Negative flow- Invalid auth token
  |Error validating JWT        |401        |API Gateway Authentication Failed  |eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c|EA001|
 
 
+#    @trial
  @regression
 Scenario Outline: Negative flow- Invalid PaymentIds sent in the request
   Given I am an authorized user
