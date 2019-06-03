@@ -28,6 +28,7 @@ public class SignatureHelper {
         final Signer signer =
                 new Signer(key, new Signature(keyId, algo, null, obtainSignatureHeaders(presentHeaders.keySet(), includeHeaders)));
         Signature signed = signer.sign(method, url, presentHeaders);
+
         return signed.toString().replace("Signature ", "");
     }
 

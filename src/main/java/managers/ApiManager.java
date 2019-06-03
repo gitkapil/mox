@@ -18,6 +18,8 @@ public class ApiManager {
     PostPublicKey postPublicKey;
     GetPublicKey getPublicKey;
     PutSigningKeys putSigningKeys;
+    CreateClient createClient;
+    CreateClientPassword createClientPassword;
 
     String merchantManagementSigningKeyId;
     String merchantManagementSigningKey;
@@ -38,6 +40,16 @@ public class ApiManager {
         getPublicKey = new GetPublicKey();
         getSigningKey = new GetSigningKey();
         putSigningKeys = new PutSigningKeys();
+        createClient = new CreateClient();
+        createClientPassword = new CreateClientPassword();
+    }
+
+    public CreateClient getCreateClient() {
+        return createClient;
+    }
+
+    public CreateClientPassword getCreateClientPassword() {
+        return createClientPassword;
     }
 
     public PutSigningKeys getPutSigningKeys() {

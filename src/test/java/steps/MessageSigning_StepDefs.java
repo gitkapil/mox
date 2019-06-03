@@ -20,13 +20,14 @@ public class MessageSigning_StepDefs extends UtilManager{
     }
 
     final static Logger logger = Logger.getLogger(MessageSigning_StepDefs.class);
+    final static String invalidSigningKey = "6a0c26e4-5865-4623-a8a1-c70978aed4e2";
 
     @When("^I make a request for the payment with invalid signing key id$")
     public void i_make_a_request_for_the_payment_with_invalid_signing_key_id()  {
         logger.info("********** Creating Payment Request with invalid signing key id ***********");
         testContext.getApiManager().getPaymentRequest().retrievePaymentRequest(
                 getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                "random_signing_key_id",
+                invalidSigningKey,
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 testContext.getApiManager().getMerchantManagementSigningKey(),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
@@ -115,7 +116,7 @@ public class MessageSigning_StepDefs extends UtilManager{
     public void i_make_a_request_for_the_payment_status_with_invalid_signing_key_id()  {
         logger.info("********** Creating Payment Status Request with invalid signing key id ***********");
         testContext.getApiManager().getPaymentStatus().retrievePaymentStatus(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                "random_signing_key_id",
+                invalidSigningKey,
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 testContext.getApiManager().getMerchantManagementSigningKey(),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));

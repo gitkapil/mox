@@ -113,7 +113,8 @@ public class ManagementPostApplications_StepDefs extends UtilManager{
 
     @When("^I make a POST request to the application endpoint with \"([^\"]*)\" missing in the header$")
     public void i_make_a_post_request_to_the_application_endpoint_with_key_missing_in_the_header(String key)  {
-        testContext.getApiManager().getPostApplication().executeRequestWithMissingHeaderKeys(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME), key,
+        testContext.getApiManager().getPostApplication().executeRequestWithMissingHeaderKeys(
+                getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME), key,
                 testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 testContext.getApiManager().getMerchantManagementSigningKey(),
