@@ -113,9 +113,13 @@ public class ManagementGetPublicKeys_StepDefs extends UtilManager {
 
                 if (diff.size() == 0) {
                 } else {
-                    Assert.assertEquals(true, false,
-                            "Returned object contain fields that are not a subset (" +
-                                    String.join(",", diff) + ")");
+                    if (diff.size() == 1 && diff.contains("value")) {
+
+                    } else {
+                        Assert.assertEquals(true, false,
+                                "Returned object contain fields that are not a subset (" +
+                                        String.join(",", diff) + ")");
+                    }
                 }
             });
         }

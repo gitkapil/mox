@@ -18,6 +18,11 @@ public class ApiManager {
     PostPublicKey postPublicKey;
     GetPublicKey getPublicKey;
     PutSigningKeys putSigningKeys;
+    CreateClient createClient;
+    CreateClientPassword createClientPassword;
+
+    String merchantManagementSigningKeyId;
+    String merchantManagementSigningKey;
 
     public ApiManager() {
         accessToken= new AccessTokenForMerchants();
@@ -35,6 +40,16 @@ public class ApiManager {
         getPublicKey = new GetPublicKey();
         getSigningKey = new GetSigningKey();
         putSigningKeys = new PutSigningKeys();
+        createClient = new CreateClient();
+        createClientPassword = new CreateClientPassword();
+    }
+
+    public CreateClient getCreateClient() {
+        return createClient;
+    }
+
+    public CreateClientPassword getCreateClientPassword() {
+        return createClientPassword;
     }
 
     public PutSigningKeys getPutSigningKeys() {
@@ -106,5 +121,21 @@ public class ApiManager {
 
     public PutApplication getPutApplication() {
         return (putApplication == null) ? putApplication = new PutApplication() : putApplication;
+    }
+
+    public void setMerchantManagementSigningKeyId(String merchantManagementSigningKeyId) {
+        this.merchantManagementSigningKeyId = merchantManagementSigningKeyId;
+    }
+
+    public String getMerchantManagementSigningKeyId() {
+        return merchantManagementSigningKeyId;
+    }
+
+    public void setMerchantManagementSigningKey(String merchantManagementSigningKey) {
+        this.merchantManagementSigningKey = merchantManagementSigningKey;
+    }
+
+    public String getMerchantManagementSigningKey() {
+        return merchantManagementSigningKey;
     }
 }

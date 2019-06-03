@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import utils.PropertyHelper;
 
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.HashMap;
@@ -335,8 +336,7 @@ public class Refunds extends UtilManager {
 
         try{
             byte[] sigKey = Base64.getDecoder().decode(signingKey);
-            String splitstr[] = url.split("/payments");
-            String signature = getSignatureHelper().calculateSignature("POST", splitstr[1], sigKey,
+            String signature = getSignatureHelper().calculateSignature("POST", new URL(url).getPath(), sigKey,
                     signingAlgorithm, signingKeyId, headerElementsForSignature, refundsHeader);
             refundsHeader.put("Signature", signature);
         }

@@ -131,7 +131,7 @@ public class PostApplication extends UtilManager{
         requestHeader = new HashMap<String, String>();
         requestHeader.put("Accept","application/json");
         requestHeader.put("Content-Type","application/json");
-        requestHeader.put("Authorization", authToken);
+        requestHeader.put("authorization", authToken);
         requestHeader.put("Trace-Id",traceId);
         requestHeader.put("Accept-Language", "en-US");
         requestHeader.put("Request-Date-Time", getRequestDateTime());

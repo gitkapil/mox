@@ -33,7 +33,7 @@ Feature: Management Post Applications API - DRAG-1416
       |clientId                            |peakId                              |subUnitId                           |organisationId                      |description |
       |random                              |00000002-0000-0000-c000-000000000000|00000002-0000-0000-c000-000000000000|00000002-0000-0000-c000-000000000000|test desc   |
 
-  @trial
+#  @trial
   @regression @merchantManagement @merchantManagementPost
   Scenario Outline: Negative flow- A DRAGON with Application.ReadWrite.All privilege user cannot enter a description > 256 characters
     Given I am a POST application authorized DRAGON user with the Application.ReadWrite.All privilege
@@ -72,7 +72,7 @@ Feature: Management Post Applications API - DRAG-1416
     And error message should be "<error_message>" within the POST application response
     Examples:
       |error_description                                                     |error_message                     | key             |error_code |http_status|
-      |Error validating JWT                                                  | API Gateway Authentication Failed|Authorization    |EA001      |401        |
+      |Error validating JWT                                                  | API Gateway Authentication Failed|authorization    |EA001      |401        |
 #      | Header Request-Date-Time was not found in the request. Access denied. | API Gateway Validation Failed | Request-Date-Time | EA002 | 400 |
       | Header Trace-Id was not found in the request. Access denied. | API Gateway Validation Failed | Trace-Id | EA002 | 400 |
 #      | Header Signature was not found in the request. Access denied. | API Gateway Validation Failed | Signature | EA002 | 400 |

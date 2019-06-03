@@ -34,6 +34,13 @@ public class AccessTokenForMerchants_StepDefs extends UtilManager{
                 testContext.getApiManager().getAccessToken().setEndpoint(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-api-management-url")
                         +getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
 
+                testContext.getApiManager().setMerchantManagementSigningKeyId(getFileHelper().getValueFromPropertiesFile(
+                        Hooks.envProperties, "merchant-signing-key-id"));
+
+                testContext.getApiManager().setMerchantManagementSigningKey(getFileHelper().getValueFromPropertiesFile(
+                        Hooks.envProperties, "merchant-signing-key"));
+
+
             } else {
                 logger.info("********* Hitting Sandbox APIM ****************");
 
@@ -44,6 +51,11 @@ public class AccessTokenForMerchants_StepDefs extends UtilManager{
                 testContext.getApiManager().getAccessToken().setEndpoint(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
                         +getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
 
+                testContext.getApiManager().setMerchantManagementSigningKeyId(getFileHelper().getValueFromPropertiesFile(
+                        Hooks.envProperties, "developer-signing-key-id"));
+
+                testContext.getApiManager().setMerchantManagementSigningKey(getFileHelper().getValueFromPropertiesFile(
+                        Hooks.envProperties, "developer-signing-key"));
             }
         }
         catch (NullPointerException e){
@@ -56,6 +68,11 @@ public class AccessTokenForMerchants_StepDefs extends UtilManager{
             testContext.getApiManager().getAccessToken().setEndpoint(getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "sandbox-api-management-url")
                     +getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "Base_Path_Token"));
 
+            testContext.getApiManager().setMerchantManagementSigningKeyId(getFileHelper().getValueFromPropertiesFile(
+                    Hooks.envProperties, "developer-signing-key-id"));
+
+            testContext.getApiManager().setMerchantManagementSigningKey(getFileHelper().getValueFromPropertiesFile(
+                    Hooks.envProperties, "developer-signing-key"));
         }
 
         testContext.getApiManager().getAccessToken().createBody_RetrieveAccessToken();

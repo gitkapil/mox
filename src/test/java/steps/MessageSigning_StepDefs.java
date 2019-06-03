@@ -20,15 +20,16 @@ public class MessageSigning_StepDefs extends UtilManager{
     }
 
     final static Logger logger = Logger.getLogger(MessageSigning_StepDefs.class);
+    final static String invalidSigningKey = "6a0c26e4-5865-4623-a8a1-c70978aed4e2";
 
     @When("^I make a request for the payment with invalid signing key id$")
     public void i_make_a_request_for_the_payment_with_invalid_signing_key_id()  {
         logger.info("********** Creating Payment Request with invalid signing key id ***********");
         testContext.getApiManager().getPaymentRequest().retrievePaymentRequest(
                 getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                "random_signing_key_id",
+                invalidSigningKey,
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                testContext.getApiManager().getMerchantManagementSigningKey(),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
     }
 
@@ -36,7 +37,7 @@ public class MessageSigning_StepDefs extends UtilManager{
     public void i_make_a_request_for_the_payment_with_invalid_signing_key()  {
         logger.info("********** Creating Payment Request with invalid signing key***********");
         testContext.getApiManager().getPaymentRequest().retrievePaymentRequest(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                testContext.getApiManager().getAccessToken().getClientId(),
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 "cGFzc3BocmFzZQ11",
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
@@ -47,9 +48,9 @@ public class MessageSigning_StepDefs extends UtilManager{
 
         logger.info("********** Creating Payment Request with different signing algo***********");
         testContext.getApiManager().getPaymentRequest().retrievePaymentRequest(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                testContext.getApiManager().getAccessToken().getClientId(),
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 "HmacSHA512",
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                testContext.getApiManager().getMerchantManagementSigningKey(),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
     }
 
@@ -59,9 +60,9 @@ public class MessageSigning_StepDefs extends UtilManager{
         invalidHeaderElements.remove(missingFromHeader);
 
         testContext.getApiManager().getPaymentRequest().retrievePaymentRequest(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                testContext.getApiManager().getAccessToken().getClientId(),
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"), invalidHeaderElements);
+                testContext.getApiManager().getMerchantManagementSigningKey(), invalidHeaderElements);
 
     }
 
@@ -91,9 +92,9 @@ public class MessageSigning_StepDefs extends UtilManager{
     public void i_create_a_signature_payment_request() {
         try {
             testContext.getApiManager().getPaymentRequest().returnPaymentRequestHeader("POST", new URL(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource")).getPath(),
-                    testContext.getApiManager().getAccessToken().getClientId(),
+                    testContext.getApiManager().getMerchantManagementSigningKeyId(),
                     getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                    testContext.getApiManager().getMerchantManagementSigningKey(),
                     new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
 
         } catch (MalformedURLException e) {
@@ -115,9 +116,9 @@ public class MessageSigning_StepDefs extends UtilManager{
     public void i_make_a_request_for_the_payment_status_with_invalid_signing_key_id()  {
         logger.info("********** Creating Payment Status Request with invalid signing key id ***********");
         testContext.getApiManager().getPaymentStatus().retrievePaymentStatus(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                "random_signing_key_id",
+                invalidSigningKey,
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                testContext.getApiManager().getMerchantManagementSigningKey(),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
     }
 
@@ -125,7 +126,7 @@ public class MessageSigning_StepDefs extends UtilManager{
     public void i_make_a_request_for_the_payment_status_with_invalid_signing_key()  {
         logger.info("********** Creating Payment Status Request with invalid signing key***********");
         testContext.getApiManager().getPaymentStatus().retrievePaymentStatus(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                testContext.getApiManager().getAccessToken().getClientId(),
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 "cGFzc3BocmFzZQ11",
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
@@ -136,9 +137,9 @@ public class MessageSigning_StepDefs extends UtilManager{
 
         logger.info("********** Creating Payment Status Request with different signing algo***********");
         testContext.getApiManager().getPaymentStatus().retrievePaymentStatus(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                testContext.getApiManager().getAccessToken().getClientId(),
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 "HmacSHA512",
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                testContext.getApiManager().getMerchantManagementSigningKey(),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
     }
 
@@ -149,9 +150,9 @@ public class MessageSigning_StepDefs extends UtilManager{
         invalidHeaderElements.remove(missingFromHeader);
 
         testContext.getApiManager().getPaymentStatus().retrievePaymentStatus(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                testContext.getApiManager().getAccessToken().getClientId(),
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"), invalidHeaderElements);
+                testContext.getApiManager().getMerchantManagementSigningKey(), invalidHeaderElements);
 
     }
 
@@ -180,9 +181,9 @@ public class MessageSigning_StepDefs extends UtilManager{
     public void i_create_a_signature_payment_status() {
         try {
             testContext.getApiManager().getPaymentStatus().returnPaymentStatusHeader("GET", new URL(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource")).getPath(),
-                    testContext.getApiManager().getAccessToken().getClientId(),
+                    testContext.getApiManager().getMerchantManagementSigningKeyId(),
                     getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                    testContext.getApiManager().getMerchantManagementSigningKey(),
                     new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
 
         } catch (MalformedURLException e) {
@@ -199,8 +200,7 @@ public class MessageSigning_StepDefs extends UtilManager{
 
             getSignatureHelper().verifySignature(testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse(), "POST",
                     getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-//                    Base64.getDecoder().decode(testContext.getApiManager().getAccessToken().getClientId()),
-                    Base64.getDecoder().decode(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key")),
+                    Base64.getDecoder().decode(testContext.getApiManager().getMerchantManagementSigningKey()),
                     getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"));
 
         } catch (Exception e) {
@@ -222,7 +222,7 @@ public class MessageSigning_StepDefs extends UtilManager{
             getSignatureHelper().verifySignature(testContext.getApiManager().getPostApplication().getPostApplicationRequestResponse(), "POST",
                     getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource"),
 //                    Base64.getDecoder().decode(testContext.getApiManager().getAccessToken().getClientId()),
-                    Base64.getDecoder().decode(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key")),
+                    Base64.getDecoder().decode(testContext.getApiManager().getMerchantManagementSigningKey()),
                     getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"));
 
         } catch (Exception e) {
@@ -243,8 +243,7 @@ public class MessageSigning_StepDefs extends UtilManager{
 
             getSignatureHelper().verifySignature(testContext.getApiManager().getPaymentStatus().getPaymentStatusResponse(),"GET",
                     getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                    Base64.getDecoder().decode(testContext.getApiManager().getAccessToken().getClientId()),
-                    // Base64.getDecoder().decode(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key")),
+                    Base64.getDecoder().decode(testContext.getApiManager().getMerchantManagementSigningKeyId()),
                     getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"));
 
         } catch (Exception e) {
@@ -261,9 +260,9 @@ public class MessageSigning_StepDefs extends UtilManager{
     public void i_make_a_request_for_the_payment_without_digest_in_the_header()  {
         logger.info("********** Creating Payment Request ***********");
         testContext.getApiManager().getPaymentRequest().retrievePaymentRequestWithoutDigest(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
-                testContext.getApiManager().getAccessToken().getClientId(),
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                testContext.getApiManager().getMerchantManagementSigningKey(),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
     }
 
@@ -271,9 +270,9 @@ public class MessageSigning_StepDefs extends UtilManager{
     public void i_make_a_request_for_the_payment_with_digest_in_the_signature_header_list_but_not_sent_in_the_headers(){
         try {
             testContext.getApiManager().getPaymentRequest().retrievePaymentRequestWithMissingHeaderKeys(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),"Digest",
-                    testContext.getApiManager().getAccessToken().getClientId(),
+                    testContext.getApiManager().getMerchantManagementSigningKeyId(),
                     getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_key"),
+                    testContext.getApiManager().getMerchantManagementSigningKey(),
                     new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
         } catch (Exception e) {
             e.printStackTrace();
