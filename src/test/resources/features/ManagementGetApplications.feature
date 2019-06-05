@@ -25,9 +25,9 @@ Feature: Merchant Management API - GET /applications
 #    When I get a list of applications without any filters
 #    Then I should get an error message with status 400 error code "EA002" and error description "Failed to convert value of type"
 
-#  @trial
+  # @trial
   @regression @merchantManagement @merchantManagementGet
-  Scenario Outline: Positive flow - Get a list of application using filters
+  Scenario Outline: Positive flow - Get a list of application using filters 1
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of applications using filters to filter "<filterName>" with "<filterValue>"
     Then I should receive a successful response
@@ -41,17 +41,17 @@ Feature: Merchant Management API - GET /applications
 
 #  @trial
   @regression @merchantManagement @merchantManagementGet
-  Scenario: Negative flow - Get a list of application using multi filters
+  Scenario: Negative flow - Get a list of application using multi filters 2
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of application using multiple filters
     Then I should get an error message with status 400 error code "EA002" and error description "Failed to convert value of type"
 
 #  @trial
   @regression @merchantManagement @merchantManagementGet
-  Scenario: Negative flow - Get a list of application using multi filters
+  Scenario: Negative flow - Get a list of application using multi filters 1
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of application using multiple filters with correct uuids
-    Then I should get an error message with status 400 error code "EA002" and error description "Only one of peakId or clientId query can be used at the same time"
+    Then I should receive a successful response
 
 #  @trial
   @regression @merchantManagement @merchantManagementGet
