@@ -90,11 +90,12 @@ public class PaymentStatus_StepDefs extends UtilManager{
                     Assert.assertEquals(testContext.getApiManager().getPaymentStatus().appSuccessCallbackInResponse(),"http://localhost/success", "App Success Callback isn't matching with emulator!");
                 else
                     Assert.assertEquals(testContext.getApiManager().getPaymentStatus().appSuccessCallbackInResponse(), testContext.getApiManager().getPaymentRequest().getAppSuccessCallback(), "App Success Callback isn't matching!");
+            } else {
+                Assert.assertTrue(testContext.getApiManager().getPaymentStatus().appSuccessCallbackInResponse().contains("success")
+                        || testContext.getApiManager().getPaymentStatus().appSuccessCallbackInResponse().contains("confirmation"),
+                        "App Success Callback isn't matching with emulator!");
             }
-            else
-                Assert.assertEquals(testContext.getApiManager().getPaymentStatus().appSuccessCallbackInResponse(),"http://localhost/success", "App Success Callback isn't matching with emulator!");
         }
-
 
         if (testContext.getApiManager().getPaymentRequest().getAppFailCallback()==null)
             Assert.assertNull(testContext.getApiManager().getPaymentStatus().appFailCallbackInResponse(), "App Fail Call Back is present within the response when it should not be");
@@ -107,13 +108,15 @@ public class PaymentStatus_StepDefs extends UtilManager{
                 else
                     Assert.assertEquals(testContext.getApiManager().getPaymentStatus().appFailCallbackInResponse(), testContext.getApiManager().getPaymentRequest().getAppFailCallback(), "App Fail Callback isn't matching!");
 
+            } else {
+                Assert.assertTrue(testContext.getApiManager().getPaymentStatus().appFailCallbackInResponse().contains("fail")
+                        || testContext.getApiManager().getPaymentStatus().appFailCallbackInResponse().contains("unsuccessful"), "App Fail Callback isn't matching with emulator!");
             }
-            else
-                Assert.assertEquals(testContext.getApiManager().getPaymentStatus().appFailCallbackInResponse(),"http://localhost/fail", "App Fail Callback isn't matching with emulator!");
         }
 
 
     }
+
 
 
     @Given("^I dont send Bearer with the auth token in the check status request$")

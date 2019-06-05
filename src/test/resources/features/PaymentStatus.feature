@@ -5,6 +5,7 @@ Given I am an user
 When I make a request to the Dragon ID Manager
 Then I receive an access_token
 
+#  @trial
   @regression
 Scenario: Positive flow- A merchant is able to create a check status request with all the valid inputs
   Given I am an authorized user

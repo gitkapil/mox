@@ -46,8 +46,8 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
     @Then("^I should receive a successful response$")
     public void successful_response() {
         Assert.assertEquals(
-                getRestHelper().getResponseStatusCode(testContext.getApiManager().getGetApplication().getResponse())
-                , 200);
+                200
+                , getRestHelper().getResponseStatusCode(testContext.getApiManager().getGetApplication().getResponse()));
     }
 
     @And("^the response should have a list of ([^\"]*) applications$")
