@@ -1,7 +1,9 @@
 package steps;
 
 import com.google.common.collect.Sets;
+import com.jayway.restassured.response.Response;
 import cucumber.api.java.en.And;
+import cucumber.api.java.en_scouse.An;
 import managers.TestContext;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -10,9 +12,7 @@ import managers.UtilManager;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
 public class Refunds_StepDefs extends UtilManager {
@@ -23,6 +23,9 @@ public class Refunds_StepDefs extends UtilManager {
     private static final String VALID_TRANSACTION_ID = "";
     private static final String VALID_PAYER_ID = "";
 
+    private String transId;
+    private String payerId;
+
     public Refunds_StepDefs(TestContext testContext) {
         this.testContext = testContext;
         common = new ManagementCommon(this.testContext);
@@ -30,9 +33,44 @@ public class Refunds_StepDefs extends UtilManager {
 
     final static Logger logger = Logger.getLogger(Refunds_StepDefs.class);
 
+    @When("^I call for a list of transactions")
+    public void getTransaction() {
+        String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "get_transaction_resource");
+
+        testContext.getApiManager().getTransaction().setTraceId(getGeneral().generateUniqueUUID());
+        testContext.getApiManager().getTransaction().setRequestDateTime(getDateHelper().getUTCNowDateTime());
+        testContext.getApiManager().getTransaction().retrieveTransactionList(
+                url,
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,"signing_algorithm"),
+                testContext.getApiManager().getMerchantManagementSigningKey(),
+                new HashSet(Arrays.asList(getFileHelper()
+                        .getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))),
+                new HashMap<>());
+    }
+
+    @And("^I record the first transaction details")
+    public void getFirstTransRecord() {
+        ArrayList returnedTransactions = testContext.getApiManager().getTransaction().getTransactionListResponse().path("transactions");
+        if (returnedTransactions.isEmpty()) {
+            Assert.assertEquals(true, false);
+        }
+        HashMap<String, String> firstTrans = (HashMap) returnedTransactions.get(0);
+        this.transId = firstTrans.get("transactionId");
+        this.payerId = firstTrans.get("payerId");
+    }
+
+    @And("^I try to make a call to refund with that transaction")
+    public void setTransId() {
+        testContext.getApiManager().getRefunds().setTransactionId(this.transId);
+    }
+
     @Given("^I am logging in as a user with incorrect role$")
     public void logIn() {
-        common.iAmAnAuthorizedDragonUserForRefunds(ROLE_SET, token -> testContext.getApiManager().getRefunds().setAuthTokenWithBearer(token));
+        common.iAmAnAuthorizedDragonUserForRefunds(ROLE_SET, token -> {
+            testContext.getApiManager().getRefunds().setAuthTokenWithBearer(token);
+            testContext.getApiManager().getTransaction().setAuthToken(token);
+        });
     }
 
     @And("^I have a valid transaction for refund$")
@@ -59,7 +97,12 @@ public class Refunds_StepDefs extends UtilManager {
 
     @Given("^I am logging in as a user with refund role$")
     public void invalidLogIn() {
-        common.iAmAnAuthorizedDragonUserForRefunds(INCORRECT_ROLE_SET, token -> testContext.getApiManager().getRefunds().setAuthTokenWithBearer(token));
+        common.iAmAnAuthorizedDragonUserForRefunds(INCORRECT_ROLE_SET, token ->
+        {
+            testContext.getApiManager().getRefunds().setAuthTokenWithBearer(token);
+            testContext.getApiManager().getTransaction().setAuthToken(token);
+            testContext.getApiManager().getTransaction().setAuthTokenwithBearer();
+        });
     }
 
     @Given("^I try to make a call to refund with transaction id as \"([^\"]*)\"$")
@@ -69,7 +112,11 @@ public class Refunds_StepDefs extends UtilManager {
 
     @And("^I enter the refund data with payerId \"([^\"]*)\", refund amount \"([^\"]*)\", refund currency \"([^\"]*)\", reason Code \"([^\"]*)\" and reason message \"([^\"]*)\"$")
     public void enterBody(String payerId, String amount, String currencyCode, String reasonCode, String reasonMessage) {
-        testContext.getApiManager().getRefunds().setPayerId(payerId);
+        if (payerId.equalsIgnoreCase("existingPayerId")) {
+            testContext.getApiManager().getRefunds().setPayerId(this.payerId);
+        } else {
+            testContext.getApiManager().getRefunds().setPayerId(payerId);
+        }
         testContext.getApiManager().getRefunds().setAmount(amount);
         testContext.getApiManager().getRefunds().setCurrencyCode(currencyCode);
         testContext.getApiManager().getRefunds().setReasonCode(reasonCode);

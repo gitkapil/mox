@@ -109,7 +109,9 @@ public class Transaction extends UtilManager {
 
             logger.info("********** Transaction List Response *********** ---> "+ transactionListResponse.getBody().asString());
         } catch (Exception e) {
+            e.printStackTrace();
             Assert.assertTrue("Verification of signature failed!", false);
+
         }
         return transactionListResponse;
     }
