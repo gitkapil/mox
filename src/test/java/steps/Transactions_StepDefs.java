@@ -157,7 +157,7 @@ public class Transactions_StepDefs extends UtilManager {
         };
 
         ArrayList returnedTransactions = testContext.getApiManager().getTransaction().getTransactionListResponse().path("transactions");
-        returnedTransactions.stream().forEach(t -> {
+        returnedTransactions.parallelStream().forEach(t -> {
             Set<String> keySet = ((HashMap)t).keySet();
             Collection<String> diff = CollectionUtils.disjunction(Arrays.asList(predefinedSet), keySet);
             if (diff.size() != 0) {

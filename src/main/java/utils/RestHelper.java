@@ -72,7 +72,8 @@ public class RestHelper {
 
     }
 
-    public Response getRequestWithHeadersAndQueryStringParams(String url, HashMap<String, String> headers, HashMap<String, String> queryStringParams) {
+    public Response getRequestWithHeadersAndQueryStringParams(String url, HashMap<String, String> headers,
+                                                              HashMap<String, String> queryStringParams) {
         Response res=null;
         try{
             res= given()

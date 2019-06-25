@@ -9,7 +9,6 @@ import org.junit.Assert;
 import utils.PropertyHelper;
 
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.HashSet;
