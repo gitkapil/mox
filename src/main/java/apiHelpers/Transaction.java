@@ -7,7 +7,9 @@ import utils.EnvHelper;
 import utils.PropertyHelper;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -98,13 +100,15 @@ public class Transaction extends UtilManager {
                                             HashSet headerElementsForSignature,
                                             HashMap<String, String> queryStringParams) {
         try {
-            transactionListResponse = getRestHelper().getRequestWithHeadersAndQueryStringParams(url, returnTransactionListHeader(
-                    "GET",
-                    new URL(url).getPath(),
-                    signingKeyId,
-                    signingAlgorithm,
-                    signingKey,
-                    headerElementsForSignature),
+            transactionListResponse = getRestHelper().getRequestWithHeadersAndQueryStringParams(url,
+                    returnTransactionListHeader(
+                        "GET",
+                        new URL(url).getPath(),
+                        signingKeyId,
+                        signingAlgorithm,
+                        signingKey,
+                        headerElementsForSignature,
+                        queryStringParams),
                     queryStringParams);
 
             logger.info("********** Transaction List Response *********** ---> "+ transactionListResponse.getBody().asString());
@@ -121,7 +125,8 @@ public class Transaction extends UtilManager {
                                                               String signingKeyId,
                                                               String signingAlgorithm,
                                                               String signingKey,
-                                                              HashSet headerElementsforSignature) {
+                                                              HashSet headerElementsforSignature,
+                                                              HashMap<String, String> queryStringParams) {
         transactionListHeader.put("Accept", "application/json");
         transactionListHeader.put("Content-Type", "application/json");
         transactionListHeader.put("Authorization", authToken);
@@ -134,12 +139,31 @@ public class Transaction extends UtilManager {
             EnvHelper.getInstance().addMissingHeaderForLocalDevMode(transactionListHeader);
         }
 
+        String urlWithQueryParams = url;
+        try {
+            if (!queryStringParams.isEmpty()) {
+                urlWithQueryParams = urlWithQueryParams + "?";
+
+                for (String s : queryStringParams.keySet()) {
+                    String keyValue = s + "=" + URLEncoder.encode(queryStringParams.get(s), "utf-8") + "&";
+                    urlWithQueryParams = urlWithQueryParams + keyValue;
+                }
+
+                if (urlWithQueryParams.endsWith("&")) {
+                    urlWithQueryParams = urlWithQueryParams.substring(0, urlWithQueryParams.length() - 1);
+                }
+            }
+//            System.out.println("URL With QueryParam: " + urlWithQueryParams);
+        } catch (UnsupportedEncodingException e) {
+            //Ignore this
+        }
+
         try {
             transactionListHeader.put(
                 "Signature",
                 getSignatureHelper().calculateSignature(
                     method,
-                    url,
+                    urlWithQueryParams,
                     Base64.getDecoder().decode(signingKey),
                     signingAlgorithm,
                     signingKeyId,
