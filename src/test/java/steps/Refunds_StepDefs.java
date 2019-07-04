@@ -110,13 +110,8 @@ public class Refunds_StepDefs extends UtilManager {
         testContext.getApiManager().getRefunds().setTransactionId(transactionId);
     }
 
-    @And("^I enter the refund data with payerId \"([^\"]*)\", refund amount \"([^\"]*)\", refund currency \"([^\"]*)\", reason Code \"([^\"]*)\" and reason message \"([^\"]*)\"$")
-    public void enterBody(String payerId, String amount, String currencyCode, String reasonCode, String reasonMessage) {
-        if (payerId.equalsIgnoreCase("existingPayerId")) {
-            testContext.getApiManager().getRefunds().setPayerId(this.payerId);
-        } else {
-            testContext.getApiManager().getRefunds().setPayerId(payerId);
-        }
+    @And("^I enter the refund data with refund amount \"([^\"]*)\", refund currency \"([^\"]*)\", reason Code \"([^\"]*)\" and reason message \"([^\"]*)\"$")
+    public void enterBody(String amount, String currencyCode, String reasonCode, String reasonMessage) {
         testContext.getApiManager().getRefunds().setAmount(amount);
         testContext.getApiManager().getRefunds().setCurrencyCode(currencyCode);
         testContext.getApiManager().getRefunds().setReasonCode(reasonCode);
