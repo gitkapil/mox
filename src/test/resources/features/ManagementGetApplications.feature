@@ -15,8 +15,8 @@ Feature: Merchant Management API - GET /applications
     And the response should have more than or equal to <numberOfResponses> in total
 
     Examples:
-    |numberOfResponses|
-    |20               |
+      | numberOfResponses |
+      | 20                |
 
     #  @trial
 #  @regression @merchantManagement @merchantManagementGet
@@ -34,10 +34,10 @@ Feature: Merchant Management API - GET /applications
     And the response should have a list of <numberOfResponses> applications
 
     Examples:
-    |filterName | filterValue                          | numberOfResponses |
-    |clientId   | 00000001-0000-0000-0000-000000000000 | 1                 |
-    |clientId   | 00000001-0000-0000-0000-000000009999 | 0                 |
-    |peakId     | 00000002-0000-0000-c000-000000000001 | 2                 |
+      | filterName | filterValue                          | numberOfResponses |
+      | clientId   | 00000001-0000-0000-0000-000000000000 | 1                 |
+      | clientId   | 00000001-0000-0000-0000-000000009999 | 0                 |
+      | peakId     | 00000002-0000-0000-c000-000000000001 | 2                 |
 
 #  @trial
   @regression @merchantManagement @merchantManagementGet
@@ -55,7 +55,7 @@ Feature: Merchant Management API - GET /applications
 
 #  @trial
   @regression @merchantManagement @merchantManagementGet
-    Scenario Outline: Positive flow - Get a list of application using paging and limits
+  Scenario Outline: Positive flow - Get a list of application using paging and limits
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of applications using filters to filter "<filterName>" with "<filterValue>" with <limit> limits
     Then I should receive a successful response
@@ -71,8 +71,8 @@ Feature: Merchant Management API - GET /applications
     And the response should be on page <nextPageNumber>
 
     Examples:
-    |filterName|filterValue                                    |limit|numberOfResponses|totalNumberOfItems|currentPageNumber|nextPageNumber|nextNumberOfResponses|
-    |peakId    |00000002-0000-0000-c000-000000000001           | 1   |1                |2                 |0                |1             |1                    |
-    |peakId    |00000002-0000-0000-c000-000000000001           |30   |2                |2                 |0                |0             |2                    |
+      | filterName | filterValue                          | limit | numberOfResponses | totalNumberOfItems | currentPageNumber | nextPageNumber | nextNumberOfResponses |
+      | peakId     | 00000002-0000-0000-c000-000000000001 | 1     | 1                 | 2                  | 0                 | 1              | 1                     |
+      | peakId     | 00000002-0000-0000-c000-000000000001 | 30    | 2                 | 2                  | 0                 | 0              | 2                     |
 
 
