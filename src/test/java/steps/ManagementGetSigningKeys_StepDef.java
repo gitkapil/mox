@@ -1,14 +1,20 @@
 package steps;
 
 import com.google.common.collect.Sets;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+
 import managers.TestContext;
 import managers.UtilManager;
-import org.apache.commons.collections.CollectionUtils;
+
+import org.apache.http.HttpStatus;
 import org.testng.Assert;
+import utils.Constants;
 
 import java.util.*;
 
@@ -84,6 +90,27 @@ public class ManagementGetSigningKeys_StepDef extends UtilManager {
         );
     }
 
+
+    @And("^I make a request to get signing keys with \"([^\"]*)\"$")
+    public void makeRequests(String applicationID) {
+        String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
+                RESOURCE_ENDPOINT_PROPERTY_NAME) + "/";
+
+        System.out.println("URL: "+url);
+        testContext.getApiManager().getGetSigningKey().makeCallWithApplicationID(url, applicationID);
+    }
+
+
+    @And("^I make a request to get signing keys with \"([^\"]*)\" with no track id$")
+    public void makeSigingKeyRequestWithNoTraceId(String applicationID) {
+        String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
+                RESOURCE_ENDPOINT_PROPERTY_NAME) + "/";
+
+        System.out.println("URL: "+url);
+        testContext.getApiManager().getGetSigningKey().makeCallWithoutTraceID(url, applicationID);
+    }
+
+
     @And("^I make a request to get signing keys$")
     public void makeRequest() {
         String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
@@ -129,38 +156,34 @@ public class ManagementGetSigningKeys_StepDef extends UtilManager {
         Assert.assertEquals(
                 getRestHelper().getResponseStatusCode(
                         testContext.getApiManager().getGetSigningKey().getResponse()),
-                200
+                HttpStatus.SC_OK
         );
 
-        String[] predefinedSet = {
-                "keyId",
-                "applicationId",
-                "keyName",
-                "value",
-                "type",
-                "size",
-                "activateAt",
-                "deactivateAt",
-                "entityStatus",
-                "description",
-                "createdAt",
-                "lastUpdatedAt",
-                "alg"
-        };
-
-        ArrayList returnedObject = testContext.getApiManager().getGetSigningKey().getResponse().path(".");
+        String returnedObject = testContext.getApiManager().getGetSigningKey().getResponse().getBody().prettyPrint();
         if (returnedObject != null) {
-            returnedObject.stream().forEach(t -> {
-                Set<String> keySet = ((HashMap) t).keySet();
-                Collection<String> diff = CollectionUtils.disjunction(Arrays.asList(predefinedSet), keySet);
-
-                if (diff.size() == 0) {
-                } else {
-                    Assert.assertEquals(true, false,
-                            "Returned object contain fields that are not a subset (" +
-                                    String.join(",", diff) + ")");
-                }
-            });
+            String newString = "{\"response\":" + returnedObject + "}";
+            Map<String, Object> retMap = new Gson().fromJson(
+                    newString, new TypeToken<HashMap<String, Object>>() {
+                    }.getType()
+            );
+            ArrayList<Map> arrayList = (ArrayList) retMap.get("response");
+            Map firstElement = arrayList.get(0);
+            Assert.assertTrue(firstElement.containsKey(Constants.KEY_ID));
+            Assert.assertTrue(firstElement.containsKey(Constants.APPLICATION_ID));
+            Assert.assertTrue(firstElement.containsKey(Constants.VALUE));
+            Assert.assertTrue(firstElement.containsKey(Constants.ALG));
+            Assert.assertTrue(firstElement.containsKey(Constants.TYPE));
+            Assert.assertTrue(firstElement.containsKey(Constants.SIZE));
+            Assert.assertTrue(firstElement.containsKey(Constants.ACTIVATE_AT));
+            Assert.assertTrue(firstElement.containsKey(Constants.DEACTIVAT_AT));
+            Assert.assertTrue(firstElement.containsKey(Constants.ENTITY_STATUS));
+            Assert.assertTrue(firstElement.containsKey(Constants.DESCRIPTION));
+            Assert.assertTrue(firstElement.containsKey(Constants.CREATED_AT));
+            Assert.assertTrue(firstElement.containsKey(Constants.LAST_UPDATED_AT));
+            Assert.assertEquals(firstElement.toString().split(",").length, 12);
         }
-    }
-}
+            else{
+             getRestHelper().getResponseStatusCode(testContext.getApiManager().getGetSigningKey().getResponse());
+            }
+        }}
+

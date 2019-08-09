@@ -8,7 +8,7 @@ Feature: Management Put Applications API - DRAG-1446
   # For the parametres where values are missing within the table, while creating request, the parameter will not be included at all as a a part of the payload
   
   # @trial
-  @regression @merchantManagement @merchantManagementPut
+  @regression @merchantManagement @merchantManagementPut  @testingPutSigingKey
   Scenario Outline: Positive flow- A DRAGON user with Application.ReadWrite.All is able to update an existing application
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     And I have an "<applicationId>" from an existing application

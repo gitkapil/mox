@@ -10,10 +10,9 @@ import managers.TestContext;
 import managers.UtilManager;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
+import utils.Constants;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class ManagementGetApplications_StepDefs extends UtilManager {
     TestContext testContext;
@@ -124,6 +123,55 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
         );
     }
 
+    @And("^validate the item list from the response$")
+    public void validateItemListFomTheResponse() {
+
+        List<Object> list = getRestHelper().getJsonArray(testContext.getApiManager().getGetApplication().getResponse(), Constants.ITEM);
+        list.stream().forEach(listObject -> System.out.println(listObject));
+        List<String> strings = new ArrayList<>(list.size());
+        for (Object object : list) {
+            strings.add(Objects.toString(object, null));
+            System.out.println(object);
+        }
+        if (list.size() != 0) {
+            Assert.assertTrue("ApplicationId is not present", strings.get(0).contains(Constants.APPLICATION_ID));
+            Assert.assertTrue("clientId is not present", strings.get(0).contains(Constants.CLIENT_ID));
+            Assert.assertTrue("peakId is not present", strings.get(0).contains(Constants.PEAK_ID));
+            Assert.assertTrue("subUnitId is not present", strings.get(0).contains(Constants.SUB_UNIT_ID));
+            Assert.assertTrue("organisationId is not present", strings.get(0).contains(Constants.ORGANISATION_ID));
+            Assert.assertTrue("notificationHost is not present", strings.get(0).contains(Constants.NOTIFICATION_HOST));
+            Assert.assertTrue("notificationPath is not present", strings.get(0).contains(Constants.NOTIFICATION_PATH));
+            Assert.assertTrue("createdAt is not present", strings.get(0).contains(Constants.CREATED_AT));
+            Assert.assertTrue("createdAt is not present", strings.get(0).contains(Constants.LAST_UPDATED_AT));
+            Assert.assertEquals(strings.get(0).split(",").length, 9);
+        }
+        else if (list.size() == 1){
+            Assert.assertEquals(strings.get(1).split(",").length, 9);
+            Assert.assertTrue("ApplicationId is not present", strings.get(0).contains(Constants.APPLICATION_ID));
+            Assert.assertTrue("clientId is not present", strings.get(0).contains(Constants.CLIENT_ID));
+            Assert.assertTrue("peakId is not present", strings.get(0).contains(Constants.PEAK_ID));
+            Assert.assertTrue("subUnitId is not present", strings.get(0).contains(Constants.SUB_UNIT_ID));
+            Assert.assertTrue("organisationId is not present", strings.get(0).contains(Constants.ORGANISATION_ID));
+            Assert.assertTrue("notificationHost is not present", strings.get(0).contains(Constants.NOTIFICATION_HOST));
+            Assert.assertTrue("notificationPath is not present", strings.get(0).contains(Constants.NOTIFICATION_PATH));
+            Assert.assertTrue("createdAt is not present", strings.get(0).contains(Constants.CREATED_AT));
+            Assert.assertTrue("applicationId is not present", strings.get(1).contains(Constants.APPLICATION_ID));
+            Assert.assertTrue("clientId is not present", strings.get(1).contains(Constants.CLIENT_ID));
+            Assert.assertTrue("peakId is not present", strings.get(1).contains(Constants.PEAK_ID));
+            Assert.assertTrue("subUnitId is not present", strings.get(1).contains(Constants.SUB_UNIT_ID));
+            Assert.assertTrue("organisationId is not present", strings.get(1).contains(Constants.ORGANISATION_ID));
+            Assert.assertTrue("notificationHost is not present", strings.get(1).contains(Constants.NOTIFICATION_HOST));
+            Assert.assertTrue("notificationPath is not present", strings.get(1).contains(Constants.NOTIFICATION_PATH));
+            Assert.assertTrue("createdAt is not present", strings.get(1).contains(Constants.CREATED_AT));
+            Assert.assertTrue("createdAt is not present", strings.get(1).contains(Constants.LAST_UPDATED_AT));
+        }
+        else {
+
+            Assert.assertEquals(
+                    200
+                    , getRestHelper().getResponseStatusCode(testContext.getApiManager().getGetApplication().getResponse().prettyPeek()));
+        }
+    }
     @When("^I get a list of applications using filters to filter \"([^\"]*)\" with \"([^\"]*)\"$")
     public void get_a_list_of_applications_using_filters(String filterName, String filterValue) {
 

@@ -1,3 +1,4 @@
+@testingSingingKey
 Feature: Merchant Management API - GET /keys/signing
 
   Background: Retrieving access Token
@@ -7,32 +8,32 @@ Feature: Merchant Management API - GET /keys/signing
 
 #  @trial
   @regression
-  Scenario: positive flow - get signing keys
+  Scenario Outline: positive flow - get signing keys
     Given I am a user with permissions to use signing key
-    When I create a new application id for get signing key
-    And I create a public key for this application
-    And I make a request to get signing keys
+    And I make a request to get signing keys with "<applicationID>"
     Then I should receive a successful signing key response
+Examples:
+    |applicationID                        |
+    |c9621185-b86d-48a9-97f0-eeddef7c3dc1 |
 
-#  @trial
+  @trial
   @regression
-  Scenario Outline: negative flow - get signing keys without public key
+  Scenario Outline: negative flow - get signing keys without trace id
     Given I am a user with permissions to use signing key
-    When I create a new application id for get signing key
-    And I make a request to get signing keys
+    And I make a request to get signing keys with "<applicationID>" with no track id
     Then I should receive a signing key response error "<http_status>" status with code "<error_code>" and description "<error_description>"
     Examples:
-      |http_status|error_code|error_description|
-      |400        |EA028     |Active Public Key not found, please update expired key or create new key             |
+      |http_status|error_code|error_description                                             |  applicationID                       |
+      |400        |EA002     |Header Trace-Id was not found in the request. Access denied.  | c9621185-b86d-48a9-97f0-eeddef7c3dc1 |
 
 #  @trial
   @regression
   Scenario Outline: Negative flow - Invalid application Id
     Given I am a user with permissions to use signing key
-    When I make a request with "<applicationId>" as application id
+    And I make a request to get signing keys with "<applicationID>"
     Then I should receive a signing key response error "<http_status>" status with code "<error_code>" and description "<error_description>"
   Examples:
-    |applicationId                       |http_status|error_code|error_description|
+    |applicationID                       |http_status|error_code|error_description|
     # Invalid application Id format
     |aaa                                 |400        |EA002     |Failed to convert value of type             |
     # Application Id not found

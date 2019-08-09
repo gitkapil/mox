@@ -1,3 +1,4 @@
+@getApplication
 Feature: Merchant Management API - GET /applications
 
   Background: Retrieving access Token
@@ -26,13 +27,13 @@ Feature: Merchant Management API - GET /applications
 #    Then I should get an error message with status 400 error code "EA002" and error description "Failed to convert value of type"
 
   # @trial
-  @regression @merchantManagement @merchantManagementGet
+  @regression @merchantManagement @merchantManagementGet @testing
   Scenario Outline: Positive flow - Get a list of application using filters 1
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of applications using filters to filter "<filterName>" with "<filterValue>"
     Then I should receive a successful response
     And the response should have a list of <numberOfResponses> applications
-
+    And validate the item list from the response
     Examples:
       | filterName | filterValue                          | numberOfResponses |
       | clientId   | 00000001-0000-0000-0000-000000000000 | 1                 |
