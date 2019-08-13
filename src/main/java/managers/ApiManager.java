@@ -119,7 +119,8 @@ public class ApiManager {
         return (getApplication == null) ? getApplication = new GetApplication() : getApplication;
     }
 
-    public PutApplication getPutApplication() {
+    public PutApplication getPutApplication()
+    {
         return (putApplication == null) ? putApplication = new PutApplication() : putApplication;
     }
 

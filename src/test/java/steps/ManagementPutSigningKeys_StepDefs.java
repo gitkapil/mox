@@ -1,6 +1,8 @@
 package steps;
 
 import com.google.common.collect.Sets;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -8,8 +10,11 @@ import cucumber.api.java.en.When;
 import managers.TestContext;
 import managers.UtilManager;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.http.HttpStatus;
 import org.testng.Assert;
+import utils.Constants;
 
+import javax.xml.ws.Response;
 import java.util.*;
 
 public class ManagementPutSigningKeys_StepDefs extends UtilManager {
@@ -88,7 +93,7 @@ public class ManagementPutSigningKeys_StepDefs extends UtilManager {
 
     @And("^I create a new signing key$")
     public void createSigningKeyExistingId() {
-        common.iAmAnAuthorizedDragonUser(ROLE_SET,
+       /* common.iAmAnAuthorizedDragonUser(ROLE_SET,
                 token -> testContext.getApiManager().getPostSigningKeys().setAuthTokenWithBearer(token));
         testContext.getApiManager().getPostSigningKeys().setApplicationId(
                 testContext.getApiManager().getPutSigningKeys().getApplicationId()
@@ -105,17 +110,43 @@ public class ManagementPutSigningKeys_StepDefs extends UtilManager {
         Assert.assertEquals(201,
                 getRestHelper().getResponseStatusCode(testContext.getApiManager().getPostSigningKeys().getResponse()),
                 "Unable to create signing key");
+*/
+    }
+
+    @And("^I retrieve the applicationId and keyId from the signing key response for \"([^\"]*)\"$")
+    public void getSigningKeywithAppID(String applicationID) {
+       /* HashMap dataMap = testContext.getApiManager().getPostSigningKeys().getResponse().getBody().path(".");
+        String newKeyId = dataMap.get("keyId").toString();*/
+    //    String returnedApplicationId = dataMap.get(applicationID).toString();
+
+
+
+
+        testContext.getApiManager().getPutSigningKeys().setApplicationId(applicationID);
+        String url = getRestHelper().getBaseURI() +
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                + "/" + applicationID + "/keys/signing";
+
+        System.out.println("URL: "+ url);
+        testContext.getApiManager().getPostSigningKeys().makeRequest(url);
+        HashMap returnedObject = testContext.getApiManager().getPostSigningKeys().getResponse().getBody().path(".");
+        System.out.println("response String: " + returnedObject.get(Constants.KEY_ID));
+
+        testContext.getApiManager().getPutSigningKeys().setKeyId(returnedObject.get(Constants.KEY_ID).toString());
+
+
+
 
     }
 
-    @And("^I retrieve the applicationId and keyId from the signing key response$")
+    /*@And("^I retrieve the applicationId and keyId from the signing key response$")
     public void getSigningKey() {
         HashMap dataMap = (HashMap)testContext.getApiManager().getPostSigningKeys().getResponse().path(".");
         String newKeyId = dataMap.get("keyId").toString();
         String returnedApplicationId = dataMap.get("applicationId").toString();
         testContext.getApiManager().getPutSigningKeys().setKeyId(newKeyId);
         testContext.getApiManager().getPutSigningKeys().setApplicationId(returnedApplicationId);
-    }
+    }*/
 
     @And("^I update the key id to \"([^\"]*)\"$")
     public void updateKeyId(String keyId) {
@@ -171,12 +202,15 @@ public class ManagementPutSigningKeys_StepDefs extends UtilManager {
 
     @Then("^the PUT signing key response should return success$")
     public void successResponse() {
+
         Assert.assertEquals(
                 getRestHelper().getResponseStatusCode(testContext.getApiManager().getPutSigningKeys().getResponse()),
-                200,
+                HttpStatus.SC_OK,
                 "Http status is expected to be " + 200 + " but got " +
                         getRestHelper().getResponseStatusCode(testContext.getApiManager().getPutSigningKeys().getResponse())
         );
+        HashMap returnedTransactions = testContext.getApiManager().getPutSigningKeys().getResponse().path(".");
+
 
         String[] predefinedSet = {
                 "keyId",
@@ -193,7 +227,6 @@ public class ManagementPutSigningKeys_StepDefs extends UtilManager {
                 "type"
         };
 
-        HashMap returnedTransactions = testContext.getApiManager().getPutSigningKeys().getResponse().path(".");
         Set<String> keySet = returnedTransactions.keySet();
         Collection<String> diff = CollectionUtils.disjunction(Arrays.asList(predefinedSet), keySet);
         if (diff.size() == 0) {
@@ -203,4 +236,7 @@ public class ManagementPutSigningKeys_StepDefs extends UtilManager {
                             String.join(",", diff) + ")");
         }
     }
-}
+
+    }
+
+

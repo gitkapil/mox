@@ -1,6 +1,8 @@
 package steps;
 
 import com.google.common.collect.Sets;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -8,8 +10,11 @@ import cucumber.api.java.en.When;
 import managers.TestContext;
 import managers.UtilManager;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.http.HttpStatus;
 import org.testng.Assert;
+import utils.Constants;
 
+import javax.xml.ws.Response;
 import java.util.*;
 
 public class ManagementPostSigningKey_StepDefs extends UtilManager {
@@ -67,7 +72,7 @@ public class ManagementPostSigningKey_StepDefs extends UtilManager {
         testContext.getApiManager().getPostApplication().setRequestDateTime(getDateHelper().getUTCNowDateTime());
         testContext.getApiManager().getPostApplication().setTraceId(getGeneral().generateUniqueUUID());
         testContext.getApiManager().getPostApplication().executeRequest(
-                getRestHelper().getBaseURI()+getFileHelper()
+                getRestHelper().getBaseURI() + getFileHelper()
                         .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME),
                 testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
@@ -97,11 +102,13 @@ public class ManagementPostSigningKey_StepDefs extends UtilManager {
         testContext.getApiManager().getPostSigningKeys().setDescription(description);
     }
 
-    @When("^I make a request to create a new signing key$")
-    public void makeRequest() {
+    @When("^I make a request to create a new signing key with \"([^\"]*)\"$")
+    public void makeRequest(String applicationID) {
+
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
-                + "/" + testContext.getApiManager().getPostSigningKeys().getApplicationId() + "/keys/signing";
+                + "/" + applicationID + "/keys/signing";
+
         testContext.getApiManager().getPostSigningKeys().makeRequest(url);
     }
 
@@ -134,27 +141,31 @@ public class ManagementPostSigningKey_StepDefs extends UtilManager {
     @Then("^the create signing key response should be successful$")
     public void validResponse() {
         Assert.assertEquals(
-                201,
+                HttpStatus.SC_CREATED,
                 getRestHelper().getResponseStatusCode(testContext.getApiManager().getPostSigningKeys().getResponse()),
                 "Expected 201 but got " +
                         getRestHelper().getResponseStatusCode(testContext.getApiManager().getPostSigningKeys().getResponse())
         );
+        String returnedObject = testContext.getApiManager().getPostSigningKeys().getResponse().getBody().prettyPrint();
+        System.out.println("response String: " + returnedObject);
 
-        String[] predefinedSet = {
-                "keyId","applicationId",
-                "value","type","size","activateAt","deactivateAt","entityStatus",
-                "description","createdAt","lastUpdatedAt"
-        };
-
-        HashMap t = testContext.getApiManager().getPostPublicKey().getResponse().path(".");
-        Set<String> keySet = ((HashMap)t).keySet();
-        Collection<String> diff = CollectionUtils.disjunction(Arrays.asList(predefinedSet), keySet);
-
-        if (diff.size() == 0) {
+        if (returnedObject != null) {
+            Assert.assertTrue(returnedObject.contains(Constants.KEY_ID));
+            Assert.assertTrue(returnedObject.contains(Constants.APPLICATION_ID));
+            Assert.assertTrue(returnedObject.contains(Constants.VALUE));
+            Assert.assertTrue(returnedObject.contains(Constants.ALG));
+            Assert.assertTrue(returnedObject.contains(Constants.TYPE));
+            Assert.assertTrue(returnedObject.contains(Constants.SIZE));
+            Assert.assertTrue(returnedObject.contains(Constants.ACTIVATE_AT));
+            Assert.assertTrue(returnedObject.contains(Constants.DEACTIVAT_AT));
+            Assert.assertTrue(returnedObject.contains(Constants.ENTITY_STATUS));
+            Assert.assertTrue(returnedObject.contains(Constants.DESCRIPTION));
+            Assert.assertTrue(returnedObject.contains(Constants.CREATED_AT));
+            Assert.assertTrue(returnedObject.contains(Constants.LAST_UPDATED_AT));
+            Assert.assertEquals(returnedObject.split(",").length, 12);
         } else {
-            Assert.assertEquals(true, false,
-                    "Returned object contain fields that are not a subset (" +
-                            String.join(",", diff) + ")");
+            getRestHelper().getResponseStatusCode(testContext.getApiManager().getGetSigningKey().getResponse());
         }
     }
 }
+

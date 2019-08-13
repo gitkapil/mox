@@ -8,6 +8,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import managers.TestContext;
 import managers.UtilManager;
+import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import utils.Constants;
@@ -168,7 +169,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
         else {
 
             Assert.assertEquals(
-                    200
+                    HttpStatus.SC_OK
                     , getRestHelper().getResponseStatusCode(testContext.getApiManager().getGetApplication().getResponse().prettyPeek()));
         }
     }

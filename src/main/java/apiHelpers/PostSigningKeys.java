@@ -76,8 +76,11 @@ public class PostSigningKeys extends UtilManager {
         returnRequestBody();
         returnRequestHeader();
 
+        System.out.println("request header: "+ requestHeader);
+        System.out.println("request body: "+ requestBody);
         response = getRestHelper().postRequestWithHeaderAndBody(url,
                 requestHeader, requestBody);
+        System.out.println("response after make request: "+ response.getBody().asString());
     }
 
     public void setAuthTokenWithBearer(String authToken) {

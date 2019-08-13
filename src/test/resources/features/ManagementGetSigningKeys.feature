@@ -1,4 +1,4 @@
-@testingSingingKey
+
 Feature: Merchant Management API - GET /keys/signing
 
   Background: Retrieving access Token
@@ -7,7 +7,7 @@ Feature: Merchant Management API - GET /keys/signing
     Then I receive an access_token
 
 #  @trial
-  @regression
+  @regression @testingSingingKey
   Scenario Outline: positive flow - get signing keys
     Given I am a user with permissions to use signing key
     And I make a request to get signing keys with "<applicationID>"
@@ -15,8 +15,9 @@ Feature: Merchant Management API - GET /keys/signing
 Examples:
     |applicationID                        |
     |c9621185-b86d-48a9-97f0-eeddef7c3dc1 |
+  # | 96703cf3-82bb-429e-bcff-93a078b39307|
 
-  @trial
+ # @trial
   @regression
   Scenario Outline: negative flow - get signing keys without trace id
     Given I am a user with permissions to use signing key

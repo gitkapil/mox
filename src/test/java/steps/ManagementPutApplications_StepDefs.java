@@ -11,6 +11,7 @@ import managers.UtilManager;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
+import utils.PropertyHelper;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -62,23 +63,31 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
         testContext.getApiManager().getPutApplication().setTraceId(getGeneral().generateUniqueUUID());
     }
 
-    @Given("^I have updated \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\" values$")
+    @Given("^I have updated \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\" values$")
     public void i_have_updated_clientId_peakId_subUnitId_and_organisationId_values(String clientId, String peakId,
-                                                                                   String subUnitId, String organisationId,
-                                                                                   String description){
+                                                                                   String subUnitId, String organisationId
+                                                                                   ){
         testContext.getApiManager().getPutApplication().setClientId(getSubstituteValue(clientId));
         testContext.getApiManager().getPutApplication().setPeakId(getSubstituteValue(peakId));
         testContext.getApiManager().getPutApplication().setSubUnitId(getSubstituteValue(subUnitId));
         testContext.getApiManager().getPutApplication().setOrganisationId(getSubstituteValue(organisationId));
+    }
+
+
+    @Given("^I have updated \"([^\"]*)\" and \"([^\"]*)\" values$")
+    public void updatedDescriptionAndPlatformValues(String description, String platform){
         if (description.equalsIgnoreCase("superlargestring")) {
             String d = StringUtils.repeat("*", 257);
             testContext.getApiManager().getPutApplication().setDescription(d);
         } else {
             testContext.getApiManager().getPutApplication().setDescription(description);
         }
-        testContext.getApiManager().getPutApplication().setRequestDateTime(getDateHelper().getUTCNowDateTime());
-        testContext.getApiManager().getPutApplication().setTraceId(getGeneral().generateUniqueUUID());
-    }
+        if (description.equalsIgnoreCase("platform")) {
+            String p = StringUtils.repeat("*", 257);
+            testContext.getApiManager().getPutApplication().setPlatform(p);
+        } else {
+            testContext.getApiManager().getPutApplication().setPlatform(platform);
+        }}
 
     private String getSubstituteValue(String value) {
         if ("random".equalsIgnoreCase(value)) {
@@ -93,15 +102,25 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
 
     @When("^I make a PUT request to the application endpoint$")
     public void i_make_a_put_request_to_the_application_endpoint()  {
+
+
+
         logger.info("********** Executing POST Application Request ***********");
-        testContext.getApiManager().getPutApplication().executeRequest(
+//        System.out.println("signingKeyID: "+   testContext.getApiManager().getMerchantManagementSigningKeyId());
+//        System.out.println("ALg"+ getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"));
+//        System.out.println("SignKey: "+testContext.getApiManager().getMerchantManagementSigningKey());
+//        System.out.println("************** \n" +Sets.newHashSet(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
+//                SIG_HEADER_LIST_POST_APPLICATION)));
+
+
+       String response = testContext.getApiManager().getPutApplication().
+               executeRequests(
                 getRestHelper().getBaseURI()+getFileHelper()
-                        .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" + testContext.getApiManager().getPutApplication().getApplicationId(),
-                testContext.getApiManager().getMerchantManagementSigningKeyId(),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                testContext.getApiManager().getMerchantManagementSigningKey(),
-                Sets.newHashSet(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
-                        SIG_HEADER_LIST_POST_APPLICATION).split(",")));
+                        .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" + testContext.getApiManager().getPutApplication().getApplicationId()).toString();
+
+
+
+        logger.info("********** Executed POST Application Request: ***********: " + response.length());
     }
 
     @When("^I make a PUT request to the application endpoint with \"([^\"]*)\" missing in the header$")
@@ -116,6 +135,7 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
     @Then("^I should receive a successful PUT application response$")
     public void i_should_receive_a_successful_put_applications_response()  {
         Response response = testContext.getApiManager().getPutApplication().getResponse();
+        System.out.println("pretty report:"+response.asString().length());
         Assert.assertEquals(getRestHelper().getResponseStatusCode(response), 200,"Request was not successful!");
         Assert.assertEquals(getRestHelper().getResponseHeaderValue(response, "X-Application-Context "), null, "Expects X-Application-Context header to not exists");
         Assert.assertNotNull(response, "The response for PUT application Request was null");
@@ -217,7 +237,7 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
     @Given("^I have valid update values for the application$")
     public void i_have_valid_update_values_for_the_application() {
         i_have_an_applicationId_from_an_existing_application("new");
-        i_have_updated_clientId_peakId_subUnitId_and_organisationId_values(UUID.randomUUID().toString(),UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString());
+      //  i_have_updated_clientId_peakId_subUnitId_and_organisationId_values(UUID.randomUUID().toString(),UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString());
     }
 
 
