@@ -44,8 +44,6 @@ public class ManagementGetSigningKeys_StepDef extends UtilManager {
         testContext.getApiManager().getPostPublicKey().setApplicationId(
                 testContext.getApiManager().getGetSigningKey().getApplicationId()
         );
-
-
         String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
                 RESOURCE_ENDPOINT_PROPERTY_NAME) + "/";
         String value = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, VALID_BASE64_ENCODED_RSA_PUBLIC_KEY);
@@ -95,7 +93,6 @@ public class ManagementGetSigningKeys_StepDef extends UtilManager {
     public void makeRequests(String applicationID) {
         String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
                 RESOURCE_ENDPOINT_PROPERTY_NAME) + "/";
-
         System.out.println("URL: "+url);
         testContext.getApiManager().getGetSigningKey().makeCallWithApplicationID(url, applicationID);
     }
@@ -105,7 +102,6 @@ public class ManagementGetSigningKeys_StepDef extends UtilManager {
     public void makeSigingKeyRequestWithNoTraceId(String applicationID) {
         String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
                 RESOURCE_ENDPOINT_PROPERTY_NAME) + "/";
-
         System.out.println("URL: "+url);
         testContext.getApiManager().getGetSigningKey().makeCallWithoutTraceID(url, applicationID);
     }

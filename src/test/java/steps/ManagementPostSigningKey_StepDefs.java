@@ -104,11 +104,9 @@ public class ManagementPostSigningKey_StepDefs extends UtilManager {
 
     @When("^I make a request to create a new signing key with \"([^\"]*)\"$")
     public void makeRequest(String applicationID) {
-
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
                 + "/" + applicationID + "/keys/signing";
-
         testContext.getApiManager().getPostSigningKeys().makeRequest(url);
     }
 
@@ -120,7 +118,6 @@ public class ManagementPostSigningKey_StepDefs extends UtilManager {
                 "Expected http status " + httpStatus + " but got " +
                         getRestHelper().getResponseStatusCode(testContext.getApiManager().getPostSigningKeys().getResponse())
         );
-
         Assert.assertEquals(
                 errorCode,
                 getRestHelper().getErrorCode(testContext.getApiManager().getPostSigningKeys().getResponse()),
@@ -147,8 +144,6 @@ public class ManagementPostSigningKey_StepDefs extends UtilManager {
                         getRestHelper().getResponseStatusCode(testContext.getApiManager().getPostSigningKeys().getResponse())
         );
         String returnedObject = testContext.getApiManager().getPostSigningKeys().getResponse().getBody().prettyPrint();
-        System.out.println("response String: " + returnedObject);
-
         if (returnedObject != null) {
             Assert.assertTrue(returnedObject.contains(Constants.KEY_ID));
             Assert.assertTrue(returnedObject.contains(Constants.APPLICATION_ID));

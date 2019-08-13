@@ -62,22 +62,18 @@ public class PostSigningKeys extends UtilManager {
         if (EnvHelper.getInstance().isLocalDevMode()) {
             EnvHelper.getInstance().addMissingHeaderForLocalDevMode(requestHeader);
         }
-
-//        try {
-//            requestHeader.put("Digest", getSignatureHelper().calculateContentDigestHeader(
-//                    new ObjectMapper().writeValueAsBytes(requestBody)));
-//        } catch (JsonProcessingException e) {
-//            e.printStackTrace();
-//            Assert.assertTrue("Trouble creating Digest!", false);
-//        }
+        try {
+            requestHeader.put("Digest", getSignatureHelper().calculateContentDigestHeader(
+                    new ObjectMapper().writeValueAsBytes(requestBody)));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            Assert.assertTrue("Trouble creating Digest!", false);
+        }
     }
 
     public void makeRequest(String url) {
         returnRequestBody();
         returnRequestHeader();
-
-        System.out.println("request header: "+ requestHeader);
-        System.out.println("request body: "+ requestBody);
         response = getRestHelper().postRequestWithHeaderAndBody(url,
                 requestHeader, requestBody);
         System.out.println("response after make request: "+ response.getBody().asString());
@@ -122,7 +118,6 @@ public class PostSigningKeys extends UtilManager {
             this.description = description;
         }
     }
-
     public String getEntityStatus() {
         return entityStatus;
     }

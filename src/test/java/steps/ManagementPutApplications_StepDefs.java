@@ -73,7 +73,6 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
         testContext.getApiManager().getPutApplication().setOrganisationId(getSubstituteValue(organisationId));
     }
 
-
     @Given("^I have updated \"([^\"]*)\" and \"([^\"]*)\" values$")
     public void updatedDescriptionAndPlatformValues(String description, String platform){
         if (description.equalsIgnoreCase("superlargestring")) {
@@ -99,7 +98,6 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
         }
     }
 
-
     @When("^I make a PUT request to the application endpoint$")
     public void i_make_a_put_request_to_the_application_endpoint()  {
 
@@ -111,15 +109,10 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
 //        System.out.println("SignKey: "+testContext.getApiManager().getMerchantManagementSigningKey());
 //        System.out.println("************** \n" +Sets.newHashSet(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
 //                SIG_HEADER_LIST_POST_APPLICATION)));
-
-
        String response = testContext.getApiManager().getPutApplication().
                executeRequests(
                 getRestHelper().getBaseURI()+getFileHelper()
                         .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" + testContext.getApiManager().getPutApplication().getApplicationId()).toString();
-
-
-
         logger.info("********** Executed POST Application Request: ***********: " + response.length());
     }
 

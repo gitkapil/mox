@@ -27,7 +27,6 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
     ManagementCommon common;
     private static final Set<String> ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
     private static final Set<String> INCORRECT_ROLE_SET = Sets.newHashSet("ApplicationKey.ReadWrite.All");
-
     final static Logger logger = Logger.getLogger(ManagementGetApplications_StepDefs.class);
 
     @When("^I get a list of applications without any filters$")
@@ -126,7 +125,6 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
 
     @And("^validate the item list from the response$")
     public void validateItemListFomTheResponse() {
-
         List<Object> list = getRestHelper().getJsonArray(testContext.getApiManager().getGetApplication().getResponse(), Constants.ITEM);
         list.stream().forEach(listObject -> System.out.println(listObject));
         List<String> strings = new ArrayList<>(list.size());
