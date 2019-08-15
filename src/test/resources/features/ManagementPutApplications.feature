@@ -8,7 +8,7 @@ Feature: Management Put Applications API - DRAG-1446
   # For the parametres where values are missing within the table, while creating request, the parameter will not be included at all as a a part of the payload
   
   # @trial
-  @regression @merchantManagement @merchantManagementPut
+  @regression @merchantManagement @merchantManagementPut @putAppKey
   Scenario Outline: Positive flow- A DRAGON user with Application.ReadWrite.All is able to update an existing application
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     And I have an "<applicationId>" from an existing application
@@ -21,7 +21,7 @@ Feature: Management Put Applications API - DRAG-1446
       | applicationId                        | description | platform |
       | 96703cf3-82bb-429e-bcff-93a078b39307 | description | platform |
 
-  @regression @merchantManagement @merchantManagementPut  @putKey @trial
+  @regression @merchantManagement @merchantManagementPut  @trial
   Scenario Outline: Positive flow- A DRAGON user with Application.ReadWrite.All is able to update an existing application
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     And I have an "<applicationId>" from an existing application
@@ -48,7 +48,7 @@ Feature: Management Put Applications API - DRAG-1446
       | error_description                                              | error_message                     | key           | error_code | http_status |
       | Error validating JWT                                           | API Gateway Authentication Failed | Authorization | EA001      | 401         |
 #      | Header Request-Date-Time was not found in the request. Access denied. | API Gateway Validation Failed | Request-Date-Time | EA002 | 400 |
-      | Header Trace-Id was not found in the request. Access denied.   | API Gateway Validation Failed     | Trace-Id      | EA002      | 400         |
+        | Header Trace-Id was not found in the request. Access denied.   | API Gateway Validation Failed     | Trace-Id      | EA002      | 400         |
 #      | Header Signature was not found in the request. Access denied. | API Gateway Validation Failed | Signature | EA002 | 400 |
       | Header Accept does not contain required value.  Access denied. | Request Header Not Acceptable     | Accept        | EA008      | 406         |
       | Content type 'text/plain;charset=ISO-8859-1' not supported     | Service Request Validation Failed | Content-Type  | EA002      | 415         |

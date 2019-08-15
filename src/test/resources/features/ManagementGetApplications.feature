@@ -19,13 +19,6 @@ Feature: Merchant Management API - GET /applications
       | numberOfResponses |
       | 20                |
 
-    #  @trial
-#  @regression @merchantManagement @merchantManagementGet
-#  Scenario: Negative flow - Get a list of applications fails becuase of incorrect privileges
-#    Given I am a GET application authorized DRAGON user with the ApplicationKey.ReadWrite.All privilege
-#    When I get a list of applications without any filters
-#    Then I should get an error message with status 400 error code "EA002" and error description "Failed to convert value of type"
-
   # @trial
   @regression @merchantManagement @merchantManagementGet @testing
   Scenario Outline: Positive flow - Get a list of application using filters 1
@@ -75,5 +68,20 @@ Feature: Merchant Management API - GET /applications
       | filterName | filterValue                          | limit | numberOfResponses | totalNumberOfItems | currentPageNumber | nextPageNumber | nextNumberOfResponses |
       | peakId     | 00000002-0000-0000-c000-000000000001 | 1     | 1                 | 2                  | 0                 | 1              | 1                     |
       | peakId     | 00000002-0000-0000-c000-000000000001 | 30    | 2                 | 2                  | 0                 | 0              | 2                     |
+
+
+    @regression @negativeFlow @getApplications @testingApps
+    Scenario Outline: Negative flow - Get a list of application using null header values
+    Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
+    When I get a list of applications using filters to filter "<filterName>" with "<filterValue>" and "<nullHeaderValue>" values
+    Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorCode within the get application response
+    And error message should be "<error_message>" within the get application response
+    Examples:
+      | filterName | filterValue                          |  nullHeaderValue  |error_message                     | error_code | http_status| error_description                                   |
+      | clientId   | 00000001-0000-0000-0000-000000000000 |  Trace-Id         | API Gateway Validation Failed    | EA002      | 400        |Header Trace-Id was not found in the request         |
+      | clientId   | 00000001-0000-0000-0000-000000000000 |  Request-Date-Time| API Gateway Validation Failed    | EA002      | 400        |Header Request-Date-Time was not found in the request|
+      | clientId   | 00000001-0000-0000-0000-000000000000 |  Content-Type     | Service Request Validation Failed| EA002      | 415        |Content type                                         |
+      | clientId   | 00000001-0000-0000-0000-000000000000 |  ACCEPT           | Request Header Not Acceptable    | EA008      | 406        |Header Accept does not contain required value        |
+
 
 

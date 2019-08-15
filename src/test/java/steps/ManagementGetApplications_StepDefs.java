@@ -2,10 +2,12 @@ package steps;
 
 import com.google.common.collect.Sets;
 import com.jayway.restassured.path.json.JsonPath;
+import com.jayway.restassured.response.Response;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import cucumber.api.java.hu.Ha;
 import managers.TestContext;
 import managers.UtilManager;
 import org.apache.http.HttpStatus;
@@ -58,6 +60,41 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
                         .size() == numberOfResponses
         );
     }
+
+    @Then("^I should receive a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorCode within the get application response$")
+    public void i_should_receive_an_error_response_with_error_description_and_errorcode(int responseCode, String errorDesc, String errorCode) {
+        Response response = testContext.getApiManager().getGetApplication().getResponse();
+        org.testng.Assert.assertEquals(getRestHelper().getResponseStatusCode(response), responseCode,"Different response code being returned");
+
+
+
+        if (getRestHelper().getErrorDescription(response) != null) {
+
+            if (getRestHelper().getErrorDescription(response).contains("'")) {
+                System.out.println("here : " + getRestHelper().getErrorDescription(response));
+                System.out.println("there: " + errorDesc);
+            }
+
+            org.testng.Assert.assertTrue(
+                    getRestHelper().getErrorDescription(response)
+                            .replace("\"", "")
+                            .contains(errorDesc),
+                    "Different error description being returned..Expected: " + errorDesc + "Actual: " + getRestHelper().getErrorDescription(response));
+        }
+
+        org.testng.Assert.assertEquals(getRestHelper().getErrorCode(response), errorCode,"Different error code being returned");
+    }
+
+    @Then("^error message should be \"([^\"]*)\" within the get application response$")
+    public void i_should_receive_a_error_message(String errorMessage) {
+        Response response = testContext.getApiManager().getGetApplication().getResponse();
+        org.testng.Assert.assertTrue(
+                getRestHelper().getErrorMessage(response).contains(errorMessage) ,
+                "Different error message being returned..Expected: "+ errorMessage+ " Actual: " +
+                        getRestHelper().getErrorMessage(response));
+
+    }
+
 
     @Then("^I should get an error message with status ([^\"]*) error code \"([^\"]*)\" and error description \"([^\"]*)\"$")
     public void then_should_get_error(int httpStatus, String errorCode, String errorDescription) {
@@ -138,11 +175,11 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
             Assert.assertTrue("peakId is not present", strings.get(0).contains(Constants.PEAK_ID));
             Assert.assertTrue("subUnitId is not present", strings.get(0).contains(Constants.SUB_UNIT_ID));
             Assert.assertTrue("organisationId is not present", strings.get(0).contains(Constants.ORGANISATION_ID));
-            Assert.assertTrue("notificationHost is not present", strings.get(0).contains(Constants.NOTIFICATION_HOST));
-            Assert.assertTrue("notificationPath is not present", strings.get(0).contains(Constants.NOTIFICATION_PATH));
+//            Assert.assertTrue("notificationHost is not present", strings.get(0).contains(Constants.NOTIFICATION_HOST));
+//            Assert.assertTrue("notificationPath is not present", strings.get(0).contains(Constants.NOTIFICATION_PATH));
             Assert.assertTrue("createdAt is not present", strings.get(0).contains(Constants.CREATED_AT));
             Assert.assertTrue("createdAt is not present", strings.get(0).contains(Constants.LAST_UPDATED_AT));
-            Assert.assertEquals(strings.get(0).split(",").length, 9);
+            Assert.assertEquals(strings.get(0).split(",").length, 8);
         }
         else if (list.size() == 1){
             Assert.assertEquals(strings.get(1).split(",").length, 9);
@@ -178,7 +215,6 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource");
 
         url = url + "?" + filterName + "=" + filterValue;
-
         testContext.getApiManager().getGetApplication().getListOfApplications(
                 url,
                 testContext.getApiManager().getMerchantManagementSigningKeyId(),
@@ -189,16 +225,23 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
                 testContext.getApiManager().getPostApplication().getAuthToken());
     }
 
+    @When("^I get a list of applications using filters to filter \"([^\"]*)\" with \"([^\"]*)\" and \"([^\"]*)\" values$")
+    public void get_a_list_of_applications_usingNullHeaders(String filterName, String filterValue, String headerValues) {
+        String url = getRestHelper().getBaseURI() +
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource");
+        url = url + "?" + filterName + "=" + filterValue;
+        testContext.getApiManager().getGetApplication().getListOfApplication(
+                url, testContext.getApiManager().getPostApplication().getAuthToken(), headerValues);
+
+    }
+
     @When("^I get a list of applications using filters to filter \"([^\"]*)\" with \"([^\"]*)\" with ([^\"]*) limits$")
     public void get_a_list_of_apps_using_filters_and_limits(String filterName, String filterValue, int limit) {
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource");
-
         url = url + "?" + filterName + "=" + filterValue;
         url = url + "&limit=" + limit;
-
         currentUrl = url;
-
         testContext.getApiManager().getGetApplication().getListOfApplications(
                 url,
                 testContext.getApiManager().getMerchantManagementSigningKeyId(),
@@ -214,8 +257,6 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
         JsonPath objItem = getRestHelper().getJsonPath(testContext.getApiManager().getGetApplication().getResponse());
         int total = 0;
         total = Integer.parseInt("" + objItem.getMap("page").get("totalItems"));
-
-
         Assert.assertTrue(
                 "response should have number of total items " + totalNumberOfItems + " but got " + total,
                 total == totalNumberOfItems

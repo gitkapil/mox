@@ -63,15 +63,24 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
         testContext.getApiManager().getPutApplication().setTraceId(getGeneral().generateUniqueUUID());
     }
 
-    @Given("^I have updated \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\" values$")
+    @Given("^I have updated \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\" values$")
     public void i_have_updated_clientId_peakId_subUnitId_and_organisationId_values(String clientId, String peakId,
-                                                                                   String subUnitId, String organisationId
-                                                                                   ){
+                                                                                   String subUnitId, String organisationId,
+                                                                                   String description){
         testContext.getApiManager().getPutApplication().setClientId(getSubstituteValue(clientId));
         testContext.getApiManager().getPutApplication().setPeakId(getSubstituteValue(peakId));
         testContext.getApiManager().getPutApplication().setSubUnitId(getSubstituteValue(subUnitId));
         testContext.getApiManager().getPutApplication().setOrganisationId(getSubstituteValue(organisationId));
+        if (description.equalsIgnoreCase("superlargestring")) {
+            String d = StringUtils.repeat("*", 257);
+            testContext.getApiManager().getPutApplication().setDescription(d);
+        } else {
+            testContext.getApiManager().getPutApplication().setDescription(description);
+        }
+        testContext.getApiManager().getPutApplication().setRequestDateTime(getDateHelper().getUTCNowDateTime());
+        testContext.getApiManager().getPutApplication().setTraceId(getGeneral().generateUniqueUUID());
     }
+
 
     @Given("^I have updated \"([^\"]*)\" and \"([^\"]*)\" values$")
     public void updatedDescriptionAndPlatformValues(String description, String platform){

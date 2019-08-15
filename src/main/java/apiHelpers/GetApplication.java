@@ -1,5 +1,6 @@
 package apiHelpers;
 
+import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Response;
 import managers.UtilManager;
 import org.apache.log4j.Logger;
@@ -12,6 +13,7 @@ import java.net.URL;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Objects;
 
 public class GetApplication extends UtilManager {
     private final static Logger logger = Logger.getLogger(GetApplication.class);
@@ -47,6 +49,36 @@ public class GetApplication extends UtilManager {
             Assert.assertTrue("Unable to get URL" , false);
         }
     }
+
+    public void getListOfApplication(String url, String authToken, String nullHeader) {
+        try {
+            response = getRestHelper().getRequestWithHeaders(url,
+                    getListHeaderWithMissingValues("GET", new URL(url).getPath(),
+                            authToken, nullHeader));
+
+
+            logger.info("****************List of application response ******************** --> " + response.getBody().prettyPrint());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            Assert.assertTrue("Unable to get URL" , false);
+        }
+    }
+
+    private HashMap<String, String> getListHeaderWithMissingValues(String method, String url
+                                                  , String authToken, String nullHeader) {
+        HashMap<String,String> header = new HashMap<>();
+        header.put("ACCEPT", "application/json");
+        header.put("Authorization", authToken);
+        header.put("Trace-Id", general.generateUniqueUUID());
+        header.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
+        header.put("Request-Date-Time", dateHelper.getUTCNowDateTime());
+        header.put("Content-Type", "application/json");
+        header.remove(nullHeader);
+
+        return header;
+
+    }
+
 
     private HashMap<String, String> getListHeader(String method, String url,String signingKeyId,
                                                   String signingAlgorithm, String signingKey,

@@ -1,3 +1,4 @@
+
 Feature: Management Post Applications API - DRAG-1416
 
   Background: Retrieving access Token
@@ -5,7 +6,7 @@ Feature: Management Post Applications API - DRAG-1416
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-    #@regression @merchantManagement
+    @regression @merchantManagement @postApplication
   Scenario Outline: Positive flow- A DRAGON user with Application.ReadWrite.All privilege is able to create an application
     Given I am a POST application authorized DRAGON user with the ApplicationKey.ReadWrite.All privilege
     And I have a "<clientId>" from an existing AAD application
