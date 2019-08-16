@@ -173,14 +173,10 @@ public class PutApplication extends UtilManager {
      * This method creates valid header for the PUT Application Request
      * @param method
      * @param url
-     * @param signingKeyId
-     * @param signingAlgorithm
-     * @param signingKey
-     * @param headerElementsForSignature
      * @return
      */
 
-    public HashMap<String,String> returnRequestHeader(String method, String url, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature) throws IOException {
+    public HashMap<String,String> returnRequestHeaderWithMissingKeys(String method, String url, String keys) throws IOException {
         requestHeader = new HashMap<String, String>();
         requestHeader.put("Accept","application/json");
         requestHeader.put("Content-Type","application/json");
@@ -189,6 +185,7 @@ public class PutApplication extends UtilManager {
         requestHeader.put("Accept-Language", "en-US");
         requestHeader.put("Request-Date-Time", getRequestDateTime());
         requestHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
+        requestHeader.remove(keys);
 
        /* if (EnvHelper.getInstance().isLocalDevMode()) {
             EnvHelper.getInstance().addMissingHeaderForLocalDevMode(requestHeader);
@@ -222,14 +219,20 @@ public class PutApplication extends UtilManager {
      */
     public HashMap<String,HashMap> returnRequestBody(){
         requestBody.clear();
-
-
         populateRequestBody("clientId", getClientId());
         populateRequestBody("peakId", getPeakId());
         populateRequestBody("subUnitId", getSubUnitId());
         populateRequestBody("organisationId", getOrganisationId());
-//        populateRequestBody("description", getDescription());
+        return requestBody;
+    }
 
+    public HashMap<String,HashMap> returnRequestBodyWithMissingKeys(String missingKeys){
+        requestBody.clear();
+        populateRequestBody("clientId", getClientId());
+        populateRequestBody("peakId", getPeakId());
+        populateRequestBody("subUnitId", getSubUnitId());
+        populateRequestBody("organisationId", getOrganisationId());
+        requestBody.remove(missingKeys);
         return requestBody;
     }
 
@@ -259,19 +262,15 @@ public class PutApplication extends UtilManager {
         return response;
     }
 
-    public Response  executeRequests(String url) {
+    public Response  executeRequest(String url) {
 
         try{
             returnRequestBody();
             HashMap<String, String> header = returnRequestNewHeaders();
-            System.out.println("passed header \n: "+header);
-            System.out.println("passed body: \n: "+ requestBody);
-
             response = getRestHelper().putRequestWithHeaderAndBody(url,
                     header,
                     requestBody);
-            System.out.println("constant:"+response.getBody().asString());
-            logger.info("********** PUT Application Response *********** ----> "+ response.prettyPrint());
+            logger.info("********** PUT Application Response *********** ----> "+ response.getBody().prettyPrint());
         }
         catch (Exception e){
             e.printStackTrace();
@@ -281,6 +280,23 @@ public class PutApplication extends UtilManager {
         return response;
     }
 
+    public Response  executeRequestWithMissingBody(String missingBody, String url) {
+
+        try{
+            returnRequestBodyWithMissingKeys(missingBody);
+            HashMap<String, String> header = returnRequestNewHeaders();
+            response = getRestHelper().putRequestWithHeaderAndBody(url,
+                    header,
+                    requestBody);
+            logger.info("********** PUT Application Response *********** ----> "+ response.getBody().prettyPrint());
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Assert.assertTrue("Verification of signature failed!", false);
+
+        }
+        return response;
+    }
 
     /**
      * This method hits PUT payment request endpoint and creates header and body values
@@ -292,46 +308,17 @@ public class PutApplication extends UtilManager {
      * @return
      */
 
-
-    public Response  executeRequest(String url, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature) {
-
-        try{
-            returnRequestBody();
-            HashMap<String, String> header = returnRequestNewHeaders();
-            System.out.println("passed header \n: "+header);
-            System.out.println("passed body: \n: "+ requestBody);
-
-            response = getRestHelper().putRequestWithHeaderAndBody(url,
-                     header,
-                    requestBody);
-            System.out.println("constant:"+response.getBody().asString());
-            logger.info("********** PUT Application Response *********** ----> "+ response.prettyPrint());
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            Assert.assertTrue("Verification of signature failed!", false);
-
-        }
-        return response;
-    }
-
-
     /**
      * This method hits PUT payment request endpoint with invalid header values. "key" values are missing from the header.
      * @param url
-     * @param key
-     * @param signingKeyId
-     * @param signingAlgorithm
-     * @param signingKey
-     * @param headerElementsForSignature
      * @return
      */
-    public Response executeRequestWithMissingHeaderKeys(String url, String key, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature)  {
+    public Response executePutRequestWithMissingHeaderKeys(String url, String keys)  {
 
         try {
             returnRequestBody();
-            HashMap<String, String> header = returnRequestHeader("PUT", new URL(url).getPath(), signingKeyId, signingAlgorithm, signingKey, headerElementsForSignature);
-            header.remove(key);
+            HashMap<String,String> header = returnRequestHeaderWithMissingKeys("PUT", new URL(url).getPath(), keys);
+
             response = getRestHelper().putRequestWithHeaderAndBody(url, header, requestBody);
 
             //testContext.getUtilManager().getSignatureHelper().verifySignature(paymentRequestResponse, "GET", url, Base64.getDecoder().decode(signingKey), signingAlgorithm);

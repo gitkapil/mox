@@ -1,5 +1,6 @@
 package steps;
 
+import apiHelpers.PutApplication;
 import com.google.common.collect.Sets;
 import com.jayway.restassured.response.Response;
 import cucumber.api.java.en.And;
@@ -9,10 +10,13 @@ import cucumber.api.java.en.When;
 import managers.TestContext;
 import managers.UtilManager;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
+import utils.Constants;
 import utils.PropertyHelper;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.UUID;
@@ -63,20 +67,14 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
         testContext.getApiManager().getPutApplication().setTraceId(getGeneral().generateUniqueUUID());
     }
 
-    @Given("^I have updated \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\" values$")
+    @Given("^I have updated \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\" values$")
     public void i_have_updated_clientId_peakId_subUnitId_and_organisationId_values(String clientId, String peakId,
-                                                                                   String subUnitId, String organisationId,
-                                                                                   String description){
+                                                                                   String subUnitId, String organisationId
+                                                                                   ){
         testContext.getApiManager().getPutApplication().setClientId(getSubstituteValue(clientId));
         testContext.getApiManager().getPutApplication().setPeakId(getSubstituteValue(peakId));
         testContext.getApiManager().getPutApplication().setSubUnitId(getSubstituteValue(subUnitId));
         testContext.getApiManager().getPutApplication().setOrganisationId(getSubstituteValue(organisationId));
-        if (description.equalsIgnoreCase("superlargestring")) {
-            String d = StringUtils.repeat("*", 257);
-            testContext.getApiManager().getPutApplication().setDescription(d);
-        } else {
-            testContext.getApiManager().getPutApplication().setDescription(description);
-        }
         testContext.getApiManager().getPutApplication().setRequestDateTime(getDateHelper().getUTCNowDateTime());
         testContext.getApiManager().getPutApplication().setTraceId(getGeneral().generateUniqueUUID());
     }
@@ -108,40 +106,54 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
     }
 
     @When("^I make a PUT request to the application endpoint$")
-    public void i_make_a_put_request_to_the_application_endpoint()  {
-
-
-
+    public void i_make_a_put_request_to_the_application_endpoint() throws IOException {
         logger.info("********** Executing POST Application Request ***********");
-//        System.out.println("signingKeyID: "+   testContext.getApiManager().getMerchantManagementSigningKeyId());
-//        System.out.println("ALg"+ getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"));
-//        System.out.println("SignKey: "+testContext.getApiManager().getMerchantManagementSigningKey());
-//        System.out.println("************** \n" +Sets.newHashSet(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
-//                SIG_HEADER_LIST_POST_APPLICATION)));
-       String response = testContext.getApiManager().getPutApplication().
-               executeRequests(
+        testContext.getApiManager().getPutApplication().executeRequest(
                 getRestHelper().getBaseURI()+getFileHelper()
-                        .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" + testContext.getApiManager().getPutApplication().getApplicationId()).toString();
-        logger.info("********** Executed POST Application Request: ***********: " + response.length());
+                        .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" + testContext.getApiManager().getPutApplication().getApplicationId());
+        logger.info("********** Executed POST Application Request ***********");
+    }
+
+
+    @When("^I make a PUT request to the application endpoint with \"([^\"]*)\"$")
+    public void i_make_a_put_request_to_the_application_endpointWithMissingBody(String missingBody) throws IOException {
+        logger.info("********** Executing POST Application Request ***********");
+        testContext.getApiManager().getPutApplication().executeRequestWithMissingBody( missingBody,
+                getRestHelper().getBaseURI()+getFileHelper()
+                        .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" + testContext.getApiManager().getPutApplication().getApplicationId());
+        logger.info("********** Executed POST Application Request ***********");
     }
 
     @When("^I make a PUT request to the application endpoint with \"([^\"]*)\" missing in the header$")
     public void i_make_a_put_request_to_the_application_endpoint_with_key_missing_in_the_header(String key)  {
-        testContext.getApiManager().getPutApplication().executeRequestWithMissingHeaderKeys(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" + testContext.getApiManager().getPutApplication().getApplicationId(), key,
-                testContext.getApiManager().getMerchantManagementSigningKeyId(),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                testContext.getApiManager().getMerchantManagementSigningKey(),
-                Sets.newHashSet(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, SIG_HEADER_LIST_POST_APPLICATION).split(",")));
+        testContext.getApiManager().getPutApplication().executePutRequestWithMissingHeaderKeys(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" + testContext.getApiManager().getPutApplication().getApplicationId(), key);
     }
 
     @Then("^I should receive a successful PUT application response$")
     public void i_should_receive_a_successful_put_applications_response()  {
         Response response = testContext.getApiManager().getPutApplication().getResponse();
-        System.out.println("pretty report:"+response.asString().length());
-        Assert.assertEquals(getRestHelper().getResponseStatusCode(response), 200,"Request was not successful!");
+        Assert.assertEquals(getRestHelper().getResponseStatusCode(response), HttpStatus.SC_OK,"Request was not successful!");
         Assert.assertEquals(getRestHelper().getResponseHeaderValue(response, "X-Application-Context "), null, "Expects X-Application-Context header to not exists");
         Assert.assertNotNull(response, "The response for PUT application Request was null");
     }
+
+    @Then("^validate the put application response$")
+    public void validate_put_applications_response()  {
+        String response = testContext.getApiManager().getPutApplication().getResponse().getBody().asString();
+        Assert.assertEquals(response.split(",").length,8);
+        Assert.assertTrue(response.contains(Constants.APPLICATION_ID),testContext.getApiManager().getPutApplication().getApplicationId());
+        Assert.assertTrue(response.contains(Constants.CLIENT_ID),testContext.getApiManager().getPutApplication().getClientId());
+        Assert.assertTrue(response.contains(Constants.PEAK_ID),testContext.getApiManager().getPutApplication().getPeakId());
+        Assert.assertTrue(response.contains(Constants.SUB_UNIT_ID),testContext.getApiManager().getPutApplication().getSubUnitId());
+        Assert.assertTrue(response.contains(Constants.ORGANISATION_ID),testContext.getApiManager().getPutApplication().getOrganisationId());
+        Assert.assertTrue(response.contains(Constants.PLATFORM),testContext.getApiManager().getPutApplication().getPlatform());
+    //    Assert.assertTrue(response.contains(Constants.DESCRIPTION),testContext.getApiManager().getPutApplication().getDescription());
+
+
+
+
+    }
+
 
     @Then("^the PUT response body should contain a valid applicationId, clientId, peakId, subUnitId, organisationId and description$")
     public void the_response_body_should_contain_a_valid_applicationId_clientId_peakId_subUnitId_and_organisationId() {

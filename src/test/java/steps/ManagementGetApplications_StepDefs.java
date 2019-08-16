@@ -19,7 +19,7 @@ import java.util.*;
 
 public class ManagementGetApplications_StepDefs extends UtilManager {
     TestContext testContext;
-
+    private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_application_resource";
     public ManagementGetApplications_StepDefs(TestContext testContext) {
         this.testContext = testContext;
         common = new ManagementCommon(testContext);
@@ -112,7 +112,6 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
                         + "  Actual: "+
                         getRestHelper().getErrorDescription(testContext.getApiManager().getGetApplication().getResponse()));
     }
-
 
     @When("^I get a list of application using multiple filters$")
     public void when_i_get_list_of_application_using_multi_filters() {

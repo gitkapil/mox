@@ -334,9 +334,6 @@ public class RestHelper {
                     .relaxedHTTPSValidation()
                     .put(url)
                   ;
-
-
-            logger.info("response as string: " + response.asString().contains("applicationId"));
         }catch(Exception e){
             e.printStackTrace();
             Assert.assertTrue(e.getMessage(), false);

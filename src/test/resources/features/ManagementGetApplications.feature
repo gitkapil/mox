@@ -83,5 +83,3 @@ Feature: Merchant Management API - GET /applications
       | clientId   | 00000001-0000-0000-0000-000000000000 |  Content-Type     | Service Request Validation Failed| EA002      | 415        |Content type                                         |
       | clientId   | 00000001-0000-0000-0000-000000000000 |  ACCEPT           | Request Header Not Acceptable    | EA008      | 406        |Header Accept does not contain required value        |
 
-
-
