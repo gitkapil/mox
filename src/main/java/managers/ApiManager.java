@@ -20,6 +20,7 @@ public class ApiManager {
     PutSigningKeys putSigningKeys;
     CreateClient createClient;
     CreateClientPassword createClientPassword;
+    OneClickMerchantOnboarding oneClickMerchantOnboarding;
 
     String merchantManagementSigningKeyId;
     String merchantManagementSigningKey;
@@ -42,11 +43,10 @@ public class ApiManager {
         putSigningKeys = new PutSigningKeys();
         createClient = new CreateClient();
         createClientPassword = new CreateClientPassword();
+        oneClickMerchantOnboarding = new OneClickMerchantOnboarding();
     }
 
-    public CreateClient getCreateClient() {
-        return createClient;
-    }
+    public CreateClient getCreateClient() { return createClient; }
 
     public CreateClientPassword getCreateClientPassword() {
         return createClientPassword;
@@ -137,5 +137,9 @@ public class ApiManager {
 
     public String getMerchantManagementSigningKey() {
         return merchantManagementSigningKey;
+    }
+
+    public OneClickMerchantOnboarding getOneClickMerchantOnboarding() {
+        return (oneClickMerchantOnboarding == null) ? oneClickMerchantOnboarding = new OneClickMerchantOnboarding() : oneClickMerchantOnboarding;
     }
 }
