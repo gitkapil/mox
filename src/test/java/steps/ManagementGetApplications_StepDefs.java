@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import utils.Constants;
 
+
 import java.util.*;
 
 public class ManagementGetApplications_StepDefs extends UtilManager {
@@ -169,19 +170,20 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
             System.out.println(object);
         }
         if (list.size() != 0) {
-            Assert.assertTrue("ApplicationId is not present", strings.get(0).contains(Constants.APPLICATION_ID));
-            Assert.assertTrue("clientId is not present", strings.get(0).contains(Constants.CLIENT_ID));
-            Assert.assertTrue("peakId is not present", strings.get(0).contains(Constants.PEAK_ID));
-            Assert.assertTrue("subUnitId is not present", strings.get(0).contains(Constants.SUB_UNIT_ID));
-            Assert.assertTrue("organisationId is not present", strings.get(0).contains(Constants.ORGANISATION_ID));
-//            Assert.assertTrue("notificationHost is not present", strings.get(0).contains(Constants.NOTIFICATION_HOST));
-//            Assert.assertTrue("notificationPath is not present", strings.get(0).contains(Constants.NOTIFICATION_PATH));
+            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.APPLICATION_ID),testContext.getApiManager().getPutApplication().getApplicationId());
+            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.CLIENT_ID),testContext.getApiManager().getPutApplication().getClientId());
+            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.PEAK_ID),testContext.getApiManager().getPutApplication().getPeakId());
+            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.SUB_UNIT_ID),testContext.getApiManager().getPutApplication().getSubUnitId());
+            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.ORGANISATION_ID),testContext.getApiManager().getPutApplication().getOrganisationId());
             Assert.assertTrue("createdAt is not present", strings.get(0).contains(Constants.CREATED_AT));
             Assert.assertTrue("createdAt is not present", strings.get(0).contains(Constants.LAST_UPDATED_AT));
+            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.PLATFORM),testContext.getApiManager().getPutApplication().getPlatform());
+
+
             Assert.assertEquals(strings.get(0).split(",").length, 8);
         }
         else if (list.size() == 1){
-            Assert.assertEquals(strings.get(1).split(",").length, 9);
+            Assert.assertEquals(strings.get(1).split(",").length, 8);
             Assert.assertTrue("ApplicationId is not present", strings.get(0).contains(Constants.APPLICATION_ID));
             Assert.assertTrue("clientId is not present", strings.get(0).contains(Constants.CLIENT_ID));
             Assert.assertTrue("peakId is not present", strings.get(0).contains(Constants.PEAK_ID));

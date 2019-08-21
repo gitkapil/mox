@@ -15,7 +15,7 @@ Feature: Management Put Signing Keys - DRAG-1573
     Then the PUT signing key response should return success
   Examples:
     |description|activateAt          |deactivateAt        |entityStatus| applicationID                      | keyId|
-    |test       |2019-01-01T00:00:00Z|2019-02-02T00:00:00Z|A           |c9621185-b86d-48a9-97f0-eeddef7c3dc1|5caf0fb9-5589-470e-a11a-e4fd9af1a3e5|
+    |test       |2019-01-01T00:00:00Z|2019-02-02T00:00:00Z|     A      |c9621185-b86d-48a9-97f0-eeddef7c3dc1|5caf0fb9-5589-470e-a11a-e4fd9af1a3e5|
 
 #  @trial
   @regression
@@ -25,11 +25,11 @@ Feature: Management Put Signing Keys - DRAG-1573
     And I update the signing key with description "<description>", activate at "<activateAt>", deactivate at "<deactivateAt>" and entity status "<entityStatus>"
     Then the PUT signing key response should have error status "<http_status>" with error code "<err_code>" and description "<err_description>"
   Examples:
-    |applicationId                       |keyId                               |http_status|err_code|err_description         |  description| activateAt | deactivateAt | entityStatus |
+    |applicationId                       |keyId                               |http_status|err_code|err_description                |  description| activateAt          | deactivateAt        | entityStatus |
     #invalid application Id
-    |00000002-0000-4444-c000-000000000000|00000002-0000-0000-c000-000000000000|400        |EA025   |Application Id not found|  test       | 2019-01-01T00:00:00Z| 2019-02-02T00:00:00Z|D |
+    |00000002-0000-4444-c000-000000000000|00000002-0000-0000-c000-000000000000|400        |EA025   |Application Id not found       |  test       | 2019-01-01T00:00:00Z| 2019-02-02T00:00:00Z|     D        |
     #bad application id format
-    |00000002-0000-4444-c000             |00000002-0000-0000-c000-000000000000|400        |EA002   |Failed to convert value of type|  test       | 2019-01-01T00:00:00Z| 2019-02-02T00:00:00Z|D |
+    |00000002-0000-4444-c000             |00000002-0000-0000-c000-000000000000|400        |EA002   |Failed to convert value of type|  test       | 2019-01-01T00:00:00Z| 2019-02-02T00:00:00Z|     D        |
 
 #    @trial
     @regression
@@ -40,11 +40,11 @@ Feature: Management Put Signing Keys - DRAG-1573
       And I update the signing key with description "<description>", activate at "<activateAt>", deactivate at "<deactivateAt>" and entity status "<entityStatus>"
       Then the PUT signing key response should have error status "<http_status>" with error code "<err_code>" and description "<err_description>"
     Examples:
-      |keyId                               |http_status|err_code|err_description | applicationID                       | description| activateAt | deactivateAt | entityStatus |
+      |keyId                               |http_status|err_code|err_description | applicationID                       | description| activateAt          | deactivateAt        | entityStatus |
       #invalid key id
-      |00000002-0000-0000-c000-000000000000|400        |EA027   |Key Id not found| c9621185-b86d-48a9-97f0-eeddef7c3dc1| test | 2019-01-01T00:00:00Z| 2019-02-02T00:00:00Z| D  |
+      |00000002-0000-0000-c000-000000000000|400        |EA027   |Key Id not found| c9621185-b86d-48a9-97f0-eeddef7c3dc1|   test     | 2019-01-01T00:00:00Z| 2019-02-02T00:00:00Z|     D        |
       #bad key id format
-      |00000002-0000-0000-c000-0000        |400        |EA027   |Key Id not found|c9621185-b86d-48a9-97f0-eeddef7c3dc1| test | 2019-01-01T00:00:00Z |2019-02-02T00:00:00Z | D|
+      |00000002-0000-0000-c000-0000        |400        |EA027   |Key Id not found|c9621185-b86d-48a9-97f0-eeddef7c3dc1 |   test     | 2019-01-01T00:00:00Z|2019-02-02T00:00:00Z |     D        |
 
 #  @trial
   @regression

@@ -20,6 +20,7 @@ public class ApiManager {
     PutSigningKeys putSigningKeys;
     CreateClient createClient;
     CreateClientPassword createClientPassword;
+    GetPassword getPassword;
 
     String merchantManagementSigningKeyId;
     String merchantManagementSigningKey;
@@ -42,6 +43,7 @@ public class ApiManager {
         putSigningKeys = new PutSigningKeys();
         createClient = new CreateClient();
         createClientPassword = new CreateClientPassword();
+        getPassword = new GetPassword();
     }
 
     public CreateClient getCreateClient() {
@@ -60,6 +62,13 @@ public class ApiManager {
         return getSigningKey;
     }
 
+    public GetPassword getPassword(){
+        return getPassword;
+    }
+
+    public void setGetPassword(GetPassword getPassword) {
+        this.getPassword = getPassword;
+    }
     public PostSigningKeys getPostSigningKeys() {
         return postSigningKeys;
     }

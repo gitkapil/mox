@@ -149,9 +149,6 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
         Assert.assertTrue(response.contains(Constants.PLATFORM),testContext.getApiManager().getPutApplication().getPlatform());
     //    Assert.assertTrue(response.contains(Constants.DESCRIPTION),testContext.getApiManager().getPutApplication().getDescription());
 
-
-
-
     }
 
 

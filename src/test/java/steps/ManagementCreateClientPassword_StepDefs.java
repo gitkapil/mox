@@ -58,11 +58,12 @@ public class ManagementCreateClientPassword_StepDefs extends UtilManager {
         testContext.getApiManager().getCreateClientPassword().setApplicationId(applicationId);
     }
 
-    @And("^I set create password data with activate at \"([^\"]*)\", deactivate at \"([^\"]*)\", and description \"([^\"]*)\"$")
-    public void setData(String activateAt, String deactivateAt, String description) {
+    @And("^I have created password data with activate at \"([^\"]*)\", deactivate at \"([^\"]*)\", pdfChannel \"([^\"]*)\" and password channel \"([^\"]*)\"$")
+    public void setData(String activateAt, String deactivateAt, String pdfChannel, String passwordChannel) {
         testContext.getApiManager().getCreateClientPassword().setActivateAt(activateAt);
         testContext.getApiManager().getCreateClientPassword().setDeactivateAt(deactivateAt);
-        testContext.getApiManager().getCreateClientPassword().setDescription(description);
+        testContext.getApiManager().getCreateClientPassword().setPdfChannel(pdfChannel);
+        testContext.getApiManager().getCreateClientPassword().setPasswordChannel(passwordChannel);
         makeRequest();
     }
 
@@ -126,13 +127,24 @@ public class ManagementCreateClientPassword_StepDefs extends UtilManager {
         testContext.getApiManager().getCreateClientPassword().setApplicationId(applicationId);
     }
 
-    @And("^I create a new AAD password$")
-    public void createPassword() {
+    @And("^I create a new AAD password with null header \"([^\"]*)\"$")
+    public void createPassword(String nullHeaderValues) {
         testContext.getApiManager().getCreateClientPassword().setActivateAt("2019-01-01T00:00:00Z");
         testContext.getApiManager().getCreateClientPassword().setDeactivateAt("2019-02-02T00:00:00Z");
-        testContext.getApiManager().getCreateClientPassword().setDescription("test");
+        testContext.getApiManager().getCreateClientPassword().setPasswordChannel("test");
+        testContext.getApiManager().getCreateClientPassword().setPdfChannel("pdfChannel");
+        makeRequestWithNullHeaderValue(nullHeaderValues);
+    }
+
+    @Then("^I should see the response from post password request$")
+    public void postPasswordResponse() {
+      Response response =  testContext.getApiManager().getCreateClientPassword().getResponse().path(".");
+        testContext.getApiManager().getCreateClientPassword().setDeactivateAt("2019-02-02T00:00:00Z");
+        testContext.getApiManager().getCreateClientPassword().setPasswordChannel("test");
+        testContext.getApiManager().getCreateClientPassword().setPdfChannel("pdfChannel");
         makeRequest();
     }
+
 
     @And("^I create a public key with the application id$")
     public void createPublicKey() {
@@ -194,6 +206,12 @@ public class ManagementCreateClientPassword_StepDefs extends UtilManager {
         }
     }
 
+    public void makeRequestWithNullHeaderValue(String nullHeaderValues) {
+        String url = getRestHelper().getBaseURI() +
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                + "/" + testContext.getApiManager().getCreateClientPassword().getApplicationId() + "/keys/passwords";
+        testContext.getApiManager().getCreateClientPassword().makeRequestWithNullHeader(url, nullHeaderValues);
+    }
     public void makeRequest() {
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)

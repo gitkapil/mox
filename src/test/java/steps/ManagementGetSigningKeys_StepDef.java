@@ -4,6 +4,7 @@ import com.google.common.collect.Sets;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 
+import com.jayway.restassured.response.Response;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -89,21 +90,12 @@ public class ManagementGetSigningKeys_StepDef extends UtilManager {
     }
 
 
-    @And("^I make a request to get signing keys with \"([^\"]*)\"$")
-    public void makeRequests(String applicationID) {
+    @And("^I make a request to get signing keys with \"([^\"]*)\" and with missing header \"([^\"]*)\" values$")
+    public void makeRequests(String applicationID, String missingHeaderKeys) {
         String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
                 RESOURCE_ENDPOINT_PROPERTY_NAME) + "/";
         System.out.println("URL: "+url);
-        testContext.getApiManager().getGetSigningKey().makeCallWithApplicationID(url, applicationID);
-    }
-
-
-    @And("^I make a request to get signing keys with \"([^\"]*)\" with no track id$")
-    public void makeSigingKeyRequestWithNoTraceId(String applicationID) {
-        String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
-                RESOURCE_ENDPOINT_PROPERTY_NAME) + "/";
-        System.out.println("URL: "+url);
-        testContext.getApiManager().getGetSigningKey().makeCallWithoutTraceID(url, applicationID);
+        testContext.getApiManager().getGetSigningKey().makeCallWithApplicationID(url, applicationID, missingHeaderKeys);
     }
 
 
@@ -147,6 +139,17 @@ public class ManagementGetSigningKeys_StepDef extends UtilManager {
         }
     }
 
+
+    @Then("^error message should be \"([^\"]*)\" within the get signing key response$")
+    public void i_should_receive_a_error_message(String errorMessage) {
+        Response response = testContext.getApiManager().getGetSigningKey().getResponse();
+        org.testng.Assert.assertTrue(
+                getRestHelper().getErrorMessage(response).contains(errorMessage) ,
+                "Different error message being returned..Expected: "+ errorMessage+ " Actual: " +
+                        getRestHelper().getErrorMessage(response));
+
+    }
+
     @Then("^I should receive a successful signing key response$")
     public void successResponse() {
         Assert.assertEquals(
@@ -173,10 +176,10 @@ public class ManagementGetSigningKeys_StepDef extends UtilManager {
             Assert.assertTrue(firstElement.containsKey(Constants.ACTIVATE_AT));
             Assert.assertTrue(firstElement.containsKey(Constants.DEACTIVAT_AT));
             Assert.assertTrue(firstElement.containsKey(Constants.ENTITY_STATUS));
-            Assert.assertTrue(firstElement.containsKey(Constants.DESCRIPTION));
+         //   Assert.assertTrue(firstElement.containsKey(Constants.DESCRIPTION));
             Assert.assertTrue(firstElement.containsKey(Constants.CREATED_AT));
             Assert.assertTrue(firstElement.containsKey(Constants.LAST_UPDATED_AT));
-            Assert.assertEquals(firstElement.toString().split(",").length, 12);
+            Assert.assertEquals(firstElement.toString().split(",").length, 11);
         }
             else{
              getRestHelper().getResponseStatusCode(testContext.getApiManager().getGetSigningKey().getResponse());

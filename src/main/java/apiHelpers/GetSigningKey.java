@@ -38,12 +38,14 @@ public class GetSigningKey extends UtilManager {
         this.response = response;
     }
 
-    public void makeCallWithApplicationID(String url, String applicationID) {
-        returnRequestHeader();
+    public void makeCallWithApplicationID(String url, String applicationID, String missingHeaderValues) {
+        returnRequestHeader(missingHeaderValues);
         response =
                 getRestHelper().getRequestWithHeaders(url + applicationID + "/keys/signing", requestHeader);
         logger.info("********** GET Public Key Response *********** ----> "+ response.getBody().asString());
     }
+
+
 
     public void makeCallWithoutTraceID(String url, String applicationID) {
         returnRequestHeaderWithNoTraceID();
@@ -59,9 +61,7 @@ public class GetSigningKey extends UtilManager {
         logger.info("********** GET Public Key Response *********** ----> "+ response.getBody().prettyPrint());
     }
 
-
-
-    private HashMap<String,String> returnRequestHeader() {
+    private HashMap<String,String> returnRequestHeader(String nullHeaderValue) {
         requestHeader = new HashMap<String, String>();
         requestHeader.put("Accept","application/json");
         requestHeader.put("Content-Type","application/json");
@@ -74,6 +74,7 @@ public class GetSigningKey extends UtilManager {
         if (EnvHelper.getInstance().isLocalDevMode()) {
             EnvHelper.getInstance().addMissingHeaderForLocalDevMode(requestHeader);
         }
+        requestHeader.remove(nullHeaderValue);
         return requestHeader;
     }
 

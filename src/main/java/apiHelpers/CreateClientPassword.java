@@ -14,7 +14,8 @@ public class CreateClientPassword extends UtilManager {
     private String applicationId;
     private String activateAt;
     private String deactivateAt;
-    private String description;
+    private String pdfChannel;
+    private String passwordChannel;
     private Response response = null;
 
     final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(CreateClientPassword.class);
@@ -35,17 +36,23 @@ public class CreateClientPassword extends UtilManager {
         this.deactivateAt = deactivateAt;
     }
 
-    public String getDescription() {
-        return description;
+    public String getPdfChannel() {
+        return pdfChannel;
     }
 
-    public void setDescription(String description) {
-        if (description.equalsIgnoreCase("longstring")) {
-            this.description = StringUtils.repeat("*", 300);
-        } else {
-            this.description = description;
-        }
+    public void setPdfChannel(String pdfChannel) {
+
+            this.pdfChannel = pdfChannel;
     }
+    public String getPasswordChannel() {
+        return passwordChannel;
+    }
+
+    public void setPasswordChannel(String passwordChannel) {
+
+        this.passwordChannel = passwordChannel;
+    }
+
 
     public Response getResponse() {
         return response;
@@ -55,10 +62,20 @@ public class CreateClientPassword extends UtilManager {
         this.response = response;
     }
 
+
     public void makeRequest(String url) {
         HashMap<String, Object> body = new HashMap<>();
 
         response = getRestHelper().postRequestWithHeaderAndBody(url, returnRequestHeader(), returnRequestBody());
+
+        logger.info("********** Create Client Password Request Response *********** ----> "+ response.getBody().asString());
+    }
+
+
+    public void makeRequestWithNullHeader(String url, String nullHeaderValue) {
+        HashMap<String, Object> body = new HashMap<>();
+
+        response = getRestHelper().postRequestWithHeaderAndBody(url, returnRequestHeaderWithNullValues(nullHeaderValue), returnRequestBody());
 
         logger.info("********** Create Client Password Request Response *********** ----> "+ response.getBody().asString());
     }
@@ -72,10 +89,12 @@ public class CreateClientPassword extends UtilManager {
         if (this.deactivateAt != null && !deactivateAt.equalsIgnoreCase("null")) {
             objReturn.put("deactivateAt", this.deactivateAt);
         }
-        if (this.description != null && !description.equalsIgnoreCase("null")) {
-            objReturn.put("description", this.deactivateAt);
+        if (this.passwordChannel != null && !passwordChannel.equalsIgnoreCase("null")) {
+            objReturn.put("passwordChannel", this.passwordChannel);
         }
-
+        if (this.pdfChannel != null && !pdfChannel.equalsIgnoreCase("null")) {
+            objReturn.put("pdfChannel", this.pdfChannel);
+        }
         return objReturn;
     }
 
@@ -92,9 +111,27 @@ public class CreateClientPassword extends UtilManager {
         if (EnvHelper.getInstance().isLocalDevMode()) {
             EnvHelper.getInstance().addMissingHeaderForLocalDevMode(requestHeader);
         }
+
         return requestHeader;
     }
 
+
+    private HashMap<String, String> returnRequestHeaderWithNullValues(String nullHeaderValue) {
+        HashMap<String, String> requestHeader = new HashMap<String, String>();
+        requestHeader.put("Accept","application/json");
+        requestHeader.put("Content-Type","application/json");
+        requestHeader.put("Authorization", authToken);
+        requestHeader.put("Trace-Id",getGeneral().generateUniqueUUID());
+        requestHeader.put("Accept-Language", "en-US");
+        requestHeader.put("Request-Date-Time", getDateHelper().getUTCNowDateTime());
+        requestHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
+
+        if (EnvHelper.getInstance().isLocalDevMode()) {
+            EnvHelper.getInstance().addMissingHeaderForLocalDevMode(requestHeader);
+        }
+        requestHeader.remove(nullHeaderValue);
+        return requestHeader;
+    }
     public String getApplicationId() {
         return applicationId;
     }

@@ -1,4 +1,4 @@
-
+@putApp
 Feature: Management Put Applications API - DRAG-1446
 
   Background: Retrieving access Token
