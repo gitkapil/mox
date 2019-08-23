@@ -9,7 +9,6 @@ public class Constants {
     public static final String PEAK_ID = "peakId";
     public static final String ORGANISATION_ID = "organisationId";
     public static final String NOTIFICATION_HOST = "notificationHost";
-
     public static final String NOTIFICATION_PATH = "notificationPath";
     public static final String CREATED_AT = "createdAt";
     public static final String PLATFORM = "platform";
@@ -26,6 +25,9 @@ public class Constants {
     public static final String LAST_UPDATED_AT = "lastUpdatedAt";
     public static final String CONTENT_TYPE = "";
     public static final String PLATFORM_ID = "platformId";
-    public static final String PLATFORM_NAME = "platformName";
+    public static final String PLATFORM_NAME ="platformName";
+    public static final String DB_USERNAME="";
+    public static final String DB_PASSWORD="";
+    public static final String DB_DRIVER="org.postgresql.Driver";
 
 }
