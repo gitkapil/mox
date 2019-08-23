@@ -20,7 +20,7 @@ Feature: Merchant Management get Password - DRAG-1481
 #  @trial
 #  @regression
   Scenario Outline: Negative flow - unable to get password with invalid application id
-    Given I am logging in as a user with AAD Password role
+    Given I am logging in as a user with authorize Dragon user
     When I set the application id as "<applicationId>"
     When I get the password request
     Then I should have an error with status "<http_status>", error code as "<error_code>" and description "<error_description>"
@@ -37,7 +37,7 @@ Feature: Merchant Management get Password - DRAG-1481
   #@trial
   @regression @HappyFlow
   Scenario Outline: Negative flow - Unable to create password due to invalid header values
-    Given I am logging in as a user with AAD Password role
+    Given I am logging in as a user with authorize Dragon user
     When I get a list of applications
     And I get the first application id
     And  I get the password with null header "<nullHeaderValues>"
@@ -51,5 +51,6 @@ Feature: Merchant Management get Password - DRAG-1481
       | 400         | EA000      | test              | Content-Type     |
       | 400         | EA000      | test              | Authorization    |
       | 400         | EA000      | test              | Trace-Id         |
+
 
 

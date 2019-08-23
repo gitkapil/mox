@@ -23,6 +23,28 @@ Feature: Management Put Applications API - DRAG-1446
       | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | description | platform | 00000001-0000-0000-0000-000000000000 | 00000002-0000-0000-c000-000000000001 | eafb2a7b-297d-444e-b473-2e724e864806 | a96cd9ba-a1f6-4d9a-b146-8118fa8fbed1 |
 
 
+    #trial
+  @regression
+  Scenario Outline: Positive flow- Put application and verify the application info using get application
+    Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
+
+    And I have updated "<description>" and "<platform>" values
+    And I have updated "<clientId>", "<peakId>", "<subUnitId>" and "<organisationId>" values
+    When I make a PUT request to the application endpoint
+    Then I should receive a successful PUT application response
+    And validate the put application response
+    Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
+    When I get a list of applications using filters to filter "<filterName>" with "<filterValue>"
+    Then I should receive a successful response
+    And the response should have a list of <numberOfResponses> applications
+    And validate the item list from the response
+
+    Examples:
+      | applicationId                        | description | platform | clientId                             | peakId                               | subUnitId                            | organisationId                       | filterName | filterValue                          | numberOfResponses |
+      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | description | platform | 00000001-0000-0000-0000-000000000000 | 00000002-0000-0000-c000-000000000001 | eafb2a7b-297d-444e-b473-2e724e864806 | a96cd9ba-a1f6-4d9a-b146-8118fa8fbed1 | clientId   | 00000001-0000-0000-0000-000000000000 | 1                 |
+
+
+
   #DRAG-1157 - Please update the correct error_message for the signature in the examples.
 #   @trial
   @regression @merchantManagement @merchantManagementPut

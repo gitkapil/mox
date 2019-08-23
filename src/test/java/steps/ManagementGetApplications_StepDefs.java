@@ -7,7 +7,6 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import cucumber.api.java.hu.Ha;
 import managers.TestContext;
 import managers.UtilManager;
 import org.apache.http.HttpStatus;
@@ -15,12 +14,12 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import utils.Constants;
 
-
 import java.util.*;
 
 public class ManagementGetApplications_StepDefs extends UtilManager {
     TestContext testContext;
     private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_application_resource";
+
     public ManagementGetApplications_StepDefs(TestContext testContext) {
         this.testContext = testContext;
         common = new ManagementCommon(testContext);
@@ -39,8 +38,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
                 testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 testContext.getApiManager().getMerchantManagementSigningKey(),
-                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
-                        "header-list-get").split(","))),
+                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))),
                 testContext.getApiManager().getPostApplication().getAuthToken()
         );
     }
@@ -56,7 +54,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
     public void should_have_number_of_applications(int numberOfResponses) {
         Assert.assertTrue(
                 "The response should have a list of " + numberOfResponses + " applications. but found " +
-                getRestHelper().getJsonArray(testContext.getApiManager().getGetApplication().getResponse(), "items").size(),
+                        getRestHelper().getJsonArray(testContext.getApiManager().getGetApplication().getResponse(), "items").size(),
                 getRestHelper().getJsonArray(testContext.getApiManager().getGetApplication().getResponse(), "items")
                         .size() == numberOfResponses
         );
@@ -65,8 +63,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
     @Then("^I should receive a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorCode within the get application response$")
     public void i_should_receive_an_error_response_with_error_description_and_errorcode(int responseCode, String errorDesc, String errorCode) {
         Response response = testContext.getApiManager().getGetApplication().getResponse();
-        org.testng.Assert.assertEquals(getRestHelper().getResponseStatusCode(response), responseCode,"Different response code being returned");
-
+        org.testng.Assert.assertEquals(getRestHelper().getResponseStatusCode(response), responseCode, "Different response code being returned");
 
 
         if (getRestHelper().getErrorDescription(response) != null) {
@@ -83,15 +80,15 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
                     "Different error description being returned..Expected: " + errorDesc + "Actual: " + getRestHelper().getErrorDescription(response));
         }
 
-        org.testng.Assert.assertEquals(getRestHelper().getErrorCode(response), errorCode,"Different error code being returned");
+        org.testng.Assert.assertEquals(getRestHelper().getErrorCode(response), errorCode, "Different error code being returned");
     }
 
     @Then("^error message should be \"([^\"]*)\" within the get application response$")
     public void i_should_receive_a_error_message(String errorMessage) {
         Response response = testContext.getApiManager().getGetApplication().getResponse();
         org.testng.Assert.assertTrue(
-                getRestHelper().getErrorMessage(response).contains(errorMessage) ,
-                "Different error message being returned..Expected: "+ errorMessage+ " Actual: " +
+                getRestHelper().getErrorMessage(response).contains(errorMessage),
+                "Different error message being returned..Expected: " + errorMessage + " Actual: " +
                         getRestHelper().getErrorMessage(response));
 
     }
@@ -100,17 +97,17 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
     @Then("^I should get an error message with status ([^\"]*) error code \"([^\"]*)\" and error description \"([^\"]*)\"$")
     public void then_should_get_error(int httpStatus, String errorCode, String errorDescription) {
         org.testng.Assert.assertEquals(getRestHelper().getResponseStatusCode(testContext.getApiManager().getGetApplication().getResponse()),
-                httpStatus,"Different response code being returned");
+                httpStatus, "Different response code being returned");
 
         org.testng.Assert.assertEquals(getRestHelper().getErrorCode(
                 testContext.getApiManager().getGetApplication().getResponse()),
-                errorCode,"Different error code being returned");
+                errorCode, "Different error code being returned");
 
         org.testng.Assert.assertTrue(
                 getRestHelper().getErrorDescription(
-                        testContext.getApiManager().getGetApplication().getResponse()).contains(errorDescription) ,
-                "Different error description being returned..Expected: "+ errorDescription
-                        + "  Actual: "+
+                        testContext.getApiManager().getGetApplication().getResponse()).contains(errorDescription),
+                "Different error description being returned..Expected: " + errorDescription
+                        + "  Actual: " +
                         getRestHelper().getErrorDescription(testContext.getApiManager().getGetApplication().getResponse()));
     }
 
@@ -126,8 +123,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
                 testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 testContext.getApiManager().getMerchantManagementSigningKey(),
-                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
-                        "header-list-get").split(","))),
+                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))),
                 testContext.getApiManager().getPostApplication().getAuthToken());
     }
 
@@ -143,8 +139,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
                 testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 testContext.getApiManager().getMerchantManagementSigningKey(),
-                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
-                        "header-list-get").split(","))),
+                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))),
                 testContext.getApiManager().getPostApplication().getAuthToken());
     }
 
@@ -153,8 +148,8 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
 
         Assert.assertTrue(
                 "The response should have more than or equal to " + numberOfResponses + " in total. But got " +
-                getRestHelper().getJsonArray(testContext.getApiManager().getGetApplication().getResponse(), "items")
-                        .size(),
+                        getRestHelper().getJsonArray(testContext.getApiManager().getGetApplication().getResponse(), "items")
+                                .size(),
                 getRestHelper().getJsonArray(testContext.getApiManager().getGetApplication().getResponse(), "items")
                         .size() <= numberOfResponses
         );
@@ -170,20 +165,21 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
             System.out.println(object);
         }
         if (list.size() != 0) {
-            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.APPLICATION_ID),testContext.getApiManager().getPutApplication().getApplicationId());
-            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.CLIENT_ID),testContext.getApiManager().getPutApplication().getClientId());
-            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.PEAK_ID),testContext.getApiManager().getPutApplication().getPeakId());
-            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.SUB_UNIT_ID),testContext.getApiManager().getPutApplication().getSubUnitId());
-            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.ORGANISATION_ID),testContext.getApiManager().getPutApplication().getOrganisationId());
+            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.APPLICATION_ID), testContext.getApiManager().getPutApplication().getApplicationId());
+            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.CLIENT_ID), testContext.getApiManager().getPutApplication().getClientId());
+            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.PEAK_ID), testContext.getApiManager().getPutApplication().getPeakId());
+            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.SUB_UNIT_ID), testContext.getApiManager().getPutApplication().getSubUnitId());
+            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.ORGANISATION_ID), testContext.getApiManager().getPutApplication().getOrganisationId());
             Assert.assertTrue("createdAt is not present", strings.get(0).contains(Constants.CREATED_AT));
             Assert.assertTrue("createdAt is not present", strings.get(0).contains(Constants.LAST_UPDATED_AT));
-            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.PLATFORM),testContext.getApiManager().getPutApplication().getPlatform());
+//            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.PLATFORM_ID),testContext.getApiManager().getPutApplication().getPlatform());
+            //          org.testng.Assert.assertTrue(strings.get(0).contains(Constants.PLATFORM_NAME),testContext.getApiManager().getPutApplication().getApplicationId());
+            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.APPLICATION_ID), testContext.getApiManager().getPutApplication().getApplicationId());
 
 
-            Assert.assertEquals(strings.get(0).split(",").length, 8);
-        }
-        else if (list.size() == 1){
-            Assert.assertEquals(strings.get(1).split(",").length, 8);
+            Assert.assertEquals(strings.get(0).split(",").length, 9);
+        } else if (list.size() == 1) {
+            Assert.assertEquals(strings.get(1).split(",").length, 9);
             Assert.assertTrue("ApplicationId is not present", strings.get(0).contains(Constants.APPLICATION_ID));
             Assert.assertTrue("clientId is not present", strings.get(0).contains(Constants.CLIENT_ID));
             Assert.assertTrue("peakId is not present", strings.get(0).contains(Constants.PEAK_ID));
@@ -201,14 +197,13 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
             Assert.assertTrue("notificationPath is not present", strings.get(1).contains(Constants.NOTIFICATION_PATH));
             Assert.assertTrue("createdAt is not present", strings.get(1).contains(Constants.CREATED_AT));
             Assert.assertTrue("createdAt is not present", strings.get(1).contains(Constants.LAST_UPDATED_AT));
-        }
-        else {
-
+        } else {
             Assert.assertEquals(
                     HttpStatus.SC_OK
                     , getRestHelper().getResponseStatusCode(testContext.getApiManager().getGetApplication().getResponse().prettyPeek()));
         }
     }
+
     @When("^I get a list of applications using filters to filter \"([^\"]*)\" with \"([^\"]*)\"$")
     public void get_a_list_of_applications_using_filters(String filterName, String filterValue) {
 
@@ -265,12 +260,12 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
     }
 
     @Given("^I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege$")
-    public void i_am_an_authorized_DRAGON_user_with_role()  {
+    public void i_am_an_authorized_DRAGON_user_with_role() {
         common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getPostApplication().setAuthTokenWithBearer(token));
     }
 
     @Given("^I am a GET application authorized DRAGON user with the ApplicationKey.ReadWrite.All privilege$")
-    public void i_am_an_authorized_DRAGON_user_with_incorrect_role()  {
+    public void i_am_an_authorized_DRAGON_user_with_incorrect_role() {
         common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getPostApplication().setAuthTokenWithBearer(token));
     }
 
@@ -293,8 +288,15 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
                 testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 testContext.getApiManager().getMerchantManagementSigningKey(),
-                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
-                        "header-list-get").split(","))),
+                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))),
                 testContext.getApiManager().getPostApplication().getAuthToken());
     }
+
+    @When("^I make a get request to the application endpoint with \"([^\"]*)\" missing in the header$")
+    public void i_make_a_put_request_to_the_application_endpoint_with_key_missing_in_the_header(String key) {
+        testContext.getApiManager().getGetApplication().getListOfApplication(
+                getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" + testContext.getApiManager().getPutApplication().getApplicationId(),
+                testContext.getApiManager().getPostApplication().getAuthToken(), key);
+    }
+
 }

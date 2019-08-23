@@ -10,7 +10,7 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
   @regression
   Scenario Outline: Positive flow - Create a new application, new public key, new signing key
     Given I am an authorized Signing Key DRAGON user
-    And I make a request to get signing keys with "<applicationID>"
+    And I make a request to create a new signing key with "<applicationID>"
     And I have an activate date "<activateDate>" and deactivate date "<deactivateDate>", with entity status "<entityStatus>" and a description "<description>"
     When I make a request to create a new signing key with "<applicationID>"
     Then the create signing key response should be successful
@@ -50,7 +50,7 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
   @regression
   Scenario Outline: Negative flow - Invalid dates
     Given I am an authorized Signing Key DRAGON user
-    And I make a request to get signing keys with "<applicationID>"
+    And I make a request to create a new signing key with "<applicationID>"
     And I have an activate date "<activateAt>" and deactivate date "<deactivateAt>", with entity status "<entityStatus>" and a description "<description>"
     When I make a request to create a new signing key with "<applicationID>"
     Then the create signing key response should give a "<http_status>" http status with error code "<error_code>" and description "<error_description>"
@@ -73,7 +73,7 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
   @regression
   Scenario Outline: Negative flow - Entity status
     Given I am an authorized Signing Key DRAGON user
-    And I make a request to get signing keys with "<applicationID>"
+    And I make a request to create a new signing key with "<applicationID>"
     And I have an activate date "<activateAt>" and deactivate date "<deactivateAt>", with entity status "<entityStatus>" and a description "<description>"
     When I make a request to create a new signing key with "<applicationID>"
     Then the create signing key response should give a "<http_status>" http status with error code "<error_code>" and description "<error_description>"
@@ -94,7 +94,7 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
   @regression
   Scenario Outline: Negative flow - Description
     Given I am an authorized Signing Key DRAGON user
-    And I make a request to get signing keys with "<applicationID>"
+    And I make a request to create a new signing key with "<applicationID>"
     And I have an activate date "<activateAt>" and deactivate date "<deactivateAt>", with entity status "<entityStatus>" and a description "<description>"
     When I make a request to create a new signing key with "<applicationID>"
     Then the create signing key response should give a "<http_status>" http status with error code "<error_code>" and description "<error_description>"

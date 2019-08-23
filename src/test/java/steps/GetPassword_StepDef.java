@@ -25,6 +25,11 @@ public class GetPassword_StepDef extends UtilManager {
     private static final String VALID_BASE64_ENCODED_RSA_PUBLIC_KEY = "valid_base64_encoded_rsa_public_key";
     final static Logger logger = Logger.getLogger(ManagementCreateClient_StepDefs.class);
 
+    public GetPassword_StepDef(TestContext testContext) {
+        this.testContext = testContext;
+        common = new ManagementCommon(testContext);
+    }
+
 
     @Given("^I am logging in as a user with authorize Dragon user$")
     public void login() {
@@ -51,15 +56,12 @@ public class GetPassword_StepDef extends UtilManager {
         for (Object object : list) {
             strings.add(Objects.toString(object, null));
         }
-
         Assert.assertTrue(strings.get(0).contains(Constants.APPLICATION_ID),testContext.getApiManager().getCreateClientPassword().getApplicationId());
         Assert.assertTrue(strings.get(0).contains(Constants.CLIENT_ID),testContext.getApiManager().getCreateClientPassword().getClientId());
         Assert.assertTrue(strings.get(0).contains(Constants.PEAK_ID),testContext.getApiManager().getCreateClientPassword().getPasswordChannel());
         Assert.assertTrue(strings.get(0).contains(Constants.SUB_UNIT_ID),testContext.getApiManager().getCreateClientPassword().getApplicationId());
         Assert.assertTrue(strings.get(0).contains(Constants.ORGANISATION_ID),testContext.getApiManager().getCreateClientPassword().getApplicationId());
         Assert.assertTrue(strings.get(0).contains(Constants.DESCRIPTION),testContext.getApiManager().getCreateClientPassword().getApplicationId());
-
-
     }
 
     @When("^I get the password with null header \"([^\"]*)\"$")
