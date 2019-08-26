@@ -23,7 +23,7 @@ options:
 - run a specific test of a feature `-Dcucumber.options=”feature file path” + “line number of the scenario”`
   - Single feature test: `-Dusertype=developer -Dcucumber.options="src/test/resources/features/AccessTokenForMerchants.feature:13"`
   - Single feature: `-Dusertype=developer -Dcucumber.options="src/test/resources/features/AccessTokenForMerchants.feature"`
-
+- run with particular tag: `mvn clean verify -Pregression -Denv=ci -Dversion=0.11 -Dusertype=developer -Dcucumber.options="--tags @trial"`
 
 
 
