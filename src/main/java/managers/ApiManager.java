@@ -19,15 +19,39 @@ public class ApiManager {
     GetPublicKey getPublicKey;
     PutSigningKeys putSigningKeys;
     CreateClient createClient;
+    GetPlatform getPlatform;
+    PostPlatform postPlatform;
+    PutPlatform putPlatform;
     PostPassword_CreateClientPassword postPasswordCreateClientPassword;
-
     GetPassword getPassword;
-
     OneClickMerchantOnboarding oneClickMerchantOnboarding;
-
-
     String merchantManagementSigningKeyId;
     String merchantManagementSigningKey;
+
+    public GetPlatform getGetPlatform() {
+        return getPlatform;
+    }
+
+    public void setGetPlatform(GetPlatform getPlatform) {
+        this.getPlatform = getPlatform;
+    }
+
+    public PostPlatform getPostPlatform() {
+        return postPlatform;
+    }
+
+    public void setPostPlatform(PostPlatform postPlatform) {
+        this.postPlatform = postPlatform;
+    }
+
+    public PutPlatform getPutPlatform() {
+        return putPlatform;
+    }
+
+    public void setPutPlatform(PutPlatform putPlatform) {
+        this.putPlatform = putPlatform;
+    }
+
 
     public ApiManager() {
         accessToken= new AccessTokenForMerchants();
@@ -47,9 +71,10 @@ public class ApiManager {
         putSigningKeys = new PutSigningKeys();
         createClient = new CreateClient();
         postPasswordCreateClientPassword = new PostPassword_CreateClientPassword();
-
         getPassword = new GetPassword();
-
+        getPlatform = new GetPlatform();
+        postPlatform = new PostPlatform();
+        putPlatform = new PutPlatform();
         oneClickMerchantOnboarding = new OneClickMerchantOnboarding();
 
     }
