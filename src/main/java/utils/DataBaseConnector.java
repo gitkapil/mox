@@ -53,6 +53,7 @@ public class DataBaseConnector {
 			String reqValue = stringBuilder.substring(0, stringBuilder.length() - 1);
 			resultValue.add(reqValue);
 		}
+		connection.close();
 		}
 
 		return resultValue;
