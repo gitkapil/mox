@@ -2,13 +2,12 @@ package apiHelpers;
 
 import com.jayway.restassured.response.Response;
 import managers.UtilManager;
-import org.apache.commons.lang3.StringUtils;
 import utils.EnvHelper;
 import utils.PropertyHelper;
 
 import java.util.HashMap;
 
-public class CreateClientPassword extends UtilManager {
+public class PostPassword_CreateClientPassword extends UtilManager {
     private String authToken;
     private String clientId;
     private String applicationId;
@@ -18,7 +17,7 @@ public class CreateClientPassword extends UtilManager {
     private String passwordChannel;
     private Response response = null;
 
-    final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(CreateClientPassword.class);
+    final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(PostPassword_CreateClientPassword.class);
 
     public String getActivateAt() {
         return activateAt;

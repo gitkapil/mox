@@ -19,7 +19,7 @@ public class ApiManager {
     GetPublicKey getPublicKey;
     PutSigningKeys putSigningKeys;
     CreateClient createClient;
-    CreateClientPassword createClientPassword;
+    PostPassword_CreateClientPassword postPasswordCreateClientPassword;
 
     GetPassword getPassword;
 
@@ -46,7 +46,7 @@ public class ApiManager {
         getSigningKey = new GetSigningKey();
         putSigningKeys = new PutSigningKeys();
         createClient = new CreateClient();
-        createClientPassword = new CreateClientPassword();
+        postPasswordCreateClientPassword = new PostPassword_CreateClientPassword();
 
         getPassword = new GetPassword();
 
@@ -56,8 +56,8 @@ public class ApiManager {
 
     public CreateClient getCreateClient() { return createClient; }
 
-    public CreateClientPassword getCreateClientPassword() {
-        return createClientPassword;
+    public PostPassword_CreateClientPassword getPostPasswordCreateClientPassword() {
+        return postPasswordCreateClientPassword;
     }
 
     public PutSigningKeys getPutSigningKeys() {

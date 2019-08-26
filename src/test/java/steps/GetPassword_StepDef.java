@@ -1,7 +1,6 @@
 package steps;
 
 import com.google.common.collect.Sets;
-import com.jayway.restassured.response.Response;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -56,12 +55,12 @@ public class GetPassword_StepDef extends UtilManager {
         for (Object object : list) {
             strings.add(Objects.toString(object, null));
         }
-        Assert.assertTrue(strings.get(0).contains(Constants.APPLICATION_ID),testContext.getApiManager().getCreateClientPassword().getApplicationId());
-        Assert.assertTrue(strings.get(0).contains(Constants.CLIENT_ID),testContext.getApiManager().getCreateClientPassword().getClientId());
-        Assert.assertTrue(strings.get(0).contains(Constants.PEAK_ID),testContext.getApiManager().getCreateClientPassword().getPasswordChannel());
-        Assert.assertTrue(strings.get(0).contains(Constants.SUB_UNIT_ID),testContext.getApiManager().getCreateClientPassword().getApplicationId());
-        Assert.assertTrue(strings.get(0).contains(Constants.ORGANISATION_ID),testContext.getApiManager().getCreateClientPassword().getApplicationId());
-        Assert.assertTrue(strings.get(0).contains(Constants.DESCRIPTION),testContext.getApiManager().getCreateClientPassword().getApplicationId());
+        Assert.assertTrue(strings.get(0).contains(Constants.APPLICATION_ID),testContext.getApiManager().getPostPasswordCreateClientPassword().getApplicationId());
+        Assert.assertTrue(strings.get(0).contains(Constants.CLIENT_ID),testContext.getApiManager().getPostPasswordCreateClientPassword().getClientId());
+        Assert.assertTrue(strings.get(0).contains(Constants.PEAK_ID),testContext.getApiManager().getPostPasswordCreateClientPassword().getPasswordChannel());
+        Assert.assertTrue(strings.get(0).contains(Constants.SUB_UNIT_ID),testContext.getApiManager().getPostPasswordCreateClientPassword().getApplicationId());
+        Assert.assertTrue(strings.get(0).contains(Constants.ORGANISATION_ID),testContext.getApiManager().getPostPasswordCreateClientPassword().getApplicationId());
+        Assert.assertTrue(strings.get(0).contains(Constants.DESCRIPTION),testContext.getApiManager().getPostPasswordCreateClientPassword().getApplicationId());
     }
 
     @When("^I get the password with null header \"([^\"]*)\"$")
