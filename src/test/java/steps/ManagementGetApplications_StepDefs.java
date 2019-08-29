@@ -165,38 +165,36 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
             System.out.println(object);
         }
         if (list.size() != 0) {
+            Assert.assertEquals(strings.get(0).split(",").length, 8);
             org.testng.Assert.assertTrue(strings.get(0).contains(Constants.APPLICATION_ID), testContext.getApiManager().getPutApplication().getApplicationId());
             org.testng.Assert.assertTrue(strings.get(0).contains(Constants.CLIENT_ID), testContext.getApiManager().getPutApplication().getClientId());
             org.testng.Assert.assertTrue(strings.get(0).contains(Constants.PEAK_ID), testContext.getApiManager().getPutApplication().getPeakId());
             org.testng.Assert.assertTrue(strings.get(0).contains(Constants.SUB_UNIT_ID), testContext.getApiManager().getPutApplication().getSubUnitId());
             org.testng.Assert.assertTrue(strings.get(0).contains(Constants.ORGANISATION_ID), testContext.getApiManager().getPutApplication().getOrganisationId());
-            Assert.assertTrue("createdAt is not present", strings.get(0).contains(Constants.CREATED_AT));
-            Assert.assertTrue("createdAt is not present", strings.get(0).contains(Constants.LAST_UPDATED_AT));
-//            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.PLATFORM_ID),testContext.getApiManager().getPutApplication().getPlatform());
-            //          org.testng.Assert.assertTrue(strings.get(0).contains(Constants.PLATFORM_NAME),testContext.getApiManager().getPutApplication().getApplicationId());
+            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.PLATFORM_ID),testContext.getApiManager().getPutApplication().getPlatform());
+            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.PLATFORM_NAME),testContext.getApiManager().getPutApplication().getApplicationId());
             org.testng.Assert.assertTrue(strings.get(0).contains(Constants.APPLICATION_ID), testContext.getApiManager().getPutApplication().getApplicationId());
-
-
-            Assert.assertEquals(strings.get(0).split(",").length, 9);
+            Assert.assertTrue("description is not present", strings.get(0).contains(Constants.DESCRIPTION));
         } else if (list.size() == 1) {
-            Assert.assertEquals(strings.get(1).split(",").length, 9);
-            Assert.assertTrue("ApplicationId is not present", strings.get(0).contains(Constants.APPLICATION_ID));
-            Assert.assertTrue("clientId is not present", strings.get(0).contains(Constants.CLIENT_ID));
-            Assert.assertTrue("peakId is not present", strings.get(0).contains(Constants.PEAK_ID));
-            Assert.assertTrue("subUnitId is not present", strings.get(0).contains(Constants.SUB_UNIT_ID));
-            Assert.assertTrue("organisationId is not present", strings.get(0).contains(Constants.ORGANISATION_ID));
-            Assert.assertTrue("notificationHost is not present", strings.get(0).contains(Constants.NOTIFICATION_HOST));
-            Assert.assertTrue("notificationPath is not present", strings.get(0).contains(Constants.NOTIFICATION_PATH));
-            Assert.assertTrue("createdAt is not present", strings.get(0).contains(Constants.CREATED_AT));
-            Assert.assertTrue("applicationId is not present", strings.get(1).contains(Constants.APPLICATION_ID));
-            Assert.assertTrue("clientId is not present", strings.get(1).contains(Constants.CLIENT_ID));
-            Assert.assertTrue("peakId is not present", strings.get(1).contains(Constants.PEAK_ID));
-            Assert.assertTrue("subUnitId is not present", strings.get(1).contains(Constants.SUB_UNIT_ID));
-            Assert.assertTrue("organisationId is not present", strings.get(1).contains(Constants.ORGANISATION_ID));
-            Assert.assertTrue("notificationHost is not present", strings.get(1).contains(Constants.NOTIFICATION_HOST));
-            Assert.assertTrue("notificationPath is not present", strings.get(1).contains(Constants.NOTIFICATION_PATH));
-            Assert.assertTrue("createdAt is not present", strings.get(1).contains(Constants.CREATED_AT));
-            Assert.assertTrue("createdAt is not present", strings.get(1).contains(Constants.LAST_UPDATED_AT));
+            Assert.assertEquals(strings.get(1).split(",").length, 8);
+            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.APPLICATION_ID), testContext.getApiManager().getPutApplication().getApplicationId());
+            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.CLIENT_ID), testContext.getApiManager().getPutApplication().getClientId());
+            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.PEAK_ID), testContext.getApiManager().getPutApplication().getPeakId());
+            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.SUB_UNIT_ID), testContext.getApiManager().getPutApplication().getSubUnitId());
+            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.ORGANISATION_ID), testContext.getApiManager().getPutApplication().getOrganisationId());
+            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.PLATFORM_ID),testContext.getApiManager().getPutApplication().getPlatform());
+            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.PLATFORM_NAME),testContext.getApiManager().getPutApplication().getApplicationId());
+            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.APPLICATION_ID), testContext.getApiManager().getPutApplication().getApplicationId());
+            Assert.assertTrue("description is not present", strings.get(0).contains(Constants.DESCRIPTION));
+            org.testng.Assert.assertTrue(strings.get(1).contains(Constants.APPLICATION_ID), testContext.getApiManager().getPutApplication().getApplicationId());
+            org.testng.Assert.assertTrue(strings.get(1).contains(Constants.CLIENT_ID), testContext.getApiManager().getPutApplication().getClientId());
+            org.testng.Assert.assertTrue(strings.get(1).contains(Constants.PEAK_ID), testContext.getApiManager().getPutApplication().getPeakId());
+            org.testng.Assert.assertTrue(strings.get(1).contains(Constants.SUB_UNIT_ID), testContext.getApiManager().getPutApplication().getSubUnitId());
+            org.testng.Assert.assertTrue(strings.get(1).contains(Constants.ORGANISATION_ID), testContext.getApiManager().getPutApplication().getOrganisationId());
+            org.testng.Assert.assertTrue(strings.get(1).contains(Constants.PLATFORM_ID),testContext.getApiManager().getPutApplication().getPlatform());
+            org.testng.Assert.assertTrue(strings.get(1).contains(Constants.PLATFORM_NAME),testContext.getApiManager().getPutApplication().getApplicationId());
+            org.testng.Assert.assertTrue(strings.get(1).contains(Constants.APPLICATION_ID), testContext.getApiManager().getPutApplication().getApplicationId());
+            Assert.assertTrue("description is not present", strings.get(1).contains(Constants.DESCRIPTION));
         } else {
             Assert.assertEquals(
                     HttpStatus.SC_OK
