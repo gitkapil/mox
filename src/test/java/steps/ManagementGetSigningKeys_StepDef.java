@@ -99,19 +99,12 @@ public class ManagementGetSigningKeys_StepDef extends UtilManager {
     }
 
 
-    @And("^I make a request to get signing keys$")
-    public void makeRequest() {
+    @And("^I make a request to get signing keys with \"([^\"]*)\" and invalid header \"([^\"]*)\" for keys \"([^\"]*)\"$")
+    public void makeRequestWithInvalidHeaderInput(String headerKey, String headerValue, String applicationId) {
         String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
                 RESOURCE_ENDPOINT_PROPERTY_NAME) + "/";
 
-        testContext.getApiManager().getGetSigningKey().makeCall(url);
-    }
-
-    @When("^I make a request with \"([^\"]*)\" as application id$")
-    public void setApplicationId(String applicationId) {
-        testContext.getApiManager().getGetSigningKey().setApplicationId(applicationId);
-
-        makeRequest();
+        testContext.getApiManager().getGetSigningKey().makeCall(url,headerKey,headerValue, applicationId);
     }
 
     @Then("^I should receive a signing key response error \"([^\"]*)\" status with code \"([^\"]*)\" and description \"([^\"]*)\"$")
@@ -193,9 +186,5 @@ public class ManagementGetSigningKeys_StepDef extends UtilManager {
         String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
                 RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" + applicationId + "/keys/signing";
         testContext.getApiManager().getGetSigningKey().makeCallWithoutMissingHeader(url, applicationId, key);
-
     }
-
-
 }
-

@@ -1,4 +1,4 @@
-@getKey
+@getSigningKeys
 Feature: Merchant Management API - GET /keys/signing
 
   Background: Retrieving access Token
@@ -15,7 +15,7 @@ Feature: Merchant Management API - GET /keys/signing
     Examples:
       | applicationID                        | headerValue |
       | c9621185-b86d-48a9-97f0-eeddef7c3dc1 |             |
-   #| 96703cf3-82bb-429e-bcff-93a078b39307|             |
+   #  | 96703cf3-82bb-429e-bcff-93a078b39307 |             |
 
 #  @trial
   @regression
@@ -25,13 +25,11 @@ Feature: Merchant Management API - GET /keys/signing
     Then I should receive a signing key response error "<http_status>" status with code "<error_code>" and description "<error_description>"
     Examples:
       | applicationID                        | http_status | error_code | error_description               | missingHeader |
-    # Invalid application Id format
       | aaa                                  | 400         | EA002      | Failed to convert value of type |               |
-    # Application Id not found
       | 00000002-0000-3333-c000-000000000000 | 400         | EA025      | Application Id not found        |               |
 
      # @trial
-  @singingKeyError @regression
+  @regression
   Scenario Outline: Negative flow - get signing key with null or invalid header values
     Given I am a user with permissions to use signing key
     And I make a request to get signing keys with "<applicationID>" and with missing header "<missingHeader>" values
@@ -56,3 +54,18 @@ Feature: Merchant Management API - GET /keys/signing
       | key           | errorMessage       | applicationId                        |
       | Api-Version   | Resource not found | c9621185-b86d-48a9-97f0-eeddef7c3dc1 |
       | Authorization | Resource not found | c9621185-b86d-48a9-97f0-eeddef7c3dc1 |
+
+
+  @regression @negativeFlow
+  Scenario Outline: Negative flow - get signing key with null or invalid header values
+    Given I am a user with permissions to use signing key
+    And I make a request to get signing keys with "<applicationId>" and invalid header "<invalidHeader>" for keys "<key>"
+    Then I should receive a signing key response error "<http_status>" status with code "<error_code>" and description "<error_description>"
+    And error message should be "<error_message>" within the get signing key response
+
+    Examples:
+      | applicationId                        | key      | invalidHeader | error_message                     | error_code | http_status | error_description               |
+      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | Trace-Id | 123456        | Service Request Validation Failed | EA002      | 400         | Failed to convert value of type |
+
+
+

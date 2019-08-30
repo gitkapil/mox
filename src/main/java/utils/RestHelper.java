@@ -71,6 +71,25 @@ public class RestHelper {
         return res;
     }
 
+    public Response getRequestWithHeadersWithEncode(String url, HashMap<String, String> headers) {
+
+        Response res = null;
+
+        try {
+            res = given().config(RestAssured.config().encoderConfig(encoderConfig().encodeContentTypeAs(Constants.CONTENT_TYPE, ContentType.TEXT)))
+                    .log().all()
+                    .headers(headers)
+                    .when()
+                    .get(url);
+        } catch (Exception e) {
+
+            Assert.assertTrue(e.getMessage(), false);
+        }
+        return res;
+    }
+
+
+
     /**
      * This method GETS a request with headers
      *

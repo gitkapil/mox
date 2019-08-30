@@ -23,7 +23,7 @@ public class Constants {
     public static final String DEACTIVAT_AT = "deactivateAt";
     public static final String ENTITY_STATUS = "entityStatus";
     public static final String LAST_UPDATED_AT = "lastUpdatedAt";
-    public static final String CONTENT_TYPE = "";
+    public static final String CONTENT_TYPE = "application/json1";
     public static final String PLATFORM_ID = "platformId";
     public static final String PLATFORM_NAME ="platformName";
     public static final String DB_USERNAME="sandbox_rs_read_only@mysql-ci-hk-dragon-mm-db-sand";

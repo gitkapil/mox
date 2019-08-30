@@ -73,9 +73,9 @@ public class GetSigningKey extends UtilManager {
     }
 
 
-    public void makeCall(String url) {
+    public void makeCall(String url, String headerKey, String headerValue, String applicationId) {
 
-        response = getRestHelper().getRequestWithHeaders(url + applicationId + "/keys/signing", requestHeader);
+        response = getRestHelper().getRequestWithHeadersWithEncode(url + applicationId + "/keys/signing", returnRequestHeaderInvalidInputs(headerKey, headerValue));
         logger.info("********** GET Public Key Response *********** ----> "+ response.getBody().prettyPrint());
     }
 
@@ -105,6 +105,19 @@ public class GetSigningKey extends UtilManager {
             EnvHelper.getInstance().addMissingHeaderForLocalDevMode(requestHeader);
         }
         requestHeader.remove(missingHeader);
+        return requestHeader;
+    }
+
+    private HashMap<String,String> returnRequestHeaderInvalidInputs(String headerKey, String headerValue) {
+        requestHeader = new HashMap<String, String>();
+        requestHeader.put("Accept","application/json");
+        requestHeader.put("Content-Type","application/json");
+        requestHeader.put("Authorization", authToken);
+        requestHeader.put("Trace-Id",getGeneral().generateUniqueUUID());
+        requestHeader.put("Accept-Language", "en-US");
+        requestHeader.put("Request-Date-Time", getDateHelper().getUTCNowDateTime());
+        requestHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
+        requestHeader.replace(headerKey,headerValue );
         return requestHeader;
     }
 }
