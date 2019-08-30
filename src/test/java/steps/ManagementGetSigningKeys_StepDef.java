@@ -77,7 +77,7 @@ public class ManagementGetSigningKeys_StepDef extends UtilManager {
         testContext.getApiManager().getPostApplication().setRequestDateTime(getDateHelper().getUTCNowDateTime());
         testContext.getApiManager().getPostApplication().setTraceId(getGeneral().generateUniqueUUID());
         testContext.getApiManager().getPostApplication().executeRequest(
-                getRestHelper().getBaseURI()+getFileHelper()
+                getRestHelper().getBaseURI() + getFileHelper()
                         .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME),
                 testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
@@ -94,7 +94,7 @@ public class ManagementGetSigningKeys_StepDef extends UtilManager {
     public void makeRequests(String applicationID, String missingHeaderKeys) {
         String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
                 RESOURCE_ENDPOINT_PROPERTY_NAME) + "/";
-        System.out.println("URL: "+url);
+        System.out.println("URL kapil: " + url);
         testContext.getApiManager().getGetSigningKey().makeCallWithApplicationID(url, applicationID, missingHeaderKeys);
     }
 
@@ -139,13 +139,18 @@ public class ManagementGetSigningKeys_StepDef extends UtilManager {
         }
     }
 
+    @Given("^I am a GET signing key authorized DRAGON user with the signingKey.ReadWrite.All privilege$")
+    public void i_am_an_authorized_DRAGON_user_with_role() {
+        common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getGetSigningKey().setAuthTokenWithBearer(token));
+    }
+
 
     @Then("^error message should be \"([^\"]*)\" within the get signing key response$")
     public void i_should_receive_a_error_message(String errorMessage) {
         Response response = testContext.getApiManager().getGetSigningKey().getResponse();
         org.testng.Assert.assertTrue(
-                getRestHelper().getErrorMessage(response).contains(errorMessage) ,
-                "Different error message being returned..Expected: "+ errorMessage+ " Actual: " +
+                getRestHelper().getErrorMessage(response).contains(errorMessage),
+                "Different error message being returned..Expected: " + errorMessage + " Actual: " +
                         getRestHelper().getErrorMessage(response));
 
     }
@@ -169,20 +174,28 @@ public class ManagementGetSigningKeys_StepDef extends UtilManager {
             Map firstElement = arrayList.get(0);
             Assert.assertTrue(firstElement.containsKey(Constants.KEY_ID));
             Assert.assertTrue(firstElement.containsKey(Constants.APPLICATION_ID));
-            Assert.assertTrue(firstElement.containsKey(Constants.VALUE));
             Assert.assertTrue(firstElement.containsKey(Constants.ALG));
             Assert.assertTrue(firstElement.containsKey(Constants.TYPE));
             Assert.assertTrue(firstElement.containsKey(Constants.SIZE));
             Assert.assertTrue(firstElement.containsKey(Constants.ACTIVATE_AT));
             Assert.assertTrue(firstElement.containsKey(Constants.DEACTIVAT_AT));
             Assert.assertTrue(firstElement.containsKey(Constants.ENTITY_STATUS));
-         //   Assert.assertTrue(firstElement.containsKey(Constants.DESCRIPTION));
             Assert.assertTrue(firstElement.containsKey(Constants.CREATED_AT));
             Assert.assertTrue(firstElement.containsKey(Constants.LAST_UPDATED_AT));
-            Assert.assertEquals(firstElement.toString().split(",").length, 11);
+            Assert.assertEquals(firstElement.toString().split(",").length, 10);
+        } else {
+            getRestHelper().getResponseStatusCode(testContext.getApiManager().getGetSigningKey().getResponse());
         }
-            else{
-             getRestHelper().getResponseStatusCode(testContext.getApiManager().getGetSigningKey().getResponse());
-            }
-        }}
+    }
+
+    @When("^I make a get request to the signingKey endpoint with \"([^\"]*)\" and \"([^\"]*)\" missing in the header$")
+    public void i_make_a_put_request_to_the_application_endpoint_with_key_missing_in_the_header(String applicationId, String key) {
+        String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
+                RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" + applicationId + "/keys/signing";
+        testContext.getApiManager().getGetSigningKey().makeCallWithoutMissingHeader(url, applicationId, key);
+
+    }
+
+
+}
 
