@@ -13,7 +13,11 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import utils.Constants;
+import utils.DataBaseConnector;
 
+import java.sql.Array;
+import java.sql.DatabaseMetaData;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -346,5 +350,32 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
         testContext.getApiManager().getOneClickMerchantOnboarding().setTraceId(getGeneral().generateUniqueUUID());
         testContext.getApiManager().getOneClickMerchantOnboarding().setPlatformId(platformId);
         makeRequest();
+    }
+
+    @And("^validate \"([^\"]*)\" and platformName from database$")
+    public void validateAndPlatformNameFromDatabase(String platformId) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException {
+        response = testContext.getApiManager().getOneClickMerchantOnboarding().getOneClickOnboardingRequestResponse();
+        String sqlQuery = "SELECT hex(PLTFM_ID), PLTFM_NAME FROM merchant_management.pltfm";
+        String db_resp = DataBaseConnector.executeSQLQuery_List("CI", sqlQuery, Constants.DB_CONNECTION_URL).toString();
+
+        //validate response body platformId is equal to request body platformId
+        HashMap applicationResp = response.path("application");
+        Object platformId_resp = applicationResp.get("platformId");
+        Object platformName_resp = applicationResp.get("platformName");
+
+        Assert.assertEquals(platformId_resp, platformId, "Actual platformId doesn't match with Expected platformId!! Expected platformId is " + platformId + "but found " + platformId_resp);
+
+        //validate platformId is present in database
+        String platformId_resp_api = platformId_resp.toString().replaceAll("-", "").toUpperCase();
+
+        String arr[] = db_resp.split(" ");
+        String db_platformId = arr[0].replace("[", "");
+        String db_platformName = arr[1].replace("]", "");
+        System.out.println("db_platformId = " + db_platformId);
+        System.out.println("db_platformName = " + db_platformName);
+        Assert.assertEquals(db_platformId, platformId_resp_api, "API response platformId doesn't match with expected platformId in database");
+
+        //Validate platformName corresponds to the platformId
+        Assert.assertEquals(platformName_resp,db_platformName,"platformName in API response should be equal to platformName in DB.");
     }
 }
