@@ -28,6 +28,7 @@ public class OneClickMerchantOnboarding extends UtilManager {
     private String description;
     private String traceId;
     private String platform;
+    private String platformId;
     private String pdfChannel;
     private String passwordChannel;
     private String clientName;
@@ -97,6 +98,10 @@ public class OneClickMerchantOnboarding extends UtilManager {
         return platform;
     }
 
+    public String getPlatformId() {
+        return platformId;
+    }
+
     public String getPdfChannel() {
         return pdfChannel;
     }
@@ -143,6 +148,10 @@ public class OneClickMerchantOnboarding extends UtilManager {
 
     public void setPlatform(String platform) {
         this.platform = platform;
+    }
+
+    public void setPlatformId(String platformId) {
+        this.platformId = platformId;
     }
 
     public void setPdfChannel(String pdfChannel) {
@@ -437,14 +446,8 @@ public class OneClickMerchantOnboarding extends UtilManager {
         if (this.getOrganisationId() != null && !this.getOrganisationId().equalsIgnoreCase("null")) {
             body.put("organisationId", this.getOrganisationId());
         }
-        if (this.getPlatform() != null && !this.getPlatform().equalsIgnoreCase("null")) {
-            body.put("platform", this.getPlatform());
-        }
-        if (this.getPdfChannel() != null && !this.getPdfChannel().equalsIgnoreCase("null")) {
-            body.put("pdfChannel", this.getPdfChannel());
-        }
-        if (this.getPasswordChannel() != null && !this.getPasswordChannel().equalsIgnoreCase("null")) {
-            body.put("passwordChannel", this.getPasswordChannel());
+        if (this.getPlatformId() != null && !this.getPlatformId().equalsIgnoreCase("null")) {
+            body.put("platformId", this.getPlatformId());
         }
         if (this.getDescription() != null && !this.getDescription().equalsIgnoreCase("null")) {
             body.put("applicationDescription", this.getDescription());
@@ -476,14 +479,8 @@ public class OneClickMerchantOnboarding extends UtilManager {
         if (this.getOrganisationId() != null && !this.getOrganisationId().equalsIgnoreCase("null")) {
             body.put("organisationId", this.getOrganisationId());
         }
-        if (this.getPlatform() != null && !this.getPlatform().equalsIgnoreCase("null")) {
-            body.put("platform", this.getPlatform());
-        }
-        if (this.getPdfChannel() != null && !this.getPdfChannel().equalsIgnoreCase("null")) {
-            body.put("pdfChannel", this.getPdfChannel());
-        }
-        if (this.getPasswordChannel() != null && !this.getPasswordChannel().equalsIgnoreCase("null")) {
-            body.put("passwordChannel", this.getPasswordChannel());
+        if (this.getPlatformId() != null && !this.getPlatformId().equalsIgnoreCase("null")) {
+            body.put("platformId", this.getPlatformId());
         }
         if (this.getDescription() != null && !this.getDescription().equalsIgnoreCase("null")) {
             body.put("applicationDescription", this.getDescription());

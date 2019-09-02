@@ -343,16 +343,10 @@ public class RestHelper {
                 } else if (errorDesc.equalsIgnoreCase("Field error in object 'onboardingInputModel': field 'applicationDescription' must not be null; rejected value [null]")) {
                     flag = true;
                     count++;
-                } else if (errorDesc.equalsIgnoreCase("Field error in object 'onboardingInputModel': field 'passwordChannel' must not be null; rejected value [null]")) {
-                    flag = true;
-                    count++;
                 } else if (errorDesc.equalsIgnoreCase("Field error in object 'onboardingInputModel': field 'organisationId' must not be null; rejected value [null]")) {
                     flag = true;
                     count++;
-                } else if (errorDesc.equalsIgnoreCase("Field error in object 'onboardingInputModel': field 'pdfChannel' must not be null; rejected value [null]")) {
-                    flag = true;
-                    count++;
-                } else if (errorDesc.equalsIgnoreCase("Field error in object 'onboardingInputModel': field 'platform' must not be null; rejected value [null]")) {
+                } else if (errorDesc.equalsIgnoreCase("Field error in object 'onboardingInputModel': field 'platformId' must not be null; rejected value [null]")) {
                     flag = true;
                     count++;
                 } else if (errorDesc.equalsIgnoreCase("Field error in object 'onboardingInputModel': field 'applicationName' must not be null; rejected value [null]")) {
@@ -361,7 +355,7 @@ public class RestHelper {
                 }
             }
             System.out.println("count: " + count);
-            Assert.assertTrue("Count should be 8. But actual: " + count, count == 8);
+            Assert.assertTrue("Count should be 6. But actual: " + count, count == 6);
         } catch (NullPointerException e) {
             return null;
         } catch (IllegalArgumentException e) {

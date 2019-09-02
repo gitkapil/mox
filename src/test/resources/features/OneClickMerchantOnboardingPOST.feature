@@ -8,15 +8,15 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850
   @trial
   Scenario Outline: Positive flow - A DRAGON user with All privilege is onboarded successfully with One Click Onboarding API
     Given I am logging in as a user with correct privileges
-    When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>", platform as "<platform>", pdfChannel as "<pdfChannel>" and passwordChannel as "<passwordChannel>"
+    When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
     Then I should receive a successful merchant onboarding response
     And verify the response body contains all mandatory details
     Examples:
-      | applicationName | peakId                               | subUnitId                            | organisationId                       | platform | pdfChannel | passwordChannel | description |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline | email      | email           | string      |
+      | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | description |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | description |
 
 
-  @trial
+  #@trial
   Scenario Outline: Negative flow- Mandatory field Api-Version not sent in the header
     Given I am logging in as a user with correct privileges
     When I make request to one click merchant onboard endpoint with "<key>" missing in the header
@@ -27,7 +27,7 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850
       | Api-Version |
 
 
-  @trial
+  #@trial
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
     Given I am logging in as a user with correct privileges
     When I make request to one click merchant onboard endpoint with "<key>" missing in the header
@@ -42,49 +42,35 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850
       | Content type 'text/plain;charset=ISO-8859-1' not supported            | Service Request Validation Failed | Content-Type      | EA002      | 415         |
 
 
-  @trial
+  #@trial
   Scenario Outline: Negative flow- Invalid mandatory fields provided in header
     Given I am logging in as a user with correct privileges
-    When I provide application name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>", platform as "<platform>", pdfChannel as "<pdfChannel>" and passwordChannel as "<passwordChannel>" in request body with invalid key "<invalidValue>" for "<key>" in header
+    When I provide application name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>" in request body with invalid key "<invalidValue>" for "<key>" in header
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode in response
     And error message should be "<error_message>" within the response
 
     Examples:
-      | key               | invalidValue                         | http_status | error_message                     | error_code | error_description                                                 | applicationName | peakId                               | subUnitId                            | organisationId                       | platform | pdfChannel | passwordChannel | description |
-      | Content-Type      | application/json1                    | 415         | Service Request Validation Failed | EA002      | Content type 'application/json1;charset=ISO-8859-1' not supported | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline | email      | email           | string      |
-      | Accept            | application/json1                    | 406         | Request Header Not Acceptable     | EA008      | Header Accept does not contain required value.  Access denied.    | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline | email      | email           | string      |
-      | Trace-Id          | 12#@!%^&*)                           | 400         | Service Request Validation Failed | EA002      | Failed to convert value of type                                   | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline | email      | email           | string      |
+      | key          | invalidValue                         | http_status | error_message                     | error_code | error_description                                                 | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | description |
+      | Content-Type | application/json1                    | 415         | Service Request Validation Failed | EA002      | Content type 'application/json1;charset=ISO-8859-1' not supported | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      |
+      | Accept       | application/json1                    | 406         | Request Header Not Acceptable     | EA008      | Header Accept does not contain required value.  Access denied.    | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      |
+      | Trace-Id     | 12#@!%^&*)                           | 400         | Service Request Validation Failed | EA002      | Failed to convert value of type                                   | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      |
     #Invalid UUID Trace-Id
-      | Trace-Id          | 7454108z-yb37-454c-81da-0a12d8b0f867 | 400         | Service Request Validation Failed | EA002      | Failed to convert value of type                                   | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline | email      | email           | string      |
-    #Year less than present year
-      | Request-Date-Time | 2018-12-31T03:24:19.921Z             | 400         | Service Request Validation Failed | EA002      | Request timestamp too old                                         | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline | email      | email           | string      |
-    #Month less than present month
-      | Request-Date-Time | 2019-01-01T03:24:19.921Z             | 400         | Service Request Validation Failed | EA002      | Request timestamp too old                                         | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline | email      | email           | string      |
-    #Month greater than 12
-      | Request-Date-Time | 2019-15-01T03:24:19.921Z             | 400         | Service Request Validation Failed | EA002      | Request timestamp not a valid RFC3339 date-time                   | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline | email      | email           | string      |
-    #Date less than present date
-      | Request-Date-Time | 2019-08-12T03:24:19.921Z             | 400         | Service Request Validation Failed | EA002      | Request timestamp too old                                         | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline | email      | email           | string      |
-    #Date greater than 31
-      | Request-Date-Time | 2019-12-33T03:24:19.921Z             | 400         | Service Request Validation Failed | EA002      | Request timestamp not a valid RFC3339 date-time                   | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline | email      | email           | string      |
-    #Only date format provided
-      | Request-Date-Time | 2019-09-15                           | 400         | Service Request Validation Failed | EA002      | Request timestamp not a valid RFC3339 date-time                   | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline | email      | email           | string      |
-    #Only time provided
-      | Request-Date-Time | T03:24:19.921Z                       | 400         | Service Request Validation Failed | EA002      | Request timestamp not a valid RFC3339 date-time                   | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline | email      | email           | string      |
+      | Trace-Id     | 7454108z-yb37-454c-81da-0a12d8b0f867 | 400         | Service Request Validation Failed | EA002      | Failed to convert value of type                                   | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      |
 
-  @trial
+  #@trial
   Scenario Outline: Negative flow- Invalid mandatory field Api-Version provided in header
     Given I am logging in as a user with correct privileges
-    When I provide application name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>", platform as "<platform>", pdfChannel as "<pdfChannel>" and passwordChannel as "<passwordChannel>" in request body with invalid key "<invalidValue>" for "<key>" in header
+    When I provide application name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>" in request body with invalid key "<invalidValue>" for "<key>" in header
     Then I should receive a "<statusCode>" status code in response
     And error message should be "<message>" within the response
 
     Examples:
-      | key         | invalidValue | statusCode | message            | applicationName | peakId                               | subUnitId                            | organisationId                       | platform | pdfChannel | passwordChannel | description |
-      | Api-Version | 0.20         | 404        | Resource not found | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline | string     | string          | string      |
-      | Api-Version | abc          | 404        | Resource not found | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline | string     | string          | string      |
-      | Api-Version | @#$%^        | 404        | Resource not found | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline | string     | string          | string      |
+      | key         | invalidValue | statusCode | message            | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | description |
+      | Api-Version | 0.20         | 404        | Resource not found | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      |
+      | Api-Version | abc          | 404        | Resource not found | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      |
+      | Api-Version | @#$%^        | 404        | Resource not found | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      |
 
-  @trial
+  #@trial
   Scenario Outline: Negative flow- Invalid auth token
     Given I am a DRAGON user with invalid "<auth_token>" auth token
     When I make request to one click merchant onboard endpoint
@@ -101,160 +87,136 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850
  # Auth token unverified
       | Error validating JWT | API Gateway Authentication Failed | Bearer nbCwW11w3XkB-xUaXwKRSLjMHGQ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | EA001      | 401       |
 
-  @trial
+  #@trial
   Scenario: Negative flow- Request body provided Null {}
     Given I am logging in as a user with correct privileges
     When I make request to one click merchant onboard endpoint with null request body
     Then I should receive a "400" http code with "Service Request Validation Failed" error message
     And Validate errorCode and errorDescription within one click onboard response
 
-  @trial
+  #@trial
   Scenario: Negative flow- Request body not provided
     Given I am logging in as a user with correct privileges
     When I make request to one click merchant onboard endpoint without request body
     Then I should receive a "400" error response with "Unable to read or parse message body" error description and "EA002" errorcode within one click onboard response
     And error message should be "Service Request Validation Failed" within one click onboard response
 
-  @trial
+  #@trial
   Scenario Outline: Negative flow- Mandatory fields provided null in request body
     Given I am logging in as a user with correct privileges
-    When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>", platform as "<platform>", pdfChannel as "<pdfChannel>" and passwordChannel as "<passwordChannel>"
+    When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode in response
     And error message should be "<error_message>" within the response
 
     Examples:
-      | applicationName | peakId                               | subUnitId                            | organisationId                       | platform | pdfChannel | passwordChannel | description | http_status | error_description                                                                                            | error_code | error_message                     |
-      |                 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline | email      | email           | string      | 400         | Name not provided                                                                                            | EA002      | Service Request Validation Failed |
-      | validname       |                                      | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline | email      | email           | string      | 400         | Field error in object 'onboardingInputModel': field 'peakId' must not be null; rejected value [null]         | EA002      | Service Request Validation Failed |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 |                                      | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline | email      | email           | string      | 400         | Field error in object 'onboardingInputModel': field 'subUnitId' must not be null; rejected value [null]      | EA002      | Service Request Validation Failed |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 |                                      | Shopline | email      | email           | string      | 400         | Field error in object 'onboardingInputModel': field 'organisationId' must not be null; rejected value [null] | EA002      | Service Request Validation Failed |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 |          | email      | email           | string      | 400         | Platform not provided                                                                                        | EA002      | Service Request Validation Failed |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline |            | email           | string      | 400         | PDF channel not provided                                                                                     | EA002      | Service Request Validation Failed |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline | email      |                 | string      | 400         | Password channel not provided                                                                                | EA002      | Service Request Validation Failed |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline | email      | email           |             | 400         | Application description not provided                                                                         | EA002      | Service Request Validation Failed |
+      | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | description | http_status | error_description                                                                                            | error_code | error_message                     |
+      |                 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Name not provided                                                                                            | EA002      | Service Request Validation Failed |
+      | validname       |                                      | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Field error in object 'onboardingInputModel': field 'peakId' must not be null; rejected value [null]         | EA002      | Service Request Validation Failed |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 |                                      | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Field error in object 'onboardingInputModel': field 'subUnitId' must not be null; rejected value [null]      | EA002      | Service Request Validation Failed |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 |                                      | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Field error in object 'onboardingInputModel': field 'organisationId' must not be null; rejected value [null] | EA002      | Service Request Validation Failed |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 |                                      | string      | 400         | Field error in object 'onboardingInputModel': field 'platformId' must not be null; rejected value [null]     | EA002      | Service Request Validation Failed |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 |             | 400         | Application description not provided                                                                         | EA002      | Service Request Validation Failed |
 
-  @trial
+  #@trial
   Scenario Outline: Negative flow- Mandatory field applicationName not provided in request body
     Given I am logging in as a user with correct privileges
-    When I make request for a new client with peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>", platform as "<platform>", pdfChannel as "<pdfChannel>" and passwordChannel as "<passwordChannel>"
+    When I make request for a new client with peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode in response
     And error message should be "<error_message>" within the response
 
     Examples:
-      | peakId                               | subUnitId                            | organisationId                       | platform | pdfChannel | passwordChannel | description | http_status | error_description                                                                                             | error_code | error_message                     |
-      | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline | email      | email           | string      | 400         | Field error in object 'onboardingInputModel': field 'applicationName' must not be null; rejected value [null] | EA002      | Service Request Validation Failed |
+      | peakId                               | subUnitId                            | organisationId                       | platformId                           | description | http_status | error_description                                                                                             | error_code | error_message                     |
+      | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Field error in object 'onboardingInputModel': field 'applicationName' must not be null; rejected value [null] | EA002      | Service Request Validation Failed |
 
-  @trial
+#  @trial
   Scenario Outline: Negative flow- Mandatory field peakId not provided in request body
     Given I am logging in as a user with correct privileges
-    When I make request for a new client with name as "<applicationName>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>", platform as "<platform>", pdfChannel as "<pdfChannel>" and passwordChannel as "<passwordChannel>"
+    When I make request for a new client with name as "<applicationName>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode in response
     And error message should be "<error_message>" within the response
 
     Examples:
-      | applicationName | subUnitId                            | organisationId                       | platform | pdfChannel | passwordChannel | description | http_status | error_description                                                                                    | error_code | error_message                     |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline | email      | email           | string      | 400         | Field error in object 'onboardingInputModel': field 'peakId' must not be null; rejected value [null] | EA002      | Service Request Validation Failed |
+      | applicationName | subUnitId                            | organisationId                       | platformId                           | description | http_status | error_description                                                                                    | error_code | error_message                     |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Field error in object 'onboardingInputModel': field 'peakId' must not be null; rejected value [null] | EA002      | Service Request Validation Failed |
 
-  @trial
+#  @trial
   Scenario Outline: Negative flow- Mandatory field subUnitId not provided in request body
     Given I am logging in as a user with correct privileges
-    When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", organisationId as "<organisationId>", description as "<description>", platform as "<platform>", pdfChannel as "<pdfChannel>" and passwordChannel as "<passwordChannel>"
+    When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode in response
     And error message should be "<error_message>" within the response
 
     Examples:
-      | applicationName | peakId                               | organisationId                       | platform | pdfChannel | passwordChannel | description | http_status | error_description                                                                                       | error_code | error_message                     |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline | email      | email           | string      | 400         | Field error in object 'onboardingInputModel': field 'subUnitId' must not be null; rejected value [null] | EA002      | Service Request Validation Failed |
+      | applicationName | peakId                               | organisationId                       | platformId                           | description | http_status | error_description                                                                                       | error_code | error_message                     |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Field error in object 'onboardingInputModel': field 'subUnitId' must not be null; rejected value [null] | EA002      | Service Request Validation Failed |
 
-  @trial
+#  @trial
   Scenario Outline: Negative flow- Mandatory field organisationId not provided in request body
     Given I am logging in as a user with correct privileges
-    When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", description as "<description>", platform as "<platform>", pdfChannel as "<pdfChannel>" and passwordChannel as "<passwordChannel>"
+    When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", description as "<description>" and platformId as "<platformId>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode in response
     And error message should be "<error_message>" within the response
 
     Examples:
-      | applicationName | peakId                               | subUnitId                            | platform | pdfChannel | passwordChannel | description | http_status | error_description                                                                                            | error_code | error_message                     |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline | email      | email           | string      | 400         | Field error in object 'onboardingInputModel': field 'organisationId' must not be null; rejected value [null] | EA002      | Service Request Validation Failed |
+      | applicationName | peakId                               | subUnitId                            | platformId                           | description | http_status | error_description                                                                                            | error_code | error_message                     |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Field error in object 'onboardingInputModel': field 'organisationId' must not be null; rejected value [null] | EA002      | Service Request Validation Failed |
 
-  @trial
-  Scenario Outline: Negative flow- Mandatory field platform not provided in request body
+#  @trial
+  Scenario Outline: Negative flow- Mandatory field platformId not provided in request body
     Given I am logging in as a user with correct privileges
-    When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>", pdfChannel as "<pdfChannel>" and passwordChannel as "<passwordChannel>"
+    When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>" and description as "<description>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode in response
     And error message should be "<error_message>" within the response
 
     Examples:
-      | applicationName | peakId                               | subUnitId                            | organisationId                       | pdfChannel | passwordChannel | description | http_status | error_description                                                                                      | error_code | error_message                     |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | email      | email           | string      | 400         | Field error in object 'onboardingInputModel': field 'platform' must not be null; rejected value [null] | EA002      | Service Request Validation Failed |
+      | applicationName | peakId                               | subUnitId                            | organisationId                       | description | http_status | error_description                                                                                        | error_code | error_message                     |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | string      | 400         | Field error in object 'onboardingInputModel': field 'platformId' must not be null; rejected value [null] | EA002      | Service Request Validation Failed |
 
-  @trial
-  Scenario Outline: Negative flow- Mandatory field pdfChannel not provided in request body
-    Given I am logging in as a user with correct privileges
-    When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>", platform as "<platform>" and passwordChannel as "<passwordChannel>"
-    Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode in response
-    And error message should be "<error_message>" within the response
-
-    Examples:
-      | applicationName | peakId                               | subUnitId                            | organisationId                       | platform | passwordChannel | description | http_status | error_description                                                                                        | error_code | error_message                     |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline | email           | string      | 400         | Field error in object 'onboardingInputModel': field 'pdfChannel' must not be null; rejected value [null] | EA002      | Service Request Validation Failed |
-
-  @trial
+#  @trial
   Scenario Outline: Negative flow- Mandatory field applicationDescription not provided in request body
     Given I am logging in as a user with correct privileges
-    When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", platform as "<platform>", pdfChannel as "<pdfChannel>" and passwordChannel as "<passwordChannel>"
+    When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>" and platformId as "<platformId>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode in response
     And error message should be "<error_message>" within the response
 
     Examples:
-      | applicationName | peakId                               | subUnitId                            | organisationId                       | platform | passwordChannel | pdfChannel | http_status | error_description                                                                                                    | error_code | error_message                     |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline | string          | string     | 400         | Field error in object 'onboardingInputModel': field 'applicationDescription' must not be null; rejected value [null] | EA002      | Service Request Validation Failed |
+      | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | passwordChannel | pdfChannel | http_status | error_description                                                                                                    | error_code | error_message                     |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string          | string     | 400         | Field error in object 'onboardingInputModel': field 'applicationDescription' must not be null; rejected value [null] | EA002      | Service Request Validation Failed |
 
-  @trial
-  Scenario Outline: Negative flow- Mandatory field passwordChannel not provided in request body
-    Given I am logging in as a user with correct privileges
-    When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>", platform as "<platform>" and pdfChannel as "<pdfChannel>"
-    Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode in response
-    And error message should be "<error_message>" within the response
-
-    Examples:
-      | applicationName | peakId                               | subUnitId                            | organisationId                       | platform | pdfChannel | description | http_status | error_description                                                                                             | error_code | error_message                     |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline | email      | string      | 400         | Field error in object 'onboardingInputModel': field 'passwordChannel' must not be null; rejected value [null] | EA002      | Service Request Validation Failed |
-
-
-  @trial
+#  @trial
   Scenario Outline: Negative flow- Invalid Mandatory fields provided in request body
     Given I am logging in as a user with correct privileges
-    When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>", platform as "<platform>", pdfChannel as "<pdfChannel>" and passwordChannel as "<passwordChannel>"
+    When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode in response
     And error message should be "<error_message>" within the response
 
     Examples:
-      | applicationName | peakId                               | subUnitId                            | organisationId                       | platform  | pdfChannel | passwordChannel | description | http_status | error_description                                                                                                    | error_code | error_message                     |
-      | longname        | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline  | email      | email           | string      | 400         | Field error in object 'onboardingInputModel': field 'applicationName' size must be between 0 and 256; rejected value | EA002      | Service Request Validation Failed |
-      | ^%$@#&*         | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline  | email      | email           | string      | 400         | Field error in object 'onboardingInputModel': field 'applicationName' size must be between 0 and 256; rejected value | EA002      | Service Request Validation Failed |
-      | validname       | 859cce3                              | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline  | email      | email           | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
-      | validname       | $#@!~&                               | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline  | email      | email           | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
-      | validname       | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline  | email      | email           | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | $#@!~&                               | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline  | email      | email           | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f9                            | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline  | email      | email           | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline  | email      | email           | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | $#@!~&                               | Shopline  | email      | email           | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | vhgkd859cce3f9                       | Shopline  | email      | email           | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx | Shopline  | email      | email           | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 13ac$@#!% | email      | email           | string      | 400         | Platform name is invalid. Accepted values are Individual Merchant,Platform Owner,Shopline,Boutir                     | EA002      | Service Request Validation Failed |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline  | 1a@b#4!&   | email           | string      | 400         | inputModel.pdfChannel can only be email                                                                              | EA002      | Service Request Validation Failed |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline  | email      | 1a@b#4!&        | string      | 400         | inputModel.passwordChannel can only be email                                                                         | EA002      | Service Request Validation Failed |
-#      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline  | email      | email           | 1a@b#4!&    | 400         |                                                                                                                      | EA002      | Service Request Validation Failed |
+      | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | description | http_status | error_description                                                                                                    | error_code | error_message                     |
+      | longname        | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Field error in object 'onboardingInputModel': field 'applicationName' size must be between 0 and 256; rejected value | EA002      | Service Request Validation Failed |
+#application name is free text
+#      | ^%$@#*          | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Field error in object 'onboardingInputModel': field 'applicationName' size must be between 0 and 256; rejected value | EA002      | Service Request Validation Failed |
+      | validname       | 859cce3                              | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
+      | validname       | $#@!~&                               | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
+      | validname       | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | $#@!~&                               | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f9                            | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | $#@!~&                               | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | vhgkd859cce3f9                       | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 13ac$@#!%                            | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | vhgkd859cce3f9                       | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
+#      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline  |  1a@b#4!&    | 400         |                                                                                                                      | EA002      | Service Request Validation Failed |
 #applicationDescription is free text; can be anything
 
   @trial
   Scenario Outline: Negative flow- Existing applicationName provided in request body
     Given I am logging in as a user with correct privileges
-    When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>", platform as "<platform>", pdfChannel as "<pdfChannel>" and passwordChannel as "<passwordChannel>"
+    When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode in response
     And error message should be "<error_message>" within the response
 
     Examples:
-      | applicationName                       | peakId                               | subUnitId                            | organisationId                       | platform | pdfChannel | passwordChannel | description | http_status | error_description   | error_code | error_message |
-      | app-hk-dragon-ci-developer-client-app | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline | email      | email           | string      | 500         | Unhandled Exception | BNA003     | Server Error! |
+      | applicationName                       | peakId                               | subUnitId                            | organisationId                       | platformId                           | description | http_status | error_description   | error_code | error_message |
+      | app-hk-dragon-ci-developer-client-app | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 500         | Unhandled Exception | BNA003     | Server Error! |

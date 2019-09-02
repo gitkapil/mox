@@ -6,7 +6,7 @@ Feature: Management Put Signing Keys - DRAG-1573
     Then I receive an access_token
 
 #  @trial
-  @regression
+#  @regression
   Scenario Outline: Positive flow - Able to update signing key attribute
     Given I am a PUT signing key authorized user
     When I create a new application id for PUT signing key
@@ -20,7 +20,7 @@ Feature: Management Put Signing Keys - DRAG-1573
     |test       |2019-01-01T00:00:00Z|2019-02-02T00:00:00Z|A           |
 
 #  @trial
-  @regression
+#  @regression
   Scenario Outline: Negative flow - invalid application id
     Given I am a PUT signing key authorized user
     And I have an "<applicationId>" and "<keyId>" from an existing signing key
@@ -34,7 +34,7 @@ Feature: Management Put Signing Keys - DRAG-1573
     |00000002-0000-4444-c000             |00000002-0000-0000-c000-000000000000|400        |EA002   |Failed to convert value of type|
 
 #    @trial
-    @regression
+#    @regression
     Scenario Outline: Negative flow - invalid key id
       Given I am a PUT signing key authorized user
       When I create a new application id for PUT signing key
@@ -52,7 +52,7 @@ Feature: Management Put Signing Keys - DRAG-1573
       |00000002-0000-0000-c000-0000        |400        |EA027   |Key Id not found|
 
 #  @trial
-  @regression
+#  @regression
   Scenario Outline: Negative flow - Invalid body
     Given I am a PUT signing key authorized user
     When I create a new application id for PUT signing key

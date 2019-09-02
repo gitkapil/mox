@@ -6,7 +6,7 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
     Then I receive an access_token
 
 #  @trial
-  @regression
+#  @regression
   Scenario: Positive flow - Create a new application, new public key, new signing key
     Given I am an authorized Signing Key DRAGON user
     And I create a new application id for signing key
@@ -16,7 +16,7 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
     Then the create signing key response should be successful
 
 #  @trial
-  @regression
+#  @regression
   Scenario Outline: Negative flow - Create a new application and signing key without public key
     Given I am an authorized Signing Key DRAGON user
     And I create a new application id for signing key
@@ -29,7 +29,7 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
 
 
 #  @trial
-  @regression
+#  @regression
   Scenario Outline: Negative flow - Invalid application id
     Given I am an authorized Signing Key DRAGON user
     And I have a "<applicationId>" application id
@@ -44,7 +44,7 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
     |00000002-0000-4444-c000-000000000000|2019-01-01T00:00:00Z|2019-02-02T00:00:00Z|A|test|400        |EA025     |Application Id not found                 |
 
 #  @trial
-  @regression
+#  @regression
   Scenario Outline: Negative flow - Invalid dates
     Given I am an authorized Signing Key DRAGON user
     And I create a new application id for signing key
@@ -67,7 +67,7 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
       |2019-02-02T00:00:00Z|2019-02-02T00:00:00Z|A  |test       |400        |EA024     |(activateAt) is equal or after (deactivateAt)             |
 
 #  @trial
-  @regression
+#  @regression
   Scenario Outline: Negative flow - Entity status
     Given I am an authorized Signing Key DRAGON user
     And I create a new application id for signing key
@@ -88,7 +88,7 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
       |2019-01-01T00:00:00Z|2019-02-02T00:00:00Z|d            |test |400        |EA002     |Field error in object             |
 
 #  @trial
-  @regression
+#  @regression
   Scenario Outline: Negative flow - Description
     Given I am an authorized Signing Key DRAGON user
     And I create a new application id for signing key
