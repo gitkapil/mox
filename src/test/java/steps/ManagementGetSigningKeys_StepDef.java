@@ -174,7 +174,7 @@ public class ManagementGetSigningKeys_StepDef extends UtilManager {
             Assert.assertTrue(firstElement.containsKey(Constants.TYPE));
             Assert.assertTrue(firstElement.containsKey(Constants.SIZE));
             Assert.assertTrue(firstElement.containsKey(Constants.ACTIVATE_AT));
-            Assert.assertTrue(firstElement.containsKey(Constants.DEACTIVAT_AT));
+            Assert.assertTrue(firstElement.containsKey(Constants.DEACTIVATED_AT));
             Assert.assertTrue(firstElement.containsKey(Constants.ENTITY_STATUS));
             Assert.assertTrue(firstElement.containsKey(Constants.CREATED_AT));
             Assert.assertTrue(firstElement.containsKey(Constants.LAST_UPDATED_AT));

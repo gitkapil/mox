@@ -1,21 +1,18 @@
 package steps;
 
 import com.google.common.collect.Sets;
-import com.google.common.reflect.TypeToken;
-import com.google.gson.Gson;
+import com.jayway.restassured.response.Response;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import managers.TestContext;
 import managers.UtilManager;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import utils.Constants;
-
-import javax.xml.ws.Response;
-import java.util.*;
+import java.util.Set;
+import java.util.UUID;
 
 public class ManagementPostSigningKey_StepDefs extends UtilManager {
     private static final Set<String> ROLE_SET = Sets.newHashSet("ApplicationKey.ReadWrite.All");
@@ -94,12 +91,11 @@ public class ManagementPostSigningKey_StepDefs extends UtilManager {
         testContext.getApiManager().getPostSigningKeys().setApplicationId(applicationId);
     }
 
-    @And("^I have an activate date \"([^\"]*)\" and deactivate date \"([^\"]*)\", with entity status \"([^\"]*)\" and a description \"([^\"]*)\"$")
-    public void setBody(String activateAt, String deactivateAt, String entityStatus, String description) {
+    @And("^I have an activate date \"([^\"]*)\" and deactivate date \"([^\"]*)\", with entity status \"([^\"]*)\"$")
+    public void setBody(String activateAt, String deactivateAt, String entityStatus) {
         testContext.getApiManager().getPostSigningKeys().setActivateAt(activateAt);
         testContext.getApiManager().getPostSigningKeys().setDeactivateAt(deactivateAt);
         testContext.getApiManager().getPostSigningKeys().setEntityStatus(entityStatus);
-        testContext.getApiManager().getPostSigningKeys().setDescription(description);
     }
 
     @When("^I make a request to create a new signing key with \"([^\"]*)\"$")
@@ -135,6 +131,51 @@ public class ManagementPostSigningKey_StepDefs extends UtilManager {
         }
     }
 
+
+    @When("^I make a POST request to the post signing key endpoint with \"([^\"]*)\" missing in the header$")
+    public void i_make_a_post_request_to_the_signing_key_endpoint_with_key_missing_in_the_header(String key)  {
+        testContext.getApiManager().getPostSigningKeys().executePostRequestWithMissingHeaderKeys(getRestHelper().getBaseURI()+getFileHelper().
+                getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" +
+                testContext.getApiManager().getPostSigningKeys().getApplicationId()+"/keys/signing", key);
+    }
+
+
+    @Then("^I should receive a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" error code within the POST signing key response$")
+    public void i_should_receive_an_error_response_with_error_description_and_error_code(int responseCode, String errorDesc, String errorCode) {
+        Response response = testContext.getApiManager().getPostSigningKeys().getResponse();
+        Assert.assertEquals(getRestHelper().getResponseStatusCode(response), responseCode,"Different response code being returned");
+
+
+
+        if (getRestHelper().getErrorDescription(response) != null) {
+
+            if (getRestHelper().getErrorDescription(response).contains("'")) {
+                System.out.println("here : " + getRestHelper().getErrorDescription(response));
+                System.out.println("there: " + errorDesc);
+            }
+
+            Assert.assertTrue(
+                    getRestHelper().getErrorDescription(response)
+                            .replace("\"", "")
+                            .contains(errorDesc),
+                    "Different error description being returned..Expected: " + errorDesc + "Actual: " + getRestHelper().getErrorDescription(response));
+        }
+
+        Assert.assertEquals(getRestHelper().getErrorCode(response), errorCode,"Different error code being returned");
+    }
+
+
+
+    @Then("^error message should be \"([^\"]*)\" within the POST signing key response$")
+    public void i_should_receive_a_error_message(String errorMessage) {
+        Response response = testContext.getApiManager().getPostSigningKeys().getResponse();
+        Assert.assertTrue(
+                getRestHelper().getErrorMessage(response).contains(errorMessage) ,
+                "Different error message being returned..Expected: "+ errorMessage+ " Actual: " +
+                        getRestHelper().getErrorMessage(response));
+
+    }
+
     @Then("^the create signing key response should be successful$")
     public void validResponse() {
         Assert.assertEquals(
@@ -143,18 +184,18 @@ public class ManagementPostSigningKey_StepDefs extends UtilManager {
                 "Expected 201 but got " +
                         getRestHelper().getResponseStatusCode(testContext.getApiManager().getPostSigningKeys().getResponse())
         );
+
         String returnedObject = testContext.getApiManager().getPostSigningKeys().getResponse().getBody().prettyPrint();
         if (returnedObject != null) {
-            Assert.assertTrue(returnedObject.contains(Constants.KEY_ID));
-            Assert.assertTrue(returnedObject.contains(Constants.APPLICATION_ID));
-            Assert.assertTrue(returnedObject.contains(Constants.VALUE));
+            Assert.assertTrue(returnedObject.contains(Constants.PDF_URL));
+            Assert.assertTrue(returnedObject.contains(Constants.PDF_PIN));
+            Assert.assertEquals(testContext.getApiManager().getPostSigningKeys().getApplicationId(),testContext.getApiManager().getPostSigningKeys().getResponse().jsonPath().get(Constants.SIGNING_KEY_APPLICATION_ID),"Application Id didn't match");
             Assert.assertTrue(returnedObject.contains(Constants.ALG));
             Assert.assertTrue(returnedObject.contains(Constants.TYPE));
             Assert.assertTrue(returnedObject.contains(Constants.SIZE));
-            Assert.assertTrue(returnedObject.contains(Constants.ACTIVATE_AT));
-            Assert.assertTrue(returnedObject.contains(Constants.DEACTIVAT_AT));
+            Assert.assertEquals(testContext.getApiManager().getPostSigningKeys().getResponse().jsonPath().get(Constants.SIGNING_KEY_ACTIVATE_AT),testContext.getApiManager().getPostSigningKeys().getActivateAt(), "activate time is different as passed in input body");
+            Assert.assertEquals(testContext.getApiManager().getPostSigningKeys().getResponse().jsonPath().get(Constants.SIGNING_KEY_DEACTIVATE_AT),testContext.getApiManager().getPostSigningKeys().getDeactivateAt(), "deActivated time is different as passed in input body");
             Assert.assertTrue(returnedObject.contains(Constants.ENTITY_STATUS));
-            Assert.assertTrue(returnedObject.contains(Constants.DESCRIPTION));
             Assert.assertTrue(returnedObject.contains(Constants.CREATED_AT));
             Assert.assertTrue(returnedObject.contains(Constants.LAST_UPDATED_AT));
             Assert.assertEquals(returnedObject.split(",").length, 12);
@@ -162,5 +203,5 @@ public class ManagementPostSigningKey_StepDefs extends UtilManager {
             getRestHelper().getResponseStatusCode(testContext.getApiManager().getGetSigningKey().getResponse());
         }
     }
-}
+        }
 

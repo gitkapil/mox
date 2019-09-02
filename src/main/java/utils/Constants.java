@@ -4,6 +4,7 @@ public class Constants {
 
 
     public static final String APPLICATION_ID="applicationId";
+    public static final String SIGNING_KEY_APPLICATION_ID="signingKeyMetaData.applicationId";
     public static final String CLIENT_ID = "clientId";
     public static final String SUB_UNIT_ID = "subUnitId";
     public static final String PEAK_ID = "peakId";
@@ -19,8 +20,10 @@ public class Constants {
     public static final String ALG = "alg";
     public static final String TYPE = "type";
     public static final String SIZE = "size";
+    public static final String SIGNING_KEY_ACTIVATE_AT = "signingKeyMetaData.activateAt";
+    public static final String SIGNING_KEY_DEACTIVATE_AT = "signingKeyMetaData.deactivateAt";
     public static final String ACTIVATE_AT = "activateAt";
-    public static final String DEACTIVAT_AT = "deactivateAt";
+    public static final String DEACTIVATED_AT = "deactivateAt";
     public static final String ENTITY_STATUS = "entityStatus";
     public static final String LAST_UPDATED_AT = "lastUpdatedAt";
     public static final String CONTENT_TYPE = "application/json1";
@@ -30,5 +33,7 @@ public class Constants {
     public static final String DB_PASSWORD="d4mhT?A[nFxpY3d:";
     public static final String DB_DRIVER="com.mysql.cj.jdbc.Driver";
     public static final String DB_CONNECTION_URL="jdbc:mysql://mysql-ci-hk-dragon-mm-db-sand.mysql.database.azure.com:3306/merchant_management?useSSL=true&requireSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+    public static final String PDF_URL="pdfUrl";
+    public static final String PDF_PIN="pdfPin";
 
 }

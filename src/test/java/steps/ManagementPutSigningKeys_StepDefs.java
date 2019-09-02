@@ -3,6 +3,7 @@ package steps;
 import com.google.common.collect.Sets;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.jayway.restassured.response.Response;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -14,7 +15,6 @@ import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import utils.Constants;
 
-import javax.xml.ws.Response;
 import java.util.*;
 
 public class ManagementPutSigningKeys_StepDefs extends UtilManager {
@@ -119,9 +119,6 @@ public class ManagementPutSigningKeys_StepDefs extends UtilManager {
         String newKeyId = dataMap.get("keyId").toString();*/
     //    String returnedApplicationId = dataMap.get(applicationID).toString();
 
-
-
-
         testContext.getApiManager().getPutSigningKeys().setApplicationId(applicationID);
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
@@ -133,9 +130,6 @@ public class ManagementPutSigningKeys_StepDefs extends UtilManager {
         System.out.println("response String: " + returnedObject.get(Constants.KEY_ID));
 
         testContext.getApiManager().getPutSigningKeys().setKeyId(returnedObject.get(Constants.KEY_ID).toString());
-
-
-
 
     }
 
@@ -198,6 +192,47 @@ public class ManagementPutSigningKeys_StepDefs extends UtilManager {
             );
         }
     }
+
+    @When("^I make a PUT request to the PUT signing key endpoint with \"([^\"]*)\" missing in the header$")
+    public void i_make_a_put_request_to_the_signing_key_endpoint_with_key_missing_in_the_header(String key)  {
+        testContext.getApiManager().getPutSigningKeys().executePostRequestWithMissingHeaderKeys(getRestHelper().getBaseURI()+getFileHelper().
+                getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" +
+                testContext.getApiManager().getPutSigningKeys().getApplicationId()+"/keys/signing/"+ testContext.getApiManager().getPutSigningKeys().getKeyId(), key);
+    }
+
+
+    @Then("^I should receive a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" error code within the PUT signing key response$")
+    public void i_should_receive_an_error_response_with_error_description_and_error_code(int responseCode, String errorDesc, String errorCode) {
+        Response response = testContext.getApiManager().getPutSigningKeys().getResponse();
+        Assert.assertEquals(getRestHelper().getResponseStatusCode(response), responseCode,"Different response code being returned");
+
+        if (getRestHelper().getErrorDescription(response) != null) {
+
+            if (getRestHelper().getErrorDescription(response).contains("'")) {
+                System.out.println("here : " + getRestHelper().getErrorDescription(response));
+                System.out.println("there: " + errorDesc);
+            }
+
+            Assert.assertTrue(
+                    getRestHelper().getErrorDescription(response)
+                            .replace("\"", "")
+                            .contains(errorDesc),
+                    "Different error description being returned..Expected: " + errorDesc + "Actual: " + getRestHelper().getErrorDescription(response));
+        }
+
+        Assert.assertEquals(getRestHelper().getErrorCode(response), errorCode,"Different error code being returned");
+    }
+
+    @Then("^error message should be \"([^\"]*)\" within the PUT signing key response$")
+    public void i_should_receive_a_error_message(String errorMessage) {
+        Response response = testContext.getApiManager().getPutSigningKeys().getResponse();
+        Assert.assertTrue(
+                getRestHelper().getErrorMessage(response).contains(errorMessage) ,
+                "Different error message being returned..Expected: "+ errorMessage+ " Actual: " +
+                        getRestHelper().getErrorMessage(response));
+
+    }
+
 
     @Then("^the PUT signing key response should return success$")
     public void successResponse() {

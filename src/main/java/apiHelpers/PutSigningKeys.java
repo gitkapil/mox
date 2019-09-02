@@ -4,9 +4,14 @@ import com.jayway.restassured.response.Response;
 import managers.UtilManager;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 import utils.PropertyHelper;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
+
+import static apiHelpers.PutPublicKeys.logger;
 
 public class PutSigningKeys extends UtilManager {
     private String authToken;
@@ -17,10 +22,18 @@ public class PutSigningKeys extends UtilManager {
     private String deactivateAt;
     private String description;
     private String entityStatus;
+    private String traceId;
+    private String requestDateTime;
+    private HashMap<String, String> requestHeader = new HashMap();
+    private HashMap<String, String> requestBody = new HashMap();
     private static Logger logger = Logger.getLogger(PutSigningKeys.class);
 
     private final static String EXISTING_APPLICATION_ID = "";
 
+
+    public String getRequestDateTime() {
+        return requestDateTime;
+    }
     public void makeApiCall(String url) {
         response = getRestHelper().putRequestWithHeaderAndBody(url, returnHeader(), returnBody());
         logger.info("********** PUT Signing Key Response *********** ----> "+ response.getBody().asString());
@@ -40,6 +53,37 @@ public class PutSigningKeys extends UtilManager {
 
         return objReturn;
     }
+
+    public Response executePostRequestWithMissingHeaderKeys(String url, String keys) {
+
+        try {
+            returnBody();
+            HashMap<String, String> header = returnRequestHeaderWithMissingKeys("PUT", new URL(url).getPath(), keys);
+
+            response = getRestHelper().putRequestWithHeaderAndBody(url, header, requestBody);
+
+
+            logger.info("Response: " + response.getBody().asString());
+        } catch (Exception e) {
+            Assert.assertTrue("Verification of signature failed!", false);
+        }
+
+        return response;
+    }
+
+        private HashMap<String, String> returnRequestHeaderWithMissingKeys(String method, String url, String keys) throws IOException {
+            requestHeader = new HashMap<String, String>();
+            requestHeader.put("Accept", "application/json");
+            requestHeader.put("Content-Type", "application/json");
+            requestHeader.put("Authorization", authToken);
+            requestHeader.put("Trace-Id", traceId);
+            requestHeader.put("Accept-Language", "en-US");
+            requestHeader.put("Request-Date-Time", getRequestDateTime());
+            requestHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
+            requestHeader.remove(keys);
+            return  requestHeader;
+        }
+
 
     private HashMap<String, String> returnHeader() {
         HashMap<String, String> objReturn = new HashMap<>();
