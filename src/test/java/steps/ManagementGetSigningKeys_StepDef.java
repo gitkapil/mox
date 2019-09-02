@@ -95,6 +95,7 @@ public class ManagementGetSigningKeys_StepDef extends UtilManager {
         String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
                 RESOURCE_ENDPOINT_PROPERTY_NAME) + "/";
         System.out.println("URL kapil: " + url);
+        testContext.getApiManager().getGetSigningKey().setApplicationId(applicationID);
         testContext.getApiManager().getGetSigningKey().makeCallWithApplicationID(url, applicationID, missingHeaderKeys);
     }
 
@@ -165,8 +166,10 @@ public class ManagementGetSigningKeys_StepDef extends UtilManager {
             );
             ArrayList<Map> arrayList = (ArrayList) retMap.get("response");
             Map firstElement = arrayList.get(0);
+            Assert.assertTrue(firstElement.containsKey(Constants.APPLICATION_ID), testContext.getApiManager().getGetSigningKey().getApplicationId());
             Assert.assertTrue(firstElement.containsKey(Constants.KEY_ID));
             Assert.assertTrue(firstElement.containsKey(Constants.APPLICATION_ID));
+            Assert.assertEquals(testContext.getApiManager().getGetSigningKey().getApplicationId(), firstElement.get(Constants.APPLICATION_ID),"ApplicationID didn't match");
             Assert.assertTrue(firstElement.containsKey(Constants.ALG));
             Assert.assertTrue(firstElement.containsKey(Constants.TYPE));
             Assert.assertTrue(firstElement.containsKey(Constants.SIZE));

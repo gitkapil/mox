@@ -1,4 +1,4 @@
-@getSigningKeys
+
 Feature: Merchant Management API - GET /keys/signing
 
   Background: Retrieving access Token
@@ -7,7 +7,7 @@ Feature: Merchant Management API - GET /keys/signing
     Then I receive an access_token
 
 #  @trial
-  @regression
+  @regression @getSigningKeys
   Scenario Outline: positive flow - get signing keys
     Given I am a user with permissions to use signing key
     And I make a request to get signing keys with "<applicationID>" and with missing header "<headerValue>" values
