@@ -159,9 +159,8 @@ public class ManagementPutSigningKeys_StepDefs extends UtilManager {
         testContext.getApiManager().getPutSigningKeys().setKeyId(keyId);
     }
 
-    @And("^I update the signing key with description \"([^\"]*)\", activate at \"([^\"]*)\", deactivate at \"([^\"]*)\" and entity status \"([^\"]*)\"$")
-    public void updateBody(String description, String activateAt, String deactivateAt, String entityStatus) {
-        testContext.getApiManager().getPutSigningKeys().setDescription(description);
+    @And("^I update the signing key with activate at \"([^\"]*)\", deactivate at \"([^\"]*)\" and entity status \"([^\"]*)\"$")
+    public void updateBody(String activateAt, String deactivateAt, String entityStatus) {
         testContext.getApiManager().getPutSigningKeys().setActivateAt(activateAt);
         testContext.getApiManager().getPutSigningKeys().setDeactivateAt(deactivateAt);
         testContext.getApiManager().getPutSigningKeys().setEntityStatus(entityStatus);
@@ -218,7 +217,6 @@ public class ManagementPutSigningKeys_StepDefs extends UtilManager {
                 "value",
                 "activateAt",
                 "deactivateAt",
-                "description",
                 "createdAt",
                 "lastUpdatedAt",
                 "alg",

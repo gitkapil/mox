@@ -1,4 +1,4 @@
-
+@getSigningKeys
 Feature: Merchant Management API - GET /keys/signing
 
   Background: Retrieving access Token

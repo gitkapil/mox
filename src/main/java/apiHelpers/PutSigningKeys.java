@@ -37,13 +37,6 @@ public class PutSigningKeys extends UtilManager {
         if (entityStatus != null && !entityStatus.equalsIgnoreCase("null")) {
             objReturn.put("entityStatus", entityStatus);
         }
-        if (description != null && description.equalsIgnoreCase("bigbigvalue")) {
-            objReturn.put("description", StringUtils.repeat("a", 1000));
-        } else {
-            if (description != null && !description.equalsIgnoreCase("null")) {
-                objReturn.put("description", description);
-            }
-        }
 
         return objReturn;
     }
