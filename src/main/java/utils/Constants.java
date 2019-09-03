@@ -28,6 +28,8 @@ public class Constants {
     public static final String GRANT_URL = "grantUrl";
     public static final String PDF_URL = "pdfUrl";
     public static final String PDF_PIN = "pdfPin";
+    public static final String REASON_CODE = "reasonCode";
+    public static final String REASON_DESCRIPTION = "reasonDescription";
     public static final String DB_USERNAME = "sandbox_rs_read_only@mysql-ci-hk-dragon-mm-db-sand";
     public static final String DB_PASSWORD = "d4mhT?A[nFxpY3d:";
     public static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";

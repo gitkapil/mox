@@ -5,7 +5,7 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-#  @trial
+  @trial
   Scenario Outline: Positive flow - A DRAGON user with All privilege is onboarded successfully with One Click Onboarding API
     Given I am logging in as a user with correct privileges
     When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
@@ -25,7 +25,19 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850
       | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | description |
       | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | description |
 
-  #@trial
+  @trial
+  Scenario Outline: Positive flow- Existing applicationName provided in request body returns existing details
+    Given I am logging in as a user with correct privileges
+    When I make request for existing client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
+    Then I should receive a success "<http_status>" status response
+    And verify the response body contains "<reasonCode>" and "<reasonDescription>"
+
+    Examples:
+      | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | description | http_status | reasonCode | reasonDescription                                                                                                                                                                                                             |
+      | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 200         | EA050      | Onboarding Process Failed. Please retry again.\nStep 1 (Client ID & application ID creation ): Complete\nStep 2 (Signing Key creation): Incomplete\nStep 3 (secret creation): Incomplete\nStep 4 ( PDF creation) : Incomplete |
+#app-hk-dragon-ci-developer-client-app
+
+  @trial
   Scenario Outline: Negative flow- Mandatory field Api-Version not sent in the header
     Given I am logging in as a user with correct privileges
     When I make request to one click merchant onboard endpoint with "<key>" missing in the header
@@ -36,22 +48,21 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850
       | Api-Version |
 
 
-  #@trial
+  @trial
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
     Given I am logging in as a user with correct privileges
     When I make request to one click merchant onboard endpoint with "<key>" missing in the header
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode in response
     And error message should be "<error_message>" within the response
     Examples:
-      | error_description                                                     | error_message                     | key               | error_code | http_status |
-      | Error validating JWT                                                  | API Gateway Authentication Failed | Authorization     | EA001      | 401         |
-      | Header Request-Date-Time was not found in the request. Access denied. | API Gateway Validation Failed     | Request-Date-Time | EA002      | 400         |
-      | Header Trace-Id was not found in the request. Access denied.          | API Gateway Validation Failed     | Trace-Id          | EA002      | 400         |
-      | Header Accept does not contain required value.  Access denied.        | Request Header Not Acceptable     | Accept            | EA008      | 406         |
-      | Content type 'text/plain;charset=ISO-8859-1' not supported            | Service Request Validation Failed | Content-Type      | EA002      | 415         |
+      | error_description                                              | error_message                     | key           | error_code | http_status |
+      | Error validating JWT                                           | API Gateway Authentication Failed | Authorization | EA001      | 401         |
+      | Header Trace-Id was not found in the request. Access denied.   | API Gateway Validation Failed     | Trace-Id      | EA002      | 400         |
+      | Header Accept does not contain required value.  Access denied. | Request Header Not Acceptable     | Accept        | EA008      | 406         |
+      | Content type 'text/plain;charset=ISO-8859-1' not supported     | Service Request Validation Failed | Content-Type  | EA002      | 415         |
 
 
-  #@trial
+  @trial
   Scenario Outline: Negative flow- Invalid mandatory fields provided in header
     Given I am logging in as a user with correct privileges
     When I provide application name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>" in request body with invalid key "<invalidValue>" for "<key>" in header
@@ -66,7 +77,7 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850
     #Invalid UUID Trace-Id
       | Trace-Id     | 7454108z-yb37-454c-81da-0a12d8b0f867 | 400         | Service Request Validation Failed | EA002      | Failed to convert value of type                                   | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      |
 
-  #@trial
+  @trial
   Scenario Outline: Negative flow- Invalid mandatory field Api-Version provided in header
     Given I am logging in as a user with correct privileges
     When I provide application name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>" in request body with invalid key "<invalidValue>" for "<key>" in header
@@ -79,7 +90,7 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850
       | Api-Version | abc          | 404        | Resource not found | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      |
       | Api-Version | @#$%^        | 404        | Resource not found | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      |
 
-  #@trial
+  @trial
   Scenario Outline: Negative flow- Invalid auth token
     Given I am a DRAGON user with invalid "<auth_token>" auth token
     When I make request to one click merchant onboard endpoint
@@ -96,21 +107,21 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850
  # Auth token unverified
       | Error validating JWT | API Gateway Authentication Failed | Bearer nbCwW11w3XkB-xUaXwKRSLjMHGQ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | EA001      | 401       |
 
-  #@trial
+  @trial
   Scenario: Negative flow- Request body provided Null {}
     Given I am logging in as a user with correct privileges
     When I make request to one click merchant onboard endpoint with null request body
     Then I should receive a "400" http code with "Service Request Validation Failed" error message
     And Validate errorCode and errorDescription within one click onboard response
 
-  #@trial
+  @trial
   Scenario: Negative flow- Request body not provided
     Given I am logging in as a user with correct privileges
     When I make request to one click merchant onboard endpoint without request body
     Then I should receive a "400" error response with "Unable to read or parse message body" error description and "EA002" errorcode within one click onboard response
     And error message should be "Service Request Validation Failed" within one click onboard response
 
-  #@trial
+  @trial
   Scenario Outline: Negative flow- Mandatory fields provided null in request body
     Given I am logging in as a user with correct privileges
     When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
@@ -126,7 +137,7 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850
       | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 |                                      | string      | 400         | Field error in object 'onboardingInputModel': field 'platformId' must not be null; rejected value [null]     | EA002      | Service Request Validation Failed |
       | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 |             | 400         | Application description not provided                                                                         | EA002      | Service Request Validation Failed |
 
-  #@trial
+  @trial
   Scenario Outline: Negative flow- Mandatory field applicationName not provided in request body
     Given I am logging in as a user with correct privileges
     When I make request for a new client with peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
@@ -137,7 +148,7 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850
       | peakId                               | subUnitId                            | organisationId                       | platformId                           | description | http_status | error_description                                                                                             | error_code | error_message                     |
       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Field error in object 'onboardingInputModel': field 'applicationName' must not be null; rejected value [null] | EA002      | Service Request Validation Failed |
 
-#  @trial
+  @trial
   Scenario Outline: Negative flow- Mandatory field peakId not provided in request body
     Given I am logging in as a user with correct privileges
     When I make request for a new client with name as "<applicationName>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
@@ -148,7 +159,7 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850
       | applicationName | subUnitId                            | organisationId                       | platformId                           | description | http_status | error_description                                                                                    | error_code | error_message                     |
       | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Field error in object 'onboardingInputModel': field 'peakId' must not be null; rejected value [null] | EA002      | Service Request Validation Failed |
 
-#  @trial
+  @trial
   Scenario Outline: Negative flow- Mandatory field subUnitId not provided in request body
     Given I am logging in as a user with correct privileges
     When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
@@ -159,7 +170,7 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850
       | applicationName | peakId                               | organisationId                       | platformId                           | description | http_status | error_description                                                                                       | error_code | error_message                     |
       | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Field error in object 'onboardingInputModel': field 'subUnitId' must not be null; rejected value [null] | EA002      | Service Request Validation Failed |
 
-#  @trial
+  @trial
   Scenario Outline: Negative flow- Mandatory field organisationId not provided in request body
     Given I am logging in as a user with correct privileges
     When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", description as "<description>" and platformId as "<platformId>"
@@ -170,7 +181,7 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850
       | applicationName | peakId                               | subUnitId                            | platformId                           | description | http_status | error_description                                                                                            | error_code | error_message                     |
       | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Field error in object 'onboardingInputModel': field 'organisationId' must not be null; rejected value [null] | EA002      | Service Request Validation Failed |
 
-#  @trial
+  @trial
   Scenario Outline: Negative flow- Mandatory field platformId not provided in request body
     Given I am logging in as a user with correct privileges
     When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>" and description as "<description>"
@@ -181,7 +192,7 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850
       | applicationName | peakId                               | subUnitId                            | organisationId                       | description | http_status | error_description                                                                                        | error_code | error_message                     |
       | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | string      | 400         | Field error in object 'onboardingInputModel': field 'platformId' must not be null; rejected value [null] | EA002      | Service Request Validation Failed |
 
-#  @trial
+  @trial
   Scenario Outline: Negative flow- Mandatory field applicationDescription not provided in request body
     Given I am logging in as a user with correct privileges
     When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>" and platformId as "<platformId>"
@@ -192,7 +203,7 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850
       | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | passwordChannel | pdfChannel | http_status | error_description                                                                                                    | error_code | error_message                     |
       | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string          | string     | 400         | Field error in object 'onboardingInputModel': field 'applicationDescription' must not be null; rejected value [null] | EA002      | Service Request Validation Failed |
 
-#  @trial
+  @trial
   Scenario Outline: Negative flow- Invalid Mandatory fields provided in request body
     Given I am logging in as a user with correct privileges
     When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
@@ -202,7 +213,7 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850
     Examples:
       | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | description | http_status | error_description                                                                                                    | error_code | error_message                     |
       | longname        | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Field error in object 'onboardingInputModel': field 'applicationName' size must be between 0 and 256; rejected value | EA002      | Service Request Validation Failed |
-#application name is free text
+#application name is free text. in future it will be changed
 #      | ^%$@#*          | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Field error in object 'onboardingInputModel': field 'applicationName' size must be between 0 and 256; rejected value | EA002      | Service Request Validation Failed |
       | validname       | 859cce3                              | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
       | validname       | $#@!~&                               | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
@@ -219,13 +230,3 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850
 #      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline  |  1a@b#4!&    | 400         |                                                                                                                      | EA002      | Service Request Validation Failed |
 #applicationDescription is free text; can be anything
 
-#  @trial
-  Scenario Outline: Negative flow- Existing applicationName provided in request body
-    Given I am logging in as a user with correct privileges
-    When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
-    Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode in response
-    And error message should be "<error_message>" within the response
-
-    Examples:
-      | applicationName                       | peakId                               | subUnitId                            | organisationId                       | platformId                           | description | http_status | error_description   | error_code | error_message |
-      | app-hk-dragon-ci-developer-client-app | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 500         | Unhandled Exception | BNA003     | Server Error! |

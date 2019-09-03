@@ -513,6 +513,8 @@ public class OneClickMerchantOnboarding extends UtilManager {
             String name = RandomStringUtils.randomAlphabetic(10);
             String api = "sandbox";
             this.applicationName = "app-hk-dragon-" + name + "-" + api + "-client-app";
+        } else if (applicationName.equalsIgnoreCase("existingname")) {
+            this.applicationName = "app-hk-dragon-ci-sandbox-client-app";
         } else {
             this.applicationName = applicationName;
         }

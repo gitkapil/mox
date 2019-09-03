@@ -376,6 +376,66 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
         Assert.assertEquals(db_platformId, platformId_resp_api, "API response platformId doesn't match with expected platformId in database");
 
         //Validate platformName corresponds to the platformId
-        Assert.assertEquals(platformName_resp,db_platformName,"platformName in API response should be equal to platformName in DB.");
+        Assert.assertEquals(platformName_resp, db_platformName, "platformName in API response should be equal to platformName in DB.");
+    }
+
+    @When("^I make request for existing client with name as \"([^\"]*)\", peakId as \"([^\"]*)\", subUnitId as \"([^\"]*)\", organisationId as \"([^\"]*)\", description as \"([^\"]*)\" and platformId as \"([^\"]*)\"$")
+    public void iMakeRequestForExistingClientWithNameAsPeakIdAsSubUnitIdAsOrganisationIdAsDescriptionAsAndPlatformIdAs(String applicationName, String peakId, String subUnitId, String organisationId, String description, String platformId) throws Throwable {
+        testContext.getApiManager().getOneClickMerchantOnboarding().setApplicationName(applicationName);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setPeakId(peakId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(subUnitId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setOrganisationId(organisationId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setDescription(description);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setRequestDateTime(getDateHelper().getUTCNowDateTime());
+        testContext.getApiManager().getOneClickMerchantOnboarding().setTraceId(getGeneral().generateUniqueUUID());
+        testContext.getApiManager().getOneClickMerchantOnboarding().setPlatformId(platformId);
+        makeRequest();
+    }
+
+    @Then("^I should receive a success \"([^\"]*)\" status response$")
+    public void iShouldReceiveASuccessStatusResponse(int statusCode) {
+        response = testContext.getApiManager().getOneClickMerchantOnboarding().getResponse();
+        Assert.assertEquals(getRestHelper().getResponseStatusCode(response), statusCode, "Different statusCode being returned");
+    }
+
+    @And("^verify the response body contains \"([^\"]*)\" and \"([^\"]*)\"$")
+    public void verifyTheResponseBodyContainsAnd(String reasonCode, String reasonDescription) throws Throwable {
+        HashMap applicationResponse = response.path("application");
+        HashMap signingKeyResponse = response.path("signingKey");
+        HashMap passwordMetadataResponse = response.path("passwordMetadata");
+
+        //Validate reasonCode and reasonDescription
+        Assert.assertEquals(response.path(Constants.REASON_CODE), reasonCode, "reasonCode is different!");
+        Assert.assertEquals(response.path(Constants.REASON_DESCRIPTION), reasonDescription, "reasonDescription is different!");
+
+        //Validate application response details
+        Assert.assertNotNull(applicationResponse.get(Constants.APPLICATION_ID), "applicationId cannot be null!");
+        Assert.assertNotNull(applicationResponse.get(Constants.CLIENT_ID), "clientId cannot be null!");
+        Assert.assertEquals(applicationResponse.get(Constants.PEAK_ID), testContext.getApiManager().getOneClickMerchantOnboarding().getPeakId(), "peakId should be same as provided in request body!");
+        Assert.assertEquals(applicationResponse.get(Constants.SUB_UNIT_ID), testContext.getApiManager().getOneClickMerchantOnboarding().getSubUnitId(), "subUnitId should be same as provided in request body!");
+        Assert.assertEquals(applicationResponse.get(Constants.ORGANISATION_ID), testContext.getApiManager().getOneClickMerchantOnboarding().getOrganisationId(), "organisationId should be same as provided in request body!");
+        Assert.assertEquals(applicationResponse.get(Constants.PLATFORM_ID), testContext.getApiManager().getOneClickMerchantOnboarding().getPlatformId(), "platformId should be same as provided in request body!");
+        Assert.assertNotNull(applicationResponse.get(Constants.PLATFORM_NAME), "platformName should not be null!");
+        Assert.assertEquals(applicationResponse.get(Constants.APPLICATION_DESCRIPTION), testContext.getApiManager().getOneClickMerchantOnboarding().getDescription(), "applicationDescription should be same as provided in request body!");
+
+        //Validate signingKey response details
+        Assert.assertNotNull(signingKeyResponse.get(Constants.KEY_ID), "Signing keyId cannot be null!");
+        Assert.assertNotNull(signingKeyResponse.get(Constants.ALG), "Signing alg cannot be null!");
+        Assert.assertNotNull(signingKeyResponse.get(Constants.TYPE), "Signing type cannot be null!");
+        Assert.assertNotNull(signingKeyResponse.get(Constants.SIZE), "Signing size cannot be null!");
+        Assert.assertNotNull(signingKeyResponse.get(Constants.ACTIVATE_AT), "Signing activateAt cannot be null!");
+        Assert.assertNotNull(signingKeyResponse.get(Constants.DEACTIVAT_AT), "Signing deactivateAt cannot be null!");
+        Assert.assertNotNull(signingKeyResponse.get(Constants.ENTITY_STATUS), "Signing entityStatus cannot be null!");
+
+        //Validate passwordMetadata response details
+        Assert.assertNotNull(passwordMetadataResponse.get(Constants.KEY_ID), "passwordMetada keyId cannot be null!");
+        Assert.assertNotNull(passwordMetadataResponse.get(Constants.ACTIVATE_AT), "passwordMetada activateAt cannot be null!");
+        Assert.assertNotNull(passwordMetadataResponse.get(Constants.DEACTIVAT_AT), "passwordMetada deactivateAt cannot be null!");
+
+        //Validate other response body parameters
+        Assert.assertNotNull(response.path(Constants.GRANT_URL), "grantUrl cannot be null!");
+        Assert.assertNotNull(response.path(Constants.PDF_URL), "pdfUrl cannot be null!");
+        Assert.assertNotNull(response.path(Constants.PDF_PIN), "pdfPin cannot be null!");
+        Assert.assertEquals(response.path(Constants.PDF_PIN).toString().length(), 16, "pdfPin should be 16 characters.");
     }
 }
