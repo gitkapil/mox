@@ -1,4 +1,4 @@
-@putSigningKey
+
 Feature: Management Put Signing Keys - DRAG-1573
 
   Background: Retrieving access Token
@@ -67,7 +67,7 @@ Feature: Management Put Signing Keys - DRAG-1573
       | 2019-01-01T00:00:00Z | 2019-02-02T00:00:00Z |              | 400         | EA002    | Field error in object                         | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | 5caf0fb9-5589-470e-a11a-e4fd9af1a3e5 |
 
 
-  @regression @merchantManagement @merchantManagementPost
+  @regression @merchantManagement @merchantManagementPost @putSigningKey
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
     Given I am an authorized Signing Key DRAGON user
     And I have an "<applicationID>" and "<keyId>" from an existing signing key
@@ -77,8 +77,8 @@ Feature: Management Put Signing Keys - DRAG-1573
     And error message should be "<error_message>" within the PUT signing key response
     Examples:
       | applicationID                        | keyId                                | error_description                                                     | error_message                     | key               | error_code | http_status | activateAt           | deactivateAt         | entityStatus |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | 5caf0fb9-5589-470e-a11a-e4fd9af1a3e5 | Error validating JWT                                                  | API Gateway Authentication Failed | Authorization     | EA001      | 401         | 2019-01-01T00:00:00Z | 2020-10-01T00:00:00Z | A            |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | 5caf0fb9-5589-470e-a11a-e4fd9af1a3e5 | Header Request-Date-Time was not found in the request. Access denied. | API Gateway Validation Failed     | Request-Date-Time | EA002      | 400         | 2019-01-01T00:00:00Z | 2020-10-01T00:00:00Z | A            |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | 5caf0fb9-5589-470e-a11a-e4fd9af1a3e5 | Header Trace-Id was not found in the request. Access denied.          | API Gateway Validation Failed     | Trace-Id          | EA002      | 400         | 2019-01-01T00:00:00Z | 2020-10-01T00:00:00Z | A            |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | 5caf0fb9-5589-470e-a11a-e4fd9af1a3e5 | Header Accept does not contain required value.  Access denied.        | Request Header Not Acceptable     | Accept            | EA008      | 406         | 2019-01-01T00:00:00Z | 2020-10-01T00:00:00Z | A            |
-#      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | 5caf0fb9-5589-470e-a11a-e4fd9af1a3e5 | Content type                                                          | Service Request Validation Failed | Content-Type      | EA002      | 415         | 2019-01-01T00:00:00Z | 2020-10-01T00:00:00Z | A            |
+#      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | 5caf0fb9-5589-470e-a11a-e4fd9af1a3e5 | Error validating JWT                                                  | API Gateway Authentication Failed | Authorization     | EA001      | 401         | 2019-01-01T00:00:00Z | 2020-10-01T00:00:00Z | A            |
+#      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | 5caf0fb9-5589-470e-a11a-e4fd9af1a3e5 | Header Request-Date-Time was not found in the request. Access denied. | API Gateway Validation Failed     | Request-Date-Time | EA002      | 400         | 2019-01-01T00:00:00Z | 2020-10-01T00:00:00Z | A            |
+#      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | 5caf0fb9-5589-470e-a11a-e4fd9af1a3e5 | Header Trace-Id was not found in the request. Access denied.          | API Gateway Validation Failed     | Trace-Id          | EA002      | 400         | 2019-01-01T00:00:00Z | 2020-10-01T00:00:00Z | A            |
+#      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | 5caf0fb9-5589-470e-a11a-e4fd9af1a3e5 | Header Accept does not contain required value.  Access denied.        | Request Header Not Acceptable     | Accept            | EA008      | 406         | 2019-01-01T00:00:00Z | 2020-10-01T00:00:00Z | A            |
+      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | 5caf0fb9-5589-470e-a11a-e4fd9af1a3e5 | Content type                                                          | Service Request Validation Failed | Content-Type      | EA002      | 415         | 2019-01-01T00:00:00Z | 2020-10-01T00:00:00Z | A            |

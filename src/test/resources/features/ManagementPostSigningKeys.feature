@@ -1,4 +1,4 @@
-
+@postSigningKey
 Feature: Merchant Management POST Signing Keys - DRAG-1565
 
   Background: Retrieving access Token
@@ -7,7 +7,7 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
     Then I receive an access_token
 
 #  @trial
-  @regression @postKey
+  @regression
   Scenario Outline: Positive flow - Create a new application, new public key, new signing key
     Given I am an authorized Signing Key DRAGON user
     And I have a "<applicationID>" application id
@@ -78,7 +78,7 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
       | 2019-01-01T00:00:00Z | 2019-02-02T00:00:00Z | d            | 400         | EA002      | Field error in object | c9621185-b86d-48a9-97f0-eeddef7c3dc1 |
 
 
-  @regression @merchantManagement @merchantManagementPost
+  @regression @merchantManagement @merchantManagementPost @postKey
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
     Given I am an authorized Signing Key DRAGON user
     And I have a "<applicationID>" application id
@@ -92,4 +92,4 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
       | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | Header Request-Date-Time was not found in the request. Access denied. | API Gateway Validation Failed     | Request-Date-Time | EA002      | 400         | 2019-01-01T00:00:00Z | 2020-10-01T00:00:00Z | A            |
       | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | Header Trace-Id was not found in the request. Access denied.          | API Gateway Validation Failed     | Trace-Id          | EA002      | 400         | 2019-01-01T00:00:00Z | 2020-10-01T00:00:00Z | A            |
       | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | Header Accept does not contain required value.  Access denied.        | Request Header Not Acceptable     | Accept            | EA008      | 406         | 2019-01-01T00:00:00Z | 2020-10-01T00:00:00Z | A            |
-#      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | Content type                                                          | Service Request Validation Failed | Content-Type      | EA002      | 415         | 2019-01-01T00:00:00Z | 2020-10-01T00:00:00Z | A            |
+      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | Request timestamp not a valid RFC3339 date-time                       | Service Request Validation Failed | Content-Type      | EA002      | 400         | 2019-01-01T00:00:00Z | 2020-10-01T00:00:00Z | A            |

@@ -460,12 +460,12 @@ public class RestHelper {
      * @param body
      * @return
      */
-    public Response putRequestWithHeaderAndBody(String url, HashMap headers,HashMap body){
+    public Response putRequestWithHeaderAndBody(String url, HashMap headers, HashMap body){
         Response response=null;
         try{
-            //.config(RestAssured.config().encoderConfig(encoderConfig().encodeContentTypeAs(Constants.CONTENT_TYPE, ContentType.TEXT)))
+            //config(RestAssured.config().encoderConfig(encoderConfig().encodeContentTypeAs(Constants.CONTENT_TYPE, ContentType.TEXT)))
             String jsonBody = new ObjectMapper().writeValueAsString(body);
-            response = given()
+            response = given().config(RestAssured.config().encoderConfig(encoderConfig().encodeContentTypeAs(Constants.CONTENT_TYPE, ContentType.TEXT)))
                     .log()
                     .all()
                     .headers(headers)

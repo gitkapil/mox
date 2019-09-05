@@ -15,6 +15,7 @@ import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import utils.Constants;
 
+import java.io.IOException;
 import java.util.*;
 
 public class ManagementPutSigningKeys_StepDefs extends UtilManager {
@@ -119,6 +120,9 @@ public class ManagementPutSigningKeys_StepDefs extends UtilManager {
         String newKeyId = dataMap.get("keyId").toString();*/
     //    String returnedApplicationId = dataMap.get(applicationID).toString();
 
+
+
+
         testContext.getApiManager().getPutSigningKeys().setApplicationId(applicationID);
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
@@ -159,12 +163,6 @@ public class ManagementPutSigningKeys_StepDefs extends UtilManager {
         testContext.getApiManager().getPutSigningKeys().setDeactivateAt(deactivateAt);
         testContext.getApiManager().getPutSigningKeys().setEntityStatus(entityStatus);
 
-        String url = getRestHelper().getBaseURI() + getFileHelper()
-                .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) +
-                "/" + testContext.getApiManager().getPutSigningKeys().getApplicationId() + "/keys/signing/" +
-                testContext.getApiManager().getPutSigningKeys().getKeyId();
-
-        testContext.getApiManager().getPutSigningKeys().makeApiCall(url);
     }
 
     @Then("^the PUT signing key response should have error status \"([^\"]*)\" with error code \"([^\"]*)\" and description \"([^\"]*)\"$")
@@ -194,10 +192,15 @@ public class ManagementPutSigningKeys_StepDefs extends UtilManager {
     }
 
     @When("^I make a PUT request to the PUT signing key endpoint with \"([^\"]*)\" missing in the header$")
-    public void i_make_a_put_request_to_the_signing_key_endpoint_with_key_missing_in_the_header(String key)  {
-        testContext.getApiManager().getPutSigningKeys().executePostRequestWithMissingHeaderKeys(getRestHelper().getBaseURI()+getFileHelper().
-                getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" +
-                testContext.getApiManager().getPutSigningKeys().getApplicationId()+"/keys/signing/"+ testContext.getApiManager().getPutSigningKeys().getKeyId(), key);
+    public void i_make_a_put_request_to_the_signing_key_endpoint_with_key_missing_in_the_header(String keys) throws IOException {
+
+        String url = getRestHelper().getBaseURI() + getFileHelper()
+                .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) +
+                "/" + testContext.getApiManager().getPutSigningKeys().getApplicationId() + "/keys/signing/" +
+                testContext.getApiManager().getPutSigningKeys().getKeyId();
+
+        testContext.getApiManager().getPutSigningKeys().makeApiCallWithMissingHeader(url, keys);
+
     }
 
 

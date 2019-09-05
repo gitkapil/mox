@@ -9,9 +9,12 @@ import cucumber.api.java.en.When;
 import managers.TestContext;
 import managers.UtilManager;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
+import utils.Constants;
 
+import java.sql.SQLOutput;
 import java.util.*;
 
 public class ManagementCreateClientPassword_StepDefs extends UtilManager {
@@ -52,18 +55,20 @@ public class ManagementCreateClientPassword_StepDefs extends UtilManager {
         Response response = testContext.getApiManager().getGetApplication().getResponse();
         ArrayList<HashMap> items = response.path("items");
         HashMap item = items.get(0);
-        applicationId = (String)item.get("applicationId");
+        applicationId = (String) item.get("applicationId");
 
         testContext.getApiManager().getPostPasswordCreateClientPassword().setApplicationId(applicationId);
     }
 
-    @And("^I have created password data with activate at \"([^\"]*)\", deactivate at \"([^\"]*)\", pdfChannel \"([^\"]*)\" and password channel \"([^\"]*)\"$")
-    public void setData(String activateAt, String deactivateAt, String pdfChannel, String passwordChannel) {
+    @And("^I have created password data with \"([^\"]*)\" and activate at \"([^\"]*)\", deactivate at \"([^\"]*)\"$")
+    public void setData(String applicationId, String activateAt, String deactivateAt) {
         testContext.getApiManager().getPostPasswordCreateClientPassword().setActivateAt(activateAt);
         testContext.getApiManager().getPostPasswordCreateClientPassword().setDeactivateAt(deactivateAt);
-        testContext.getApiManager().getPostPasswordCreateClientPassword().setPdfChannel(pdfChannel);
-        testContext.getApiManager().getPostPasswordCreateClientPassword().setPasswordChannel(passwordChannel);
-        makeRequest();
+        testContext.getApiManager().getPostPasswordCreateClientPassword().setApplicationId(applicationId);
+        String url = getRestHelper().getBaseURI() +
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                + "/" + testContext.getApiManager().getPostPasswordCreateClientPassword().getApplicationId() + "/keys/passwords";
+        makeRequest(url);
     }
 
     @Then("^I should have an error with status \"([^\"]*)\", error code as \"([^\"]*)\" and description \"([^\"]*)\"$")
@@ -72,7 +77,7 @@ public class ManagementCreateClientPassword_StepDefs extends UtilManager {
                 Integer.parseInt(httpStatus),
                 getRestHelper().getResponseStatusCode(testContext.getApiManager().getPostPasswordCreateClientPassword().getResponse()),
                 "Expected http status " + httpStatus + " but got " +
-                        getRestHelper().getResponseStatusCode(testContext.getApiManager().getCreateClient().getResponse())
+                        getRestHelper().getResponseStatusCode(testContext.getApiManager().getPostPasswordCreateClientPassword().getResponse())
         );
 
         Assert.assertEquals(
@@ -113,7 +118,7 @@ public class ManagementCreateClientPassword_StepDefs extends UtilManager {
         postApplications_stepDefs.i_am_an_authorized_DRAGON_user_with_role();
         postApplications_stepDefs.i_have_a_clientId_from_an_existing_AAD_application(testContext.getApiManager().getPostPasswordCreateClientPassword().getClientId());
         postApplications_stepDefs.i_have_a_peakId_subUnitId_and_organisationId_from_an_existing_PM4B_merchant_identity(
-                getGeneral().generateUniqueUUID(),getGeneral().generateUniqueUUID(),getGeneral().generateUniqueUUID(),
+                getGeneral().generateUniqueUUID(), getGeneral().generateUniqueUUID(), getGeneral().generateUniqueUUID(),
                 "Test"
         );
         postApplications_stepDefs.i_make_a_post_request_to_the_application_endpoint();
@@ -122,28 +127,45 @@ public class ManagementCreateClientPassword_StepDefs extends UtilManager {
     @And("^I get the application id from the response$")
     public void getApplicationIdFromNewApplication() {
         HashMap keys = testContext.getApiManager().getPostApplication().getPostApplicationRequestResponse().path(".");
-        String applicationId = (String)keys.get("applicationId");
+        String applicationId = (String) keys.get("applicationId");
         testContext.getApiManager().getPostPasswordCreateClientPassword().setApplicationId(applicationId);
     }
 
     @And("^I create a new AAD password with null header \"([^\"]*)\"$")
     public void createPassword(String nullHeaderValues) {
         testContext.getApiManager().getPostPasswordCreateClientPassword().setActivateAt("2019-01-01T00:00:00Z");
-        testContext.getApiManager().getPostPasswordCreateClientPassword().setDeactivateAt("2019-02-02T00:00:00Z");
-        testContext.getApiManager().getPostPasswordCreateClientPassword().setPasswordChannel("test");
-        testContext.getApiManager().getPostPasswordCreateClientPassword().setPdfChannel("pdfChannel");
+        testContext.getApiManager().getPostPasswordCreateClientPassword().setDeactivateAt("2032-02-02T00:00:00Z");
+        testContext.getApiManager().getPostPasswordCreateClientPassword().setApplicationId("9b6e98a4-32ed-493d-88fe-795e60b06d68");
         makeRequestWithNullHeaderValue(nullHeaderValues);
     }
 
     @Then("^I should see the response from post password request$")
     public void postPasswordResponse() {
-      Response response =  testContext.getApiManager().getPostPasswordCreateClientPassword().getResponse().path(".");
-        testContext.getApiManager().getPostPasswordCreateClientPassword().setDeactivateAt("2019-02-02T00:00:00Z");
-        testContext.getApiManager().getPostPasswordCreateClientPassword().setPasswordChannel("test");
-        testContext.getApiManager().getPostPasswordCreateClientPassword().setPdfChannel("pdfChannel");
-        makeRequest();
+        Assert.assertEquals(
+                getRestHelper().getResponseStatusCode(testContext.getApiManager().getPostPasswordCreateClientPassword().getResponse()),
+                HttpStatus.SC_CREATED, "Request was not successful!");
     }
 
+    @Then("^validate the response from post password request$")
+    public void validatePasswordResponse() {
+        Assert.assertNotNull(testContext.getApiManager().getPostPasswordCreateClientPassword().getResponse().path(Constants.PDF_PIN));
+        Assert.assertNotNull(testContext.getApiManager().getPostPasswordCreateClientPassword().getResponse().path(Constants.PDF_URL));
+
+        HashMap returnResponse = testContext.getApiManager().getPostPasswordCreateClientPassword().getResponse().path("passwordMetaData");
+
+        Assert.assertEquals(testContext.getApiManager().getPostPasswordCreateClientPassword().
+                getApplicationId(), returnResponse.get(Constants.APPLICATION_ID), "application id didn't match");
+
+        Assert.assertNotNull(returnResponse.get(Constants.ACTIVATE_AT), "activated at time shouldn't be null");
+
+        Assert.assertNotNull(returnResponse.get(Constants.DEACTIVATED_AT), " deactivated at time shouldn't be null");
+
+        Assert.assertNotNull(returnResponse.get(Constants.KEY_ID));
+      //  Assert.assertNotNull(returnResponse.get(Constants.LAST_UPDATED_AT));
+        Assert.assertNotNull(returnResponse.get(Constants.CREATED_AT));
+        Assert.assertNotNull(returnResponse.get(Constants.CLIENT_ID));
+        Assert.assertEquals(returnResponse.size()==7, "password metadata didn't match");
+    }
 
     @And("^I create a public key with the application id$")
     public void createPublicKey() {
@@ -179,7 +201,7 @@ public class ManagementCreateClientPassword_StepDefs extends UtilManager {
     public void successResponse() {
         Assert.assertEquals(
                 getRestHelper().getResponseStatusCode(testContext.getApiManager().getCreateClient().getResponse()),
-                201,"Request was not successful!");
+                201, "Request was not successful!");
 
         String[] predefinedSet = {
                 "keyId",
@@ -205,16 +227,24 @@ public class ManagementCreateClientPassword_StepDefs extends UtilManager {
         }
     }
 
+    @Then("^error message should be \"([^\"]*)\" within the POST password response$")
+    public void i_should_receive_a_error_message(String errorMessage) {
+        Response response = testContext.getApiManager().getPostPasswordCreateClientPassword().getResponse();
+        Assert.assertTrue(
+                getRestHelper().getErrorMessage(response).contains(errorMessage) ,
+                "Different error message being returned..Expected: "+ errorMessage+ " Actual: " +
+                        getRestHelper().getErrorMessage(response));
+
+    }
+
     public void makeRequestWithNullHeaderValue(String nullHeaderValues) {
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
                 + "/" + testContext.getApiManager().getPostPasswordCreateClientPassword().getApplicationId() + "/keys/passwords";
         testContext.getApiManager().getPostPasswordCreateClientPassword().makeRequestWithNullHeader(url, nullHeaderValues);
     }
-    public void makeRequest() {
-        String url = getRestHelper().getBaseURI() +
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
-                + "/" + testContext.getApiManager().getPostPasswordCreateClientPassword().getApplicationId() + "/keys/passwords";
+
+    public void makeRequest(String url) {
         testContext.getApiManager().getPostPasswordCreateClientPassword().makeRequest(url);
     }
 }

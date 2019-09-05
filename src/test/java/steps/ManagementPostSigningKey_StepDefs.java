@@ -11,6 +11,9 @@ import managers.UtilManager;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import utils.Constants;
+
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Set;
 import java.util.UUID;
 
@@ -93,9 +96,10 @@ public class ManagementPostSigningKey_StepDefs extends UtilManager {
 
     @And("^I have an activate date \"([^\"]*)\" and deactivate date \"([^\"]*)\", with entity status \"([^\"]*)\"$")
     public void setBody(String activateAt, String deactivateAt, String entityStatus) {
-        testContext.getApiManager().getPostSigningKeys().setActivateAt(activateAt);
-        testContext.getApiManager().getPostSigningKeys().setDeactivateAt(deactivateAt);
-        testContext.getApiManager().getPostSigningKeys().setEntityStatus(entityStatus);
+        testContext.getApiManager().getPutSigningKeys().setActivateAt(activateAt);
+        testContext.getApiManager().getPutSigningKeys().setDeactivateAt(deactivateAt);
+        testContext.getApiManager().getPutSigningKeys().setEntityStatus(entityStatus);
+
     }
 
     @When("^I make a request to create a new signing key with \"([^\"]*)\"$")
@@ -133,10 +137,14 @@ public class ManagementPostSigningKey_StepDefs extends UtilManager {
 
 
     @When("^I make a POST request to the post signing key endpoint with \"([^\"]*)\" missing in the header$")
-    public void i_make_a_post_request_to_the_signing_key_endpoint_with_key_missing_in_the_header(String key)  {
-        testContext.getApiManager().getPostSigningKeys().executePostRequestWithMissingHeaderKeys(getRestHelper().getBaseURI()+getFileHelper().
-                getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" +
-                testContext.getApiManager().getPostSigningKeys().getApplicationId()+"/keys/signing", key);
+    public void i_make_a_post_request_to_the_signing_key_endpoint_with_key_missing_in_the_header(String key) throws IOException {
+        String url = getRestHelper().getBaseURI() + getFileHelper()
+                .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) +
+                "/" + testContext.getApiManager().getPutSigningKeys().getApplicationId() + "/keys/signing/" +
+                testContext.getApiManager().getPutSigningKeys().getKeyId();
+
+        testContext.getApiManager().getPutSigningKeys().makeApiCallWithMissingHeader(url, key);
+
     }
 
 
@@ -185,20 +193,21 @@ public class ManagementPostSigningKey_StepDefs extends UtilManager {
                         getRestHelper().getResponseStatusCode(testContext.getApiManager().getPostSigningKeys().getResponse())
         );
 
-        String returnedObject = testContext.getApiManager().getPostSigningKeys().getResponse().getBody().prettyPrint();
+        Assert.assertNotNull(testContext.getApiManager().getPostSigningKeys().getResponse().path(Constants.PDF_PIN));
+        Assert.assertNotNull(testContext.getApiManager().getPostSigningKeys().getResponse().path(Constants.PDF_URL));
+
+        HashMap returnedObject = testContext.getApiManager().getPostSigningKeys().getResponse().path("signingKeyMetaData");
         if (returnedObject != null) {
-            Assert.assertTrue(returnedObject.contains(Constants.PDF_URL));
-            Assert.assertTrue(returnedObject.contains(Constants.PDF_PIN));
-            Assert.assertEquals(testContext.getApiManager().getPostSigningKeys().getApplicationId(),testContext.getApiManager().getPostSigningKeys().getResponse().jsonPath().get(Constants.SIGNING_KEY_APPLICATION_ID),"Application Id didn't match");
-            Assert.assertTrue(returnedObject.contains(Constants.ALG));
-            Assert.assertTrue(returnedObject.contains(Constants.TYPE));
-            Assert.assertTrue(returnedObject.contains(Constants.SIZE));
-            Assert.assertEquals(testContext.getApiManager().getPostSigningKeys().getResponse().jsonPath().get(Constants.SIGNING_KEY_ACTIVATE_AT),testContext.getApiManager().getPostSigningKeys().getActivateAt(), "activate time is different as passed in input body");
-            Assert.assertEquals(testContext.getApiManager().getPostSigningKeys().getResponse().jsonPath().get(Constants.SIGNING_KEY_DEACTIVATE_AT),testContext.getApiManager().getPostSigningKeys().getDeactivateAt(), "deActivated time is different as passed in input body");
-            Assert.assertTrue(returnedObject.contains(Constants.ENTITY_STATUS));
-            Assert.assertTrue(returnedObject.contains(Constants.CREATED_AT));
-            Assert.assertTrue(returnedObject.contains(Constants.LAST_UPDATED_AT));
-            Assert.assertEquals(returnedObject.split(",").length, 12);
+            Assert.assertEquals(testContext.getApiManager().getPostSigningKeys().getApplicationId(),returnedObject.get(Constants.APPLICATION_ID),"Application Id didn't match");
+            Assert.assertNotNull(returnedObject.get(Constants.ALG));
+            Assert.assertNotNull(returnedObject.get(Constants.TYPE));
+            Assert.assertNotNull(returnedObject.get(Constants.SIZE));
+            Assert.assertEquals(returnedObject.get(Constants.ACTIVATE_AT),testContext.getApiManager().getPostSigningKeys().getActivateAt(), "activate time is different as passed in input body");
+            Assert.assertEquals(returnedObject.get(Constants.DEACTIVATED_AT),testContext.getApiManager().getPostSigningKeys().getDeactivateAt(), "deActivated time is different as passed in input body");
+            Assert.assertNotNull(returnedObject.get(Constants.ENTITY_STATUS));
+            Assert.assertNotNull(returnedObject.get(Constants.CREATED_AT));
+            Assert.assertNotNull(returnedObject.get(Constants.LAST_UPDATED_AT));
+            Assert.assertEquals(returnedObject.size(), 12);
         } else {
             getRestHelper().getResponseStatusCode(testContext.getApiManager().getGetSigningKey().getResponse());
         }

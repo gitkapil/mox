@@ -8,6 +8,7 @@ import org.junit.Assert;
 import utils.PropertyHelper;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
@@ -25,9 +26,9 @@ public class PutSigningKeys extends UtilManager {
     private String traceId;
     private String requestDateTime;
     private HashMap<String, String> requestHeader = new HashMap();
-    private HashMap<String, String> requestBody = new HashMap();
+   private  HashMap<String, String> objReturn = new HashMap();
     private static Logger logger = Logger.getLogger(PutSigningKeys.class);
-
+    private HashMap<String, String> requestBody = new HashMap();
     private final static String EXISTING_APPLICATION_ID = "";
 
 
@@ -54,24 +55,13 @@ public class PutSigningKeys extends UtilManager {
         return objReturn;
     }
 
-    public Response executePostRequestWithMissingHeaderKeys(String url, String keys) {
+      public void makeApiCallWithMissingHeader(String url, String keys) throws IOException {
+          HashMap<String, String> header = returnRequestHeaderWithMissingKeys("PUT", new URL(url).getPath(), keys);
+          response = getRestHelper().putRequestWithHeaderAndBody(url, header, returnBody());
+          logger.info("********** PUT Signing Key Response *********** ----> "+ response.getBody().asString());
+      }
 
-        try {
-            returnBody();
-            HashMap<String, String> header = returnRequestHeaderWithMissingKeys("PUT", new URL(url).getPath(), keys);
-
-            response = getRestHelper().putRequestWithHeaderAndBody(url, header, requestBody);
-
-
-            logger.info("Response: " + response.getBody().asString());
-        } catch (Exception e) {
-            Assert.assertTrue("Verification of signature failed!", false);
-        }
-
-        return response;
-    }
-
-        private HashMap<String, String> returnRequestHeaderWithMissingKeys(String method, String url, String keys) throws IOException {
+    private HashMap<String, String> returnRequestHeaderWithMissingKeys(String method, String url, String keys) throws IOException {
             requestHeader = new HashMap<String, String>();
             requestHeader.put("Accept", "application/json");
             requestHeader.put("Content-Type", "application/json");
@@ -155,5 +145,6 @@ public class PutSigningKeys extends UtilManager {
 
     public void setAuthTokenWithBearer(String authToken) {
         this.authToken = "Bearer "+ authToken;
+
     }
 }

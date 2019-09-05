@@ -125,7 +125,7 @@ public class PostSigningKeys extends UtilManager {
 
         try {
             returnRequestBody();
-            HashMap<String, String> header = returnRequestHeaderWithMissingKeys("PUT", new URL(url).getPath(), keys);
+            HashMap<String, String> header = returnRequestHeaderWithMissingKeys("POST", new URL(url).getPath(), keys);
 
             response = getRestHelper().postRequestWithHeaderAndBody(url, header, requestBody);
 
