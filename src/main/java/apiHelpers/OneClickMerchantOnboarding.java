@@ -506,15 +506,15 @@ public class OneClickMerchantOnboarding extends UtilManager {
     }
 
     public void setApplicationName(String applicationName) {
-
+        String usertype = PropertyHelper.getInstance().getPropertyCascading("usertype");
+        String env = PropertyHelper.getInstance().getPropertyCascading("env");
         if (applicationName.equalsIgnoreCase("longname")) {
             this.applicationName = StringUtils.repeat("*", 300);
         } else if (applicationName.equalsIgnoreCase("validname")) {
             String name = RandomStringUtils.randomAlphabetic(10);
-            String api = "sandbox";
-            this.applicationName = "app-hk-dragon-" + name + "-" + api + "-client-app";
+            this.applicationName = "app-hk-dragon-" + name + "-" + usertype + "-client-app";
         } else if (applicationName.equalsIgnoreCase("existingname")) {
-            this.applicationName = "app-hk-dragon-ci-sandbox-client-app";
+            this.applicationName = "app-hk-dragon-" + env + "-" + usertype + "-client-app";
         } else {
             this.applicationName = applicationName;
         }

@@ -1,4 +1,4 @@
-Feature: POST One Click Merchant Onboarding API - DRAG-1850
+Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
 
   Background: Retrieving access Token
     Given I am an user
@@ -28,21 +28,36 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850
   @trial
   Scenario Outline: Positive flow- Existing applicationName provided in request body returns existing details
     Given I am logging in as a user with correct privileges
-    When I make request for existing client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
+    When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
     Then I should receive a success "<http_status>" status response
-    And verify the response body contains "<reasonCode>" and "<reasonDescription>"
+    And verify the response body contains all mandatory details
+    And store the response of first API hit
+    When I make request for same client with same applicationName, peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
+    Then I should receive a success "<http_status>" status response
+    And verify the response body should be returned for same client
 
     Examples:
-      | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | description | http_status | reasonCode | reasonDescription                                                                                                                                                                                                             |
+      | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | description | http_status |
       #existing application name and existing request body parameters
-      | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 200         | EA050      | Onboarding Process Failed. Please retry again.\nStep 1 (Client ID & application ID creation ): Complete\nStep 2 (Signing Key creation): Incomplete\nStep 3 (secret creation): Incomplete\nStep 4 ( PDF creation) : Incomplete |
-      #existing application name and different peakId
-      | existingname    | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 200         | EA050      | Onboarding Process Failed. Please retry again.\nStep 1 (Client ID & application ID creation ): Complete\nStep 2 (Signing Key creation): Incomplete\nStep 3 (secret creation): Incomplete\nStep 4 ( PDF creation) : Incomplete |
-      #existing application name and different subUnitId
-      | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 200         | EA050      | Onboarding Process Failed. Please retry again.\nStep 1 (Client ID & application ID creation ): Complete\nStep 2 (Signing Key creation): Incomplete\nStep 3 (secret creation): Incomplete\nStep 4 ( PDF creation) : Incomplete |
-      #existing application name and different organisationId
-      | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 200         | EA050      | Onboarding Process Failed. Please retry again.\nStep 1 (Client ID & application ID creation ): Complete\nStep 2 (Signing Key creation): Incomplete\nStep 3 (secret creation): Incomplete\nStep 4 ( PDF creation) : Incomplete |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 201         |
 #app-hk-dragon-ci-developer-client-app
+
+  @trial
+  Scenario Outline: Negative flow- Existing applicationName with different peakId, subUnitId, organisationId provided in request body returns error
+    Given I am logging in as a user with correct privileges
+    When I make request for existing client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
+    Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode in response
+    And error message should be "<error_message>" within the response
+
+    Examples:
+      | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | description | http_status | error_description         | error_code | error_message                     |
+    #existing application name and different peakId
+      | existingname    | 2ee3e4a4-ef45-4fe2-a37d-d5fcfc6adb33 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Application already exist | EA002      | Service Request Validation Failed |
+    #existing application name and different subUnitId
+      | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Application already exist | EA002      | Service Request Validation Failed |
+    #existing application name and different organisationId
+      | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Application already exist | EA002      | Service Request Validation Failed |
+
 
   @trial
   Scenario Outline: Negative flow- Mandatory field Api-Version not sent in the header
@@ -137,7 +152,7 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850
 
     Examples:
       | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | description | http_status | error_description                                                                                            | error_code | error_message                     |
-      |                 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Name not provided                                                                                            | EA002      | Service Request Validation Failed |
+      |                 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | applicationNameErrorDescription                                                                              | EA002      | Service Request Validation Failed |
       | validname       |                                      | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Field error in object 'onboardingInputModel': field 'peakId' must not be null; rejected value [null]         | EA002      | Service Request Validation Failed |
       | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 |                                      | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Field error in object 'onboardingInputModel': field 'subUnitId' must not be null; rejected value [null]      | EA002      | Service Request Validation Failed |
       | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 |                                      | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Field error in object 'onboardingInputModel': field 'organisationId' must not be null; rejected value [null] | EA002      | Service Request Validation Failed |
@@ -218,21 +233,31 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850
     And error message should be "<error_message>" within the response
 
     Examples:
-      | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | description | http_status | error_description                                                                                                    | error_code | error_message                     |
-      | longname        | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Field error in object 'onboardingInputModel': field 'applicationName' size must be between 0 and 256; rejected value | EA002      | Service Request Validation Failed |
+      | applicationName | peakId                               | subUnitId                            | organisationId                        | platformId                           | description | http_status | error_description                                      | error_code | error_message                     |
 #application name is free text. in future it will be changed
 #      | ^%$@#*          | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Field error in object 'onboardingInputModel': field 'applicationName' size must be between 0 and 256; rejected value | EA002      | Service Request Validation Failed |
-      | validname       | 859cce3                              | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
-      | validname       | $#@!~&                               | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
-      | validname       | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | $#@!~&                               | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f9                            | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | $#@!~&                               | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | vhgkd859cce3f9                       | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450a ea289 | 13ac$@#!%                            | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | vhgkd859cce3f9                       | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx | string      | 400         | Unable to read or parse message body: json parse error                                                               | EA002      | Service Request Validation Failed |
+      | validname       | 859cce3                              | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289  | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Unable to read or parse message body: json parse error | EA002      | Service Request Validation Failed |
+      | validname       | $#@!~&                               | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289  | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Unable to read or parse message body: json parse error | EA002      | Service Request Validation Failed |
+      | validname       | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289  | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Unable to read or parse message body: json parse error | EA002      | Service Request Validation Failed |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | $#@!~&                               | 859cce3f-f3da-4448-9e88-cf8450aea289  | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Unable to read or parse message body: json parse error | EA002      | Service Request Validation Failed |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f9                            | 859cce3f-f3da-4448-9e88-cf8450aea289  | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Unable to read or parse message body: json parse error | EA002      | Service Request Validation Failed |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx | 859cce3f-f3da-4448-9e88-cf8450aea289  | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Unable to read or parse message body: json parse error | EA002      | Service Request Validation Failed |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | $#@!~&                                | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Unable to read or parse message body: json parse error | EA002      | Service Request Validation Failed |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | vhgkd859cce3f9                        | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Unable to read or parse message body: json parse error | EA002      | Service Request Validation Failed |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx  | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Unable to read or parse message body: json parse error | EA002      | Service Request Validation Failed |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450a ea289 | 13ac$@#!%                            | string      | 400         | Unable to read or parse message body: json parse error | EA002      | Service Request Validation Failed |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289  | vhgkd859cce3f9                       | string      | 400         | Unable to read or parse message body: json parse error | EA002      | Service Request Validation Failed |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289  | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx | string      | 400         | Unable to read or parse message body: json parse error | EA002      | Service Request Validation Failed |
 #      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline  |  1a@b#4!&    | 400         |                                                                                                                      | EA002      | Service Request Validation Failed |
 #applicationDescription is free text; can be anything
+
+
+  @trial
+  Scenario Outline: Negative flow- Invalid long applicationName provided in request body
+    Given I am logging in as a user with correct privileges
+    When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
+    Then I should receive a "400" http code with "Service Request Validation Failed" error message
+    And Validate errorCodes and errorDescriptions in response
+    Examples:
+      | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | description |
+      | longname        | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      |

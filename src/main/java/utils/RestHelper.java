@@ -376,7 +376,6 @@ public class RestHelper {
 
         String errorCode = null;
 
-
         try {
             errorCode = errorDetails.get(0).get("errorCode");
 
@@ -388,6 +387,42 @@ public class RestHelper {
 
         return errorCode;
     }
+
+    /**
+     * This method returns error description list for long application name in one click API response
+     *
+     * @param res
+     * @return
+     */
+    public String getErrorDescriptionsLongName(Response res) {
+
+        List<HashMap<String, String>> errorDetails = getJsonArray(res, "errors");
+        System.out.println("errorDetails: " + errorDetails);
+        //boolean flag = false;
+        int count = 0;
+        String errorDesc = null;
+
+        try {
+            for (int i = 0; i <= errorDetails.size() - 1; i++) {
+                errorDesc = errorDetails.get(i).get("errorDescription");
+                if (errorDesc.contains("Field error in object 'onboardingInputModel': field 'applicationName' must match \".*-(sandbox|merchant)-client-app\"; rejected value")) {
+                    // flag = true;
+                    count++;
+                } else if (errorDesc.contains("Field error in object 'onboardingInputModel': field 'applicationName' size must be between 0 and 256; rejected value")) {
+                    //flag = true;
+                    count++;
+                }
+            }
+            System.out.println("count: " + count);
+            Assert.assertTrue("Count should be 2. But actual: " + count, count == 2);
+        } catch (NullPointerException e) {
+            return null;
+        } catch (IllegalArgumentException e) {
+        }
+
+        return errorDesc;
+    }
+
 
     /**
      * This method returns error code list within one click API response
@@ -409,9 +444,8 @@ public class RestHelper {
         } catch (NullPointerException e) {
             return null;
         } catch (IllegalArgumentException e) {
-
+            e.printStackTrace();
         }
-
         return errorCode;
     }
 

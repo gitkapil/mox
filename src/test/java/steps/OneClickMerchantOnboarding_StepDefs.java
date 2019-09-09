@@ -36,6 +36,7 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
 
     Response response;
     String oneClickURL;
+    Response resp_one;
 
     public OneClickMerchantOnboarding_StepDefs(TestContext testContext) {
         this.testContext = testContext;
@@ -121,6 +122,7 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
         Response response = testContext.getApiManager().getOneClickMerchantOnboarding().getResponse();
         Assert.assertEquals(getRestHelper().getResponseStatusCode(response), responseCode, "Different response code being returned");
 
+        String applicationNameErrorDescription = "Field error in object 'onboardingInputModel': field 'applicationName' must match \".*-(sandbox|merchant)-client-app\"; rejected value []";
 
         if (getRestHelper().getErrorDescription(response) != null) {
 
@@ -128,12 +130,16 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
                 System.out.println("here : " + getRestHelper().getErrorDescription(response));
                 System.out.println("there: " + errorDesc);
             }
-
-            Assert.assertTrue(
-                    getRestHelper().getErrorDescription(response)
-                            .replace("\"", "")
-                            .contains(errorDesc),
-                    "Different error description being returned..Expected: " + errorDesc + "Actual: " + getRestHelper().getErrorDescription(response));
+            if (errorDesc.equalsIgnoreCase("applicationNameErrorDescription")) {
+                Assert.assertTrue(getRestHelper().getErrorDescription(response).contains(applicationNameErrorDescription),
+                        "Different error description being returned..Expected: " + applicationNameErrorDescription + "Actual: " + getRestHelper().getErrorDescription(response));
+            } else {
+                Assert.assertTrue(
+                        getRestHelper().getErrorDescription(response)
+                                .replace("\"", "")
+                                .contains(errorDesc),
+                        "Different error description being returned..Expected: " + errorDesc + "Actual: " + getRestHelper().getErrorDescription(response));
+            }
         }
 
         Assert.assertEquals(getRestHelper().getErrorCode(response), errorCode, "Different error code being returned");
@@ -355,8 +361,6 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
     @And("^validate \"([^\"]*)\" and platformName from database$")
     public void validateAndPlatformNameFromDatabase(String platformId) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException {
         response = testContext.getApiManager().getOneClickMerchantOnboarding().getOneClickOnboardingRequestResponse();
-        String sqlQuery = "SELECT hex(PLTFM_ID), PLTFM_NAME FROM merchant_management.pltfm";
-        String db_resp = DataBaseConnector.executeSQLQuery_List("CI", sqlQuery, Constants.DB_CONNECTION_URL).toString();
 
         //validate response body platformId is equal to request body platformId
         HashMap applicationResp = response.path("application");
@@ -368,6 +372,9 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
         //validate platformId is present in database
         String platformId_resp_api = platformId_resp.toString().replaceAll("-", "").toUpperCase();
 
+        String sqlQuery = "SELECT hex(PLTFM_ID), PLTFM_NAME FROM merchant_management.pltfm WHERE hex(PLTFM_ID)='" + platformId_resp_api + "';";
+        String db_resp = DataBaseConnector.executeSQLQuery_List("CI", sqlQuery, Constants.DB_CONNECTION_URL).toString();
+        System.out.println("db_resp: " + db_resp);
         String arr[] = db_resp.split(" ");
         String db_platformId = arr[0].replace("[", "");
         String db_platformName = arr[1].replace("]", "");
@@ -437,5 +444,62 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
         Assert.assertNotNull(response.path(Constants.PDF_URL), "pdfUrl cannot be null!");
         Assert.assertNotNull(response.path(Constants.PDF_PIN), "pdfPin cannot be null!");
         Assert.assertEquals(response.path(Constants.PDF_PIN).toString().length(), 16, "pdfPin should be 16 characters.");
+    }
+
+    @When("^I make request for same client with same applicationName, peakId as \"([^\"]*)\", subUnitId as \"([^\"]*)\", organisationId as \"([^\"]*)\", description as \"([^\"]*)\" and platformId as \"([^\"]*)\"$")
+    public void iMakeRequestForSameClientWithSameApplicationNamePeakIdAsSubUnitIdAsOrganisationIdAsDescriptionAsAndPlatformIdAs(String peakId, String subUnitId, String organisationId, String description, String platformId) throws Throwable {
+        testContext.getApiManager().getOneClickMerchantOnboarding().setPeakId(peakId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(subUnitId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setOrganisationId(organisationId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setDescription(description);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setRequestDateTime(getDateHelper().getUTCNowDateTime());
+        testContext.getApiManager().getOneClickMerchantOnboarding().setTraceId(getGeneral().generateUniqueUUID());
+        testContext.getApiManager().getOneClickMerchantOnboarding().setPlatformId(platformId);
+        makeRequest();
+    }
+
+    @And("^verify the response body should be returned for same client$")
+    public void verifyTheResponseBodyShouldBeReturnedForSameClient() {
+
+        HashMap applicationResponse_one = resp_one.path("application");
+        HashMap signingKeyResponse_one = resp_one.path("signingKey");
+
+        HashMap applicationResponse_two = response.path("application");
+        HashMap signingKeyResponse_two = response.path("signingKey");
+
+        //Validate application response details
+        Assert.assertEquals(applicationResponse_two.get(Constants.APPLICATION_ID), applicationResponse_one.get("applicationId"), "applicationId isn't same!");
+        Assert.assertEquals(applicationResponse_two.get(Constants.CLIENT_ID), applicationResponse_one.get("clientId"), "clientId isn't same!");
+        Assert.assertEquals(applicationResponse_two.get(Constants.PEAK_ID), applicationResponse_one.get("peakId"), "peakId isn't same!");
+        Assert.assertEquals(applicationResponse_two.get(Constants.SUB_UNIT_ID), applicationResponse_one.get("subUnitId"), "subUnitId isn't same!");
+        Assert.assertEquals(applicationResponse_two.get(Constants.ORGANISATION_ID), applicationResponse_one.get("organisationId"), "organisationId isn't same!");
+        Assert.assertEquals(applicationResponse_two.get(Constants.PLATFORM_ID), applicationResponse_one.get("platformId"), "platformId isn't same!");
+        Assert.assertEquals(applicationResponse_two.get(Constants.PLATFORM_NAME), applicationResponse_one.get("platformName"), "platformName isn't same!");
+        Assert.assertEquals(applicationResponse_two.get(Constants.APPLICATION_DESCRIPTION), applicationResponse_one.get("applicationDescription"), "applicationDescription isn't same!");
+
+        //Validate signingKey response details
+        Assert.assertEquals(signingKeyResponse_two.get(Constants.KEY_ID), signingKeyResponse_one.get("keyId"), "Signing keyId isn't same!");
+        Assert.assertEquals(signingKeyResponse_two.get(Constants.KEY_NAME), signingKeyResponse_one.get("keyName"), "Signing keyName isn't same!");
+        Assert.assertEquals(signingKeyResponse_two.get(Constants.ALG), signingKeyResponse_one.get("alg"), "Signing alg isn't same!");
+        Assert.assertEquals(signingKeyResponse_two.get(Constants.TYPE), signingKeyResponse_one.get("type"), "Signing type isn't same!");
+        Assert.assertEquals(signingKeyResponse_two.get(Constants.SIZE), signingKeyResponse_one.get("size"), "Signing size isn't same!");
+        Assert.assertEquals(signingKeyResponse_two.get(Constants.ENTITY_STATUS), signingKeyResponse_one.get("entityStatus"), "Signing entityStatus isn't same!");
+
+        Assert.assertEquals(response.path(Constants.GRANT_URL).toString(), resp_one.path("grantUrl"), "grantUrl isn't same!");
+    }
+
+    @And("^store the response of first API hit$")
+    public void storeTheResponseOfFirstAPIHit() {
+        resp_one = response;
+    }
+
+    @And("^Validate errorCodes and errorDescriptions in response$")
+    public void validateErrorCodesAndErrorDescriptionsInResponse() {
+        Response response = testContext.getApiManager().getOneClickMerchantOnboarding().getResponse();
+        //Assertion included in method getErrorDescriptionsLongName
+        getRestHelper().getErrorDescriptionsLongName(response);
+
+        //Assertion included in method getErrorCodeOneClick(response)
+        getRestHelper().getErrorCodeOneClick(response);
     }
 }

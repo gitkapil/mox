@@ -14,6 +14,7 @@ public class Constants {
     public static final String APPLICATION_DESCRIPTION = "applicationDescription";
     public static final String ITEM = "items";
     public static final String KEY_ID = "keyId";
+    public static final String KEY_NAME = "keyName";
     public static final String VALUE = "value";
     public static final String ALG = "alg";
     public static final String TYPE = "type";
