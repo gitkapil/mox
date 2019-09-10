@@ -68,7 +68,7 @@ Feature: Management POST platform API - DRAG-
       | Content type 'text/plain;charset=ISO-8859-1' not supported            | Service Request Validation Failed | Content-Type      | EA002      | 415         |
 
 #   @trial
-  @regression @merchantManagement @merchantManagementPut @putApp
+  @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow- Mandatory fields Api-Version not sent in the header
     Given I am a POST platform authorized DRAGON user with Platform.ReadWrite.All
     When I make a POST request to the platform endpoint with "<key>" missing in the header

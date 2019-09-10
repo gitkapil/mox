@@ -35,9 +35,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
     public void list_of_applications_without_any_filters() {
         testContext.getApiManager().getGetApplication().getListOfApplications(
                 getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource"),
-                testContext.getApiManager().getMerchantManagementSigningKeyId(),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                testContext.getApiManager().getMerchantManagementSigningKey(),
+
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))),
                 testContext.getApiManager().getPostApplication().getAuthToken()
         );
@@ -120,9 +118,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
 
         testContext.getApiManager().getGetApplication().getListOfApplications(
                 url,
-                testContext.getApiManager().getMerchantManagementSigningKeyId(),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                testContext.getApiManager().getMerchantManagementSigningKey(),
+
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))),
                 testContext.getApiManager().getPostApplication().getAuthToken());
     }
@@ -136,9 +132,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
 
         testContext.getApiManager().getGetApplication().getListOfApplications(
                 url,
-                testContext.getApiManager().getMerchantManagementSigningKeyId(),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                testContext.getApiManager().getMerchantManagementSigningKey(),
+
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))),
                 testContext.getApiManager().getPostApplication().getAuthToken());
     }
@@ -165,7 +159,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
             System.out.println(object);
         }
         if (list.size() != 0) {
-            Assert.assertEquals(strings.get(0).split(",").length, 8);
+            Assert.assertEquals( 8, strings.get(0).split(",").length);
             org.testng.Assert.assertTrue(strings.get(0).contains(Constants.APPLICATION_ID), testContext.getApiManager().getPutApplication().getApplicationId());
             org.testng.Assert.assertTrue(strings.get(0).contains(Constants.CLIENT_ID), testContext.getApiManager().getPutApplication().getClientId());
             org.testng.Assert.assertTrue(strings.get(0).contains(Constants.PEAK_ID), testContext.getApiManager().getPutApplication().getPeakId());
@@ -176,25 +170,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
             org.testng.Assert.assertTrue(strings.get(0).contains(Constants.APPLICATION_ID), testContext.getApiManager().getPutApplication().getApplicationId());
             Assert.assertTrue("description is not present", strings.get(0).contains(Constants.DESCRIPTION));
         } else if (list.size() == 1) {
-            Assert.assertEquals(strings.get(1).split(",").length, 8);
-            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.APPLICATION_ID), testContext.getApiManager().getPutApplication().getApplicationId());
-            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.CLIENT_ID), testContext.getApiManager().getPutApplication().getClientId());
-            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.PEAK_ID), testContext.getApiManager().getPutApplication().getPeakId());
-            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.SUB_UNIT_ID), testContext.getApiManager().getPutApplication().getSubUnitId());
-            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.ORGANISATION_ID), testContext.getApiManager().getPutApplication().getOrganisationId());
-            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.PLATFORM_ID),testContext.getApiManager().getPutApplication().getPlatform());
-            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.PLATFORM_NAME),testContext.getApiManager().getPutApplication().getApplicationId());
-            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.APPLICATION_ID), testContext.getApiManager().getPutApplication().getApplicationId());
-            Assert.assertTrue("description is not present", strings.get(0).contains(Constants.DESCRIPTION));
-            org.testng.Assert.assertTrue(strings.get(1).contains(Constants.APPLICATION_ID), testContext.getApiManager().getPutApplication().getApplicationId());
-            org.testng.Assert.assertTrue(strings.get(1).contains(Constants.CLIENT_ID), testContext.getApiManager().getPutApplication().getClientId());
-            org.testng.Assert.assertTrue(strings.get(1).contains(Constants.PEAK_ID), testContext.getApiManager().getPutApplication().getPeakId());
-            org.testng.Assert.assertTrue(strings.get(1).contains(Constants.SUB_UNIT_ID), testContext.getApiManager().getPutApplication().getSubUnitId());
-            org.testng.Assert.assertTrue(strings.get(1).contains(Constants.ORGANISATION_ID), testContext.getApiManager().getPutApplication().getOrganisationId());
-            org.testng.Assert.assertTrue(strings.get(1).contains(Constants.PLATFORM_ID),testContext.getApiManager().getPutApplication().getPlatform());
-            org.testng.Assert.assertTrue(strings.get(1).contains(Constants.PLATFORM_NAME),testContext.getApiManager().getPutApplication().getApplicationId());
-            org.testng.Assert.assertTrue(strings.get(1).contains(Constants.APPLICATION_ID), testContext.getApiManager().getPutApplication().getApplicationId());
-            Assert.assertTrue("description is not present", strings.get(1).contains(Constants.DESCRIPTION));
+
         } else {
             Assert.assertEquals(
                     HttpStatus.SC_OK
@@ -211,9 +187,6 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
         url = url + "?" + filterName + "=" + filterValue;
         testContext.getApiManager().getGetApplication().getListOfApplications(
                 url,
-                testContext.getApiManager().getMerchantManagementSigningKeyId(),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                testContext.getApiManager().getMerchantManagementSigningKey(),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
                         "header-list-get").split(","))),
                 testContext.getApiManager().getPostApplication().getAuthToken());
@@ -238,9 +211,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
         currentUrl = url;
         testContext.getApiManager().getGetApplication().getListOfApplications(
                 url,
-                testContext.getApiManager().getMerchantManagementSigningKeyId(),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                testContext.getApiManager().getMerchantManagementSigningKey(),
+
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
                         "header-list-get").split(","))),
                 testContext.getApiManager().getPostApplication().getAuthToken());
@@ -283,9 +254,6 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
         String url = currentUrl + "&page=" + nextPageNumber;
         testContext.getApiManager().getGetApplication().getListOfApplications(
                 url,
-                testContext.getApiManager().getMerchantManagementSigningKeyId(),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                testContext.getApiManager().getMerchantManagementSigningKey(),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))),
                 testContext.getApiManager().getPostApplication().getAuthToken());
     }

@@ -36,11 +36,10 @@ public class GetApplication extends UtilManager {
         signatureHelper = new SignatureHelper();
     }
 
-    public void getListOfApplications(String url, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature, String authToken) {
+    public void getListOfApplications(String url, HashSet headerElementsForSignature, String authToken) {
         try {
             response = getRestHelper().getRequestWithHeaders(url,
-                    getListHeader("GET", new URL(url).getPath(), signingKeyId,
-                            signingAlgorithm, signingKey, headerElementsForSignature,
+                    getListHeader("GET", new URL(url).getPath(), headerElementsForSignature,
                             authToken));
 
             logger.info("****************List of application response ******************** --> " + response.getBody().asString());
@@ -80,8 +79,7 @@ public class GetApplication extends UtilManager {
     }
 
 
-    private HashMap<String, String> getListHeader(String method, String url,String signingKeyId,
-                                                  String signingAlgorithm, String signingKey,
+    private HashMap<String, String> getListHeader(String method, String url,
                                                   HashSet headerElementsforSignature, String authToken) {
         HashMap<String,String> header = new HashMap<>();
         header.put("ACCEPT", "application/json");
@@ -93,16 +91,6 @@ public class GetApplication extends UtilManager {
 
         if (EnvHelper.getInstance().isLocalDevMode()) {
             EnvHelper.getInstance().addMissingHeaderForLocalDevMode(header);
-        }
-
-        try {
-            header.put("Signature",
-                    getSignatureHelper().calculateSignature(method, url, Base64.getDecoder().decode(signingKey),
-                            signingAlgorithm, signingKeyId,
-                    headerElementsforSignature, header));
-        } catch (IOException e) {
-            e.printStackTrace();
-            Assert.assertTrue("Trouble creating signature!", false);
         }
         return header;
     }

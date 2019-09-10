@@ -1,3 +1,4 @@
+
 Feature: Merchant Management API - GET /applications
 
   Background: Retrieving access Token
@@ -18,22 +19,20 @@ Feature: Merchant Management API - GET /applications
       | 20                |
 
   # @trial
-  @regression @merchantManagement @merchantManagementGet
+  @regression @merchantManagement @merchantManagementGet @getApp
   Scenario Outline: Positive flow - Get a list of application using filters 1
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of applications using filters to filter "<filterName>" with "<filterValue>"
     Then I should receive a successful response
     And the response should have a list of <numberOfResponses> applications
-    And validate the item list from the response
     Examples:
       | filterName   | filterValue                          | numberOfResponses |
       | clientId     | 00000001-0000-0000-0000-000000000000 | 1                 |
       | clientId     | 00000001-0000-0000-0000-000000009999 | 0                 |
       | peakId       | 00000002-0000-0000-c000-000000000001 | 2                 |
       | subUnitId    | eafb2a7b-297d-444e-b473-2e724e864806 | 1                 |
-
-
-
+      | PlatformId   | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | 20                |
+      | platformName | INDIVIDUAL                           | 20                |
 
   # Not ready yet for regression
   @regression @merchantManagement @merchantManagementGet
@@ -45,7 +44,7 @@ Feature: Merchant Management API - GET /applications
     And validate the item list from the response
     Examples:
       | filterName | filterValue                          | numberOfResponses |
-      | PlatformId | 00000001-0000-0000-0000-000000000000 | 20                |
+      | clientId   | 00000001-0000-0000-0000-000000000000 | 1                 |
 
 
 #  @trial
@@ -64,7 +63,7 @@ Feature: Merchant Management API - GET /applications
     Then I should receive a successful response
 
 #  @trial
-  @regression @merchantManagement @merchantManagementGet @getApplication
+  @regression @merchantManagement @merchantManagementGet
   Scenario Outline: Positive flow - Get a list of application using paging and limits
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of applications using filters to filter "<filterName>" with "<filterValue>" with <limit> limits
@@ -94,11 +93,11 @@ Feature: Merchant Management API - GET /applications
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorCode within the get application response
     And error message should be "<error_message>" within the get application response
     Examples:
-      | filterName | filterValue                          | nullHeaderValue   | error_message                     | error_code | http_status | error_description                                     |
-      | clientId   | 00000001-0000-0000-0000-000000000000 | Trace-Id          | API Gateway Validation Failed     | EA002      | 400         | Header Trace-Id was not found in the request          |
-      | clientId   | 00000001-0000-0000-0000-000000000000 | Request-Date-Time | API Gateway Validation Failed     | EA002      | 400         | Header Request-Date-Time was not found in the request |
-      | clientId   | 00000001-0000-0000-0000-000000000000 | Content-Type      | Service Request Validation Failed | EA002      | 415         | Content type                                          |
-      | clientId   | 00000001-0000-0000-0000-000000000000 | ACCEPT            | Request Header Not Acceptable     | EA008      | 406         | Header Accept does not contain required value         |
+      | filterName | filterValue                          | nullHeaderValue   | error_message                     | error_code | http_status | error_description                               |
+      | clientId   | 00000001-0000-0000-0000-000000000000 | Trace-Id          | API Gateway Validation Failed     | EA002      | 400         | Header Trace-Id was not found in the request    |
+      | clientId   | 00000001-0000-0000-0000-000000000000 | Request-Date-Time | Service Request Validation Failed | EA002      | 400         | Request timestamp not a valid RFC3339 date-time |
+      | clientId   | 00000001-0000-0000-0000-000000000000 | Content-Type      | Service Request Validation Failed | EA002      | 415         | Content type                                    |
+      | clientId   | 00000001-0000-0000-0000-000000000000 | ACCEPT            | Request Header Not Acceptable     | EA008      | 406         | Header Accept does not contain required value   |
 
 
   #trial

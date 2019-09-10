@@ -3,20 +3,16 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.dragon.test.harness</groupId>
     <artifactId>dragon</artifactId>
     <version>0.10.0</version>
-
     <dependencies>
-
         <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>2.25.1</version>
         </dependency>
-
         <!-->Dependency Injection <-->
         <dependency>
             <groupId>info.cukes</groupId>
@@ -24,45 +20,79 @@
             <version>1.2.5</version>
             <scope>test</scope>
         </dependency>
-
         <!-->Extended Cucumber Option for reporting <-->
         <dependency>
             <groupId>com.github.mkolisnyk</groupId>
             <artifactId>cucumber-runner</artifactId>
             <version>1.0.8</version>
         </dependency>
-
         <!-->Extent Reports <-->
         <dependency>
             <groupId>com.vimalselvam</groupId>
             <artifactId>cucumber-extentsreport</artifactId>
             <version>3.1.0</version>
         </dependency>
-
         <dependency>
             <groupId>com.aventstack</groupId>
             <artifactId>extentreports</artifactId>
             <version>3.1.2</version>
         </dependency>
-
         <!-->Rest Assured <-->
         <dependency>
             <groupId>com.jayway.restassured</groupId>
             <artifactId>json-schema-validator</artifactId>
             <version>2.8.0</version>
         </dependency>
-
         <dependency>
             <groupId>com.jayway.restassured</groupId>
             <artifactId>rest-assured</artifactId>
             <version>2.8.0</version>
         </dependency>
-
         <!-->Hamcrest Matcher <-->
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-all</artifactId>
             <version>1.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-junit</artifactId>
+            <version>2.0.0.0</version>
+        </dependency>
+        <!-->General, Cucumber & Junit <-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>1.2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>1.2.5</version>
+            <scope>test</scope>
+        </dependency>
+        <!-->Logger <-->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+        <!-->JWT Validation Library <-->
+        <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>nimbus-jose-jwt</artifactId>
+            <version>5.12</version>
+        </dependency>
+        <!-- Message Signing Library -->
+        <dependency>
+            <groupId>org.tomitribe</groupId>
+            <artifactId>tomitribe-http-signatures</artifactId>
+            <version>1.1</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
@@ -70,66 +100,16 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.17</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-junit</artifactId>
-            <version>2.0.0.0</version>
-        </dependency>
-
-        <!-->General, Cucumber & Junit <-->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-        </dependency>
-
-        <dependency>
-            <groupId>info.cukes</groupId>
-            <artifactId>cucumber-java</artifactId>
-            <version>1.2.5</version>
-        </dependency>
-
-        <dependency>
-            <groupId>info.cukes</groupId>
-            <artifactId>cucumber-junit</artifactId>
-            <version>1.2.5</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-->Logger <-->
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
-        </dependency>
-
-        <!-->JWT Validation Library <-->
-        <dependency>
-            <groupId>com.nimbusds</groupId>
-            <artifactId>nimbus-jose-jwt</artifactId>
-            <version>5.12</version>
-        </dependency>
-
-        <!-- Message Signing Library -->
-        <dependency>
-            <groupId>org.tomitribe</groupId>
-            <artifactId>tomitribe-http-signatures</artifactId>
-            <version>1.1</version>
-        </dependency>
     </dependencies>
-
     <profiles>
         <profile>
             <id>functional</id>
-
             <properties>
-            <cucumber.options>
-                --tags @functional
-            </cucumber.options>
+                <cucumber.options>
+                    --tags @functional
+                </cucumber.options>
             </properties>
         </profile>
-
         <profile>
             <id>trial</id>
             <activation>
@@ -141,7 +121,6 @@
                 </cucumber.options>
             </properties>
         </profile>
-
         <profile>
             <id>regression</id>
             <properties>
@@ -150,56 +129,53 @@
                 </cucumber.options>
             </properties>
         </profile>
-
     </profiles>
-
     <build>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <!--version>2.19.1</version-->
-                    <version>3.0.0-M1</version>
-                    <configuration>
-                        <testFailureIgnore>true</testFailureIgnore>
-                        <systemPropertyVariables>
-                            <cucumber.options>${cucumber.options}</cucumber.options>
-                        </systemPropertyVariables>
-                        <includes>
-                            <include>**/Runner.class</include>
-                        </includes>
-                        <shutdown>kill</shutdown>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <configuration>
-                        <source>8</source>
-                        <target>8</target>
-                    </configuration>
-                </plugin>
-
-                <plugin>
-                    <groupId>net.masterthought</groupId>
-                    <artifactId>maven-cucumber-reporting</artifactId>
-                    <version>3.13.0</version>
-                    <executions>
-                        <execution>
-                            <id>execution</id>
-                            <phase>verify</phase>
-                            <goals>
-                                <goal>generate</goal>
-                            </goals>
-                            <configuration>
-                                <projectName>Dragon</projectName>
-                                <outputDirectory>${basedir}/target/cucumber-reports</outputDirectory>
-                                <cucumberOutput>${project.build.directory}/cucumber.json</cucumberOutput>
-                                <checkBuildResult>false</checkBuildResult>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <!--version>2.19.1</version-->
+                <version>3.0.0-M1</version>
+                <configuration>
+                    <testFailureIgnore>true</testFailureIgnore>
+                    <systemPropertyVariables>
+                        <cucumber.options>${cucumber.options}</cucumber.options>
+                    </systemPropertyVariables>
+                    <includes>
+                        <include>**/Runner.class</include>
+                    </includes>
+                    <shutdown>kill</shutdown>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>net.masterthought</groupId>
+                <artifactId>maven-cucumber-reporting</artifactId>
+                <version>3.13.0</version>
+                <executions>
+                    <execution>
+                        <id>execution</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <projectName>Dragon</projectName>
+                            <outputDirectory>${basedir}/target/cucumber-reports</outputDirectory>
+                            <cucumberOutput>${project.build.directory}/cucumber.json</cucumberOutput>
+                            <checkBuildResult>false</checkBuildResult>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 </project>

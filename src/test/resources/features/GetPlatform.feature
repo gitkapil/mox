@@ -95,7 +95,7 @@ Feature: Management GET platform API - DRAG-
 
 
 #   @trial
-  @regression @merchantManagement @merchantManagementPut @putApp
+  @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow- Mandatory fields Api-Version not sent in the header
     Given I am a GET platform authorized DRAGON user with Platform.ReadWrite.All
     When I make a GET request to the platform endpoint with "<key>" missing in the header
