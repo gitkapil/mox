@@ -171,7 +171,12 @@ public class OneClickMerchantOnboarding extends UtilManager {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        if (description.equalsIgnoreCase("random")) {
+            String desc = RandomStringUtils.randomAlphabetic(10);
+            this.description = desc;
+        } else {
+            this.description = description;
+        }
     }
 
     public void setResponse(Response response) {

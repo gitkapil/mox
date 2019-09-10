@@ -94,13 +94,13 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
         Assert.assertNotNull(signingKeyResponse.get(Constants.TYPE), "Signing type cannot be null!");
         Assert.assertNotNull(signingKeyResponse.get(Constants.SIZE), "Signing size cannot be null!");
         Assert.assertNotNull(signingKeyResponse.get(Constants.ACTIVATE_AT), "Signing activateAt cannot be null!");
-        Assert.assertNotNull(signingKeyResponse.get(Constants.DEACTIVAT_AT), "Signing deactivateAt cannot be null!");
+        Assert.assertNotNull(signingKeyResponse.get(Constants.DEACTIVATE_AT), "Signing deactivateAt cannot be null!");
         Assert.assertNotNull(signingKeyResponse.get(Constants.ENTITY_STATUS), "Signing entityStatus cannot be null!");
 
         //Validate passwordMetadata response details
         Assert.assertNotNull(passwordMetadataResponse.get(Constants.KEY_ID), "passwordMetada keyId cannot be null!");
         Assert.assertNotNull(passwordMetadataResponse.get(Constants.ACTIVATE_AT), "passwordMetada activateAt cannot be null!");
-        Assert.assertNotNull(passwordMetadataResponse.get(Constants.DEACTIVAT_AT), "passwordMetada deactivateAt cannot be null!");
+        Assert.assertNotNull(passwordMetadataResponse.get(Constants.DEACTIVATE_AT), "passwordMetada deactivateAt cannot be null!");
 
         //Validate other response body parameters
         Assert.assertNotNull(response.path(Constants.GRANT_URL), "grantUrl cannot be null!");
@@ -122,7 +122,7 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
         Response response = testContext.getApiManager().getOneClickMerchantOnboarding().getResponse();
         Assert.assertEquals(getRestHelper().getResponseStatusCode(response), responseCode, "Different response code being returned");
 
-        String applicationNameErrorDescription = "Field error in object 'onboardingInputModel': field 'applicationName' must match \".*-(sandbox|merchant)-client-app\"; rejected value []";
+        String applicationNameErrorDescription = "Field error in object 'onboardingInputModel': field 'applicationName' must match \".*-(sandbox|merchant)-client-app\"; rejected value";
 
         if (getRestHelper().getErrorDescription(response) != null) {
 
@@ -431,13 +431,13 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
         Assert.assertNotNull(signingKeyResponse.get(Constants.TYPE), "Signing type cannot be null!");
         Assert.assertNotNull(signingKeyResponse.get(Constants.SIZE), "Signing size cannot be null!");
         Assert.assertNotNull(signingKeyResponse.get(Constants.ACTIVATE_AT), "Signing activateAt cannot be null!");
-        Assert.assertNotNull(signingKeyResponse.get(Constants.DEACTIVAT_AT), "Signing deactivateAt cannot be null!");
+        Assert.assertNotNull(signingKeyResponse.get(Constants.DEACTIVATE_AT), "Signing deactivateAt cannot be null!");
         Assert.assertNotNull(signingKeyResponse.get(Constants.ENTITY_STATUS), "Signing entityStatus cannot be null!");
 
         //Validate passwordMetadata response details
         Assert.assertNotNull(passwordMetadataResponse.get(Constants.KEY_ID), "passwordMetada keyId cannot be null!");
         Assert.assertNotNull(passwordMetadataResponse.get(Constants.ACTIVATE_AT), "passwordMetada activateAt cannot be null!");
-        Assert.assertNotNull(passwordMetadataResponse.get(Constants.DEACTIVAT_AT), "passwordMetada deactivateAt cannot be null!");
+        Assert.assertNotNull(passwordMetadataResponse.get(Constants.DEACTIVATE_AT), "passwordMetada deactivateAt cannot be null!");
 
         //Validate other response body parameters
         Assert.assertNotNull(response.path(Constants.GRANT_URL), "grantUrl cannot be null!");
@@ -463,9 +463,11 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
 
         HashMap applicationResponse_one = resp_one.path("application");
         HashMap signingKeyResponse_one = resp_one.path("signingKey");
+        HashMap passwordMetadataResponse_one = resp_one.path("passwordMetadata");
 
         HashMap applicationResponse_two = response.path("application");
         HashMap signingKeyResponse_two = response.path("signingKey");
+        HashMap passwordMetadataResponse_two = response.path("passwordMetadata");
 
         //Validate application response details
         Assert.assertEquals(applicationResponse_two.get(Constants.APPLICATION_ID), applicationResponse_one.get("applicationId"), "applicationId isn't same!");
@@ -486,6 +488,11 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
         Assert.assertEquals(signingKeyResponse_two.get(Constants.ENTITY_STATUS), signingKeyResponse_one.get("entityStatus"), "Signing entityStatus isn't same!");
 
         Assert.assertEquals(response.path(Constants.GRANT_URL).toString(), resp_one.path("grantUrl"), "grantUrl isn't same!");
+
+        //Validate passwordMetadata response is generated new
+        Assert.assertNotEquals(passwordMetadataResponse_two.get(Constants.KEY_ID), passwordMetadataResponse_one.get("keyId"), "passwordMetadata keyId shouldn't be same!");
+        Assert.assertNotEquals(passwordMetadataResponse_two.get(Constants.ACTIVATE_AT), passwordMetadataResponse_one.get("activateAt"), "passwordMetadata activateAt shouldn't be same!");
+        Assert.assertNotEquals(passwordMetadataResponse_two.get(Constants.DEACTIVATE_AT), passwordMetadataResponse_one.get("deactivateAt"), "passwordMetadata deactivateAt shouldn't be same!");
     }
 
     @And("^store the response of first API hit$")
@@ -501,5 +508,56 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
 
         //Assertion included in method getErrorCodeOneClick(response)
         getRestHelper().getErrorCodeOneClick(response);
+    }
+
+    @When("^I make request for same client with same applicationName, peakId as \"([^\"]*)\", subUnitId as \"([^\"]*)\", organisationId as \"([^\"]*)\" and platformId as \"([^\"]*)\" but different description as \"([^\"]*)\"$")
+    public void iMakeRequestForSameClientWithSameApplicationNamePeakIdAsSubUnitIdAsOrganisationIdAsAndPlatformIdAsButDifferentDescriptionAs(String peakId, String subUnitId, String organisationId, String platformId, String description) throws Throwable {
+        testContext.getApiManager().getOneClickMerchantOnboarding().setPeakId(peakId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(subUnitId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setOrganisationId(organisationId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setDescription(description);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setRequestDateTime(getDateHelper().getUTCNowDateTime());
+        testContext.getApiManager().getOneClickMerchantOnboarding().setTraceId(getGeneral().generateUniqueUUID());
+        testContext.getApiManager().getOneClickMerchantOnboarding().setPlatformId(platformId);
+        makeRequest();
+    }
+
+    @And("^validate only applicationDescription is updated in response$")
+    public void validateOnlyApplicationDescriptionIsUpdatedInResponse() {
+        HashMap applicationResponse_one = resp_one.path("application");
+        HashMap signingKeyResponse_one = resp_one.path("signingKey");
+        HashMap passwordMetadataResponse_one = resp_one.path("passwordMetadata");
+
+        HashMap applicationResponse_two = response.path("application");
+        HashMap signingKeyResponse_two = response.path("signingKey");
+        HashMap passwordMetadataResponse_two = response.path("passwordMetadata");
+
+        //Validate application response details
+        Assert.assertEquals(applicationResponse_two.get(Constants.APPLICATION_ID), applicationResponse_one.get("applicationId"), "applicationId isn't same!");
+        Assert.assertEquals(applicationResponse_two.get(Constants.CLIENT_ID), applicationResponse_one.get("clientId"), "clientId isn't same!");
+        Assert.assertEquals(applicationResponse_two.get(Constants.PEAK_ID), applicationResponse_one.get("peakId"), "peakId isn't same!");
+        Assert.assertEquals(applicationResponse_two.get(Constants.SUB_UNIT_ID), applicationResponse_one.get("subUnitId"), "subUnitId isn't same!");
+        Assert.assertEquals(applicationResponse_two.get(Constants.ORGANISATION_ID), applicationResponse_one.get("organisationId"), "organisationId isn't same!");
+        Assert.assertEquals(applicationResponse_two.get(Constants.PLATFORM_ID), applicationResponse_one.get("platformId"), "platformId isn't same!");
+        Assert.assertEquals(applicationResponse_two.get(Constants.PLATFORM_NAME), applicationResponse_one.get("platformName"), "platformName isn't same!");
+        Assert.assertEquals(applicationResponse_two.get(Constants.APPLICATION_DESCRIPTION), applicationResponse_one.get("applicationDescription"), "applicationDescription isn't same!");
+
+        //Validate signingKey response details
+        Assert.assertEquals(signingKeyResponse_two.get(Constants.KEY_ID), signingKeyResponse_one.get("keyId"), "Signing keyId isn't same!");
+        Assert.assertEquals(signingKeyResponse_two.get(Constants.KEY_NAME), signingKeyResponse_one.get("keyName"), "Signing keyName isn't same!");
+        Assert.assertEquals(signingKeyResponse_two.get(Constants.ALG), signingKeyResponse_one.get("alg"), "Signing alg isn't same!");
+        Assert.assertEquals(signingKeyResponse_two.get(Constants.TYPE), signingKeyResponse_one.get("type"), "Signing type isn't same!");
+        Assert.assertEquals(signingKeyResponse_two.get(Constants.SIZE), signingKeyResponse_one.get("size"), "Signing size isn't same!");
+        Assert.assertEquals(signingKeyResponse_two.get(Constants.ENTITY_STATUS), signingKeyResponse_one.get("entityStatus"), "Signing entityStatus isn't same!");
+
+        Assert.assertEquals(response.path(Constants.GRANT_URL).toString(), resp_one.path("grantUrl"), "grantUrl isn't same!");
+
+        //Validate passwordMetadata response is generated new
+        Assert.assertNotEquals(passwordMetadataResponse_two.get(Constants.KEY_ID), passwordMetadataResponse_one.get("keyId"), "passwordMetadata keyId shouldn't be same!");
+        Assert.assertNotEquals(passwordMetadataResponse_two.get(Constants.ACTIVATE_AT), passwordMetadataResponse_one.get("activateAt"), "passwordMetadata activateAt shouldn't be same!");
+        Assert.assertNotEquals(passwordMetadataResponse_two.get(Constants.DEACTIVATE_AT), passwordMetadataResponse_one.get("deactivateAt"), "passwordMetadata deactivateAt shouldn't be same!");
+
+        //Validate applicationDescription is updated and not same as previous response
+        Assert.assertNotEquals(applicationResponse_two.get(Constants.APPLICATION_DESCRIPTION), applicationResponse_one.get("applicationDescription"), "applicationDescription should be updated!");
     }
 }

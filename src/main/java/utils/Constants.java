@@ -20,7 +20,7 @@ public class Constants {
     public static final String TYPE = "type";
     public static final String SIZE = "size";
     public static final String ACTIVATE_AT = "activateAt";
-    public static final String DEACTIVAT_AT = "deactivateAt";
+    public static final String DEACTIVATE_AT = "deactivateAt";
     public static final String ENTITY_STATUS = "entityStatus";
     public static final String LAST_UPDATED_AT = "lastUpdatedAt";
     public static final String CONTENT_TYPE = "";
