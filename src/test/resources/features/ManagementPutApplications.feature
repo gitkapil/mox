@@ -1,3 +1,4 @@
+
 Feature: Management Put Applications API - DRAG-1446
 
   Background: Retrieving access Token
@@ -13,21 +14,20 @@ Feature: Management Put Applications API - DRAG-1446
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     And I have an "<applicationId>" from an existing application
     And I have updated "<description>" and "<platformId>" values
-   # And I have updated "<clientId>", "<peakId>", "<subUnitId>" and "<organisationId>" values
     When I make a PUT request to the application endpoint
     Then I should receive a successful PUT application response
     And validate the put application response
     Examples:
-      | applicationId                        | description | platformId | clientId                             | peakId                               | subUnitId                            | organisationId                       |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | description | platform   | 00000001-0000-0000-0000-000000000000 | 00000002-0000-0000-c000-000000000001 | eafb2a7b-297d-444e-b473-2e724e864806 | a96cd9ba-a1f6-4d9a-b146-8118fa8fbed1 |
+      | applicationId                        | description | platformId                           |
+      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | description | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 |
 
 
     #trial
   @regression
   Scenario Outline: Positive flow- Put application and verify the application info using get application
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
+    And I have an "<applicationId>" from an existing application
     And I have updated "<description>" and "<platformId>" values
-   # And I have updated "<clientId>", "<peakId>", "<subUnitId>" and "<organisationId>" values
     When I make a PUT request to the application endpoint
     Then I should receive a successful PUT application response
     And validate the put application response
@@ -38,12 +38,9 @@ Feature: Management Put Applications API - DRAG-1446
     And validate the item list from the response
 
     Examples:
-      | description | platformId | filterName | filterValue                          | numberOfResponses |
-      | description | platform   | clientId   | 00000001-0000-0000-0000-000000000000 | 1                 |
+      | applicationId                        | description | platformId                           | filterName | filterValue                          | numberOfResponses |
+      | c9621185-b86d-48a9-97f0-eeddef7c3dc1  | description | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | clientId   | 00000001-0000-0000-0000-000000000000 | 1                 |
 
-
-
-  #DRAG-1157 - Please update the correct error_message for the signature in the examples.
 #   @trial
   @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
@@ -53,12 +50,12 @@ Feature: Management Put Applications API - DRAG-1446
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within the PUT application response
     And error message should be "<error_message>" within the PUT application response
     Examples:
-      | applicationId                        | error_description                                                     | error_message                     | key               | error_code | http_status |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | Error validating JWT                                                  | API Gateway Authentication Failed | Authorization     | EA001      | 401         |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | Header Request-Date-Time was not found in the request. Access denied. | API Gateway Validation Failed     | Request-Date-Time | EA002      | 400         |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | Header Trace-Id was not found in the request. Access denied.          | API Gateway Validation Failed     | Trace-Id          | EA002      | 400         |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | Header Accept does not contain required value.  Access denied.        | Request Header Not Acceptable     | Accept            | EA008      | 406         |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | Content type 'text/plain;charset=ISO-8859-1' not supported            | Service Request Validation Failed | Content-Type      | EA002      | 415         |
+      | applicationId                        | error_description                                              | error_message                     | key               | error_code | http_status |
+      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | Error validating JWT                                           | API Gateway Authentication Failed | Authorization     | EA001      | 401         |
+      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | Request timestamp not a valid RFC3339 date-time                | Service Request Validation Failed | Request-Date-Time | EA002      | 400         |
+      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | Header Trace-Id was not found in the request. Access denied.   | API Gateway Validation Failed     | Trace-Id          | EA002      | 400         |
+      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | Header Accept does not contain required value.  Access denied. | Request Header Not Acceptable     | Accept            | EA008      | 406         |
+      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | Content type 'text/plain;charset=ISO-8859-1' not supported     | Service Request Validation Failed | Content-Type      | EA002      | 415         |
 
 #   @trial
   @regression @merchantManagement @merchantManagementPut
@@ -88,23 +85,17 @@ Feature: Management Put Applications API - DRAG-1446
  # Auth token unverified
       | Error validating JWT | API Gateway Authentication Failed | Bearer nbCwW11w3XkB-xUaXwKRSLjMHGQ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | EA001      | 401       |
 
-#   @trial
-  @regression @merchantManagement @merchantManagementPut @putApp
+   #@trial
+  @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow- Mandatory fields from the body missing or invalid
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     And I have an "<applicationId>" from an existing application
     And I have updated "<description>" and "<platformId>" values
-  #  And I have updated "<clientId>", "<peakId>", "<subUnitId>" and "<organisationId>" values
     When I make a PUT request to the application endpoint with "<missBodyValue>"
     Then I should receive a "400" error response with "<error_description>" error description and "<error_code>" errorcode within the PUT application response
     And error message should be "<error_message>" within the PUT application response
     Examples:
-      | applicationId                        | missBodyValue | description                          | platformId                           | error_description                                                                                                            | error_message                     | error_code |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | description   | 00000001-0000-0000-0000-000000000000 | 00000002-0000-0000-c000-000000000001 | Field error in object 'updateMerchantApplicationMappingInputModel': field 'clientId' must not be null; rejected value [null] | Service Request Validation Failed | EA002      |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | platformId    | 00000001-0000-0000-0000-000000000000 | 00000002-0000-0000-c000-000000000001 | Field error in object 'updateMerchantApplicationMappingInputModel': field 'peakId' must not be null; rejected value [null]   | Service Request Validation Failed | EA002      |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 |               | not a UUID                           | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | Unable to read or parse message body: json parse error at [line: 1, column: 61]                                              | Service Request Validation Failed | EA002      |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 |               | random                               | not a UUID                           | Unable to read or parse message body: json parse error at [line: 1, column: 11]                                              | Service Request Validation Failed | EA002      |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 |               | random                               | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | Unable to read or parse message body: json parse error at [line: 1, column: 168]                                             | Service Request Validation Failed | EA002      |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 |               | random                               | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | Unable to read or parse message body: json parse error at [line: 1, column: 117]                                             | Service Request Validation Failed | EA002      |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 |               | random                               | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | Unable to read or parse message body: json parse error at [line: 1, column: 117]                                             | Service Request Validation Failed | EA002      |
-
+      | applicationId                        | missBodyValue | description | platformId                           | error_description                                                                                                          | error_message                     | error_code |
+      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | description   |             | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | Service Request Validation Failed                                                                                          | Service Request Validation Failed | EA002      |
+      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | platformId    | testing     |                                      | Field error in object 'updateMerchantApplicationMappingInputModel': field 'peakId' must not be null; rejected value [null] | Service Request Validation Failed | EA002      |
+      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 |               | testing     | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc       | Unable to read or parse message body: json parse error at [line: 1, column: 61]                                            | Service Request Validation Failed | EA002      |

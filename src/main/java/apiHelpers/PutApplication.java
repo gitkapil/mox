@@ -8,7 +8,9 @@ import com.mongodb.util.JSON;
 import groovy.json.JsonParser;
 import managers.UtilManager;
 import org.junit.Assert;
+import utils.DateHelper;
 import utils.EnvHelper;
+import utils.General;
 import utils.PropertyHelper;
 
 import java.io.IOException;
@@ -28,13 +30,14 @@ public class PutApplication extends UtilManager {
     private String subUnitId;
     private String organisationId;
     private String description;
-    private String platform;
+    private String platformId;
+    private String platformName;
     private String traceId;
     private String requestDateTime;
     private HashMap<String, String> requestHeader;
     private HashMap requestBody = new HashMap();
     private Response response = null;
-
+    General general = new General();
     /**
      * Getters
      */
@@ -90,12 +93,20 @@ public class PutApplication extends UtilManager {
         this.description = description;
     }
 
-    public String getPlatform() {
-        return platform;
+
+    public String getPlatformName() {
+        return platformName;
     }
 
-    public void setPlatform(String platform) {
-        this.platform = platform;
+    public void setPlatformName(String platformName) {
+        this.platformName = platformName;
+    }
+    public String getPlatformId() {
+        return platformId;
+    }
+
+    public void setPlatformId(String platformId) {
+        this.platformId = platformId;
     }
 
     /**
@@ -161,9 +172,9 @@ public class PutApplication extends UtilManager {
         requestHeader.put("Accept", "application/json");
         requestHeader.put("Content-Type", "application/json");
         requestHeader.put("Authorization", authToken);
-        requestHeader.put("Trace-Id", traceId);
+        requestHeader.put("Trace-Id", general.generateUniqueUUID());
         requestHeader.put("Accept-Language", "en-US");
-        requestHeader.put("Request-Date-Time", getRequestDateTime());
+        requestHeader.put("Request-Date-Time", getDateHelper().getUTCNowDateTime());
         requestHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
         return requestHeader;
 
@@ -181,9 +192,9 @@ public class PutApplication extends UtilManager {
         requestHeader.put("Accept","application/json");
         requestHeader.put("Content-Type","application/json");
         requestHeader.put("Authorization", authToken);
-        requestHeader.put("Trace-Id",traceId);
+        requestHeader.put("Trace-Id",general.generateUniqueUUID());
         requestHeader.put("Accept-Language", "en-US");
-        requestHeader.put("Request-Date-Time", getRequestDateTime());
+        requestHeader.put("Request-Date-Time", getDateHelper().getUTCNowDateTime());
         requestHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
         requestHeader.remove(keys);
 
@@ -219,19 +230,15 @@ public class PutApplication extends UtilManager {
      */
     public HashMap<String,HashMap> returnRequestBody(){
         requestBody.clear();
-        populateRequestBody("clientId", getClientId());
-        populateRequestBody("peakId", getPeakId());
-        populateRequestBody("subUnitId", getSubUnitId());
-        populateRequestBody("organisationId", getOrganisationId());
+        populateRequestBody("description", getDescription());
+        populateRequestBody("platformId", getPlatformId());
         return requestBody;
     }
 
     public HashMap<String,HashMap> returnRequestBodyWithMissingKeys(String missingKeys){
         requestBody.clear();
-        populateRequestBody("clientId", getClientId());
-        populateRequestBody("peakId", getPeakId());
-        populateRequestBody("subUnitId", getSubUnitId());
-        populateRequestBody("organisationId", getOrganisationId());
+        populateRequestBody("description", getDescription());
+        populateRequestBody("platformId", getPlatformId());
         requestBody.remove(missingKeys);
         return requestBody;
     }
@@ -283,11 +290,10 @@ public class PutApplication extends UtilManager {
     public Response  executeRequestWithMissingBody(String missingBody, String url) {
 
         try{
-            returnRequestBodyWithMissingKeys(missingBody);
             HashMap<String, String> header = returnRequestNewHeaders();
             response = getRestHelper().putRequestWithHeaderAndBody(url,
                     header,
-                    requestBody);
+                    returnRequestBodyWithMissingKeys(missingBody));
             logger.info("********** PUT Application Response *********** ----> "+ response.getBody().prettyPrint());
         }
         catch (Exception e){
@@ -440,9 +446,9 @@ public class PutApplication extends UtilManager {
         requestHeader.put("Accept","application/json");
         requestHeader.put("Content-Type","application/json");
         requestHeader.put("Authorization", authToken);
-        requestHeader.put("Trace-Id",traceId);
+        requestHeader.put("Trace-Id",general.generateUniqueUUID());
         requestHeader.put("Accept-Language", "en-US");
-        requestHeader.put("Request-Date-Time", getRequestDateTime());
+        requestHeader.put("Request-Date-Time", getDateHelper().getUTCNowDateTime());
         requestHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
 
         try{

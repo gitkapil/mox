@@ -58,13 +58,7 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
 
     @Given("^I have an \"([^\"]*)\" from an existing application$")
     public void i_have_an_applicationId_from_an_existing_application(String applicationId){
-        if ("new".equalsIgnoreCase(applicationId)) {
-            testContext.getApiManager().getPutApplication().setApplicationId(createNewApplication());
-        } else {
             testContext.getApiManager().getPutApplication().setApplicationId(applicationId);
-        }
-        testContext.getApiManager().getPutApplication().setRequestDateTime(getDateHelper().getUTCNowDateTime());
-        testContext.getApiManager().getPutApplication().setTraceId(getGeneral().generateUniqueUUID());
     }
 
     @Given("^I have updated \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\" values$")
@@ -88,11 +82,11 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
         } else {
             testContext.getApiManager().getPutApplication().setDescription(description);
         }
-        if (description.equalsIgnoreCase("platform")) {
+        if (description.equalsIgnoreCase("platformId")) {
             String p = StringUtils.repeat("*", 257);
-            testContext.getApiManager().getPutApplication().setPlatform(p);
+            testContext.getApiManager().getPutApplication().setPlatformId(p);
         } else {
-            testContext.getApiManager().getPutApplication().setPlatform(platform);
+            testContext.getApiManager().getPutApplication().setPlatformId(platform);
         }}
 
     private String getSubstituteValue(String value) {
@@ -118,7 +112,7 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
     @When("^I make a PUT request to the application endpoint with \"([^\"]*)\"$")
     public void i_make_a_put_request_to_the_application_endpointWithMissingBody(String missingBody) throws IOException {
         logger.info("********** Executing POST Application Request ***********");
-        testContext.getApiManager().getPutApplication().executeRequestWithMissingBody( missingBody,
+        testContext.getApiManager().getPutApplication().executeRequestWithMissingBody(missingBody,
                 getRestHelper().getBaseURI()+getFileHelper()
                         .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" + testContext.getApiManager().getPutApplication().getApplicationId());
         logger.info("********** Executed POST Application Request ***********");
@@ -146,8 +140,9 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
         Assert.assertTrue(response.contains(Constants.PEAK_ID),testContext.getApiManager().getPutApplication().getPeakId());
         Assert.assertTrue(response.contains(Constants.SUB_UNIT_ID),testContext.getApiManager().getPutApplication().getSubUnitId());
         Assert.assertTrue(response.contains(Constants.ORGANISATION_ID),testContext.getApiManager().getPutApplication().getOrganisationId());
-        Assert.assertTrue(response.contains(Constants.PLATFORM),testContext.getApiManager().getPutApplication().getPlatform());
-    //    Assert.assertTrue(response.contains(Constants.DESCRIPTION),testContext.getApiManager().getPutApplication().getDescription());
+        Assert.assertTrue(response.contains(Constants.PLATFORM_NAME),testContext.getApiManager().getPutApplication().getPlatformName());
+        Assert.assertTrue(response.contains(Constants.PLATFORM_ID),testContext.getApiManager().getPutApplication().getPlatformId());
+        Assert.assertTrue(response.contains(Constants.DESCRIPTION),testContext.getApiManager().getPutApplication().getDescription());
 
     }
 
