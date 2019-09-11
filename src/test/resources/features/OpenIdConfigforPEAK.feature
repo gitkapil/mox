@@ -1,12 +1,12 @@
 Feature: Open Id Config & JWKS URI - DRAG- 369 & DRAG- 370
 
-@regression
+#@regression
 Scenario: Positive flow- OpenId Config URI is UP and returning valid values
   When I hit the openid config URI
   Then I receive a successful response
   And the response body should have valid values
 
-@regression
+#@regression
 Scenario: Positive flow-  JWKS.json URI is UP and returning valid values
   When I hit the openid config URI
   And I receive a successful response

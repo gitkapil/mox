@@ -9,7 +9,7 @@ Feature: Management Put Applications API - DRAG-1446
   # For the parametres where values are missing within the table, while creating request, the parameter will not be included at all as a a part of the payload
   
   # @trial
-  @regression @merchantManagement @merchantManagementPut
+#  @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Positive flow- A DRAGON user with Application.ReadWrite.All is able to update an existing application
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     And I have an "<applicationId>" from an existing application
@@ -38,11 +38,14 @@ Feature: Management Put Applications API - DRAG-1446
     And validate the item list from the response
 
     Examples:
-      | applicationId                        | description | platformId                           | filterName | filterValue                          | numberOfResponses |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | description | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | clientId   | 00000001-0000-0000-0000-000000000000 | 1                 |
+      | applicationId                        | description | platformId                           | filterName                           | filterValue                          | numberOfResponses |
+      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | description | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | clientId                             | 00000001-0000-0000-0000-000000000000 | 1                 |
+      | applicationId                        | clientId    | peakId                               | subUnitId                            | organisationId                       | description       |
+      | new                                  | random      | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | test d            |
+
 
 #   @trial
-  @regression @merchantManagement @merchantManagementPut
+#  @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     And I have an "<applicationId>" from an existing application
@@ -50,15 +53,16 @@ Feature: Management Put Applications API - DRAG-1446
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within the PUT application response
     And error message should be "<error_message>" within the PUT application response
     Examples:
-      | applicationId                        | error_description                                              | error_message                     | key               | error_code | http_status |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | Error validating JWT                                           | API Gateway Authentication Failed | Authorization     | EA001      | 401         |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | Request timestamp not a valid RFC3339 date-time                | Service Request Validation Failed | Request-Date-Time | EA002      | 400         |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | Header Trace-Id was not found in the request. Access denied.   | API Gateway Validation Failed     | Trace-Id          | EA002      | 400         |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | Header Accept does not contain required value.  Access denied. | Request Header Not Acceptable     | Accept            | EA008      | 406         |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | Content type 'text/plain;charset=ISO-8859-1' not supported     | Service Request Validation Failed | Content-Type      | EA002      | 415         |
+
+      | applicationId                                                  | error_description                                              | error_message                     | key               | error_code  | http_status |
+      | c9621185-b86d-48a9-97f0-eeddef7c3dc1                           | Error validating JWT                                           | API Gateway Authentication Failed | Authorization     | EA001       | 401         |
+      | c9621185-b86d-48a9-97f0-eeddef7c3dc1                           | Request timestamp not a valid RFC3339 date-time                | Service Request Validation Failed | Request-Date-Time | EA002       | 400         |
+      | c9621185-b86d-48a9-97f0-eeddef7c3dc1                           | Header Trace-Id was not found in the request. Access denied.   | API Gateway Validation Failed     | Trace-Id          | EA002       | 400         |
+      | c9621185-b86d-48a9-97f0-eeddef7c3dc1                           | Header Accept does not contain required value.  Access denied. | Request Header Not Acceptable     | Accept            | EA008       | 406         |
+      | c9621185-b86d-48a9-97f0-eeddef7c3dc1                           | Content type 'text/plain;charset=ISO-8859-1' not supported     | Service Request Validation Failed | Content-Type      | EA002       | 415         |
 
 #   @trial
-  @regression @merchantManagement @merchantManagementPut
+#  @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     When I make a PUT request to the application endpoint with "<key>" missing in the header
@@ -68,7 +72,7 @@ Feature: Management Put Applications API - DRAG-1446
       | Api-Version |
 
 #   @trial
-  @regression @merchantManagement @merchantManagementPut
+#  @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow- Invalid auth token
     Given I am a PUT application DRAGON user with Application.ReadWrite.All with invalid "<auth_token>"
     When I make a PUT request to the application endpoint
@@ -85,8 +89,9 @@ Feature: Management Put Applications API - DRAG-1446
  # Auth token unverified
       | Error validating JWT | API Gateway Authentication Failed | Bearer nbCwW11w3XkB-xUaXwKRSLjMHGQ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | EA001      | 401       |
 
+
    #@trial
-  @regression @merchantManagement @merchantManagementPut
+    @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow- Mandatory fields from the body missing or invalid
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     And I have an "<applicationId>" from an existing application

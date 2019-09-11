@@ -361,16 +361,10 @@ public class RestHelper {
                 } else if (errorDesc.equalsIgnoreCase("Field error in object 'onboardingInputModel': field 'applicationDescription' must not be null; rejected value [null]")) {
                     flag = true;
                     count++;
-                } else if (errorDesc.equalsIgnoreCase("Field error in object 'onboardingInputModel': field 'passwordChannel' must not be null; rejected value [null]")) {
-                    flag = true;
-                    count++;
                 } else if (errorDesc.equalsIgnoreCase("Field error in object 'onboardingInputModel': field 'organisationId' must not be null; rejected value [null]")) {
                     flag = true;
                     count++;
-                } else if (errorDesc.equalsIgnoreCase("Field error in object 'onboardingInputModel': field 'pdfChannel' must not be null; rejected value [null]")) {
-                    flag = true;
-                    count++;
-                } else if (errorDesc.equalsIgnoreCase("Field error in object 'onboardingInputModel': field 'platform' must not be null; rejected value [null]")) {
+                } else if (errorDesc.equalsIgnoreCase("Field error in object 'onboardingInputModel': field 'platformId' must not be null; rejected value [null]")) {
                     flag = true;
                     count++;
                 } else if (errorDesc.equalsIgnoreCase("Field error in object 'onboardingInputModel': field 'applicationName' must not be null; rejected value [null]")) {
@@ -379,7 +373,7 @@ public class RestHelper {
                 }
             }
             System.out.println("count: " + count);
-            Assert.assertTrue("Count should be 8. But actual: " + count, count == 8);
+            Assert.assertTrue("Count should be 6. But actual: " + count, count == 6);
         } catch (NullPointerException e) {
             return null;
         } catch (IllegalArgumentException e) {
@@ -400,7 +394,6 @@ public class RestHelper {
 
         String errorCode = null;
 
-
         try {
             errorCode = errorDetails.get(0).get("errorCode");
 
@@ -412,6 +405,42 @@ public class RestHelper {
 
         return errorCode;
     }
+
+    /**
+     * This method returns error description list for long application name in one click API response
+     *
+     * @param res
+     * @return
+     */
+    public String getErrorDescriptionsLongName(Response res) {
+
+        List<HashMap<String, String>> errorDetails = getJsonArray(res, "errors");
+        System.out.println("errorDetails: " + errorDetails);
+        //boolean flag = false;
+        int count = 0;
+        String errorDesc = null;
+
+        try {
+            for (int i = 0; i <= errorDetails.size() - 1; i++) {
+                errorDesc = errorDetails.get(i).get("errorDescription");
+                if (errorDesc.contains("Field error in object 'onboardingInputModel': field 'applicationName' must match \".*-(sandbox|merchant)-client-app\"; rejected value")) {
+                    // flag = true;
+                    count++;
+                } else if (errorDesc.contains("Field error in object 'onboardingInputModel': field 'applicationName' size must be between 0 and 256; rejected value")) {
+                    //flag = true;
+                    count++;
+                }
+            }
+            System.out.println("count: " + count);
+            Assert.assertTrue("Count should be 2. But actual: " + count, count == 2);
+        } catch (NullPointerException e) {
+            return null;
+        } catch (IllegalArgumentException e) {
+        }
+
+        return errorDesc;
+    }
+
 
     /**
      * This method returns error code list within one click API response
@@ -433,9 +462,8 @@ public class RestHelper {
         } catch (NullPointerException e) {
             return null;
         } catch (IllegalArgumentException e) {
-
+            e.printStackTrace();
         }
-
         return errorCode;
     }
 

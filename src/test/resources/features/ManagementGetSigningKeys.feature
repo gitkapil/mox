@@ -6,11 +6,14 @@ Feature: Merchant Management API - GET /keys/signing
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
+
 #  @trial
   @regression @getSigningKeys
   Scenario Outline: positive flow - get signing keys
     Given I am a user with permissions to use signing key
     And I make a request to get signing keys with "<applicationID>" and with missing header "<headerValue>" values
+    And I make a request to get signing keys
+
     Then I should receive a successful signing key response
     Examples:
       | applicationID                        | headerValue |
@@ -55,17 +58,21 @@ Feature: Merchant Management API - GET /keys/signing
       | Api-Version   | Resource not found | c9621185-b86d-48a9-97f0-eeddef7c3dc1 |
       | Authorization | Resource not found | c9621185-b86d-48a9-97f0-eeddef7c3dc1 |
 
-
-  @regression @negativeFlow
-  Scenario Outline: Negative flow - get signing key with null or invalid header values
+#  @trial
+#  @regression
+  Scenario Outline: Negative flow - Invalid application Id
     Given I am a user with permissions to use signing key
     And I make a request to get signing keys with "<applicationId>" and invalid header "<invalidHeader>" for keys "<key>"
     Then I should receive a signing key response error "<http_status>" status with code "<error_code>" and description "<error_description>"
     And error message should be "<error_message>" within the get signing key response
-
     Examples:
       | applicationId                        | key      | invalidHeader | error_message                     | error_code | http_status | error_description               |
       | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | Trace-Id | 123456        | Service Request Validation Failed | EA002      | 400         | Failed to convert value of type |
 
 
-
+    Examples:
+      | applicationId                        | http_status | error_code | error_description               |
+    # Invalid application Id format
+      | aaa                                  | 400         | EA002      | Failed to convert value of type |
+    # Application Id not found
+      | 00000002-0000-3333-c000-000000000000 | 400         | EA025      | Application Id not found        |

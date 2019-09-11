@@ -12,7 +12,12 @@ import managers.UtilManager;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
+import utils.Constants;
+import utils.DataBaseConnector;
 
+import java.sql.Array;
+import java.sql.DatabaseMetaData;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -31,6 +36,7 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
 
     Response response;
     String oneClickURL;
+    Response resp_one;
 
     public OneClickMerchantOnboarding_StepDefs(TestContext testContext) {
         this.testContext = testContext;
@@ -65,21 +71,6 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
         Assert.assertNotNull(response, "The response for Post One Click Merchant Onboarding Request was null");
     }
 
-    @When("^I make request for a new client with name as \"([^\"]*)\", peakId as \"([^\"]*)\", subUnitId as \"([^\"]*)\", organisationId as \"([^\"]*)\", description as \"([^\"]*)\", platform as \"([^\"]*)\", pdfChannel as \"([^\"]*)\" and passwordChannel as \"([^\"]*)\"$")
-    public void iMakeRequest(String applicationName, String peakId, String subUnitId, String organisationId, String description, String platform, String pdfChannel, String passwordChannel) throws Throwable {
-        testContext.getApiManager().getOneClickMerchantOnboarding().setApplicationName(applicationName);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPeakId(peakId);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(subUnitId);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setOrganisationId(organisationId);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setDescription(description);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setRequestDateTime(getDateHelper().getUTCNowDateTime());
-        testContext.getApiManager().getOneClickMerchantOnboarding().setTraceId(getGeneral().generateUniqueUUID());
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPlatform(platform);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPdfChannel(pdfChannel);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPasswordChannel(passwordChannel);
-        makeRequest();
-    }
-
     @And("^verify the response body contains all mandatory details$")
     public void verifyTheResponseBodyContainsAllMandatoryDetails() {
 
@@ -88,34 +79,34 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
         HashMap passwordMetadataResponse = response.path("passwordMetadata");
 
         //Validate application response details
-        Assert.assertNotNull(applicationResponse.get("applicationId"), "applicationId cannot be null!");
-        Assert.assertNotNull(applicationResponse.get("clientId"), "clientId cannot be null!");
-        Assert.assertEquals(applicationResponse.get("peakId"), testContext.getApiManager().getOneClickMerchantOnboarding().getPeakId(), "peakId should be same as provided in request body!");
-        Assert.assertEquals(applicationResponse.get("subUnitId"), testContext.getApiManager().getOneClickMerchantOnboarding().getSubUnitId(), "subUnitId should be same as provided in request body!");
-        Assert.assertEquals(applicationResponse.get("organisationId"), testContext.getApiManager().getOneClickMerchantOnboarding().getOrganisationId(), "organisationId should be same as provided in request body!");
-        Assert.assertEquals(applicationResponse.get("platform"), testContext.getApiManager().getOneClickMerchantOnboarding().getPlatform(), "platform should be same as provided in request body!");
-        Assert.assertEquals(applicationResponse.get("applicationDescription"), testContext.getApiManager().getOneClickMerchantOnboarding().getDescription(), "applicationDescription should be same as provided in request body!");
+        Assert.assertNotNull(applicationResponse.get(Constants.APPLICATION_ID), "applicationId cannot be null!");
+        Assert.assertNotNull(applicationResponse.get(Constants.CLIENT_ID), "clientId cannot be null!");
+        Assert.assertEquals(applicationResponse.get(Constants.PEAK_ID), testContext.getApiManager().getOneClickMerchantOnboarding().getPeakId(), "peakId should be same as provided in request body!");
+        Assert.assertEquals(applicationResponse.get(Constants.SUB_UNIT_ID), testContext.getApiManager().getOneClickMerchantOnboarding().getSubUnitId(), "subUnitId should be same as provided in request body!");
+        Assert.assertEquals(applicationResponse.get(Constants.ORGANISATION_ID), testContext.getApiManager().getOneClickMerchantOnboarding().getOrganisationId(), "organisationId should be same as provided in request body!");
+        Assert.assertEquals(applicationResponse.get(Constants.PLATFORM_ID), testContext.getApiManager().getOneClickMerchantOnboarding().getPlatformId(), "platformId should be same as provided in request body!");
+        Assert.assertNotNull(applicationResponse.get(Constants.PLATFORM_NAME), "platformName should not be null!");
+        Assert.assertEquals(applicationResponse.get(Constants.APPLICATION_DESCRIPTION), testContext.getApiManager().getOneClickMerchantOnboarding().getDescription(), "applicationDescription should be same as provided in request body!");
 
         //Validate signingKey response details
-        Assert.assertNotNull(signingKeyResponse.get("keyId"), "Signing keyId cannot be null!");
-        Assert.assertNotNull(signingKeyResponse.get("keyName"), "Signing keyName cannot be null!");
-        Assert.assertNotNull(signingKeyResponse.get("alg"), "Signing alg cannot be null!");
-        Assert.assertNotNull(signingKeyResponse.get("type"), "Signing type cannot be null!");
-        Assert.assertNotNull(signingKeyResponse.get("size"), "Signing size cannot be null!");
-        Assert.assertNotNull(signingKeyResponse.get("activateAt"), "Signing activateAt cannot be null!");
-        Assert.assertNotNull(signingKeyResponse.get("deactivateAt"), "Signing deactivateAt cannot be null!");
-        Assert.assertNotNull(signingKeyResponse.get("entityStatus"), "Signing entityStatus cannot be null!");
+        Assert.assertNotNull(signingKeyResponse.get(Constants.KEY_ID), "Signing keyId cannot be null!");
+        Assert.assertNotNull(signingKeyResponse.get(Constants.ALG), "Signing alg cannot be null!");
+        Assert.assertNotNull(signingKeyResponse.get(Constants.TYPE), "Signing type cannot be null!");
+        Assert.assertNotNull(signingKeyResponse.get(Constants.SIZE), "Signing size cannot be null!");
+        Assert.assertNotNull(signingKeyResponse.get(Constants.ACTIVATE_AT), "Signing activateAt cannot be null!");
+        Assert.assertNotNull(signingKeyResponse.get(Constants.DEACTIVATE_AT), "Signing deactivateAt cannot be null!");
+        Assert.assertNotNull(signingKeyResponse.get(Constants.ENTITY_STATUS), "Signing entityStatus cannot be null!");
 
         //Validate passwordMetadata response details
-        Assert.assertNotNull(passwordMetadataResponse.get("keyId"), "passwordMetada keyId cannot be null!");
-        Assert.assertNotNull(passwordMetadataResponse.get("activateAt"), "passwordMetada activateAt cannot be null!");
-        Assert.assertNotNull(passwordMetadataResponse.get("deactivateAt"), "passwordMetada deactivateAt cannot be null!");
+        Assert.assertNotNull(passwordMetadataResponse.get(Constants.KEY_ID), "passwordMetada keyId cannot be null!");
+        Assert.assertNotNull(passwordMetadataResponse.get(Constants.ACTIVATE_AT), "passwordMetada activateAt cannot be null!");
+        Assert.assertNotNull(passwordMetadataResponse.get(Constants.DEACTIVATE_AT), "passwordMetada deactivateAt cannot be null!");
 
         //Validate other response body parameters
-        Assert.assertNotNull(response.path("grantUrl"), "grantUrl cannot be null!");
-        Assert.assertNotNull(response.path("pdfStatus"), "pdfStatus cannot be null!");
-        Assert.assertEquals(response.path("pdfStatus"), "Sent", "pdfStatus should be Sent!!");
-        Assert.assertNotNull(response.path("pdfPin"), "pdfPin cannot be null!");
+        Assert.assertNotNull(response.path(Constants.GRANT_URL), "grantUrl cannot be null!");
+        Assert.assertNotNull(response.path(Constants.PDF_URL), "pdfUrl cannot be null!");
+        Assert.assertNotNull(response.path(Constants.PDF_PIN), "pdfPin cannot be null!");
+        Assert.assertEquals(response.path(Constants.PDF_PIN).toString().length(), 16, "pdfPin should be 16 characters.");
     }
 
     @When("^I make request to one click merchant onboard endpoint with \"([^\"]*)\" missing in the header$")
@@ -131,6 +122,7 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
         Response response = testContext.getApiManager().getOneClickMerchantOnboarding().getResponse();
         Assert.assertEquals(getRestHelper().getResponseStatusCode(response), responseCode, "Different response code being returned");
 
+        String applicationNameErrorDescription = "Field error in object 'onboardingInputModel': field 'applicationName' must match \".*-(sandbox|merchant)-client-app\"; rejected value";
 
         if (getRestHelper().getErrorDescription(response) != null) {
 
@@ -138,12 +130,16 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
                 System.out.println("here : " + getRestHelper().getErrorDescription(response));
                 System.out.println("there: " + errorDesc);
             }
-
-            Assert.assertTrue(
-                    getRestHelper().getErrorDescription(response)
-                            .replace("\"", "")
-                            .contains(errorDesc),
-                    "Different error description being returned..Expected: " + errorDesc + "Actual: " + getRestHelper().getErrorDescription(response));
+            if (errorDesc.equalsIgnoreCase("applicationNameErrorDescription")) {
+                Assert.assertTrue(getRestHelper().getErrorDescription(response).contains(applicationNameErrorDescription),
+                        "Different error description being returned..Expected: " + applicationNameErrorDescription + "Actual: " + getRestHelper().getErrorDescription(response));
+            } else {
+                Assert.assertTrue(
+                        getRestHelper().getErrorDescription(response)
+                                .replace("\"", "")
+                                .contains(errorDesc),
+                        "Different error description being returned..Expected: " + errorDesc + "Actual: " + getRestHelper().getErrorDescription(response));
+            }
         }
 
         Assert.assertEquals(getRestHelper().getErrorCode(response), errorCode, "Different error code being returned");
@@ -170,21 +166,6 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 testContext.getApiManager().getMerchantManagementSigningKey(),
                 Sets.newHashSet(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, SIG_HEADER_LIST_POST_APPLICATION).split(",")));
-    }
-
-    @When("^I provide application name as \"([^\"]*)\", peakId as \"([^\"]*)\", subUnitId as \"([^\"]*)\", organisationId as \"([^\"]*)\", description as \"([^\"]*)\", platform as \"([^\"]*)\", pdfChannel as \"([^\"]*)\" and passwordChannel as \"([^\"]*)\" in request body with invalid key \"([^\"]*)\" for \"([^\"]*)\" in header$")
-    public void iProvideRequestBody(String applicationName, String peakId, String subUnitId, String organisationId, String description, String platform, String pdfChannel, String passwordChannel, String invalidValue, String key) throws Throwable {
-        testContext.getApiManager().getOneClickMerchantOnboarding().setApplicationName(applicationName);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPeakId(peakId);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(subUnitId);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setOrganisationId(organisationId);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setDescription(description);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setRequestDateTime(getDateHelper().getUTCNowDateTime());
-        testContext.getApiManager().getOneClickMerchantOnboarding().setTraceId(getGeneral().generateUniqueUUID());
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPlatform(platform);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPdfChannel(pdfChannel);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPasswordChannel(passwordChannel);
-        makeInvalidRequest(key, invalidValue);
     }
 
     @Given("^I am a DRAGON user with invalid \"([^\"]*)\" auth token$")
@@ -279,68 +260,8 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
                         SIG_HEADER_LIST_POST_APPLICATION).split(",")));
     }
 
-    @When("^I make request for a new client with peakId as \"([^\"]*)\", subUnitId as \"([^\"]*)\", organisationId as \"([^\"]*)\", description as \"([^\"]*)\", platform as \"([^\"]*)\", pdfChannel as \"([^\"]*)\" and passwordChannel as \"([^\"]*)\"$")
-    public void iMakeRequestForANewClientWithPeakIdAsSubUnitIdAsOrganisationIdAsDescriptionAsPlatformAsPdfChannelAsAndPasswordChannelAs(String peakId, String subUnitId, String organisationId, String description, String platform, String pdfChannel, String passwordChannel) throws Throwable {
-        //testContext.getApiManager().getOneClickMerchantOnboarding().setApplicationName(applicationName);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPeakId(peakId);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(subUnitId);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setOrganisationId(organisationId);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setDescription(description);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setRequestDateTime(getDateHelper().getUTCNowDateTime());
-        testContext.getApiManager().getOneClickMerchantOnboarding().setTraceId(getGeneral().generateUniqueUUID());
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPlatform(platform);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPdfChannel(pdfChannel);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPasswordChannel(passwordChannel);
-        makeRequest();
-    }
-
-    @When("^I make request for a new client with name as \"([^\"]*)\", subUnitId as \"([^\"]*)\", organisationId as \"([^\"]*)\", description as \"([^\"]*)\", platform as \"([^\"]*)\", pdfChannel as \"([^\"]*)\" and passwordChannel as \"([^\"]*)\"$")
-    public void iMakeRequestForANewClientWithNameAsSubUnitIdAsOrganisationIdAsDescriptionAsPlatformAsPdfChannelAsAndPasswordChannelAs(String applicationName, String subUnitId, String organisationId, String description, String platform, String pdfChannel, String passwordChannel) throws Throwable {
-        testContext.getApiManager().getOneClickMerchantOnboarding().setApplicationName(applicationName);
-        //testContext.getApiManager().getOneClickMerchantOnboarding().setPeakId(peakId);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(subUnitId);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setOrganisationId(organisationId);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setDescription(description);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setRequestDateTime(getDateHelper().getUTCNowDateTime());
-        testContext.getApiManager().getOneClickMerchantOnboarding().setTraceId(getGeneral().generateUniqueUUID());
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPlatform(platform);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPdfChannel(pdfChannel);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPasswordChannel(passwordChannel);
-        makeRequest();
-    }
-
-    @When("^I make request for a new client with name as \"([^\"]*)\", peakId as \"([^\"]*)\", organisationId as \"([^\"]*)\", description as \"([^\"]*)\", platform as \"([^\"]*)\", pdfChannel as \"([^\"]*)\" and passwordChannel as \"([^\"]*)\"$")
-    public void iMakeRequestForANewClientWithNameAsPeakIdAsOrganisationIdAsDescriptionAsPlatformAsPdfChannelAsAndPasswordChannelAs(String applicationName, String peakId, String organisationId, String description, String platform, String pdfChannel, String passwordChannel) throws Throwable {
-        testContext.getApiManager().getOneClickMerchantOnboarding().setApplicationName(applicationName);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPeakId(peakId);
-        //testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(subUnitId);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setOrganisationId(organisationId);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setDescription(description);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setRequestDateTime(getDateHelper().getUTCNowDateTime());
-        testContext.getApiManager().getOneClickMerchantOnboarding().setTraceId(getGeneral().generateUniqueUUID());
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPlatform(platform);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPdfChannel(pdfChannel);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPasswordChannel(passwordChannel);
-        makeRequest();
-    }
-
-    @When("^I make request for a new client with name as \"([^\"]*)\", peakId as \"([^\"]*)\", subUnitId as \"([^\"]*)\", description as \"([^\"]*)\", platform as \"([^\"]*)\", pdfChannel as \"([^\"]*)\" and passwordChannel as \"([^\"]*)\"$")
-    public void iMakeRequestForANewClientWithNameAsPeakIdAsSubUnitIdAsDescriptionAsPlatformAsPdfChannelAsAndPasswordChannelAs(String applicationName, String peakId, String subUnitId, String description, String platform, String pdfChannel, String passwordChannel) throws Throwable {
-        testContext.getApiManager().getOneClickMerchantOnboarding().setApplicationName(applicationName);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPeakId(peakId);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(subUnitId);
-        //testContext.getApiManager().getOneClickMerchantOnboarding().setOrganisationId(organisationId);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setDescription(description);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setRequestDateTime(getDateHelper().getUTCNowDateTime());
-        testContext.getApiManager().getOneClickMerchantOnboarding().setTraceId(getGeneral().generateUniqueUUID());
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPlatform(platform);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPdfChannel(pdfChannel);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPasswordChannel(passwordChannel);
-        makeRequest();
-    }
-
-    @When("^I make request for a new client with name as \"([^\"]*)\", peakId as \"([^\"]*)\", subUnitId as \"([^\"]*)\", organisationId as \"([^\"]*)\", description as \"([^\"]*)\", pdfChannel as \"([^\"]*)\" and passwordChannel as \"([^\"]*)\"$")
-    public void iMakeRequestForANewClientWithNameAsPeakIdAsSubUnitIdAsOrganisationIdAsDescriptionAsPdfChannelAsAndPasswordChannelAs(String applicationName, String peakId, String subUnitId, String organisationId, String description, String pdfChannel, String passwordChannel) throws Throwable {
+    @When("^I make request for a new client with name as \"([^\"]*)\", peakId as \"([^\"]*)\", subUnitId as \"([^\"]*)\", organisationId as \"([^\"]*)\", description as \"([^\"]*)\" and platformId as \"([^\"]*)\"$")
+    public void iMakeRequestForANewClientWithNameAsPeakIdAsSubUnitIdAsOrganisationIdAsDescriptionAsAndPlatformIdAs(String applicationName, String peakId, String subUnitId, String organisationId, String description, String platformId) throws Throwable {
         testContext.getApiManager().getOneClickMerchantOnboarding().setApplicationName(applicationName);
         testContext.getApiManager().getOneClickMerchantOnboarding().setPeakId(peakId);
         testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(subUnitId);
@@ -348,14 +269,12 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
         testContext.getApiManager().getOneClickMerchantOnboarding().setDescription(description);
         testContext.getApiManager().getOneClickMerchantOnboarding().setRequestDateTime(getDateHelper().getUTCNowDateTime());
         testContext.getApiManager().getOneClickMerchantOnboarding().setTraceId(getGeneral().generateUniqueUUID());
-        //testContext.getApiManager().getOneClickMerchantOnboarding().setPlatform(platform);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPdfChannel(pdfChannel);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPasswordChannel(passwordChannel);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setPlatformId(platformId);
         makeRequest();
     }
 
-    @When("^I make request for a new client with name as \"([^\"]*)\", peakId as \"([^\"]*)\", subUnitId as \"([^\"]*)\", organisationId as \"([^\"]*)\", description as \"([^\"]*)\", platform as \"([^\"]*)\" and passwordChannel as \"([^\"]*)\"$")
-    public void iMakeRequestForANewClientWithNameAsPeakIdAsSubUnitIdAsOrganisationIdAsDescriptionAsPlatformAsAndPasswordChannelAs(String applicationName, String peakId, String subUnitId, String organisationId, String description, String platform, String passwordChannel) throws Throwable {
+    @When("^I provide application name as \"([^\"]*)\", peakId as \"([^\"]*)\", subUnitId as \"([^\"]*)\", organisationId as \"([^\"]*)\", description as \"([^\"]*)\" and platformId as \"([^\"]*)\" in request body with invalid key \"([^\"]*)\" for \"([^\"]*)\" in header$")
+    public void iProvideApplicationNameAsPeakIdAsSubUnitIdAsOrganisationIdAsDescriptionAsAndPlatformIdAsInRequestBodyWithInvalidKeyForInHeader(String applicationName, String peakId, String subUnitId, String organisationId, String description, String platformId, String invalidValue, String key) throws Throwable {
         testContext.getApiManager().getOneClickMerchantOnboarding().setApplicationName(applicationName);
         testContext.getApiManager().getOneClickMerchantOnboarding().setPeakId(peakId);
         testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(subUnitId);
@@ -363,14 +282,60 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
         testContext.getApiManager().getOneClickMerchantOnboarding().setDescription(description);
         testContext.getApiManager().getOneClickMerchantOnboarding().setRequestDateTime(getDateHelper().getUTCNowDateTime());
         testContext.getApiManager().getOneClickMerchantOnboarding().setTraceId(getGeneral().generateUniqueUUID());
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPlatform(platform);
-        //testContext.getApiManager().getOneClickMerchantOnboarding().setPdfChannel(pdfChannel);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPasswordChannel(passwordChannel);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setPlatformId(platformId);
+        makeInvalidRequest(key, invalidValue);
+    }
+
+    @When("^I make request for a new client with peakId as \"([^\"]*)\", subUnitId as \"([^\"]*)\", organisationId as \"([^\"]*)\", description as \"([^\"]*)\" and platformId as \"([^\"]*)\"$")
+    public void iMakeRequestForANewClientWithPeakIdAsSubUnitIdAsOrganisationIdAsDescriptionAsAndPlatformIdAs(String peakId, String subUnitId, String organisationId, String description, String platformId) throws Throwable {
+        testContext.getApiManager().getOneClickMerchantOnboarding().setPeakId(peakId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(subUnitId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setOrganisationId(organisationId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setDescription(description);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setRequestDateTime(getDateHelper().getUTCNowDateTime());
+        testContext.getApiManager().getOneClickMerchantOnboarding().setTraceId(getGeneral().generateUniqueUUID());
+        testContext.getApiManager().getOneClickMerchantOnboarding().setPlatformId(platformId);
         makeRequest();
     }
 
-    @When("^I make request for a new client with name as \"([^\"]*)\", peakId as \"([^\"]*)\", subUnitId as \"([^\"]*)\", organisationId as \"([^\"]*)\", description as \"([^\"]*)\", platform as \"([^\"]*)\" and pdfChannel as \"([^\"]*)\"$")
-    public void iMakeRequestForANewClientWithNameAsPeakIdAsSubUnitIdAsOrganisationIdAsDescriptionAsPlatformAsAndPdfChannelAs(String applicationName, String peakId, String subUnitId, String organisationId, String description, String platform, String pdfChannel) throws Throwable {
+    @When("^I make request for a new client with name as \"([^\"]*)\", subUnitId as \"([^\"]*)\", organisationId as \"([^\"]*)\", description as \"([^\"]*)\" and platformId as \"([^\"]*)\"$")
+    public void iMakeRequestForANewClientWithNameAsSubUnitIdAsOrganisationIdAsDescriptionAsAndPlatformIdAs(String applicationName, String subUnitId, String organisationId, String description, String platformId) throws Throwable {
+        testContext.getApiManager().getOneClickMerchantOnboarding().setApplicationName(applicationName);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(subUnitId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setOrganisationId(organisationId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setDescription(description);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setRequestDateTime(getDateHelper().getUTCNowDateTime());
+        testContext.getApiManager().getOneClickMerchantOnboarding().setTraceId(getGeneral().generateUniqueUUID());
+        testContext.getApiManager().getOneClickMerchantOnboarding().setPlatformId(platformId);
+        makeRequest();
+    }
+
+    @When("^I make request for a new client with name as \"([^\"]*)\", peakId as \"([^\"]*)\", organisationId as \"([^\"]*)\", description as \"([^\"]*)\" and platformId as \"([^\"]*)\"$")
+    public void iMakeRequestForANewClientWithNameAsPeakIdAsOrganisationIdAsDescriptionAsAndPlatformIdAs(String applicationName, String peakId, String organisationId, String description, String platformId) throws Throwable {
+        testContext.getApiManager().getOneClickMerchantOnboarding().setApplicationName(applicationName);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setPeakId(peakId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setOrganisationId(organisationId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setDescription(description);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setRequestDateTime(getDateHelper().getUTCNowDateTime());
+        testContext.getApiManager().getOneClickMerchantOnboarding().setTraceId(getGeneral().generateUniqueUUID());
+        testContext.getApiManager().getOneClickMerchantOnboarding().setPlatformId(platformId);
+        makeRequest();
+    }
+
+    @When("^I make request for a new client with name as \"([^\"]*)\", peakId as \"([^\"]*)\", subUnitId as \"([^\"]*)\", description as \"([^\"]*)\" and platformId as \"([^\"]*)\"$")
+    public void iMakeRequestForANewClientWithNameAsPeakIdAsSubUnitIdAsDescriptionAsAndPlatformIdAs(String applicationName, String peakId, String subUnitId, String description, String platformId) throws Throwable {
+        testContext.getApiManager().getOneClickMerchantOnboarding().setApplicationName(applicationName);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setPeakId(peakId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(subUnitId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setDescription(description);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setRequestDateTime(getDateHelper().getUTCNowDateTime());
+        testContext.getApiManager().getOneClickMerchantOnboarding().setTraceId(getGeneral().generateUniqueUUID());
+        testContext.getApiManager().getOneClickMerchantOnboarding().setPlatformId(platformId);
+        makeRequest();
+    }
+
+    @When("^I make request for a new client with name as \"([^\"]*)\", peakId as \"([^\"]*)\", subUnitId as \"([^\"]*)\", organisationId as \"([^\"]*)\" and description as \"([^\"]*)\"$")
+    public void iMakeRequestForANewClientWithNameAsPeakIdAsSubUnitIdAsOrganisationIdAsAndDescriptionAs(String applicationName, String peakId, String subUnitId, String organisationId, String description) throws Throwable {
         testContext.getApiManager().getOneClickMerchantOnboarding().setApplicationName(applicationName);
         testContext.getApiManager().getOneClickMerchantOnboarding().setPeakId(peakId);
         testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(subUnitId);
@@ -378,24 +343,220 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
         testContext.getApiManager().getOneClickMerchantOnboarding().setDescription(description);
         testContext.getApiManager().getOneClickMerchantOnboarding().setRequestDateTime(getDateHelper().getUTCNowDateTime());
         testContext.getApiManager().getOneClickMerchantOnboarding().setTraceId(getGeneral().generateUniqueUUID());
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPlatform(platform);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPdfChannel(pdfChannel);
-        //testContext.getApiManager().getOneClickMerchantOnboarding().setPasswordChannel(passwordChannel);
         makeRequest();
     }
 
-    @When("^I make request for a new client with name as \"([^\"]*)\", peakId as \"([^\"]*)\", subUnitId as \"([^\"]*)\", organisationId as \"([^\"]*)\", platform as \"([^\"]*)\", pdfChannel as \"([^\"]*)\" and passwordChannel as \"([^\"]*)\"$")
-    public void iMakeRequestForANewClientWithNameAsPeakIdAsSubUnitIdAsOrganisationIdAsPlatformAsPdfChannelAsAndPasswordChannelAs(String applicationName, String peakId, String subUnitId, String organisationId, String platform, String pdfChannel, String passwordChannel) throws Throwable {
+    @When("^I make request for a new client with name as \"([^\"]*)\", peakId as \"([^\"]*)\", subUnitId as \"([^\"]*)\", organisationId as \"([^\"]*)\" and platformId as \"([^\"]*)\"$")
+    public void iMakeRequestForANewClientWithNameAsPeakIdAsSubUnitIdAsOrganisationIdAsAndPlatformIdAs(String applicationName, String peakId, String subUnitId, String organisationId, String platformId) throws Throwable {
         testContext.getApiManager().getOneClickMerchantOnboarding().setApplicationName(applicationName);
         testContext.getApiManager().getOneClickMerchantOnboarding().setPeakId(peakId);
         testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(subUnitId);
         testContext.getApiManager().getOneClickMerchantOnboarding().setOrganisationId(organisationId);
-        //testContext.getApiManager().getOneClickMerchantOnboarding().setDescription(description);
         testContext.getApiManager().getOneClickMerchantOnboarding().setRequestDateTime(getDateHelper().getUTCNowDateTime());
         testContext.getApiManager().getOneClickMerchantOnboarding().setTraceId(getGeneral().generateUniqueUUID());
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPlatform(platform);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPdfChannel(pdfChannel);
-        testContext.getApiManager().getOneClickMerchantOnboarding().setPasswordChannel(passwordChannel);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setPlatformId(platformId);
         makeRequest();
+    }
+
+    @And("^validate \"([^\"]*)\" and platformName from database$")
+    public void validateAndPlatformNameFromDatabase(String platformId) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException {
+        response = testContext.getApiManager().getOneClickMerchantOnboarding().getOneClickOnboardingRequestResponse();
+
+        //validate response body platformId is equal to request body platformId
+        HashMap applicationResp = response.path("application");
+        Object platformId_resp = applicationResp.get("platformId");
+        Object platformName_resp = applicationResp.get("platformName");
+
+        Assert.assertEquals(platformId_resp, platformId, "Actual platformId doesn't match with Expected platformId!! Expected platformId is " + platformId + "but found " + platformId_resp);
+
+        //validate platformId is present in database
+        String platformId_resp_api = platformId_resp.toString().replaceAll("-", "").toUpperCase();
+
+        String sqlQuery = "SELECT hex(PLTFM_ID), PLTFM_NAME FROM merchant_management.pltfm WHERE hex(PLTFM_ID)='" + platformId_resp_api + "';";
+        String db_resp = DataBaseConnector.executeSQLQuery_List("CI", sqlQuery, Constants.DB_CONNECTION_URL).toString();
+        System.out.println("db_resp: " + db_resp);
+        String arr[] = db_resp.split(" ");
+        String db_platformId = arr[0].replace("[", "");
+        String db_platformName = arr[1].replace("]", "");
+        System.out.println("db_platformId = " + db_platformId);
+        System.out.println("db_platformName = " + db_platformName);
+        Assert.assertEquals(db_platformId, platformId_resp_api, "API response platformId doesn't match with expected platformId in database");
+
+        //Validate platformName corresponds to the platformId
+        Assert.assertEquals(platformName_resp, db_platformName, "platformName in API response should be equal to platformName in DB.");
+    }
+
+    @When("^I make request for existing client with name as \"([^\"]*)\", peakId as \"([^\"]*)\", subUnitId as \"([^\"]*)\", organisationId as \"([^\"]*)\", description as \"([^\"]*)\" and platformId as \"([^\"]*)\"$")
+    public void iMakeRequestForExistingClientWithNameAsPeakIdAsSubUnitIdAsOrganisationIdAsDescriptionAsAndPlatformIdAs(String applicationName, String peakId, String subUnitId, String organisationId, String description, String platformId) throws Throwable {
+        testContext.getApiManager().getOneClickMerchantOnboarding().setApplicationName(applicationName);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setPeakId(peakId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(subUnitId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setOrganisationId(organisationId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setDescription(description);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setRequestDateTime(getDateHelper().getUTCNowDateTime());
+        testContext.getApiManager().getOneClickMerchantOnboarding().setTraceId(getGeneral().generateUniqueUUID());
+        testContext.getApiManager().getOneClickMerchantOnboarding().setPlatformId(platformId);
+        makeRequest();
+    }
+
+    @Then("^I should receive a success \"([^\"]*)\" status response$")
+    public void iShouldReceiveASuccessStatusResponse(int statusCode) {
+        response = testContext.getApiManager().getOneClickMerchantOnboarding().getResponse();
+        Assert.assertEquals(getRestHelper().getResponseStatusCode(response), statusCode, "Different statusCode being returned");
+    }
+
+    @And("^verify the response body contains \"([^\"]*)\" and \"([^\"]*)\"$")
+    public void verifyTheResponseBodyContainsAnd(String reasonCode, String reasonDescription) throws Throwable {
+        HashMap applicationResponse = response.path("application");
+        HashMap signingKeyResponse = response.path("signingKey");
+        HashMap passwordMetadataResponse = response.path("passwordMetadata");
+
+        //Validate reasonCode and reasonDescription
+        Assert.assertEquals(response.path(Constants.REASON_CODE), reasonCode, "reasonCode is different!");
+        Assert.assertEquals(response.path(Constants.REASON_DESCRIPTION), reasonDescription, "reasonDescription is different!");
+
+        //Validate application response details
+        Assert.assertNotNull(applicationResponse.get(Constants.APPLICATION_ID), "applicationId cannot be null!");
+        Assert.assertNotNull(applicationResponse.get(Constants.CLIENT_ID), "clientId cannot be null!");
+        Assert.assertEquals(applicationResponse.get(Constants.PEAK_ID), testContext.getApiManager().getOneClickMerchantOnboarding().getPeakId(), "peakId should be same as provided in request body!");
+        Assert.assertEquals(applicationResponse.get(Constants.SUB_UNIT_ID), testContext.getApiManager().getOneClickMerchantOnboarding().getSubUnitId(), "subUnitId should be same as provided in request body!");
+        Assert.assertEquals(applicationResponse.get(Constants.ORGANISATION_ID), testContext.getApiManager().getOneClickMerchantOnboarding().getOrganisationId(), "organisationId should be same as provided in request body!");
+        Assert.assertEquals(applicationResponse.get(Constants.PLATFORM_ID), testContext.getApiManager().getOneClickMerchantOnboarding().getPlatformId(), "platformId should be same as provided in request body!");
+        Assert.assertNotNull(applicationResponse.get(Constants.PLATFORM_NAME), "platformName should not be null!");
+        Assert.assertEquals(applicationResponse.get(Constants.APPLICATION_DESCRIPTION), testContext.getApiManager().getOneClickMerchantOnboarding().getDescription(), "applicationDescription should be same as provided in request body!");
+
+        //Validate signingKey response details
+        Assert.assertNotNull(signingKeyResponse.get(Constants.KEY_ID), "Signing keyId cannot be null!");
+        Assert.assertNotNull(signingKeyResponse.get(Constants.ALG), "Signing alg cannot be null!");
+        Assert.assertNotNull(signingKeyResponse.get(Constants.TYPE), "Signing type cannot be null!");
+        Assert.assertNotNull(signingKeyResponse.get(Constants.SIZE), "Signing size cannot be null!");
+        Assert.assertNotNull(signingKeyResponse.get(Constants.ACTIVATE_AT), "Signing activateAt cannot be null!");
+        Assert.assertNotNull(signingKeyResponse.get(Constants.DEACTIVATE_AT), "Signing deactivateAt cannot be null!");
+        Assert.assertNotNull(signingKeyResponse.get(Constants.ENTITY_STATUS), "Signing entityStatus cannot be null!");
+
+        //Validate passwordMetadata response details
+        Assert.assertNotNull(passwordMetadataResponse.get(Constants.KEY_ID), "passwordMetada keyId cannot be null!");
+        Assert.assertNotNull(passwordMetadataResponse.get(Constants.ACTIVATE_AT), "passwordMetada activateAt cannot be null!");
+        Assert.assertNotNull(passwordMetadataResponse.get(Constants.DEACTIVATE_AT), "passwordMetada deactivateAt cannot be null!");
+
+        //Validate other response body parameters
+        Assert.assertNotNull(response.path(Constants.GRANT_URL), "grantUrl cannot be null!");
+        Assert.assertNotNull(response.path(Constants.PDF_URL), "pdfUrl cannot be null!");
+        Assert.assertNotNull(response.path(Constants.PDF_PIN), "pdfPin cannot be null!");
+        Assert.assertEquals(response.path(Constants.PDF_PIN).toString().length(), 16, "pdfPin should be 16 characters.");
+    }
+
+    @When("^I make request for same client with same applicationName, peakId as \"([^\"]*)\", subUnitId as \"([^\"]*)\", organisationId as \"([^\"]*)\", description as \"([^\"]*)\" and platformId as \"([^\"]*)\"$")
+    public void iMakeRequestForSameClientWithSameApplicationNamePeakIdAsSubUnitIdAsOrganisationIdAsDescriptionAsAndPlatformIdAs(String peakId, String subUnitId, String organisationId, String description, String platformId) throws Throwable {
+        testContext.getApiManager().getOneClickMerchantOnboarding().setPeakId(peakId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(subUnitId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setOrganisationId(organisationId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setDescription(description);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setRequestDateTime(getDateHelper().getUTCNowDateTime());
+        testContext.getApiManager().getOneClickMerchantOnboarding().setTraceId(getGeneral().generateUniqueUUID());
+        testContext.getApiManager().getOneClickMerchantOnboarding().setPlatformId(platformId);
+        makeRequest();
+    }
+
+    @And("^verify the response body should be returned for same client$")
+    public void verifyTheResponseBodyShouldBeReturnedForSameClient() {
+
+        HashMap applicationResponse_one = resp_one.path("application");
+        HashMap signingKeyResponse_one = resp_one.path("signingKey");
+        HashMap passwordMetadataResponse_one = resp_one.path("passwordMetadata");
+
+        HashMap applicationResponse_two = response.path("application");
+        HashMap signingKeyResponse_two = response.path("signingKey");
+        HashMap passwordMetadataResponse_two = response.path("passwordMetadata");
+
+        //Validate application response details
+        Assert.assertEquals(applicationResponse_two.get(Constants.APPLICATION_ID), applicationResponse_one.get("applicationId"), "applicationId isn't same!");
+        Assert.assertEquals(applicationResponse_two.get(Constants.CLIENT_ID), applicationResponse_one.get("clientId"), "clientId isn't same!");
+        Assert.assertEquals(applicationResponse_two.get(Constants.PEAK_ID), applicationResponse_one.get("peakId"), "peakId isn't same!");
+        Assert.assertEquals(applicationResponse_two.get(Constants.SUB_UNIT_ID), applicationResponse_one.get("subUnitId"), "subUnitId isn't same!");
+        Assert.assertEquals(applicationResponse_two.get(Constants.ORGANISATION_ID), applicationResponse_one.get("organisationId"), "organisationId isn't same!");
+        Assert.assertEquals(applicationResponse_two.get(Constants.PLATFORM_ID), applicationResponse_one.get("platformId"), "platformId isn't same!");
+        Assert.assertEquals(applicationResponse_two.get(Constants.PLATFORM_NAME), applicationResponse_one.get("platformName"), "platformName isn't same!");
+        Assert.assertEquals(applicationResponse_two.get(Constants.APPLICATION_DESCRIPTION), applicationResponse_one.get("applicationDescription"), "applicationDescription isn't same!");
+
+        //Validate signingKey response details
+        Assert.assertEquals(signingKeyResponse_two.get(Constants.KEY_ID), signingKeyResponse_one.get("keyId"), "Signing keyId isn't same!");
+        Assert.assertEquals(signingKeyResponse_two.get(Constants.KEY_NAME), signingKeyResponse_one.get("keyName"), "Signing keyName isn't same!");
+        Assert.assertEquals(signingKeyResponse_two.get(Constants.ALG), signingKeyResponse_one.get("alg"), "Signing alg isn't same!");
+        Assert.assertEquals(signingKeyResponse_two.get(Constants.TYPE), signingKeyResponse_one.get("type"), "Signing type isn't same!");
+        Assert.assertEquals(signingKeyResponse_two.get(Constants.SIZE), signingKeyResponse_one.get("size"), "Signing size isn't same!");
+        Assert.assertEquals(signingKeyResponse_two.get(Constants.ENTITY_STATUS), signingKeyResponse_one.get("entityStatus"), "Signing entityStatus isn't same!");
+
+        Assert.assertEquals(response.path(Constants.GRANT_URL).toString(), resp_one.path("grantUrl"), "grantUrl isn't same!");
+
+        //Validate passwordMetadata response is generated new
+        Assert.assertNotEquals(passwordMetadataResponse_two.get(Constants.KEY_ID), passwordMetadataResponse_one.get("keyId"), "passwordMetadata keyId shouldn't be same!");
+        Assert.assertNotEquals(passwordMetadataResponse_two.get(Constants.ACTIVATE_AT), passwordMetadataResponse_one.get("activateAt"), "passwordMetadata activateAt shouldn't be same!");
+        Assert.assertNotEquals(passwordMetadataResponse_two.get(Constants.DEACTIVATE_AT), passwordMetadataResponse_one.get("deactivateAt"), "passwordMetadata deactivateAt shouldn't be same!");
+    }
+
+    @And("^store the response of first API hit$")
+    public void storeTheResponseOfFirstAPIHit() {
+        resp_one = response;
+    }
+
+    @And("^Validate errorCodes and errorDescriptions in response$")
+    public void validateErrorCodesAndErrorDescriptionsInResponse() {
+        Response response = testContext.getApiManager().getOneClickMerchantOnboarding().getResponse();
+        //Assertion included in method getErrorDescriptionsLongName
+        getRestHelper().getErrorDescriptionsLongName(response);
+
+        //Assertion included in method getErrorCodeOneClick(response)
+        getRestHelper().getErrorCodeOneClick(response);
+    }
+
+    @When("^I make request for same client with same applicationName, peakId as \"([^\"]*)\", subUnitId as \"([^\"]*)\", organisationId as \"([^\"]*)\" and platformId as \"([^\"]*)\" but different description as \"([^\"]*)\"$")
+    public void iMakeRequestForSameClientWithSameApplicationNamePeakIdAsSubUnitIdAsOrganisationIdAsAndPlatformIdAsButDifferentDescriptionAs(String peakId, String subUnitId, String organisationId, String platformId, String description) throws Throwable {
+        testContext.getApiManager().getOneClickMerchantOnboarding().setPeakId(peakId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(subUnitId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setOrganisationId(organisationId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setDescription(description);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setRequestDateTime(getDateHelper().getUTCNowDateTime());
+        testContext.getApiManager().getOneClickMerchantOnboarding().setTraceId(getGeneral().generateUniqueUUID());
+        testContext.getApiManager().getOneClickMerchantOnboarding().setPlatformId(platformId);
+        makeRequest();
+    }
+
+    @And("^validate only applicationDescription is updated in response$")
+    public void validateOnlyApplicationDescriptionIsUpdatedInResponse() {
+        HashMap applicationResponse_one = resp_one.path("application");
+        HashMap signingKeyResponse_one = resp_one.path("signingKey");
+        HashMap passwordMetadataResponse_one = resp_one.path("passwordMetadata");
+
+        HashMap applicationResponse_two = response.path("application");
+        HashMap signingKeyResponse_two = response.path("signingKey");
+        HashMap passwordMetadataResponse_two = response.path("passwordMetadata");
+
+        //Validate application response details
+        Assert.assertEquals(applicationResponse_two.get(Constants.APPLICATION_ID), applicationResponse_one.get("applicationId"), "applicationId isn't same!");
+        Assert.assertEquals(applicationResponse_two.get(Constants.CLIENT_ID), applicationResponse_one.get("clientId"), "clientId isn't same!");
+        Assert.assertEquals(applicationResponse_two.get(Constants.PEAK_ID), applicationResponse_one.get("peakId"), "peakId isn't same!");
+        Assert.assertEquals(applicationResponse_two.get(Constants.SUB_UNIT_ID), applicationResponse_one.get("subUnitId"), "subUnitId isn't same!");
+        Assert.assertEquals(applicationResponse_two.get(Constants.ORGANISATION_ID), applicationResponse_one.get("organisationId"), "organisationId isn't same!");
+        Assert.assertEquals(applicationResponse_two.get(Constants.PLATFORM_ID), applicationResponse_one.get("platformId"), "platformId isn't same!");
+        Assert.assertEquals(applicationResponse_two.get(Constants.PLATFORM_NAME), applicationResponse_one.get("platformName"), "platformName isn't same!");
+
+        //Validate signingKey response details
+        Assert.assertEquals(signingKeyResponse_two.get(Constants.KEY_ID), signingKeyResponse_one.get("keyId"), "Signing keyId isn't same!");
+        Assert.assertEquals(signingKeyResponse_two.get(Constants.KEY_NAME), signingKeyResponse_one.get("keyName"), "Signing keyName isn't same!");
+        Assert.assertEquals(signingKeyResponse_two.get(Constants.ALG), signingKeyResponse_one.get("alg"), "Signing alg isn't same!");
+        Assert.assertEquals(signingKeyResponse_two.get(Constants.TYPE), signingKeyResponse_one.get("type"), "Signing type isn't same!");
+        Assert.assertEquals(signingKeyResponse_two.get(Constants.SIZE), signingKeyResponse_one.get("size"), "Signing size isn't same!");
+        Assert.assertEquals(signingKeyResponse_two.get(Constants.ENTITY_STATUS), signingKeyResponse_one.get("entityStatus"), "Signing entityStatus isn't same!");
+
+        Assert.assertEquals(response.path(Constants.GRANT_URL).toString(), resp_one.path("grantUrl"), "grantUrl isn't same!");
+
+        //Validate passwordMetadata response is generated new
+        Assert.assertNotEquals(passwordMetadataResponse_two.get(Constants.KEY_ID), passwordMetadataResponse_one.get("keyId"), "passwordMetadata keyId shouldn't be same!");
+        Assert.assertNotEquals(passwordMetadataResponse_two.get(Constants.ACTIVATE_AT), passwordMetadataResponse_one.get("activateAt"), "passwordMetadata activateAt shouldn't be same!");
+        Assert.assertNotEquals(passwordMetadataResponse_two.get(Constants.DEACTIVATE_AT), passwordMetadataResponse_one.get("deactivateAt"), "passwordMetadata deactivateAt shouldn't be same!");
+
+        //Validate applicationDescription is updated and not same as previous response
+        Assert.assertNotEquals(applicationResponse_two.get(Constants.APPLICATION_DESCRIPTION), applicationResponse_one.get("applicationDescription"), "applicationDescription should be updated!");
     }
 }

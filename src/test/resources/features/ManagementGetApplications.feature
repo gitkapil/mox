@@ -6,8 +6,8 @@ Feature: Merchant Management API - GET /applications
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-#  @trial
-  @regression @merchantManagement @merchantManagementGet
+  #@trial
+  @regression @merchantManagement @merchantManagementGet @getApp
   Scenario Outline: Positive flow - Get a list of applications
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of applications without any filters
@@ -19,7 +19,7 @@ Feature: Merchant Management API - GET /applications
       | 20                |
 
   # @trial
-  @regression @merchantManagement @merchantManagementGet
+#  @regression @merchantManagement @merchantManagementGet
   Scenario Outline: Positive flow - Get a list of application using filters 1
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of applications using filters to filter "<filterName>" with "<filterValue>"
@@ -35,7 +35,7 @@ Feature: Merchant Management API - GET /applications
       | platformName | INDIVIDUAL                           | 20                |
 
   # Not ready yet for regression
-  @regression @merchantManagement @merchantManagementGet @getApp
+  @regression @merchantManagement @merchantManagementGet
   Scenario Outline: Positive flow - Get a list of application using filters platformId
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of applications using filters to filter "<filterName>" with "<filterValueSIT>" and "<filterValueCI>"
@@ -48,6 +48,7 @@ Feature: Merchant Management API - GET /applications
 
 
 #  @trial
+
   @regression @merchantManagement @merchantManagementGet
   Scenario: Negative flow - Get a list of application with two filter using invalid peakId and clientId
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
@@ -56,14 +57,14 @@ Feature: Merchant Management API - GET /applications
 
 
 #  @trial
-  @regression @merchantManagement @merchantManagementGet
+#  @regression @merchantManagement @merchantManagementGet
   Scenario: Negative flow - Get a list of application using multi filters 1
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of application using multiple filters with correct uuids
     Then I should receive a successful response
 
 #  @trial
-  @regression @merchantManagement @merchantManagementGet
+#  @regression @merchantManagement @merchantManagementGet
   Scenario Outline: Positive flow - Get a list of application using paging and limits
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of applications using filters to filter "<filterName>" with "<filterValue>" with <limit> limits

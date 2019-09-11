@@ -5,7 +5,7 @@ Given I am an user
 When I make a request to the Dragon ID Manager
 Then I receive an access_token
 
-@regression
+#@regression
 Scenario: Positive flow- (System time) < (Request-Date-Time + Tolerance) within payment request
   Given I am an authorized user
   And I have valid payment details
@@ -23,7 +23,7 @@ Scenario: Positive flow- (System time) = (Request-Date-Time + Tolerance) within 
   And the payment request response should be signed
 
 
-@regression  
+#@regression
 Scenario: Negative flow- (System time) > (Request-Date-Time + Tolerance) within payment request
   Given I am an authorized user
   And I have valid payment details
@@ -34,7 +34,7 @@ Scenario: Negative flow- (System time) > (Request-Date-Time + Tolerance) within 
   #And the payment request response should be signed
 
 
-@regression  
+#@regression
 Scenario: Positive flow- (System time) < (Request-Date-Time + Tolerance) within payment status request
   Given I am an authorized user
   And I have valid payment details
@@ -57,7 +57,7 @@ Scenario: Positive flow- (System time) = (Request-Date-Time + Tolerance) within 
   Then I should receive a successful check status response
   And the payment status response should be signed
 
-@regression  
+#@regression
 Scenario: Negative flow- (System time) > (Request-Date-Time + Tolerance) within payment status request
   Given I am an authorized user
   And I have valid payment details

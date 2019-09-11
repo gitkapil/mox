@@ -14,12 +14,25 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
     And I have an activate date "<activateAt>" and deactivate date "<deactivateAt>", with entity status "<entityStatus>"
     When I make a request to create a new signing key with "<applicationID>"
     Then the create signing key response should be successful
+
     Examples:
       | activateAt           | deactivateAt         | entityStatus | applicationID                        |
       | 2019-01-01T00:00:00Z | 2020-10-01T00:00:00Z | A            | c9621185-b86d-48a9-97f0-eeddef7c3dc1 |
 
 #  @trial
-  @regression
+#  @regression
+  Scenario Outline: Negative flow - Create a new application and signing key without public key
+    Given I am an authorized Signing Key DRAGON user
+    And I create a new application id for signing key
+    And I have an activate date "<activateAt>" and deactivate date "<deactivateAt>", with entity status "<entityStatus>" and a description "<description>"
+    When I make a request to create a new signing key
+    Then the create signing key response should give a "<http_status>" http status with error code "<error_code>" and description "<error_description>"
+  Examples:
+    |activateAt          |deactivateAt        |entityStatus|description|http_status|error_code|error_description                                                                       |
+    |2019-01-01T00:00:00Z|2019-02-02T00:00:00Z|A           |test       |400        |EA028     |Active Public Key not found, please update expired key or create new key                |
+
+#  @trial
+#  @regression
   Scenario Outline: Negative flow - Invalid application id
     Given I am an authorized Signing Key DRAGON user
     And I have a "<applicationId>" application id
@@ -34,7 +47,7 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
       | 00000002-0000-4444-c000-000000000000 | 2019-01-01T00:00:00Z | 2019-02-02T00:00:00Z | A            | 400         | EA025      | Application Id not found        |
 
 #  @trial
-  @regression
+#  @regression
   Scenario Outline: Negative flow - Invalid dates
     Given I am an authorized Signing Key DRAGON user
     And I have a "<applicationID>" application id
@@ -57,7 +70,7 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
       | 2019-02-02T00:00:00Z | 2019-02-02T00:00:00Z  | A            | 400         | EA024      | (activateAt) is equal or after (deactivateAt) | c9621185-b86d-48a9-97f0-eeddef7c3dc1 |
 
 #  @trial
-  @regression
+#  @regression
   Scenario Outline: Negative flow - Entity status
     Given I am an authorized Signing Key DRAGON user
     And I have a "<applicationID>" application id
@@ -76,6 +89,7 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
       | 2019-01-01T00:00:00Z | 2019-02-02T00:00:00Z | a            | 400         | EA002      | Field error in object | c9621185-b86d-48a9-97f0-eeddef7c3dc1 |
     #entity status = lowercase d
       | 2019-01-01T00:00:00Z | 2019-02-02T00:00:00Z | d            | 400         | EA002      | Field error in object | c9621185-b86d-48a9-97f0-eeddef7c3dc1 |
+
 
 
   @regression @merchantManagement @merchantManagementPost @postKey

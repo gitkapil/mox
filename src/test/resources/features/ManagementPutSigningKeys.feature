@@ -7,7 +7,7 @@ Feature: Management Put Signing Keys - DRAG-1573
     Then I receive an access_token
 
 #  @trial
-  @regression
+#  @regression
   Scenario Outline: Positive flow - Able to update signing key attribute
     Given I am a PUT signing key authorized user
     And I have an "<applicationID>" and "<keyId>" from an existing signing key
@@ -18,7 +18,7 @@ Feature: Management Put Signing Keys - DRAG-1573
       | 2019-01-01T00:00:00Z | 2019-02-02T00:00:00Z | A            | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | 5caf0fb9-5589-470e-a11a-e4fd9af1a3e5 |
 
 #  @trial
-  @regression
+#  @regression
   Scenario Outline: Negative flow - invalid application id
     Given I am a PUT signing key authorized user
     And I have an "<applicationId>" and "<keyId>" from an existing signing key
@@ -39,6 +39,7 @@ Feature: Management Put Signing Keys - DRAG-1573
     And I update the key id to "<keyId>"
     And I update the signing key with activate at "<activateAt>", deactivate at "<deactivateAt>" and entity status "<entityStatus>"
     Then the PUT signing key response should have error status "<http_status>" with error code "<err_code>" and description "<err_description>"
+
     Examples:
       | keyId                                | http_status | err_code | err_description  | applicationID                        | activateAt           | deactivateAt         | entityStatus |
       #invalid key id
@@ -47,7 +48,7 @@ Feature: Management Put Signing Keys - DRAG-1573
       | 00000002-0000-0000-c000-0000         | 400         | EA027    | Key Id not found | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | 2019-01-01T00:00:00Z | 2019-02-02T00:00:00Z | D            |
 
 #  @trial
-  @regression
+#  @regression
   Scenario Outline: Negative flow - Invalid body
     Given I am a PUT signing key authorized user
     And I have an "<applicationID>" and "<keyId>" from an existing signing key
