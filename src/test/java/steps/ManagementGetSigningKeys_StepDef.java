@@ -168,6 +168,7 @@ public class ManagementGetSigningKeys_StepDef extends UtilManager {
             Map firstElement = arrayList.get(0);
             Assert.assertTrue(firstElement.containsKey(Constants.APPLICATION_ID), testContext.getApiManager().getGetSigningKey().getApplicationId());
             Assert.assertTrue(firstElement.containsKey(Constants.KEY_ID));
+            Assert.assertTrue(firstElement.containsKey(Constants.KEY_NAME));
             Assert.assertTrue(firstElement.containsKey(Constants.APPLICATION_ID));
             Assert.assertEquals(testContext.getApiManager().getGetSigningKey().getApplicationId(), firstElement.get(Constants.APPLICATION_ID),"ApplicationID didn't match");
             Assert.assertTrue(firstElement.containsKey(Constants.ALG));
@@ -178,7 +179,7 @@ public class ManagementGetSigningKeys_StepDef extends UtilManager {
             Assert.assertTrue(firstElement.containsKey(Constants.ENTITY_STATUS));
             Assert.assertTrue(firstElement.containsKey(Constants.CREATED_AT));
             Assert.assertTrue(firstElement.containsKey(Constants.LAST_UPDATED_AT));
-            Assert.assertEquals(firstElement.toString().split(",").length, 10);
+            Assert.assertEquals(firstElement.toString().split(",").length, 11);
         } else {
             getRestHelper().getResponseStatusCode(testContext.getApiManager().getGetSigningKey().getResponse());
         }

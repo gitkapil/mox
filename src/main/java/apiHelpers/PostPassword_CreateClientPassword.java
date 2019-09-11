@@ -13,8 +13,7 @@ public class PostPassword_CreateClientPassword extends UtilManager {
     private String applicationId;
     private String activateAt;
     private String deactivateAt;
-    private String pdfChannel;
-    private String passwordChannel;
+    private String entityStatus;
     private Response response = null;
 
     final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(PostPassword_CreateClientPassword.class);
@@ -35,23 +34,13 @@ public class PostPassword_CreateClientPassword extends UtilManager {
         this.deactivateAt = deactivateAt;
     }
 
-    public String getPdfChannel() {
-        return pdfChannel;
+    public String getEntityStatus() {
+        return entityStatus;
     }
 
-    public void setPdfChannel(String pdfChannel) {
-
-            this.pdfChannel = pdfChannel;
+    public void setEntityStatus(String entityStatus) {
+        this.entityStatus = entityStatus;
     }
-    public String getPasswordChannel() {
-        return passwordChannel;
-    }
-
-    public void setPasswordChannel(String passwordChannel) {
-
-        this.passwordChannel = passwordChannel;
-    }
-
 
     public Response getResponse() {
         return response;
@@ -63,19 +52,13 @@ public class PostPassword_CreateClientPassword extends UtilManager {
 
 
     public void makeRequest(String url) {
-        HashMap<String, Object> body = new HashMap<>();
-
         response = getRestHelper().postRequestWithHeaderAndBody(url, returnRequestHeader(), returnRequestBody());
-
         logger.info("********** Create Client Password Request Response *********** ----> "+ response.getBody().asString());
     }
 
 
     public void makeRequestWithNullHeader(String url, String nullHeaderValue) {
-        HashMap<String, Object> body = new HashMap<>();
-
         response = getRestHelper().postRequestWithHeaderAndBody(url, returnRequestHeaderWithNullValues(nullHeaderValue), returnRequestBody());
-
         logger.info("********** Create Client Password Request Response *********** ----> "+ response.getBody().asString());
     }
 
@@ -88,11 +71,8 @@ public class PostPassword_CreateClientPassword extends UtilManager {
         if (this.deactivateAt != null && !deactivateAt.equalsIgnoreCase("null")) {
             objReturn.put("deactivateAt", this.deactivateAt);
         }
-        if (this.passwordChannel != null && !passwordChannel.equalsIgnoreCase("null")) {
-            objReturn.put("passwordChannel", this.passwordChannel);
-        }
-        if (this.pdfChannel != null && !pdfChannel.equalsIgnoreCase("null")) {
-            objReturn.put("pdfChannel", this.pdfChannel);
+        if (this.entityStatus != null && !entityStatus.equalsIgnoreCase("null")) {
+            objReturn.put("entityStatus", this.entityStatus);
         }
         return objReturn;
     }
@@ -110,7 +90,6 @@ public class PostPassword_CreateClientPassword extends UtilManager {
         if (EnvHelper.getInstance().isLocalDevMode()) {
             EnvHelper.getInstance().addMissingHeaderForLocalDevMode(requestHeader);
         }
-
         return requestHeader;
     }
 
@@ -131,7 +110,6 @@ public class PostPassword_CreateClientPassword extends UtilManager {
         requestHeader.remove(nullHeaderValue);
         return requestHeader;
     }
-
 
     public String getApplicationId() {
         return applicationId;

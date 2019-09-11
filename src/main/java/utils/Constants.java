@@ -33,6 +33,5 @@ public class Constants {
     public static final String PDF_URL="pdfUrl";
     public static final String PDF_PIN="pdfPin";
     public static final String PASSWORD_METADATA="passwordMetaData";
-
-
+    public static final String KEY_NAME ="keyName" ;
 }

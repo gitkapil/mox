@@ -1,4 +1,4 @@
-
+@putApp
 Feature: Management Put Applications API - DRAG-1446
 
   Background: Retrieving access Token
@@ -39,7 +39,7 @@ Feature: Management Put Applications API - DRAG-1446
 
     Examples:
       | applicationId                        | description | platformId                           | filterName | filterValue                          | numberOfResponses |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1  | description | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | clientId   | 00000001-0000-0000-0000-000000000000 | 1                 |
+      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | description | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | clientId   | 00000001-0000-0000-0000-000000000000 | 1                 |
 
 #   @trial
   @regression @merchantManagement @merchantManagementPut

@@ -135,14 +135,14 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
     public void validate_put_applications_response()  {
         String response = testContext.getApiManager().getPutApplication().getResponse().getBody().asString();
         Assert.assertEquals(response.split(",").length,8);
-        Assert.assertTrue(response.contains(Constants.APPLICATION_ID),testContext.getApiManager().getPutApplication().getApplicationId());
+        Assert.assertEquals(testContext.getApiManager().getPutApplication().getResponse().getBody().path(Constants.APPLICATION_ID),testContext.getApiManager().getPutApplication().getApplicationId());
         Assert.assertTrue(response.contains(Constants.CLIENT_ID),testContext.getApiManager().getPutApplication().getClientId());
         Assert.assertTrue(response.contains(Constants.PEAK_ID),testContext.getApiManager().getPutApplication().getPeakId());
         Assert.assertTrue(response.contains(Constants.SUB_UNIT_ID),testContext.getApiManager().getPutApplication().getSubUnitId());
         Assert.assertTrue(response.contains(Constants.ORGANISATION_ID),testContext.getApiManager().getPutApplication().getOrganisationId());
         Assert.assertTrue(response.contains(Constants.PLATFORM_NAME),testContext.getApiManager().getPutApplication().getPlatformName());
-        Assert.assertTrue(response.contains(Constants.PLATFORM_ID),testContext.getApiManager().getPutApplication().getPlatformId());
-        Assert.assertTrue(response.contains(Constants.DESCRIPTION),testContext.getApiManager().getPutApplication().getDescription());
+        Assert.assertEquals(testContext.getApiManager().getPutApplication().getResponse().getBody().path(Constants.PLATFORM_ID),testContext.getApiManager().getPutApplication().getPlatformId());
+        Assert.assertEquals(testContext.getApiManager().getPutApplication().getResponse().getBody().path(Constants.DESCRIPTION),testContext.getApiManager().getPutApplication().getDescription());
 
     }
 

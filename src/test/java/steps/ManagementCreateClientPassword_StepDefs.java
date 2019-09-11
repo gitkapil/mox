@@ -60,11 +60,12 @@ public class ManagementCreateClientPassword_StepDefs extends UtilManager {
         testContext.getApiManager().getPostPasswordCreateClientPassword().setApplicationId(applicationId);
     }
 
-    @And("^I have created password data with \"([^\"]*)\" and activate at \"([^\"]*)\", deactivate at \"([^\"]*)\"$")
-    public void setData(String applicationId, String activateAt, String deactivateAt) {
+    @And("^I have created password data with \"([^\"]*)\" and activate at \"([^\"]*)\", deactivate at \"([^\"]*)\" and \"([^\"]*)\"$")
+    public void setData(String applicationId, String activateAt, String deactivateAt, String entityStatus) {
         testContext.getApiManager().getPostPasswordCreateClientPassword().setActivateAt(activateAt);
         testContext.getApiManager().getPostPasswordCreateClientPassword().setDeactivateAt(deactivateAt);
         testContext.getApiManager().getPostPasswordCreateClientPassword().setApplicationId(applicationId);
+        testContext.getApiManager().getPostPasswordCreateClientPassword().setEntityStatus(entityStatus);
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
                 + "/" + testContext.getApiManager().getPostPasswordCreateClientPassword().getApplicationId() + "/keys/passwords";

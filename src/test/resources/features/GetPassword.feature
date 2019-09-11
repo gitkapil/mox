@@ -1,3 +1,4 @@
+@getPass
 Feature: Merchant Management get Password - DRAG-1481
 
   Background: Retrieving access Token
@@ -13,9 +14,8 @@ Feature: Merchant Management get Password - DRAG-1481
     When I get the password request
     Then I should see the response from get password request
     Examples:
-      | applicationId                        | activateAt           | deactivateAt         | pdfChannel | passwordChannel  |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | 2019-01-01T00:00:00Z | 2019-02-02T00:00:00Z | pdfChannel | password Channel |
-
+      | applicationId                        |
+      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 |
 
 #  @trial
 #  @regression
@@ -25,13 +25,9 @@ Feature: Merchant Management get Password - DRAG-1481
     When I get the password request
     Then I should have an error with status "<http_status>", error code as "<error_code>" and description "<error_description>"
     Examples:
-      | applicationId                        | http_status | error_code | error_description | activateAt           | deactivateAt         | pdfChannel | passwordChannel  |
-    #bad application id format
-      | aa                                   | 400         | EA000      | test              | 2019-01-01T00:00:00Z | 2019-02-02T00:00:00Z | pdfChannel | password Channel |
-
-    # invalid application id
-      | 00000002-1111-0000-c000-000000000000 | 400         | EA000      | test              | 2019-01-01T00:00:00Z | 2019-02-02T00:00:00Z | pdfChannel | password Channel |
-
+      | applicationId                        | http_status | error_code | error_description |
+      | aa                                   | 400         | EA000      | test              |
+      | 00000002-1111-0000-c000-000000000000 | 400         | EA000      | test              |
 
 
   #@trial

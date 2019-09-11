@@ -57,7 +57,6 @@ public class GetPassword_StepDef extends UtilManager {
         }
         Assert.assertTrue(strings.get(0).contains(Constants.APPLICATION_ID),testContext.getApiManager().getPostPasswordCreateClientPassword().getApplicationId());
         Assert.assertTrue(strings.get(0).contains(Constants.CLIENT_ID),testContext.getApiManager().getPostPasswordCreateClientPassword().getClientId());
-        Assert.assertTrue(strings.get(0).contains(Constants.PEAK_ID),testContext.getApiManager().getPostPasswordCreateClientPassword().getPasswordChannel());
         Assert.assertTrue(strings.get(0).contains(Constants.SUB_UNIT_ID),testContext.getApiManager().getPostPasswordCreateClientPassword().getApplicationId());
         Assert.assertTrue(strings.get(0).contains(Constants.ORGANISATION_ID),testContext.getApiManager().getPostPasswordCreateClientPassword().getApplicationId());
         Assert.assertTrue(strings.get(0).contains(Constants.DESCRIPTION),testContext.getApiManager().getPostPasswordCreateClientPassword().getApplicationId());

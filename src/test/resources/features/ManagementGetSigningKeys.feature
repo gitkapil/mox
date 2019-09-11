@@ -37,11 +37,11 @@ Feature: Merchant Management API - GET /keys/signing
     And error message should be "<error_message>" within the get signing key response
 
     Examples:
-      | applicationID                        | missingHeader     | error_message                     | error_code | http_status | error_description                                                     |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | Request-Date-Time | API Gateway Validation Failed     | EA002      | 400         | Header Request-Date-Time was not found in the request. Access denied. |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | Content-Type      | Service Request Validation Failed | EA002      | 415         | Content type                                                          |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | Accept            | Request Header Not Acceptable     | EA008      | 406         | Header Accept does not contain required value.  Access denied.        |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | Trace-Id          | API Gateway Validation Failed     | EA002      | 400         | Header Trace-Id was not found in the request. Access denied.          |
+      | applicationID                        | missingHeader     | error_message                     | error_code | http_status | error_description                                              |
+      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | Request-Date-Time | Service Request Validation Failed | EA002      | 400         | Request timestamp not a valid RFC3339 date-time                |
+      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | Content-Type      | Service Request Validation Failed | EA002      | 415         | Content type                                                   |
+      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | Accept            | Request Header Not Acceptable     | EA008      | 406         | Header Accept does not contain required value.  Access denied. |
+      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | Trace-Id          | API Gateway Validation Failed     | EA002      | 400         | Header Trace-Id was not found in the request. Access denied.   |
 
 
   @regression @negativeFlow

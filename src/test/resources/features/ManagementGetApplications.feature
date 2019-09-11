@@ -19,7 +19,7 @@ Feature: Merchant Management API - GET /applications
       | 20                |
 
   # @trial
-  @regression @merchantManagement @merchantManagementGet @getApp
+  @regression @merchantManagement @merchantManagementGet
   Scenario Outline: Positive flow - Get a list of application using filters 1
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of applications using filters to filter "<filterName>" with "<filterValue>"
@@ -35,16 +35,16 @@ Feature: Merchant Management API - GET /applications
       | platformName | INDIVIDUAL                           | 20                |
 
   # Not ready yet for regression
-  @regression @merchantManagement @merchantManagementGet
+  @regression @merchantManagement @merchantManagementGet @getApp
   Scenario Outline: Positive flow - Get a list of application using filters platformId
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
-    When I get a list of applications using filters to filter "<filterName>" with "<filterValue>"
+    When I get a list of applications using filters to filter "<filterName>" with "<filterValueSIT>" and "<filterValueCI>"
     Then I should receive a successful response
     And the response should have a list of <numberOfResponses> applications
     And validate the item list from the response
     Examples:
-      | filterName | filterValue                          | numberOfResponses |
-      | clientId   | 00000001-0000-0000-0000-000000000000 | 1                 |
+      | filterName | filterValueSIT                       | numberOfResponses | filterValueCI                        |
+      | clientId   | efdc75a7-5847-498d-8719-7b396bdf827a | 1                 | 1f989ca0-d9a9-4a54-85aa-d863aa98d2f1 |
 
 
 #  @trial

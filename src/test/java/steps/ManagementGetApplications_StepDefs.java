@@ -13,6 +13,7 @@ import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import utils.Constants;
+import utils.PropertyHelper;
 
 import java.util.*;
 
@@ -159,7 +160,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
             System.out.println(object);
         }
         if (list.size() != 0) {
-            Assert.assertEquals( 8, strings.get(0).split(",").length);
+            Assert.assertEquals( 5, strings.get(0).split(",").length);
             org.testng.Assert.assertTrue(strings.get(0).contains(Constants.APPLICATION_ID), testContext.getApiManager().getPutApplication().getApplicationId());
             org.testng.Assert.assertTrue(strings.get(0).contains(Constants.CLIENT_ID), testContext.getApiManager().getPutApplication().getClientId());
             org.testng.Assert.assertTrue(strings.get(0).contains(Constants.PEAK_ID), testContext.getApiManager().getPutApplication().getPeakId());
@@ -178,20 +179,32 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
         }
     }
 
-    @When("^I get a list of applications using filters to filter \"([^\"]*)\" with \"([^\"]*)\"$")
-    public void get_a_list_of_applications_using_filters(String filterName, String filterValue) {
+    @When("^I get a list of applications using filters to filter \"([^\"]*)\" with \"([^\"]*)\" and \"([^\"]*)\"$")
+    public void get_a_list_of_applications_using_filters(String filterName, String filterValueSIT, String filterValueCI)
+    {
+        if (PropertyHelper.getInstance().getPropertyCascading("usertype").equalsIgnoreCase("developer")) {
+            String url = getRestHelper().getBaseURI() +
+                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource");
 
-        String url = getRestHelper().getBaseURI() +
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource");
+            url = url + "?" + filterName + "=" + filterValueSIT;
+            testContext.getApiManager().getGetApplication().getListOfApplications(
+                    url,
+                    new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
+                            "header-list-get").split(","))),
+                    testContext.getApiManager().getPostApplication().getAuthToken());
+        } else {
+            String url = getRestHelper().getBaseURI() +
+                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource");
 
-        url = url + "?" + filterName + "=" + filterValue;
-        testContext.getApiManager().getGetApplication().getListOfApplications(
-                url,
-                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
-                        "header-list-get").split(","))),
-                testContext.getApiManager().getPostApplication().getAuthToken());
+            url = url + "?" + filterName + "=" + filterValueCI;
+            testContext.getApiManager().getGetApplication().getListOfApplications(
+                    url,
+                    new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
+                            "header-list-get").split(","))),
+                    testContext.getApiManager().getPostApplication().getAuthToken());
+        }
+
     }
-
     @When("^I get a list of applications using filters to filter \"([^\"]*)\" with \"([^\"]*)\" and \"([^\"]*)\" values$")
     public void get_a_list_of_applications_usingNullHeaders(String filterName, String filterValue, String headerValues) {
         String url = getRestHelper().getBaseURI() +
