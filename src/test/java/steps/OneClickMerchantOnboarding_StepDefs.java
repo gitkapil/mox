@@ -559,4 +559,20 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
         //Validate applicationDescription is updated and not same as previous response
         Assert.assertNotEquals(applicationResponse_two.get(Constants.APPLICATION_DESCRIPTION), applicationResponse_one.get("applicationDescription"), "applicationDescription should be updated!");
     }
+
+    public Response createApplicationWithOneClickApi(){
+        common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getOneClickMerchantOnboarding().setAuthTokenWithBearer(token));
+        testContext.getApiManager().getOneClickMerchantOnboarding().setApplicationName("validname");
+        testContext.getApiManager().getOneClickMerchantOnboarding().setPeakId("859cce3f-f3da-4448-9e88-cf8450aea289");
+        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId("859cce3f-f3da-4448-9e88-cf8450aea289");
+        testContext.getApiManager().getOneClickMerchantOnboarding().setOrganisationId("859cce3f-f3da-4448-9e88-cf8450aea289");
+        testContext.getApiManager().getOneClickMerchantOnboarding().setDescription("description");
+        testContext.getApiManager().getOneClickMerchantOnboarding().setRequestDateTime(getDateHelper().getUTCNowDateTime());
+        testContext.getApiManager().getOneClickMerchantOnboarding().setTraceId(getGeneral().generateUniqueUUID());
+        testContext.getApiManager().getOneClickMerchantOnboarding().setPlatformId("2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33");
+        makeRequest();
+        response = testContext.getApiManager().getOneClickMerchantOnboarding().getOneClickOnboardingRequestResponse();
+        return response;
+    }
+
 }

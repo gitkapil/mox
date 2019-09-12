@@ -224,6 +224,15 @@ public class PutApplication extends UtilManager {
         return requestBody;
     }
 
+
+    public HashMap<String,HashMap> returnRequestBodyWithInvalidValues(String platformId, String description){
+        requestBody.clear();
+        populateRequestBody("description", description);
+        populateRequestBody("platformId",platformId);
+        return requestBody;
+    }
+
+
     private void populateRequestBody(String field, String value) {
         if (!"".equals(value)) {
             if (!"no_value".equals(value)) {
@@ -264,10 +273,21 @@ public class PutApplication extends UtilManager {
             logger.info("********** PUT Application Response *********** ----> "+ response.getBody().prettyPrint());
         }
         catch (Exception e){
-            logger.info("********** PUT Application Response *********** ----> " + response.getBody().asString());
             e.printStackTrace();
-            Assert.assertTrue("Verification of signature failed!", false);
+        }
+        return response;
+    }
 
+    public Response  executeRequestWithInvalidInputBody(String url , String platformId, String description) {
+        try {
+            HashMap<String, String> header = returnRequestNewHeaders();
+            response = getRestHelper().putRequestWithHeaderAndBody(url,
+                    header,
+                    returnRequestBodyWithInvalidValues(platformId,description));
+            logger.info("********** PUT Application Response *********** ----> "+ response.getBody().prettyPrint());
+        }
+        catch (Exception e){
+            e.printStackTrace();
         }
         return response;
     }
@@ -279,6 +299,23 @@ public class PutApplication extends UtilManager {
             response = getRestHelper().putRequestWithHeaderAndBody(url,
                     header,
                     returnRequestBodyWithMissingKeys(missingBody));
+            logger.info("********** PUT Application Response *********** ----> "+ response.getBody().prettyPrint());
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Assert.assertTrue("Verification of signature failed!", false);
+
+        }
+        return response;
+    }
+
+    public Response  executeRequestWithNoBody(String url) {
+
+        try{
+            HashMap<String, String> header = returnRequestNewHeaders();
+            response = getRestHelper().putRequestWithHeaderAndBody(url,
+                    header,
+                    requestBody);
             logger.info("********** PUT Application Response *********** ----> "+ response.getBody().prettyPrint());
         }
         catch (Exception e){

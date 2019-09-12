@@ -56,11 +56,6 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
         common.iAmADragonUserWithToken(token, tokenArg -> testContext.getApiManager().getPutApplication().setAuthToken(tokenArg));
     }
 
-    @Given("^I have an \"([^\"]*)\" from an existing application$")
-    public void i_have_an_applicationId_from_an_existing_application(String applicationId){
-            testContext.getApiManager().getPutApplication().setApplicationId(applicationId);
-    }
-
     @Given("^I have updated \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\" values$")
     public void i_have_updated_clientId_peakId_subUnitId_and_organisationId_values(String clientId, String peakId,
                                                                                    String subUnitId, String organisationId
@@ -74,20 +69,20 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
     }
 
 
-    @Given("^I have updated \"([^\"]*)\" and \"([^\"]*)\" values$")
-    public void updatedDescriptionAndPlatformValues(String description, String platform){
+    @Given("^I have updated the \"([^\"]*)\" and platformId values$")
+    public void updatedDescriptionAndPlatformValues(String description){
+        Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
+        testContext.getApiManager().getPutApplication().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
+        testContext.getApiManager().getPutApplication().setPlatformName(applicationResponse.getBody().path("application.platformName"));
+        testContext.getApiManager().getPutApplication().setDescription(applicationResponse.getBody().path("application.description"));
         if (description.equalsIgnoreCase("superlargestring")) {
             String d = StringUtils.repeat("*", 257);
             testContext.getApiManager().getPutApplication().setDescription(d);
         } else {
             testContext.getApiManager().getPutApplication().setDescription(description);
         }
-        if (description.equalsIgnoreCase("platformId")) {
-            String p = StringUtils.repeat("*", 257);
-            testContext.getApiManager().getPutApplication().setPlatformId(p);
-        } else {
-            testContext.getApiManager().getPutApplication().setPlatformId(platform);
-        }}
+            testContext.getApiManager().getPutApplication().setPlatformId(applicationResponse.getBody().path("application.platformId"));
+        }
 
     private String getSubstituteValue(String value) {
         if ("random".equalsIgnoreCase(value)) {
@@ -109,10 +104,42 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
     }
 
 
-    @When("^I make a PUT request to the application endpoint with \"([^\"]*)\"$")
-    public void i_make_a_put_request_to_the_application_endpointWithMissingBody(String missingBody) throws IOException {
-        logger.info("********** Executing POST Application Request ***********");
+    @When("^I make a PUT request to the application endpoint with missing \"([^\"]*)\" value$")
+    public void makeRequestWithMissingBodyValues(String missingBody) throws IOException {
+        logger.info("********** Executing PUT Application Request ***********");
         testContext.getApiManager().getPutApplication().executeRequestWithMissingBody(missingBody,
+                getRestHelper().getBaseURI()+getFileHelper()
+                        .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" + testContext.getApiManager().getPutApplication().getApplicationId());
+        logger.info("********** Executed PUT Application Request ***********");
+    }
+
+
+
+    @When("^I make a PUT request to the application endpoint with invalid platformId \"([^\"]*)\" value and description \"([^\"]*)\"$")
+    public void makeRequestWithInvalidBod(String platformId, String description) throws IOException {
+        logger.info("********** Executing PUT Application Request ***********");
+        testContext.getApiManager().getPutApplication().executeRequestWithInvalidInputBody(
+                getRestHelper().getBaseURI()+getFileHelper()
+                        .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" + testContext.getApiManager().getPutApplication().getApplicationId(), platformId, description);
+        logger.info("********** Executed PUT Application Request ***********");
+    }
+
+
+
+    @When("^I make a PUT request to the application endpoint with invalid \"([^\"]*)\"$")
+    public void makeRequestWithInvalidApplicationId(String applicationId) throws IOException {
+        logger.info("********** Executing PUT Application Request ***********");
+        testContext.getApiManager().getPutApplication().executeRequest(
+                getRestHelper().getBaseURI()+getFileHelper()
+                        .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" + applicationId);
+        logger.info("********** Executed PUT Application Request ***********");
+    }
+
+
+    @When("^I make a PUT request to the application endpoint with no body")
+    public void i_make_a_put_request_to_the_application_WithNoBody() throws IOException {
+        logger.info("********** Executing POST Application Request ***********");
+        testContext.getApiManager().getPutApplication().executeRequestWithNoBody(
                 getRestHelper().getBaseURI()+getFileHelper()
                         .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" + testContext.getApiManager().getPutApplication().getApplicationId());
         logger.info("********** Executed POST Application Request ***********");
@@ -134,7 +161,7 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
     @Then("^validate the put application response$")
     public void validate_put_applications_response()  {
         String response = testContext.getApiManager().getPutApplication().getResponse().getBody().asString();
-        Assert.assertEquals(response.split(",").length,8);
+        Assert.assertEquals(response.split(",").length,11);
         Assert.assertEquals(testContext.getApiManager().getPutApplication().getResponse().getBody().path(Constants.APPLICATION_ID),testContext.getApiManager().getPutApplication().getApplicationId());
         Assert.assertTrue(response.contains(Constants.CLIENT_ID),testContext.getApiManager().getPutApplication().getClientId());
         Assert.assertTrue(response.contains(Constants.PEAK_ID),testContext.getApiManager().getPutApplication().getPeakId());
@@ -238,25 +265,6 @@ public class ManagementPutApplications_StepDefs extends UtilManager{
                 "Different error message being returned..Expected: "+ errorMessage+ " Actual: " +
                         getRestHelper().getErrorMessage(response));
 
-    }
-
-    @Given("^I have valid update values for the application$")
-    public void i_have_valid_update_values_for_the_application() {
-        i_have_an_applicationId_from_an_existing_application("new");
-      //  i_have_updated_clientId_peakId_subUnitId_and_organisationId_values(UUID.randomUUID().toString(),UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString());
-    }
-
-
-    @Given("^I have valid update values for the application with no TraceId value sent in the header$")
-    public void i_have_valid_update_values_for_the_application_with_no_TraceId_sent_in_the_header() {
-        i_have_valid_update_values_for_the_application();
-        testContext.getApiManager().getPutApplication().setTraceId(null);
-    }
-
-    @Given("^I have valid update values for the application with invalid value \"([^\"]*)\" set for Request Date Time sent in the header$")
-    public void i_have_valid_update_values_for_the_application_with_no_RequestDateTime_sent_in_the_header(String value) {
-        i_have_valid_update_values_for_the_application();
-        testContext.getApiManager().getPutApplication().setRequestDateTime(value);
     }
 
     private String createNewApplication() {
