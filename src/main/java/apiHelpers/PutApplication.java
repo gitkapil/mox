@@ -204,11 +204,6 @@ public class PutApplication extends UtilManager {
         return requestHeader;
     }
 
-    /**
-     * This method creates valid body for the PUT update client request.
-     *
-     * @return
-     */
     public HashMap<String, HashMap> returnRequestBody() {
         requestBody.clear();
         populateRequestBody("description", getDescription());

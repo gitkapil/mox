@@ -11,11 +11,9 @@ import managers.UtilManager;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import utils.Constants;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Set;
-import java.util.UUID;
 
 public class ManagementPostSigningKey_StepDefs extends UtilManager {
     private static final Set<String> ROLE_SET = Sets.newHashSet("ApplicationKey.ReadWrite.All");
@@ -63,25 +61,8 @@ public class ManagementPostSigningKey_StepDefs extends UtilManager {
 
     @And("^I create a new application id for signing key$")
     public void createApplication() {
-        common.iAmAnAuthorizedDragonUser(APPLICATION_ROLE_SET,
-                token -> testContext.getApiManager().getPostApplication().setAuthTokenWithBearer(token));
-        testContext.getApiManager().getPostApplication().setClientId(UUID.randomUUID().toString());
-        testContext.getApiManager().getPostApplication().setSubUnitId(UUID.randomUUID().toString());
-        testContext.getApiManager().getPostApplication().setPeakId(UUID.randomUUID().toString());
-        testContext.getApiManager().getPostApplication().setOrganisationId(UUID.randomUUID().toString());
-        testContext.getApiManager().getPostApplication().setRequestDateTime(getDateHelper().getUTCNowDateTime());
-        testContext.getApiManager().getPostApplication().setTraceId(getGeneral().generateUniqueUUID());
-        testContext.getApiManager().getPostApplication().executeRequest(
-                getRestHelper().getBaseURI() + getFileHelper()
-                        .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME),
-                testContext.getApiManager().getMerchantManagementSigningKeyId(),
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
-                testContext.getApiManager().getMerchantManagementSigningKey(),
-                Sets.newHashSet(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
-                        SIG_HEADER_LIST_POST_APPLICATION).split(",")));
-        testContext.getApiManager().getPostSigningKeys().setApplicationId(
-                testContext.getApiManager().getPostApplication().applicationIdInResponse()
-        );
+        Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
+        testContext.getApiManager().getPostSigningKeys().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
     }
 
     @Given("^I am an authorized Signing Key DRAGON user$")
@@ -89,24 +70,30 @@ public class ManagementPostSigningKey_StepDefs extends UtilManager {
         common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getPostSigningKeys().setAuthTokenWithBearer(token));
     }
 
-    @And("^I have a \"([^\"]*)\" application id$")
-    public void setApplicationId(String applicationId) {
-        testContext.getApiManager().getPostSigningKeys().setApplicationId(applicationId);
-    }
-
     @And("^I have an activate date \"([^\"]*)\" and deactivate date \"([^\"]*)\", with entity status \"([^\"]*)\"$")
     public void setBody(String activateAt, String deactivateAt, String entityStatus) {
-        testContext.getApiManager().getPutSigningKeys().setActivateAt(activateAt);
-        testContext.getApiManager().getPutSigningKeys().setDeactivateAt(deactivateAt);
-        testContext.getApiManager().getPutSigningKeys().setEntityStatus(entityStatus);
+        testContext.getApiManager().getPostSigningKeys().setActivateAt(activateAt);
+        testContext.getApiManager().getPostSigningKeys().setDeactivateAt(deactivateAt);
+        testContext.getApiManager().getPostSigningKeys().setEntityStatus(entityStatus);
 
     }
 
-    @When("^I make a request to create a new signing key with \"([^\"]*)\"$")
-    public void makeRequest(String applicationID) {
+    @When("^I make a request to create a new signing key with application id$")
+    public void makeRequest() {
+        Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
+        testContext.getApiManager().getPostSigningKeys().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
-                + "/" + applicationID + "/keys/signing";
+                + "/" + testContext.getApiManager().getPostSigningKeys().getApplicationId() + "/keys/signing";
+        testContext.getApiManager().getPostSigningKeys().makeRequest(url);
+    }
+
+
+    @When("^I make a request to create a new signing key with \"([^\"]*)\"$")
+    public void makeRequestWithInvalidApplicationID(String applicationId) {
+        String url = getRestHelper().getBaseURI() +
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                + "/" + applicationId + "/keys/signing";
         testContext.getApiManager().getPostSigningKeys().makeRequest(url);
     }
 
@@ -140,20 +127,14 @@ public class ManagementPostSigningKey_StepDefs extends UtilManager {
     public void i_make_a_post_request_to_the_signing_key_endpoint_with_key_missing_in_the_header(String key) throws IOException {
         String url = getRestHelper().getBaseURI() + getFileHelper()
                 .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) +
-                "/" + testContext.getApiManager().getPutSigningKeys().getApplicationId() + "/keys/signing/" +
-                testContext.getApiManager().getPutSigningKeys().getKeyId();
-
-        testContext.getApiManager().getPutSigningKeys().makeApiCallWithMissingHeader(url, key);
-
+                "/" + testContext.getApiManager().getPostSigningKeys().getApplicationId() + "/keys/signing/";
+        testContext.getApiManager().getPostSigningKeys().executePostRequestWithMissingHeaderKeys(url, key);
     }
-
 
     @Then("^I should receive a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" error code within the POST signing key response$")
     public void i_should_receive_an_error_response_with_error_description_and_error_code(int responseCode, String errorDesc, String errorCode) {
         Response response = testContext.getApiManager().getPostSigningKeys().getResponse();
-        Assert.assertEquals(getRestHelper().getResponseStatusCode(response), responseCode,"Different response code being returned");
-
-
+        Assert.assertEquals(getRestHelper().getResponseStatusCode(response), responseCode, "Different response code being returned");
 
         if (getRestHelper().getErrorDescription(response) != null) {
 
@@ -169,17 +150,16 @@ public class ManagementPostSigningKey_StepDefs extends UtilManager {
                     "Different error description being returned..Expected: " + errorDesc + "Actual: " + getRestHelper().getErrorDescription(response));
         }
 
-        Assert.assertEquals(getRestHelper().getErrorCode(response), errorCode,"Different error code being returned");
+        Assert.assertEquals(getRestHelper().getErrorCode(response), errorCode, "Different error code being returned");
     }
-
 
 
     @Then("^error message should be \"([^\"]*)\" within the POST signing key response$")
     public void i_should_receive_a_error_message(String errorMessage) {
         Response response = testContext.getApiManager().getPostSigningKeys().getResponse();
         Assert.assertTrue(
-                getRestHelper().getErrorMessage(response).contains(errorMessage) ,
-                "Different error message being returned..Expected: "+ errorMessage+ " Actual: " +
+                getRestHelper().getErrorMessage(response).contains(errorMessage),
+                "Different error message being returned..Expected: " + errorMessage + " Actual: " +
                         getRestHelper().getErrorMessage(response));
 
     }
@@ -198,19 +178,19 @@ public class ManagementPostSigningKey_StepDefs extends UtilManager {
 
         HashMap returnedObject = testContext.getApiManager().getPostSigningKeys().getResponse().path("signingKeyMetaData");
         if (returnedObject != null) {
-            Assert.assertEquals(testContext.getApiManager().getPostSigningKeys().getApplicationId(),returnedObject.get(Constants.APPLICATION_ID),"Application Id didn't match");
+            Assert.assertEquals(testContext.getApiManager().getPostSigningKeys().getApplicationId(), returnedObject.get(Constants.APPLICATION_ID), "Application Id didn't match");
             Assert.assertNotNull(returnedObject.get(Constants.ALG));
             Assert.assertNotNull(returnedObject.get(Constants.TYPE));
             Assert.assertNotNull(returnedObject.get(Constants.SIZE));
-            Assert.assertEquals(returnedObject.get(Constants.ACTIVATE_AT),testContext.getApiManager().getPostSigningKeys().getActivateAt(), "activate time is different as passed in input body");
-            Assert.assertEquals(returnedObject.get(Constants.DEACTIVATED_AT),testContext.getApiManager().getPostSigningKeys().getDeactivateAt(), "deActivated time is different as passed in input body");
+            Assert.assertNotNull(returnedObject.get(Constants.ACTIVATE_AT), "activate time is different as passed in input body");
+            Assert.assertNotNull(returnedObject.get(Constants.DEACTIVATED_AT), "deActivated time is different as passed in input body");
             Assert.assertNotNull(returnedObject.get(Constants.ENTITY_STATUS));
             Assert.assertNotNull(returnedObject.get(Constants.CREATED_AT));
             Assert.assertNotNull(returnedObject.get(Constants.LAST_UPDATED_AT));
-            Assert.assertEquals(returnedObject.size(), 12);
+            Assert.assertEquals(returnedObject.size(), 10);
         } else {
             getRestHelper().getResponseStatusCode(testContext.getApiManager().getGetSigningKey().getResponse());
         }
     }
-        }
+}
 

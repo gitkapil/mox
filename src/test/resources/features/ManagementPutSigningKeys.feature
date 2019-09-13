@@ -1,4 +1,3 @@
-@putSigningKey
 Feature: Management Put Signing Keys - DRAG-1573
 
   Background: Retrieving access Token
@@ -7,7 +6,7 @@ Feature: Management Put Signing Keys - DRAG-1573
     Then I receive an access_token
 
 #  @trial
-#  @regression
+  @regression @newPut
   Scenario Outline: Positive flow - Able to update signing key attribute
     Given I am a PUT signing key authorized user
     And I have an "<applicationID>" and "<keyId>" from an existing signing key

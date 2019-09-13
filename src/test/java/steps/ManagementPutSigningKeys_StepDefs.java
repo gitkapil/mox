@@ -129,7 +129,7 @@ public class ManagementPutSigningKeys_StepDefs extends UtilManager {
                 + "/" + applicationID + "/keys/signing";
 
         System.out.println("URL: "+ url);
-        testContext.getApiManager().getPostSigningKeys().makeRequest(url);
+        //testContext.getApiManager().getPostSigningKeys().makeRequest(url);
         HashMap returnedObject = testContext.getApiManager().getPostSigningKeys().getResponse().getBody().path(".");
         System.out.println("response String: " + returnedObject.get(Constants.KEY_ID));
 

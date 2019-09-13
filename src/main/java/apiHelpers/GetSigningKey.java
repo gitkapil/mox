@@ -19,6 +19,10 @@ public class GetSigningKey extends UtilManager {
     private String authToken;
     private String applicationId;
     private Response response = null;
+    private String keyId;
+    private String keyName;
+    private String entityStatus;
+
     private HashMap<String, String> requestHeader;
     private static Logger logger = Logger.getLogger(GetPublicKey.class);
     General general = new General();
@@ -35,6 +39,29 @@ public class GetSigningKey extends UtilManager {
 
         this.authToken = "Bearer "+ authToken;
     }
+    public String getKeyId() {
+        return keyId;
+    }
+
+    public void setKeyId(String keyId) {
+        this.keyId = keyId;
+    }
+
+    public String getKeyName() {
+        return keyName;
+    }
+
+    public void setKeyName(String keyName) {
+        this.keyName = keyName;
+    }
+
+    public String getEntityStatus() {
+        return entityStatus;
+    }
+
+    public void setEntityStatus(String entityStatus) {
+        this.entityStatus = entityStatus;
+    }
     public String getAuthToken() { return authToken; }
     public Response getResponse() {
         return response;
@@ -44,11 +71,11 @@ public class GetSigningKey extends UtilManager {
         this.response = response;
     }
 
-    public void makeCallWithApplicationID(String url, String applicationID, String missingHeaderValues) {
-        returnRequestHeader(missingHeaderValues);
+    public void makeCallWithApplicationID(String url, String applicationID) {
+        returnRequestHeader();
         response =
                 getRestHelper().getRequestWithHeaders(url + applicationID + "/keys/signing", requestHeader);
-        logger.info("********** GET Public Key Response *********** ----> "+ response.getBody().asString());
+        logger.info("********** GET Public Key Response *********** ----> "+ response.getBody().prettyPrint());
     }
 
     private HashMap<String, String> getListHeaderWithMissingValues(String method, String url
@@ -65,13 +92,12 @@ public class GetSigningKey extends UtilManager {
     }
 
 
-    public void makeCallWithoutMissingHeader(String url, String applicationID, String headerValue) {
-        returnRequestHeaderWithApiVersionAndAutorization(headerValue);
+    public void makeCallWithMissingHeader(String url, String applicationID, String headerValue) {
+        returnRequestHeaderWithApiVersionAndAuthorization(headerValue);
         response =
-                getRestHelper().getRequestWithHeaders(url + applicationID + "/keys/signing", returnRequestHeaderWithApiVersionAndAutorization(headerValue));
-        logger.info("********** GET Public Key Response *********** ----> "+ response.getBody().asString());
+                getRestHelper().getRequestWithHeaders(url + applicationID + "/keys/signing", returnRequestHeaderWithApiVersionAndAuthorization(headerValue));
+        logger.info("********** GET Public Key Response *********** ----> "+ response.getBody().prettyPrint());
     }
-
 
     public void makeCall(String url, String headerKey, String headerValue, String applicationId) {
 
@@ -79,7 +105,20 @@ public class GetSigningKey extends UtilManager {
         logger.info("********** GET Public Key Response *********** ----> "+ response.getBody().prettyPrint());
     }
 
-    private HashMap<String,String> returnRequestHeader(String nullHeaderValue) {
+    private HashMap<String,String> returnRequestHeader() {
+        requestHeader = new HashMap<String, String>();
+        requestHeader.put("Accept","application/json");
+        requestHeader.put("Content-Type","application/json");
+        requestHeader.put("Authorization", authToken);
+        requestHeader.put("Trace-Id",getGeneral().generateUniqueUUID());
+        requestHeader.put("Accept-Language", "en-US");
+        requestHeader.put("Request-Date-Time", getDateHelper().getUTCNowDateTime());
+        requestHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
+        return requestHeader;
+    }
+
+
+    private HashMap<String,String> returnRequestHeaderWithMissingHeader(String nullHeaderValue) {
         requestHeader = new HashMap<String, String>();
         requestHeader.put("Accept","application/json");
         requestHeader.put("Content-Type","application/json");
@@ -92,12 +131,13 @@ public class GetSigningKey extends UtilManager {
         return requestHeader;
     }
 
-    private HashMap<String,String> returnRequestHeaderWithApiVersionAndAutorization(String missingHeader) {
+    private HashMap<String,String> returnRequestHeaderWithApiVersionAndAuthorization(String missingHeader) {
         requestHeader = new HashMap<String, String>();
         requestHeader.put("Accept","application/json");
         requestHeader.put("Content-Type","application/json");
         requestHeader.put("Authorization", authToken);
         requestHeader.put("Accept-Language", "en-US");
+        requestHeader.put("Trace-Id",getGeneral().generateUniqueUUID());
         requestHeader.put("Request-Date-Time", getDateHelper().getUTCNowDateTime());
         requestHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
 

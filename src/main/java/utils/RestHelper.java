@@ -158,19 +158,28 @@ public class RestHelper {
      * @param body
      * @return
      */
-    public Response postRequestWithHeaderAndBody(String url, HashMap headers, HashMap body) {
-        Response response = null;
-        try {
+    public Response postRequestWithHeaderAndBody(String url, HashMap headers, HashMap body){
+        Response response=null;
+        try{
+            //config(RestAssured.config().encoderConfig(encoderConfig().encodeContentTypeAs(Constants.CONTENT_TYPE, ContentType.TEXT)))
             String jsonBody = new ObjectMapper().writeValueAsString(body);
-            response = given().log().all().headers(headers).body(body).when().post(url);
-
-        } catch (Exception e) {
-
+            response = given().config(RestAssured.config().encoderConfig(encoderConfig().encodeContentTypeAs(Constants.CONTENT_TYPE, ContentType.TEXT)))
+                    .log()
+                    .all()
+                    .headers(headers)
+                    .body(body)
+                    .when()
+                    .relaxedHTTPSValidation()
+                    .post(url)
+            ;
+        }catch(Exception e){
+            e.printStackTrace();
             Assert.assertTrue(e.getMessage(), false);
         }
 
         return response;
     }
+
 
     /**
      * This method POSTS a request with invalid header and body

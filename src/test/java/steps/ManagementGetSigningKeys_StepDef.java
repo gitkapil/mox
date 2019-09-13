@@ -14,6 +14,7 @@ import managers.TestContext;
 import managers.UtilManager;
 
 import org.apache.http.HttpStatus;
+import org.bouncycastle.tsp.TSPUtil;
 import org.testng.Assert;
 import utils.Constants;
 
@@ -90,13 +91,31 @@ public class ManagementGetSigningKeys_StepDef extends UtilManager {
     }
 
 
-    @And("^I make a request to get signing keys with \"([^\"]*)\" and with missing header \"([^\"]*)\" values$")
-    public void makeRequests(String applicationID, String missingHeaderKeys) {
+    @And("^I make a request to get signing keys with application id$")
+    public void makeRequests() {
+        Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
+        testContext.getApiManager().getGetSigningKey().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
         String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
                 RESOURCE_ENDPOINT_PROPERTY_NAME) + "/";
-        System.out.println("URL kapil: " + url);
-        testContext.getApiManager().getGetSigningKey().setApplicationId(applicationID);
-        testContext.getApiManager().getGetSigningKey().makeCallWithApplicationID(url, applicationID, missingHeaderKeys);
+        testContext.getApiManager().getGetSigningKey().makeCallWithApplicationID(url, testContext.getApiManager().getGetSigningKey().getApplicationId());
+    }
+
+    @And("^I make a request to get signing keys with application id and missing header \"([^\"]*)\"$")
+    public void makeRequestsWithMissingHeaderValue(String keys) {
+        Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
+        testContext.getApiManager().getGetSigningKey().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
+        String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
+                RESOURCE_ENDPOINT_PROPERTY_NAME) + "/";
+        testContext.getApiManager().getGetSigningKey().makeCallWithMissingHeader(url, testContext.getApiManager().getGetSigningKey().getApplicationId(), keys);
+    }
+
+
+
+    @And("^I make a request to get signing keys with application id \"([^\"]*)\"$")
+    public void makeRequestsWithInvalidApplicationId(String applicationId) {
+        String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
+                RESOURCE_ENDPOINT_PROPERTY_NAME) + "/";
+        testContext.getApiManager().getGetSigningKey().makeCallWithApplicationID(url, applicationId);
     }
 
 
@@ -166,6 +185,7 @@ public class ManagementGetSigningKeys_StepDef extends UtilManager {
             );
             ArrayList<Map> arrayList = (ArrayList) retMap.get("response");
             Map firstElement = arrayList.get(0);
+            testContext.getApiManager().getGetSigningKey().setKeyId(firstElement.get(Constants.KEY_ID).toString());
             Assert.assertTrue(firstElement.containsKey(Constants.APPLICATION_ID), testContext.getApiManager().getGetSigningKey().getApplicationId());
             Assert.assertTrue(firstElement.containsKey(Constants.KEY_ID));
             Assert.assertTrue(firstElement.containsKey(Constants.KEY_NAME));
@@ -189,6 +209,6 @@ public class ManagementGetSigningKeys_StepDef extends UtilManager {
     public void i_make_a_put_request_to_the_application_endpoint_with_key_missing_in_the_header(String applicationId, String key) {
         String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
                 RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" + applicationId + "/keys/signing";
-        testContext.getApiManager().getGetSigningKey().makeCallWithoutMissingHeader(url, applicationId, key);
+        testContext.getApiManager().getGetSigningKey().makeCallWithMissingHeader(url, applicationId, key);
     }
 }
