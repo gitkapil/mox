@@ -9,7 +9,7 @@ Feature: Management Put Applications API - DRAG-1446
   # For the parametres where values are missing within the table, while creating request, the parameter will not be included at all as a a part of the payload
   
   # @trial
-  @regression @merchantManagement @merchantManagementPut @putone
+  @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Positive flow- A DRAGON user with Application.ReadWrite.All is able to update an existing application
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     And I have updated the "<description>" and platformId values
@@ -97,7 +97,7 @@ Feature: Management Put Applications API - DRAG-1446
       | platformId    |             | Field error in object 'updateMerchantApplicationMappingInputModel': field 'peakId' must not be null; rejected value [null] | Service Request Validation Failed | EA002      |
 
 
-  @regression @merchantManagement @merchantManagementPut @newPut
+  @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow- Mandatory fields from the invalid body
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     When I make a PUT request to the application endpoint with invalid platformId "<platformId>" value and description "<description>"

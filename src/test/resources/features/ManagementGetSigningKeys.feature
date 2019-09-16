@@ -6,7 +6,6 @@ Feature: Merchant Management API - GET /keys/signing
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-
 #  @trial
   @regression
   Scenario: positive flow - get signing keys

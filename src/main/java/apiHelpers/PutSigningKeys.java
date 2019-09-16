@@ -35,24 +35,19 @@ public class PutSigningKeys extends UtilManager {
     public String getRequestDateTime() {
         return requestDateTime;
     }
-    public void makeApiCall(String url) {
-        response = getRestHelper().putRequestWithHeaderAndBody(url, returnHeader(), returnBody());
-        logger.info("********** PUT Signing Key Response *********** ----> "+ response.getBody().asString());
+
+    public void makePutSigningKeyApiCall(String url) throws IOException {
+        HashMap<String, String> header = returnHeader("PUT", new URL(url).getPath());
+        response = getRestHelper().putRequestWithHeaderAndBody(url, header, returnBody());
+        logger.info("********** PUT Signing Key Response *********** ----> "+ response.getBody().prettyPrint());
     }
 
     private HashMap returnBody() {
-        HashMap objReturn = new HashMap();
-        if (activateAt != null && !activateAt.equalsIgnoreCase("null")) {
-            objReturn.put("activateAt", activateAt);
-        }
-        if (deactivateAt != null && !deactivateAt.equalsIgnoreCase("null")) {
-            objReturn.put("deactivateAt", deactivateAt);
-        }
-        if (entityStatus != null && !entityStatus.equalsIgnoreCase("null")) {
-            objReturn.put("entityStatus", entityStatus);
-        }
-
-        return objReturn;
+       requestBody.clear();
+       requestBody.put("activateAt", activateAt);
+       requestBody.put("deactivateAt", deactivateAt);
+       requestBody.put("entityStatus", entityStatus);
+       return requestBody;
     }
 
       public void makeApiCallWithMissingHeader(String url, String keys) throws IOException {
@@ -75,7 +70,7 @@ public class PutSigningKeys extends UtilManager {
         }
 
 
-    private HashMap<String, String> returnHeader() {
+    private HashMap<String, String> returnHeader(String method, String url) {
         HashMap<String, String> objReturn = new HashMap<>();
         objReturn.put("Accept", "application/json");
         objReturn.put("Content-Type", "application/json");
@@ -83,7 +78,6 @@ public class PutSigningKeys extends UtilManager {
         objReturn.put("Trace-Id", getGeneral().generateUniqueUUID());
         objReturn.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
         objReturn.put("Request-Date-Time", getDateHelper().getUTCNowDateTime());
-
         return objReturn;
     }
 
