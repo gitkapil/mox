@@ -28,7 +28,7 @@ Feature: Merchant Management API - GET /keys/signing
 
 
      # @trial
-  @regression @newGet
+  @regression
   Scenario Outline: Negative flow - get signing key with null or invalid header values
     Given I am a user with permissions to use signing key
     And I make a request to get signing keys with application id and missing header "<missingHeader>"

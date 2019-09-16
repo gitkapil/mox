@@ -11,6 +11,7 @@ import managers.UtilManager;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import utils.Constants;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Set;
@@ -73,7 +74,6 @@ public class ManagementPutSigningKeys_StepDefs extends UtilManager {
 
         testContext.getApiManager().getPutSigningKeys().makePutSigningKeyApiCall(url);
     }
-
 
 
     @And("^I update the signing key with activate at \"([^\"]*)\", deactivate at \"([^\"]*)\" and entity status \"([^\"]*)\"$")
@@ -169,11 +169,19 @@ public class ManagementPutSigningKeys_StepDefs extends UtilManager {
                         getRestHelper().getResponseStatusCode(testContext.getApiManager().getPutSigningKeys().getResponse())
         );
         HashMap returnedTransactions = testContext.getApiManager().getPutSigningKeys().getResponse().path(".");
-        Assert.assertEquals(returnedTransactions.get(Constants.APPLICATION_ID),testContext.getApiManager().getGetSigningKey().getApplicationId(),"ApplicationId didn't match!");
-        Assert.assertEquals(returnedTransactions.get(Constants.KEY_ID),testContext.getApiManager().getGetSigningKey().getKeyId(),"keyId didn't match!");
-        Assert.assertEquals(returnedTransactions.size(),11,"response element didn't match!");
+        Assert.assertEquals(returnedTransactions.get(Constants.APPLICATION_ID), testContext.getApiManager().getGetSigningKey().getApplicationId(), "ApplicationId didn't match!");
+        Assert.assertEquals(returnedTransactions.get(Constants.KEY_ID), testContext.getApiManager().getGetSigningKey().getKeyId(), "keyId didn't match!");
+        Assert.assertNotNull(returnedTransactions.get(Constants.KEY_NAME), "keyName is null");
+        Assert.assertNotNull(returnedTransactions.get(Constants.ALG), "alg is null");
+        Assert.assertNotNull(returnedTransactions.get(Constants.TYPE), "type is null");
+        Assert.assertNotNull(returnedTransactions.get(Constants.SIZE), "size is null");
+        Assert.assertNotNull(returnedTransactions.get(Constants.ACTIVATE_AT), "activateAt is null");
+        Assert.assertNotNull(returnedTransactions.get(Constants.DEACTIVATE_AT), "deactivateAt is null");
+        Assert.assertEquals(returnedTransactions.get(Constants.ENTITY_STATUS), testContext.getApiManager().getPutSigningKeys().getEntityStatus(), "deactivateAt is null");
+        Assert.assertNotNull(returnedTransactions.get(Constants.CREATED_AT), "createdAt is null");
+        Assert.assertNotNull(returnedTransactions.get(Constants.LAST_UPDATED_AT), "lastUpdatedAt is null");
+        Assert.assertEquals(returnedTransactions.size(), 11, "response element didn't match!");
     }
-
 }
 
 

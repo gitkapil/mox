@@ -1,4 +1,4 @@
-@postSigningKey
+@newPost
 Feature: Merchant Management POST Signing Keys - DRAG-1565
 
   Background: Retrieving access Token
@@ -88,7 +88,6 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
     Examples:
       | error_description                                              | error_message                     | key               | error_code | http_status | activateAt           | deactivateAt         | entityStatus |
       | Error validating JWT                                           | API Gateway Authentication Failed | Authorization     | EA001      | 401         | 2019-01-01T00:00:00Z | 2020-10-01T00:00:00Z | A            |
-      | Request timestamp not a valid RFC3339 date-time                | API Gateway Validation Failed     | Request-Date-Time | EA002      | 400         | 2019-01-01T00:00:00Z | 2020-10-01T00:00:00Z | A            |
       | Header Trace-Id was not found in the request. Access denied.   | API Gateway Validation Failed     | Trace-Id          | EA002      | 400         | 2019-01-01T00:00:00Z | 2020-10-01T00:00:00Z | A            |
       | Header Accept does not contain required value.  Access denied. | Request Header Not Acceptable     | Accept            | EA008      | 406         | 2019-01-01T00:00:00Z | 2020-10-01T00:00:00Z | A            |
       | Content type 'text/plain;charset=ISO-8859-1' not supported     | Service Request Validation Failed | Content-Type      | EA002      | 415         | 2019-01-01T00:00:00Z | 2020-10-01T00:00:00Z | A            |

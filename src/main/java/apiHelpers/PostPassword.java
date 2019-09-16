@@ -7,16 +7,25 @@ import utils.PropertyHelper;
 
 import java.util.HashMap;
 
-public class PostPassword_CreateClientPassword extends UtilManager {
+public class PostPassword extends UtilManager {
     private String authToken;
     private String clientId;
     private String applicationId;
     private String activateAt;
     private String deactivateAt;
     private String entityStatus;
+    private String keyId;
     private Response response = null;
 
-    final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(PostPassword_CreateClientPassword.class);
+    final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(PostPassword.class);
+
+    public String getKeyId() {
+        return keyId;
+    }
+
+    public void setKeyId(String keyId) {
+        this.keyId = keyId;
+    }
 
     public String getActivateAt() {
         return activateAt;
@@ -53,13 +62,13 @@ public class PostPassword_CreateClientPassword extends UtilManager {
 
     public void makeRequest(String url) {
         response = getRestHelper().postRequestWithHeaderAndBody(url, returnRequestHeader(), returnRequestBody());
-        logger.info("********** Create Client Password Request Response *********** ----> "+ response.getBody().asString());
+        logger.info("********** Create Client Password Request Response *********** ----> " + response.getBody().prettyPrint());
     }
 
 
     public void makeRequestWithNullHeader(String url, String nullHeaderValue) {
         response = getRestHelper().postRequestWithHeaderAndBody(url, returnRequestHeaderWithNullValues(nullHeaderValue), returnRequestBody());
-        logger.info("********** Create Client Password Request Response *********** ----> "+ response.getBody().asString());
+        logger.info("********** Create Client Password Request Response *********** ----> " + response.getBody().prettyPrint());
     }
 
     private HashMap<String, String> returnRequestBody() {
@@ -79,10 +88,10 @@ public class PostPassword_CreateClientPassword extends UtilManager {
 
     private HashMap<String, String> returnRequestHeader() {
         HashMap<String, String> requestHeader = new HashMap<String, String>();
-        requestHeader.put("Accept","application/json");
-        requestHeader.put("Content-Type","application/json");
+        requestHeader.put("Accept", "application/json");
+        requestHeader.put("Content-Type", "application/json");
         requestHeader.put("Authorization", authToken);
-        requestHeader.put("Trace-Id",getGeneral().generateUniqueUUID());
+        requestHeader.put("Trace-Id", getGeneral().generateUniqueUUID());
         requestHeader.put("Accept-Language", "en-US");
         requestHeader.put("Request-Date-Time", getDateHelper().getUTCNowDateTime());
         requestHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
@@ -96,10 +105,10 @@ public class PostPassword_CreateClientPassword extends UtilManager {
 
     private HashMap<String, String> returnRequestHeaderWithNullValues(String nullHeaderValue) {
         HashMap<String, String> requestHeader = new HashMap<String, String>();
-        requestHeader.put("Accept","application/json");
-        requestHeader.put("Content-Type","application/json");
+        requestHeader.put("Accept", "application/json");
+        requestHeader.put("Content-Type", "application/json");
         requestHeader.put("Authorization", authToken);
-        requestHeader.put("Trace-Id",getGeneral().generateUniqueUUID());
+        requestHeader.put("Trace-Id", getGeneral().generateUniqueUUID());
         requestHeader.put("Accept-Language", "en-US");
         requestHeader.put("Request-Date-Time", getDateHelper().getUTCNowDateTime());
         requestHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
@@ -128,6 +137,6 @@ public class PostPassword_CreateClientPassword extends UtilManager {
     }
 
     public void setAuthTokenWithBearer(String authToken) {
-        this.authToken = "Bearer "+ authToken;
+        this.authToken = "Bearer " + authToken;
     }
 }

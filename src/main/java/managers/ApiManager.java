@@ -22,7 +22,7 @@ public class ApiManager {
     GetPlatform getPlatform;
     PostPlatform postPlatform;
     PutPlatform putPlatform;
-    PostPassword_CreateClientPassword postPasswordCreateClientPassword;
+    PostPassword postPasswordCreateClientPassword;
     GetPassword getPassword;
     OneClickMerchantOnboarding oneClickMerchantOnboarding;
     String merchantManagementSigningKeyId;
@@ -70,7 +70,7 @@ public class ApiManager {
         getSigningKey = new GetSigningKey();
         putSigningKeys = new PutSigningKeys();
         createClient = new CreateClient();
-        postPasswordCreateClientPassword = new PostPassword_CreateClientPassword();
+        postPasswordCreateClientPassword = new PostPassword();
         getPassword = new GetPassword();
         getPlatform = new GetPlatform();
         postPlatform = new PostPlatform();
@@ -81,7 +81,7 @@ public class ApiManager {
 
     public CreateClient getCreateClient() { return createClient; }
 
-    public PostPassword_CreateClientPassword getPostPasswordCreateClientPassword() {
+    public PostPassword getPostPasswordCreateClientPassword() {
         return postPasswordCreateClientPassword;
     }
 
@@ -93,7 +93,7 @@ public class ApiManager {
         return getSigningKey;
     }
 
-    public GetPassword getPassword(){
+    public GetPassword getGetPassword(){
         return getPassword;
     }
 

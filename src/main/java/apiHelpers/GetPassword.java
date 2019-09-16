@@ -15,7 +15,6 @@ public class GetPassword extends UtilManager {
 
     private final static Logger logger = Logger.getLogger(GetPassword.class);
     String authToken;
-    DateHelper dateHelper;
     private String keyId;
     private String clientId;
     private String applicationId;
@@ -23,8 +22,9 @@ public class GetPassword extends UtilManager {
     private String deactivateAt;
     private String createdAt;
     private String lastUpdatedAt;
+    private String entityStatus;
     private Response response= null;
-
+    private HashMap<String, String> requestHeader = new HashMap<>();
 
     General general = new General();
 
@@ -37,6 +37,13 @@ public class GetPassword extends UtilManager {
         this.response = response;
     }
 
+    public String getEntityStatus() {
+        return entityStatus;
+    }
+
+    public void setEntityStatus(String entityStatus) {
+        this.entityStatus = entityStatus;
+    }
 
     public String getKeyId() {
         return keyId;
@@ -95,15 +102,14 @@ public class GetPassword extends UtilManager {
     }
 
     private HashMap<String, String> returnRequestHeader(String method, String url, String authToken) {
-
-        HashMap<String,String> header = new HashMap<>();
-        header.put("accept", "application/json");
-        header.put("Authorization", authToken);
-        header.put("Trace-Id", general.generateUniqueUUID());
-        header.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
-        header.put("Request-Date-Time", dateHelper.getUTCNowDateTime());
-        header.put("Content-Type", "application/json");
-        return header;
+        requestHeader.put("Accept", "application/json");
+        requestHeader.put("Content-Type", "application/json");
+        requestHeader.put("Authorization", authToken);
+        requestHeader.put("Trace-Id", getGeneral().generateUniqueUUID());
+        requestHeader.put("Accept-Language", "en-US");
+        requestHeader.put("Request-Date-Time", getDateHelper().getUTCNowDateTime());
+        requestHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
+        return requestHeader;
 
     }
 
@@ -113,7 +119,7 @@ public class GetPassword extends UtilManager {
             response = getRestHelper().getRequestWithHeaders(url,
                     returnRequestHeader("GET",new URL(url).getPath(),
                             authToken));
-            logger.info("****************List of application response ******************** --> " + response.getBody().asString());
+            logger.info("****************List of application response ******************** --> " + response.getBody().prettyPrint());
         } catch (MalformedURLException e) {
             e.printStackTrace();
             Assert.assertTrue("Unable to get URL" , false);
@@ -121,16 +127,15 @@ public class GetPassword extends UtilManager {
     }
 
     private HashMap<String, String> returnRequestHeaderWithNullHeaderValues(String method, String url, String authToken, String nullHeaderValues) {
-
-        HashMap<String,String> header = new HashMap<>();
-        header.put("accept", "application/json");
-        header.put("Authorization", authToken);
-        header.put("Trace-Id", general.generateUniqueUUID());
-        header.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
-        header.put("Request-Date-Time", dateHelper.getUTCNowDateTime());
-        header.put("Content-Type", "application/json");
-        header.remove(nullHeaderValues);
-        return header;
+        requestHeader.put("Accept", "application/json");
+        requestHeader.put("Content-Type", "application/json");
+        requestHeader.put("Authorization", authToken);
+        requestHeader.put("Trace-Id", getGeneral().generateUniqueUUID());
+        requestHeader.put("Accept-Language", "en-US");
+        requestHeader.put("Request-Date-Time", getDateHelper().getUTCNowDateTime());
+        requestHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
+        requestHeader.remove(nullHeaderValues);
+        return requestHeader;
 
     }
 
@@ -139,7 +144,7 @@ public class GetPassword extends UtilManager {
             response = getRestHelper().getRequestWithHeaders(url,
                     returnRequestHeaderWithNullHeaderValues("GET",new URL(url).getPath(),
                             authToken, nullHeaderValue));
-            logger.info("****************List of application response ******************** --> " + response.getBody().asString());
+            logger.info("****************List of application response ******************** --> " + response.getBody().prettyPrint());
         } catch (MalformedURLException e) {
             e.printStackTrace();
             Assert.assertTrue("Unable to get URL" , false);
