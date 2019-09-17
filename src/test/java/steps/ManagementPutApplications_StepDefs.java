@@ -27,12 +27,11 @@ public class ManagementPutApplications_StepDefs extends UtilManager {
 
     private TestContext testContext;
     private ManagementCommon common;
-    private ManagementPostApplications_StepDefs postApplications_stepDefs;
+
 
     public ManagementPutApplications_StepDefs(TestContext testContext) {
         this.testContext = testContext;
         this.common = new ManagementCommon(testContext);
-        this.postApplications_stepDefs = new ManagementPostApplications_StepDefs(testContext);
     }
 
     final static Logger logger = Logger.getLogger(ManagementPutApplications_StepDefs.class);

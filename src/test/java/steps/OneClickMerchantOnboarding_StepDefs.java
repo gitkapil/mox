@@ -37,7 +37,7 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
         common = new ManagementCommon(testContext);
     }
 
-    final static Logger logger = Logger.getLogger(ManagementPostApplications_StepDefs.class);
+    final static Logger logger = Logger.getLogger(OneClickMerchantOnboarding_StepDefs.class);
 
 
     @Given("^I am logging in as a user with correct privileges$")

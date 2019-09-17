@@ -36,7 +36,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
                 getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource"),
 
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))),
-                testContext.getApiManager().getPostApplication().getAuthToken()
+                testContext.getApiManager().getGetApplication().getAuthToken()
         );
     }
 
@@ -56,7 +56,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
                 url,
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
                         "header-list-get").split(","))),
-                testContext.getApiManager().getPostApplication().getAuthToken());
+                testContext.getApiManager().getGetApplication().getAuthToken());
     }
 
 
@@ -132,7 +132,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
                 url,
 
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))),
-                testContext.getApiManager().getPostApplication().getAuthToken());
+                testContext.getApiManager().getGetApplication().getAuthToken());
     }
 
     @When("^I get a list of application using multiple filters with correct uuids$")
@@ -144,7 +144,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
         testContext.getApiManager().getGetApplication().getListOfApplications(
                 url,
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))),
-                testContext.getApiManager().getPostApplication().getAuthToken());
+                testContext.getApiManager().getGetApplication().getAuthToken());
     }
 
     @And("^the response should have more than or equal to ([^\"]*) in total$")
@@ -220,7 +220,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
                 url,
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
                         "header-list-get").split(","))),
-                testContext.getApiManager().getPostApplication().getAuthToken());
+                testContext.getApiManager().getGetApplication().getAuthToken());
     }
 
     @When("^I get a list of applications using filters to filter \"([^\"]*)\" and \"([^\"]*)\" values$")
@@ -231,7 +231,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
         url = url + "?" + filterName + "=" + applicationResponse.getBody().path("application.clientId");
         ;
         testContext.getApiManager().getGetApplication().getListOfApplication(
-                url, testContext.getApiManager().getPostApplication().getAuthToken(), headerValues);
+                url, testContext.getApiManager().getGetApplication().getAuthToken(), headerValues);
     }
 
     @When("^I get a list of applications using filters to filter \"([^\"]*)\" with ([^\"]*) limits$")
@@ -246,7 +246,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
                 url,
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
                         "header-list-get").split(","))),
-                testContext.getApiManager().getPostApplication().getAuthToken());
+                testContext.getApiManager().getGetApplication().getAuthToken());
     }
 
     @And("^the response should have a ([^\"]*) number of total items$")
@@ -262,12 +262,12 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
 
     @Given("^I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege$")
     public void i_am_an_authorized_DRAGON_user_with_role() {
-        common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getPostApplication().setAuthTokenWithBearer(token));
+        common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getGetApplication().setAuthToken(token));
     }
 
     @Given("^I am a GET application authorized DRAGON user with the ApplicationKey.ReadWrite.All privilege$")
     public void i_am_an_authorized_DRAGON_user_with_incorrect_role() {
-        common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getPostApplication().setAuthTokenWithBearer(token));
+        common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getGetApplication().setAuthToken(token));
     }
 
     @And("^the response should be on page ([^\"]*)$")
@@ -287,14 +287,14 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
         testContext.getApiManager().getGetApplication().getListOfApplications(
                 url,
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))),
-                testContext.getApiManager().getPostApplication().getAuthToken());
+                testContext.getApiManager().getGetApplication().getAuthToken());
     }
 
     @When("^I make a get request to the application endpoint with \"([^\"]*)\" missing in the header$")
     public void i_make_a_put_request_to_the_application_endpoint_with_key_missing_in_the_header(String key) {
         testContext.getApiManager().getGetApplication().getListOfApplication(
                 getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" + testContext.getApiManager().getPutApplication().getApplicationId(),
-                testContext.getApiManager().getPostApplication().getAuthToken(), key);
+                testContext.getApiManager().getGetApplication().getAuthToken(), key);
     }
 
 }

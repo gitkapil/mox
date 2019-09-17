@@ -23,26 +23,18 @@ public class ManagementPostPassword_StepDefs extends UtilManager {
     private static final String VALID_BASE64_ENCODED_RSA_PUBLIC_KEY = "valid_base64_encoded_rsa_public_key";
     final static Logger logger = Logger.getLogger(ManagementPostPassword_StepDefs.class);
 
-    ManagementPostApplications_StepDefs postApplications_stepDefs;
+
     ManagementGetApplications_StepDefs getApplications_stepDefs;
 
     public ManagementPostPassword_StepDefs(TestContext testContext) {
         this.testContext = testContext;
         common = new ManagementCommon(this.testContext);
-        postApplications_stepDefs = new ManagementPostApplications_StepDefs(this.testContext);
         getApplications_stepDefs = new ManagementGetApplications_StepDefs(this.testContext);
     }
 
     @When("^I set the application id as \"([^\"]*)\"$")
     public void setApplicationId(String value) {
         testContext.getApiManager().getPostPasswordCreateClientPassword().setApplicationId(value);
-    }
-
-    @When("^I get a list of applications$")
-    public void getListOfApplications() {
-        common.iAmAnAuthorizedDragonUser(ROLE_SET,
-                token -> testContext.getApiManager().getPostApplication().setAuthTokenWithBearer(token));
-        getApplications_stepDefs.list_of_applications_without_any_filters();
     }
 
     @And("^I get the first application id$")
@@ -110,23 +102,6 @@ public class ManagementPostPassword_StepDefs extends UtilManager {
         common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getPostPasswordCreateClientPassword().setAuthTokenWithBearer(token));
     }
 
-    @And("^I create an application with that client id$")
-    public void createApplicationId() {
-        postApplications_stepDefs.i_am_an_authorized_DRAGON_user_with_role();
-        postApplications_stepDefs.i_have_a_clientId_from_an_existing_AAD_application(testContext.getApiManager().getPostPasswordCreateClientPassword().getClientId());
-        postApplications_stepDefs.i_have_a_peakId_subUnitId_and_organisationId_from_an_existing_PM4B_merchant_identity(
-                getGeneral().generateUniqueUUID(), getGeneral().generateUniqueUUID(), getGeneral().generateUniqueUUID(),
-                "Test"
-        );
-        postApplications_stepDefs.i_make_a_post_request_to_the_application_endpoint();
-    }
-
-    @And("^I get the application id from the response$")
-    public void getApplicationIdFromNewApplication() {
-        HashMap keys = testContext.getApiManager().getPostApplication().getPostApplicationRequestResponse().path(".");
-        String applicationId = (String) keys.get("applicationId");
-        testContext.getApiManager().getPostPasswordCreateClientPassword().setApplicationId(applicationId);
-    }
 
     @And("^I create a new AAD password with applicationId, activateAt, deactivate and null header \"([^\"]*)\"$")
     public void createPassword(String nullHeaderValues) {

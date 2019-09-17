@@ -20,6 +20,14 @@ public class GetApplication extends UtilManager {
     General general = new General();
     private Response response= null;
 
+    public String getAuthToken() {
+        return authToken;
+    }
+
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
+    }
+
     public Response getResponse() {
         return response;
     }

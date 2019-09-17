@@ -72,7 +72,7 @@ public class ManagementGetPassword_StepDef extends UtilManager {
             Assert.assertEquals(firstElement.get(Constants.APPLICATION_ID), testContext.getApiManager().getGetPassword().getApplicationId(), "applicationId didn't match!");
             Assert.assertEquals(firstElement.get(Constants.CLIENT_ID), testContext.getApiManager().getGetPassword().getClientId(), "clientId didn't match!");
             Assert.assertEquals(firstElement.get(Constants.KEY_ID), testContext.getApiManager().getGetPassword().getKeyId(), "keyId didn't match!");
-               Assert.assertEquals(firstElement.get(Constants.LAST_UPDATED_AT),testContext.getApiManager().getGetPassword().getLastUpdatedAt(),"lastUpdated date must be today");
+               Assert.assertNotNull(firstElement.get(Constants.LAST_UPDATED_AT),"lastUpdated date must be today");
             Assert.assertEquals(firstElement.get(Constants.ENTITY_STATUS), testContext.getApiManager().getGetPassword().getEntityStatus(), "entityStatus didn't match");
             Assert.assertNotNull(firstElement.get(Constants.ACTIVATE_AT), "activateAt must not be null");
             Assert.assertNotNull(firstElement.get(Constants.DEACTIVATE_AT), "deactivateAt must not be null");
