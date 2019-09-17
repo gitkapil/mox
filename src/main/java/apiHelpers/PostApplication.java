@@ -1,5 +1,4 @@
 package apiHelpers;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.restassured.response.Response;
@@ -7,7 +6,6 @@ import managers.UtilManager;
 import org.junit.Assert;
 import utils.EnvHelper;
 import utils.PropertyHelper;
-
 import java.net.URL;
 import java.util.Base64;
 import java.util.HashMap;
@@ -136,7 +134,6 @@ public class PostApplication extends UtilManager {
         this.authToken = "Bearer " + authToken;
     }
 
-
     /**
      * This method creates valid header for the POST Application Request
      *
@@ -212,15 +209,6 @@ public class PostApplication extends UtilManager {
      * @param body
      * @return
      */
-    public Response retrieveExistingHeaderBody(String url, HashMap header, HashMap body) {
-
-        response = getRestHelper().postRequestWithHeaderAndBody(url, header, body);
-
-        logger.info("********** POST Application Response *********** ----> " + response.getBody().asString());
-
-        return response;
-    }
-
 
     /**
      * This method hits POST payment request endpoint and creates header and body values
@@ -352,15 +340,12 @@ public class PostApplication extends UtilManager {
             returnRequestBody();
             HashMap<String, String> header = returnRequestHeaderWithoutDigest("POST", new URL(url).getPath(), signingKeyId, signingAlgorithm, signingKey, headerElementsForSignature);
             response = getRestHelper().postRequestWithHeaderAndBody(url, header, requestBody);
-
             logger.info("Response: " + response.getBody().asString());
         } catch (Exception e) {
             Assert.assertTrue("Verification of signature failed!", false);
         }
-
         return response;
     }
-
 
     /**
      * This method creates a valid header but without digest

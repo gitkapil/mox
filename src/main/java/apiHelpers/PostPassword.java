@@ -1,10 +1,8 @@
 package apiHelpers;
-
 import com.jayway.restassured.response.Response;
 import managers.UtilManager;
 import utils.EnvHelper;
 import utils.PropertyHelper;
-
 import java.util.HashMap;
 
 public class PostPassword extends UtilManager {

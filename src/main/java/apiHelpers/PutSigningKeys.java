@@ -2,17 +2,14 @@ package apiHelpers;
 
 import com.jayway.restassured.response.Response;
 import managers.UtilManager;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.junit.Assert;
 import utils.PropertyHelper;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
-import static apiHelpers.PutPublicKeys.logger;
+
 
 public class PutSigningKeys extends UtilManager {
     private String authToken;
@@ -68,7 +65,6 @@ public class PutSigningKeys extends UtilManager {
             requestHeader.remove(keys);
             return  requestHeader;
         }
-
 
     private HashMap<String, String> returnHeader(String method, String url) {
         HashMap<String, String> objReturn = new HashMap<>();

@@ -28,36 +28,6 @@ public class ManagementPostSigningKey_StepDefs extends UtilManager {
         common = new ManagementCommon(testContext);
     }
 
-    @And("^I create a new pubic key for signing key purposes$")
-    public void createPublicKey() {
-        common.iAmAnAuthorizedDragonUser(ROLE_SET,
-                token -> testContext.getApiManager().getPostPublicKey().setAuthTokenWithBearer(token));
-        testContext.getApiManager().getPostPublicKey().setApplicationId(
-                testContext.getApiManager().getPostSigningKeys().getApplicationId()
-        );
-
-
-        String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
-                RESOURCE_ENDPOINT_PROPERTY_NAME) + "/";
-        String value = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, VALID_BASE64_ENCODED_RSA_PUBLIC_KEY);
-        String activateAt = "2019-01-01T00:00:00Z";
-        String deactivateAt = "2023-02-02T00:00:00Z";
-        String entityStatus = "A";
-        String description = "Test description";
-
-        testContext.getApiManager().getPostPublicKey().postPublicKeys(
-                url,
-                value,
-                activateAt,
-                deactivateAt,
-                entityStatus,
-                description);
-
-        Assert.assertEquals(201,
-                getRestHelper().getResponseStatusCode(testContext.getApiManager().getPostPublicKey().getResponse()),
-                "Unable to create Post public key");
-    }
-
     @And("^I create a new application id for signing key$")
     public void createApplication() {
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();

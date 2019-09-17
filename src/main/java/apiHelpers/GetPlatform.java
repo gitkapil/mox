@@ -171,7 +171,7 @@ public class GetPlatform extends UtilManager {
         returnRequestBody();
         returnRequestHeader();
         response = getRestHelper().getRequestWithHeaders(url, requestHeader);
-        System.out.println("response after make request: " + response.getBody().asString());
+
     }
 
 

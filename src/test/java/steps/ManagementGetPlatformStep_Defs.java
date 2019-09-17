@@ -4,7 +4,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-public class GetPlatformStep_Defs {
+public class ManagementGetPlatformStep_Defs {
     @Given("^I am a GET platform authorized DRAGON user with Platform\\.ReadWrite\\.All$")
     public void i_am_a_GET_platform_authorized_DRAGON_user_with_Platform_ReadWrite_All()  {
 

@@ -1,13 +1,14 @@
 package apiHelpers;
 import com.jayway.restassured.response.Response;
 import managers.UtilManager;
+import org.apache.log4j.Logger;
 import org.junit.Assert;
 import utils.EnvHelper;
 import utils.PropertyHelper;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
-import static apiHelpers.PutPublicKeys.logger;
+
 
 public class PostSigningKeys extends UtilManager {
 
@@ -18,6 +19,7 @@ public class PostSigningKeys extends UtilManager {
     private String entityStatus;
     private Response response = null;
     private HashMap<String, String> requestHeader = new HashMap();
+    final static Logger logger = Logger.getLogger(PostSigningKeys.class);
     private HashMap requestBody = new HashMap();
 
     public Response getResponse() {
@@ -56,7 +58,6 @@ public class PostSigningKeys extends UtilManager {
 
         returnRequestHeader();
         response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader,returnRequestBody());
-        System.out.println("response after make request: " + response.getBody().prettyPrint());
     }
 
     public void setAuthTokenWithBearer(String authToken) {
@@ -96,7 +97,6 @@ public class PostSigningKeys extends UtilManager {
     }
 
     public Response executePostRequestWithMissingHeaderKeys(String url, String keys) {
-
         try {
             HashMap<String, String> header = returnRequestHeaderWithMissingKeys("POST", new URL(url).getPath(), keys);
             response = getRestHelper().postRequestWithHeaderAndBody(url, header, returnRequestBody());
@@ -106,7 +106,6 @@ public class PostSigningKeys extends UtilManager {
         }
         return response;
     }
-
 
 
     public HashMap<String, String> returnRequestHeaderWithMissingKeys(String method, String url, String keys) throws IOException {

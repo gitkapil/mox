@@ -1,19 +1,16 @@
 package apiHelpers;
 
-import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Response;
 import managers.UtilManager;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import utils.*;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Objects;
 
 public class GetApplication extends UtilManager {
     private final static Logger logger = Logger.getLogger(GetApplication.class);

@@ -1,5 +1,4 @@
 package apiHelpers;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.restassured.response.Response;
@@ -8,7 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import utils.EnvHelper;
 import utils.PropertyHelper;
-
 import java.util.HashMap;
 
 public class PostPlatform extends UtilManager {
@@ -84,12 +82,10 @@ public class PostPlatform extends UtilManager {
         returnRequestHeader();
         response = getRestHelper().postRequestWithHeaderAndBody(url,
                 requestHeader, requestBody);
-        System.out.println("response after make request: " + response.getBody().asString());
     }
 
 
     public String getPlatformDescription() {
-
         return platformDescription;
     }
 

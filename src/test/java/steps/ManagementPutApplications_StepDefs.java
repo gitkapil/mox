@@ -243,13 +243,4 @@ public class ManagementPutApplications_StepDefs extends UtilManager {
                         getRestHelper().getErrorMessage(response));
     }
 
-    @And("^I retrieve the applicationId and the keyId from the response$")
-    public void iRetrieveTheKeyIdFromTheResponse() {
-        testContext.getApiManager().getPostPublicKey().getResponse();
-        HashMap dataMap = (HashMap) testContext.getApiManager().getPostPublicKey().getResponse().path(".");
-        String newKeyId = dataMap.get("keyId").toString();
-        String returnedApplicationId = dataMap.get("applicationId").toString();
-        testContext.getApiManager().getPutPublicKeys().setKeyId(newKeyId);
-        testContext.getApiManager().getPutPublicKeys().setApplicationId(returnedApplicationId);
-    }
 }

@@ -13,7 +13,6 @@ import org.testng.Assert;
 import java.util.Set;
 import java.util.UUID;
 
-
 public class ManagementPostApplications_StepDefs extends UtilManager {
     // NB: These are the dragon token (for testing) roles {"roles": ["Application.ReadWrite.All"]}.  CSO tokens use claim {"role": "user"}
     private static final Set<String> ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");

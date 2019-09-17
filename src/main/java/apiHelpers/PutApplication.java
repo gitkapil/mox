@@ -1,18 +1,9 @@
 package apiHelpers;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import com.jayway.restassured.response.Response;
-import com.mongodb.util.JSON;
-import groovy.json.JsonParser;
 import managers.UtilManager;
 import org.junit.Assert;
-import utils.DateHelper;
-import utils.EnvHelper;
 import utils.General;
 import utils.PropertyHelper;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Base64;
@@ -162,10 +153,8 @@ public class PutApplication extends UtilManager {
         objReturn.put("Trace-Id", getGeneral().generateUniqueUUID());
         objReturn.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
         objReturn.put("Request-Date-Time", getDateHelper().getUTCNowDateTime());
-
         return objReturn;
     }
-
 
     public HashMap<String, String> returnRequestNewHeaders() throws IOException {
         requestHeader = new HashMap<String, String>();
@@ -177,7 +166,6 @@ public class PutApplication extends UtilManager {
         requestHeader.put("Request-Date-Time", getDateHelper().getUTCNowDateTime());
         requestHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
         return requestHeader;
-
     }
 
     /**
@@ -200,7 +188,6 @@ public class PutApplication extends UtilManager {
         requestHeader.put("Request-Date-Time", getDateHelper().getUTCNowDateTime());
         requestHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
         requestHeader.remove(keys);
-
         return requestHeader;
     }
 
@@ -247,24 +234,19 @@ public class PutApplication extends UtilManager {
      * @return
      */
     public Response retrieveExistingHeaderBody(String url, HashMap header, HashMap body) {
-
         response = getRestHelper().putRequestWithHeaderAndBody(url, header, body);
-
         logger.info("********** PUT Application Response *********** ----> " + response.getBody().asString());
-
         return response;
     }
 
 
     public Response  executeRequest(String url) {
-
         try {
             returnRequestBody();
             HashMap<String, String> header = returnRequestNewHeaders();
             response = getRestHelper().putRequestWithHeaderAndBody(url,
                     header,
                     requestBody);
-
             logger.info("********** PUT Application Response *********** ----> "+ response.getBody().prettyPrint());
         }
         catch (Exception e){
@@ -299,7 +281,6 @@ public class PutApplication extends UtilManager {
         catch (Exception e){
             e.printStackTrace();
             Assert.assertTrue("Verification of signature failed!", false);
-
         }
         return response;
     }
@@ -321,27 +302,6 @@ public class PutApplication extends UtilManager {
         return response;
     }
 
-    /**
-
-     * This method hits PUT payment request endpoint and creates header and body values
-
-     * This method hits PUT payment request endpoint with invalid header values. "key" values are missing from the header.
-     *
-
-     * @param url
-     * @param signingKeyId
-     * @param signingAlgorithm
-     * @param signingKey
-     * @param headerElementsForSignature
-     * @return
-     */
-
-
-    /**
-     * This method hits PUT payment request endpoint with invalid header values. "key" values are missing from the header.
-     * @param url
-     * @return
-     */
     public Response executePutRequestWithMissingHeaderKeys(String url, String keys)  {
 
         try {
@@ -364,7 +324,6 @@ public class PutApplication extends UtilManager {
      */
     public String applicationIdInResponse() {
         return getRestHelper().getResponseBodyValue(response, "applicationId");
-
     }
 
     /**
@@ -372,7 +331,6 @@ public class PutApplication extends UtilManager {
      */
     public String peakIdInResponse() {
         return getRestHelper().getResponseBodyValue(response, "peakId");
-
     }
 
     /**
@@ -380,7 +338,6 @@ public class PutApplication extends UtilManager {
      */
     public String subUnitIdInResponse() {
         return getRestHelper().getResponseBodyValue(response, "subUnitId");
-
     }
 
     /**
@@ -388,19 +345,16 @@ public class PutApplication extends UtilManager {
      */
     public String organisationIdInResponse() {
         return getRestHelper().getResponseBodyValue(response, "organisationId");
-
     }
 
     public String descriptionInResponse() {
         return getRestHelper().getResponseBodyValue(response, "description");
     }
-
     /**
      * @returns clientId from the response
      */
     public String clientIdInResponse() {
         return getRestHelper().getResponseBodyValue(response, "clientId");
-
     }
 
     /**
@@ -408,7 +362,6 @@ public class PutApplication extends UtilManager {
      */
     public String notificationHostInResponse() {
         return getRestHelper().getResponseBodyValue(response, "notificationHost");
-
     }
 
     /**
@@ -416,7 +369,6 @@ public class PutApplication extends UtilManager {
      */
     public String notificationPathInResponse() {
         return getRestHelper().getResponseBodyValue(response, "notificationPath");
-
     }
 
     /**
@@ -430,17 +382,14 @@ public class PutApplication extends UtilManager {
      * @return
      */
     public Response executeRequestWithoutDigest(String url, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature) {
-
         try {
             returnRequestBody();
             HashMap<String, String> header = returnRequestHeaderWithoutDigest("PUT", new URL(url).getPath(), signingKeyId, signingAlgorithm, signingKey, headerElementsForSignature);
             response = getRestHelper().putRequestWithHeaderAndBody(url, header, requestBody);
-
             logger.info("Response: " + response.getBody().asString());
         } catch (Exception e) {
             Assert.assertTrue("Verification of signature failed!", false);
         }
-
         return response;
     }
 
@@ -465,7 +414,6 @@ public class PutApplication extends UtilManager {
         requestHeader.put("Accept-Language", "en-US");
         requestHeader.put("Request-Date-Time", getDateHelper().getUTCNowDateTime());
         requestHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
-
         try {
             requestHeader.put("Signature", getSignatureHelper().calculateSignature(method, url,
                     Base64.getDecoder().decode(signingKey), signingAlgorithm, signingKeyId,

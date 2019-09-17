@@ -14,11 +14,7 @@ public class ApiManager {
     PutApplication putApplication;
     GetSigningKey getSigningKey;
     PostSigningKeys postSigningKeys;
-    PutPublicKeys putPublicKeys;
-    PostPublicKey postPublicKey;
-    GetPublicKey getPublicKey;
     PutSigningKeys putSigningKeys;
-    CreateClient createClient;
     GetPlatform getPlatform;
     PostPlatform postPlatform;
     PutPlatform putPlatform;
@@ -64,12 +60,8 @@ public class ApiManager {
         getApplication = new GetApplication();
         putApplication = new PutApplication();
         postSigningKeys = new PostSigningKeys();
-        putPublicKeys = new PutPublicKeys();
-        postPublicKey = new PostPublicKey();
-        getPublicKey = new GetPublicKey();
         getSigningKey = new GetSigningKey();
         putSigningKeys = new PutSigningKeys();
-        createClient = new CreateClient();
         postPasswordCreateClientPassword = new PostPassword();
         getPassword = new GetPassword();
         getPlatform = new GetPlatform();
@@ -78,8 +70,6 @@ public class ApiManager {
         oneClickMerchantOnboarding = new OneClickMerchantOnboarding();
 
     }
-
-    public CreateClient getCreateClient() { return createClient; }
 
     public PostPassword getPostPasswordCreateClientPassword() {
         return postPasswordCreateClientPassword;
@@ -106,25 +96,6 @@ public class ApiManager {
 
     public void setPostSigningKeys(PostSigningKeys postSigningKeys) {
         this.postSigningKeys = postSigningKeys;
-    }
-    public PutPublicKeys getPutPublicKeys() {
-        return putPublicKeys;
-    }
-
-    public void setPutPublicKeys(PutPublicKeys putPublicKeys) {
-        this.putPublicKeys = putPublicKeys;
-    }
-
-    public GetPublicKey getGetPublicKey() {
-        return getPublicKey;
-    }
-
-    public void setGetPublicKey(GetPublicKey getPublicKey) {
-        this.getPublicKey = getPublicKey;
-    }
-
-    public PostPublicKey getPostPublicKey() {
-        return postPublicKey;
     }
 
     public AccessTokenForMerchants getAccessToken() {

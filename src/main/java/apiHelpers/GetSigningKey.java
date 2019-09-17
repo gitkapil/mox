@@ -1,19 +1,12 @@
 package apiHelpers;
-
-import managers.UtilManager;
 import com.jayway.restassured.response.Response;
+import managers.UtilManager;
 import org.apache.log4j.Logger;
-import org.junit.Assert;
 import utils.DateHelper;
 import utils.EnvHelper;
 import utils.General;
 import utils.PropertyHelper;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
-
-import static com.jayway.restassured.RestAssured.given;
 
 public class GetSigningKey extends UtilManager {
     private String authToken;
@@ -24,7 +17,7 @@ public class GetSigningKey extends UtilManager {
     private String entityStatus;
 
     private HashMap<String, String> requestHeader;
-    private static Logger logger = Logger.getLogger(GetPublicKey.class);
+    private static Logger logger = Logger.getLogger(GetSigningKey.class);
     General general = new General();
     DateHelper dateHelper;
     public String getApplicationId() {

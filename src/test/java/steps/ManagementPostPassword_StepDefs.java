@@ -21,15 +21,14 @@ public class ManagementPostPassword_StepDefs extends UtilManager {
     private static final Set<String> ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
     private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_application_resource";
     private static final String VALID_BASE64_ENCODED_RSA_PUBLIC_KEY = "valid_base64_encoded_rsa_public_key";
-    final static Logger logger = Logger.getLogger(ManagementCreateClient_StepDefs.class);
-    ManagementCreateClient_StepDefs createClient_stepDefs;
+    final static Logger logger = Logger.getLogger(ManagementPostPassword_StepDefs.class);
+
     ManagementPostApplications_StepDefs postApplications_stepDefs;
     ManagementGetApplications_StepDefs getApplications_stepDefs;
 
     public ManagementPostPassword_StepDefs(TestContext testContext) {
         this.testContext = testContext;
         common = new ManagementCommon(this.testContext);
-        createClient_stepDefs = new ManagementCreateClient_StepDefs(this.testContext);
         postApplications_stepDefs = new ManagementPostApplications_StepDefs(this.testContext);
         getApplications_stepDefs = new ManagementGetApplications_StepDefs(this.testContext);
     }
@@ -109,11 +108,6 @@ public class ManagementPostPassword_StepDefs extends UtilManager {
     @Given("^I am logging in as a user with AAD Password role$")
     public void login() {
         common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getPostPasswordCreateClientPassword().setAuthTokenWithBearer(token));
-    }
-
-    @And("^I get the client id from the response$")
-    public void getNewClientClientId() {
-        testContext.getApiManager().getPostPasswordCreateClientPassword().setClientId(createClient_stepDefs.getClientId());
     }
 
     @And("^I create an application with that client id$")
