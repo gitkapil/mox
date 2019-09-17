@@ -1,7 +1,6 @@
-
 Feature: Management Put Applications API - DRAG-1446
-         As a user
-         I want update the application information and validate returned response is correct
+  As a user
+  I want update the application information and validate returned response is correct
 
   Background: Retrieving access Token
     Given I am an user
@@ -20,7 +19,7 @@ Feature: Management Put Applications API - DRAG-1446
     And validate the put application response
     Examples:
       | description |
-      | testingDescription |
+      | description |
 
     #trial
   @regression @merchantManagement @merchantManagementPut
@@ -49,12 +48,11 @@ Feature: Management Put Applications API - DRAG-1446
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within the PUT application response
     And error message should be "<error_message>" within the PUT application response
     Examples:
-      | description        | error_description                                              | error_message                     | key               | error_code | http_status |
-      | testingDescription | Error validating JWT                                           | API Gateway Authentication Failed | Authorization     | EA001      | 401         |
-      | testingDescription | Request timestamp not a valid RFC3339 date-time                | Service Request Validation Failed | Request-Date-Time | EA002      | 400         |
-      | testingDescription | Header Trace-Id was not found in the request. Access denied.   | API Gateway Validation Failed     | Trace-Id          | EA002      | 400         |
-      | testingDescription | Header Accept does not contain required value.  Access denied. | Request Header Not Acceptable     | Accept            | EA008      | 406         |
-      | testingDescription | Content type 'text/plain;charset=ISO-8859-1' not supported     | Service Request Validation Failed | Content-Type      | EA002      | 415         |
+      | description        | error_description                                              | error_message                     | key           | error_code | http_status |
+      | testingDescription | Error validating JWT                                           | API Gateway Authentication Failed | Authorization | EA001      | 401         |
+      | testingDescription | Header Trace-Id was not found in the request. Access denied.   | API Gateway Validation Failed     | Trace-Id      | EA002      | 400         |
+      | testingDescription | Header Accept does not contain required value.  Access denied. | Request Header Not Acceptable     | Accept        | EA008      | 406         |
+      | testingDescription | Content type 'text/plain;charset=ISO-8859-1' not supported     | Service Request Validation Failed | Content-Type  | EA002      | 415         |
 
   #@trial
   @regression @merchantManagement @merchantManagementPut
@@ -91,12 +89,25 @@ Feature: Management Put Applications API - DRAG-1446
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     And I have updated the "<description>" and platformId values
     When I make a PUT request to the application endpoint with missing "<missBodyValue>" value
+    When I make a PUT request to the application endpoint
+    Then I should receive a successful PUT application response
+    And validate the put application response
+    Examples:
+      | missBodyValue | description |
+      | description   | description |
+      | platformId    | description |
+
+
+       #@trial
+  @regression @merchantManagement @merchantManagementPut
+  Scenario Outline: Negative flow- Put application with no body
+    Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
+    When I make a PUT request to the application endpoint
     Then I should receive a "400" error response with "<error_description>" error description and "<error_code>" errorcode within the PUT application response
     And error message should be "<error_message>" within the PUT application response
     Examples:
-      | missBodyValue | description | error_description                                                                                                          | error_message                     | error_code |
-      | description   | description | Service Request Validation Failed                                                                                          | Service Request Validation Failed | EA002      |
-      | platformId    |             | Field error in object 'updateMerchantApplicationMappingInputModel': field 'peakId' must not be null; rejected value [null] | Service Request Validation Failed | EA002      |
+      | error_description                                      | error_message                     | error_code |
+      | Atleast one field must be there to update application. | Service Request Validation Failed | EA010      |
 
 
     #@trial
@@ -120,8 +131,8 @@ Feature: Management Put Applications API - DRAG-1446
     Then I should receive a "400" error response with "<error_description>" error description and "<error_code>" errorcode within the PUT application response
     And error message should be "<error_message>" within the PUT application response
     Examples:
-      | error_description                    | error_message                     | error_code |
-      | Unable to read or parse message body | Service Request Validation Failed | EA002      |
+      | error_description                                      | error_message                     | error_code |
+      | Atleast one field must be there to update application. | Service Request Validation Failed | EA010      |
 
 
      #@trial

@@ -94,10 +94,9 @@ Feature: Merchant Management API - GET /applications
     And error message should be "<error_message>" within the get application response
     Examples:
       | filterName | nullHeaderValue   | error_message                     | error_code | http_status | error_description                               |
-      | clientId   | Trace-Id          | API Gateway Validation Failed     | EA002      | 400         | Header Trace-Id was not found in the request    |
-      | clientId   | Request-Date-Time | Service Request Validation Failed | EA002      | 400         | Request timestamp not a valid RFC3339 date-time |
-      | clientId   | Content-Type      | Service Request Validation Failed | EA002      | 415         | Content type                                    |
-      | clientId   | ACCEPT            | Request Header Not Acceptable     | EA008      | 406         | Header Accept does not contain required value   |
+   #   | clientId   | Trace-Id          | API Gateway Validation Failed     | EA002      | 400         | Header Trace-Id was not found in the request    |
+   #   | clientId   | Content-Type      | Service Request Validation Failed | EA002      | 415         | Content type                                    |
+      | clientId   | Accept            | Request Header Not Acceptable     | EA008      | 406         | Header Accept does not contain required value   |
 
 
   #@trial

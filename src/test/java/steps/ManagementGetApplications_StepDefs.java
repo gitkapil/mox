@@ -30,12 +30,18 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
     private static final Set<String> INCORRECT_ROLE_SET = Sets.newHashSet("ApplicationKey.ReadWrite.All");
     final static Logger logger = Logger.getLogger(ManagementGetApplications_StepDefs.class);
 
+
+    @Given("^I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege$")
+    public void i_am_an_authorized_DRAGON_user_with_role() {
+        common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getGetApplication().setAuthToken(token));
+    }
+
     @When("^I get a list of applications without any filters$")
     public void list_of_applications_without_any_filters() {
+        String url =getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource");
+        System.out.println("URLs: "+ url);
         testContext.getApiManager().getGetApplication().getListOfApplications(
                 getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource"),
-
-                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))),
                 testContext.getApiManager().getGetApplication().getAuthToken()
         );
     }
@@ -54,8 +60,6 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
         url = url + "?" + filterName + "=" + clientId;
         testContext.getApiManager().getGetApplication().getListOfApplications(
                 url,
-                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
-                        "header-list-get").split(","))),
                 testContext.getApiManager().getGetApplication().getAuthToken());
     }
 
@@ -130,8 +134,6 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
 
         testContext.getApiManager().getGetApplication().getListOfApplications(
                 url,
-
-                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))),
                 testContext.getApiManager().getGetApplication().getAuthToken());
     }
 
@@ -143,7 +145,6 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
         url = url + "?peakId=00000001-0000-0000-0000-000000000000&clientId=00000001-0000-0000-0000-000000000000";
         testContext.getApiManager().getGetApplication().getListOfApplications(
                 url,
-                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))),
                 testContext.getApiManager().getGetApplication().getAuthToken());
     }
 
@@ -175,7 +176,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
             Assert.assertNotNull(strings.get(0).contains(Constants.ORGANISATION_ID));
             Assert.assertNotNull(strings.get(0).contains(Constants.PLATFORM_ID));
             Assert.assertNotNull(strings.get(0).contains(Constants.PLATFORM_NAME));
-            Assert.assertNotNull(strings.get(0).contains(Constants.DESCRIPTION));
+            Assert.assertNotNull(strings.get(0).contains(Constants.APPLICATION_DESCRIPTION));
             Assert.assertNotNull(strings.get(0).contains(Constants.CREATED_AT));
             Assert.assertNotNull(strings.get(0).contains(Constants.LAST_UPDATED_AT));
             Assert.assertNotNull(strings.get(0).contains(Constants.APPLICATION_NAME));
@@ -186,10 +187,10 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
             org.testng.Assert.assertTrue(strings.get(0).contains(Constants.PLATFORM_ID), testContext.getApiManager().getPutApplication().getPlatformId());
             org.testng.Assert.assertTrue(strings.get(0).contains(Constants.PLATFORM_NAME), testContext.getApiManager().getPutApplication().getApplicationId());
             org.testng.Assert.assertTrue(strings.get(0).contains(Constants.APPLICATION_ID), testContext.getApiManager().getPutApplication().getApplicationId());
-            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.DESCRIPTION), testContext.getApiManager().getPutApplication().getDescription());
+            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.APPLICATION_DESCRIPTION), testContext.getApiManager().getPutApplication().getDescription());
             org.testng.Assert.assertTrue(strings.get(0).contains(Constants.CREATED_AT));
             org.testng.Assert.assertTrue(strings.get(0).contains(Constants.LAST_UPDATED_AT), testContext.getApiManager().getPutApplication().getApplicationId());
-            Assert.assertTrue("description is not present", strings.get(0).contains(Constants.DESCRIPTION));
+            Assert.assertTrue("description is not present", strings.get(0).contains(Constants.APPLICATION_DESCRIPTION));
         } else if (list.size() == 1) {
         } else {
             Assert.assertEquals(
@@ -218,8 +219,6 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
         url = url + "?" + filterName + "=" + filterValue;
         testContext.getApiManager().getGetApplication().getListOfApplications(
                 url,
-                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
-                        "header-list-get").split(","))),
                 testContext.getApiManager().getGetApplication().getAuthToken());
     }
 
@@ -244,8 +243,6 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
         currentUrl = url;
         testContext.getApiManager().getGetApplication().getListOfApplications(
                 url,
-                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
-                        "header-list-get").split(","))),
                 testContext.getApiManager().getGetApplication().getAuthToken());
     }
 
@@ -258,16 +255,6 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
                 "response should have number of total items " + totalNumberOfItems + " but got " + total,
                 total == totalNumberOfItems
         );
-    }
-
-    @Given("^I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege$")
-    public void i_am_an_authorized_DRAGON_user_with_role() {
-        common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getGetApplication().setAuthToken(token));
-    }
-
-    @Given("^I am a GET application authorized DRAGON user with the ApplicationKey.ReadWrite.All privilege$")
-    public void i_am_an_authorized_DRAGON_user_with_incorrect_role() {
-        common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getGetApplication().setAuthToken(token));
     }
 
     @And("^the response should be on page ([^\"]*)$")
@@ -286,7 +273,6 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
         String url = currentUrl + "&page=" + nextPageNumber;
         testContext.getApiManager().getGetApplication().getListOfApplications(
                 url,
-                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))),
                 testContext.getApiManager().getGetApplication().getAuthToken());
     }
 

@@ -1,7 +1,7 @@
 package steps;
+
 import com.google.common.collect.Sets;
 import com.jayway.restassured.response.Response;
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -12,8 +12,8 @@ import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import utils.Constants;
+
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Set;
 import java.util.UUID;
 
@@ -161,7 +161,7 @@ public class ManagementPutApplications_StepDefs extends UtilManager {
         Assert.assertTrue(response.contains(Constants.ORGANISATION_ID), testContext.getApiManager().getPutApplication().getOrganisationId());
         Assert.assertTrue(response.contains(Constants.PLATFORM_NAME), testContext.getApiManager().getPutApplication().getPlatformName());
         Assert.assertEquals(testContext.getApiManager().getPutApplication().getResponse().getBody().path(Constants.PLATFORM_ID), testContext.getApiManager().getPutApplication().getPlatformId());
-        Assert.assertEquals(testContext.getApiManager().getPutApplication().getResponse().getBody().path(Constants.DESCRIPTION), testContext.getApiManager().getPutApplication().getDescription());
+        Assert.assertEquals(testContext.getApiManager().getPutApplication().getResponse().getBody().path(Constants.APPLICATION_DESCRIPTION), testContext.getApiManager().getPutApplication().getDescription());
 
     }
 

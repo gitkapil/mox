@@ -12,7 +12,6 @@ public class Constants {
     public static final String NOTIFICATION_PATH = "notificationPath";
     public static final String CREATED_AT = "createdAt";
     public static final String PLATFORM = "platform";
-    public static final String DESCRIPTION = "description";
     public static final String ITEM = "items";
     public static final String KEY_ID = "keyId";
     public static final String APPLICATION_DESCRIPTION = "applicationDescription";

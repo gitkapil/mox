@@ -19,15 +19,13 @@ public class GetApplication extends UtilManager {
     SignatureHelper signatureHelper;
     General general = new General();
     private Response response= null;
-
+    private HashMap<String,String >requestHeader = new HashMap<>();
     public String getAuthToken() {
         return authToken;
     }
-
     public void setAuthToken(String authToken) {
-        this.authToken = authToken;
+        this.authToken = "Bearer "+ authToken;
     }
-
     public Response getResponse() {
         return response;
     }
@@ -41,10 +39,10 @@ public class GetApplication extends UtilManager {
         signatureHelper = new SignatureHelper();
     }
 
-    public void getListOfApplications(String url, HashSet headerElementsForSignature, String authToken) {
+    public void getListOfApplications(String url, String authToken) {
         try {
             response = getRestHelper().getRequestWithHeaders(url,
-                    getListHeader("GET", new URL(url).getPath(), headerElementsForSignature,
+                    returnRequestHeader("GET", new URL(url).getPath(),
                             authToken));
 
             logger.info("****************List of application response ******************** --> " + response.getBody().asString());
@@ -68,41 +66,32 @@ public class GetApplication extends UtilManager {
         }
     }
 
-    private HashMap<String, String> getListHeaderWithMissingValues(String method, String url
-                                                  , String authToken, String nullHeader) {
-        HashMap<String,String> header = new HashMap<>();
-        header.put("ACCEPT", "application/json");
-        header.put("Authorization", authToken);
-        header.put("Trace-Id", general.generateUniqueUUID());
-        header.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
-        header.put("Request-Date-Time", dateHelper.getUTCNowDateTime());
-        header.put("Content-Type", "application/json");
-        header.remove(nullHeader);
-
-        return header;
-
+    private HashMap<String, String> getListHeaderWithMissingValues(String method, String url, String authToken, String nullHeader) {
+            requestHeader.put("Accept", "application/json");
+            requestHeader.put("Content-Type", "application/json");
+            requestHeader.put("Authorization", authToken);
+            requestHeader.put("Trace-Id", getGeneral().generateUniqueUUID());
+            requestHeader.put("Accept-Language", "en-US");
+            requestHeader.put("Request-Date-Time", getDateHelper().getUTCNowDateTime());
+            requestHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
+            requestHeader.remove(nullHeader);
+            return requestHeader;
     }
 
+    private HashMap<String, String> returnRequestHeader(String method, String url, String authToken) {
+        requestHeader.put("Accept", "application/json");
+        requestHeader.put("Content-Type", "application/json");
+        requestHeader.put("Authorization", authToken);
+        requestHeader.put("Trace-Id", getGeneral().generateUniqueUUID());
+        requestHeader.put("Accept-Language", "en-US");
+        requestHeader.put("Request-Date-Time", getDateHelper().getUTCNowDateTime());
+        requestHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
+        return requestHeader;
 
-    private HashMap<String, String> getListHeader(String method, String url,
-                                                  HashSet headerElementsforSignature, String authToken) {
-        HashMap<String,String> header = new HashMap<>();
-        header.put("ACCEPT", "application/json");
-        header.put("Authorization", authToken);
-        header.put("Trace-Id", general.generateUniqueUUID());
-        header.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
-        header.put("Request-Date-Time", dateHelper.getUTCNowDateTime());
-        header.put("Content-Type", "application/json");
-
-        if (EnvHelper.getInstance().isLocalDevMode()) {
-            EnvHelper.getInstance().addMissingHeaderForLocalDevMode(header);
-        }
-        return header;
     }
 
     private HashMap<String, String> generateHeader(String method, String url, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature) {
         HashMap<String, String> requestHeader = new HashMap<String, String>();
-
         requestHeader.put("Accept", "application/json");
         requestHeader.put("Content-Type", "application/json");
         requestHeader.put("Authorization", authToken);
@@ -110,7 +99,6 @@ public class GetApplication extends UtilManager {
         requestHeader.put("Accept-Language", "en-US");
         requestHeader.put("Request-Date-Time", dateHelper.getUTCNowDateTime());
         requestHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
-
         if (EnvHelper.getInstance().isLocalDevMode()) {
             EnvHelper.getInstance().addMissingHeaderForLocalDevMode(requestHeader);
         }
