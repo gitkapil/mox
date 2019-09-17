@@ -1,4 +1,3 @@
-
 Feature: Management Post Applications API - DRAG-1416
 
   Background: Retrieving access Token
@@ -6,7 +5,8 @@ Feature: Management Post Applications API - DRAG-1416
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-    @regression @merchantManagement @postApplication
+ #@trial
+  @regression @merchantManagement
   Scenario Outline: Positive flow- A DRAGON user with Application.ReadWrite.All privilege is able to create an application
     Given I am a POST application authorized DRAGON user with the ApplicationKey.ReadWrite.All privilege
     And I have a "<clientId>" from an existing AAD application
@@ -19,9 +19,8 @@ Feature: Management Post Applications API - DRAG-1416
       | clientId | peakId                               | subUnitId                            | organisationId                       | description |
       | random   | 00000002-0000-0000-c000-000000000000 | 00000002-0000-0000-c000-000000000000 | 00000002-0000-0000-c000-000000000000 | test        |
 
-  # For the parametres where values are missing within the table, while creating request, the parameter will not be included at all as a a part of the payload
   #@trial
-  #@regression @merchantManagement @merchantManagementPost
+  @regression @merchantManagement @merchantManagementPost
   Scenario Outline: Positive flow- A DRAGON user with Application.ReadWrite.All privilege is able to create an application
     Given I am a POST application authorized DRAGON user with the Application.ReadWrite.All privilege
     And I have a "<clientId>" from an existing AAD application
@@ -35,7 +34,7 @@ Feature: Management Post Applications API - DRAG-1416
       | random   | 00000002-0000-0000-c000-000000000000 | 00000002-0000-0000-c000-000000000000 | 00000002-0000-0000-c000-000000000000 | test desc   |
 
 #  @trial
-  #@regression @merchantManagement @merchantManagementPost
+  @regression @merchantManagement @merchantManagementPost
   Scenario Outline: Negative flow- A DRAGON with Application.ReadWrite.All privilege user cannot enter a description > 256 characters
     Given I am a POST application authorized DRAGON user with the Application.ReadWrite.All privilege
     And I have a "<clientId>" from an existing AAD application
@@ -49,7 +48,7 @@ Feature: Management Post Applications API - DRAG-1416
       | random   | 00000002-0000-0000-c000-000000000000 | 00000002-0000-0000-c000-000000000000 | 00000002-0000-0000-c000-000000000000 | Merchant Application Mapping record with same client Id already exist | EA021      | 400         |
 
 #  @trial
-  #@regression @merchantManagement @merchantManagementPost
+  @regression @merchantManagement @merchantManagementPost
   Scenario Outline: Negative flow- A DRAGON with Application.ReadWrite.All privilege user is unable to create a duplicate application
     Given I am a POST application authorized DRAGON user with the Application.ReadWrite.All privilege
     And I have a "<clientId>" from an existing AAD application
@@ -64,7 +63,7 @@ Feature: Management Post Applications API - DRAG-1416
 
   #DRAG-1157 - Please update the correct error_message for the signature in the examples.
 #  @trial
-  #@regression @merchantManagement @merchantManagementPost
+  @regression @merchantManagement @merchantManagementPost
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
     Given I am a POST application authorized DRAGON user with the Application.ReadWrite.All privilege
     And I have valid application details
@@ -81,7 +80,7 @@ Feature: Management Post Applications API - DRAG-1416
       | Content type 'text/plain;charset=ISO-8859-1' not supported     | Service Request Validation Failed | Content-Type  | EA002      | 415         |
 
 #  @trial
-  #@regression @merchantManagement @merchantManagementPost
+  @regression @merchantManagement @merchantManagementPost
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
     Given I am a POST application authorized DRAGON user with the Application.ReadWrite.All privilege
     And I have valid application details
@@ -92,7 +91,7 @@ Feature: Management Post Applications API - DRAG-1416
       | Api-Version |
 
 #  @trial
-  #@regression @merchantManagement @merchantManagementPost
+  @regression @merchantManagement @merchantManagementPost
   Scenario Outline: Negative flow- Invalid auth token
     Given I am a DRAGON user with invalid "<auth_token>"
     And I have valid application details
@@ -111,7 +110,7 @@ Feature: Management Post Applications API - DRAG-1416
       | Error validating JWT | API Gateway Authentication Failed | Bearer nbCwW11w3XkB-xUaXwKRSLjMHGQ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | EA001      | 401       |
 
 #  @trial
-  #@regression @merchantManagement @merchantManagementPost
+  @regression @merchantManagement @merchantManagementPost
   Scenario Outline: Negative flow- Mandatory fields from the body missing or invalid
     Given I am a POST application authorized DRAGON user with the Application.ReadWrite.All privilege
     And I have a "<clientId>" from an existing AAD application
@@ -129,16 +128,3 @@ Feature: Management Post Applications API - DRAG-1416
       | 00000002-0000-0000-c000-000000000000 | not a UUID                           | 00000002-0000-0000-c000-000000000000 | 00000002-0000-0000-c000-000000000000 |             | Unable to read or parse message body: json parse error at [line: 1, column: 11]                                                   | Service Request Validation Failed | EA002      |
       | 00000002-0000-0000-c000-000000000000 | 00000002-0000-0000-c000-000000000000 | not a UUID                           | 00000002-0000-0000-c000-000000000000 |             | Unable to read or parse message body: json parse error at [line: 1, column: 168]                                                  | Service Request Validation Failed | EA002      |
       | 00000002-0000-0000-c000-000000000000 | 00000002-0000-0000-c000-000000000000 | 00000002-0000-0000-c000-000000000000 | not a UUID                           |             | Unable to read or parse message body: json parse error at [line: 1, column: 117]                                                  | Service Request Validation Failed | EA002      |
-
-#  @regression
-#  Scenario Outline: Negative flow- Request Date Time's invalid values set within the header
-#    Given I am an authorized DRAGON user with the Application.ReadWrite.All privilege
-#    And I have valid application details with invalid value "<value>" set for Request Date Time sent in the header
-#    When I make a POST request to the application endpoint
-#    Then I should receive a "400" error response with "<error_description>" error description and "EA002" errorcode within the POST application response
-#    And error message should be "Service Request Validation Failed" within the POST application response
-#    Examples:
-#      |value|error_description|
-#      |  | Request timestamp not a valid RFC3339 date-time |
-#      | xyz | Request timestamp not a valid RFC3339 date-time |
-#      | 2019-02-04T00:42:45.237Z | Request timestamp too old |

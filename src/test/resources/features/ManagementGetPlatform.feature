@@ -1,14 +1,11 @@
-@getPlat
 Feature: Management GET platform API - DRAG-
          As a platform user
          i want retrieve existing platform information using GET platform
-
 
   Background: Retrieving access Token
     Given I am an user
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
-
 
   # @trial
   @regression @merchantManagement @merchantManagementPut
@@ -21,7 +18,6 @@ Feature: Management GET platform API - DRAG-
     Examples:
      |numberOfResponses|
      |   20            |
-
 
   #trial
   @regression
@@ -39,7 +35,6 @@ Feature: Management GET platform API - DRAG-
 
 
   #trial
-  @regression
   @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Positive flow - Get a list of platform using platform status
     Given I am a GET platform authorized DRAGON user with Platform.ReadWrite.All
@@ -51,8 +46,8 @@ Feature: Management GET platform API - DRAG-
       | filterName     | filterValue                          | numberOfResponses |
       | platformStatus | 00000002-0000-0000-c000-000000000001 | 2                 |
 
-
-  @regression @merchantManagement @merchantManagementGet @getApplication
+  #trial
+  @regression @merchantManagement @merchantManagementGet
   Scenario Outline: Positive flow - Get a list of platform using paging and limits
     Given I am a GET platform authorized DRAGON user with Platform.ReadWrite.All
     When I get a list of platform using filters to filter "<filterName>" with "<filterValue>" with <limit> limits
@@ -75,9 +70,7 @@ Feature: Management GET platform API - DRAG-
       | platformStatus  | 00000002-0000-0000-c000-000000000001 | 30    | 2                 | 2                  | 0                 | 0              | 2                     |
 
 
-
   #trial
-  @regression
   @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow- POST Platform with missing mandatory header values
     Given I am a GET platform authorized DRAGON user with Platform.ReadWrite.All
@@ -93,8 +86,7 @@ Feature: Management GET platform API - DRAG-
       | Content type 'text/plain;charset=ISO-8859-1' not supported            | Service Request Validation Failed | Content-Type      | EA002      | 415         |
 
 
-
-#   @trial
+  #@trial
   @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow- Mandatory fields Api-Version not sent in the header
     Given I am a GET platform authorized DRAGON user with Platform.ReadWrite.All
@@ -105,7 +97,7 @@ Feature: Management GET platform API - DRAG-
       | Api-Version |
 
 
-#   @trial
+  #@trial
   @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow- Invalid auth token
     Given I am a GET dragon DRAGON user with Platform.ReadWrite.All with invalid "<auth_token>"

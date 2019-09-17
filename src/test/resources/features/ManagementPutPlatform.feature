@@ -1,4 +1,4 @@
-@putPlatform
+
 Feature: Management PUT platform API - DRAG-
   As a platform user
   I want to create a new platform using PUT platform API
@@ -44,7 +44,7 @@ Feature: Management PUT platform API - DRAG-
 
 
     #trial
-  @regression
+  @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow- PUT platform with invalid input body and verify the response
     Given I am a PUT platform authorized DRAGON user with Platform.ReadWrite.All
     And I have set "<platformName>", "<platformDescription>" and platform "<platformStatus>"for PUT platform
@@ -56,6 +56,8 @@ Feature: Management PUT platform API - DRAG-
       | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | description         | platform    | 00000001-0000-0000-0000-000000000000 | 00000002-0000-0000-c000-000000000001 |
       | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | description         | platform    | 00000001-0000-0000-0000-000000000000 | 00000002-0000-0000-c000-000000000001 |
 
+  #@trial
+  @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow - PUT platform with invalid missing body and verify the response
     Given I am a PUT platform authorized DRAGON user with Platform.ReadWrite.All
     And I have set "<platformName>", "<platformDescription>" and "<platformStatus>"for post platform with missing body "<missingBodyValue>" value
@@ -67,6 +69,7 @@ Feature: Management PUT platform API - DRAG-
       | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | description         | true           | platform    | 00000001-0000-0000-0000-000000000000 | 00000002-0000-0000-c000-000000000001 | platformName        |
       | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | description         | true           | platform    | 00000001-0000-0000-0000-000000000000 | 00000002-0000-0000-c000-000000000001 | platformDescription |
       | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | description         | true           | platform    | 00000001-0000-0000-0000-000000000000 | 00000002-0000-0000-c000-000000000001 | platformStatus      |
+
 
 #   @trial
   @regression @merchantManagement @merchantManagementPut
@@ -82,7 +85,7 @@ Feature: Management PUT platform API - DRAG-
       | platformName                         | platformDescription | platformStatus | error_description    | error_message                     | key           | error_code | http_status |
       | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | description         | true           | Error validating JWT | API Gateway Authentication Failed | Authorization | EA001      | 401         |
 
-
+#@trial
   @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow- PUT Platform with missing platformId values
     Given I am a PUT platform authorized DRAGON user with Platform.ReadWrite.All
@@ -97,6 +100,7 @@ Feature: Management PUT platform API - DRAG-
       | Header Accept does not contain required value.  Access denied.        | Request Header Not Acceptable     | Accept            | EA008      | 406         |
       | Content type 'text/plain;charset=ISO-8859-1' not supported            | Service Request Validation Failed | Content-Type      | EA002      | 415         |
 
+
 #   @trial
   @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow- Mandatory fields Api-Version not sent in the header
@@ -106,6 +110,7 @@ Feature: Management PUT platform API - DRAG-
     Examples:
       | key         |
       | Api-Version |
+
 
 #   @trial
   @regression @merchantManagement @merchantManagementPut

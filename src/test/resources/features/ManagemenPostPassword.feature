@@ -1,4 +1,3 @@
-
 Feature: Merchant Management AAD Password - DRAG-1481
 
   Background: Retrieving access Token
@@ -7,7 +6,7 @@ Feature: Merchant Management AAD Password - DRAG-1481
     Then I receive an access_token
 
 #  @trial
-  @regression @postPassword
+  @regression
   Scenario Outline: Positive flow - create AAD Password provided with valid request body and header values
     Given I am logging in as a user with AAD Password role
     And I have created password data with application id, activate at "<activateAt>", and deactivate at "<deactivateAt>"
@@ -47,7 +46,7 @@ Feature: Merchant Management AAD Password - DRAG-1481
 
 
     #@trial
-  @regression @HappyFlow
+  @regression
   Scenario Outline: Negative flow - Unable to create password due to invalid header values
     Given I am logging in as a user with AAD Password role
     And  I create a new AAD password with applicationId, activateAt, deactivate and null header "<nullHeaderValues>"

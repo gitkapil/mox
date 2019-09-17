@@ -1,8 +1,7 @@
-@postPlatform
+
 Feature: Management POST platform API - DRAG-
          As a platform user
          I want to create a new platform using POST platform API
-
 
   Background: Retrieving access Token
     Given I am an user
@@ -27,8 +26,8 @@ Feature: Management POST platform API - DRAG-
       | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | description         |
 
 
-    #trial
-  @regression
+    #@trial
+  @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow- POST platform with invalid input body and verify the response
     Given I am a post platform authorized DRAGON user with Platform.ReadWrite.All
     And I have set "<platformName>", "<platformDescription>" for post platform
@@ -40,6 +39,9 @@ Feature: Management POST platform API - DRAG-
       | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | description         | platform    | 00000001-0000-0000-0000-000000000000 | 00000002-0000-0000-c000-000000000001 |
       | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | description         | platform    | 00000001-0000-0000-0000-000000000000 | 00000002-0000-0000-c000-000000000001 |
 
+
+  #@trial
+  @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow - POST platform with invalid missing body and verify the response
     Given I am a post platform authorized DRAGON user with Platform.ReadWrite.All
     And I have set "<platformName>", "<platformDescription>" for post platform with missing body "<missingBodyValue>" value
@@ -52,7 +54,7 @@ Feature: Management POST platform API - DRAG-
       | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | description         | platform    | 00000001-0000-0000-0000-000000000000 | 00000002-0000-0000-c000-000000000001 | platformDescription |
 
 
-#   @trial
+#@trial
   @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow- POST Platform with missing mandatory header values
     Given I am a POST platform authorized DRAGON user with Platform.ReadWrite.All

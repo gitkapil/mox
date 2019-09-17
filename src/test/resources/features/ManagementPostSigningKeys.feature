@@ -6,8 +6,8 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-#  @trial
-  @regression
+  #@trial
+  @regression @merchantManagement @merchantManagementPost
   Scenario Outline: Positive flow - Create a new application, new signing key
     Given I am an authorized Signing Key DRAGON user
     And I have an activate date "<activateAt>" and deactivate date "<deactivateAt>", with entity status "<entityStatus>"
@@ -19,8 +19,8 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
       | 2019-01-01T00:00:00Z | 2020-10-01T00:00:00Z | A            |
 
 
-#  @trial
-  @regression
+ #@trial
+  @regression @merchantManagement @merchantManagementPost
   Scenario Outline: Negative flow - Invalid application id
     Given I am an authorized Signing Key DRAGON user
     And I have an activate date "<activateAt>" and deactivate date "<deactivateAt>", with entity status "<entityStatus>"
@@ -34,8 +34,8 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
     #application id not found
       | 00000002-0000-4444-c000-000000000000 | 2019-01-01T00:00:00Z | 2019-02-02T00:00:00Z | A            | 400         | EA025      | Service Request Validation Failed | Application Id not found                                                                                                                                              |
 
-#  @trial
-  @regression
+ #@trial
+  @regression @merchantManagement @merchantManagementPost
   Scenario Outline: Negative flow - Invalid dates
     Given I am an authorized Signing Key DRAGON user
     And I have an activate date "<activateAt>" and deactivate date "<deactivateAt>", with entity status "<entityStatus>"
@@ -56,8 +56,8 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
     #activateAt same as deactivateAt date
       | 2019-02-02T00:00:00Z | 2019-02-02T00:00:00Z  | A            | 400         | EA024      | (activateAt) is equal or after (deactivateAt) |
 
-#  @trial
-  @regression
+ #@trial
+  @regression @merchantManagement @merchantManagementPost
   Scenario Outline: Negative flow - Entity status
     Given I am an authorized Signing Key DRAGON user
     And I have an activate date "<activateAt>" and deactivate date "<deactivateAt>", with entity status "<entityStatus>"
@@ -77,6 +77,7 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
       | 2019-01-01T00:00:00Z | 2019-02-02T00:00:00Z | d            | 400         | EA002      | Field error in object |
 
 
+   #@trial
   @regression @merchantManagement @merchantManagementPost
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
     Given I am an authorized Signing Key DRAGON user

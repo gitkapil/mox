@@ -7,7 +7,7 @@ Feature: Management Put Signing Keys - DRAG-1573
     Then I receive an access_token
 
 #  @trial
-  @regression @newPut
+  @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Positive flow - Able to update signing key attribute
     Given I am a user with permissions to use signing key
     And I make a request to get signing keys with application id
@@ -21,7 +21,7 @@ Feature: Management Put Signing Keys - DRAG-1573
       | 2019-01-01T00:00:00Z | 2019-02-02T00:00:00Z | A            |
 
 #  @trial
-  @regression
+  @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow - invalid application id
     Given I am a user with permissions to use signing key
     And I make a request to get signing keys with application id
@@ -38,7 +38,7 @@ Feature: Management Put Signing Keys - DRAG-1573
       | 00000002-0000-4444-c000              | 400         | EA002    | Failed to convert value of type | 2019-01-01T00:00:00Z | 2019-02-02T00:00:00Z | A            |
 
 #    @trial
-  @regression
+  @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow - invalid key id
     Given I am a user with permissions to use signing key
     And I make a request to get signing keys with application id
@@ -56,7 +56,7 @@ Feature: Management Put Signing Keys - DRAG-1573
       | 00000002-0000-0000-c000-0000         | 400         | EA027    | Key Id not found | 2019-01-01T00:00:00Z | 2019-02-02T00:00:00Z | A            |
 
 #  @trial
-  @regression
+  @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow - Invalid body
     Given I am a user with permissions to use signing key
     And I make a request to get signing keys with application id
@@ -78,7 +78,7 @@ Feature: Management Put Signing Keys - DRAG-1573
       | 2019-01-01T00:00:00Z | 2019-02-02T00:00:00Z | AB           | 400         | EA002    | Field error in object                         |
       | 2019-01-01T00:00:00Z | 2019-02-02T00:00:00Z |              | 400         | EA002    | Field error in object                         |
 
-
+#  @trial
   @regression @merchantManagement @merchantManagementPost
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
     Given I am a user with permissions to use signing key

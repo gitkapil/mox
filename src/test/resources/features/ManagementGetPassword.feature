@@ -5,14 +5,14 @@ Feature: Merchant Management get Password - DRAG-1481
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-#  @trial
+  #@trial
   @regression
   Scenario: Positive flow - get the password details with valid input header
     Given I am logging in as a user with authorize Dragon user
     When I get the password request with newly created applicationId
     Then I should see the response from get password request
 
-#  @trial
+  #@trial
   @regression
   Scenario Outline: Negative flow - unable to get password with invalid application id
     Given I am logging in as a user with authorize Dragon user
@@ -41,7 +41,8 @@ Feature: Merchant Management get Password - DRAG-1481
       | Header Accept does not contain required value.  Access denied. | Request Header Not Acceptable     | Accept           | EA008      | 406         |
       | Content type                                                   | Service Request Validation Failed | Content-Type     | EA002      | 415         |
 
-  @regression @getPass
+  #@trial
+  @regression
   Scenario Outline: Positive flow - POST password for new application should return list with last update items
     Given I am logging in as a user with AAD Password role
     And I have created password data with application id, activate at "<activateAt>", and deactivate at "<deactivateAt>"

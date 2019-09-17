@@ -1,4 +1,4 @@
-@newGet
+
 Feature: Merchant Management API - GET /keys/signing
 
   Background: Retrieving access Token
@@ -26,15 +26,13 @@ Feature: Merchant Management API - GET /keys/signing
       | 00000002-0000-4444-c000-000000000000 | 400         | EA025      | Service Request Validation Failed | Application Id not found                                                                                                                                              |
 
 
-
-     # @trial
+  #@trial
   @regression
   Scenario Outline: Negative flow - get signing key with null or invalid header values
     Given I am a user with permissions to use signing key
     And I make a request to get signing keys with application id and missing header "<missingHeader>"
     Then I should receive a signing key response error "<http_status>" status with code "<error_code>" and description "<error_description>"
     And error message should be "<error_message>" within the get signing key response
-
     Examples:
       | missingHeader | error_message                     | error_code | http_status | error_description                                              |
       | Content-Type  | Service Request Validation Failed | EA002      | 415         | Content type                                                   |
@@ -42,6 +40,7 @@ Feature: Merchant Management API - GET /keys/signing
       | Trace-Id      | API Gateway Validation Failed     | EA002      | 400         | Header Trace-Id was not found in the request. Access denied.   |
 
 
+  #@trial
   @regression
   Scenario Outline: Negative flow- Api version Field is missing from the header
     Given I am a GET signing key authorized DRAGON user with the signingKey.ReadWrite.All privilege

@@ -21,7 +21,7 @@ Feature: Management Put Applications API - DRAG-1446
       | testingDescription |
 
     #trial
-  @regression
+  @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Positive flow- Put application and verify the application info using get application
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     And I have updated the "<description>" and platformId values
@@ -54,7 +54,7 @@ Feature: Management Put Applications API - DRAG-1446
       | testingDescription | Header Accept does not contain required value.  Access denied. | Request Header Not Acceptable     | Accept            | EA008      | 406         |
       | testingDescription | Content type 'text/plain;charset=ISO-8859-1' not supported     | Service Request Validation Failed | Content-Type      | EA002      | 415         |
 
-#   @trial
+  #@trial
   @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
@@ -64,7 +64,7 @@ Feature: Management Put Applications API - DRAG-1446
       | key         |
       | Api-Version |
 
-#   @trial
+   #@trial
   @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow- Invalid auth token
     Given I am a PUT application DRAGON user with Application.ReadWrite.All with invalid "<auth_token>"
@@ -97,6 +97,7 @@ Feature: Management Put Applications API - DRAG-1446
       | platformId    |             | Field error in object 'updateMerchantApplicationMappingInputModel': field 'peakId' must not be null; rejected value [null] | Service Request Validation Failed | EA002      |
 
 
+    #@trial
   @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow- Mandatory fields from the invalid body
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
@@ -109,6 +110,7 @@ Feature: Management Put Applications API - DRAG-1446
       | 2ee3e4a5-ef45-4fe2-a37d-d5f                | description | Unable to read or parse message body: json parse error at [line: 1, column: 43] | Service Request Validation Failed | EA002      |
 
 
+     #@trial
   @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow- Put application request with no body
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
@@ -120,7 +122,8 @@ Feature: Management Put Applications API - DRAG-1446
       | Unable to read or parse message body | Service Request Validation Failed | EA002      |
 
 
-  @regression
+     #@trial
+  @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow - Put application with invalid Application id
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     And I have updated the "<description>" and platformId values
