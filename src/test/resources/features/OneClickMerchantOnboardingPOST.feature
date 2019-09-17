@@ -1,4 +1,6 @@
 Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
+         As a user
+         I want to onboard a merchant and validate the correct response is returned
 
   Background: Retrieving access Token
     Given I am an user

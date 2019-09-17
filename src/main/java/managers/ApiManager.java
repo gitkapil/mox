@@ -9,7 +9,6 @@ public class ApiManager {
     Refunds refunds;
     OpenIdConfigForPEAK openIdConfig;
     Transaction transaction;
-    PostApplication postApplication;
     GetApplication getApplication;
     PutApplication putApplication;
     GetSigningKey getSigningKey;
@@ -56,7 +55,6 @@ public class ApiManager {
         refunds= new Refunds();
         openIdConfig= new OpenIdConfigForPEAK();
         transaction = new Transaction();
-        postApplication = new PostApplication();
         getApplication = new GetApplication();
         putApplication = new PutApplication();
         postSigningKeys = new PostSigningKeys();
@@ -120,10 +118,6 @@ public class ApiManager {
 
     public Transaction getTransaction() {
         return (transaction == null) ? transaction = new Transaction(): transaction;
-    }
-
-    public PostApplication getPostApplication() {
-        return (postApplication == null) ? postApplication = new PostApplication() : postApplication;
     }
 
     public GetApplication getGetApplication() {

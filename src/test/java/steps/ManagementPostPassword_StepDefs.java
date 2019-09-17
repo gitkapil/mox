@@ -156,8 +156,8 @@ public class ManagementPostPassword_StepDefs extends UtilManager {
         Assert.assertNotNull(returnResponse.get(Constants.KEY_ID));
         Assert.assertNotNull(returnResponse.get(Constants.LAST_UPDATED_AT));
         Assert.assertNotNull(returnResponse.get(Constants.CREATED_AT));
-        // Assert.assertNotNull(returnResponse.get(Constants.CLIENT_ID));
-        Assert.assertEquals(returnResponse.size(), 7, "password metadata didn't match");
+        Assert.assertNotNull(returnResponse.get(Constants.CLIENT_ID));
+        Assert.assertEquals(returnResponse.size(), 8, "password metadata didn't match");
         testContext.getApiManager().getPostPasswordCreateClientPassword().setApplicationId(returnResponse.get(Constants.APPLICATION_ID).toString());
         testContext.getApiManager().getPostPasswordCreateClientPassword().setEntityStatus(returnResponse.get(Constants.ENTITY_STATUS).toString());
         testContext.getApiManager().getPostPasswordCreateClientPassword().setKeyId(returnResponse.get(Constants.KEY_ID).toString());

@@ -1,5 +1,7 @@
 
 Feature: Management Put Applications API - DRAG-1446
+         As a user
+         I want update the application information and validate returned response is correct
 
   Background: Retrieving access Token
     Given I am an user

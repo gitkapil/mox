@@ -72,12 +72,12 @@ public class ManagementGetPassword_StepDef extends UtilManager {
             Assert.assertEquals(firstElement.get(Constants.APPLICATION_ID), testContext.getApiManager().getGetPassword().getApplicationId(), "applicationId didn't match!");
             Assert.assertEquals(firstElement.get(Constants.CLIENT_ID), testContext.getApiManager().getGetPassword().getClientId(), "clientId didn't match!");
             Assert.assertEquals(firstElement.get(Constants.KEY_ID), testContext.getApiManager().getGetPassword().getKeyId(), "keyId didn't match!");
-            //    Assert.assertEquals(firstElement.get(Constants.LAST_UPDATED_AT),testContext.getApiManager().getGetPassword().getLastUpdatedAt(),"lastUpdated date must be today");
+               Assert.assertEquals(firstElement.get(Constants.LAST_UPDATED_AT),testContext.getApiManager().getGetPassword().getLastUpdatedAt(),"lastUpdated date must be today");
             Assert.assertEquals(firstElement.get(Constants.ENTITY_STATUS), testContext.getApiManager().getGetPassword().getEntityStatus(), "entityStatus didn't match");
             Assert.assertNotNull(firstElement.get(Constants.ACTIVATE_AT), "activateAt must not be null");
             Assert.assertNotNull(firstElement.get(Constants.DEACTIVATE_AT), "deactivateAt must not be null");
-            //   Assert.assertNotNull(firstElement.get(Constants.CREATED_AT),"createdAt must not be null");
-            Assert.assertEquals(firstElement.size(), 6, "response is not as expected");
+            Assert.assertNotNull(firstElement.get(Constants.CREATED_AT),"createdAt must not be null");
+            Assert.assertEquals(firstElement.size(), 8, "response is not as expected");
         }
     }
 
@@ -93,6 +93,8 @@ public class ManagementGetPassword_StepDef extends UtilManager {
             );
             ArrayList<Map> arrayList = (ArrayList) retMap.get("response");
             Assert.assertEquals(arrayList.size(), 2, "get password should return list of password metadata");
+            Map firstElement = arrayList.get(0);
+            Assert.assertEquals(firstElement.size(), 8,"password metadata didn't match");
         }
     }
 
