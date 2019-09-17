@@ -398,18 +398,16 @@ public class RestHelper {
 
         List<HashMap<String, String>> errorDetails = getJsonArray(res, "errors");
         System.out.println("errorDetails: " + errorDetails);
-        //boolean flag = false;
         int count = 0;
         String errorDesc = null;
+        String applicationNameErrorDescription = "Field error in object 'onboardingInputModel': field 'applicationName' must match \".*-(sandbox|merchant)-client-app\"; rejected value";
 
         try {
             for (int i = 0; i <= errorDetails.size() - 1; i++) {
                 errorDesc = errorDetails.get(i).get("errorDescription");
-                if (errorDesc.contains("Field error in object 'onboardingInputModel': field 'applicationName' must match \".*-(sandbox|merchant)-client-app\"; rejected value")) {
-                    // flag = true;
+                if (errorDesc.contains(applicationNameErrorDescription)) {
                     count++;
-                } else if (errorDesc.contains("Field error in object 'onboardingInputModel': field 'applicationName' size must be between 0 and 256; rejected value")) {
-                    //flag = true;
+                } else if (errorDesc.contains("Field error in object 'onboardingInputModel': field 'applicationName' size must be between 0 and 100; rejected value")) {
                     count++;
                 }
             }
