@@ -1,5 +1,4 @@
 package steps;
-
 import com.google.common.collect.Sets;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
@@ -13,7 +12,6 @@ import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import utils.Constants;
-
 import java.util.*;
 
 public class ManagementGetPassword_StepDef extends UtilManager {
@@ -62,7 +60,6 @@ public class ManagementGetPassword_StepDef extends UtilManager {
     @Then("^I should see the response from get password request$")
     public void getPasswordResponse() {
         Assert.assertEquals(testContext.getApiManager().getGetPassword().getResponse().statusCode(), HttpStatus.SC_OK);
-
         String returnedObject = testContext.getApiManager().getGetPassword().getResponse().getBody().prettyPrint();
         if (returnedObject != null) {
             String newString = "{\"response\":" + returnedObject + "}";
@@ -87,7 +84,6 @@ public class ManagementGetPassword_StepDef extends UtilManager {
     @Then("^I should see the list of response from get password request$")
     public void getListOfPasswordResponse() {
         Assert.assertEquals(testContext.getApiManager().getGetPassword().getResponse().statusCode(), HttpStatus.SC_OK);
-
         String returnedObject = testContext.getApiManager().getGetPassword().getResponse().getBody().prettyPrint();
         if (returnedObject != null) {
             String newString = "{\"response\":" + returnedObject + "}";

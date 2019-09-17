@@ -1,5 +1,4 @@
 package steps;
-
 import com.google.common.collect.Sets;
 import com.jayway.restassured.response.Response;
 import cucumber.api.java.en.And;
@@ -135,21 +134,15 @@ public class ManagementPostSigningKey_StepDefs extends UtilManager {
     public void i_should_receive_an_error_response_with_error_description_and_error_code(int responseCode, String errorDesc, String errorCode) {
         Response response = testContext.getApiManager().getPostSigningKeys().getResponse();
         Assert.assertEquals(getRestHelper().getResponseStatusCode(response), responseCode, "Different response code being returned");
-
         if (getRestHelper().getErrorDescription(response) != null) {
-
             if (getRestHelper().getErrorDescription(response).contains("'")) {
-                System.out.println("here : " + getRestHelper().getErrorDescription(response));
-                System.out.println("there: " + errorDesc);
             }
-
             Assert.assertTrue(
                     getRestHelper().getErrorDescription(response)
                             .replace("\"", "")
                             .contains(errorDesc),
                     "Different error description being returned..Expected: " + errorDesc + "Actual: " + getRestHelper().getErrorDescription(response));
         }
-
         Assert.assertEquals(getRestHelper().getErrorCode(response), errorCode, "Different error code being returned");
     }
 
@@ -172,10 +165,8 @@ public class ManagementPostSigningKey_StepDefs extends UtilManager {
                 "Expected 201 but got " +
                         getRestHelper().getResponseStatusCode(testContext.getApiManager().getPostSigningKeys().getResponse())
         );
-
         Assert.assertNotNull(testContext.getApiManager().getPostSigningKeys().getResponse().path(Constants.PDF_PIN));
         Assert.assertNotNull(testContext.getApiManager().getPostSigningKeys().getResponse().path(Constants.PDF_URL));
-
         HashMap returnedObject = testContext.getApiManager().getPostSigningKeys().getResponse().path("signingKeyMetaData");
         if (returnedObject != null) {
             Assert.assertEquals(testContext.getApiManager().getPostSigningKeys().getApplicationId(), returnedObject.get(Constants.APPLICATION_ID), "Application Id didn't match");

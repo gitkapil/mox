@@ -1,6 +1,4 @@
 package steps;
-
-import apiHelpers.OneClickMerchantOnboarding;
 import com.google.common.collect.Sets;
 import com.jayway.restassured.path.json.JsonPath;
 import com.jayway.restassured.response.Response;
@@ -14,8 +12,6 @@ import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import utils.Constants;
-import utils.PropertyHelper;
-
 import java.util.*;
 
 public class ManagementGetApplications_StepDefs extends UtilManager {
@@ -46,14 +42,12 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
 
     @When("^I create new application$")
     public void createNewApplication() {
-      response = new OneClickMerchantOnboarding_StepDefs(testContext) .createApplicationWithOneClickApi();
+        response = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
     }
-
 
     @When("^I get the application details of newly created application using filter \"([^\"]*)\"$")
     public void getTheApplicationDetails(String filterName) {
-       String clientId= response.getBody().path("application.clientId");
-        System.out.println("generated Client id:" +clientId);
+        String clientId = response.getBody().path("application.clientId");
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource");
 
@@ -87,22 +81,15 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
     public void i_should_receive_an_error_response_with_error_description_and_errorcode(int responseCode, String errorDesc, String errorCode) {
         Response response = testContext.getApiManager().getGetApplication().getResponse();
         org.testng.Assert.assertEquals(getRestHelper().getResponseStatusCode(response), responseCode, "Different response code being returned");
-
-
         if (getRestHelper().getErrorDescription(response) != null) {
-
             if (getRestHelper().getErrorDescription(response).contains("'")) {
-                System.out.println("here : " + getRestHelper().getErrorDescription(response));
-                System.out.println("there: " + errorDesc);
             }
-
             org.testng.Assert.assertTrue(
                     getRestHelper().getErrorDescription(response)
                             .replace("\"", "")
                             .contains(errorDesc),
                     "Different error description being returned..Expected: " + errorDesc + "Actual: " + getRestHelper().getErrorDescription(response));
         }
-
         org.testng.Assert.assertEquals(getRestHelper().getErrorCode(response), errorCode, "Different error code being returned");
     }
 
@@ -154,17 +141,14 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource");
 
         url = url + "?peakId=00000001-0000-0000-0000-000000000000&clientId=00000001-0000-0000-0000-000000000000";
-
         testContext.getApiManager().getGetApplication().getListOfApplications(
                 url,
-
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))),
                 testContext.getApiManager().getPostApplication().getAuthToken());
     }
 
     @And("^the response should have more than or equal to ([^\"]*) in total$")
     public void should_have_more_than_responses_in_total(int numberOfResponses) {
-
         Assert.assertTrue(
                 "The response should have more than or equal to " + numberOfResponses + " in total. But got " +
                         getRestHelper().getJsonArray(testContext.getApiManager().getGetApplication().getResponse(), "items")
@@ -181,10 +165,9 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
         List<String> strings = new ArrayList<>(list.size());
         for (Object object : list) {
             strings.add(Objects.toString(object, null));
-            System.out.println(object);
         }
         if (list.size() != 0) {
-            Assert.assertEquals( 11, strings.get(0).split(",").length);
+            Assert.assertEquals(11, strings.get(0).split(",").length);
             Assert.assertNotNull(strings.get(0).contains(Constants.APPLICATION_ID));
             Assert.assertNotNull(strings.get(0).contains(Constants.CLIENT_ID));
             Assert.assertNotNull(strings.get(0).contains(Constants.PEAK_ID));
@@ -196,22 +179,18 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
             Assert.assertNotNull(strings.get(0).contains(Constants.CREATED_AT));
             Assert.assertNotNull(strings.get(0).contains(Constants.LAST_UPDATED_AT));
             Assert.assertNotNull(strings.get(0).contains(Constants.APPLICATION_NAME));
-
             org.testng.Assert.assertTrue(strings.get(0).contains(Constants.CLIENT_ID), testContext.getApiManager().getPutApplication().getClientId());
             org.testng.Assert.assertTrue(strings.get(0).contains(Constants.PEAK_ID), testContext.getApiManager().getPutApplication().getPeakId());
             org.testng.Assert.assertTrue(strings.get(0).contains(Constants.SUB_UNIT_ID), testContext.getApiManager().getPutApplication().getSubUnitId());
             org.testng.Assert.assertTrue(strings.get(0).contains(Constants.ORGANISATION_ID), testContext.getApiManager().getPutApplication().getOrganisationId());
-            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.PLATFORM_ID),testContext.getApiManager().getPutApplication().getPlatformId());
-            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.PLATFORM_NAME),testContext.getApiManager().getPutApplication().getApplicationId());
+            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.PLATFORM_ID), testContext.getApiManager().getPutApplication().getPlatformId());
+            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.PLATFORM_NAME), testContext.getApiManager().getPutApplication().getApplicationId());
             org.testng.Assert.assertTrue(strings.get(0).contains(Constants.APPLICATION_ID), testContext.getApiManager().getPutApplication().getApplicationId());
             org.testng.Assert.assertTrue(strings.get(0).contains(Constants.DESCRIPTION), testContext.getApiManager().getPutApplication().getDescription());
             org.testng.Assert.assertTrue(strings.get(0).contains(Constants.CREATED_AT));
-
             org.testng.Assert.assertTrue(strings.get(0).contains(Constants.LAST_UPDATED_AT), testContext.getApiManager().getPutApplication().getApplicationId());
-
             Assert.assertTrue("description is not present", strings.get(0).contains(Constants.DESCRIPTION));
         } else if (list.size() == 1) {
-
         } else {
             Assert.assertEquals(
                     HttpStatus.SC_OK
@@ -220,46 +199,44 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
     }
 
     @When("^I get a list of applications using filters to filter \"([^\"]*)\"$")
-    public void get_a_list_of_applications_using_filters(String filterName)
-    {
-     Response applicationResponse = new  OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
-            String url = getRestHelper().getBaseURI() +
-                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource");
-
-           String filterValue =null;
-            if(filterName.equalsIgnoreCase("clientId")) {
-                filterValue= applicationResponse.getBody().path("application.clientId");
-            }else if(filterName.equalsIgnoreCase("peakId")){
-                filterValue= applicationResponse.getBody().path("application.peakId");
-            }else if(filterName.equalsIgnoreCase("subUnitId")){
-             filterValue= applicationResponse.getBody().path("application.subUnitId");
-            }else if(filterName.equalsIgnoreCase("platformId")){
-                filterValue= applicationResponse.getBody().path("application.platformId");
-            }else if(filterName.equalsIgnoreCase("platformName")){
-                filterValue= applicationResponse.getBody().path("application.platformName");
-            }
-                url = url + "?" + filterName + "=" + filterValue;
-                testContext.getApiManager().getGetApplication().getListOfApplications(
-                        url,
-                        new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
-                                "header-list-get").split(","))),
-                        testContext.getApiManager().getPostApplication().getAuthToken());
-
-    }
-    @When("^I get a list of applications using filters to filter \"([^\"]*)\" and \"([^\"]*)\" values$")
-    public void get_a_list_of_applications_usingNullHeaders(String filterName, String headerValues) {
-        Response applicationResponse = new  OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
+    public void get_a_list_of_applications_using_filters(String filterName) {
+        Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource");
-        url = url + "?" + filterName + "=" + applicationResponse.getBody().path("application.clientId");;
+        String filterValue = null;
+        if (filterName.equalsIgnoreCase("clientId")) {
+            filterValue = applicationResponse.getBody().path("application.clientId");
+        } else if (filterName.equalsIgnoreCase("peakId")) {
+            filterValue = applicationResponse.getBody().path("application.peakId");
+        } else if (filterName.equalsIgnoreCase("subUnitId")) {
+            filterValue = applicationResponse.getBody().path("application.subUnitId");
+        } else if (filterName.equalsIgnoreCase("platformId")) {
+            filterValue = applicationResponse.getBody().path("application.platformId");
+        } else if (filterName.equalsIgnoreCase("platformName")) {
+            filterValue = applicationResponse.getBody().path("application.platformName");
+        }
+        url = url + "?" + filterName + "=" + filterValue;
+        testContext.getApiManager().getGetApplication().getListOfApplications(
+                url,
+                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
+                        "header-list-get").split(","))),
+                testContext.getApiManager().getPostApplication().getAuthToken());
+    }
+
+    @When("^I get a list of applications using filters to filter \"([^\"]*)\" and \"([^\"]*)\" values$")
+    public void get_a_list_of_applications_usingNullHeaders(String filterName, String headerValues) {
+        Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
+        String url = getRestHelper().getBaseURI() +
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource");
+        url = url + "?" + filterName + "=" + applicationResponse.getBody().path("application.clientId");
+        ;
         testContext.getApiManager().getGetApplication().getListOfApplication(
                 url, testContext.getApiManager().getPostApplication().getAuthToken(), headerValues);
-
     }
 
     @When("^I get a list of applications using filters to filter \"([^\"]*)\" with ([^\"]*) limits$")
     public void get_a_list_of_apps_using_filters_and_limits(String filterName, int limit) {
-        Response applicationResponse = new  OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
+        Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource");
         url = url + "?" + filterName + "=" + applicationResponse.getBody().path("application.clientId");
@@ -267,7 +244,6 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
         currentUrl = url;
         testContext.getApiManager().getGetApplication().getListOfApplications(
                 url,
-
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
                         "header-list-get").split(","))),
                 testContext.getApiManager().getPostApplication().getAuthToken());

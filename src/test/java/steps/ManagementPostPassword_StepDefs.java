@@ -1,5 +1,4 @@
 package steps;
-
 import com.google.common.collect.Sets;
 import com.jayway.restassured.response.Response;
 import cucumber.api.java.en.And;
@@ -50,12 +49,10 @@ public class ManagementPostPassword_StepDefs extends UtilManager {
     @And("^I get the first application id$")
     public void getFirstApplicationId() {
         String applicationId = "";
-
         Response response = testContext.getApiManager().getGetApplication().getResponse();
         ArrayList<HashMap> items = response.path("items");
         HashMap item = items.get(0);
         applicationId = (String) item.get("applicationId");
-
         testContext.getApiManager().getPostPasswordCreateClientPassword().setApplicationId(applicationId);
     }
 
@@ -93,14 +90,12 @@ public class ManagementPostPassword_StepDefs extends UtilManager {
                 "Expected http status " + httpStatus + " but got " +
                         getRestHelper().getResponseStatusCode(testContext.getApiManager().getPostPasswordCreateClientPassword().getResponse())
         );
-
         Assert.assertEquals(
                 errorCode,
                 getRestHelper().getErrorCode(testContext.getApiManager().getPostPasswordCreateClientPassword().getResponse()),
                 "Expected error code " + errorCode + " but got " +
                         getRestHelper().getErrorCode(testContext.getApiManager().getPostPasswordCreateClientPassword().getResponse())
         );
-
         if (!getRestHelper().getErrorDescription(testContext.getApiManager().getPostPasswordCreateClientPassword().getResponse()).contains(errorDescription)) {
             Assert.assertEquals(
                     errorDescription,
@@ -109,12 +104,6 @@ public class ManagementPostPassword_StepDefs extends UtilManager {
                             getRestHelper().getErrorDescription(testContext.getApiManager().getPostPasswordCreateClientPassword().getResponse())
             );
         }
-    }
-
-    @When("^I create a new AAD client$")
-    public void createNewClient() {
-        createClient_stepDefs.login();
-        createClient_stepDefs.createNewClient();
     }
 
     @Given("^I am logging in as a user with AAD Password role$")
@@ -165,12 +154,9 @@ public class ManagementPostPassword_StepDefs extends UtilManager {
     public void validatePasswordResponse() {
         Assert.assertNotNull(testContext.getApiManager().getPostPasswordCreateClientPassword().getResponse().path(Constants.PDF_PIN));
         Assert.assertNotNull(testContext.getApiManager().getPostPasswordCreateClientPassword().getResponse().path(Constants.PDF_URL));
-
         HashMap returnResponse = testContext.getApiManager().getPostPasswordCreateClientPassword().getResponse().path("passwordMetaData");
-
         Assert.assertEquals(testContext.getApiManager().getPostPasswordCreateClientPassword().
                 getApplicationId(), returnResponse.get(Constants.APPLICATION_ID), "application id didn't match");
-
         Assert.assertNotNull(returnResponse.get(Constants.ACTIVATE_AT), "activated at time shouldn't be null");
         Assert.assertNotNull(returnResponse.get(Constants.DEACTIVATED_AT), " deactivated at time shouldn't be null");
         Assert.assertNotNull(returnResponse.get(Constants.KEY_ID));

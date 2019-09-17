@@ -1,5 +1,4 @@
 package steps;
-
 import com.google.common.collect.Sets;
 import com.jayway.restassured.response.Response;
 import cucumber.api.java.en.And;
@@ -11,7 +10,6 @@ import managers.UtilManager;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import utils.Constants;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Set;
@@ -63,7 +61,6 @@ public class ManagementPutSigningKeys_StepDefs extends UtilManager {
         testContext.getApiManager().getPutSigningKeys().makePutSigningKeyApiCall(url);
     }
 
-
     @And("^I make PUT signing key request with \"([^\"]*)\" and \"([^\"]*)\" from an existing signing key$")
     public void setApplicationIdKeyId(String applicationId, String keyId) throws IOException {
         testContext.getApiManager().getPutSigningKeys().setApplicationId(applicationId);
@@ -71,7 +68,6 @@ public class ManagementPutSigningKeys_StepDefs extends UtilManager {
         String url = getRestHelper().getBaseURI() + getFileHelper()
                 .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) +
                 "/" + applicationId + "/keys/signing/" + keyId;
-
         testContext.getApiManager().getPutSigningKeys().makePutSigningKeyApiCall(url);
     }
 
@@ -82,7 +78,6 @@ public class ManagementPutSigningKeys_StepDefs extends UtilManager {
         testContext.getApiManager().getPutSigningKeys().setDeactivateAt(deactivateAt);
         testContext.getApiManager().getPutSigningKeys().setEntityStatus(entityStatus);
     }
-
 
     @Then("^the PUT signing key response should have error status \"([^\"]*)\" with error code \"([^\"]*)\" and description \"([^\"]*)\"$")
     public void errorResponse(String httpStatus, String errCode, String errDescription) {
@@ -112,12 +107,10 @@ public class ManagementPutSigningKeys_StepDefs extends UtilManager {
 
     @When("^I make a PUT request to the PUT signing key endpoint with \"([^\"]*)\" missing in the header$")
     public void i_make_a_put_request_to_the_signing_key_endpoint_with_key_missing_in_the_header(String keys) throws IOException {
-
         String url = getRestHelper().getBaseURI() + getFileHelper()
                 .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) +
                 "/" + testContext.getApiManager().getGetSigningKey().getApplicationId() + "/keys/signing/" +
                 testContext.getApiManager().getGetSigningKey().getKeyId();
-
         testContext.getApiManager().getPutSigningKeys().makeApiCallWithMissingHeader(url, keys);
     }
 
@@ -134,12 +127,8 @@ public class ManagementPutSigningKeys_StepDefs extends UtilManager {
     public void i_should_receive_an_error_response_with_error_description_and_error_code(int responseCode, String errorDesc, String errorCode) {
         Response response = testContext.getApiManager().getPutSigningKeys().getResponse();
         Assert.assertEquals(getRestHelper().getResponseStatusCode(response), responseCode, "Different response code being returned");
-
         if (getRestHelper().getErrorDescription(response) != null) {
-
             if (getRestHelper().getErrorDescription(response).contains("'")) {
-                System.out.println("here : " + getRestHelper().getErrorDescription(response));
-                System.out.println("there: " + errorDesc);
             }
             Assert.assertTrue(
                     getRestHelper().getErrorDescription(response)
@@ -161,7 +150,6 @@ public class ManagementPutSigningKeys_StepDefs extends UtilManager {
 
     @Then("^the PUT signing key response should return success$")
     public void successResponse() {
-
         Assert.assertEquals(
                 getRestHelper().getResponseStatusCode(testContext.getApiManager().getPutSigningKeys().getResponse()),
                 HttpStatus.SC_OK,

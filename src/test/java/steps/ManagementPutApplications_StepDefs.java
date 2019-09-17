@@ -1,6 +1,4 @@
 package steps;
-
-import apiHelpers.PutApplication;
 import com.google.common.collect.Sets;
 import com.jayway.restassured.response.Response;
 import cucumber.api.java.en.And;
@@ -14,8 +12,6 @@ import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import utils.Constants;
-import utils.PropertyHelper;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Set;
@@ -95,11 +91,11 @@ public class ManagementPutApplications_StepDefs extends UtilManager {
 
     @When("^I make a PUT request to the application endpoint$")
     public void i_make_a_put_request_to_the_application_endpoint() throws IOException {
-        logger.info("********** Executing POST Application Request ***********");
+        logger.info("********** Executing PUT Application Request ***********");
         testContext.getApiManager().getPutApplication().executeRequest(
                 getRestHelper().getBaseURI() + getFileHelper()
                         .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" + testContext.getApiManager().getPutApplication().getApplicationId());
-        logger.info("********** Executed POST Application Request ***********");
+        logger.info("********** Executed PUT Application Request ***********");
     }
 
 
@@ -135,11 +131,11 @@ public class ManagementPutApplications_StepDefs extends UtilManager {
 
     @When("^I make a PUT request to the application endpoint with no body")
     public void i_make_a_put_request_to_the_application_WithNoBody() throws IOException {
-        logger.info("********** Executing POST Application Request ***********");
+        logger.info("********** Executing PUT Application Request ***********");
         testContext.getApiManager().getPutApplication().executeRequestWithNoBody(
                 getRestHelper().getBaseURI() + getFileHelper()
                         .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" + testContext.getApiManager().getPutApplication().getApplicationId());
-        logger.info("********** Executed POST Application Request ***********");
+        logger.info("********** Executed PUT Application Request ***********");
     }
 
     @When("^I make a PUT request to the application endpoint with \"([^\"]*)\" missing in the header$")
@@ -174,17 +170,11 @@ public class ManagementPutApplications_StepDefs extends UtilManager {
     @Then("^the PUT response body should contain a valid applicationId, clientId, peakId, subUnitId, organisationId and description$")
     public void the_response_body_should_contain_a_valid_applicationId_clientId_peakId_subUnitId_and_organisationId() {
         Assert.assertNotNull(testContext.getApiManager().getPutApplication().applicationIdInResponse(), "applicationId is not present in the response!!");
-
         Assert.assertNotNull(testContext.getApiManager().getPutApplication().clientIdInResponse(), "clientId is not present in the response!!");
-
         Assert.assertNotNull(testContext.getApiManager().getPutApplication().peakIdInResponse(), "peakId is not present in the response!!");
-
         Assert.assertNotNull(testContext.getApiManager().getPutApplication().subUnitIdInResponse(), "subUnitId is not present in the response!!");
-
         Assert.assertNotNull(testContext.getApiManager().getPutApplication().organisationIdInResponse(), "organisationId is not present in the response!!");
-
         Assert.assertNotNull(testContext.getApiManager().getPutApplication().getDescription(), "description is not present in the response");
-
         Assert.assertEquals(testContext.getApiManager().getPutApplication().applicationIdInResponse(),
                 testContext.getApiManager().getPutApplication().getApplicationId(),
                 "applicationId returned does not match.");
@@ -213,9 +203,7 @@ public class ManagementPutApplications_StepDefs extends UtilManager {
     @Then("^the PUT response body should also have empty notificationPath and empty notificationHost$")
     public void the_response_body_should_also_have_empty_notificationPath_and_empty_notificationHost() throws Throwable {
         Assert.assertNotNull(testContext.getApiManager().getPutApplication().notificationPathInResponse(), "notificationPath is not present in the response!!");
-
         Assert.assertNotNull(testContext.getApiManager().getPutApplication().notificationHostInResponse(), "notificationHost is not present in the response!!");
-
         Assert.assertEquals(testContext.getApiManager().getPutApplication().notificationPathInResponse(),
                 "",
                 "notificationPath returned is not the empty string");
@@ -234,22 +222,15 @@ public class ManagementPutApplications_StepDefs extends UtilManager {
     public void i_should_receive_an_error_response_with_error_description_and_errorcode(int responseCode, String errorDesc, String errorCode) {
         Response response = testContext.getApiManager().getPutApplication().getResponse();
         Assert.assertEquals(getRestHelper().getResponseStatusCode(response), responseCode, "Different response code being returned");
-
-
         if (getRestHelper().getErrorDescription(response) != null) {
-
             if (getRestHelper().getErrorDescription(response).contains("'")) {
-                System.out.println("here : " + getRestHelper().getErrorDescription(response));
-                System.out.println("there: " + errorDesc);
             }
-
             Assert.assertTrue(
                     getRestHelper().getErrorDescription(response)
                             .replace("\"", "")
                             .contains(errorDesc),
                     "Different error description being returned..Expected: " + errorDesc + "Actual: " + getRestHelper().getErrorDescription(response));
         }
-
         Assert.assertEquals(getRestHelper().getErrorCode(response), errorCode, "Different error code being returned");
     }
 
@@ -260,17 +241,6 @@ public class ManagementPutApplications_StepDefs extends UtilManager {
                 getRestHelper().getErrorMessage(response).contains(errorMessage),
                 "Different error message being returned..Expected: " + errorMessage + " Actual: " +
                         getRestHelper().getErrorMessage(response));
-
-    }
-
-    private String createNewApplication() {
-        testContext.getApiManager().getPostApplication().setAuthToken(testContext.getApiManager().getPutApplication().getAuthToken());
-        postApplications_stepDefs.i_have_valid_application_details();
-        postApplications_stepDefs.i_make_a_post_request_to_the_application_endpoint();
-        postApplications_stepDefs.i_should_receive_a_successful_applications_response();
-        String applicationId = testContext.getApiManager().getPostApplication().applicationIdInResponse();
-        Assert.assertNotNull(applicationId, "applicationId is not present in the response!!");
-        return applicationId;
     }
 
     @And("^I retrieve the applicationId and the keyId from the response$")

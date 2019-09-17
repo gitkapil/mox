@@ -1,8 +1,6 @@
 package steps;
-
 import com.google.common.collect.Sets;
 import com.jayway.restassured.response.Response;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -12,7 +10,6 @@ import managers.UtilManager;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
-
 import java.util.Set;
 import java.util.UUID;
 
@@ -68,9 +65,7 @@ public class ManagementPostApplications_StepDefs extends UtilManager {
     public void i_have_a_peakId_subUnitId_and_organisationId_from_an_existing_PM4B_merchant_identity(String peakId,
                                                                                                      String subUnitId,
                                                                                                      String organisationId) {
-
         String description = StringUtils.repeat("*", 257);
-
         testContext.getApiManager().getPostApplication().setPeakId(peakId);
         testContext.getApiManager().getPostApplication().setSubUnitId(subUnitId);
         testContext.getApiManager().getPostApplication().setOrganisationId(organisationId);
@@ -133,15 +128,10 @@ public class ManagementPostApplications_StepDefs extends UtilManager {
     @Then("^the response body should contain a valid applicationId, clientId, peakId, subUnitId and organisationId$")
     public void the_response_body_should_contain_a_valid_applicationId_clientId_peakId_subUnitId_and_organisationId() {
         Assert.assertNotNull(testContext.getApiManager().getPostApplication().applicationIdInResponse(), "applicationId is not present in the response!!");
-
         Assert.assertNotNull(testContext.getApiManager().getPostApplication().clientIdInResponse(), "clientId is not present in the response!!");
-
         Assert.assertNotNull(testContext.getApiManager().getPostApplication().peakIdInResponse(), "peakId is not present in the response!!");
-
         Assert.assertNotNull(testContext.getApiManager().getPostApplication().subUnitIdInResponse(), "subUnitId is not present in the response!!");
-
         Assert.assertNotNull(testContext.getApiManager().getPostApplication().organisationIdInResponse(), "organisationId is not present in the response!!");
-
         Assert.assertEquals(testContext.getApiManager().getPostApplication().clientIdInResponse(),
                 testContext.getApiManager().getPostApplication().getClientId(),
                 "clientId returned does not match.");
@@ -162,9 +152,7 @@ public class ManagementPostApplications_StepDefs extends UtilManager {
     @Then("^the response body should also have empty notificationPath and empty notificationHost$")
     public void the_response_body_should_also_have_empty_notificationPath_and_empty_notificationHost() throws Throwable {
         Assert.assertNotNull(testContext.getApiManager().getPostApplication().notificationPathInResponse(), "notificationPath is not present in the response!!");
-
         Assert.assertNotNull(testContext.getApiManager().getPostApplication().notificationHostInResponse(), "notificationHost is not present in the response!!");
-
         Assert.assertEquals(testContext.getApiManager().getPostApplication().notificationPathInResponse(),
                 "",
                 "notificationPath returned is not the empty string");
@@ -183,14 +171,9 @@ public class ManagementPostApplications_StepDefs extends UtilManager {
     public void i_should_receive_an_error_response_with_error_description_and_errorcode(String responseCode, String errorDesc, String errorCode) {
         Response response = testContext.getApiManager().getPostApplication().getPostApplicationRequestResponse();
         Assert.assertEquals(getRestHelper().getResponseStatusCode(response), Integer.parseInt(responseCode), "Different response code being returned");
-
         if (getRestHelper().getErrorDescription(response) != null) {
-
             if (getRestHelper().getErrorDescription(response).contains("'")) {
-                System.out.println("here : " + getRestHelper().getErrorDescription(response));
-                System.out.println("there: " + errorDesc);
             }
-
             Assert.assertTrue(
                     getRestHelper().getErrorDescription(response)
                             .replace("\"", "")
