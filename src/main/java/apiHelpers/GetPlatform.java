@@ -20,7 +20,7 @@ public class GetPlatform extends UtilManager {
     private String createdBy;
     private String updatedBy;
 
-    final static org.apache.log4j.Logger logger = Logger.getLogger(GetPlatform.class);
+    final static Logger logger = Logger.getLogger(GetPlatform.class);
 
     public void setPlatformDescription(String platformDescription) {
         this.platformDescription = platformDescription;
