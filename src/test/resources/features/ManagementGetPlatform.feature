@@ -8,16 +8,16 @@ Feature: Management GET platform API - DRAG-
     Then I receive an access_token
 
   # @trial
-  @regression @merchantManagement @merchantManagementPut
-  Scenario Outline: Positive flow- A DRAGON user with platform.ReadWrite.All is able to update an existing application
+  @regression @merchantManagement @merchantManagementPut @newPlat
+  Scenario: Positive flow- A DRAGON user with platform.ReadWrite.All is able to update an existing application
     Given I am a GET platform authorized DRAGON user with Platform.ReadWrite.All
     When I make a GET request to the platform endpoint
     Then I should receive a successful GET platform response
-    And the response should have a list of "<numberOfResponses>" platform
-    And validate the response from GET platform API
-    Examples:
-     |numberOfResponses|
-     |   20            |
+#    And the response should have a list of "<numberOfResponses>" platform
+#    And validate the response from GET platform API
+#    Examples:
+#     |numberOfResponses|
+#     |   20            |
 
   #trial
   @regression

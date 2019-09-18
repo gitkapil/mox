@@ -1,30 +1,65 @@
 package steps;
 
+import com.google.common.collect.Sets;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+import com.jayway.restassured.response.Response;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import managers.TestContext;
+import managers.UtilManager;
+import org.apache.log4j.Logger;
+import org.junit.Assert;
+import utils.Constants;
 
-public class ManagementGetPlatformStep_Defs {
+import java.util.*;
+
+public class ManagementGetPlatformStep_Defs extends UtilManager {
+    TestContext testContext;
+    ManagementCommon common;
+    Response applicationResponse;
+    private static final Set<String> ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
+    private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_application_resource";
+    private static final String VALID_BASE64_ENCODED_RSA_PUBLIC_KEY = "valid_base64_encoded_rsa_public_key";
+    final static Logger logger = Logger.getLogger(ManagementGetPlatformStep_Defs.class);
+
+    public ManagementGetPlatformStep_Defs(TestContext testContext) {
+        this.testContext = testContext;
+        common = new ManagementCommon(testContext);
+    }
+
+
     @Given("^I am a GET platform authorized DRAGON user with Platform\\.ReadWrite\\.All$")
     public void i_am_a_GET_platform_authorized_DRAGON_user_with_Platform_ReadWrite_All()  {
-
+        common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getGetPlatform().setAuthToken(token));
     }
 
     @When("^I make a GET request to the platform endpoint$")
     public void i_make_a_GET_request_to_the_platform_endpoint()  {
-
+            String url = getRestHelper().getBaseURI() +
+                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                    + "/management/platforms";
+            testContext.getApiManager().getGetPlatform().executeGetPlatformRequest(url);
     }
 
     @Then("^I should receive a successful GET platform response$")
     public void i_should_receive_a_successful_GET_platform_response()  {
-
+        Assert.assertEquals(
+                200
+                , getRestHelper().getResponseStatusCode(testContext.getApiManager().getGetPlatform().getResponse()));
     }
 
     @Then("^validate the response from GET platform API$")
-    public void validate_the_response_from_GET_platform_API()  {
+    public void validate_the_response_from_GET_platform_API() {
+        String list = getRestHelper().getJsonArray(testContext.getApiManager().getGetPlatform().getResponse(), Constants.ITEM).toString();
 
+        Map<String, Object> map = new Gson().fromJson(
+                list, new TypeToken<HashMap<String, Object>>() {
+                }.getType()
+        );
+        System.out.println("map: "+ map);
     }
-
     @When("^I make a GET request to the Platform endpoint with \"([^\"]*)\" missing in the header$")
     public void i_make_a_GET_request_to_the_Platform_endpoint_with_missing_in_the_header(String arg1)  {
 

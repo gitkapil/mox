@@ -1,26 +1,26 @@
 package apiHelpers;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.restassured.response.Response;
 import managers.UtilManager;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.junit.Assert;
-import utils.EnvHelper;
 import utils.PropertyHelper;
-
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 
 public class GetPlatform extends UtilManager {
     private String authToken;
     private String platformName;
     private String platformDescription;
-    private String platformStatus;
+    private String status;
     private String platformId;
     private String createdAt;
     private String lastUpdatedAt;
     private String createdBy;
     private String updatedBy;
+
+    final static org.apache.log4j.Logger logger = Logger.getLogger(GetPlatform.class);
 
     public void setPlatformDescription(String platformDescription) {
         this.platformDescription = platformDescription;
@@ -71,7 +71,7 @@ public class GetPlatform extends UtilManager {
     }
 
     public void setAuthToken(String authToken) {
-        this.authToken = authToken;
+        this.authToken = "Bearer "+ authToken;
     }
 
     public String getPlatformName() {
@@ -83,11 +83,11 @@ public class GetPlatform extends UtilManager {
     }
 
     public String getPlatformStatus() {
-        return platformStatus;
+        return status;
     }
 
     public void setPlatformStatus(String platformStatus) {
-        this.platformStatus = platformStatus;
+        this.status = platformStatus;
     }
 
     public HashMap<String, String> getRequestHeader() {
@@ -102,16 +102,11 @@ public class GetPlatform extends UtilManager {
         return requestBody;
     }
 
-    public void setRequestBody(HashMap<String, String> requestBody) {
-        this.requestBody = requestBody;
-    }
-
     public String getPlatformDescription() {
         return platformDescription;
     }
 
-    public void setPlatformNameDescription(String description)
-    {
+    public void setPlatformNameDescription(String description) {
         if (description.equalsIgnoreCase("bigDescription")) {
             this.platformDescription = StringUtils.repeat("*", 300);
         } else {
@@ -131,48 +126,28 @@ public class GetPlatform extends UtilManager {
         this.response = response;
     }
 
-    private void returnRequestBody() {
-        requestBody.clear();
 
-        if (platformDescription != null) {
-            requestBody.put("platformDescription", platformDescription);
-        }
-        if (platformName != null) {
-            requestBody.put("platformName", platformName);
-        }
-        if (platformStatus != null) {
-            requestBody.put("status", platformStatus);
-        }
-    }
-
-    private void returnRequestHeader() {
-        requestHeader.clear();
-
+    private HashMap<String, String> returnRequestHeader(String method, String url, String authToken) {
         requestHeader.put("Accept", "application/json");
         requestHeader.put("Content-Type", "application/json");
         requestHeader.put("Authorization", authToken);
         requestHeader.put("Trace-Id", getGeneral().generateUniqueUUID());
+        requestHeader.put("Accept-Language", "en-US");
         requestHeader.put("Request-Date-Time", getDateHelper().getUTCNowDateTime());
         requestHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
+        return requestHeader;
 
-        if (EnvHelper.getInstance().isLocalDevMode()) {
-            EnvHelper.getInstance().addMissingHeaderForLocalDevMode(requestHeader);
-        }
+    }
+
+    public void executeGetPlatformRequest(String url) {
         try {
-            requestHeader.put("Digest", getSignatureHelper().calculateContentDigestHeader(
-                    new ObjectMapper().writeValueAsBytes(requestBody)));
-        } catch (JsonProcessingException e) {
+            response = getRestHelper().getRequestWithHeaders(url,
+                    returnRequestHeader("GET", new URL(url).getPath(),
+                            authToken));
+            logger.info("ist of platform response ******-->  " + response.getBody().prettyPrint());
+        } catch (MalformedURLException e) {
             e.printStackTrace();
-            Assert.assertTrue("Trouble creating Digest!", false);
+            Assert.assertTrue("Unable to get URL", false);
         }
     }
-
-    public void makeRequest(String url) {
-        returnRequestBody();
-        returnRequestHeader();
-        response = getRestHelper().getRequestWithHeaders(url, requestHeader);
-
-    }
-
-
 }
