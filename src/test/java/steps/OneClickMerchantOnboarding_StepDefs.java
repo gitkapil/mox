@@ -80,27 +80,39 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
 
         //Validate application response details
         Assert.assertNotNull(applicationResponse.get(Constants.APPLICATION_ID), "applicationId cannot be null!");
+        Assert.assertNotNull(applicationResponse.get(Constants.APPLICATION_NAME), "applicationName cannot be null!");
+        Assert.assertEquals(applicationResponse.get(Constants.APPLICATION_NAME), testContext.getApiManager().getOneClickMerchantOnboarding().getApplicationName(), "applicationName should be same as provided in request body!");
+        Assert.assertNotNull(applicationResponse.get(Constants.APPLICATION_DESCRIPTION), "applicationDescription cannot be null!");
+        Assert.assertEquals(applicationResponse.get(Constants.APPLICATION_DESCRIPTION), testContext.getApiManager().getOneClickMerchantOnboarding().getDescription(), "applicationDescription should be same as provided in request body!");
         Assert.assertNotNull(applicationResponse.get(Constants.CLIENT_ID), "clientId cannot be null!");
         Assert.assertEquals(applicationResponse.get(Constants.PEAK_ID), testContext.getApiManager().getOneClickMerchantOnboarding().getPeakId(), "peakId should be same as provided in request body!");
         Assert.assertEquals(applicationResponse.get(Constants.SUB_UNIT_ID), testContext.getApiManager().getOneClickMerchantOnboarding().getSubUnitId(), "subUnitId should be same as provided in request body!");
         Assert.assertEquals(applicationResponse.get(Constants.ORGANISATION_ID), testContext.getApiManager().getOneClickMerchantOnboarding().getOrganisationId(), "organisationId should be same as provided in request body!");
         Assert.assertEquals(applicationResponse.get(Constants.PLATFORM_ID), testContext.getApiManager().getOneClickMerchantOnboarding().getPlatformId(), "platformId should be same as provided in request body!");
         Assert.assertNotNull(applicationResponse.get(Constants.PLATFORM_NAME), "platformName should not be null!");
-        Assert.assertEquals(applicationResponse.get(Constants.APPLICATION_DESCRIPTION), testContext.getApiManager().getOneClickMerchantOnboarding().getDescription(), "applicationDescription should be same as provided in request body!");
+        Assert.assertNotNull(applicationResponse.get(Constants.CREATED_AT), "Application createdAt should not be null!");
+        Assert.assertNotNull(applicationResponse.get(Constants.LAST_UPDATED_AT), "Application lastUpdatedAt should not be null!");
+
 
         //Validate signingKey response details
         Assert.assertNotNull(signingKeyResponse.get(Constants.KEY_ID), "Signing keyId cannot be null!");
+        Assert.assertNotNull(signingKeyResponse.get(Constants.KEY_NAME), "Signing keyName cannot be null!");
         Assert.assertNotNull(signingKeyResponse.get(Constants.ALG), "Signing alg cannot be null!");
         Assert.assertNotNull(signingKeyResponse.get(Constants.TYPE), "Signing type cannot be null!");
         Assert.assertNotNull(signingKeyResponse.get(Constants.SIZE), "Signing size cannot be null!");
         Assert.assertNotNull(signingKeyResponse.get(Constants.ACTIVATE_AT), "Signing activateAt cannot be null!");
         Assert.assertNotNull(signingKeyResponse.get(Constants.DEACTIVATE_AT), "Signing deactivateAt cannot be null!");
         Assert.assertNotNull(signingKeyResponse.get(Constants.ENTITY_STATUS), "Signing entityStatus cannot be null!");
+        Assert.assertNotNull(signingKeyResponse.get(Constants.CREATED_AT), "Signing createdAt cannot be null!");
+        Assert.assertNotNull(signingKeyResponse.get(Constants.LAST_UPDATED_AT), "Signing lastUpdatedAt cannot be null!");
 
         //Validate passwordMetadata response details
         Assert.assertNotNull(passwordMetadataResponse.get(Constants.KEY_ID), "passwordMetada keyId cannot be null!");
         Assert.assertNotNull(passwordMetadataResponse.get(Constants.ACTIVATE_AT), "passwordMetada activateAt cannot be null!");
         Assert.assertNotNull(passwordMetadataResponse.get(Constants.DEACTIVATE_AT), "passwordMetada deactivateAt cannot be null!");
+        Assert.assertNotNull(passwordMetadataResponse.get(Constants.ENTITY_STATUS), "passwordMetada entityStatus cannot be null!");
+        Assert.assertNotNull(passwordMetadataResponse.get(Constants.CREATED_AT), "passwordMetada createdAt cannot be null!");
+        Assert.assertNotNull(passwordMetadataResponse.get(Constants.LAST_UPDATED_AT), "passwordMetada lastUpdatedAt cannot be null!");
 
         //Validate other response body parameters
         Assert.assertNotNull(response.path(Constants.GRANT_URL), "grantUrl cannot be null!");

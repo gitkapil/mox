@@ -69,7 +69,7 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
     Examples:
       | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | description | http_status | error_description         | error_code | error_message                     |
     #existing application name and different peakId
-      | existingname    | 2ee3e4a4-ef45-4fe2-a37d-d5fcfc6adb33 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Application already exist | EA002      | Service Request Validation Failed |
+      | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea211 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Application already exist | EA002      | Service Request Validation Failed |
     #existing application name and different subUnitId
       | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Application already exist | EA002      | Service Request Validation Failed |
     #existing application name and different organisationId

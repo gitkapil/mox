@@ -3,6 +3,7 @@ package utils;
 public class Constants {
 
     public static final String APPLICATION_ID = "applicationId";
+    public static final String APPLICATION_NAME = "applicationName";
     public static final String CLIENT_ID = "clientId";
     public static final String SUB_UNIT_ID = "subUnitId";
     public static final String PEAK_ID = "peakId";

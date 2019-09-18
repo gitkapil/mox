@@ -151,7 +151,11 @@ public class OneClickMerchantOnboarding extends UtilManager {
     }
 
     public void setPlatformId(String platformId) {
-        this.platformId = platformId;
+        if (getApplicationName().contains("sandbox")) {
+            this.platformId = "204b82b1-46ac-4a7e-bd98-e5227af981ba";
+        } else {
+            this.platformId = platformId;
+        }
     }
 
     public void setPdfChannel(String pdfChannel) {
@@ -517,9 +521,17 @@ public class OneClickMerchantOnboarding extends UtilManager {
             this.applicationName = StringUtils.repeat("*", 300);
         } else if (applicationName.equalsIgnoreCase("validname")) {
             String name = RandomStringUtils.randomAlphabetic(10);
-            this.applicationName = "app-hk-dragon-" + name + "-" + usertype + "-client-app";
+            if (usertype.equalsIgnoreCase("developer")) {
+                this.applicationName = "app-hk-dragon-" + name + "-sandbox-client-app";
+            } else {
+                this.applicationName = "app-hk-dragon-" + name + "-" + usertype + "-client-app";
+            }
         } else if (applicationName.equalsIgnoreCase("existingname")) {
-            this.applicationName = "app-hk-dragon-" + env + "-" + usertype + "-client-app";
+            if (usertype.equalsIgnoreCase("developer")) {
+                this.applicationName = "app-hk-dragon-" + env + "-sandbox-client-app";
+            } else {
+                this.applicationName = "app-hk-dragon-" + env + "-" + usertype + "-client-app";
+            }
         } else {
             this.applicationName = applicationName;
         }
