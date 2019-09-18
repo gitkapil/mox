@@ -101,11 +101,6 @@ public class ManagementGetPlatformStep_Defs extends UtilManager {
         testContext.getApiManager().getGetPlatform().executeGetPlatformRequest(url);
     }
 
-    @Then("^validate the item list of platform from the response$")
-    public void validate_the_item_list_of_platform_from_the_response() {
-
-    }
-
     @Then("^validate the all items list of platform should have active status$")
     public void validate_the_all_items_list_of_platform_should_have_active_status() {
 
@@ -113,15 +108,9 @@ public class ManagementGetPlatformStep_Defs extends UtilManager {
 
 
     @Then("^the response should have a list of \"([^\"]*)\" platform$")
-    public void the_response_should_have_a_list_of_platform(String numberOfResponses) {
-//        Assert.assertTrue(
-//                "The response should have a list of " + numberOfResponses + " applications. but found " +
-//                        getRestHelper().getJsonArray(testContext.getApiManager().getGetPlatform().getResponse(),Constants.ITEM).size(),
-//                getRestHelper().getJsonArray(testContext.getApiManager().getGetPlatform().getResponse(),Constants.ITEM)
-//                        .size() == numberOfResponses
-//        );
-//    }
-//
+    public void the_response_should_have_a_list_of_platform(int numberOfResponses) {
+        List<Object> list = getRestHelper().getJsonArray(testContext.getApiManager().getGetPlatform().getResponse(), Constants.ITEM);
+        Assert.assertEquals(list.size(),numberOfResponses,"no of response aren't same");
     }
 
     @When("^I get a list of platform using filters to filter \"([^\"]*)\" with \"([^\"]*)\" with (\\d+) limits$")
@@ -175,7 +164,8 @@ public class ManagementGetPlatformStep_Defs extends UtilManager {
     }
 
     public Map getListOfPlatforms() {
-
+        String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME);
+        testContext.getApiManager().getGetPlatform().executeGetPlatformRequest(url);
         String platformResponse = testContext.getApiManager().getGetPlatform().getResponse().getBody().prettyPrint();
         Map<String, Object> retMap = new Gson().fromJson(
                 platformResponse, new TypeToken<HashMap<String, Object>>() {

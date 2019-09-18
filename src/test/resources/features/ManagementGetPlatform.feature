@@ -13,20 +13,20 @@ Feature: Management GET platform API - DRAG-
     Given I am a GET platform authorized DRAGON user with Platform.ReadWrite.All
     When I make a GET request to the platform endpoint
     Then I should receive a successful GET platform response
-    And validate the response from GET platform API
+
 
   #trial
   @regression
-    @regression @merchantManagement @merchantManagementPut
+    @regression @merchantManagement @merchantManagementPut @newPlat
   Scenario Outline: Positive flow - Get a list of platform using platform name, platform id
     Given I am a GET platform authorized DRAGON user with Platform.ReadWrite.All
     When I get a list of platform using filter "<filterName>"
     Then I should receive a successful GET platform response
     And the response should have a list of "<numberOfResponses>" platform
-    And validate the item list of platform from the response
+    And validate the response from GET platform API
     Examples:
       | filterName   | numberOfResponses |
-      | platformID   | 1                 |
+      | platformId   | 1                 |
       | platformName | 1                 |
 
 
