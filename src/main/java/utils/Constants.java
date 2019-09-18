@@ -39,4 +39,8 @@ public class Constants {
     public static final String REASON_CODE = "reasonCode";
     public static final String REASON_DESCRIPTION = "reasonDescription";
     public static final String APPLICATION_NAME = "applicationName";
+    public static final Object STATUS = "status";
+    public static final Object DESCRIPTION = "description";
+    public static final Object CREATED_BY ="createdBy" ;
+    public static final Object UPDATED_BY = "updatedBy";
 }

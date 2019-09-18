@@ -1,6 +1,6 @@
 Feature: Management GET platform API - DRAG-
-         As a platform user
-         i want retrieve existing platform information using GET platform
+  As a platform user
+  i want retrieve existing platform information using GET platform
 
   Background: Retrieving access Token
     Given I am an user
@@ -13,25 +13,21 @@ Feature: Management GET platform API - DRAG-
     Given I am a GET platform authorized DRAGON user with Platform.ReadWrite.All
     When I make a GET request to the platform endpoint
     Then I should receive a successful GET platform response
-#    And the response should have a list of "<numberOfResponses>" platform
-#    And validate the response from GET platform API
-#    Examples:
-#     |numberOfResponses|
-#     |   20            |
+    And validate the response from GET platform API
 
   #trial
   @regression
-  @regression @merchantManagement @merchantManagementPut
+    @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Positive flow - Get a list of platform using platform name, platform id
     Given I am a GET platform authorized DRAGON user with Platform.ReadWrite.All
-    When I get a list of platform using filters to filter "<filterName>" with "<filterValue>"
+    When I get a list of platform using filter "<filterName>"
     Then I should receive a successful GET platform response
     And the response should have a list of "<numberOfResponses>" platform
     And validate the item list of platform from the response
     Examples:
-      | filterName     | filterValue                          | numberOfResponses |
-      | platformID     | 00000001-0000-0000-0000-000000000000 | 1                 |
-      | platformName   | 00000001-0000-0000-0000-000000009999 | 1                 |
+      | filterName   | numberOfResponses |
+      | platformID   | 1                 |
+      | platformName | 1                 |
 
 
   #trial
@@ -64,10 +60,10 @@ Feature: Management GET platform API - DRAG-
     And the response should be on page "<nextPageNumber>" for platform
 
     Examples:
-      | filterName      | filterValue                          | limit | numberOfResponses | totalNumberOfItems | currentPageNumber | nextPageNumber | nextNumberOfResponses |
-      | platformID      | 00000002-0000-0000-c000-000000000001 | 1     | 1                 | 2                  | 0                 | 1              | 1                     |
-      | platformName    | 00000002-0000-0000-c000-000000000001 | 30    | 1                 | 1                  | 0                 | 1              | 1                     |
-      | platformStatus  | 00000002-0000-0000-c000-000000000001 | 30    | 2                 | 2                  | 0                 | 0              | 2                     |
+      | filterName     | filterValue                          | limit | numberOfResponses | totalNumberOfItems | currentPageNumber | nextPageNumber | nextNumberOfResponses |
+      | platformID     | 00000002-0000-0000-c000-000000000001 | 1     | 1                 | 2                  | 0                 | 1              | 1                     |
+      | platformName   | 00000002-0000-0000-c000-000000000001 | 30    | 1                 | 1                  | 0                 | 1              | 1                     |
+      | platformStatus | 00000002-0000-0000-c000-000000000001 | 30    | 2                 | 2                  | 0                 | 0              | 2                     |
 
 
   #trial
