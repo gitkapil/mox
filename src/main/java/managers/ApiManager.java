@@ -148,4 +148,9 @@ public class ApiManager {
     public OneClickMerchantOnboarding getOneClickMerchantOnboarding() {
         return (oneClickMerchantOnboarding == null) ? oneClickMerchantOnboarding = new OneClickMerchantOnboarding() : oneClickMerchantOnboarding;
     }
+    public PostPlatform postPlatform() {
+        return (postPlatform == null) ? postPlatform = new PostPlatform() : postPlatform;
+    }
+
 }
+

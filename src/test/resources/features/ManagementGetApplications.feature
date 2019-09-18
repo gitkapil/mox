@@ -49,7 +49,7 @@ Feature: Merchant Management API - GET /applications
 
 
   #@trial
-  @regression @merchantManagement @merchantManagementGet
+  @regression @merchantManagement @merchantManagementGet @getOne
   Scenario: Negative flow - Get a list of application with two filter using invalid peakId and clientId
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of application using multiple filters

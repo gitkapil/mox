@@ -144,7 +144,6 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
       | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Application already exist | EA002      | Service Request Validation Failed | validname    | INDIVIDUAL          |
     #existing application name and different platformId
       | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 330d40d0-93c5-4de8-8dcc-9727ec0402c9 | string      | 400         | Application already exist | EA002      | Service Request Validation Failed | validname    | INDIVIDUAL          |
-  >>>>>>> feature/DRAG-2010
 
 
   @trial
