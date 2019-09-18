@@ -21,16 +21,18 @@ public class ApiManager {
     CreateClient createClient;
     CreateClientPassword createClientPassword;
     OneClickMerchantOnboarding oneClickMerchantOnboarding;
+    PostPlatform postPlatform;
+    GetPlatform getPlatform;
 
     String merchantManagementSigningKeyId;
     String merchantManagementSigningKey;
 
     public ApiManager() {
-        accessToken= new AccessTokenForMerchants();
-        paymentRequest= new PaymentRequest();
-        paymentStatus= new PaymentStatus();
-        refunds= new Refunds();
-        openIdConfig= new OpenIdConfigForPEAK();
+        accessToken = new AccessTokenForMerchants();
+        paymentRequest = new PaymentRequest();
+        paymentStatus = new PaymentStatus();
+        refunds = new Refunds();
+        openIdConfig = new OpenIdConfigForPEAK();
         transaction = new Transaction();
         postApplication = new PostApplication();
         getApplication = new GetApplication();
@@ -44,9 +46,13 @@ public class ApiManager {
         createClient = new CreateClient();
         createClientPassword = new CreateClientPassword();
         oneClickMerchantOnboarding = new OneClickMerchantOnboarding();
+        postPlatform = new PostPlatform();
+        getPlatform = new GetPlatform();
     }
 
-    public CreateClient getCreateClient() { return createClient; }
+    public CreateClient getCreateClient() {
+        return createClient;
+    }
 
     public CreateClientPassword getCreateClientPassword() {
         return createClientPassword;
@@ -67,6 +73,7 @@ public class ApiManager {
     public void setPostSigningKeys(PostSigningKeys postSigningKeys) {
         this.postSigningKeys = postSigningKeys;
     }
+
     public PutPublicKeys getPutPublicKeys() {
         return putPublicKeys;
     }
@@ -108,7 +115,7 @@ public class ApiManager {
     }
 
     public Transaction getTransaction() {
-        return (transaction == null) ? transaction = new Transaction(): transaction;
+        return (transaction == null) ? transaction = new Transaction() : transaction;
     }
 
     public PostApplication getPostApplication() {
@@ -141,5 +148,13 @@ public class ApiManager {
 
     public OneClickMerchantOnboarding getOneClickMerchantOnboarding() {
         return (oneClickMerchantOnboarding == null) ? oneClickMerchantOnboarding = new OneClickMerchantOnboarding() : oneClickMerchantOnboarding;
+    }
+
+    public PostPlatform postPlatform() {
+        return (postPlatform == null) ? postPlatform = new PostPlatform() : postPlatform;
+    }
+
+    public GetPlatform getPlatform() {
+        return (getPlatform == null) ? getPlatform = new GetPlatform() : getPlatform;
     }
 }

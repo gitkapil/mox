@@ -27,6 +27,8 @@ public class Constants {
     public static final String CONTENT_TYPE = "";
     public static final String PLATFORM_ID = "platformId";
     public static final String PLATFORM_NAME = "platformName";
+    public static final String PLATFORM_STATUS = "status";
+    public static final String PLATFORM_DESCRIPTION = "description";
     public static final String GRANT_URL = "grantUrl";
     public static final String PDF_URL = "pdfUrl";
     public static final String PDF_PIN = "pdfPin";
@@ -36,5 +38,5 @@ public class Constants {
     public static final String DB_PASSWORD = "d4mhT?A[nFxpY3d:";
     public static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
     public static final String DB_CONNECTION_URL = "jdbc:mysql://mysql-ci-hk-dragon-mm-db-sand.mysql.database.azure.com:3306/merchant_management?useSSL=true&requireSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-    public static String JSON_RESPONSE_IDTOKEN = null;
+
 }

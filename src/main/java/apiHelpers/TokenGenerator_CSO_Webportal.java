@@ -126,8 +126,8 @@ public class TokenGenerator_CSO_Webportal {
             if (Authorization.contains("Authorization=")) {
                 Authorizationurl = Authorization.split("=")[1];
             }
-            Constants.JSON_RESPONSE_IDTOKEN = Authorizationurl;
-            System.out.println("Authorization is " + Constants.JSON_RESPONSE_IDTOKEN);
+            /*Constants.JSON_RESPONSE_IDTOKEN = Authorizationurl;
+            System.out.println("Authorization is " + Constants.JSON_RESPONSE_IDTOKEN);*/
 
             driver.close();
             driver.quit();
