@@ -7,6 +7,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import managers.UtilManager;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
+import utils.Constants;
 import utils.EnvHelper;
 import utils.PropertyHelper;
 
@@ -186,6 +187,9 @@ public class PostPlatform extends UtilManager {
 
         response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader, requestBody);
         logger.info("********** POST Platform Response *********** ----> \n" + response.getBody().prettyPrint());
+
+        //Setting platformId
+        setPlatformId(response.path(Constants.PLATFORM_ID));
     }
 
 

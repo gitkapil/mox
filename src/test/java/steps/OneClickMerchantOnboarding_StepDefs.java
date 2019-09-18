@@ -571,4 +571,17 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
         //Validate applicationDescription is updated and not same as previous response
         Assert.assertNotEquals(applicationResponse_two.get(Constants.APPLICATION_DESCRIPTION), applicationResponse_one.get("applicationDescription"), "applicationDescription should be updated!");
     }
+
+    @And("^I make request for existing client with name as \"([^\"]*)\", peakId as \"([^\"]*)\", subUnitId as \"([^\"]*)\", organisationId as \"([^\"]*)\", description as \"([^\"]*)\" and platformId from POST Platform API$")
+    public void iMakeRequestForExistingClientWithNameAsPeakIdAsSubUnitIdAsOrganisationIdAsDescriptionAsAndPlatformIdFromPOSTPlatformAPI(String applicationName, String peakId, String subUnitId, String organisationId, String description) throws Throwable {
+        testContext.getApiManager().getOneClickMerchantOnboarding().setApplicationName(applicationName);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setPeakId(peakId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(subUnitId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setOrganisationId(organisationId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setDescription(description);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setRequestDateTime(getDateHelper().getUTCNowDateTime());
+        testContext.getApiManager().getOneClickMerchantOnboarding().setTraceId(getGeneral().generateUniqueUUID());
+        testContext.getApiManager().getOneClickMerchantOnboarding().setPlatformId(testContext.getApiManager().postPlatform().getPlatformId());
+        makeRequest();
+    }
 }

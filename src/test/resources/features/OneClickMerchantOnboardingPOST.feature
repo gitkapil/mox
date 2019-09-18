@@ -62,20 +62,22 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
   @trial
   Scenario Outline: Negative flow- Existing applicationName with different peakId, subUnitId, organisationId provided in request body returns error
     Given I am logging in as a user with correct privileges
-    When I make request for existing client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
+    And I am a POST platform authorized DRAGON user with Platform.ReadWrite.All
+    When I make request for POST platform API with "<platformName>" platformName and "<platformDescription>" platformDescription in request body
+    And I make request for existing client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId from POST Platform API
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode in response
     And error message should be "<error_message>" within the response
 
     Examples:
-      | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | description | http_status | error_description         | error_code | error_message                     |
+      | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | description | http_status | error_description         | error_code | error_message                     | platformName | platformDescription |
     #existing application name and different peakId
-      | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea211 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Application already exist | EA002      | Service Request Validation Failed |
+      | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea211 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Application already exist | EA002      | Service Request Validation Failed | validname    | INDIVIDUAL          |
     #existing application name and different subUnitId
-      | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Application already exist | EA002      | Service Request Validation Failed |
+      | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Application already exist | EA002      | Service Request Validation Failed | validname    | INDIVIDUAL          |
     #existing application name and different organisationId
-      | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Application already exist | EA002      | Service Request Validation Failed |
+      | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Application already exist | EA002      | Service Request Validation Failed | validname    | INDIVIDUAL          |
     #existing application name and different platformId
-      | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 330d40d0-93c5-4de8-8dcc-9727ec0402c9 | string      | 400         | Application already exist | EA002      | Service Request Validation Failed |
+      | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 330d40d0-93c5-4de8-8dcc-9727ec0402c9 | string      | 400         | Application already exist | EA002      | Service Request Validation Failed | validname    | INDIVIDUAL          |
 
 
   @trial

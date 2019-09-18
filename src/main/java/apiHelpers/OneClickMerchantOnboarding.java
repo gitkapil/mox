@@ -151,11 +151,7 @@ public class OneClickMerchantOnboarding extends UtilManager {
     }
 
     public void setPlatformId(String platformId) {
-        if (getApplicationName().contains("sandbox")) {
-            this.platformId = "204b82b1-46ac-4a7e-bd98-e5227af981ba";
-        } else {
-            this.platformId = platformId;
-        }
+        this.platformId = platformId;
     }
 
     public void setPdfChannel(String pdfChannel) {
