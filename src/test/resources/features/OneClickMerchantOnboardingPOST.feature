@@ -1,15 +1,11 @@
 Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
 
-  As a user
-  I want to onboard a merchant and validate the correct response is returned
-
-
   Background: Retrieving access Token
     Given I am an user
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  @trial @oneClick
+  @trial
   Scenario Outline: Positive flow - A DRAGON user with All privilege is onboarded successfully with One Click Onboarding API
     Given I am logging in as a user with correct privileges
     When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
@@ -18,68 +14,6 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
     Examples:
       | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | description |
       | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | description |
-
-
-  @trial
-  Scenario Outline: Positive flow - Validate platformId and platformName from database
-    Given I am logging in as a user with correct privileges
-    When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
-    Then I should receive a successful merchant onboarding response
-    And validate "<platformId>" and platformName from database
-    Examples:
-      | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | description |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | description |
-
-
-  @trial
-  Scenario Outline: Positive flow- Existing applicationName provided in request body returns existing details
-    Given I am logging in as a user with correct privileges
-    When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
-    Then I should receive a success "<http_status>" status response
-    And verify the response body contains all mandatory details
-    And store the response of first API hit
-    When I make request for same client with same applicationName, peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
-    Then I should receive a success "<http_status>" status response
-    And verify the response body should be returned for same client
-    Examples:
-      | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | description | http_status |
-      #existing application name and existing request body parameters
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 201         |
-
-
-  @trial
-  Scenario Outline: Positive flow- Existing applicationName with different applicationDescription provided in request body returns existing details with updated applicationDescription only
-    Given I am logging in as a user with correct privileges
-    When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
-    Then I should receive a success "<http_status>" status response
-    And verify the response body contains all mandatory details
-    And store the response of first API hit
-    When I make request for same client with same applicationName, peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>" and platformId as "<platformId>" but different description as "<description>"
-    Then I should receive a success "<http_status>" status response
-    And validate only applicationDescription is updated in response
-    Examples:
-      | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | description | http_status |
-      #existing application name and existing request body parameters
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | random      | 201         |
-
-
-  @trial
-  Scenario Outline: Negative flow- Existing applicationName with different peakId, subUnitId, organisationId provided in request body returns error
-    Given I am logging in as a user with correct privileges
-    When I make request for existing client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
-    Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode in response
-    And error message should be "<error_message>" within the response
-
-    Examples:
-      | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | description | http_status | error_description         | error_code | error_message                     |
-    #existing application name and different peakId
-      | existingname    | 2ee3e4a4-ef45-4fe2-a37d-d5fcfc6adb33 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Application already exist | EA002      | Service Request Validation Failed |
-    #existing application name and different subUnitId
-      | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Application already exist | EA002      | Service Request Validation Failed |
-    #existing application name and different organisationId
-      | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Application already exist | EA002      | Service Request Validation Failed |
-    #existing application name and different platformId
-      | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 330d40d0-93c5-4de8-8dcc-9727ec0402c9 | string      | 400         | Application already exist | EA002      | Service Request Validation Failed |
 
 
   @trial

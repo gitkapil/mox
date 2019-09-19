@@ -496,20 +496,6 @@ public class OneClickMerchantOnboarding extends UtilManager {
         logger.info("********** One Click Merchant Onboarding Request Response *********** ----> \n" + response.getBody().prettyPrint());
     }
 
-
-    public void setClientName(String clientName) {
-
-        if (clientName.equalsIgnoreCase("longname")) {
-            this.clientName = StringUtils.repeat("*", 300);
-        } else if (clientName.equalsIgnoreCase("validname")) {
-            String name = RandomStringUtils.randomAlphabetic(10);
-            String api = "sandbox";
-            this.clientName = "app-hk-dragon-" + name + "-" + api + "-client-app";
-        } else {
-            this.clientName = clientName;
-        }
-    }
-
     public void setApplicationName(String applicationName) {
         String usertype = PropertyHelper.getInstance().getPropertyCascading("usertype");
         String env = PropertyHelper.getInstance().getPropertyCascading("env");
@@ -517,19 +503,19 @@ public class OneClickMerchantOnboarding extends UtilManager {
             this.applicationName = StringUtils.repeat("*", 300);
         } else if (applicationName.equalsIgnoreCase("validname")) {
             String name = RandomStringUtils.randomAlphabetic(10);
-            this.applicationName = "app-hk-dragon-" + name + "-" + usertype + "-client-app";
+            if (usertype.equalsIgnoreCase("developer")) {
+                this.applicationName = "app-hk-dragon-" + name + "-sandbox-client-app";
+            } else {
+                this.applicationName = "app-hk-dragon-" + name + "-" + usertype + "-client-app";
+            }
         } else if (applicationName.equalsIgnoreCase("existingname")) {
-            this.applicationName = "app-hk-dragon-" + env + "-" + usertype + "-client-app";
+            if (usertype.equalsIgnoreCase("developer")) {
+                this.applicationName = "app-hk-dragon-" + env + "-sandbox-client-app";
+            } else {
+                this.applicationName = "app-hk-dragon-" + env + "-" + usertype + "-client-app";
+            }
         } else {
             this.applicationName = applicationName;
-        }
-    }
-
-    public void setGrantUrl(String grantUrl) {
-        if (grantUrl.equalsIgnoreCase("longurl")) {
-            this.grantUrl = StringUtils.repeat("*", 2000);
-        } else {
-            this.grantUrl = grantUrl;
         }
     }
 

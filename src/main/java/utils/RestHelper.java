@@ -89,7 +89,6 @@ public class RestHelper {
     }
 
 
-
     /**
      * This method GETS a request with headers
      *
@@ -158,9 +157,9 @@ public class RestHelper {
      * @param body
      * @return
      */
-    public Response postRequestWithHeaderAndBody(String url, HashMap headers, HashMap body){
-        Response response=null;
-        try{
+    public Response postRequestWithHeaderAndBody(String url, HashMap headers, HashMap body) {
+        Response response = null;
+        try {
             //config(RestAssured.config().encoderConfig(encoderConfig().encodeContentTypeAs(Constants.CONTENT_TYPE, ContentType.TEXT)))
             String jsonBody = new ObjectMapper().writeValueAsString(body);
             response = given().config(RestAssured.config().encoderConfig(encoderConfig().encodeContentTypeAs(Constants.CONTENT_TYPE, ContentType.TEXT)))
@@ -172,7 +171,7 @@ public class RestHelper {
                     .relaxedHTTPSValidation()
                     .post(url)
             ;
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             Assert.assertTrue(e.getMessage(), false);
         }
@@ -425,7 +424,6 @@ public class RestHelper {
 
         List<HashMap<String, String>> errorDetails = getJsonArray(res, "errors");
         System.out.println("errorDetails: " + errorDetails);
-        //boolean flag = false;
         int count = 0;
         String errorDesc = null;
 
@@ -433,10 +431,8 @@ public class RestHelper {
             for (int i = 0; i <= errorDetails.size() - 1; i++) {
                 errorDesc = errorDetails.get(i).get("errorDescription");
                 if (errorDesc.contains("Field error in object 'onboardingInputModel': field 'applicationName' must match \".*-(sandbox|merchant)-client-app\"; rejected value")) {
-                    // flag = true;
                     count++;
-                } else if (errorDesc.contains("Field error in object 'onboardingInputModel': field 'applicationName' size must be between 0 and 256; rejected value")) {
-                    //flag = true;
+                } else if (errorDesc.contains("Field error in object 'onboardingInputModel': field 'applicationName' size must be between 0 and 100; rejected value")) {
                     count++;
                 }
             }
@@ -497,9 +493,9 @@ public class RestHelper {
      * @param body
      * @return
      */
-    public Response putRequestWithHeaderAndBody(String url, HashMap headers, HashMap body){
-        Response response=null;
-        try{
+    public Response putRequestWithHeaderAndBody(String url, HashMap headers, HashMap body) {
+        Response response = null;
+        try {
             //config(RestAssured.config().encoderConfig(encoderConfig().encodeContentTypeAs(Constants.CONTENT_TYPE, ContentType.TEXT)))
             String jsonBody = new ObjectMapper().writeValueAsString(body);
             response = given().config(RestAssured.config().encoderConfig(encoderConfig().encodeContentTypeAs(Constants.CONTENT_TYPE, ContentType.TEXT)))
@@ -511,14 +507,13 @@ public class RestHelper {
                     .relaxedHTTPSValidation()
                     .put(url)
             ;
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             Assert.assertTrue(e.getMessage(), false);
         }
 
         return response;
     }
-
 
 
 }

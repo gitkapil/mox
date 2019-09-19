@@ -175,4 +175,10 @@ public class ManagementGetPlatformStep_Defs extends UtilManager {
         Map firstElement = arrayList.get(0);
         return firstElement;
     }
+
+    @When("^I make a GET request to the platform endpoint with platformId of created platform$")
+    public void iMakeAGETRequestToThePlatformEndpointWithPlatformIdOfCreatedPlatform() {
+        String url = getRestHelper().getBaseURI() + "platforms?platformId=" + testContext.getApiManager().postPlatform().getPlatformId();
+        testContext.getApiManager().getGetPlatform().executeGetPlatformRequest(url);
+    }
 }

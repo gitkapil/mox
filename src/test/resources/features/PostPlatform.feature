@@ -7,7 +7,7 @@ Feature: Management POST platform API - DRAG-2027
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  @trial
+  #@trial
   @regression @postPlatform
   Scenario Outline: Positive flow- POST platform with valid input request body, header and parameter values
     Given I am a POST platform authorized DRAGON user with Platform.ReadWrite.All
@@ -35,7 +35,7 @@ Feature: Management POST platform API - DRAG-2027
       | existingname | validDescription    | 400         | Service Request Validation Failed | EA009      | Platform name already exist. |
 
 
-  @trial @regression
+  #@trial @regression
   Scenario Outline: Negative flow- Invalid auth token
     Given I am a POST dragon DRAGON user with Platform.ReadWrite.All with invalid "<auth_token>"
     When I make a POST request to the post platform endpoint

@@ -2,20 +2,26 @@ package steps;
 
 import com.google.common.collect.Sets;
 import com.jayway.restassured.response.Response;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import managers.TestContext;
 import managers.UtilManager;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import utils.Constants;
 import utils.DataBaseConnector;
 
+import java.sql.Array;
+import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
 
@@ -74,27 +80,39 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
 
         //Validate application response details
         Assert.assertNotNull(applicationResponse.get(Constants.APPLICATION_ID), "applicationId cannot be null!");
+        Assert.assertNotNull(applicationResponse.get(Constants.APPLICATION_NAME), "applicationName cannot be null!");
+        Assert.assertEquals(applicationResponse.get(Constants.APPLICATION_NAME), testContext.getApiManager().getOneClickMerchantOnboarding().getApplicationName(), "applicationName should be same as provided in request body!");
+        Assert.assertNotNull(applicationResponse.get(Constants.APPLICATION_DESCRIPTION), "applicationDescription cannot be null!");
+        Assert.assertEquals(applicationResponse.get(Constants.APPLICATION_DESCRIPTION), testContext.getApiManager().getOneClickMerchantOnboarding().getDescription(), "applicationDescription should be same as provided in request body!");
         Assert.assertNotNull(applicationResponse.get(Constants.CLIENT_ID), "clientId cannot be null!");
         Assert.assertEquals(applicationResponse.get(Constants.PEAK_ID), testContext.getApiManager().getOneClickMerchantOnboarding().getPeakId(), "peakId should be same as provided in request body!");
         Assert.assertEquals(applicationResponse.get(Constants.SUB_UNIT_ID), testContext.getApiManager().getOneClickMerchantOnboarding().getSubUnitId(), "subUnitId should be same as provided in request body!");
         Assert.assertEquals(applicationResponse.get(Constants.ORGANISATION_ID), testContext.getApiManager().getOneClickMerchantOnboarding().getOrganisationId(), "organisationId should be same as provided in request body!");
         Assert.assertEquals(applicationResponse.get(Constants.PLATFORM_ID), testContext.getApiManager().getOneClickMerchantOnboarding().getPlatformId(), "platformId should be same as provided in request body!");
         Assert.assertNotNull(applicationResponse.get(Constants.PLATFORM_NAME), "platformName should not be null!");
-        Assert.assertEquals(applicationResponse.get(Constants.APPLICATION_DESCRIPTION), testContext.getApiManager().getOneClickMerchantOnboarding().getDescription(), "applicationDescription should be same as provided in request body!");
+        Assert.assertNotNull(applicationResponse.get(Constants.CREATED_AT), "Application createdAt should not be null!");
+        Assert.assertNotNull(applicationResponse.get(Constants.LAST_UPDATED_AT), "Application lastUpdatedAt should not be null!");
+
 
         //Validate signingKey response details
         Assert.assertNotNull(signingKeyResponse.get(Constants.KEY_ID), "Signing keyId cannot be null!");
+        Assert.assertNotNull(signingKeyResponse.get(Constants.KEY_NAME), "Signing keyName cannot be null!");
         Assert.assertNotNull(signingKeyResponse.get(Constants.ALG), "Signing alg cannot be null!");
         Assert.assertNotNull(signingKeyResponse.get(Constants.TYPE), "Signing type cannot be null!");
         Assert.assertNotNull(signingKeyResponse.get(Constants.SIZE), "Signing size cannot be null!");
         Assert.assertNotNull(signingKeyResponse.get(Constants.ACTIVATE_AT), "Signing activateAt cannot be null!");
         Assert.assertNotNull(signingKeyResponse.get(Constants.DEACTIVATE_AT), "Signing deactivateAt cannot be null!");
         Assert.assertNotNull(signingKeyResponse.get(Constants.ENTITY_STATUS), "Signing entityStatus cannot be null!");
+        Assert.assertNotNull(signingKeyResponse.get(Constants.CREATED_AT), "Signing createdAt cannot be null!");
+        Assert.assertNotNull(signingKeyResponse.get(Constants.LAST_UPDATED_AT), "Signing lastUpdatedAt cannot be null!");
 
         //Validate passwordMetadata response details
         Assert.assertNotNull(passwordMetadataResponse.get(Constants.KEY_ID), "passwordMetada keyId cannot be null!");
         Assert.assertNotNull(passwordMetadataResponse.get(Constants.ACTIVATE_AT), "passwordMetada activateAt cannot be null!");
         Assert.assertNotNull(passwordMetadataResponse.get(Constants.DEACTIVATE_AT), "passwordMetada deactivateAt cannot be null!");
+        Assert.assertNotNull(passwordMetadataResponse.get(Constants.ENTITY_STATUS), "passwordMetada entityStatus cannot be null!");
+        Assert.assertNotNull(passwordMetadataResponse.get(Constants.CREATED_AT), "passwordMetada createdAt cannot be null!");
+        Assert.assertNotNull(passwordMetadataResponse.get(Constants.LAST_UPDATED_AT), "passwordMetada lastUpdatedAt cannot be null!");
 
         //Validate other response body parameters
         Assert.assertNotNull(response.path(Constants.GRANT_URL), "grantUrl cannot be null!");
@@ -554,7 +572,20 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
         Assert.assertNotEquals(applicationResponse_two.get(Constants.APPLICATION_DESCRIPTION), applicationResponse_one.get("applicationDescription"), "applicationDescription should be updated!");
     }
 
-    public Response createApplicationWithOneClickApi(){
+    @And("^I make request for existing client with name as \"([^\"]*)\", peakId as \"([^\"]*)\", subUnitId as \"([^\"]*)\", organisationId as \"([^\"]*)\", description as \"([^\"]*)\" and platformId from POST Platform API$")
+    public void iMakeRequestForExistingClientWithNameAsPeakIdAsSubUnitIdAsOrganisationIdAsDescriptionAsAndPlatformIdFromPOSTPlatformAPI(String applicationName, String peakId, String subUnitId, String organisationId, String description) throws Throwable {
+        testContext.getApiManager().getOneClickMerchantOnboarding().setApplicationName(applicationName);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setPeakId(peakId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(subUnitId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setOrganisationId(organisationId);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setDescription(description);
+        testContext.getApiManager().getOneClickMerchantOnboarding().setRequestDateTime(getDateHelper().getUTCNowDateTime());
+        testContext.getApiManager().getOneClickMerchantOnboarding().setTraceId(getGeneral().generateUniqueUUID());
+        testContext.getApiManager().getOneClickMerchantOnboarding().setPlatformId(testContext.getApiManager().postPlatform().getPlatformId());
+        makeRequest();
+    }
+
+    public Response createApplicationWithOneClickApi() {
         common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getOneClickMerchantOnboarding().setAuthTokenWithBearer(token));
         testContext.getApiManager().getOneClickMerchantOnboarding().setApplicationName("validname");
         testContext.getApiManager().getOneClickMerchantOnboarding().setPeakId("859cce3f-f3da-4448-9e88-cf8450aea289");
@@ -568,5 +599,4 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
         response = testContext.getApiManager().getOneClickMerchantOnboarding().getOneClickOnboardingRequestResponse();
         return response;
     }
-
 }
