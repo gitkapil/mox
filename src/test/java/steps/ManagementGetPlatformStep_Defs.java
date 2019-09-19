@@ -18,7 +18,8 @@ import java.util.*;
 public class ManagementGetPlatformStep_Defs extends UtilManager {
     TestContext testContext;
     ManagementCommon common;
-    Response applicationResponse;
+    Response response;
+    String getPlatformURL;
     private static final Set<String> ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
     private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_platforms";
     private static final String VALID_BASE64_ENCODED_RSA_PUBLIC_KEY = "valid_base64_encoded_rsa_public_key";
@@ -29,6 +30,12 @@ public class ManagementGetPlatformStep_Defs extends UtilManager {
         common = new ManagementCommon(testContext);
     }
 
+    public void makeRequest(String url) {
+        this.getPlatformURL = url;
+        testContext.getApiManager().getGetPlatform().executeGetPlatformRequest(url);
+        //String response=testContext.getApiManager().getGetPlatform().getResponse().getBody().prettyPrint();
+        System.out.println("resp : " + testContext.getApiManager().getGetPlatform().getResponse().getBody().prettyPrint());
+    }
 
     @Given("^I am a GET platform authorized DRAGON user with Platform\\.ReadWrite\\.All$")
     public void i_am_a_GET_platform_authorized_DRAGON_user_with_Platform_ReadWrite_All() {
@@ -110,7 +117,7 @@ public class ManagementGetPlatformStep_Defs extends UtilManager {
     @Then("^the response should have a list of \"([^\"]*)\" platform$")
     public void the_response_should_have_a_list_of_platform(int numberOfResponses) {
         List<Object> list = getRestHelper().getJsonArray(testContext.getApiManager().getGetPlatform().getResponse(), Constants.ITEM);
-        Assert.assertEquals(list.size(),numberOfResponses,"no of response aren't same");
+        Assert.assertEquals(list.size(), numberOfResponses, "no of response aren't same");
     }
 
     @When("^I get a list of platform using filters to filter \"([^\"]*)\" with \"([^\"]*)\" with (\\d+) limits$")
@@ -179,6 +186,23 @@ public class ManagementGetPlatformStep_Defs extends UtilManager {
     @When("^I make a GET request to the platform endpoint with platformId of created platform$")
     public void iMakeAGETRequestToThePlatformEndpointWithPlatformIdOfCreatedPlatform() {
         String url = getRestHelper().getBaseURI() + "platforms?platformId=" + testContext.getApiManager().postPlatform().getPlatformId();
-        testContext.getApiManager().getGetPlatform().executeGetPlatformRequest(url);
+        System.out.println("get platform url: " + url);
+        makeRequest(url);
+
+
+        String responseString = testContext.getApiManager().getGetPlatform().getResponse().getBody().prettyPrint();
+        Map<String, Object> retMap = new Gson().fromJson(
+                responseString, new TypeToken<HashMap<String, Object>>() {
+                }.getType()
+        );
+        ArrayList<Map> arrayList = (ArrayList) retMap.get(Constants.ITEM);
+        Map firstElement = arrayList.get(0);
+
+        //Setting platformId, platformName, status and description for validating response with POST Platform API
+        testContext.getApiManager().getGetPlatform().setPlatformId(firstElement.get(Constants.PLATFORM_ID).toString());
+        testContext.getApiManager().getGetPlatform().setPlatformName(firstElement.get(Constants.PLATFORM_NAME).toString());
+        testContext.getApiManager().getGetPlatform().setPlatformStatus(firstElement.get(Constants.STATUS).toString());
+        testContext.getApiManager().getGetPlatform().setPlatformDescription(firstElement.get(Constants.DESCRIPTION).toString());
+
     }
 }

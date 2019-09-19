@@ -128,11 +128,6 @@ public class PostPlatformStep_Defs extends UtilManager {
     }
 
 
-    @Then("^new create platform information should be present in the platform list$")
-    public void new_create_platform_information_should_be_present_in_the_platform_list() {
-
-    }
-
     @Then("^I should receive \"([^\"]*)\" error status with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode in response$")
     public void iShouldReceiveErrorStatusWithErrorDescriptionAndErrorcodeInResponse(int responseCode, String errorDesc, String errorCode) {
         Response response = testContext.getApiManager().postPlatform().getResponse();
@@ -184,6 +179,19 @@ public class PostPlatformStep_Defs extends UtilManager {
                 testContext.getApiManager().getMerchantManagementSigningKey(),
                 Sets.newHashSet(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
                         SIG_HEADER_LIST_POST_APPLICATION).split(",")));
+
+    }
+
+    @And("^validate the response from POST Platform API is present in GET platform API$")
+    public void validateTheResponseFromPOSTPlatformAPIIsPresentInGETPlatformAPI() {
+        System.out.println(testContext.getApiManager().postPlatform().getPlatformName().toUpperCase());
+        System.out.println(testContext.getApiManager().getGetPlatform().getPlatformName());
+
+        //Validate platform response details
+        Assert.assertEquals(testContext.getApiManager().postPlatform().getPlatformId(), testContext.getApiManager().getGetPlatform().getPlatformId(), "platformId from POST Platform API response doesn't exist in GET Platform API !");
+        Assert.assertEquals(testContext.getApiManager().postPlatform().getPlatformName().toUpperCase(), testContext.getApiManager().getGetPlatform().getPlatformName(), "platformName from POST Platform API response doesn't exist in GET Platform API !");
+        Assert.assertEquals(testContext.getApiManager().postPlatform().getPlatformStatus(), testContext.getApiManager().getGetPlatform().getPlatformStatus(), "status from POST Platform API response doesn't exist in GET Platform API !");
+        Assert.assertEquals(testContext.getApiManager().postPlatform().getPlatformDescription(), testContext.getApiManager().getGetPlatform().getPlatformDescription(), "description from POST Platform API response doesn't exist in GET Platform API !");
 
     }
 }

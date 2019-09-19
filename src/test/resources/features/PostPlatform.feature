@@ -7,7 +7,7 @@ Feature: Management POST platform API - DRAG-2027
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  #@trial
+  @trial
   @regression @postPlatform
   Scenario Outline: Positive flow- POST platform with valid input request body, header and parameter values
     Given I am a POST platform authorized DRAGON user with Platform.ReadWrite.All
@@ -17,8 +17,7 @@ Feature: Management POST platform API - DRAG-2027
     Given I am a GET platform authorized DRAGON user with Platform.ReadWrite.All
     When I make a GET request to the platform endpoint with platformId of created platform
     Then I should receive a successful GET platform response
-    And validate the response from GET platform API
-    And new create platform information should be present in the platform list
+    And validate the response from POST Platform API is present in GET platform API
     Examples:
       | platformName | platformDescription |
       | validname    | INDIVIDUAL          |
@@ -79,7 +78,7 @@ Feature: Management POST platform API - DRAG-2027
       | Api-Version |
 
 
-  @trial
+  #@trial
   Scenario Outline: Negative flow- Invalid mandatory field Api-Version provided in header
     Given I am a POST platform authorized DRAGON user with Platform.ReadWrite.All
     When I provide "<platformName>" platformName and "<platformDescription>" platformDescription in request body with invalid key "<invalidValue>" for "<key>" in header

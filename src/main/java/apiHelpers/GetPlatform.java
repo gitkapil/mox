@@ -144,7 +144,7 @@ public class GetPlatform extends UtilManager {
             response = getRestHelper().getRequestWithHeaders(url,
                     returnRequestHeader("GET", new URL(url).getPath(),
                             authToken));
-            logger.info("ist of platform response ******-->  " + response.getBody().prettyPrint());
+            logger.info("List of platform response ******-->  " + response.getBody().prettyPrint());
         } catch (MalformedURLException e) {
             e.printStackTrace();
             Assert.assertTrue("Unable to get URL", false);
