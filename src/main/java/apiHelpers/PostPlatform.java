@@ -10,12 +10,10 @@ import org.junit.Assert;
 import utils.Constants;
 import utils.EnvHelper;
 import utils.PropertyHelper;
+import utils.RestHelper;
 
-import java.util.HashMap;
+import java.util.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.HashSet;
 
 public class PostPlatform extends UtilManager {
     final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(PostPlatform.class);
@@ -88,8 +86,13 @@ public class PostPlatform extends UtilManager {
         } else if (platformName.equalsIgnoreCase("validname")) {
             String name = RandomStringUtils.randomAlphabetic(10);
             this.platformName = name;
+        } else if (platformName.equalsIgnoreCase("onlyspecialcharacter")) {
+            String name = RandomStringUtils.random(10, 33, 47, false, false);
+            this.platformName = name;
         } else if (platformName.equalsIgnoreCase("existingname")) {
             this.platformName = "SHOPOHOLIC";
+        } else if (platformName.equalsIgnoreCase("space")) {
+            this.platformName = " ";
         } else {
             this.platformName = platformName;
         }
@@ -98,6 +101,8 @@ public class PostPlatform extends UtilManager {
     public void setPlatformDescription(String platformDescription) {
         if (platformDescription.equalsIgnoreCase("validDescription")) {
             this.platformDescription = RandomStringUtils.randomAlphabetic(20);
+        } else if (platformDescription.equalsIgnoreCase("longname")) {
+            this.platformDescription = StringUtils.repeat("*", 300);
         } else {
             this.platformDescription = platformDescription;
         }
@@ -167,10 +172,6 @@ public class PostPlatform extends UtilManager {
         requestHeader.put("Trace-Id", getGeneral().generateUniqueUUID());
         requestHeader.put("Request-Date-Time", getDateHelper().getUTCNowDateTime());
         requestHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
-
-        /*if (EnvHelper.getInstance().isLocalDevMode()) {
-            EnvHelper.getInstance().addMissingHeaderForLocalDevMode(requestHeader);
-        }*/
         try {
             requestHeader.put("Digest", getSignatureHelper().calculateContentDigestHeader(
                     new ObjectMapper().writeValueAsBytes(requestBody)));
@@ -183,9 +184,15 @@ public class PostPlatform extends UtilManager {
 
     public void makeRequest(String url) {
         returnPOSTPlatformRequestHeader();
-        returnPOSTPlatformRequestBody();
+        HashMap<String, Object> body = new HashMap<>();
+        if (this.getPlatformName() != null && !this.getPlatformName().equalsIgnoreCase("null")) {
+            body.put("platformName", this.getPlatformName());
+        }
+        if (this.getPlatformDescription() != null && !this.getPlatformDescription().equalsIgnoreCase("null")) {
+            body.put("description", this.getPlatformDescription());
+        }
 
-        response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader, requestBody);
+        response = getRestHelper().postRequestWithHeaderAndBody(url, returnPOSTPlatformRequestHeader(), body);
         logger.info("********** POST Platform Response *********** ----> \n" + response.getBody().prettyPrint());
 
         //Setting platformId
@@ -320,5 +327,108 @@ public class PostPlatform extends UtilManager {
         return response;
     }
 
+    /**
+     * This method hits POST Platform endpoint with null request body {}
+     *
+     * @param url
+     * @param signingKeyId
+     * @param signingAlgorithm
+     * @param signingKey
+     * @param headerElementsForSignature
+     * @return
+     */
+    public Response executeRequestNullBody(String url, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature) {
+
+        try {
+            response = getRestHelper().postRequestWithHeaderAndBody(url,
+                    returnPOSTPlatformRequestHeader(),
+                    requestBody);
+
+            logger.info("********** POST Platform Response *********** ----> " + response.getBody().asString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.assertTrue("Verification of signature failed!", false);
+
+        }
+        return response;
+    }
+
+    /**
+     * This method hits POST Platform endpoint without request body
+     *
+     * @param url
+     * @param signingKeyId
+     * @param signingAlgorithm
+     * @param signingKey
+     * @param headerElementsForSignature
+     * @return
+     */
+    public Response executeRequestWithoutBody(String url, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature) {
+
+        try {
+            response = getRestHelper().postRequestWithHeaders(url,
+                    returnPOSTPlatformRequestHeader());
+
+            logger.info("********** POST Platform Response *********** ----> " + response.getBody().asString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.assertTrue("Verification of signature failed!", false);
+
+        }
+        return response;
+    }
+
+    /**
+     * This method returns error description list within post platform API response
+     *
+     * @param res
+     * @return
+     */
+    public String getErrorDescriptions(Response res) {
+
+        List<HashMap<String, String>> errorDetails = RestHelper.getJsonArray(res, "errors");
+        System.out.println("errorDetails: " + errorDetails);
+        int count = 0;
+        String errorDesc = null;
+
+        try {
+            for (int i = 0; i <= errorDetails.size() - 1; i++) {
+                errorDesc = errorDetails.get(i).get("errorDescription");
+                if (errorDesc.equalsIgnoreCase("Field error in object 'postPlatformsInputModel': field 'platformName' must not be null; rejected value [null]")) {
+                    count++;
+                } else if (errorDesc.equalsIgnoreCase("Field error in object 'postPlatformsInputModel': field 'description' must not be null; rejected value [null]")) {
+                    count++;
+                }
+            }
+            System.out.println("count: " + count);
+            org.junit.Assert.assertTrue("Count should be 2. But actual: " + count, count == 2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return errorDesc;
+    }
+
+    /**
+     * This method returns error code list within post platform API response
+     *
+     * @param res
+     * @return
+     */
+    public String getErrorCodeList(Response res) {
+
+        List<HashMap<String, String>> errorDetails = RestHelper.getJsonArray(res, "errors");
+
+        String errorCode = null;
+
+        try {
+            for (int i = 0; i <= errorDetails.size() - 1; i++) {
+                errorCode = errorDetails.get(i).get("errorCode");
+                Assert.assertEquals("Error code should be EA002", "EA002", errorCode);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return errorCode;
+    }
 
 }
