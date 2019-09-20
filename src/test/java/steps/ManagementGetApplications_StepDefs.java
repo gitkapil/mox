@@ -1,5 +1,7 @@
 package steps;
 import com.google.common.collect.Sets;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 import com.jayway.restassured.path.json.JsonPath;
 import com.jayway.restassured.response.Response;
 import cucumber.api.java.en.And;
@@ -161,37 +163,27 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
 
     @And("^validate the item list from the response$")
     public void validateItemListFomTheResponse() {
-        List<Object> list = getRestHelper().getJsonArray(testContext.getApiManager().getGetApplication().getResponse(), Constants.ITEM);
-        list.stream().forEach(listObject -> System.out.println(listObject));
-        List<String> strings = new ArrayList<>(list.size());
-        for (Object object : list) {
-            strings.add(Objects.toString(object, null));
-        }
-        if (list.size() != 0) {
-            Assert.assertEquals(11, strings.get(0).split(",").length);
-            Assert.assertNotNull(strings.get(0).contains(Constants.APPLICATION_ID));
-            Assert.assertNotNull(strings.get(0).contains(Constants.CLIENT_ID));
-            Assert.assertNotNull(strings.get(0).contains(Constants.PEAK_ID));
-            Assert.assertNotNull(strings.get(0).contains(Constants.SUB_UNIT_ID));
-            Assert.assertNotNull(strings.get(0).contains(Constants.ORGANISATION_ID));
-            Assert.assertNotNull(strings.get(0).contains(Constants.PLATFORM_ID));
-            Assert.assertNotNull(strings.get(0).contains(Constants.PLATFORM_NAME));
-            Assert.assertNotNull(strings.get(0).contains(Constants.APPLICATION_DESCRIPTION));
-            Assert.assertNotNull(strings.get(0).contains(Constants.CREATED_AT));
-            Assert.assertNotNull(strings.get(0).contains(Constants.LAST_UPDATED_AT));
-            Assert.assertNotNull(strings.get(0).contains(Constants.APPLICATION_NAME));
-            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.CLIENT_ID), testContext.getApiManager().getPutApplication().getClientId());
-            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.PEAK_ID), testContext.getApiManager().getPutApplication().getPeakId());
-            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.SUB_UNIT_ID), testContext.getApiManager().getPutApplication().getSubUnitId());
-            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.ORGANISATION_ID), testContext.getApiManager().getPutApplication().getOrganisationId());
-            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.PLATFORM_ID), testContext.getApiManager().getPutApplication().getPlatformId());
-            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.PLATFORM_NAME), testContext.getApiManager().getPutApplication().getApplicationId());
-            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.APPLICATION_ID), testContext.getApiManager().getPutApplication().getApplicationId());
-            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.APPLICATION_DESCRIPTION), testContext.getApiManager().getPutApplication().getDescription());
-            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.CREATED_AT));
-            org.testng.Assert.assertTrue(strings.get(0).contains(Constants.LAST_UPDATED_AT), testContext.getApiManager().getPutApplication().getApplicationId());
-            Assert.assertTrue("description is not present", strings.get(0).contains(Constants.APPLICATION_DESCRIPTION));
-        } else if (list.size() == 1) {
+        String responseString = testContext.getApiManager().getGetApplication().getResponse().getBody().prettyPrint();
+        Map<String, Object> retMap = new Gson().fromJson(
+                responseString, new TypeToken<HashMap<String, Object>>() {
+                }.getType()
+        );
+        ArrayList<Map> arrayList = (ArrayList) retMap.get(Constants.ITEM);
+            Map firstItem = arrayList.get(0);
+
+        if (arrayList.size()!= 0) {
+            Assert.assertEquals(firstItem.size(),11);
+            Assert.assertNotNull(firstItem.get(Constants.APPLICATION_ID));
+            Assert.assertNotNull(firstItem.get(Constants.CLIENT_ID));
+            Assert.assertNotNull(firstItem.get(Constants.PEAK_ID));
+            Assert.assertNotNull(firstItem.get(Constants.SUB_UNIT_ID));
+            Assert.assertNotNull(firstItem.get(Constants.ORGANISATION_ID));
+            Assert.assertNotNull(firstItem.get(Constants.PLATFORM_ID));
+            Assert.assertNotNull(firstItem.get(Constants.PLATFORM_NAME));
+            Assert.assertNotNull(firstItem.get(Constants.APPLICATION_DESCRIPTION));
+            Assert.assertNotNull(firstItem.get(Constants.CREATED_AT));
+            Assert.assertNotNull(firstItem.get(Constants.LAST_UPDATED_AT));
+            Assert.assertNotNull(firstItem.get(Constants.APPLICATION_NAME));
         } else {
             Assert.assertEquals(
                     HttpStatus.SC_OK

@@ -4,6 +4,7 @@ import com.google.common.collect.Sets;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.jayway.restassured.response.Response;
+import com.mysql.cj.exceptions.ClosedOnExpiredPasswordException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -13,11 +14,13 @@ import org.apache.log4j.Logger;
 import org.testng.Assert;
 import utils.Constants;
 
+import java.sql.SQLOutput;
 import java.util.*;
 
 public class ManagementGetPlatformStep_Defs extends UtilManager {
     TestContext testContext;
     ManagementCommon common;
+    ArrayList<Map> arrayList;
     Response applicationResponse;
     private static final Set<String> ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
     private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_platforms";
@@ -42,7 +45,7 @@ public class ManagementGetPlatformStep_Defs extends UtilManager {
     }
 
     @Then("^I should receive a successful GET platform response$")
-    public void i_should_receive_a_successful_GET_platform_response() {
+    public void     i_should_receive_a_successful_GET_platform_response() {
         Assert.assertEquals(
                 200
                 , getRestHelper().getResponseStatusCode(testContext.getApiManager().getGetPlatform().getResponse()));
@@ -88,8 +91,8 @@ public class ManagementGetPlatformStep_Defs extends UtilManager {
     }
 
 
-    @When("^I get a list of platform using filter \"([^\"]*)\"$")
-    public void i_get_a_list_of_platform_using_filters_to_filter_with(String filterName) {
+    @When("^I get a list of platform \"([^\"]*)\" using filter \"([^\"]*)\"$")
+    public void i_get_a_list_of_platform_using_filters_to_filter_with(int noOfResponse, String filterName) {
         String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME);
         String filterValue = null;
         if (filterName.equalsIgnoreCase("platformId")) {
@@ -99,18 +102,70 @@ public class ManagementGetPlatformStep_Defs extends UtilManager {
         }
         url = url + "?" + filterName + "=" + filterValue;
         testContext.getApiManager().getGetPlatform().executeGetPlatformRequest(url);
+        String responseString = testContext.getApiManager().getGetPlatform().getResponse().getBody().prettyPrint();
+        Map<String, Object> retMap = new Gson().fromJson(
+                responseString, new TypeToken<HashMap<String, Object>>() {
+                }.getType()
+        );
+       arrayList = (ArrayList) retMap.get(Constants.ITEM);
+        Map firstElement = arrayList.get(0);
+        Assert.assertEquals(arrayList.size(),1,"response is not same");
+
+    }
+
+    @When("^I get a list of platform using filter \"([^\"]*)\" and filter value \"([^\"]*)\"$")
+    public void i_get_a_list_of_platform_using_filter(String filterName, String filterValue) {
+        String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME);
+        url = url + "?" + filterName + "=" + filterValue;
+        testContext.getApiManager().getGetPlatform().executeGetPlatformRequest(url);
+        String responseString = testContext.getApiManager().getGetPlatform().getResponse().getBody().prettyPrint();
+        Map<String, Object> retMap = new Gson().fromJson(
+                responseString, new TypeToken<HashMap<String, Object>>() {
+                }.getType()
+        );
+        arrayList = (ArrayList) retMap.get(Constants.ITEM);
+        if(arrayList.size()!=0) {
+            Map firstItem = arrayList.get(0);
+            Assert.assertEquals(firstItem.get(Constants.STATUS), "A", "platform is not active");
+        } else if(arrayList.size()==1){
+            Map secondItem = arrayList.get(1);
+            Assert.assertEquals(secondItem.get(Constants.STATUS), "A", "platform is not active");
+        } else if(arrayList.size()==2){
+            Map thirdItem = arrayList.get(2);
+            Assert.assertEquals(thirdItem.get(Constants.STATUS), "A", "platform is not active");
+        }else if(arrayList.size()==3){
+            Map fourthItem = arrayList.get(3);
+            Assert.assertEquals(fourthItem.get(Constants.STATUS), "A", "platform is not active");
+        }
     }
 
     @Then("^validate the all items list of platform should have active status$")
     public void validate_the_all_items_list_of_platform_should_have_active_status() {
-
+        String responseString = testContext.getApiManager().getGetPlatform().getResponse().getBody().prettyPrint();
+        Map<String, Object> retMap = new Gson().fromJson(
+                responseString, new TypeToken<HashMap<String, Object>>() {
+                }.getType()
+        );
+       arrayList = (ArrayList) retMap.get(Constants.ITEM);
+        if(arrayList.size()!=0) {
+            Map firstItem = arrayList.get(0);
+            Assert.assertEquals(firstItem.get(Constants.STATUS), "A", "platform is not active");
+        } else if(arrayList.size()==1){
+            Map secondItem = arrayList.get(1);
+            Assert.assertEquals(secondItem.get(Constants.STATUS), "A", "platform is not active");
+        } else if(arrayList.size()==2){
+            Map thirdItem = arrayList.get(2);
+            Assert.assertEquals(thirdItem.get(Constants.STATUS), "A", "platform is not active");
+        }else if(arrayList.size()==3){
+            Map fourthItem = arrayList.get(3);
+            Assert.assertEquals(fourthItem.get(Constants.STATUS), "A", "platform is not active");
+        }
     }
 
 
     @Then("^the response should have a list of \"([^\"]*)\" platform$")
     public void the_response_should_have_a_list_of_platform(int numberOfResponses) {
-        List<Object> list = getRestHelper().getJsonArray(testContext.getApiManager().getGetPlatform().getResponse(), Constants.ITEM);
-        Assert.assertEquals(list.size(),numberOfResponses,"no of response aren't same");
+
     }
 
     @When("^I get a list of platform using filters to filter \"([^\"]*)\" with \"([^\"]*)\" with (\\d+) limits$")

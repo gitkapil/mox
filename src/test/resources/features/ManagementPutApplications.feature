@@ -1,3 +1,4 @@
+@putApplication
 Feature: Management Put Applications API - DRAG-1446
   As a user
   I want update the application information and validate returned response is correct
@@ -7,10 +8,10 @@ Feature: Management Put Applications API - DRAG-1446
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  # For the parametres where values are missing within the table, while creating request, the parameter will not be included at all as a a part of the payload
+  # For the parameters where values are missing within the table, while creating request, the parameter will not be included at all as a a part of the payload
   
   # @trial
-  @regression @merchantManagement @merchantManagementPut
+  @regression
   Scenario Outline: Positive flow- A DRAGON user with Application.ReadWrite.All is able to update an existing application
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     And I have updated the "<description>" and platformId values
@@ -22,7 +23,7 @@ Feature: Management Put Applications API - DRAG-1446
       | description |
 
     #trial
-  @regression @merchantManagement @merchantManagementPut
+  @regression
   Scenario Outline: Positive flow- Put application and verify the application info using get application
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     And I have updated the "<description>" and platformId values
@@ -40,7 +41,7 @@ Feature: Management Put Applications API - DRAG-1446
 
 
 #   @trial
-  @regression @merchantManagement @merchantManagementPut
+  @regression
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     And I have updated the "<description>" and platformId values
@@ -55,7 +56,7 @@ Feature: Management Put Applications API - DRAG-1446
       | testingDescription | Content type 'text/plain;charset=ISO-8859-1' not supported     | Service Request Validation Failed | Content-Type  | EA002      | 415         |
 
   #@trial
-  @regression @merchantManagement @merchantManagementPut
+  @regression
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     When I make a PUT request to the application endpoint with "<key>" missing in the header
@@ -65,7 +66,7 @@ Feature: Management Put Applications API - DRAG-1446
       | Api-Version |
 
    #@trial
-  @regression @merchantManagement @merchantManagementPut
+  @regression
   Scenario Outline: Negative flow- Invalid auth token
     Given I am a PUT application DRAGON user with Application.ReadWrite.All with invalid "<auth_token>"
     When I make a PUT request to the application endpoint
@@ -84,7 +85,7 @@ Feature: Management Put Applications API - DRAG-1446
 
 
    #@trial
-  @regression @merchantManagement @merchantManagementPut
+  @regression
   Scenario Outline: Negative flow- Mandatory fields from the body missing
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     And I have updated the "<description>" and platformId values
@@ -99,7 +100,7 @@ Feature: Management Put Applications API - DRAG-1446
 
 
        #@trial
-  @regression @merchantManagement @merchantManagementPut
+  @regression
   Scenario Outline: Negative flow- Put application with no body
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     When I make a PUT request to the application endpoint
@@ -111,7 +112,7 @@ Feature: Management Put Applications API - DRAG-1446
 
 
     #@trial
-  @regression @merchantManagement @merchantManagementPut
+  @regression
   Scenario Outline: Negative flow- Mandatory fields from the invalid body
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     When I make a PUT request to the application endpoint with invalid platformId "<platformId>" value and description "<description>"
@@ -124,7 +125,7 @@ Feature: Management Put Applications API - DRAG-1446
 
 
      #@trial
-  @regression @merchantManagement @merchantManagementPut
+  @regression
   Scenario Outline: Negative flow- Put application request with no body
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     When I make a PUT request to the application endpoint with no body
@@ -136,7 +137,7 @@ Feature: Management Put Applications API - DRAG-1446
 
 
      #@trial
-  @regression @merchantManagement @merchantManagementPut
+  @regression
   Scenario Outline: Negative flow - Put application with invalid Application id
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     And I have updated the "<description>" and platformId values

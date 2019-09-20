@@ -8,22 +8,20 @@ Feature: Management GET platform API - DRAG-
     Then I receive an access_token
 
   # @trial
-  @regression @merchantManagement @merchantManagementPut @newPlat
+  @regression @merchantManagement @merchantManagementPut
   Scenario: Positive flow- A DRAGON user with platform.ReadWrite.All is able to update an existing application
     Given I am a GET platform authorized DRAGON user with Platform.ReadWrite.All
     When I make a GET request to the platform endpoint
     Then I should receive a successful GET platform response
 
-
   #trial
   @regression
-    @regression @merchantManagement @merchantManagementPut @newPlat
+    @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Positive flow - Get a list of platform using platform name, platform id
     Given I am a GET platform authorized DRAGON user with Platform.ReadWrite.All
-    When I get a list of platform using filter "<filterName>"
+    When I get a list of platform "<numberOfResponses>" using filter "<filterName>"
     Then I should receive a successful GET platform response
-    And the response should have a list of "<numberOfResponses>" platform
-    And validate the response from GET platform API
+
     Examples:
       | filterName   | numberOfResponses |
       | platformId   | 1                 |
@@ -31,16 +29,16 @@ Feature: Management GET platform API - DRAG-
 
 
   #trial
-  @regression @merchantManagement @merchantManagementPut
+  @regression @merchantManagement @merchantManagementPut @newPlat
   Scenario Outline: Positive flow - Get a list of platform using platform status
     Given I am a GET platform authorized DRAGON user with Platform.ReadWrite.All
-    When I get a list of platform using filters to filter "<filterName>" with "<filterValue>"
+    When I make a GET request to the platform endpoint
+    When I get a list of platform using filter "<filterName>" and filter value "<filterValue>"
     Then I should receive a successful GET platform response
-    And the response should have a list of "<numberOfResponses>" platform
     And validate the all items list of platform should have active status
     Examples:
-      | filterName     | filterValue                          | numberOfResponses |
-      | platformStatus | 00000002-0000-0000-c000-000000000001 | 2                 |
+      | filterName     | filterValue |
+      | status |  A          |
 
   #trial
   @regression @merchantManagement @merchantManagementGet

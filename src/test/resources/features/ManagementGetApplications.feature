@@ -8,7 +8,7 @@ Feature: Merchant Management API - GET /applications
     Then I receive an access_token
 
   #@trial
-  @regression @merchantManagement @merchantManagementGet
+  @regression
   Scenario Outline: Positive flow - Get a list of applications
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of applications without any filters
@@ -20,7 +20,7 @@ Feature: Merchant Management API - GET /applications
       | 20                |
 
   #@trial
-  @regression @merchantManagement @merchantManagementGet
+  @regression
   Scenario Outline: Positive flow - Get a list of application using filters 1
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of applications using filters to filter "<filterName>"
@@ -35,7 +35,7 @@ Feature: Merchant Management API - GET /applications
       | platformName | 20                |
 
   #@trial
-  @regression @merchantManagement @merchantManagementGet
+  @regression
   Scenario Outline: Positive flow - Get  the application using filters platformId
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I create new application
@@ -49,7 +49,7 @@ Feature: Merchant Management API - GET /applications
 
 
   #@trial
-  @regression @merchantManagement @merchantManagementGet @getOne
+  @regression
   Scenario: Negative flow - Get a list of application with two filter using invalid peakId and clientId
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of application using multiple filters
@@ -57,14 +57,14 @@ Feature: Merchant Management API - GET /applications
 
 
   #@trial
-  @regression @merchantManagement @merchantManagementGet
+  @regression
   Scenario: Negative flow - Get a list of application using multi filters 1
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of application using multiple filters with correct uuids
     Then I should receive a successful response
 
   #@trial
-  @regression @merchantManagement @merchantManagementGet
+  @regression
   Scenario Outline: Positive flow - Get a list of application using paging and limits
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of applications using filters to filter "<filterName>" with <limit> limits
@@ -86,7 +86,7 @@ Feature: Merchant Management API - GET /applications
       | clientId   | 30    | 1                 | 1                  | 0                 | 0              | 1                     |
 
   #@trial
-  @regression @negativeFlow
+  @regression
   Scenario Outline: Negative flow - Get a list of application using null header values
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of applications using filters to filter "<filterName>" and "<nullHeaderValue>" values
@@ -100,7 +100,7 @@ Feature: Merchant Management API - GET /applications
 
 
   #@trial
-  @regression @negativeFlow
+  @regression
   Scenario Outline: Negative flow- Api version Field is missing from the header
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     And I make a get request to the application endpoint with "<missingApiVersion>" missing in the header

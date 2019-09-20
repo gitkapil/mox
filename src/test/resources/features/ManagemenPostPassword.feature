@@ -1,3 +1,4 @@
+@run
 Feature: Merchant Management AAD Password - DRAG-1481
          As a user
          I want to create new password metadata and validate the details are correct
