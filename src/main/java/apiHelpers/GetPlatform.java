@@ -8,6 +8,7 @@ import utils.PropertyHelper;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class GetPlatform extends UtilManager {
     private String authToken;
@@ -174,5 +175,9 @@ public class GetPlatform extends UtilManager {
             e.printStackTrace();
             Assert.assertTrue("Unable to get URL", false);
         }
+    }
+
+    public void setAuthTokenWithoutBearer(String authToken) {
+        this.authToken =authToken;
     }
 }

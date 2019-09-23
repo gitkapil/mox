@@ -80,24 +80,24 @@ public class ManagementGetPlatformStep_Defs extends UtilManager {
 
     @Then("^I should receive a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" error code within the GET platform response$")
     public void i_should_receive_a_error_response_with_error_description_and_error_code_within_the_GET_platform_response(String responseCode, String errorDesc, String errorCode) {
-        Response response = testContext.getApiManager().getGetPassword().getResponse();
-        org.testng.Assert.assertEquals(getRestHelper().getResponseStatusCode(response), responseCode, "Different response code being returned");
+        Response response = testContext.getApiManager().getGetPlatform().getResponse();
+        Assert.assertEquals(getRestHelper().getResponseStatusCode(response), Integer.parseInt(responseCode), "Different response code being returned");
         if (getRestHelper().getErrorDescription(response) != null) {
             if (getRestHelper().getErrorDescription(response).contains("'")) {
             }
-            org.testng.Assert.assertTrue(
+            Assert.assertTrue(
                     getRestHelper().getErrorDescription(response)
                             .replace("\"", "")
                             .contains(errorDesc),
                     "Different error description being returned..Expected: " + errorDesc + "Actual: " + getRestHelper().getErrorDescription(response));
         }
-        org.testng.Assert.assertEquals(getRestHelper().getErrorCode(response), errorCode, "Different error code being returned");
+        Assert.assertEquals(getRestHelper().getErrorCode(response), errorCode, "Different error code being returned");
     }
 
 
     @Then("^error message should be \"([^\"]*)\" within the GET platform response$")
     public void error_message_should_be_within_the_GET_platform_response(String errorMessage) {
-        Response response = testContext.getApiManager().getGetPassword().getResponse();
+        Response response = testContext.getApiManager().getGetPlatform().getResponse();
         org.testng.Assert.assertTrue(
                 getRestHelper().getErrorMessage(response).contains(errorMessage),
                 "Different error message being returned..Expected: " + errorMessage + " Actual: " +
@@ -114,8 +114,8 @@ public class ManagementGetPlatformStep_Defs extends UtilManager {
 
 
     @Given("^I am a GET dragon DRAGON user with Platform\\.ReadWrite\\.All with invalid \"([^\"]*)\"$")
-    public void i_am_a_GET_dragon_DRAGON_user_with_Platform_ReadWrite_All_with_invalid(String arg1) {
-
+    public void i_am_a_GET_dragon_DRAGON_user_with_Platform_ReadWrite_All_with_invalid(String token) {
+        common.iAmADragonUserWithToken(token, tokenArg -> testContext.getApiManager().getGetPlatform().setAuthTokenWithoutBearer(tokenArg));
     }
 
 

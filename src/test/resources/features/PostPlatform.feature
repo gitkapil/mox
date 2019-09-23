@@ -8,7 +8,7 @@ Feature: Management POST platform API - DRAG-2027
     Then I receive an access_token
 
   @trial
-  @regression @postPlatform
+  @regression
   Scenario Outline: Positive flow- POST platform with valid input request body, header and parameter values
     Given I am a POST platform authorized DRAGON user with Platform.ReadWrite.All
     When I make request for POST platform API with "<platformName>" platformName and "<platformDescription>" platformDescription in request body
@@ -25,7 +25,7 @@ Feature: Management POST platform API - DRAG-2027
     #platformName is free text; can be anything
 
 
-  @trial @regression
+  @trial @regression @postPlat
   Scenario Outline: Negative flow- Invalid auth token
     Given I am a POST dragon DRAGON user with Platform.ReadWrite.All with invalid "<auth_token>"
     When I make a POST request to the post platform endpoint

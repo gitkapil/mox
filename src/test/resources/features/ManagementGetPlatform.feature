@@ -1,3 +1,4 @@
+@getPlat
 Feature: Management GET platform API - DRAG-
   As a platform user
   i want retrieve existing platform information using GET platform
@@ -41,30 +42,29 @@ Feature: Management GET platform API - DRAG-
       | status     | A           |
 
   #trial
-  @regression @merchantManagement @merchantManagementPut @newPlat
+  @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow- POST Platform with missing mandatory header values
     Given I am a GET platform authorized DRAGON user with Platform.ReadWrite.All
     When I make a GET request to the Platform endpoint with "<key>" missing in the header
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" error code within the GET platform response
     And error message should be "<error_message>" within the GET platform response
     Examples:
-      | error_description                                                     | error_message                     | key               | error_code | http_status |
-      | Error validating JWT                                                  | API Gateway Authentication Failed | Authorization     | EA001      | 401         |
-      | Header Trace-Id was not found in the request. Access denied.          | API Gateway Validation Failed     | Trace-Id          | EA002      | 400         |
-      | Header Accept does not contain required value.  Access denied.        | Request Header Not Acceptable     | Accept            | EA008      | 406         |
-      | Content type 'text/plain;charset=ISO-8859-1' not supported            | Service Request Validation Failed | Content-Type      | EA002      | 415         |
+      | error_description                                              | error_message                     | key           | error_code | http_status |
+      | Error validating JWT                                           | API Gateway Authentication Failed | Authorization | EA001      | 401         |
+      | Header Trace-Id was not found in the request. Access denied.   | API Gateway Validation Failed     | Trace-Id      | EA002      | 400         |
+      | Header Accept does not contain required value.  Access denied. | Request Header Not Acceptable     | Accept        | EA008      | 406         |
+      | Content type '' not supported     | Service Request Validation Failed | Content-Type  | EA002      | 415         |
 
 
   #@trial
   @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Negative flow- Mandatory fields Api-Version not sent in the header
     Given I am a GET platform authorized DRAGON user with Platform.ReadWrite.All
-    When I make a GET request to the platform endpoint with "<key>" missing in the header
+    When I make a GET request to the Platform endpoint with "<key>" missing in the header
     And error message should be "Resource not found" within the GET platform response
     Examples:
       | key         |
       | Api-Version |
-
 
   #@trial
   @regression @merchantManagement @merchantManagementPut
