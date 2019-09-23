@@ -19,9 +19,8 @@ Feature: Management POST platform API - DRAG-2027
     Then I should receive a successful GET platform response
     And validate the response from POST Platform API is present in GET platform API
     Examples:
-      | platformName         | platformDescription |
-#      | validname            | INDIVIDUAL          |
-      | onlyspecialcharacter | validDescription    |
+      | platformName | platformDescription |
+      | validname    | INDIVIDUAL          |
     #platformName is free text; can be anything
 
 
@@ -129,10 +128,10 @@ Feature: Management POST platform API - DRAG-2027
     Then I should receive "<http_status>" error status with "<error_description>" error description and "<error_code>" errorcode in response
     And error message should be "<error_message>" in the response
     Examples:
-      | platformName | platformDescription | http_status | error_description | error_code | error_message                     |
-      | longname     | validDescription    | 400         | bug raised        | EA009      | Service Request Validation Failed |
-      | space        | validDescription    | 400         | bug raised        | EA009      | Service Request Validation Failed |
-      | validname    | longname            | 400         | bug raised        | EA009      | Service Request Validation Failed |
+      | platformName | platformDescription | http_status | error_description                                                                                                    | error_code | error_message                     |
+      | longname     | validDescription    | 400         | Field error in object 'postPlatformsInputModel': field 'platformName' size must be between 0 and 100; rejected value | EA002      | Service Request Validation Failed |
+      | space        | validDescription    | 400         | Platform Name not provided                                                                                           | EA009      | Service Request Validation Failed |
+      | validname    | longname            | 400         | Field error in object 'postPlatformsInputModel': field 'description' size must be between 0 and 256; rejected value  | EA002      | Service Request Validation Failed |
 
 
   @trial @regression
@@ -144,6 +143,3 @@ Feature: Management POST platform API - DRAG-2027
     Examples:
       | platformName | platformDescription | http_status | error_message                     | error_code | error_description            |
       | existingname | validDescription    | 400         | Service Request Validation Failed | EA009      | Platform name already exist. |
-
-
-
