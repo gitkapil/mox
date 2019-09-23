@@ -22,6 +22,8 @@ public class ManagementGetPlatformStep_Defs extends UtilManager {
     ManagementCommon common;
     ArrayList<Map> arrayList;
     Response applicationResponse;
+    Response response;
+    String getPlatformURL;
     private static final Set<String> ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
     private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_platforms";
     private static final String VALID_BASE64_ENCODED_RSA_PUBLIC_KEY = "valid_base64_encoded_rsa_public_key";
@@ -32,6 +34,12 @@ public class ManagementGetPlatformStep_Defs extends UtilManager {
         common = new ManagementCommon(testContext);
     }
 
+    public void makeRequest(String url) {
+        this.getPlatformURL = url;
+        testContext.getApiManager().getGetPlatform().executeGetPlatformRequest(url);
+        //String response=testContext.getApiManager().getGetPlatform().getResponse().getBody().prettyPrint();
+        System.out.println("resp : " + testContext.getApiManager().getGetPlatform().getResponse().getBody().prettyPrint());
+    }
 
     @Given("^I am a GET platform authorized DRAGON user with Platform\\.ReadWrite\\.All$")
     public void i_am_a_GET_platform_authorized_DRAGON_user_with_Platform_ReadWrite_All() {
@@ -65,17 +73,37 @@ public class ManagementGetPlatformStep_Defs extends UtilManager {
     }
 
     @When("^I make a GET request to the Platform endpoint with \"([^\"]*)\" missing in the header$")
-    public void i_make_a_GET_request_to_the_Platform_endpoint_with_missing_in_the_header(String arg1) {
-
+    public void i_make_a_GET_request_to_the_Platform_endpoint_with_missing_in_the_header(String keys) {
+        String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME);
+        testContext.getApiManager().getGetPlatform().makeRequestWithMissingHeader(url, keys);
     }
 
     @Then("^I should receive a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" error code within the GET platform response$")
-    public void i_should_receive_a_error_response_with_error_description_and_error_code_within_the_GET_platform_response(String arg1, String arg2, String arg3) {
-
+    public void i_should_receive_a_error_response_with_error_description_and_error_code_within_the_GET_platform_response(String responseCode, String errorDesc, String errorCode) {
+        Response response = testContext.getApiManager().getGetPassword().getResponse();
+        org.testng.Assert.assertEquals(getRestHelper().getResponseStatusCode(response), responseCode, "Different response code being returned");
+        if (getRestHelper().getErrorDescription(response) != null) {
+            if (getRestHelper().getErrorDescription(response).contains("'")) {
+            }
+            org.testng.Assert.assertTrue(
+                    getRestHelper().getErrorDescription(response)
+                            .replace("\"", "")
+                            .contains(errorDesc),
+                    "Different error description being returned..Expected: " + errorDesc + "Actual: " + getRestHelper().getErrorDescription(response));
+        }
+        org.testng.Assert.assertEquals(getRestHelper().getErrorCode(response), errorCode, "Different error code being returned");
     }
 
+
     @Then("^error message should be \"([^\"]*)\" within the GET platform response$")
-    public void error_message_should_be_within_the_GET_platform_response(String arg1) {
+    public void error_message_should_be_within_the_GET_platform_response(String errorMessage) {
+        Response response = testContext.getApiManager().getGetPassword().getResponse();
+        org.testng.Assert.assertTrue(
+                getRestHelper().getErrorMessage(response).contains(errorMessage),
+                "Different error message being returned..Expected: " + errorMessage + " Actual: " +
+                        getRestHelper().getErrorMessage(response));
+
+
 
     }
 
@@ -165,6 +193,8 @@ public class ManagementGetPlatformStep_Defs extends UtilManager {
 
     @Then("^the response should have a list of \"([^\"]*)\" platform$")
     public void the_response_should_have_a_list_of_platform(int numberOfResponses) {
+        List<Object> list = getRestHelper().getJsonArray(testContext.getApiManager().getGetPlatform().getResponse(), Constants.ITEM);
+        Assert.assertEquals(list.size(), numberOfResponses, "no of response aren't same");
 
     }
 
@@ -234,6 +264,23 @@ public class ManagementGetPlatformStep_Defs extends UtilManager {
     @When("^I make a GET request to the platform endpoint with platformId of created platform$")
     public void iMakeAGETRequestToThePlatformEndpointWithPlatformIdOfCreatedPlatform() {
         String url = getRestHelper().getBaseURI() + "platforms?platformId=" + testContext.getApiManager().postPlatform().getPlatformId();
-        testContext.getApiManager().getGetPlatform().executeGetPlatformRequest(url);
+        System.out.println("get platform url: " + url);
+        makeRequest(url);
+
+
+        String responseString = testContext.getApiManager().getGetPlatform().getResponse().getBody().prettyPrint();
+        Map<String, Object> retMap = new Gson().fromJson(
+                responseString, new TypeToken<HashMap<String, Object>>() {
+                }.getType()
+        );
+        ArrayList<Map> arrayList = (ArrayList) retMap.get(Constants.ITEM);
+        Map firstElement = arrayList.get(0);
+
+        //Setting platformId, platformName, status and description for validating response with POST Platform API
+        testContext.getApiManager().getGetPlatform().setPlatformId(firstElement.get(Constants.PLATFORM_ID).toString());
+        testContext.getApiManager().getGetPlatform().setPlatformName(firstElement.get(Constants.PLATFORM_NAME).toString());
+        testContext.getApiManager().getGetPlatform().setPlatformStatus(firstElement.get(Constants.STATUS).toString());
+        testContext.getApiManager().getGetPlatform().setPlatformDescription(firstElement.get(Constants.DESCRIPTION).toString());
+
     }
 }

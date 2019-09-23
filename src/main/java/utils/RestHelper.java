@@ -162,11 +162,12 @@ public class RestHelper {
         try {
             //config(RestAssured.config().encoderConfig(encoderConfig().encodeContentTypeAs(Constants.CONTENT_TYPE, ContentType.TEXT)))
             String jsonBody = new ObjectMapper().writeValueAsString(body);
-            response = given().config(RestAssured.config().encoderConfig(encoderConfig().encodeContentTypeAs(Constants.CONTENT_TYPE, ContentType.TEXT)))
+            response = given()
                     .log()
                     .all()
                     .headers(headers)
                     .body(body)
+                    .config(RestAssured.config().encoderConfig(encoderConfig().encodeContentTypeAs(Constants.CONTENT_TYPE, ContentType.JSON)))
                     .when()
                     .relaxedHTTPSValidation()
                     .post(url)
@@ -286,7 +287,7 @@ public class RestHelper {
      * @param key
      * @return
      */
-    public List getJsonArray(Response res, String key) {
+    public static List getJsonArray(Response res, String key) {
         List<HashMap<String, String>> list = null;
         try {
             list = res.jsonPath().getList(key);

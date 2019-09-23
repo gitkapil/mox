@@ -14,8 +14,10 @@ import org.apache.log4j.Logger;
 import org.testng.Assert;
 import utils.Constants;
 import utils.DataBaseConnector;
+import utils.RestHelper;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -89,16 +91,6 @@ public class PostPlatformStep_Defs extends UtilManager {
     }
 
 
-    @Given("^I have set \"([^\"]*)\", \"([^\"]*)\" for post platform with missing body \"([^\"]*)\" value$")
-    public void i_have_set_for_post_platform_with_missing_body_value(String arg1, String arg2, String arg3) {
-
-    }
-
-    @Then("^I should receive a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within the POST platform response$")
-    public void i_should_receive_a_error_response_with_error_description_and_errorcode_within_the_POST_platform_response(String arg1, String arg2, String arg3) {
-
-    }
-
     @When("^I make a POST request to the Platform endpoint with \"([^\"]*)\" missing in the header$")
     public void i_make_a_POST_request_to_the_Platform_endpoint_with_missing_in_the_header(String key) {
         testContext.getApiManager().postPlatform().executeRequestWithMissingHeaderKeys(getRestHelper().getBaseURI() + "platforms", key, testContext.getApiManager().getMerchantManagementSigningKeyId(),
@@ -123,15 +115,10 @@ public class PostPlatformStep_Defs extends UtilManager {
     }
 
     @Given("^I am a POST dragon DRAGON user with Platform\\.ReadWrite\\.All with invalid \"([^\"]*)\"$")
-    public void i_am_a_POST_dragon_DRAGON_user_with_Platform_ReadWrite_All_with_invalid(String arg1) {
-
+    public void i_am_a_POST_dragon_DRAGON_user_with_Platform_ReadWrite_All_with_invalid(String token) {
+        common.iAmADragonUserWithToken(token, tokenArg -> testContext.getApiManager().postPlatform().setAuthToken(tokenArg));
     }
 
-
-    @Then("^new create platform information should be present in the platform list$")
-    public void new_create_platform_information_should_be_present_in_the_platform_list() {
-
-    }
 
     @Then("^I should receive \"([^\"]*)\" error status with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode in response$")
     public void iShouldReceiveErrorStatusWithErrorDescriptionAndErrorcodeInResponse(int responseCode, String errorDesc, String errorCode) {
@@ -167,7 +154,6 @@ public class PostPlatformStep_Defs extends UtilManager {
     public void iProvidePlatformNameAndPlatformDescriptionInRequestBodyWithInvalidKeyForInHeader(String platformName, String platformDescription, String invalidValue, String key) throws Throwable {
         testContext.getApiManager().postPlatform().setPlatformName(platformName);
         testContext.getApiManager().postPlatform().setPlatformDescription(platformDescription);
-        testContext.getApiManager().postPlatform().setRequestDateTime(getDateHelper().getUTCNowDateTime());
         testContext.getApiManager().postPlatform().setTraceId(getGeneral().generateUniqueUUID());
 
         makeInvalidRequest(key, invalidValue);
@@ -185,6 +171,112 @@ public class PostPlatformStep_Defs extends UtilManager {
                 Sets.newHashSet(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
                         SIG_HEADER_LIST_POST_APPLICATION).split(",")));
 
+    }
+
+    @And("^validate the response from POST Platform API is present in GET platform API$")
+    public void validateTheResponseFromPOSTPlatformAPIIsPresentInGETPlatformAPI() {
+        System.out.println(testContext.getApiManager().postPlatform().getPlatformName().toUpperCase());
+        System.out.println(testContext.getApiManager().getGetPlatform().getPlatformName());
+
+        //Validate platform response details
+        Assert.assertEquals(testContext.getApiManager().postPlatform().getPlatformId(), testContext.getApiManager().getGetPlatform().getPlatformId(), "platformId from POST Platform API response doesn't exist in GET Platform API !");
+        Assert.assertEquals(testContext.getApiManager().postPlatform().getPlatformName().toUpperCase(), testContext.getApiManager().getGetPlatform().getPlatformName(), "platformName from POST Platform API response doesn't exist in GET Platform API !");
+        Assert.assertEquals(testContext.getApiManager().postPlatform().getPlatformStatus(), testContext.getApiManager().getGetPlatform().getPlatformStatus(), "status from POST Platform API response doesn't exist in GET Platform API !");
+        Assert.assertEquals(testContext.getApiManager().postPlatform().getPlatformDescription(), testContext.getApiManager().getGetPlatform().getPlatformDescription(), "description from POST Platform API response doesn't exist in GET Platform API !");
+
+    }
+
+    @Then("^I should receive a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" error code within the POST platform response$")
+    public void iShouldReceiveAErrorResponseWithErrorDescriptionAndErrorCodeWithinThePOSTPlatformResponse(int responseCode, String errorDesc, String errorCode) throws Throwable {
+        Response response = testContext.getApiManager().postPlatform().getResponse();
+
+        Assert.assertEquals(getRestHelper().getResponseStatusCode(response), responseCode, "Expected Response Code: " + responseCode + "Actual: " + response.getStatusCode());
+
+        if (getRestHelper().getErrorDescription(response) != null) {
+            if (getRestHelper().getErrorDescription(response).contains("'")) {
+                System.out.println("here : " + getRestHelper().getErrorDescription(response));
+                System.out.println("there: " + errorDesc);
+            }
+            Assert.assertTrue(
+                    getRestHelper().getErrorDescription(response)
+                            .replace("\"", "")
+                            .contains(errorDesc),
+                    "Different error description being returned..Expected: " + errorDesc + "Actual: " + getRestHelper().getErrorDescription(response));
+        }
+        Assert.assertEquals(getRestHelper().getErrorCode(response), errorCode, "Different error code being returned");
+    }
+
+    @When("^I make request to post platform endpoint with null request body$")
+    public void iMakeRequestToPostPlatformEndpointWithNullRequestBody() {
+        logger.info("********** Executing POST Platform Request ***********");
+
+        testContext.getApiManager().postPlatform().executeRequestNullBody(
+                getRestHelper().getBaseURI() + "platforms",
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                testContext.getApiManager().getMerchantManagementSigningKey(),
+                Sets.newHashSet(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
+                        SIG_HEADER_LIST_POST_APPLICATION).split(",")));
+    }
+
+    @Then("^I should receive \"([^\"]*)\" http code with \"([^\"]*)\" error message$")
+    public void iShouldReceiveHttpCodeWithErrorMessage(int responseCode, String message) throws Throwable {
+        Response response = testContext.getApiManager().postPlatform().getResponse();
+        Assert.assertEquals(response.getStatusCode(), responseCode, "Response code returned " + response.getStatusCode() + "\n Expected: " + responseCode);
+        Assert.assertEquals(getRestHelper().getErrorMessage(response), message, "Error message returned " + getRestHelper().getErrorMessage(response) + "\n Expected: " + message);
+    }
+
+    @And("^Validate errorCode and errorDescription within platform response$")
+    public void validateErrorCodeAndErrorDescriptionWithinPlatformResponse() {
+        Response response = testContext.getApiManager().postPlatform().getResponse();
+
+        //Assertion for getErrorDescriptions
+        testContext.getApiManager().postPlatform().getErrorDescriptions(response);
+
+        //Assertion for getErrorCodeList
+        testContext.getApiManager().postPlatform().getErrorCodeList(response);
+    }
+
+    @When("^I make request to post platform endpoint without request body$")
+    public void iMakeRequestToPostPlatformEndpointWithoutRequestBody() {
+        logger.info("********** Executing POST Platform Request without Body ***********");
+
+        testContext.getApiManager().postPlatform().executeRequestWithoutBody(
+                getRestHelper().getBaseURI() + "platforms",
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                testContext.getApiManager().getMerchantManagementSigningKey(),
+                Sets.newHashSet(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,
+                        SIG_HEADER_LIST_POST_APPLICATION).split(",")));
+    }
+
+    @Then("^I should receive a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within platform response$")
+    public void iShouldReceiveAErrorResponseWithErrorDescriptionAndErrorcodeWithinPlatformResponse(int responseCode, String errorDesc, String errorCode) throws Throwable {
+        Response response = testContext.getApiManager().postPlatform().getResponse();
+
+        Assert.assertEquals(getRestHelper().getResponseStatusCode(response), responseCode, "Expected Response Code: " + responseCode + "Actual: " + response.getStatusCode());
+
+        if (getRestHelper().getErrorDescription(response) != null) {
+            if (getRestHelper().getErrorDescription(response).contains("'")) {
+                System.out.println("here : " + getRestHelper().getErrorDescription(response));
+                System.out.println("there: " + errorDesc);
+            }
+            Assert.assertTrue(
+                    getRestHelper().getErrorDescription(response)
+                            .replace("\"", "")
+                            .contains(errorDesc),
+                    "Different error description being returned..Expected: " + errorDesc + "Actual: " + getRestHelper().getErrorDescription(response));
+        }
+        Assert.assertEquals(getRestHelper().getErrorCode(response), errorCode, "Different error code being returned");
+    }
+
+    @And("^error message should be \"([^\"]*)\" within platform response$")
+    public void errorMessageShouldBeWithinPlatformResponse(String errorMessage) {
+        Response response = testContext.getApiManager().postPlatform().getResponse();
+        Assert.assertTrue(
+                getRestHelper().getErrorMessage(response).contains(errorMessage),
+                "Different error message being returned..Expected: " + errorMessage + " Actual: " +
+                        getRestHelper().getErrorMessage(response));
     }
 }
 

@@ -139,12 +139,37 @@ public class GetPlatform extends UtilManager {
 
     }
 
+    private HashMap<String, String> returnRequestHeaderWithMissingHeaderKey(String method, String url, String authToken, String keys) {
+        requestHeader.put("Accept", "application/json");
+        requestHeader.put("Content-Type", "application/json");
+        requestHeader.put("Authorization", authToken);
+        requestHeader.put("Trace-Id", getGeneral().generateUniqueUUID());
+        requestHeader.put("Accept-Language", "en-US");
+        requestHeader.put("Request-Date-Time", getDateHelper().getUTCNowDateTime());
+        requestHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
+        requestHeader.remove(keys);
+        return requestHeader;
+
+    }
+
     public void executeGetPlatformRequest(String url) {
         try {
             response = getRestHelper().getRequestWithHeaders(url,
                     returnRequestHeader("GET", new URL(url).getPath(),
                             authToken));
-            logger.info("ist of platform response ******-->  " + response.getBody().prettyPrint());
+            logger.info("List of platform response ******-->  " + response.getBody().prettyPrint());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            Assert.assertTrue("Unable to get URL", false);
+        }
+    }
+
+    public void makeRequestWithMissingHeader(String url, String keys) {
+        try {
+            response = getRestHelper().getRequestWithHeaders(url,
+                    returnRequestHeaderWithMissingHeaderKey("GET", new URL(url).getPath(),
+                            authToken, keys));
+            logger.info("List of platform response ******-->  " + response.getBody().prettyPrint());
         } catch (MalformedURLException e) {
             e.printStackTrace();
             Assert.assertTrue("Unable to get URL", false);

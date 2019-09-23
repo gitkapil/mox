@@ -7,7 +7,7 @@ Feature: Management POST platform API - DRAG-2027
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  #@trial
+  @trial
   @regression @postPlatform
   Scenario Outline: Positive flow- POST platform with valid input request body, header and parameter values
     Given I am a POST platform authorized DRAGON user with Platform.ReadWrite.All
@@ -17,25 +17,15 @@ Feature: Management POST platform API - DRAG-2027
     Given I am a GET platform authorized DRAGON user with Platform.ReadWrite.All
     When I make a GET request to the platform endpoint with platformId of created platform
     Then I should receive a successful GET platform response
-    And validate the response from GET platform API
-    And new create platform information should be present in the platform list
+    And validate the response from POST Platform API is present in GET platform API
     Examples:
-      | platformName | platformDescription |
-      | validname    | INDIVIDUAL          |
+      | platformName         | platformDescription |
+#      | validname            | INDIVIDUAL          |
+      | onlyspecialcharacter | validDescription    |
+    #platformName is free text; can be anything
 
 
-#  @trial @regression
-  Scenario Outline: Negative flow- POST platform with existing platformName but different description
-    Given I am a POST platform authorized DRAGON user with Platform.ReadWrite.All
-    When I make request for POST platform API with "<platformName>" platformName and "<platformDescription>" platformDescription in request body
-    Then I should receive "<http_status>" error status with "<error_description>" error description and "<error_code>" errorcode in response
-    And error message should be "<error_message>" in the response
-    Examples:
-      | platformName | platformDescription | http_status | error_message                     | error_code | error_description            |
-      | existingname | validDescription    | 400         | Service Request Validation Failed | EA009      | Platform name already exist. |
-
-
-  #@trial @regression
+  @trial @regression
   Scenario Outline: Negative flow- Invalid auth token
     Given I am a POST dragon DRAGON user with Platform.ReadWrite.All with invalid "<auth_token>"
     When I make a POST request to the post platform endpoint
@@ -53,22 +43,21 @@ Feature: Management POST platform API - DRAG-2027
       | Error validating JWT | API Gateway Authentication Failed | Bearer nbCwW11w3XkB-xUaXwKRSLjMHGQ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | EA001      | 401       |
 
 
-#  @trial @regression
+  @trial @regression
   Scenario Outline: Negative flow- POST Platform with missing mandatory header values
     Given I am a POST platform authorized DRAGON user with Platform.ReadWrite.All
     When I make a POST request to the Platform endpoint with "<key>" missing in the header
     Then I should receive "<http_status>" error status with "<error_description>" error description and "<error_code>" errorcode in response
     And error message should be "<error_message>" in the response
     Examples:
-      | error_description                                              | error_message                     | key               | error_code | http_status |
-      | Error validating JWT                                           | API Gateway Authentication Failed | Authorization     | EA001      | 401         |
-      | Request timestamp not a valid RFC3339 date-time                | Service Request Validation Failed | Request-Date-Time | EA002      | 400         |
-      | Header Trace-Id was not found in the request. Access denied.   | API Gateway Validation Failed     | Trace-Id          | EA002      | 400         |
-      | Header Accept does not contain required value.  Access denied. | Request Header Not Acceptable     | Accept            | EA008      | 406         |
-      | Content type 'text/plain;charset=ISO-8859-1' not supported     | Service Request Validation Failed | Content-Type      | EA002      | 415         |
+      | error_description                                              | error_message                     | key           | error_code | http_status |
+      | Error validating JWT                                           | API Gateway Authentication Failed | Authorization | EA001      | 401         |
+      | Header Trace-Id was not found in the request. Access denied.   | API Gateway Validation Failed     | Trace-Id      | EA002      | 400         |
+      | Header Accept does not contain required value.  Access denied. | Request Header Not Acceptable     | Accept        | EA008      | 406         |
+      | Content type 'text/plain;charset=ISO-8859-1' not supported     | Service Request Validation Failed | Content-Type  | EA002      | 415         |
 
 
-#  @trial
+  @trial
   Scenario Outline: Negative flow- Mandatory fields Api-Version not sent in the header
     Given I am a POST platform authorized DRAGON user with Platform.ReadWrite.All
     When I make a POST request to the Platform endpoint with "<key>" missing in the header
@@ -93,31 +82,68 @@ Feature: Management POST platform API - DRAG-2027
       | Api-Version | @#$%^        | 404        | Resource not found | validname    | Platform Description |
 
 
-#  @trial @regression
-  Scenario Outline: Negative flow- POST platform with invalid input body and verify the response
+  @trial
+  Scenario: Negative flow- Request body provided Null {}
     Given I am a POST platform authorized DRAGON user with Platform.ReadWrite.All
-#    And I have set "<platformName>" and "<platformDescription>" for post platform
-#    When I make a POST request to the post platform endpoint
-#    Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" error code within the POST platform response
-
-    Examples:
-      | platformName                         | platformDescription | http_status | error_description                    | error_code                           |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | description         | platform    | 00000001-0000-0000-0000-000000000000 | 00000002-0000-0000-c000-000000000001 |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | description         | platform    | 00000001-0000-0000-0000-000000000000 | 00000002-0000-0000-c000-000000000001 |
+    When I make request to post platform endpoint with null request body
+    Then I should receive "400" http code with "Service Request Validation Failed" error message
+    And Validate errorCode and errorDescription within platform response
 
 
-  Scenario Outline: Negative flow - POST platform with invalid missing body and verify the response
+  @trial
+  Scenario: Negative flow- Request body not provided
     Given I am a POST platform authorized DRAGON user with Platform.ReadWrite.All
-    And I have set "<platformName>", "<platformDescription>" for post platform with missing body "<missingBodyValue>" value
-#    When I make a POST request to the post platform endpoint
-    Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within the POST platform response
+    When I make request to post platform endpoint without request body
+    Then I should receive a "400" error response with "Unable to read or parse message body" error description and "EA002" errorcode within platform response
+    And error message should be "Service Request Validation Failed" within platform response
 
+
+  @trial @regression
+  Scenario Outline: Negative flow- POST platform with one request body parameter not provided
+    Given I am a POST platform authorized DRAGON user with Platform.ReadWrite.All
+    When I make request for POST platform API with "<platformName>" platformName and "<platformDescription>" platformDescription in request body
+    Then I should receive "<http_status>" error status with "<error_description>" error description and "<error_code>" errorcode in response
+    And error message should be "<error_message>" in the response
     Examples:
-      | platformName                         | platformDescription | http_status | error_description                    | error_code                           | missingBodyValue    |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | description         | platform    | 00000001-0000-0000-0000-000000000000 | 00000002-0000-0000-c000-000000000001 | platformName        |
-      | c9621185-b86d-48a9-97f0-eeddef7c3dc1 | description         | platform    | 00000001-0000-0000-0000-000000000000 | 00000002-0000-0000-c000-000000000001 | platformDescription |
+      | platformName | platformDescription | http_status | error_description                                                                                             | error_code | error_message                     |
+      | null         | validDescription    | 400         | Field error in object 'postPlatformsInputModel': field 'platformName' must not be null; rejected value [null] | EA002      | Service Request Validation Failed |
+      | validname    | null                | 400         | Field error in object 'postPlatformsInputModel': field 'description' must not be null; rejected value [null]  | EA002      | Service Request Validation Failed |
 
 
+  @trial @regression
+  Scenario Outline: Negative flow- POST platform with one empty "" request body parameter
+    Given I am a POST platform authorized DRAGON user with Platform.ReadWrite.All
+    When I make request for POST platform API with "<platformName>" platformName and "<platformDescription>" platformDescription in request body
+    Then I should receive "<http_status>" error status with "<error_description>" error description and "<error_code>" errorcode in response
+    And error message should be "<error_message>" in the response
+    Examples:
+      | platformName | platformDescription | http_status | error_description                 | error_code | error_message                     |
+      |              | validDescription    | 400         | Platform Name not provided        | EA009      | Service Request Validation Failed |
+      | validname    |                     | 400         | Platform Description not provided | EA009      | Service Request Validation Failed |
+
+
+  @trial @regression
+  Scenario Outline: Negative flow - POST platform with invalid request body and verify the response
+    Given I am a POST platform authorized DRAGON user with Platform.ReadWrite.All
+    When I make request for POST platform API with "<platformName>" platformName and "<platformDescription>" platformDescription in request body
+    Then I should receive "<http_status>" error status with "<error_description>" error description and "<error_code>" errorcode in response
+    And error message should be "<error_message>" in the response
+    Examples:
+      | platformName | platformDescription | http_status | error_description | error_code | error_message                     |
+      | longname     | validDescription    | 400         | bug raised        | EA009      | Service Request Validation Failed |
+      | space        | validDescription    | 400         | bug raised        | EA009      | Service Request Validation Failed |
+      | validname    | longname            | 400         | bug raised        | EA009      | Service Request Validation Failed |
+
+
+  @trial @regression
+  Scenario Outline: Negative flow- POST platform with existing platformName but different description
+    Given I am a POST platform authorized DRAGON user with Platform.ReadWrite.All
+    When I make request for POST platform API with "<platformName>" platformName and "<platformDescription>" platformDescription in request body
+    Then I should receive "<http_status>" error status with "<error_description>" error description and "<error_code>" errorcode in response
+    And error message should be "<error_message>" in the response
+    Examples:
+      | platformName | platformDescription | http_status | error_message                     | error_code | error_description            |
+      | existingname | validDescription    | 400         | Service Request Validation Failed | EA009      | Platform name already exist. |
 
 
 

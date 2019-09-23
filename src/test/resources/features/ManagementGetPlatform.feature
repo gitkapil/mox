@@ -29,7 +29,7 @@ Feature: Management GET platform API - DRAG-
 
 
   #trial
-  @regression @merchantManagement @merchantManagementPut @newPlat
+  @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Positive flow - Get a list of platform using platform status
     Given I am a GET platform authorized DRAGON user with Platform.ReadWrite.All
     When I make a GET request to the platform endpoint
@@ -37,35 +37,11 @@ Feature: Management GET platform API - DRAG-
     Then I should receive a successful GET platform response
     And validate the all items list of platform should have active status
     Examples:
-      | filterName     | filterValue |
-      | status |  A          |
+      | filterName | filterValue |
+      | status     | A           |
 
   #trial
-  @regression @merchantManagement @merchantManagementGet
-  Scenario Outline: Positive flow - Get a list of platform using paging and limits
-    Given I am a GET platform authorized DRAGON user with Platform.ReadWrite.All
-    When I get a list of platform using filters to filter "<filterName>" with "<filterValue>" with <limit> limits
-    Then I should receive a successful response for platform
-    And the response should have a list of "<numberOfResponses>" platform response
-    And the response should have more than or equal to <numberOfResponses> in total for platform
-    And the response should have a <totalNumberOfItems> number of total items for platform
-    And the response should be on page "<currentPageNumber>" for platform
-    When I move to page "<nextPageNumber>" for platform
-    Then I should receive a successful response for platform
-    And the response should have a list of "<nextNumberOfResponses>" for platform
-    And the response should have more than or equal to "<nextNumberOfResponses>" in total for platform
-    And the response should have a "<totalNumberOfItems>" number of total items for platform
-    And the response should be on page "<nextPageNumber>" for platform
-
-    Examples:
-      | filterName     | filterValue                          | limit | numberOfResponses | totalNumberOfItems | currentPageNumber | nextPageNumber | nextNumberOfResponses |
-      | platformID     | 00000002-0000-0000-c000-000000000001 | 1     | 1                 | 2                  | 0                 | 1              | 1                     |
-      | platformName   | 00000002-0000-0000-c000-000000000001 | 30    | 1                 | 1                  | 0                 | 1              | 1                     |
-      | platformStatus | 00000002-0000-0000-c000-000000000001 | 30    | 2                 | 2                  | 0                 | 0              | 2                     |
-
-
-  #trial
-  @regression @merchantManagement @merchantManagementPut
+  @regression @merchantManagement @merchantManagementPut @newPlat
   Scenario Outline: Negative flow- POST Platform with missing mandatory header values
     Given I am a GET platform authorized DRAGON user with Platform.ReadWrite.All
     When I make a GET request to the Platform endpoint with "<key>" missing in the header
@@ -74,7 +50,6 @@ Feature: Management GET platform API - DRAG-
     Examples:
       | error_description                                                     | error_message                     | key               | error_code | http_status |
       | Error validating JWT                                                  | API Gateway Authentication Failed | Authorization     | EA001      | 401         |
-      | Header Request-Date-Time was not found in the request. Access denied. | API Gateway Validation Failed     | Request-Date-Time | EA002      | 400         |
       | Header Trace-Id was not found in the request. Access denied.          | API Gateway Validation Failed     | Trace-Id          | EA002      | 400         |
       | Header Accept does not contain required value.  Access denied.        | Request Header Not Acceptable     | Accept            | EA008      | 406         |
       | Content type 'text/plain;charset=ISO-8859-1' not supported            | Service Request Validation Failed | Content-Type      | EA002      | 415         |
