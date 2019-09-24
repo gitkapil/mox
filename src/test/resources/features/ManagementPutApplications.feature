@@ -1,4 +1,4 @@
-@putApplication
+@healthCheck
 Feature: Management Put Applications API - DRAG-1446
   As a user
   I want update the application information and validate returned response is correct
@@ -100,10 +100,10 @@ Feature: Management Put Applications API - DRAG-1446
 
 
        #@trial
-  @regression
+  @regression @putApplication
   Scenario Outline: Negative flow- Put application with no body
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
-    When I make a PUT request to the application endpoint
+    When I make a PUT request to the application endpoint with no body
     Then I should receive a "400" error response with "<error_description>" error description and "<error_code>" errorcode within the PUT application response
     And error message should be "<error_message>" within the PUT application response
     Examples:
@@ -122,19 +122,6 @@ Feature: Management Put Applications API - DRAG-1446
       | platformId                                 | description | error_description                                                               | error_message                     | error_code |
       | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33345456 | description | Unable to read or parse message body: json parse error at [line: 1, column: 43] | Service Request Validation Failed | EA002      |
       | 2ee3e4a5-ef45-4fe2-a37d-d5f                | description | Unable to read or parse message body: json parse error at [line: 1, column: 43] | Service Request Validation Failed | EA002      |
-
-
-     #@trial
-  @regression
-  Scenario Outline: Negative flow- Put application request with no body
-    Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
-    When I make a PUT request to the application endpoint with no body
-    Then I should receive a "400" error response with "<error_description>" error description and "<error_code>" errorcode within the PUT application response
-    And error message should be "<error_message>" within the PUT application response
-    Examples:
-      | error_description                                      | error_message                     | error_code |
-      | Atleast one field must be there to update application. | Service Request Validation Failed | EA010      |
-
 
      #@trial
   @regression

@@ -91,7 +91,20 @@ public class ManagementPutApplications_StepDefs extends UtilManager {
     @When("^I make a PUT request to the application endpoint$")
     public void i_make_a_put_request_to_the_application_endpoint() throws IOException {
         logger.info("********** Executing PUT Application Request ***********");
+        Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
+        testContext.getApiManager().getPutApplication().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
         testContext.getApiManager().getPutApplication().executeRequest(
+                getRestHelper().getBaseURI() + getFileHelper()
+                        .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" + testContext.getApiManager().getPutApplication().getApplicationId());
+        logger.info("********** Executed PUT Application Request ***********");
+    }
+
+    @When("^I make a PUT request to the application endpoint with no body$")
+    public void i_make_a_put_request_to_the_application_endpointWithNoBody() throws IOException {
+        logger.info("********** Executing PUT Application Request ***********");
+        Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
+        testContext.getApiManager().getPutApplication().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
+        testContext.getApiManager().getPutApplication().executeRequestWithNoBody(
                 getRestHelper().getBaseURI() + getFileHelper()
                         .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" + testContext.getApiManager().getPutApplication().getApplicationId());
         logger.info("********** Executed PUT Application Request ***********");
@@ -111,6 +124,8 @@ public class ManagementPutApplications_StepDefs extends UtilManager {
     @When("^I make a PUT request to the application endpoint with invalid platformId \"([^\"]*)\" value and description \"([^\"]*)\"$")
     public void makeRequestWithInvalidBod(String platformId, String description) throws IOException {
         logger.info("********** Executing PUT Application Request ***********");
+        Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
+        testContext.getApiManager().getPutApplication().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
         testContext.getApiManager().getPutApplication().executeRequestWithInvalidInputBody(
                 getRestHelper().getBaseURI() + getFileHelper()
                         .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" + testContext.getApiManager().getPutApplication().getApplicationId(), platformId, description);
@@ -124,16 +139,6 @@ public class ManagementPutApplications_StepDefs extends UtilManager {
         testContext.getApiManager().getPutApplication().executeRequest(
                 getRestHelper().getBaseURI() + getFileHelper()
                         .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" + applicationId);
-        logger.info("********** Executed PUT Application Request ***********");
-    }
-
-
-    @When("^I make a PUT request to the application endpoint with no body")
-    public void i_make_a_put_request_to_the_application_WithNoBody() throws IOException {
-        logger.info("********** Executing PUT Application Request ***********");
-        testContext.getApiManager().getPutApplication().executeRequestWithNoBody(
-                getRestHelper().getBaseURI() + getFileHelper()
-                        .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" + testContext.getApiManager().getPutApplication().getApplicationId());
         logger.info("********** Executed PUT Application Request ***********");
     }
 

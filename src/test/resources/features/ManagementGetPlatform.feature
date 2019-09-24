@@ -1,4 +1,4 @@
-@getPlat
+@healthCheck
 Feature: Management GET platform API - DRAG-
   As a platform user
   i want retrieve existing platform information using GET platform

@@ -122,11 +122,9 @@ public class ManagementGetSigningKeys_StepDef extends UtilManager {
             ArrayList<Map> arrayList = (ArrayList) retMap.get("response");
             Map firstElement = arrayList.get(0);
             testContext.getApiManager().getGetSigningKey().setKeyId(firstElement.get(Constants.KEY_ID).toString());
-            testContext.getApiManager().getGetSigningKey().setKeyName(firstElement.get(Constants.KEY_NAME).toString());
             testContext.getApiManager().getGetSigningKey().setApplicationId(firstElement.get(Constants.APPLICATION_ID).toString());
             Assert.assertTrue(firstElement.containsKey(Constants.APPLICATION_ID), testContext.getApiManager().getGetSigningKey().getApplicationId());
             Assert.assertTrue(firstElement.containsKey(Constants.KEY_ID));
-            Assert.assertTrue(firstElement.containsKey(Constants.KEY_NAME));
             Assert.assertTrue(firstElement.containsKey(Constants.APPLICATION_ID));
             Assert.assertEquals(testContext.getApiManager().getGetSigningKey().getApplicationId(), firstElement.get(Constants.APPLICATION_ID),"ApplicationID didn't match");
             Assert.assertTrue(firstElement.containsKey(Constants.ALG));

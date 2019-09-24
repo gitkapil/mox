@@ -1,4 +1,4 @@
-
+@healthCheck
 Feature: Management PUT platform API - DRAG-
   As a platform user
   I want to create a new platform using PUT platform API

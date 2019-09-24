@@ -1,4 +1,4 @@
-@getPass
+@healthCheck
 Feature: Merchant Management get Password - DRAG-1481
          As a user
          I want to get the password details and validate the details returned in response are correct!!
@@ -16,7 +16,7 @@ Feature: Merchant Management get Password - DRAG-1481
     Then I should see the response from get password request
 
   #@trial
-  @regression
+  @regression @getPass
   Scenario Outline: Negative flow - unable to get password with invalid application id
     Given I am logging in as a user with authorize Dragon user
     When I set the application id as "<applicationId>"
@@ -26,7 +26,7 @@ Feature: Merchant Management get Password - DRAG-1481
     Examples:
       | applicationId                        | http_status | error_code | error_message                     | error_description                                                                                                                                                     |
       | aa                                   | 400         | EA002      | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: aa |
-      | 00000002-1111-0000-c000-000000000000 | 400         | EA002      | Resource Not Found!               | application not found                                                                                                                                                 |
+      | 00000002-1111-0000-c000-000000000000 | 400         | EA025      | Service Request Validation Failed               | Application Id not found                                                                                                                                                 |
 
 
   #@trial
@@ -45,7 +45,7 @@ Feature: Merchant Management get Password - DRAG-1481
       | Content type                                                   | Service Request Validation Failed | Content-Type     | EA002      | 415         |
 
   #@trial
-  @regression
+  @regression @getPass
   Scenario Outline: Positive flow - POST password for new application should return list with last update items
     Given I am logging in as a user with AAD Password role
     And I have created password data with application id, activate at "<activateAt>", and deactivate at "<deactivateAt>"

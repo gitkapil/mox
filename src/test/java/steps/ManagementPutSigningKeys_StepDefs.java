@@ -159,7 +159,6 @@ public class ManagementPutSigningKeys_StepDefs extends UtilManager {
         HashMap returnedTransactions = testContext.getApiManager().getPutSigningKeys().getResponse().path(".");
         Assert.assertEquals(returnedTransactions.get(Constants.APPLICATION_ID), testContext.getApiManager().getGetSigningKey().getApplicationId(), "ApplicationId didn't match!");
         Assert.assertEquals(returnedTransactions.get(Constants.KEY_ID), testContext.getApiManager().getGetSigningKey().getKeyId(), "keyId didn't match!");
-        Assert.assertNotNull(returnedTransactions.get(Constants.KEY_NAME), "keyName is null");
         Assert.assertNotNull(returnedTransactions.get(Constants.ALG), "alg is null");
         Assert.assertNotNull(returnedTransactions.get(Constants.TYPE), "type is null");
         Assert.assertNotNull(returnedTransactions.get(Constants.SIZE), "size is null");
