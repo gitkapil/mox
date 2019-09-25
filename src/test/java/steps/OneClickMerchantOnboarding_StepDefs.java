@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.testng.Assert;
 import utils.Constants;
 import utils.DataBaseConnector;
+import utils.PropertyHelper;
 
 import java.sql.Array;
 import java.sql.DatabaseMetaData;
@@ -74,6 +75,9 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
     @And("^verify the response body contains all mandatory details$")
     public void verifyTheResponseBodyContainsAllMandatoryDetails() {
 
+        String env = PropertyHelper.getInstance().getPropertyCascading("env");
+        String usertype = PropertyHelper.getInstance().getPropertyCascading("usertype");
+
         HashMap applicationResponse = response.path("application");
         HashMap signingKeyResponse = response.path("signingKey");
         HashMap passwordMetadataResponse = response.path("passwordMetadata");
@@ -116,6 +120,17 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
         //Validate other response body parameters
         Assert.assertNotNull(response.path(Constants.GRANT_URL), "grantUrl cannot be null!");
         Assert.assertNotNull(response.path(Constants.PDF_URL), "pdfUrl cannot be null!");
+        if (env.equalsIgnoreCase("SIT") && usertype.equalsIgnoreCase("merchant")) {
+            Assert.assertTrue(response.path(Constants.PDF_URL).toString().contains("https://sacct" + env.toLowerCase() + "hkdragboarding.blob.core.windows.net/paymeapi-pdf/" + applicationResponse.get(Constants.SUB_UNIT_ID) + "_LV_"));
+        } else if (env.equalsIgnoreCase("SIT") && usertype.equalsIgnoreCase("developer")) {
+            System.out.println("response:" + response.path(Constants.PDF_URL));
+            System.out.println("custom: " + "https://sacct" + env.toLowerCase() + "hkdragboarding.blob.core.windows.net/paymeapi-pdf/" + applicationResponse.get(Constants.SUB_UNIT_ID) + "_SB_");
+            Assert.assertTrue(response.path(Constants.PDF_URL).toString().contains("https://sacct" + env.toLowerCase() + "hkdragsandbox.blob.core.windows.net/paymeapi-pdf/" + applicationResponse.get(Constants.SUB_UNIT_ID) + "_SB_"));
+        } else if (env.equalsIgnoreCase("CI") && usertype.equalsIgnoreCase("merchant")) {
+            Assert.assertTrue(response.path(Constants.PDF_URL).toString().contains("https://sacct" + env.toLowerCase() + "dragmerch.blob.core.windows.net/paymeapi-pdf/" + applicationResponse.get(Constants.SUB_UNIT_ID) + "_LV_"));
+        } else if (env.equalsIgnoreCase("CI") && usertype.equalsIgnoreCase("developer")) {
+            Assert.assertTrue(response.path(Constants.PDF_URL).toString().contains("https://sacct" + env.toLowerCase() + "dragmerch.blob.core.windows.net/paymeapi-pdf/" + applicationResponse.get(Constants.SUB_UNIT_ID) + "_SB_"));
+        }
         Assert.assertNotNull(response.path(Constants.PDF_PIN), "pdfPin cannot be null!");
         Assert.assertEquals(response.path(Constants.PDF_PIN).toString().length(), 16, "pdfPin should be 16 characters.");
     }

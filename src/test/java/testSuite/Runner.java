@@ -8,9 +8,9 @@ import org.junit.runner.RunWith;
         format = {"pretty", "html:target/cucumber-html-report", "json:target/cucumber.json", "pretty:target/cucumber-pretty.txt"},
         glue={"steps"},
 
-        features = {"src/test/resources/features/"},
+        features = {"src/test/resources/features/OneClickMerchantOnboardingPOST.feature"},
         //,plugin = { "com.cucumber.listener.ExtentCucumberFormatter:target/cucumber-reports/report.html"}
-        tags ={"@putPlatform"}
+        tags ={"@trial"}
         )
 public class Runner {
 
