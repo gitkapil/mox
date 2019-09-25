@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 
         features = {"src/test/resources/features/"},
         //,plugin = { "com.cucumber.listener.ExtentCucumberFormatter:target/cucumber-reports/report.html"}
-        tags ={"@newPlat"}
+        tags ={"@putPlatform"}
         )
 public class Runner {
 

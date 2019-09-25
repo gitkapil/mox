@@ -1,4 +1,4 @@
-@getSign
+@healthCheck
 Feature: Merchant Management API - GET /keys/signing
          As a user
          I want to get the signing key details and validate response is correct
@@ -9,7 +9,7 @@ Feature: Merchant Management API - GET /keys/signing
     Then I receive an access_token
 
 #  @trial
-  @regression
+  @regression @getSing
   Scenario: positive flow - get signing keys
     Given I am a user with permissions to use signing key
     And I make a request to get signing keys with application id

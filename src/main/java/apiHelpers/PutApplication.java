@@ -198,6 +198,11 @@ public class PutApplication extends UtilManager {
         return requestBody;
     }
 
+
+    public HashMap<String, HashMap> returnRequestNoBody() {
+        return requestBody;
+    }
+
     public HashMap<String,HashMap> returnRequestBodyWithMissingKeys(String missingKeys){
         requestBody.clear();
         populateRequestBody("description", getDescription());
@@ -291,7 +296,7 @@ public class PutApplication extends UtilManager {
             HashMap<String, String> header = returnRequestNewHeaders();
             response = getRestHelper().putRequestWithHeaderAndBody(url,
                     header,
-                    requestBody);
+                    returnRequestNoBody());
             logger.info("********** PUT Application Response *********** ----> "+ response.getBody().prettyPrint());
         }
         catch (Exception e){
