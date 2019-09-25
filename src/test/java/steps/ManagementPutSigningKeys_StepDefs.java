@@ -167,7 +167,7 @@ public class ManagementPutSigningKeys_StepDefs extends UtilManager {
         Assert.assertEquals(returnedTransactions.get(Constants.ENTITY_STATUS), testContext.getApiManager().getPutSigningKeys().getEntityStatus(), "deactivateAt is null");
         Assert.assertNotNull(returnedTransactions.get(Constants.CREATED_AT), "createdAt is null");
         Assert.assertNotNull(returnedTransactions.get(Constants.LAST_UPDATED_AT), "lastUpdatedAt is null");
-        Assert.assertEquals(returnedTransactions.size(), 11, "response element didn't match!");
+        Assert.assertEquals(returnedTransactions.size(), 10, "response element didn't match!");
     }
 }
 

@@ -1,4 +1,4 @@
-@healthCheck
+@healthCheck @putPlatform
 Feature: Management PUT platform API - DRAG-
   As a platform user
   I want to create a new platform using PUT platform API
@@ -71,16 +71,15 @@ Feature: Management PUT platform API - DRAG-
     Given I am a PUT platform authorized DRAGON user with Platform.ReadWrite.All
     And I have set "<platformName>", "<platformDescription>" and platform "<platformStatus>"for PUT platform
     When I make a PUT request to the PUT platform endpoint
-    Then I should receive a successful PUT platform response
-    And validate the PUT platform response with space "<space>"
+    Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" error code within the PUT platform response
+    And error message should be "<error_message>" within the PUT platform response
     Examples:
-      | space        | platformName | platformDescription | platformStatus |
-      | status       | validName    | validDescription    | space          |
-      | description  | validName    | space               | deactivated    |
-      | status       | validName    | validDescription    | space          |
-      | platformName | space        | validDescription    | deactivated    |
-      | description  | validName    | space               | active         |
-      | platformName | space        | validDescription    | active         |
+      | platformName | platformDescription | platformStatus | http_status | error_message                     | error_description                         | error_code |
+      | validName    | validDescription    | space          | 400         | Service Request Validation Failed | Platform status can be either 'A' or 'D'. | EA010      |
+      | validName    | space               | deactivated    | 400         | Service Request Validation Failed | Description empty                         | EA010      |
+      | space        | validDescription    | deactivated    | 400         | Service Request Validation Failed | Platform name empty                       | EA010      |
+      | validName    | space               | active         | 400         | Service Request Validation Failed | Description empty                         | EA010      |
+      | space        | validDescription    | active         | 400         | Service Request Validation Failed | Platform name empty                       | EA010      |
 
  # @trial
   @regression
@@ -90,16 +89,15 @@ Feature: Management PUT platform API - DRAG-
     Given I am a PUT platform authorized DRAGON user with Platform.ReadWrite.All
     And I have set "<platformName>", "<platformDescription>" and platform "<platformStatus>"for PUT platform
     When I make a PUT request to the PUT platform endpoint
-    Then I should receive a successful PUT platform response
-    And validate the PUT platform response with empty space "<emptySpace>"
+    Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" error code within the PUT platform response
+    And error message should be "<error_message>" within the PUT platform response
     Examples:
-      | emptySpace   | platformName | platformDescription | platformStatus |
-      | description  | validName    | emptySpace          | active         |
-      | status       | validName    | validDescription    | emptySpace     |
-      | platformName | emptySpace   | validDescription    | deactivated    |
-      | description  | validName    | emptySpace          | deactivated    |
-      | status       | validName    | validDescription    | emptySpace     |
-      | platformName | emptySpace   | validDescription    | active         |
+      | platformName | platformDescription | platformStatus | http_status | error_message                     | error_description                         | error_code |
+      | validName    | emptySpace          | active         | 400         | Service Request Validation Failed | Description empty                         | EA010      |
+      | validName    | validDescription    | emptySpace     | 400         | Service Request Validation Failed | Platform status can be either 'A' or 'D'. | EA010      |
+      | emptySpace   | validDescription    | deactivated    | 400         | Service Request Validation Failed | Platform name empty                       | EA010      |
+      | validName    | emptySpace          | deactivated    | 400         | Service Request Validation Failed | Description empty                         | EA010      |
+      | emptySpace   | validDescription    | active         | 400         | Service Request Validation Failed | Platform name empty                       | EA010      |
 
  # @trial
   @regression @putPlatform
@@ -171,11 +169,11 @@ Feature: Management PUT platform API - DRAG-
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" error code within the PUT platform response
     And error message should be "<error_message>" within the PUT platform response
     Examples:
-      | error_description                                                     | error_message                     | key               | error_code | http_status |
-      | Error validating JWT                                                  | API Gateway Authentication Failed | Authorization     | EA001      | 401         |
-      | Header Trace-Id was not found in the request. Access denied.          | API Gateway Validation Failed     | Trace-Id          | EA002      | 400         |
-      | Header Accept does not contain required value.  Access denied.        | Request Header Not Acceptable     | Accept            | EA008      | 406         |
-      | Content type 'text/plain;charset=ISO-8859-1' not supported            | Service Request Validation Failed | Content-Type      | EA002      | 415         |
+      | error_description                                              | error_message                     | key           | error_code | http_status |
+      | Error validating JWT                                           | API Gateway Authentication Failed | Authorization | EA001      | 401         |
+      | Header Trace-Id was not found in the request. Access denied.   | API Gateway Validation Failed     | Trace-Id      | EA002      | 400         |
+      | Header Accept does not contain required value.  Access denied. | Request Header Not Acceptable     | Accept        | EA008      | 406         |
+      | Content type 'text/plain;charset=ISO-8859-1' not supported     | Service Request Validation Failed | Content-Type  | EA002      | 415         |
 
 #   @trial
   @regression

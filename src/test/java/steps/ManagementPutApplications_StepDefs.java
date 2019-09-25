@@ -69,12 +69,7 @@ public class ManagementPutApplications_StepDefs extends UtilManager {
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
         testContext.getApiManager().getPutApplication().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
         testContext.getApiManager().getPutApplication().setPlatformName(applicationResponse.getBody().path("application.platformName"));
-        if(description.equalsIgnoreCase("superlargestring")) {
-            String d = StringUtils.repeat("*", 257);
-            testContext.getApiManager().getPutApplication().setDescription(d);
-        } else{
-            testContext.getApiManager().getPutApplication().setDescription(description);
-        }
+      testContext.getApiManager().getPutApplication().setDescription(description);
         testContext.getApiManager().getPutApplication().setPlatformId(applicationResponse.getBody().path("application.platformId"));
     }
 
