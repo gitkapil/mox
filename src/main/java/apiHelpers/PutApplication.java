@@ -1,6 +1,7 @@
 package apiHelpers;
 import com.jayway.restassured.response.Response;
 import managers.UtilManager;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import utils.General;
 import utils.PropertyHelper;
@@ -81,9 +82,12 @@ public class PutApplication extends UtilManager {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        if (description.equalsIgnoreCase("longDescription")) {
+            this.description = StringUtils.repeat("*", 300);
+        } else if (description.equalsIgnoreCase("space")) {
+            this.description = " ";
+        } else { this.description=description; }
     }
-
 
     public String getPlatformName() {
         return platformName;
@@ -193,7 +197,7 @@ public class PutApplication extends UtilManager {
 
     public HashMap<String, HashMap> returnRequestBody() {
         requestBody.clear();
-        populateRequestBody("description", getDescription());
+        populateRequestBody("applicationDescription", getDescription());
         populateRequestBody("platformId", getPlatformId());
         return requestBody;
     }
@@ -247,11 +251,10 @@ public class PutApplication extends UtilManager {
 
     public Response  executeRequest(String url) {
         try {
-            returnRequestBody();
             HashMap<String, String> header = returnRequestNewHeaders();
             response = getRestHelper().putRequestWithHeaderAndBody(url,
                     header,
-                    requestBody);
+                    returnRequestBody());
             logger.info("********** PUT Application Response *********** ----> "+ response.getBody().prettyPrint());
         }
         catch (Exception e){

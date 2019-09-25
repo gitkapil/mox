@@ -14,13 +14,27 @@ Feature: Management Put Applications API - DRAG-1446
   @regression
   Scenario Outline: Positive flow- A DRAGON user with Application.ReadWrite.All is able to update an existing application
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
-    And I have updated the "<description>" and platformId values
+    And I have updated the "<applicationDescription>" and platformId values
     When I make a PUT request to the application endpoint
     Then I should receive a successful PUT application response
     And validate the put application response
     Examples:
-      | description |
-      | description |
+      | applicationDescription |
+      | description            |
+
+ # @trial
+  @regression
+  Scenario Outline: Positive flow- A DRAGON user PUT application with invalid description
+    Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
+    And I have updated the "<applicationDescription>" and platformId values
+    When I make a PUT request to the application endpoint
+    Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within the PUT application response
+    And error message should be "<error_message>" within the PUT application response
+    Examples:
+      | applicationDescription | http_status | error_description                                                                                                                                 | error_code | error_message                     |
+      | longDescription        | 400         | Field error in object 'updateMerchantApplicationMappingInputModel': field 'applicationDescription' size must be between 0 and 256; rejected value | EA002      | Service Request Validation Failed |
+      | space                  | 400         | applicationDescription is empty                                                                                                                   | EA002      | Service Request Validation Failed |
+
 
     #trial
   @regression
@@ -100,7 +114,7 @@ Feature: Management Put Applications API - DRAG-1446
 
 
        #@trial
-  @regression @putApplication
+  @regression
   Scenario Outline: Negative flow- Put application with no body
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     When I make a PUT request to the application endpoint with no body

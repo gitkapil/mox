@@ -63,6 +63,7 @@ public class ManagementPostPassword_StepDefs extends UtilManager {
     @And("^I have created password data with application id, activate at \"([^\"]*)\", and deactivate at \"([^\"]*)\"$")
     public void setData(String activateAt, String deactivateAt) {
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
+        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId("application.subUnitId");
         testContext.getApiManager().getPostPasswordCreateClientPassword().setActivateAt(activateAt);
         testContext.getApiManager().getPostPasswordCreateClientPassword().setDeactivateAt(deactivateAt);
         testContext.getApiManager().getPostPasswordCreateClientPassword().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
@@ -121,11 +122,14 @@ public class ManagementPostPassword_StepDefs extends UtilManager {
 
     @Then("^validate the response from post password request$")
     public void validatePasswordResponse() {
+        String pdfUrl =testContext.getApiManager().getPostPasswordCreateClientPassword().getResponse().path(Constants.PDF_PIN);
+
+       // Assert.assertTrue();
         Assert.assertNotNull(testContext.getApiManager().getPostPasswordCreateClientPassword().getResponse().path(Constants.PDF_PIN));
         Assert.assertNotNull(testContext.getApiManager().getPostPasswordCreateClientPassword().getResponse().path(Constants.PDF_URL));
         HashMap returnResponse = testContext.getApiManager().getPostPasswordCreateClientPassword().getResponse().path("passwordMetaData");
         Assert.assertEquals(testContext.getApiManager().getPostPasswordCreateClientPassword().
-                getApplicationId(), returnResponse.get(Constants.APPLICATION_ID), "application id didn't match");
+        getApplicationId(), returnResponse.get(Constants.APPLICATION_ID), "application id didn't match");
         Assert.assertNotNull(returnResponse.get(Constants.ACTIVATE_AT), "activated at time shouldn't be null");
         Assert.assertNotNull(returnResponse.get(Constants.DEACTIVATED_AT), " deactivated at time shouldn't be null");
         Assert.assertNotNull(returnResponse.get(Constants.KEY_ID));
