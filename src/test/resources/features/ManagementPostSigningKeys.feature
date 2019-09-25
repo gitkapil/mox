@@ -1,7 +1,7 @@
 @healthCheck
 Feature: Merchant Management POST Signing Keys - DRAG-1565
-         As a user
-         I want to create signing key information and validate correct response is returned
+  As a user
+  I want to create signing key information and validate correct response is returned
 
   Background: Retrieving access Token
     Given I am an user
@@ -9,7 +9,7 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
     Then I receive an access_token
 
   #@trial
-  @regression @merchantManagement @merchantManagementPost
+  @regression
   Scenario Outline: Positive flow - Create a new application, new signing key
     Given I am an authorized Signing Key DRAGON user
     And I have an activate date "<activateAt>" and deactivate date "<deactivateAt>", with entity status "<entityStatus>"
@@ -22,7 +22,7 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
 
 
  #@trial
-  @regression @merchantManagement @merchantManagementPost
+  @regression
   Scenario Outline: Negative flow - Invalid application id
     Given I am an authorized Signing Key DRAGON user
     And I have an activate date "<activateAt>" and deactivate date "<deactivateAt>", with entity status "<entityStatus>"
@@ -37,7 +37,7 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
       | 00000002-0000-4444-c000-000000000000 | 2019-01-01T00:00:00Z | 2019-02-02T00:00:00Z | A            | 400         | EA025      | Service Request Validation Failed | Application Id not found                                                                                                                                              |
 
  #@trial
-  @regression @merchantManagement @merchantManagementPost
+  @regression
   Scenario Outline: Negative flow - Invalid dates
     Given I am an authorized Signing Key DRAGON user
     And I have an activate date "<activateAt>" and deactivate date "<deactivateAt>", with entity status "<entityStatus>"
@@ -59,7 +59,7 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
       | 2019-02-02T00:00:00Z | 2019-02-02T00:00:00Z  | A            | 400         | EA024      | (activateAt) is equal or after (deactivateAt) |
 
  #@trial
-  @regression @merchantManagement @merchantManagementPost
+  @regression
   Scenario Outline: Negative flow - Entity status
     Given I am an authorized Signing Key DRAGON user
     And I have an activate date "<activateAt>" and deactivate date "<deactivateAt>", with entity status "<entityStatus>"
@@ -80,7 +80,7 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
 
 
    #@trial
-  @regression @merchantManagement @merchantManagementPost
+  @regression
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
     Given I am an authorized Signing Key DRAGON user
     And I create a new application id for signing key
@@ -89,8 +89,8 @@ Feature: Merchant Management POST Signing Keys - DRAG-1565
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" error code within the POST signing key response
     And error message should be "<error_message>" within the POST signing key response
     Examples:
-      | error_description                                              | error_message                     | key               | error_code | http_status | activateAt           | deactivateAt         | entityStatus |
-      | Error validating JWT                                           | API Gateway Authentication Failed | Authorization     | EA001      | 401         | 2019-01-01T00:00:00Z | 2020-10-01T00:00:00Z | A            |
-      | Header Trace-Id was not found in the request. Access denied.   | API Gateway Validation Failed     | Trace-Id          | EA002      | 400         | 2019-01-01T00:00:00Z | 2020-10-01T00:00:00Z | A            |
-      | Header Accept does not contain required value.  Access denied. | Request Header Not Acceptable     | Accept            | EA008      | 406         | 2019-01-01T00:00:00Z | 2020-10-01T00:00:00Z | A            |
-      | Content type 'text/plain;charset=ISO-8859-1' not supported     | Service Request Validation Failed | Content-Type      | EA002      | 415         | 2019-01-01T00:00:00Z | 2020-10-01T00:00:00Z | A            |
+      | error_description                                              | error_message                     | key           | error_code | http_status | activateAt           | deactivateAt         | entityStatus |
+      | Error validating JWT                                           | API Gateway Authentication Failed | Authorization | EA001      | 401         | 2019-01-01T00:00:00Z | 2020-10-01T00:00:00Z | A            |
+      | Header Trace-Id was not found in the request. Access denied.   | API Gateway Validation Failed     | Trace-Id      | EA002      | 400         | 2019-01-01T00:00:00Z | 2020-10-01T00:00:00Z | A            |
+      | Header Accept does not contain required value.  Access denied. | Request Header Not Acceptable     | Accept        | EA008      | 406         | 2019-01-01T00:00:00Z | 2020-10-01T00:00:00Z | A            |
+      | Content type 'text/plain;charset=ISO-8859-1' not supported     | Service Request Validation Failed | Content-Type  | EA002      | 415         | 2019-01-01T00:00:00Z | 2020-10-01T00:00:00Z | A            |

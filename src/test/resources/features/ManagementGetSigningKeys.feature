@@ -1,7 +1,7 @@
 @healthCheck
 Feature: Merchant Management API - GET /keys/signing
-         As a user
-         I want to get the signing key details and validate response is correct
+  As a user
+  I want to get the signing key details and validate response is correct
 
   Background: Retrieving access Token
     Given I am an user
@@ -9,7 +9,7 @@ Feature: Merchant Management API - GET /keys/signing
     Then I receive an access_token
 
 #  @trial
-  @regression @getSing
+  @regression
   Scenario: positive flow - get signing keys
     Given I am a user with permissions to use signing key
     And I make a request to get signing keys with application id

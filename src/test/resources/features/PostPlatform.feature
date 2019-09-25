@@ -25,7 +25,7 @@ Feature: Management POST platform API - DRAG-2027
     #platformName is free text; can be anything
 
 
-  @trial @regression @postPlat
+  @trial @regression
   Scenario Outline: Negative flow- Invalid auth token
     Given I am a POST dragon DRAGON user with Platform.ReadWrite.All with invalid "<auth_token>"
     When I make a POST request to the post platform endpoint
@@ -57,7 +57,7 @@ Feature: Management POST platform API - DRAG-2027
       | Content type 'text/plain;charset=ISO-8859-1' not supported     | Service Request Validation Failed | Content-Type  | EA002      | 415         |
 
 
-  @trial
+  @trial @regression
   Scenario Outline: Negative flow- Mandatory fields Api-Version not sent in the header
     Given I am a POST platform authorized DRAGON user with Platform.ReadWrite.All
     When I make a POST request to the Platform endpoint with "<key>" missing in the header
@@ -68,7 +68,7 @@ Feature: Management POST platform API - DRAG-2027
       | Api-Version |
 
 
-  @trial
+  @trial @regression
   Scenario Outline: Negative flow- Invalid mandatory field Api-Version provided in header
     Given I am a POST platform authorized DRAGON user with Platform.ReadWrite.All
     When I provide "<platformName>" platformName and "<platformDescription>" platformDescription in request body with invalid key "<invalidValue>" for "<key>" in header
@@ -82,7 +82,7 @@ Feature: Management POST platform API - DRAG-2027
       | Api-Version | @#$%^        | 404        | Resource not found | validname    | Platform Description |
 
 
-  @trial
+  @trial @regression
   Scenario: Negative flow- Request body provided Null {}
     Given I am a POST platform authorized DRAGON user with Platform.ReadWrite.All
     When I make request to post platform endpoint with null request body
@@ -90,7 +90,7 @@ Feature: Management POST platform API - DRAG-2027
     And Validate errorCode and errorDescription within platform response
 
 
-  @trial
+  @trial @regression
   Scenario: Negative flow- Request body not provided
     Given I am a POST platform authorized DRAGON user with Platform.ReadWrite.All
     When I make request to post platform endpoint without request body

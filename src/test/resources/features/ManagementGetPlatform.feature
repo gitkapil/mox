@@ -9,7 +9,7 @@ Feature: Management GET platform API - DRAG-
     Then I receive an access_token
 
   # @trial
-  @regression @merchantManagement @merchantManagementPut
+  @regression
   Scenario: Positive flow- A DRAGON user with platform.ReadWrite.All is able to update an existing application
     Given I am a GET platform authorized DRAGON user with Platform.ReadWrite.All
     When I make a GET request to the platform endpoint
@@ -17,7 +17,6 @@ Feature: Management GET platform API - DRAG-
 
   #trial
   @regression
-    @regression @merchantManagement @merchantManagementPut
   Scenario Outline: Positive flow - Get a list of platform using platform name, platform id
     Given I am a GET platform authorized DRAGON user with Platform.ReadWrite.All
     When I get a list of platform "<numberOfResponses>" using filter "<filterName>"
@@ -30,7 +29,7 @@ Feature: Management GET platform API - DRAG-
 
 
   #trial
-  @regression @merchantManagement @merchantManagementPut
+  @regression
   Scenario Outline: Positive flow - Get a list of platform using platform status
     Given I am a GET platform authorized DRAGON user with Platform.ReadWrite.All
     When I make a GET request to the platform endpoint
@@ -42,7 +41,7 @@ Feature: Management GET platform API - DRAG-
       | status     | A           |
 
   #trial
-  @regression @merchantManagement @merchantManagementPut
+  @regression
   Scenario Outline: Negative flow- POST Platform with missing mandatory header values
     Given I am a GET platform authorized DRAGON user with Platform.ReadWrite.All
     When I make a GET request to the Platform endpoint with "<key>" missing in the header
@@ -53,11 +52,11 @@ Feature: Management GET platform API - DRAG-
       | Error validating JWT                                           | API Gateway Authentication Failed | Authorization | EA001      | 401         |
       | Header Trace-Id was not found in the request. Access denied.   | API Gateway Validation Failed     | Trace-Id      | EA002      | 400         |
       | Header Accept does not contain required value.  Access denied. | Request Header Not Acceptable     | Accept        | EA008      | 406         |
-      | Content type '' not supported     | Service Request Validation Failed | Content-Type  | EA002      | 415         |
+      | Content type '' not supported                                  | Service Request Validation Failed | Content-Type  | EA002      | 415         |
 
 
   #@trial
-  @regression @merchantManagement @merchantManagementPut
+  @regression
   Scenario Outline: Negative flow- Mandatory fields Api-Version not sent in the header
     Given I am a GET platform authorized DRAGON user with Platform.ReadWrite.All
     When I make a GET request to the Platform endpoint with "<key>" missing in the header
@@ -67,7 +66,7 @@ Feature: Management GET platform API - DRAG-
       | Api-Version |
 
   #@trial
-  @regression @merchantManagement @merchantManagementPut
+  @regression
   Scenario Outline: Negative flow- Invalid auth token
     Given I am a GET dragon DRAGON user with Platform.ReadWrite.All with invalid "<auth_token>"
     When I make a GET request to the platform endpoint

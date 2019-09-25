@@ -1,13 +1,11 @@
-Feature: Payment Request API- DRAG-301
+Feature: Payment Request API- DRAG-301, DRAG-1280, DRAG-1157, DRAG-1130
 
   Background: Retrieving access Token
     Given I am an user
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-# DRAG-1280 - business logos added in payment response
-# For the parametres where values are missing within the table, while creating request, the parameter will not be included at all as a a part of the payload
-@trial
+  @trial
   @regression
   Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs
     Given I am an authorized user
@@ -90,7 +88,7 @@ Feature: Payment Request API- DRAG-301
     And the payment request response should be signed
 
 
-# For the parametres where value is "no_value" within the table, while creating request the parameter (key) will be included but will have no value
+# For the parameters where value is "no_value" within the table, while creating request the parameter (key) will be included but will have no value
   @regression
   Scenario Outline: Positive flow- A merchant is able to create a payment request where the non mandatory fields within body have no corresponding values in the payload
     Given I am an authorized user
@@ -112,7 +110,7 @@ Feature: Payment Request API- DRAG-301
       | 77          | HKD      | /return         | message from merchant | B1242183 | 60                | /confirmation      | /unsuccessful   | no_value                                                                      |
 
 
-# For the parametres where value is "no_value" within the table, while creating request the parameter (key) will be included but will have no value
+# For the parameters where value is "no_value" within the table, while creating request the parameter (key) will be included but will have no value
   @regression
   Scenario Outline: Positive flow- A merchant is able to create a payment request where the non mandatory fields within shopping cart have no corresponding values in the payload
     Given I am an authorized user
@@ -148,7 +146,7 @@ Feature: Payment Request API- DRAG-301
     And error message should be "API Gateway Authentication Failed" within payment response
   #And the payment request response should be signed
 
-#DRAG-1157 - Please update the correct error_message for the signature in the examples.
+
   @regression
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
     Given I am an authorized user
@@ -156,7 +154,6 @@ Feature: Payment Request API- DRAG-301
     When I make a request for the payment with "<key>" missing in the header
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
     And error message should be "<error_message>" within payment response
-  #And the payment request response should be signed
 
     Examples:
       | error_description                                                     | error_message                     | key               | error_code | http_status |
@@ -172,7 +169,6 @@ Feature: Payment Request API- DRAG-301
     And I have valid payment details
     When I make a request for the payment with "<key>" missing in the header
     And error message should be "Resource not found" within payment response
-  #And the payment request response should be signed
 
     Examples:
       | key         |
@@ -186,8 +182,7 @@ Feature: Payment Request API- DRAG-301
     When I make a request for the payment
     Then I should receive a "401" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
     And error message should be "<error_message>" within payment response
-  #And the payment request response should be signed
-#DRAG-1130 -Updated the error description and error message for all the auth token validation scenarios
+
     Examples:
       | error_description    | error_message                     | auth_token                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | error_code |
  #Auth Token missing
@@ -225,11 +220,11 @@ Feature: Payment Request API- DRAG-301
   #And the payment request response should be signed
     Examples:
       | totalamount | currency | notificationURL | error_description                                                                                                                                          | error_message                     | error_code | appSuccessCallback | appFailCallback | effectiveDuration |
-      | 150.00      |          | /return         | Field error in object 'paymentRequestInputModel': field 'currencyCode' may not be null; rejected value [null]                                             | Service Request Validation Failed | EA014      | /confirmation      | /unsuccessful   | 20                |
+      | 150.00      |          | /return         | Field error in object 'paymentRequestInputModel': field 'currencyCode' may not be null; rejected value [null]                                              | Service Request Validation Failed | EA014      | /confirmation      | /unsuccessful   | 20                |
       | 150.00      | -        | /return         | Invalid currency code                                                                                                                                      | Service Request Validation Failed | EA014      | /confirmation      | /unsuccessful   | 20                |
       | 150.00      | RS       | /return         | Invalid currency code                                                                                                                                      | Service Request Validation Failed | EA014      | /confirmation      | /unsuccessful   | 20                |
       | 150.00      | USD      | /return         | Invalid currency code                                                                                                                                      | Service Request Validation Failed | EA014      | /confirmation      | /unsuccessful   | 20                |
-      |             | HKD      | /return         | Field error in object 'paymentRequestInputModel': field 'totalAmount' may not be null; rejected value [null]                                              | Service Request Validation Failed | EA017      | /confirmation      | /unsuccessful   | 20                |
+      |             | HKD      | /return         | Field error in object 'paymentRequestInputModel': field 'totalAmount' may not be null; rejected value [null]                                               | Service Request Validation Failed | EA017      | /confirmation      | /unsuccessful   | 20                |
       | %%          | HKD      | /return         | Unable to read or parse message body: json parse error at [line: 1, column: 16]                                                                            | Service Request Validation Failed | EA002      | /confirmation      | /unsuccessful   | 20                |
       | 0.00        | HKD      | /return         | Field error in object 'paymentRequestInputModel': field 'totalAmount' must be greater than or equal to 0.01; rejected value [0.0]                          | Service Request Validation Failed | EA017      | /confirmation      | /unsuccessful   | 20                |
       | -0.01       | HKD      | /return         | Field error in object 'paymentRequestInputModel': field 'totalAmount' must be greater than or equal to 0.01; rejected value [-0.01]                        | Service Request Validation Failed | EA017      | /confirmation      | /unsuccessful   | 20                |
@@ -260,7 +255,6 @@ Feature: Payment Request API- DRAG-301
     When I make a request for the payment
     Then I should receive a "400" error response with "<error_description>" error description and "EA002" errorcode within payment response
     And error message should be "Service Request Validation Failed" within payment response
-   #And the payment request response should be signed
 
     Examples:
       | value                    | error_description                               |
@@ -278,7 +272,6 @@ Feature: Payment Request API- DRAG-301
     When I make a request for the payment
     Then I should receive a "400" error response with "Field error in object 'paymentRequestInputModel': field 'merchantData.additionalData' size must be between 0 and 1024; rejected value [Morethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024charactersMorethan1024characters]" error description and "EA002" errorcode within payment response
     And error message should be "Service Request Validation Failed" within payment response
-  #And the payment request response should be signed
 
     Examples:
       | totalamount | currency | notificationURL | description           | orderId  | effectiveDuration | appSuccessCallback | appFailCallback | additionalData                                                                |

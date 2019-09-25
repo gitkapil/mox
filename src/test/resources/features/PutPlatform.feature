@@ -100,7 +100,7 @@ Feature: Management PUT platform API - DRAG-
       | emptySpace   | validDescription    | active         | 400         | Service Request Validation Failed | Platform name empty                       | EA010      |
 
  # @trial
-  @regression @putPlatform
+  @regression
   Scenario Outline: Negative flow- PUT platform with existing Platform Name, header and parameter values
     Given I am a GET platform authorized DRAGON user with Platform.ReadWrite.All
     And I have set the platformId from existing get platform request
