@@ -126,13 +126,10 @@ public class ManagementPostPassword_StepDefs extends UtilManager {
     public void validatePasswordResponse() {
 
         Response response = testContext.getApiManager().getPostPasswordCreateClientPassword().getResponse();
-        String pdfUrl =testContext.getApiManager().getPostPasswordCreateClientPassword().getResponse().path(Constants.PDF_PIN);
         String env = PropertyHelper.getInstance().getPropertyCascading("env");
         String usertype = PropertyHelper.getInstance().getPropertyCascading("usertype");
-       // Assert.assertTrue();
         Assert.assertNotNull(testContext.getApiManager().getPostPasswordCreateClientPassword().getResponse().path(Constants.PDF_PIN));
         Assert.assertNotNull(testContext.getApiManager().getPostPasswordCreateClientPassword().getResponse().path(Constants.PDF_URL));
-
         if (env.equalsIgnoreCase("SIT") && usertype.equalsIgnoreCase("merchant")) {
             Assert.assertTrue(response.path(Constants.PDF_URL).toString().contains("https://sacct" + env.toLowerCase() + "hkdragboarding.blob.core.windows.net/paymeapi-pdf/" + testContext.getApiManager().getPostPasswordCreateClientPassword().getSubUnitId() + "_LV_"));
         } else if (env.equalsIgnoreCase("SIT") && usertype.equalsIgnoreCase("developer")) {

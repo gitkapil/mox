@@ -135,7 +135,7 @@ public class ManagementGetSigningKeys_StepDef extends UtilManager {
             Assert.assertTrue(firstElement.containsKey(Constants.ENTITY_STATUS));
             Assert.assertTrue(firstElement.containsKey(Constants.CREATED_AT));
             Assert.assertTrue(firstElement.containsKey(Constants.LAST_UPDATED_AT));
-            Assert.assertEquals(firstElement.toString().split(",").length, 11);
+            Assert.assertEquals(firstElement.toString().split(",").length, 10);
         } else {
             getRestHelper().getResponseStatusCode(testContext.getApiManager().getGetSigningKey().getResponse());
         }
