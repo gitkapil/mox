@@ -288,3 +288,13 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
     Examples:
       | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | description |
       | longname        | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      |
+
+  @trial
+  Scenario Outline: Negative flow- Invalid long applicationDescription provided in request body
+    Given I am logging in as a user with correct privileges
+    When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
+    Then I should receive a "400" http code with "Service Request Validation Failed" error message
+    And Validate errorCode "<error_code>" and errorDescription "<error_description>" in response for long applicationDescription
+    Examples:
+      | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | description     | error_description                                                                                                           | error_code |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | longdescription | Field error in object 'onboardingInputModel': field 'applicationDescription' size must be between 0 and 256; rejected value | EA002      |

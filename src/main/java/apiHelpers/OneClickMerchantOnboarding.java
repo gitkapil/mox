@@ -174,6 +174,8 @@ public class OneClickMerchantOnboarding extends UtilManager {
         if (description.equalsIgnoreCase("random")) {
             String desc = RandomStringUtils.randomAlphabetic(10);
             this.description = desc;
+        } else if (description.equalsIgnoreCase("longdescription")) {
+            this.description = StringUtils.repeat("*", 300);
         } else {
             this.description = description;
         }

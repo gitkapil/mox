@@ -611,4 +611,24 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
         response = testContext.getApiManager().getOneClickMerchantOnboarding().getOneClickOnboardingRequestResponse();
         return response;
     }
+
+
+    @And("^Validate errorCode \"([^\"]*)\" and errorDescription \"([^\"]*)\" in response for long applicationDescription$")
+    public void validateErrorCodeAndErrorDescriptionInResponseForLongApplicationDescription(String errorCode, String errorDesc) throws Throwable {
+        Response response = testContext.getApiManager().getOneClickMerchantOnboarding().getResponse();
+        if (getRestHelper().getErrorDescription(response) != null) {
+            if (getRestHelper().getErrorDescription(response).contains("'")) {
+                System.out.println("here : " + getRestHelper().getErrorDescription(response));
+                System.out.println("there: " + errorDesc);
+            }
+            Assert.assertTrue(
+                    getRestHelper().getErrorDescription(response)
+                            .replace("\"", "")
+                            .contains(errorDesc),
+                    "Different error description being returned..Expected: " + errorDesc + "Actual: " + getRestHelper().getErrorDescription(response));
+        }
+
+        Assert.assertEquals(getRestHelper().getErrorCodeOneClick(response), errorCode, "Different error code being returned");
+
+    }
 }
