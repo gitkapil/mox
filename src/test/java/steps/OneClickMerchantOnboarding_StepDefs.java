@@ -96,7 +96,6 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
 
         //Validate signingKey response details
         Assert.assertNotNull(signingKeyResponse.get(Constants.KEY_ID), "Signing keyId cannot be null!");
-        Assert.assertNotNull(signingKeyResponse.get(Constants.KEY_NAME), "Signing keyName cannot be null!");
         Assert.assertNotNull(signingKeyResponse.get(Constants.ALG), "Signing alg cannot be null!");
         Assert.assertNotNull(signingKeyResponse.get(Constants.TYPE), "Signing type cannot be null!");
         Assert.assertNotNull(signingKeyResponse.get(Constants.SIZE), "Signing size cannot be null!");
@@ -493,7 +492,6 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
 
         //Validate signingKey response details
         Assert.assertEquals(signingKeyResponse_two.get(Constants.KEY_ID), signingKeyResponse_one.get("keyId"), "Signing keyId isn't same!");
-        Assert.assertEquals(signingKeyResponse_two.get(Constants.KEY_NAME), signingKeyResponse_one.get("keyName"), "Signing keyName isn't same!");
         Assert.assertEquals(signingKeyResponse_two.get(Constants.ALG), signingKeyResponse_one.get("alg"), "Signing alg isn't same!");
         Assert.assertEquals(signingKeyResponse_two.get(Constants.TYPE), signingKeyResponse_one.get("type"), "Signing type isn't same!");
         Assert.assertEquals(signingKeyResponse_two.get(Constants.SIZE), signingKeyResponse_one.get("size"), "Signing size isn't same!");
@@ -555,7 +553,6 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
 
         //Validate signingKey response details
         Assert.assertEquals(signingKeyResponse_two.get(Constants.KEY_ID), signingKeyResponse_one.get("keyId"), "Signing keyId isn't same!");
-        Assert.assertEquals(signingKeyResponse_two.get(Constants.KEY_NAME), signingKeyResponse_one.get("keyName"), "Signing keyName isn't same!");
         Assert.assertEquals(signingKeyResponse_two.get(Constants.ALG), signingKeyResponse_one.get("alg"), "Signing alg isn't same!");
         Assert.assertEquals(signingKeyResponse_two.get(Constants.TYPE), signingKeyResponse_one.get("type"), "Signing type isn't same!");
         Assert.assertEquals(signingKeyResponse_two.get(Constants.SIZE), signingKeyResponse_one.get("size"), "Signing size isn't same!");
