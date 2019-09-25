@@ -11,6 +11,8 @@ import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import utils.Constants;
+import utils.PropertyHelper;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -63,7 +65,7 @@ public class ManagementPostPassword_StepDefs extends UtilManager {
     @And("^I have created password data with application id, activate at \"([^\"]*)\", and deactivate at \"([^\"]*)\"$")
     public void setData(String activateAt, String deactivateAt) {
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
-        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId("application.subUnitId");
+        testContext.getApiManager().getPostPasswordCreateClientPassword().setSubUnitId(applicationResponse.getBody().path("application.subUnitId"));
         testContext.getApiManager().getPostPasswordCreateClientPassword().setActivateAt(activateAt);
         testContext.getApiManager().getPostPasswordCreateClientPassword().setDeactivateAt(deactivateAt);
         testContext.getApiManager().getPostPasswordCreateClientPassword().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
@@ -122,11 +124,26 @@ public class ManagementPostPassword_StepDefs extends UtilManager {
 
     @Then("^validate the response from post password request$")
     public void validatePasswordResponse() {
-        String pdfUrl =testContext.getApiManager().getPostPasswordCreateClientPassword().getResponse().path(Constants.PDF_PIN);
 
+        Response response = testContext.getApiManager().getPostPasswordCreateClientPassword().getResponse();
+        String pdfUrl =testContext.getApiManager().getPostPasswordCreateClientPassword().getResponse().path(Constants.PDF_PIN);
+        String env = PropertyHelper.getInstance().getPropertyCascading("env");
+        String usertype = PropertyHelper.getInstance().getPropertyCascading("usertype");
        // Assert.assertTrue();
         Assert.assertNotNull(testContext.getApiManager().getPostPasswordCreateClientPassword().getResponse().path(Constants.PDF_PIN));
         Assert.assertNotNull(testContext.getApiManager().getPostPasswordCreateClientPassword().getResponse().path(Constants.PDF_URL));
+
+        if (env.equalsIgnoreCase("SIT") && usertype.equalsIgnoreCase("merchant")) {
+            Assert.assertTrue(response.path(Constants.PDF_URL).toString().contains("https://sacct" + env.toLowerCase() + "hkdragboarding.blob.core.windows.net/paymeapi-pdf/" + testContext.getApiManager().getPostPasswordCreateClientPassword().getSubUnitId() + "_LV_"));
+        } else if (env.equalsIgnoreCase("SIT") && usertype.equalsIgnoreCase("developer")) {
+            System.out.println("response:" + response.path(Constants.PDF_URL));
+            System.out.println("custom: " + "https://sacct" + env.toLowerCase() + "hkdragboarding.blob.core.windows.net/paymeapi-pdf/" + testContext.getApiManager().getPostPasswordCreateClientPassword().getSubUnitId() + "_SB_");
+            Assert.assertTrue(response.path(Constants.PDF_URL).toString().contains("https://sacct" + env.toLowerCase() + "hkdragsandbox.blob.core.windows.net/paymeapi-pdf/" + testContext.getApiManager().getPostPasswordCreateClientPassword().getSubUnitId() + "_SB_"));
+        } else if (env.equalsIgnoreCase("CI") && usertype.equalsIgnoreCase("merchant")) {
+            Assert.assertTrue(response.path(Constants.PDF_URL).toString().contains("https://sacct" + env.toLowerCase() + "dragmerch.blob.core.windows.net/paymeapi-pdf/" + testContext.getApiManager().getPostPasswordCreateClientPassword().getSubUnitId() + "_LV_"));
+        } else if (env.equalsIgnoreCase("CI") && usertype.equalsIgnoreCase("developer")) {
+            Assert.assertTrue(response.path(Constants.PDF_URL).toString().contains("https://sacct" + env.toLowerCase() + "dragmerch.blob.core.windows.net/paymeapi-pdf/" + testContext.getApiManager().getPostPasswordCreateClientPassword().getSubUnitId() + "_SB_"));
+        }
         HashMap returnResponse = testContext.getApiManager().getPostPasswordCreateClientPassword().getResponse().path("passwordMetaData");
         Assert.assertEquals(testContext.getApiManager().getPostPasswordCreateClientPassword().
         getApplicationId(), returnResponse.get(Constants.APPLICATION_ID), "application id didn't match");

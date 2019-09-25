@@ -9,7 +9,7 @@ Feature: Merchant Management AAD Password - DRAG-1481
     Then I receive an access_token
 
 #  @trial
-  @regression
+  @regression @postP
   Scenario Outline: Positive flow - create AAD Password provided with valid request body and header values
     Given I am logging in as a user with AAD Password role
     And I have created password data with application id, activate at "<activateAt>", and deactivate at "<deactivateAt>"
