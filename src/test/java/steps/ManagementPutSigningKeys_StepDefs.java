@@ -33,38 +33,12 @@ public class ManagementPutSigningKeys_StepDefs extends UtilManager {
         common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getPutSigningKeys().setAuthTokenWithBearer(token));
     }
 
-    @And("^I update the key id to \"([^\"]*)\"$")
-    public void updateKeyId(String keyId) {
-        testContext.getApiManager().getPutSigningKeys().setKeyId(keyId);
-    }
-
-
     @And("^I make PUT signing key request with invalid applicationId \"([^\"]*)\" and valid keyId$")
     public void setInvalidApplicationIdAndValidKeyId(String applicationId) throws IOException {
         testContext.getApiManager().getPutSigningKeys().setApplicationId(applicationId);
         String url = getRestHelper().getBaseURI() + getFileHelper()
                 .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) +
                 "/" + applicationId + "/keys/signing/" + testContext.getApiManager().getGetSigningKey().getKeyId();
-        testContext.getApiManager().getPutSigningKeys().makePutSigningKeyApiCall(url);
-    }
-
-    @And("^I make PUT signing key request with valid applicationId and valid keyId \"([^\"]*)\"$")
-    public void setValidApplicationIdAndInvalidKeyId(String keyId) throws IOException {
-        testContext.getApiManager().getPutSigningKeys().setApplicationId(testContext.getApiManager().getGetSigningKey().getApplicationId());
-        testContext.getApiManager().getPutSigningKeys().setKeyId(keyId);
-        String url = getRestHelper().getBaseURI() + getFileHelper()
-                .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) +
-                "/" + testContext.getApiManager().getGetSigningKey().getApplicationId() + "/keys/signing/" + keyId;
-        testContext.getApiManager().getPutSigningKeys().makePutSigningKeyApiCall(url);
-    }
-
-    @And("^I make PUT signing key request with \"([^\"]*)\" and \"([^\"]*)\" from an existing signing key$")
-    public void setApplicationIdKeyId(String applicationId, String keyId) throws IOException {
-        testContext.getApiManager().getPutSigningKeys().setApplicationId(applicationId);
-        testContext.getApiManager().getPutSigningKeys().setKeyId(keyId);
-        String url = getRestHelper().getBaseURI() + getFileHelper()
-                .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) +
-                "/" + applicationId + "/keys/signing/" + keyId;
         testContext.getApiManager().getPutSigningKeys().makePutSigningKeyApiCall(url);
     }
 

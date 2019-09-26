@@ -23,6 +23,7 @@ public class PutApplication extends UtilManager {
     private String organisationId;
     private String description;
     private String platformId;
+    private String keyId;
     private String platformName;
     private HashMap<String, String> requestHeader;
     private HashMap requestBody = new HashMap();
@@ -66,6 +67,14 @@ public class PutApplication extends UtilManager {
     public String getDescription() {
         return description;
     }
+    public String getKeyId() {
+        return keyId;
+    }
+
+    public void setKeyId(String keyId) {
+        this.keyId = keyId;
+    }
+
 
     public void setDescription(String description) {
         if (description.equalsIgnoreCase("longDescription")) {

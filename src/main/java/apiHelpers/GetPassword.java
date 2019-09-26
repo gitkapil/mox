@@ -20,8 +20,6 @@ public class GetPassword extends UtilManager {
     private String applicationId;
     private String activateAt;
     private String deactivateAt;
-    private String createdAt;
-    private String lastUpdatedAt;
     private String entityStatus;
     private Response response= null;
     private HashMap<String, String> requestHeader = new HashMap<>();
@@ -80,10 +78,6 @@ public class GetPassword extends UtilManager {
 
     public void setDeactivateAt(String deactivateAt) {
         this.deactivateAt = deactivateAt;
-    }
-
-    public void setLastUpdatedAt(String lastUpdatedAt) {
-        this.lastUpdatedAt = lastUpdatedAt;
     }
 
     private HashMap<String, String> returnRequestHeader(String method, String url, String authToken) {

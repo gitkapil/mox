@@ -449,7 +449,7 @@ public class PaymentRequest extends UtilManager{
             paymentRequestResponse = getRestHelper().postRequestWithHeaderAndBody(url, header, paymentRequestBody);
 
             //testContext.getUtilManager().getSignatureHelper().verifySignature(paymentRequestResponse, "GET", url, Base64.getDecoder().decode(signingKey), signingAlgorithm);
-            logger.info("Response: "+ paymentRequestResponse.getBody().asString());
+            logger.info("Response: "+ paymentRequestResponse.getBody().prettyPrint());
         }
         catch (Exception e){
             Assert.assertTrue("Verification of signature failed!", false);

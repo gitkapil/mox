@@ -48,19 +48,6 @@ public class ManagementPutApplications_StepDefs extends UtilManager {
         common.iAmADragonUserWithToken(token, tokenArg -> testContext.getApiManager().getPutApplication().setAuthToken(tokenArg));
     }
 
-    @Given("^I have updated \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\" values$")
-    public void i_have_updated_clientId_peakId_subUnitId_and_organisationId_values(String clientId, String peakId,
-                                                                                   String subUnitId, String organisationId
-    ) {
-        testContext.getApiManager().getPutApplication().setClientId(getSubstituteValue(clientId));
-        testContext.getApiManager().getPutApplication().setPeakId(getSubstituteValue(peakId));
-        testContext.getApiManager().getPutApplication().setSubUnitId(getSubstituteValue(subUnitId));
-        testContext.getApiManager().getPutApplication().setOrganisationId(getSubstituteValue(organisationId));
-        testContext.getApiManager().getPutApplication().setRequestDateTime(getDateHelper().getUTCNowDateTime());
-        testContext.getApiManager().getPutApplication().setTraceId(getGeneral().generateUniqueUUID());
-    }
-
-
     @Given("^I have updated the \"([^\"]*)\" and platformId values$")
     public void updatedDescriptionAndPlatformValues(String description) {
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();

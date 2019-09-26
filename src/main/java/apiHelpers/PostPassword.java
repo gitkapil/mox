@@ -13,6 +13,7 @@ public class PostPassword extends UtilManager {
     private String deactivateAt;
     private String entityStatus;
     private String subUnitId;
+    private String keyId;
     private Response response = null;
 
     final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(PostPassword.class);
@@ -39,6 +40,11 @@ public class PostPassword extends UtilManager {
 
     public void setEntityStatus(String entityStatus) {
         this.entityStatus = entityStatus;
+    }
+
+    public String getKeyId() { return keyId; }
+
+    public void setKeyId(String keyId) { this.keyId = keyId;
     }
 
     public Response getResponse() {
