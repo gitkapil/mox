@@ -20,7 +20,6 @@ public class ManagementGetPassword_StepDef extends UtilManager {
     Response applicationResponse;
     private static final Set<String> ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
     private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_application_resource";
-    private static final String VALID_BASE64_ENCODED_RSA_PUBLIC_KEY = "valid_base64_encoded_rsa_public_key";
     final static Logger logger = Logger.getLogger(ManagementGetPassword_StepDef.class);
 
     public ManagementGetPassword_StepDef(TestContext testContext) {

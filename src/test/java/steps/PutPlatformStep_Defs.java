@@ -17,18 +17,14 @@ import java.util.Map;
 import java.util.Set;
 
 public class PutPlatformStep_Defs extends UtilManager {
-
-    // NB: These are the dragon token (for testing) roles {"roles": ["Application.ReadWrite.All"]}.  CSO tokens use claim {"role": "user"}
     private static final Set<String> ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
     private static final Set<String> INCORRECT_ROLE_SET = Sets.newHashSet("ApplicationKey.ReadWrite.All");
     private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_platforms";
-    private static final String SIG_HEADER_LIST_POST_APPLICATION = "header-list-post-application";
-    public static String platformID;
+
     TestContext testContext;
     ManagementCommon common;
 
     Response response;
-    String platformUrl = null;
 
     final static Logger logger = Logger.getLogger(PutPlatformStep_Defs.class);
 

@@ -4,7 +4,6 @@ import com.google.common.collect.Sets;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.jayway.restassured.response.Response;
-import com.mysql.cj.exceptions.ClosedOnExpiredPasswordException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -14,7 +13,6 @@ import org.apache.log4j.Logger;
 import org.testng.Assert;
 import utils.Constants;
 
-import java.sql.SQLOutput;
 import java.util.*;
 
 public class ManagementGetPlatformStep_Defs extends UtilManager {
@@ -25,8 +23,8 @@ public class ManagementGetPlatformStep_Defs extends UtilManager {
     Response response;
     String getPlatformURL;
     private static final Set<String> ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
-    private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_platforms";
-    private static final String VALID_BASE64_ENCODED_RSA_PUBLIC_KEY = "valid_base64_encoded_rsa_public_key";
+        private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_platforms";
+
     final static Logger logger = Logger.getLogger(ManagementGetPlatformStep_Defs.class);
 
     public ManagementGetPlatformStep_Defs(TestContext testContext) {
@@ -37,8 +35,6 @@ public class ManagementGetPlatformStep_Defs extends UtilManager {
     public void makeRequest(String url) {
         this.getPlatformURL = url;
         testContext.getApiManager().getGetPlatform().executeGetPlatformRequest(url);
-        //String response=testContext.getApiManager().getGetPlatform().getResponse().getBody().prettyPrint();
-        System.out.println("resp : " + testContext.getApiManager().getGetPlatform().getResponse().getBody().prettyPrint());
     }
 
     @Given("^I am a GET platform authorized DRAGON user with Platform\\.ReadWrite\\.All$")

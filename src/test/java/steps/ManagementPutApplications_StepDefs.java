@@ -7,7 +7,6 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import managers.TestContext;
 import managers.UtilManager;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
@@ -19,11 +18,9 @@ import java.util.UUID;
 
 
 public class ManagementPutApplications_StepDefs extends UtilManager {
-    // NB: These are the dragon token (for testing) roles.  CSO tokens use claim {"role": "user"}
     private static final Set<String> ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
     private static final Set<String> INCORRECT_ROLE_SET = Sets.newHashSet("ApplicationKey.ReadWrite.All");
     private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_application_resource";
-    private static final String SIG_HEADER_LIST_POST_APPLICATION = "header-list-post-application";
 
     private TestContext testContext;
     private ManagementCommon common;

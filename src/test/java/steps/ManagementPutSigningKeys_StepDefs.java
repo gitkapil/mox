@@ -18,13 +18,10 @@ import java.util.Set;
 public class ManagementPutSigningKeys_StepDefs extends UtilManager {
     private TestContext testContext;
     private ManagementCommon common;
-    private Response applicationResponse;
     private static final Set<String> ROLE_SET = Sets.newHashSet("ApplicationKey.ReadWrite.All");
     private static final Set<String> APPLICATION_ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
     private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_application_resource";
-    private static final String EXISTING_PUBLIC_KEY = "public_key_application_id";
-    private static final String SIG_HEADER_LIST_POST_APPLICATION = "header-list-post-application";
-    private static final String VALID_BASE64_ENCODED_RSA_PUBLIC_KEY = "valid_base64_encoded_rsa_public_key";
+
 
     public ManagementPutSigningKeys_StepDefs(TestContext testContext) {
         this.testContext = testContext;
