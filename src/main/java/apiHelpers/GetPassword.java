@@ -26,9 +26,6 @@ public class GetPassword extends UtilManager {
     private Response response= null;
     private HashMap<String, String> requestHeader = new HashMap<>();
 
-    General general = new General();
-
-
     public Response getResponse() {
         return response;
     }
@@ -83,18 +80,6 @@ public class GetPassword extends UtilManager {
 
     public void setDeactivateAt(String deactivateAt) {
         this.deactivateAt = deactivateAt;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getLastUpdatedAt() {
-        return lastUpdatedAt;
     }
 
     public void setLastUpdatedAt(String lastUpdatedAt) {

@@ -25,11 +25,8 @@ import java.util.Set;
 import java.util.UUID;
 
 public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
-
-    // NB: These are the dragon token (for testing) roles {"roles": ["Application.ReadWrite.All"]}.  CSO tokens use claim {"role": "user"}
     private static final Set<String> ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
     private static final Set<String> INCORRECT_ROLE_SET = Sets.newHashSet("ApplicationKey.ReadWrite.All");
-    private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_application_resource";
     private static final String SIG_HEADER_LIST_POST_APPLICATION = "header-list-post-application";
 
     TestContext testContext;
@@ -627,7 +624,6 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
                             .contains(errorDesc),
                     "Different error description being returned..Expected: " + errorDesc + "Actual: " + getRestHelper().getErrorDescription(response));
         }
-
         Assert.assertEquals(getRestHelper().getErrorCodeOneClick(response), errorCode, "Different error code being returned");
 
     }

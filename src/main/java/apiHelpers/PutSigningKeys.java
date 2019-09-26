@@ -4,7 +4,6 @@ import com.jayway.restassured.response.Response;
 import managers.UtilManager;
 import org.apache.log4j.Logger;
 import utils.PropertyHelper;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -15,23 +14,14 @@ public class PutSigningKeys extends UtilManager {
     private String authToken;
     private Response response = null;
     private String applicationId;
-    private String keyId;
     private String activateAt;
     private String deactivateAt;
     private String description;
     private String entityStatus;
-    private String traceId;
-    private String requestDateTime;
     private HashMap<String, String> requestHeader = new HashMap();
-   private  HashMap<String, String> objReturn = new HashMap();
     private static Logger logger = Logger.getLogger(PutSigningKeys.class);
     private HashMap<String, String> requestBody = new HashMap();
-    private final static String EXISTING_APPLICATION_ID = "";
 
-
-    public String getRequestDateTime() {
-        return requestDateTime;
-    }
 
     public void makePutSigningKeyApiCall(String url) throws IOException {
         HashMap<String, String> header = returnHeader("PUT", new URL(url).getPath());
@@ -58,9 +48,9 @@ public class PutSigningKeys extends UtilManager {
             requestHeader.put("Accept", "application/json");
             requestHeader.put("Content-Type", "application/json");
             requestHeader.put("Authorization", authToken);
-            requestHeader.put("Trace-Id", traceId);
+            requestHeader.put("Trace-Id", getGeneral().generateUniqueUUID());
             requestHeader.put("Accept-Language", "en-US");
-            requestHeader.put("Request-Date-Time", getRequestDateTime());
+            requestHeader.put("Request-Date-Time",  getDateHelper().getUTCNowDateTime());
             requestHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
             requestHeader.remove(keys);
             return  requestHeader;
@@ -115,14 +105,6 @@ public class PutSigningKeys extends UtilManager {
 
     public void setApplicationId(String applicationId) {
         this.applicationId = applicationId;
-    }
-
-    public String getKeyId() {
-        return keyId;
-    }
-
-    public void setKeyId(String keyId) {
-        this.keyId = keyId;
     }
 
     public Response getResponse() {

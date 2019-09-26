@@ -27,38 +27,6 @@ public class GetPlatform extends UtilManager {
         this.platformDescription = platformDescription;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getLastUpdatedAt() {
-        return lastUpdatedAt;
-    }
-
-    public void setLastUpdatedAt(String lastUpdatedAt) {
-        this.lastUpdatedAt = lastUpdatedAt;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public String getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
-    }
-
     public String getPlatformId() {
         return platformId;
     }
@@ -97,10 +65,6 @@ public class GetPlatform extends UtilManager {
 
     public void setRequestHeader(HashMap<String, String> requestHeader) {
         this.requestHeader = requestHeader;
-    }
-
-    public HashMap<String, String> getRequestBody() {
-        return requestBody;
     }
 
     public String getPlatformDescription() {
