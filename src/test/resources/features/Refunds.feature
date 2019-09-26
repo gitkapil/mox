@@ -47,18 +47,18 @@ Feature: Refund - DRAG- 179, DRAG-1812
   #refund amount = 1000000.01
       | 1000000.01 | HKD          | 00         | test          | 400         | Field error in object 'refundInputModel': field 'amount' must be less than or equal to 1000000; rejected value [1000000.01]                   | EA018    |
   #without refund amount
-      | null       | HKD          | 00         | test          | 400         | Field error in object 'refundInputModel': field 'amount' may not be null; rejected value [null]                                               | EA018    |
+      | null       | HKD          | 00         | test          | 400         | Field error in object 'refundInputModel': field 'amount' must not be null; rejected value [null]                                              | EA018    |
   #refund currency code usd
       | 1          | USD          | 00         | test          | 400         | Invalid currency code                                                                                                                         | EA014    |
   #without refund currency code
-      | 1          | null         | 00         | test          | 400         | Field error in object 'refundInputModel': field 'currencyCode' may not be null; rejected value [null]                                         | EA014    |
+      | 1          | null         | 00         | test          | 400         | Field error in object 'refundInputModel': field 'currencyCode' must not be null; rejected value [null]                                        | EA014    |
   #without reason code
-      | 1          | HKD          | null       | test          | 400         | Field error in object 'refundInputModel': field 'reasonCode' may not be null; rejected value [null]                                           | EA034    |
+      | 1          | HKD          | null       | test          | 400         | Field error in object 'refundInputModel': field 'reasonCode' must not be null; rejected value [null]                                          | EA034    |
   #reason code = 000
-      | 1          | HKD          | 000        | test          | 400         | Field error in object 'refundInputModel': field 'reasonCode' may not be null; rejected value [null]                                           | EA034    |
+      | 1          | HKD          | 000        | test          | 400         | Field error in object 'refundInputModel': field 'reasonCode' must not be null; rejected value [null]                                          | EA034    |
   #reason code = 06
-      | 1          | HKD          | 06         | test          | 400         | Field error in object 'refundInputModel': field 'reasonCode' may not be null; rejected value [null]                                           | EA034    |
+      | 1          | HKD          | 06         | test          | 400         | Field error in object 'refundInputModel': field 'reasonCode' must not be null; rejected value [null]                                          | EA034    |
   #reason message longer than 140 characters
       | 1          | HKD          | 00         | biglength     | 400         | Field error in object                                                                                                                         | EA002    |
   # reason message exists with reason code != 00
-      | 1          | HKD          | 82         | test          | 400         | Field error in object 'refundInputModel': field 'reasonCode' may      not be null; rejected value [null]                                      | EA034    |
+      | 1          | HKD          | 82         | test          | 400         | Field error in object 'refundInputModel': field 'reasonCode' must not be null; rejected value [null]                                          | EA034    |
