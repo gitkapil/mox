@@ -1,5 +1,4 @@
 package apiHelpers;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.restassured.response.Response;
@@ -8,10 +7,8 @@ import managers.UtilManager;
 import org.junit.Assert;
 import utils.EnvHelper;
 import utils.PropertyHelper;
-
 import java.net.URL;
 import java.util.*;
-
 
 public class PaymentRequest extends UtilManager{
     final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(PaymentRequest.class);
@@ -23,6 +20,8 @@ public class PaymentRequest extends UtilManager{
     private HashMap<String, String> paymentRequestHeader;
     private HashMap paymentRequestBody = new HashMap();
     private Response paymentRequestResponse = null;
+    private  String paymentRequestId;
+    private String statusDescription;
 
 
     /**
@@ -67,6 +66,20 @@ public class PaymentRequest extends UtilManager{
 
     public String getTotalAmount() {
         return totalAmount;
+    }
+
+    public String getPaymentRequestId() {
+        return paymentRequestId;
+    }
+
+    public void setPaymentRequestId(String paymentRequestId) { this.paymentRequestId = paymentRequestId; }
+
+    public String getStatusDescription() {
+        return statusDescription;
+    }
+
+    public void setStatusDescription(String statusDescription) {
+        this.statusDescription = statusDescription;
     }
 
     public Double getTotalAmountInDouble() {

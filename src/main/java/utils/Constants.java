@@ -43,5 +43,7 @@ public class Constants {
     public static final Object UPDATED_BY = "updatedBy";
     public static final String PLATFORM_STATUS = "status";
     public static final String PLATFORM_DESCRIPTION = "description";
-
+    public static final String PAYMENT_REQUEST_ID = "paymentRequestId";
+    public static final String STATUS_DESCRIPTION = "statusDescription";
+    public static final String TRANSACTIONS = "transactions";
 }

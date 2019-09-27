@@ -1,14 +1,16 @@
 package steps;
 
-import managers.TestContext;
 import com.jayway.restassured.response.Response;
 import cucumber.api.DataTable;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import managers.TestContext;
 import managers.UtilManager;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
+import utils.Constants;
 import utils.EnvHelper;
 
 import java.util.ArrayList;
@@ -120,6 +122,25 @@ public class PaymentRequest_StepDefs extends UtilManager{
         testContext.getApiManager().getPaymentRequest().setTraceId(getGeneral().generateUniqueUUID());
     }
 
+
+    @Given("^I have valid payment details with amount \"([^\"]*)\"$")
+    public void i_have_valid_payment_detailsWithAmunt(String amount){
+        testContext.getApiManager().getPaymentRequest().setTotalAmount(amount);
+        testContext.getApiManager().getPaymentRequest().setCurrency("HKD");
+        //testContext.getApiManager().getPaymentRequest().setNotificationURI("https://pizzahut.com/return");
+        //testContext.getApiManager().getPaymentRequest().setAppSuccessCallback("https://pizzahut.com/confirmation");
+        //testContext.getApiManager().getPaymentRequest().setAppFailCallback("https://pizzahut.com/unsuccessful");
+        testContext.getApiManager().getPaymentRequest().setNotificationURI(Hooks.hostIP+"/return");
+        testContext.getApiManager().getPaymentRequest().setAppSuccessCallback(Hooks.hostIP+"/confirmation");
+        testContext.getApiManager().getPaymentRequest().setAppFailCallback(Hooks.hostIP+"/unsuccessful");
+        testContext.getApiManager().getPaymentRequest().setEffectiveDuration("600");
+        testContext.getApiManager().getPaymentRequest().setShoppingCart(null);
+        testContext.getApiManager().getPaymentRequest().setMerchantData(null);
+        testContext.getApiManager().getPaymentRequest().setRequestDateTime(getDateHelper().getUTCNowDateTime());
+        testContext.getApiManager().getPaymentRequest().setTraceId(getGeneral().generateUniqueUUID());
+    }
+
+
     @Given("^I have shopping cart details$")
     public void i_have_shopping_cart_details(DataTable dt) {
         testContext.getApiManager().getPaymentRequest().createShoppingCart(dt);
@@ -155,11 +176,14 @@ public class PaymentRequest_StepDefs extends UtilManager{
     @When("^I make a request for the payment$")
     public void i_make_a_request_for_the_payment()  {
         logger.info("********** Creating Payment Request ***********");
-        testContext.getApiManager().getPaymentRequest().retrievePaymentRequest(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+      testContext.getApiManager().getPaymentRequest().retrievePaymentRequest(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
                 testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 testContext.getApiManager().getMerchantManagementSigningKey(),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
+        Response response =testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse();
+        testContext.getApiManager().getPaymentRequest().setPaymentRequestId(response.path(Constants.PAYMENT_REQUEST_ID));
+        testContext.getApiManager().getPaymentRequest().setStatusDescription(response.path(Constants.STATUS_DESCRIPTION));
 
     }
 
@@ -171,6 +195,7 @@ public class PaymentRequest_StepDefs extends UtilManager{
                 testContext.getApiManager().getMerchantManagementSigningKey(),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
 
+
     }
 
     @Then("^I should receive a successful payment response$")
@@ -181,8 +206,25 @@ public class PaymentRequest_StepDefs extends UtilManager{
 
     }
 
+    @And("^error message should be displayed within the response$")
+    public void errorMessageShouldBeDisplayInResponse() {
+        Response response = testContext.getApiManager().getPaymentRequest().getPaymentRequestResponse();
+        Assert.assertEquals(getRestHelper().getResponseStatusCode(response),400, "response code should be 400");
+        if (getRestHelper().getErrorDescription(response) != null) {
+            if (getRestHelper().getErrorDescription(response).contains("'")) {
+            }
+            org.testng.Assert.assertTrue(
+                    getRestHelper().getErrorDescription(response)
+                            .replace("\"", "")
+                            .contains("Internal Server Error, contact support"),
+                    "Different error description being returned..Expected: " + "Internal Server Error, contact support" + "Actual: " + getRestHelper().getErrorDescription(response));
+        }
+        Assert.assertEquals(getRestHelper().getErrorCode(response), "EB099", "Different error code being returned");
+    }
+
     @Then("^the response body should contain valid payment request id, business logos, created timestamp, web link, app link, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration$")
     public void the_response_body_should_contain_valid_payment_id_created_timestamp_links(){
+
         Assert.assertNotNull(testContext.getApiManager().getPaymentRequest().paymentRequestIdInResponse(), "Payment Request Id is not present in the response!!");
 
         Assert.assertNotNull(testContext.getApiManager().getPaymentRequest().businessLogosInResponse(),  "Business Logos  are not present in the response!!");

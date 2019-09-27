@@ -6,7 +6,7 @@ Feature: Check Status - DRAG- 178, DRAG-1127, DRAG-1130, DRAG-1133
     Then I receive an access_token
 
 #  @trial
-  @regression
+  @regression @payStatus
   Scenario: Positive flow- A merchant is able to create a check status request with all the valid inputs
     Given I am an authorized user
     And I have valid payment details

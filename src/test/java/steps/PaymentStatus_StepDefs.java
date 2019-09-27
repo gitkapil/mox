@@ -1,6 +1,7 @@
 package steps;
 
 import apiHelpers.Transaction;
+import com.jayway.restassured.response.Response;
 import cucumber.api.java.en.And;
 import managers.TestContext;
 import cucumber.api.java.en.Given;
@@ -9,9 +10,12 @@ import cucumber.api.java.en.When;
 import managers.UtilManager;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
+import utils.Constants;
 import utils.PropertyHelper;
 
+import java.awt.geom.RectangularShape;
 import java.util.Arrays;
+import java.util.ConcurrentModificationException;
 import java.util.HashSet;
 import java.util.List;
 
@@ -51,10 +55,23 @@ public class PaymentStatus_StepDefs extends UtilManager{
 
         System.out.println("+++++++++++++++++++++++ Payment Status Response from Realisation +++++++++++++++++++++++");
         System.out.println();
-        System.out.println(testContext.getApiManager().getPaymentStatus().getPaymentStatusResponse().asString());
+        System.out.println(testContext.getApiManager().getPaymentStatus().getPaymentStatusResponse().prettyPrint());
         System.out.println();
         System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
+    }
+
+    @Then("^I should receive a successful check status response for amount \"([^\"]*)\"$")
+    public void i_should_receive_a_successful_check_status_responseForAmount(String amount) {
+        logger.info("********** Retrieving Payment Request Status ***********");
+        Assert.assertEquals(getRestHelper().getResponseHeaderValue(testContext.getApiManager().getPaymentStatus().getPaymentStatusResponse(), "X-Application-Context "), null, "Expects X-Application-Context header to not exists");
+       if(amount.equalsIgnoreCase("1.81")) {
+           Assert.assertEquals(getRestHelper().getResponseStatusCode(testContext.getApiManager().getPaymentStatus().getPaymentStatusResponse()), 200, "Check Payment Status was not successful!");
+       } else if(amount.equalsIgnoreCase("1.80")){
+           Assert.assertEquals(getRestHelper().getResponseStatusCode(testContext.getApiManager().getPaymentStatus().getPaymentStatusResponse()), 200, "Check Payment Status was not successful!");
+       } else if(amount.equalsIgnoreCase("1.45")){
+           Assert.assertEquals(getRestHelper().getResponseStatusCode(testContext.getApiManager().getPaymentStatus().getPaymentStatusResponse()), 400, "Check Payment Status was not successful!");
+       }
     }
 
     @Then("^the response body should contain valid payment request id, created timestamp, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration within check status response$")
@@ -197,5 +214,33 @@ public class PaymentStatus_StepDefs extends UtilManager{
         // ToDo: verify with exact fields on final spec
         List<Transaction> listOfTransactions = testContext.getApiManager().getPaymentStatus().getTransactions();
         Assert.assertNotNull(listOfTransactions);
+    }
+
+
+
+    @And("^validate payment status response for amount \"([^\"]*)\"$")
+    public void validatePaymentStatusResponse(String amount) {
+        Response response = testContext.getApiManager().getPaymentStatus().getPaymentStatusResponse();
+        System.out.println("response: ***********" + response.prettyPrint());
+        if (amount.equalsIgnoreCase("1.81")) {
+            Assert.assertEquals(response.path(Constants.PAYMENT_REQUEST_ID), testContext.getApiManager().getPaymentRequest().getPaymentRequestId(), "Payment Request id didn't match");
+            Assert.assertEquals(response.path(Constants.STATUS_DESCRIPTION), "Payment Success", "status description is not expected");
+            Assert.assertNotNull(response.path(Constants.TRANSACTIONS), "transactions should not be null");
+        } else if (amount.equalsIgnoreCase("1.80")) {
+            Assert.assertEquals(response.path(Constants.PAYMENT_REQUEST_ID), testContext.getApiManager().getPaymentRequest().getPaymentRequestId(), "Payment Request id didn't match");
+            Assert.assertEquals(response.path(Constants.STATUS_DESCRIPTION), testContext.getApiManager().getPaymentRequest().getStatusDescription(), "status description is not expected");
+        } else if (amount.equalsIgnoreCase("1.45")) {
+            Assert.assertEquals(getRestHelper().getResponseStatusCode(response),400, "response code should be 400");
+            if (getRestHelper().getErrorDescription(response) != null) {
+                if (getRestHelper().getErrorDescription(response).contains("'")) {
+                }
+                org.testng.Assert.assertTrue(
+                        getRestHelper().getErrorDescription(response)
+                                .replace("\"", "")
+                                .contains("Internal Server Error, contact support"),
+                        "Different error description being returned..Expected: " + "Internal Server Error, contact support" + "Actual: " + getRestHelper().getErrorDescription(response));
+            }
+            Assert.assertEquals(getRestHelper().getErrorCode(response), "EB099", "Different error code being returned");
+        }
     }
 }
