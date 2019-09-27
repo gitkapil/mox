@@ -23,9 +23,8 @@ public class PutApplication extends UtilManager {
     private String organisationId;
     private String description;
     private String platformId;
+    private String keyId;
     private String platformName;
-    private String traceId;
-    private String requestDateTime;
     private HashMap<String, String> requestHeader;
     private HashMap requestBody = new HashMap();
     private Response response = null;
@@ -37,20 +36,8 @@ public class PutApplication extends UtilManager {
         return requestHeader;
     }
 
-    public HashMap getRequestBody() {
-        return requestBody;
-    }
-
-    public String getTraceId() {
-        return traceId;
-    }
-
     public Response getResponse() {
         return response;
-    }
-
-    public String getRequestDateTime() {
-        return requestDateTime;
     }
 
     public String getAuthToken() {
@@ -80,6 +67,14 @@ public class PutApplication extends UtilManager {
     public String getDescription() {
         return description;
     }
+    public String getKeyId() {
+        return keyId;
+    }
+
+    public void setKeyId(String keyId) {
+        this.keyId = keyId;
+    }
+
 
     public void setDescription(String description) {
         if (description.equalsIgnoreCase("longDescription")) {
@@ -107,13 +102,6 @@ public class PutApplication extends UtilManager {
     /**
      * Setters
      */
-    public void setTraceId(String traceId) {
-        this.traceId = traceId;
-    }
-
-    public void setRequestDateTime(String requestDateTime) {
-        this.requestDateTime = requestDateTime;
-    }
 
     public void setAuthToken(String authToken) {
         this.authToken = authToken;

@@ -13,7 +13,6 @@ public class GetSigningKey extends UtilManager {
     private String applicationId;
     private Response response = null;
     private String keyId;
-    private String keyName;
     private String entityStatus;
 
     private HashMap<String, String> requestHeader;
@@ -38,14 +37,6 @@ public class GetSigningKey extends UtilManager {
 
     public void setKeyId(String keyId) {
         this.keyId = keyId;
-    }
-
-    public String getKeyName() {
-        return keyName;
-    }
-
-    public void setKeyName(String keyName) {
-        this.keyName = keyName;
     }
 
     public String getEntityStatus() {
