@@ -8,7 +8,7 @@ Feature: DRAG-2068 Magic Numbers - Payment Request and check status for magic nu
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-    # Magic number scenarios would only run on SIT-Developer
+    # Magic number scenarios would only be run on SIT-Developer
 
   @regression
   Scenario Outline: Positive flow- A march can initiate payment request and check status for successful, initiated and error in status for 1.81 , 1.81, 1.45 magic numbers
