@@ -47,6 +47,25 @@ public class PaymentStatus_StepDefs extends UtilManager{
 
     }
 
+
+    @When("^I make a request for the check status for amount \"([^\"]*)\"$")
+    public void i_make_a_request_for_the_check_statusForAmount(String amount) throws InterruptedException {
+        if (amount.equalsIgnoreCase("1.80")) {
+            Thread.sleep(20000);
+            testContext.getApiManager().getPaymentStatus().retrievePaymentStatus(getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                    testContext.getApiManager().getMerchantManagementSigningKeyId(),
+                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                    testContext.getApiManager().getMerchantManagementSigningKey(),
+                    new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
+        } else {
+
+            testContext.getApiManager().getPaymentStatus().retrievePaymentStatus(getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
+                    testContext.getApiManager().getMerchantManagementSigningKeyId(),
+                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                    testContext.getApiManager().getMerchantManagementSigningKey(),
+                    new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
+        }
+    }
     @Then("^I should receive a successful check status response$")
     public void i_should_receive_a_successful_check_status_response() {
         logger.info("********** Retrieving Payment Request Status ***********");
@@ -228,7 +247,7 @@ public class PaymentStatus_StepDefs extends UtilManager{
             Assert.assertNotNull(response.path(Constants.TRANSACTIONS), "transactions should not be null");
         } else if (amount.equalsIgnoreCase("1.80")) {
             Assert.assertEquals(response.path(Constants.PAYMENT_REQUEST_ID), testContext.getApiManager().getPaymentRequest().getPaymentRequestId(), "Payment Request id didn't match");
-            Assert.assertEquals(response.path(Constants.STATUS_DESCRIPTION), testContext.getApiManager().getPaymentRequest().getStatusDescription(), "status description is not expected");
+            Assert.assertEquals(response.path(Constants.STATUS_DESCRIPTION), "Payment Request Expired", "status description is not expected");
         } else if (amount.equalsIgnoreCase("1.45")) {
             Assert.assertEquals(getRestHelper().getResponseStatusCode(response),400, "response code should be 400");
             if (getRestHelper().getErrorDescription(response) != null) {

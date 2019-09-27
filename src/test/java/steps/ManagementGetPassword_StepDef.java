@@ -41,7 +41,7 @@ public class ManagementGetPassword_StepDef extends UtilManager {
         testContext.getApiManager().getGetPassword().setClientId(applicationResponse.getBody().path("application.clientId"));
         testContext.getApiManager().getGetPassword().setKeyId(applicationResponse.getBody().path("passwordMetadata.keyId"));
         testContext.getApiManager().getGetPassword().setEntityStatus(applicationResponse.getBody().path("passwordMetadata.entityStatus"));
-        testContext.getApiManager().getGetPassword().setLastUpdatedAt(applicationResponse.getBody().path("application.lastUpdatedAt"));
+       // testContext.getApiManager().getGetPassword().setLastUpdatedAt(applicationResponse.getBody().path("application.lastUpdatedAt"));
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
                 + "/" + testContext.getApiManager().getGetPassword().getApplicationId() + "/keys/passwords";

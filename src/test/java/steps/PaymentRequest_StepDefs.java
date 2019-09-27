@@ -105,6 +105,19 @@ public class PaymentRequest_StepDefs extends UtilManager{
     }
 
 
+    @Given("^I have payment details \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$")
+    public void i_have_payment_details(String totalAmount, String currency, String notificationURI, String appSuccessCallback, String appFailCallback){
+        testContext.getApiManager().getPaymentRequest().setTotalAmount(totalAmount);
+        testContext.getApiManager().getPaymentRequest().setCurrency(currency);
+        testContext.getApiManager().getPaymentRequest().setNotificationURI(Hooks.hostIP+notificationURI);
+        testContext.getApiManager().getPaymentRequest().setAppSuccessCallback(Hooks.hostIP+appSuccessCallback);
+        testContext.getApiManager().getPaymentRequest().setAppFailCallback(Hooks.hostIP+appFailCallback);
+        testContext.getApiManager().getPaymentRequest().setShoppingCart(null);
+        testContext.getApiManager().getPaymentRequest().setMerchantData(null);
+        testContext.getApiManager().getPaymentRequest().setRequestDateTime(getDateHelper().getUTCNowDateTime());
+        testContext.getApiManager().getPaymentRequest().setTraceId(getGeneral().generateUniqueUUID());
+    }
+
     @Given("^I have valid payment details$")
     public void i_have_valid_payment_details(){
         testContext.getApiManager().getPaymentRequest().setTotalAmount("100");
@@ -133,7 +146,7 @@ public class PaymentRequest_StepDefs extends UtilManager{
         testContext.getApiManager().getPaymentRequest().setNotificationURI(Hooks.hostIP+"/return");
         testContext.getApiManager().getPaymentRequest().setAppSuccessCallback(Hooks.hostIP+"/confirmation");
         testContext.getApiManager().getPaymentRequest().setAppFailCallback(Hooks.hostIP+"/unsuccessful");
-        testContext.getApiManager().getPaymentRequest().setEffectiveDuration("600");
+        testContext.getApiManager().getPaymentRequest().setEffectiveDuration("15");
         testContext.getApiManager().getPaymentRequest().setShoppingCart(null);
         testContext.getApiManager().getPaymentRequest().setMerchantData(null);
         testContext.getApiManager().getPaymentRequest().setRequestDateTime(getDateHelper().getUTCNowDateTime());
