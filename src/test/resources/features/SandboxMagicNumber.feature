@@ -1,4 +1,3 @@
-@getMagic
 Feature: DRAG-2068 Magic Numbers - Payment Request and check status for magic numbers
   As a user
   I want to make request and check pending, initiated, expired, and failed cases with some specific numbers call magic numbers

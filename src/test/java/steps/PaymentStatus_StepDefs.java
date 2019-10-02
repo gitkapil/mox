@@ -3,19 +3,16 @@ package steps;
 import apiHelpers.Transaction;
 import com.jayway.restassured.response.Response;
 import cucumber.api.java.en.And;
-import managers.TestContext;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import managers.TestContext;
 import managers.UtilManager;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import utils.Constants;
 import utils.PropertyHelper;
-
-import java.awt.geom.RectangularShape;
 import java.util.Arrays;
-import java.util.ConcurrentModificationException;
 import java.util.HashSet;
 import java.util.List;
 
@@ -26,7 +23,6 @@ public class PaymentStatus_StepDefs extends UtilManager{
     public PaymentStatus_StepDefs(TestContext testContext) {
         this.testContext = testContext;
     }
-
     final static Logger logger = Logger.getLogger(PaymentStatus_StepDefs.class);
 
     @Given("^I have a valid payment id$")
@@ -44,14 +40,13 @@ public class PaymentStatus_StepDefs extends UtilManager{
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,"signing_algorithm"),
                 testContext.getApiManager().getMerchantManagementSigningKey(),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
-
     }
 
 
     @When("^I make a request for the check status for amount \"([^\"]*)\"$")
     public void i_make_a_request_for_the_check_statusForAmount(String amount) throws InterruptedException {
         if (amount.equalsIgnoreCase("1.80")) {
-            Thread.sleep(20000);
+            Thread.sleep(16000);
             testContext.getApiManager().getPaymentStatus().retrievePaymentStatus(getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
                     testContext.getApiManager().getMerchantManagementSigningKeyId(),
                     getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
@@ -149,25 +144,17 @@ public class PaymentStatus_StepDefs extends UtilManager{
                         || testContext.getApiManager().getPaymentStatus().appFailCallbackInResponse().contains("unsuccessful"), "App Fail Callback isn't matching with emulator!");
             }
         }
-
-
     }
-
-
 
     @Given("^I dont send Bearer with the auth token in the check status request$")
     public void i_dont_send_Bearer_with_the_auth_token_in_the_check_status_request(){
-
         testContext.getApiManager().getPaymentStatus().setAuthToken(testContext.getApiManager().getAccessToken().getAccessToken());
-
     }
 
     @Then("^I should receive a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within check status response$")
     public void i_should_receive_a_error_response_with_error_description_and_errorcode_within_check_status_response(int responseCode, String errorDesc, String errorCode) {
         Assert.assertEquals(getRestHelper().getResponseStatusCode(testContext.getApiManager().getPaymentStatus().getPaymentStatusResponse()), responseCode,"Different response code being returned");
-
         Assert.assertEquals(getRestHelper().getErrorCode(testContext.getApiManager().getPaymentStatus().getPaymentStatusResponse()), errorCode,"Different error code being returned");
-
         Assert.assertTrue(getRestHelper().getErrorDescription(testContext.getApiManager().getPaymentStatus().getPaymentStatusResponse()).contains(errorDesc) ,"Different error description being returned..Expected: "+ errorDesc+ "  Actual: "+ getRestHelper().getErrorDescription(testContext.getApiManager().getPaymentStatus().getPaymentStatusResponse()));
 
     }
@@ -210,7 +197,6 @@ public class PaymentStatus_StepDefs extends UtilManager{
     @Then("^the response body should contain correct \"([^\"]*)\" and \"([^\"]*)\"$")
     public void the_response_body_should_contain_correct_and(String statusDesc, String statusCode)  {
         Assert.assertEquals(testContext.getApiManager().getPaymentStatus().statusDescriptionInResponse(), statusDesc,"Status Description is not correct!");
-
         Assert.assertEquals(testContext.getApiManager().getPaymentStatus().statusCodeInResponse(), statusCode,"Status Code is not correct!");
     }
 
@@ -218,13 +204,11 @@ public class PaymentStatus_StepDefs extends UtilManager{
     public void invalid_value_request_date_time(String value)  {
         testContext.getApiManager().getPaymentStatus().setTraceId(getGeneral().generateUniqueUUID());
         testContext.getApiManager().getPaymentStatus().setRequestDateTime(value);
-
         testContext.getApiManager().getPaymentStatus().retrievePaymentStatus(getRestHelper().getBaseURI()+getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_payment_request_resource"),
                 testContext.getApiManager().getMerchantManagementSigningKeyId(),
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,"signing_algorithm"),
                 testContext.getApiManager().getMerchantManagementSigningKey(),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
-
     }
 
 
@@ -235,12 +219,9 @@ public class PaymentStatus_StepDefs extends UtilManager{
         Assert.assertNotNull(listOfTransactions);
     }
 
-
-
     @And("^validate payment status response for amount \"([^\"]*)\"$")
     public void validatePaymentStatusResponse(String amount) {
         Response response = testContext.getApiManager().getPaymentStatus().getPaymentStatusResponse();
-        System.out.println("response: ***********" + response.prettyPrint());
         if (amount.equalsIgnoreCase("1.81")) {
             Assert.assertEquals(response.path(Constants.PAYMENT_REQUEST_ID), testContext.getApiManager().getPaymentRequest().getPaymentRequestId(), "Payment Request id didn't match");
             Assert.assertEquals(response.path(Constants.STATUS_DESCRIPTION), "Payment Success", "status description is not expected");
