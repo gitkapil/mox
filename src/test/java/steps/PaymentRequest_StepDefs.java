@@ -89,7 +89,7 @@ public class PaymentRequest_StepDefs extends UtilManager {
     public void i_have_payment_details(String totalAmount, String currency, String notificationURI, String appSuccessCallback, String appFailCallback, String effectiveDuration) {
         testContext.getApiManager().getPaymentRequest().setTotalAmount(totalAmount);
         testContext.getApiManager().getPaymentRequest().setCurrency(currency);
-        testContext.getApiManager().getPaymentRequest().setNotificationURI(Hooks.hostIP + notificationURI);
+        testContext.getApiManager().getPaymentRequest().setNotificationURI(notificationURI);
         testContext.getApiManager().getPaymentRequest().setAppSuccessCallback(Hooks.hostIP + appSuccessCallback);
         testContext.getApiManager().getPaymentRequest().setAppFailCallback(Hooks.hostIP + appFailCallback);
         testContext.getApiManager().getPaymentRequest().setEffectiveDuration(effectiveDuration);
@@ -104,7 +104,7 @@ public class PaymentRequest_StepDefs extends UtilManager {
     public void i_have_payment_details(String totalAmount, String currency, String notificationURI, String appSuccessCallback, String appFailCallback){
         testContext.getApiManager().getPaymentRequest().setTotalAmount(totalAmount);
         testContext.getApiManager().getPaymentRequest().setCurrency(currency);
-        testContext.getApiManager().getPaymentRequest().setNotificationURI(Hooks.hostIP+notificationURI);
+        testContext.getApiManager().getPaymentRequest().setNotificationURI(notificationURI);
         testContext.getApiManager().getPaymentRequest().setAppSuccessCallback(Hooks.hostIP+appSuccessCallback);
         testContext.getApiManager().getPaymentRequest().setAppFailCallback(Hooks.hostIP+appFailCallback);
         testContext.getApiManager().getPaymentRequest().setShoppingCart(null);
@@ -131,16 +131,13 @@ public class PaymentRequest_StepDefs extends UtilManager {
     }
 
 
-    @Given("^I have valid payment details with amount \"([^\"]*)\"$")
-    public void i_have_valid_payment_detailsWithAmunt(String amount){
+    @Given("^I have valid payment details with amount \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$")
+    public void i_have_valid_payment_detailsWithAmunt(String amount, String currency ,String notificationURL ,String appSuccessCallback,String appFailCallback){
         testContext.getApiManager().getPaymentRequest().setTotalAmount(amount);
-        testContext.getApiManager().getPaymentRequest().setCurrency("HKD");
-        //testContext.getApiManager().getPaymentRequest().setNotificationURI("https://pizzahut.com/return");
-        //testContext.getApiManager().getPaymentRequest().setAppSuccessCallback("https://pizzahut.com/confirmation");
-        //testContext.getApiManager().getPaymentRequest().setAppFailCallback("https://pizzahut.com/unsuccessful");
-        testContext.getApiManager().getPaymentRequest().setNotificationURI(Hooks.hostIP+"/return");
-        testContext.getApiManager().getPaymentRequest().setAppSuccessCallback(Hooks.hostIP+"/confirmation");
-        testContext.getApiManager().getPaymentRequest().setAppFailCallback(Hooks.hostIP+"/unsuccessful");
+        testContext.getApiManager().getPaymentRequest().setCurrency(currency);
+        testContext.getApiManager().getPaymentRequest().setNotificationURI(notificationURL);
+        testContext.getApiManager().getPaymentRequest().setAppSuccessCallback(Hooks.hostIP+appSuccessCallback);
+        testContext.getApiManager().getPaymentRequest().setAppFailCallback(Hooks.hostIP+appFailCallback);
         testContext.getApiManager().getPaymentRequest().setEffectiveDuration("15");
         testContext.getApiManager().getPaymentRequest().setShoppingCart(null);
         testContext.getApiManager().getPaymentRequest().setMerchantData(null);

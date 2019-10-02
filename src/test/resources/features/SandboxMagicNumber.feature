@@ -1,3 +1,4 @@
+@trials
 Feature: DRAG-2068 Magic Numbers - Payment Request and check status for magic numbers
   As a user
   I want to make request and check pending, initiated, expired, and failed cases with some specific numbers call magic numbers
@@ -12,9 +13,9 @@ Feature: DRAG-2068 Magic Numbers - Payment Request and check status for magic nu
   @regression @skiponmerchant
   Scenario Outline: Positive flow- A march can initiate payment request and check status for successful, initiated and error in status for 1.81 , 1.81, 1.45 magic numbers
     Given I am an authorized user
-    And I have payment details "<totalAmount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>"
-    And I have merchant data "<description>","<orderId>","<additionalData>"
-    And I have valid payment details with amount "<totalAmount>"
+    #And I have payment details "<totalAmount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>"
+   # And I have merchant data "<description>","<orderId>","<additionalData>"
+    And I have valid payment details with amount "<totalAmount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>"
     When I make a request for the payment
     Then I should receive a successful payment response
     And the response body should contain valid payment request id, business logos, created timestamp, web link, app link, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration
@@ -27,13 +28,13 @@ Feature: DRAG-2068 Magic Numbers - Payment Request and check status for magic nu
     And validate payment status response for amount "<totalAmount>"
 
     Examples:
-      | totalAmount | currency | notificationURL                                           | description           | orderId  | appSuccessCallback | appFailCallback | additionalData                                                                |
-      | 1.80        | HKD      | https://webhook.site/cb082ee4-bdb8-4ca3-82ba-7d771365e57f | message from merchant | B1242183 | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
-      | 1.81        | HKD      | https://webhook.site/cb082ee4-bdb8-4ca3-82ba-7d771365e57f | message from merchant | B1242183 | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
-      | 1.45        | HKD      | https://webhook.site/cb082ee4-bdb8-4ca3-82ba-7d771365e57f | message from merchant | B1242183 | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
+      | totalAmount | currency | notificationURL                                           | appSuccessCallback | appFailCallback |
+      | 1.80        | HKD      | https://webhook.site/cb082ee4-bdb8-4ca3-82ba-7d771365e57f | /confirmation1     | /unsuccessful9  |
+      | 1.81        | HKD      | https://webhook.site/cb082ee4-bdb8-4ca3-82ba-7d771365e57f | /confirmation1     | /unsuccessful9  |
+      | 1.45        | HKD      | https://webhook.site/cb082ee4-bdb8-4ca3-82ba-7d771365e57f | /confirmation1     | /unsuccessful9  |
 
 
-  @regression @skiponmerchant
+  @regression @skiponmerchant @trials
   Scenario Outline: Positive flow- A merchant POST payment request with 1.44 magic number would return server error
     Given I am an authorized user
     And I have payment details "<totalAmount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
@@ -44,5 +45,5 @@ Feature: DRAG-2068 Magic Numbers - Payment Request and check status for magic nu
     When I make a request for the payment
     Then error message should be displayed within the response
     Examples:
-      | totalAmount | currency | notificationURL | description | orderId | effectiveDuration | appSuccessCallback | appFailCallback | additionalData |
-     | 1.44        | HKD      | https://webhook.site/cb082ee4-bdb8-4ca3-82ba-7d771365e57f | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
+      | totalAmount | currency | notificationURL                                           | description           | orderId  | effectiveDuration | appSuccessCallback | appFailCallback | additionalData                                                                |
+      | 1.44        | HKD      | https://webhook.site/cb082ee4-bdb8-4ca3-82ba-7d771365e57f | message from merchant | B1242183 | 16                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
