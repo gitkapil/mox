@@ -119,7 +119,7 @@ public class PaymentRequest_StepDefs extends UtilManager {
 
 
     @Given("^I have valid payment details with amount \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$")
-    public void i_have_valid_payment_detailsWithAmunt(String amount, String currency ,String notificationURL ,String appSuccessCallback,String appFailCallback){
+    public void i_have_valid_payment_detailsWithAmount(String amount, String currency ,String notificationURL ,String appSuccessCallback,String appFailCallback){
         testContext.getApiManager().getPaymentRequest().setTotalAmount(amount);
         testContext.getApiManager().getPaymentRequest().setCurrency(currency);
         testContext.getApiManager().getPaymentRequest().setNotificationURI(notificationURL);
