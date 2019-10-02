@@ -43,8 +43,10 @@ Feature: Payment Request API- DRAG-301, DRAG-1280, DRAG-1157, DRAG-1130
       | 800.00      | HKD      | /return09       | message from merchant | B1242183 | 60                |                    | /unsuccessful6  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
 #appFailCallback missing
       | 900.00      | HKD      | /return11       | message from merchant | B1242183 | 60                | /confirmation7     |                 | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
-#additionalData  within Merchant Data missing
+#additionalData within Merchant Data missing
       | 550.00      | HKD      | /return2        | message from merchant | B1242183 | 60                | /confirmation8     | /unsuccessful0  |                                                                               |
+#effectiveDuration not provided in request then by default effectiveDuration in response should be 600
+      | 13.00       | HKD      | /return3        | message from merchant | B1242183 |                   | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
 
 
   @regression
@@ -210,6 +212,7 @@ Feature: Payment Request API- DRAG-301, DRAG-1280, DRAG-1157, DRAG-1130
       | Field error in object 'paymentRequestInputModel': field 'totalAmount' must be greater than or equal to 0.01; rejected value [0.0]   |               | EA017      | totalamount | 0             |
       | Field error in object 'paymentRequestInputModel': field 'totalAmount' must be greater than or equal to 0.01; rejected value [-10.0] |               | EA017      | totalamount | -10           |
 
+  #@trial
   @regression
   Scenario Outline: Negative flow- Mandatory fields from the body missing or invalid (DRAG-1126, DRAG-1125, DRAG-1124, DRAG-1131, DRAG-1081)
     Given I am an authorized user
@@ -217,14 +220,14 @@ Feature: Payment Request API- DRAG-301, DRAG-1280, DRAG-1157, DRAG-1130
     When I make a request for the payment
     Then I should receive a "400" error response with "<error_description>" error description and "<error_code>" errorcode within payment response
     And error message should be "<error_message>" within payment response
-  #And the payment request response should be signed
+    And the payment request response should be signed
     Examples:
       | totalamount | currency | notificationURL | error_description                                                                                                                                          | error_message                     | error_code | appSuccessCallback | appFailCallback | effectiveDuration |
-      | 150.00      |          | /return         | Field error in object 'paymentRequestInputModel': field 'currencyCode' must not be null; rejected value [null]                                              | Service Request Validation Failed | EA014      | /confirmation      | /unsuccessful   | 20                |
+      | 150.00      |          | /return         | Field error in object 'paymentRequestInputModel': field 'currencyCode' must not be null; rejected value [null]                                             | Service Request Validation Failed | EA014      | /confirmation      | /unsuccessful   | 20                |
       | 150.00      | -        | /return         | Invalid currency code                                                                                                                                      | Service Request Validation Failed | EA014      | /confirmation      | /unsuccessful   | 20                |
       | 150.00      | RS       | /return         | Invalid currency code                                                                                                                                      | Service Request Validation Failed | EA014      | /confirmation      | /unsuccessful   | 20                |
       | 150.00      | USD      | /return         | Invalid currency code                                                                                                                                      | Service Request Validation Failed | EA014      | /confirmation      | /unsuccessful   | 20                |
-      |             | HKD      | /return         | Field error in object 'paymentRequestInputModel': field 'totalAmount' must not be null; rejected value [null]                                               | Service Request Validation Failed | EA017      | /confirmation      | /unsuccessful   | 20                |
+      |             | HKD      | /return         | Field error in object 'paymentRequestInputModel': field 'totalAmount' must not be null; rejected value [null]                                              | Service Request Validation Failed | EA017      | /confirmation      | /unsuccessful   | 20                |
       | %%          | HKD      | /return         | Unable to read or parse message body: json parse error at [line: 1, column: 16]                                                                            | Service Request Validation Failed | EA002      | /confirmation      | /unsuccessful   | 20                |
       | 0.00        | HKD      | /return         | Field error in object 'paymentRequestInputModel': field 'totalAmount' must be greater than or equal to 0.01; rejected value [0.0]                          | Service Request Validation Failed | EA017      | /confirmation      | /unsuccessful   | 20                |
       | -0.01       | HKD      | /return         | Field error in object 'paymentRequestInputModel': field 'totalAmount' must be greater than or equal to 0.01; rejected value [-0.01]                        | Service Request Validation Failed | EA017      | /confirmation      | /unsuccessful   | 20                |
