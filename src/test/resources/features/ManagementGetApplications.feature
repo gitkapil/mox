@@ -19,7 +19,7 @@ Feature: Merchant Management API - GET /applications
     Examples:
       | numberOfResponses |
       | 20                |
-
+    
   #@trial
   @regression
   Scenario Outline: Positive flow - Get a list of application using filters 1

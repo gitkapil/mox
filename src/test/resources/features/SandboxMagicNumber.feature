@@ -13,8 +13,6 @@ Feature: DRAG-2068 Magic Numbers - Payment Request and check status for magic nu
   @regression @skiponmerchant
   Scenario Outline: Positive flow- A march can initiate payment request and check status for successful, initiated and error in status for 1.81 , 1.81, 1.45 magic numbers
     Given I am an authorized user
-    #And I have payment details "<totalAmount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>"
-   # And I have merchant data "<description>","<orderId>","<additionalData>"
     And I have valid payment details with amount "<totalAmount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>"
     When I make a request for the payment
     Then I should receive a successful payment response

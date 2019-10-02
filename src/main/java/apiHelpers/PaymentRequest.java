@@ -396,7 +396,6 @@ public class PaymentRequest extends UtilManager{
 
     }
 
-
     /**
      * This method hits POST payment request endpoint with an existing header and body
      * @param url
