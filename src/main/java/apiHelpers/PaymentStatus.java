@@ -121,7 +121,7 @@ public class PaymentStatus extends UtilManager {
 
             paymentStatusResponse= getRestHelper().getRequestWithHeaders(url, returnPaymentStatusHeader("GET", new URL(url).getPath(), signingKeyId, signingAlgorithm, signingKey,headerElementsForSignature));
 
-            logger.info("********** Payment Request Status Response *********** ---> "+ paymentStatusResponse.getBody().asString());
+            logger.info("********** Payment Request Status Response *********** ---> "+ paymentStatusResponse.prettyPrint());
         }
         catch (Exception e){
             Assert.assertTrue("Verification of signature failed!", false);
