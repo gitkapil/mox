@@ -10,7 +10,7 @@ Feature: DRAG-2068 Magic Numbers - Payment Request and check status for magic nu
 
     # Magic number scenarios would only be run on SIT-Developer
 
-  @regression
+  @regression @skiponmerchant
   Scenario Outline: Positive flow- A march can initiate payment request and check status for successful, initiated and error in status for 1.81 , 1.81, 1.45 magic numbers
     Given I am an authorized user
     And I have payment details "<totalAmount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>"
@@ -34,7 +34,7 @@ Feature: DRAG-2068 Magic Numbers - Payment Request and check status for magic nu
       | 1.45        | HKD      | https://webhook.site/cb082ee4-bdb8-4ca3-82ba-7d771365e57f | message from merchant | B1242183 | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
 
 
-  @regression
+  @regression @skiponmerchant
   Scenario Outline: Positive flow- A merchant POST payment request with 1.44 magic number would return server error
     Given I am an authorized user
     And I have payment details "<totalAmount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
