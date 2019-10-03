@@ -93,8 +93,6 @@ public class PaymentRequest_StepDefs extends UtilManager {
         testContext.getApiManager().getPaymentRequest().setAppSuccessCallback(Hooks.hostIP + appSuccessCallback);
         testContext.getApiManager().getPaymentRequest().setAppFailCallback(Hooks.hostIP + appFailCallback);
         testContext.getApiManager().getPaymentRequest().setEffectiveDuration(effectiveDuration);
-        testContext.getApiManager().getPaymentRequest().setShoppingCart(null);
-        testContext.getApiManager().getPaymentRequest().setMerchantData(null);
         testContext.getApiManager().getPaymentRequest().setRequestDateTime(getDateHelper().getUTCNowDateTime());
         testContext.getApiManager().getPaymentRequest().setTraceId(getGeneral().generateUniqueUUID());
     }
