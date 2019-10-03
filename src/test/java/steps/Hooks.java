@@ -45,7 +45,7 @@ public class Hooks extends UtilManager{
         }
     }
 
-    @Before("@skiponmerchant")
+    @Before("@skipOnMerchant")
     public void beforeScenario4() {
         if(PropertyHelper.getInstance().getPropertyCascading("usertype").equalsIgnoreCase("merchant")) {
             throw new AssumptionViolatedException("Not to be executed in Merchant");

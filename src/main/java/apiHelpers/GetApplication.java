@@ -6,7 +6,6 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import utils.*;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Base64;
@@ -20,7 +19,13 @@ public class GetApplication extends UtilManager {
     SignatureHelper signatureHelper;
     General general = new General();
     private Response response= null;
-
+    private HashMap<String,String >requestHeader = new HashMap<>();
+    public String getAuthToken() {
+        return authToken;
+    }
+    public void setAuthToken(String authToken) {
+        this.authToken = "Bearer "+ authToken;
+    }
     public Response getResponse() {
         return response;
     }
@@ -34,11 +39,10 @@ public class GetApplication extends UtilManager {
         signatureHelper = new SignatureHelper();
     }
 
-    public void getListOfApplications(String url, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature, String authToken) {
+    public void getListOfApplications(String url, String authToken) {
         try {
             response = getRestHelper().getRequestWithHeaders(url,
-                    getListHeader("GET", new URL(url).getPath(), signingKeyId,
-                            signingAlgorithm, signingKey, headerElementsForSignature,
+                    returnRequestHeader("GET", new URL(url).getPath(),
                             authToken));
 
             logger.info("****************List of application response ******************** --> " + response.getBody().asString());
@@ -48,36 +52,46 @@ public class GetApplication extends UtilManager {
         }
     }
 
-    private HashMap<String, String> getListHeader(String method, String url,String signingKeyId,
-                                                  String signingAlgorithm, String signingKey,
-                                                  HashSet headerElementsforSignature, String authToken) {
-        HashMap<String,String> header = new HashMap<>();
-        header.put("ACCEPT", "application/json");
-        header.put("Authorization", authToken);
-        header.put("Trace-Id", general.generateUniqueUUID());
-        header.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
-        header.put("Request-Date-Time", dateHelper.getUTCNowDateTime());
-        header.put("Content-Type", "application/json");
-
-        if (EnvHelper.getInstance().isLocalDevMode()) {
-            EnvHelper.getInstance().addMissingHeaderForLocalDevMode(header);
-        }
-
+    public void getListOfApplication(String url, String authToken, String nullHeader) {
         try {
-            header.put("Signature",
-                    getSignatureHelper().calculateSignature(method, url, Base64.getDecoder().decode(signingKey),
-                            signingAlgorithm, signingKeyId,
-                    headerElementsforSignature, header));
-        } catch (IOException e) {
+            response = getRestHelper().getRequestWithHeaders(url,
+                    getListHeaderWithMissingValues("GET", new URL(url).getPath(),
+                            authToken, nullHeader));
+
+
+            logger.info("****************List of application response ******************** --> " + response.getBody().prettyPrint());
+        } catch (MalformedURLException e) {
             e.printStackTrace();
-            Assert.assertTrue("Trouble creating signature!", false);
+            Assert.assertTrue("Unable to get URL" , false);
         }
-        return header;
+    }
+
+    private HashMap<String, String> getListHeaderWithMissingValues(String method, String url, String authToken, String nullHeader) {
+            requestHeader.put("Accept", "application/json");
+            requestHeader.put("Content-Type", "application/json");
+            requestHeader.put("Authorization", authToken);
+            requestHeader.put("Trace-Id", getGeneral().generateUniqueUUID());
+            requestHeader.put("Accept-Language", "en-US");
+            requestHeader.put("Request-Date-Time", getDateHelper().getUTCNowDateTime());
+            requestHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
+            requestHeader.remove(nullHeader);
+            return requestHeader;
+    }
+
+    private HashMap<String, String> returnRequestHeader(String method, String url, String authToken) {
+        requestHeader.put("Accept", "application/json");
+        requestHeader.put("Content-Type", "application/json");
+        requestHeader.put("Authorization", authToken);
+        requestHeader.put("Trace-Id", getGeneral().generateUniqueUUID());
+        requestHeader.put("Accept-Language", "en-US");
+        requestHeader.put("Request-Date-Time", getDateHelper().getUTCNowDateTime());
+        requestHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
+        return requestHeader;
+
     }
 
     private HashMap<String, String> generateHeader(String method, String url, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature) {
         HashMap<String, String> requestHeader = new HashMap<String, String>();
-
         requestHeader.put("Accept", "application/json");
         requestHeader.put("Content-Type", "application/json");
         requestHeader.put("Authorization", authToken);
@@ -85,7 +99,6 @@ public class GetApplication extends UtilManager {
         requestHeader.put("Accept-Language", "en-US");
         requestHeader.put("Request-Date-Time", dateHelper.getUTCNowDateTime());
         requestHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
-
         if (EnvHelper.getInstance().isLocalDevMode()) {
             EnvHelper.getInstance().addMissingHeaderForLocalDevMode(requestHeader);
         }

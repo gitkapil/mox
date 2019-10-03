@@ -5,7 +5,7 @@ Given I am an user
 When I make a request to the Dragon ID Manager
 Then I receive an access_token
 
-@regression
+#@regression
 Scenario: Negative flow- Same traceid sent within 5 minutes for payment Request
   Given I am an authorized user
   And I have valid payment details
@@ -16,7 +16,7 @@ Scenario: Negative flow- Same traceid sent within 5 minutes for payment Request
   And error message should be "Too Many Service Requests Made" within payment response
   #And the payment request response should be signed
 
-@regression
+#@regression
 Scenario: Negative flow- Same traceid sent within 5 minutes for payment Request Status
   Given I am an authorized user
   And I have valid payment details
@@ -53,7 +53,7 @@ Scenario: Positive flow- Same traceid sent after 5 minutes for payment Request S
   Then I should receive a successful check status response
   And the payment status response should be signed
 
-@regression
+#@regression
 Scenario: Positive flow- Different traceid sent within 5 minutes for payment Request
   Given I am an authorized user
   And I have valid payment details
@@ -63,7 +63,7 @@ Scenario: Positive flow- Different traceid sent within 5 minutes for payment Req
   Then I should receive a successful payment response
   And the payment request response should be signed
 
-@regression
+#@regression
 Scenario: Positive flow- Different traceid sent within 5 minutes for payment Request Status
   Given I am an authorized user
   And I have valid payment details
@@ -76,7 +76,7 @@ Scenario: Positive flow- Different traceid sent within 5 minutes for payment Req
   Then I should receive a successful check status response
   And the payment status response should be signed
 
-@regression
+#@regression
 Scenario: Negative flow- Different traceid sent within 5 minutes for payment Request but the request date time stamp is more than 5 mins older than the current time stamp
   Given I am an authorized user
   And I have valid payment details
@@ -88,7 +88,7 @@ Scenario: Negative flow- Different traceid sent within 5 minutes for payment Req
   #And the payment request response should be signed
 
 
-@regression
+#@regression
 Scenario: Negative flow- Different traceid sent within 5 minutes for payment Status but the request date time stamp is more than 5 mins older than the current time stamp
   Given I am an authorized user
   And I have valid payment details
@@ -102,7 +102,7 @@ Scenario: Negative flow- Different traceid sent within 5 minutes for payment Sta
   And error message should be "Service Request Validation Failed" within check status response
   And the payment status response should be signed
 
-@regression
+#@regression
 Scenario: Negative flow- Same traceid sent within 5 minutes for payment Request but the request date time stamp is more than 5 mins older than the current time stamp
   Given I am an authorized user
   And I have valid payment details
@@ -113,7 +113,7 @@ Scenario: Negative flow- Same traceid sent within 5 minutes for payment Request 
   And error message should be "Service Request Validation Failed" within payment response
   #And the payment request response should be signed
 
-@regression 
+#@regression
 Scenario: Negative flow- Same traceid sent within 5 minutes for payment Status but the request date time stamp is more than 5 mins older than the current time stamp
   Given I am an authorized user
   And I have valid payment details

@@ -5,7 +5,6 @@ Feature: Transactions List
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  #Checking Input Parameters
 #  @trial
   @regression
   Scenario Outline: Negative flow - Send invalid fromTime and toTime

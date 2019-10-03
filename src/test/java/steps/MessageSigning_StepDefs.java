@@ -213,28 +213,6 @@ public class MessageSigning_StepDefs extends UtilManager{
         }
     }
 
-    @Then("^the POST application request response should be signed$")
-    public void the_post_application_request_response_should_be_signed() {
-        try {
-            logger.info("*** POST Application Response Headers***");
-            getRestHelper().logResponseHeaders(testContext.getApiManager().getPostApplication().getPostApplicationRequestResponse());
-
-            getSignatureHelper().verifySignature(testContext.getApiManager().getPostApplication().getPostApplicationRequestResponse(), "POST",
-                    getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource"),
-//                    Base64.getDecoder().decode(testContext.getApiManager().getAccessToken().getClientId()),
-                    Base64.getDecoder().decode(testContext.getApiManager().getMerchantManagementSigningKey()),
-                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (e.getMessage().equalsIgnoreCase("Signature failed validation"))
-                Assert.assertTrue("Post Application Response Signature Verification Failed", false);
-
-            if (e.getMessage().equalsIgnoreCase("No Signature Found"))
-                Assert.assertTrue("No Signature Found in the Post Application Response", false);
-        }
-    }
-
     @Then("^the payment status response should be signed$")
     public void the_payment_status_should_be_signed() {
         try {
