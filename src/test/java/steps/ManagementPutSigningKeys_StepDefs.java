@@ -50,6 +50,16 @@ public class ManagementPutSigningKeys_StepDefs extends UtilManager {
         testContext.getApiManager().getPutSigningKeys().setEntityStatus(entityStatus);
     }
 
+    @And("^I make PUT signing key request with valid applicationId and valid keyId \"([^\"]*)\"$")
+    public void setValidApplicationIdAndInvalidKeyId(String keyId) throws IOException {
+        testContext.getApiManager().getPutSigningKeys().setApplicationId(testContext.getApiManager().getGetSigningKey().getApplicationId());
+        testContext.getApiManager().getPutSigningKeys().setKeyId(keyId);
+        String url = getRestHelper().getBaseURI() + getFileHelper()
+                .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) +
+                "/" + testContext.getApiManager().getGetSigningKey().getApplicationId() + "/keys/signing/" + keyId;
+        testContext.getApiManager().getPutSigningKeys().makePutSigningKeyApiCall(url);
+    }
+
     @Then("^the PUT signing key response should have error status \"([^\"]*)\" with error code \"([^\"]*)\" and description \"([^\"]*)\"$")
     public void errorResponse(String httpStatus, String errCode, String errDescription) {
         Assert.assertEquals(

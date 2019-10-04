@@ -18,6 +18,7 @@ public class PutSigningKeys extends UtilManager {
     private String deactivateAt;
     private String description;
     private String entityStatus;
+    private String keyId;
     private HashMap<String, String> requestHeader = new HashMap();
     private static Logger logger = Logger.getLogger(PutSigningKeys.class);
     private HashMap<String, String> requestBody = new HashMap();
@@ -111,9 +112,12 @@ public class PutSigningKeys extends UtilManager {
         return response;
     }
 
-    public void setResponse(Response response) {
-        this.response = response;
-    }
+    public void setResponse(Response response) { this.response = response; }
+
+    public String getKeyId() { return keyId; }
+
+    public void setKeyId(String keyId) { this.keyId = keyId; }
+
 
     public void setAuthTokenWithBearer(String authToken) {
         this.authToken = "Bearer "+ authToken;

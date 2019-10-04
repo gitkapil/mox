@@ -1,4 +1,4 @@
-@healthCheck
+@putSingingKey
 Feature: Management Put Signing Keys - DRAG-1573
   As a user
   I want to update the signing key information and validate the response returned is correct
