@@ -225,6 +225,9 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
                             .replace("\"", "")
                             .contains(errorDesc),
                     "Different error description being returned..Expected: " + errorDesc + "Actual: " + getRestHelper().getErrorDescription(response));
+        } else {
+
+            Assert.assertEquals(getRestHelper().getErrorDescription(response), errorDesc, "Different error description being returned..Expected: " + errorDesc + " .Actual: " + getRestHelper().getErrorDescription(response));
         }
         Assert.assertEquals(getRestHelper().getErrorCode(response), errorCode, "Different error code being returned");
 
