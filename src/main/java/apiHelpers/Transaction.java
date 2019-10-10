@@ -23,7 +23,7 @@ public class Transaction extends UtilManager {
     private String authToken;
     private String traceId;
     private String requestDateTime;
-
+    private String transactionId;
     private String from;
     private String to;
     private String startingAfter;
@@ -31,6 +31,14 @@ public class Transaction extends UtilManager {
 
     public Response getTransactionListResponse() {
         return transactionListResponse;
+    }
+
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
     }
 
     public void setAuthTokenwithBearer() {
@@ -120,6 +128,30 @@ public class Transaction extends UtilManager {
         return transactionListResponse;
     }
 
+    public Response retrieveTransactionListWithoutQueryParam(String url,
+                                            String signingKeyId,
+                                            String signingAlgorithm,
+                                            String signingKey,
+                                            HashSet headerElementsForSignature) {
+        try {
+            transactionListResponse = getRestHelper().getRequestWithHeaders(url,
+                    returnTransactionListHeaderWithoutQueryParam(
+                            "GET",
+                            new URL(url).getPath(),
+                            signingKeyId,
+                            signingAlgorithm,
+                            signingKey,
+                            headerElementsForSignature));
+
+            logger.info("********** Transaction List Response *********** ---> "+ transactionListResponse.getBody().prettyPrint());
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.assertTrue("Verification of signature failed!", false);
+
+        }
+        return transactionListResponse;
+    }
+
     public HashMap<String,String> returnTransactionListHeader(String method,
                                                               String url,
                                                               String signingKeyId,
@@ -169,6 +201,43 @@ public class Transaction extends UtilManager {
                     signingKeyId,
                     headerElementsforSignature,
                     transactionListHeader));
+        } catch (IOException e) {
+            e.printStackTrace();
+            Assert.assertTrue("Trouble creating signature!", false);
+        }
+
+        return transactionListHeader;
+    }
+
+    public HashMap<String,String> returnTransactionListHeaderWithoutQueryParam(String method,
+                                                              String url,
+                                                              String signingKeyId,
+                                                              String signingAlgorithm,
+                                                              String signingKey,
+                                                              HashSet headerElementsforSignature) {
+        transactionListHeader.put("Accept", "application/json");
+        transactionListHeader.put("Content-Type", "application/json");
+        transactionListHeader.put("Authorization", authToken);
+        transactionListHeader.put("Trace-Id", traceId);
+        transactionListHeader.put("Accept-Language", "en-US");
+        transactionListHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
+        transactionListHeader.put("Request-Date-Time", requestDateTime);
+
+        if (EnvHelper.getInstance().isLocalDevMode()) {
+            EnvHelper.getInstance().addMissingHeaderForLocalDevMode(transactionListHeader);
+        }
+
+        try {
+            transactionListHeader.put(
+                    "Signature",
+                    getSignatureHelper().calculateSignature(
+                            method,
+                            url,
+                            Base64.getDecoder().decode(signingKey),
+                            signingAlgorithm,
+                            signingKeyId,
+                            headerElementsforSignature,
+                            transactionListHeader));
         } catch (IOException e) {
             e.printStackTrace();
             Assert.assertTrue("Trouble creating signature!", false);

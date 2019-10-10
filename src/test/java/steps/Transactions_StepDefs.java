@@ -226,4 +226,21 @@ public class Transactions_StepDefs extends UtilManager {
         Assert.assertTrue(returnedTransactions.size() == Integer.parseInt(actual),
                 "Expected to have " + actual + " records, but got " + returnedTransactions.size());
     }
+
+    @When("^I query for a list of transactions$")
+    public void iQueryForAListOfTransactions() {
+        testContext.getApiManager().getTransaction().setTraceId(getGeneral().generateUniqueUUID());
+        testContext.getApiManager().getTransaction().setRequestDateTime(getDateHelper().getUTCNowDateTime());
+
+        String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "get_transaction_resource");
+
+        testContext.getApiManager().getTransaction().retrieveTransactionListWithoutQueryParam(
+                url,
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties,"signing_algorithm"),
+                testContext.getApiManager().getMerchantManagementSigningKey(),
+                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-get").split(","))));
+    }
+
+
 }

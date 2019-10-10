@@ -331,7 +331,6 @@ public class RestHelper {
 
         String errorDesc = null;
 
-
         try {
             errorDesc = errorDetails.get(0).get("errorDescription");
 

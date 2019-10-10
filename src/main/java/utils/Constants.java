@@ -39,11 +39,21 @@ public class Constants {
     public static final String REASON_DESCRIPTION = "reasonDescription";
     public static final Object STATUS = "status";
     public static final Object DESCRIPTION = "description";
-    public static final Object CREATED_BY ="createdBy" ;
+    public static final Object CREATED_BY = "createdBy";
     public static final Object UPDATED_BY = "updatedBy";
     public static final String PLATFORM_STATUS = "status";
     public static final String PLATFORM_DESCRIPTION = "description";
     public static final String PAYMENT_REQUEST_ID = "paymentRequestId";
     public static final String STATUS_DESCRIPTION = "statusDescription";
     public static final String TRANSACTIONS = "transactions";
+    public static final String REFUND_ID = "refundId";
+    public static final String TRANSACTION_ID = "transactionId";
+    public static final String PAYER_ID = "payerId";
+    public static final String REFUND_AMOUNT = "refundAmount";
+    public static final String REFUND_CURRENCY_CODE = "refundCurrencyCode";
+    public static final String FEE_AMOUNT = "feeAmount";
+    public static final String FEE_CURRENCY_CODE = "feeCurrencyCode";
+    public static final String REASON_MESSAGE = "reasonMessage";
+    public static final String AMOUNT = "amount";
+    public static final String CURRENCY_CODE = "currencyCode";
 }
