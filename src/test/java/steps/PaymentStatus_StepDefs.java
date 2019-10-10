@@ -13,13 +13,12 @@ import org.testng.Assert;
 import utils.Constants;
 import utils.PropertyHelper;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class PaymentStatus_StepDefs extends UtilManager {
 
     TestContext testContext;
+    public String latestFirstTransactionId = "";
 
     public PaymentStatus_StepDefs(TestContext testContext) {
         this.testContext = testContext;
@@ -206,9 +205,11 @@ public class PaymentStatus_StepDefs extends UtilManager {
 
     @And("^the response body should contain a list of transactions$")
     public void theResponseBodyShouldContainListOfTransactions() {
-        // ToDo: verify with exact fields on final spec
-        List<Transaction> listOfTransactions = testContext.getApiManager().getPaymentStatus().getTransactions();
-        Assert.assertNotNull(listOfTransactions);
+        Response response = testContext.getApiManager().getPaymentStatus().getPaymentStatusResponse();
+        List<Transaction> listOfTransactions = response.path("transactions");
+        Assert.assertNotNull(listOfTransactions, "transactions list cannot be null for success payment!");
+        testContext.getApiManager().getPaymentStatus().setTransactions(listOfTransactions);
+
     }
 
     @And("^validate payment status response for amount \"([^\"]*)\"$")
@@ -234,5 +235,17 @@ public class PaymentStatus_StepDefs extends UtilManager {
             }
             Assert.assertEquals(getRestHelper().getErrorCode(response), "EB099", "Different error code being returned");
         }
+    }
+
+    @Then("^verify transaction list contains transactionId as retrieved in check status response$")
+    public void verifyTransactionListContainsTransactionIdAsRetrievedInCheckStatusResponse() {
+        ArrayList returnedTransactions = testContext.getApiManager().getTransaction().getTransactionListResponse().path("transactions");
+        HashMap<String, String> firstTransaction = (HashMap) returnedTransactions.get(0);
+        latestFirstTransactionId = firstTransaction.get("transactionId");
+
+        Assert.assertEquals(latestFirstTransactionId, testContext.getApiManager().getPaymentStatus().getTransactions().get(0), "TransactionId in Transactions list doo not match with TransactionId in Check Status API Response!!");
+
+        //Setting latest transaction Id in setters
+        testContext.getApiManager().getTransaction().setTransactionId(latestFirstTransactionId);
     }
 }
