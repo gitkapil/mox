@@ -22,6 +22,7 @@ public class ApiManager {
     OneClickMerchantOnboarding oneClickMerchantOnboarding;
     String merchantManagementSigningKeyId;
     String merchantManagementSigningKey;
+    CancelPaymentRequest cancelPaymentRequest;
 
     public GetPlatform getGetPlatform() {
         return getPlatform;
@@ -66,9 +67,14 @@ public class ApiManager {
         postPlatform = new PostPlatform();
         putPlatform = new PutPlatform();
         oneClickMerchantOnboarding = new OneClickMerchantOnboarding();
+        cancelPaymentRequest = new CancelPaymentRequest();
+
 
     }
 
+    public CancelPaymentRequest putCancelPaymentRequest(){
+        return cancelPaymentRequest;
+    }
     public PostPassword getPostPasswordCreateClientPassword() {
         return postPasswordCreateClientPassword;
     }
@@ -123,6 +129,7 @@ public class ApiManager {
     public GetApplication getGetApplication() {
         return (getApplication == null) ? getApplication = new GetApplication() : getApplication;
     }
+
 
     public PutApplication getPutApplication()
     {

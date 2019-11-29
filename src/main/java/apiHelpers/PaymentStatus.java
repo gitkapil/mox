@@ -20,12 +20,13 @@ public class PaymentStatus extends UtilManager {
     final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(PaymentStatus.class);
 
     private String paymentRequestId, traceId, authToken, requestDateTime;
-    private Response paymentStatusResponse= null;
-    private HashMap<String,String> paymentStatusHeader= new HashMap<>();
+    private Response paymentStatusResponse = null;
+    private HashMap<String, String> paymentStatusHeader = new HashMap<>();
     private List<Transaction> transactions = new ArrayList<>();
 
+    private String transactionId;
+
     /**
-     *
      * Getters
      */
     public String getTraceId() {
@@ -48,10 +49,14 @@ public class PaymentStatus extends UtilManager {
         return requestDateTime;
     }
 
-    public List<Transaction> getTransactions() { return transactions; }
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
 
+    public String getTransactionId() { return transactionId; }
+
+    public void setTransactionId(String transactionId) { this.transactionId = transactionId; }
     /**
-     *
      * Setters
      */
     public void setTraceId(String traceId) {
@@ -69,14 +74,16 @@ public class PaymentStatus extends UtilManager {
 
     public void setAuthTokenwithBearer() {
 
-        this.authToken = "Bearer "+ authToken;
+        this.authToken = "Bearer " + authToken;
     }
 
     public void setRequestDateTime(String requestDateTime) {
         this.requestDateTime = requestDateTime;
     }
 
-    public void setTransactions(List<Transaction> transactions) { this.transactions = transactions; }
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
+    }
 
     /***
      * This method hits GET payment request with invalid header values. "Key" value is not included within the header.
@@ -88,18 +95,17 @@ public class PaymentStatus extends UtilManager {
      * @param headerElementsForSignature
      */
     public void retrievePaymentStatusWithMissingHeaderKeys(String url, String key, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature) {
-        try{
-            url= appendPaymentIdInURL(url);
+        try {
+            url = appendPaymentIdInURL(url);
 
-            HashMap<String, String> header= returnPaymentStatusHeader("GET", url, signingKeyId, signingAlgorithm, signingKey,
+            HashMap<String, String> header = returnPaymentStatusHeader("GET", url, signingKeyId, signingAlgorithm, signingKey,
                     headerElementsForSignature);
             header.remove(key);
 
-            paymentStatusResponse= getRestHelper().getRequestWithHeaders(url, header);
+            paymentStatusResponse = getRestHelper().getRequestWithHeaders(url, header);
 
-            logger.info("********** Payment Request Status Response *********** ---> "+ paymentStatusResponse.getBody().asString());
-        }
-        catch (Exception e){
+            logger.info("********** Payment Request Status Response *********** ---> " + paymentStatusResponse.getBody().asString());
+        } catch (Exception e) {
             Assert.assertTrue("Verification of signature failed!", false);
         }
 
@@ -108,6 +114,7 @@ public class PaymentStatus extends UtilManager {
 
     /**
      * This method creates a valid header and hits the GET payment request endpoint
+     *
      * @param url
      * @param signingKeyId
      * @param signingAlgorithm
@@ -116,10 +123,51 @@ public class PaymentStatus extends UtilManager {
      * @return
      */
     public Response retrievePaymentStatus(String url, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature) {
+        try {
+            url = appendPaymentIdInURL(url);
+
+            paymentStatusResponse = getRestHelper().getRequestWithHeaders(url, returnPaymentStatusHeader("GET", new URL(url).getPath(), signingKeyId, signingAlgorithm, signingKey, headerElementsForSignature));
+
+            logger.info("********** Payment Request Status Response *********** ---> " + paymentStatusResponse.prettyPrint());
+        } catch (Exception e) {
+            Assert.assertTrue("Verification of signature failed!", false);
+
+        }
+
+        return paymentStatusResponse;
+    }
+
+    /**
+     * This method creates a valid header with invalid request date time and hits the GET payment request endpoint
+     *
+     * @param url
+     * @param signingKeyId
+     * @param signingAlgorithm
+     * @param signingKey
+     * @param headerElementsForSignature
+     * @return
+     */
+    public Response retrievePaymentStatusInvalidDate(String url, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature, String value) {
+        try {
+            url = appendPaymentIdInURL(url);
+
+            paymentStatusResponse = getRestHelper().getRequestWithHeaders(url, returnPaymentStatusHeaderInvalidDate("GET", new URL(url).getPath(), signingKeyId, signingAlgorithm, signingKey, headerElementsForSignature, value));
+
+            logger.info("********** Payment Request Status Response *********** ---> " + paymentStatusResponse.prettyPrint());
+        } catch (Exception e) {
+            Assert.assertTrue("Verification of signature failed!", false);
+
+        }
+
+
+        return paymentStatusResponse;
+    }
+
+    public Response retrievePaymentStatusWithPOSRole(String url, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature) {
         try{
             url= appendPaymentIdInURL(url);
 
-            paymentStatusResponse= getRestHelper().getRequestWithHeaders(url, returnPaymentStatusHeader("GET", new URL(url).getPath(), signingKeyId, signingAlgorithm, signingKey,headerElementsForSignature));
+            paymentStatusResponse= getRestHelper().getRequestWithHeaders(url, returnPaymentStatusHeaderWithPOSHeader("GET", new URL(url).getPath(), signingKeyId, signingAlgorithm, signingKey,headerElementsForSignature));
 
             logger.info("********** Payment Request Status Response *********** ---> "+ paymentStatusResponse.prettyPrint());
         }
@@ -131,22 +179,21 @@ public class PaymentStatus extends UtilManager {
 
         return paymentStatusResponse;
     }
-
-
     /**
      * This method hits the GET payment request endpoint with an existing header.
+     *
      * @param url
      * @param header
      * @return
      */
     public Response retrievePaymentStatusExistingHeader(String url, HashMap header) {
 
-        url= appendPaymentIdInURL(url);
+        url = appendPaymentIdInURL(url);
 
-        paymentStatusResponse= getRestHelper().getRequestWithHeaders(url, header);
+        paymentStatusResponse = getRestHelper().getRequestWithHeaders(url, header);
 
 
-        logger.info("********** Payment Request Status Response *********** ---> "+ paymentStatusResponse.getBody().asString());
+        logger.info("********** Payment Request Status Response *********** ---> " + paymentStatusResponse.getBody().asString());
 
         return paymentStatusResponse;
     }
@@ -154,20 +201,22 @@ public class PaymentStatus extends UtilManager {
 
     /**
      * The following two methods append payment request id within the endpoint
+     *
      * @param url
      * @return
      */
-    public String appendPaymentIdInURL(String url){
-        return url+"/"+paymentRequestId;
+    public String appendPaymentIdInURL(String url) {
+        return url + "/" + paymentRequestId;
     }
 
-    public String appendPaymentIdInURL(String url, String paymentId){
-        return url+"/"+paymentId;
+    public String appendPaymentIdInURL(String url, String paymentId) {
+        return url + "/" + paymentId;
     }
 
 
     /**
      * This method creates and returns a valid header for the GET payment request
+     *
      * @param method
      * @param url
      * @param signingKeyId
@@ -176,12 +225,35 @@ public class PaymentStatus extends UtilManager {
      * @param headerElementsforSignature
      * @return
      */
-    public HashMap<String,String> returnPaymentStatusHeader(String method, String url,String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsforSignature) {
+    public HashMap<String, String> returnPaymentStatusHeader(String method, String url, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsforSignature) {
+        paymentStatusHeader.put("Accept", "application/json");
+        paymentStatusHeader.put("Authorization", authToken);
+        paymentStatusHeader.put("Trace-Id", traceId);
+        paymentStatusHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
+        paymentStatusHeader.put("Request-Date-Time", getRequestDateTime());
+
+        if (EnvHelper.getInstance().isLocalDevMode()) {
+            EnvHelper.getInstance().addMissingHeaderForLocalDevMode(paymentStatusHeader);
+        }
+
+        try {
+            paymentStatusHeader.put("Signature", getSignatureHelper().calculateSignature(method, url, Base64.getDecoder().decode(signingKey), signingAlgorithm, signingKeyId,
+                    headerElementsforSignature, paymentStatusHeader)
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+            Assert.assertTrue("Trouble creating signature!", false);
+
+        }
+        return paymentStatusHeader;
+    }
+    public HashMap<String,String> returnPaymentStatusHeaderWithPOSHeader(String method, String url,String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsforSignature) {
         paymentStatusHeader.put("Accept","application/json");
         paymentStatusHeader.put("Authorization", authToken);
         paymentStatusHeader.put("Trace-Id",traceId);
         paymentStatusHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
         paymentStatusHeader.put("Request-Date-Time", getRequestDateTime());
+        paymentStatusHeader.put("X-HSBC-Device-Id", "test");
 
         if (EnvHelper.getInstance().isLocalDevMode()) {
             EnvHelper.getInstance().addMissingHeaderForLocalDevMode(paymentStatusHeader);
@@ -201,83 +273,108 @@ public class PaymentStatus extends UtilManager {
     }
 
     /**
+     * This method creates and returns a valid header with invalid Request-Date-Time for the GET payment request
      *
+     * @param method
+     * @param url
+     * @param signingKeyId
+     * @param signingAlgorithm
+     * @param signingKey
+     * @param headerElementsforSignature
+     * @return
+     */
+    public HashMap<String, String> returnPaymentStatusHeaderInvalidDate(String method, String url, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsforSignature, String value) {
+        paymentStatusHeader.put("Accept", "application/json");
+        paymentStatusHeader.put("Authorization", authToken);
+        paymentStatusHeader.put("Trace-Id", traceId);
+        paymentStatusHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
+        paymentStatusHeader.put("Request-Date-Time", value);
+
+        if (EnvHelper.getInstance().isLocalDevMode()) {
+            EnvHelper.getInstance().addMissingHeaderForLocalDevMode(paymentStatusHeader);
+        }
+
+        try {
+            paymentStatusHeader.put("Signature", getSignatureHelper().calculateSignature(method, url, Base64.getDecoder().decode(signingKey), signingAlgorithm, signingKeyId,
+                    headerElementsforSignature, paymentStatusHeader)
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+            Assert.assertTrue("Trouble creating signature!", false);
+
+        }
+        return paymentStatusHeader;
+    }
+
+    /**
      * @returns paymentRequestId from the response
      */
-    public String paymentRequestIdInResponse(){
+    public String paymentRequestIdInResponse() {
         return getRestHelper().getResponseBodyValue(paymentStatusResponse, "paymentRequestId");
 
     }
 
     /**
-     *
      * @returns effectiveDuration from the response
      */
-    public Integer effectiveDurationInResponse(){
+    public Integer effectiveDurationInResponse() {
         return Integer.parseInt(getRestHelper().getResponseBodyValue(paymentStatusResponse, "effectiveDuration"));
 
     }
 
     /**
-     *
      * @returns totalAmount from the response
      */
-    public String totalAmountInResponse(){
+    public String totalAmountInResponse() {
         return getRestHelper().getResponseBodyValue(paymentStatusResponse, "totalAmount");
 
     }
 
     /**
-     *
      * @returns currencyCode from the response
      */
-    public String currencyCodeInResponse(){
+    public String currencyCodeInResponse() {
         return getRestHelper().getResponseBodyValue(paymentStatusResponse, "currencyCode");
 
     }
 
     /**
-     *
      * @returns createdTime from the response
      */
-    public String createdTimestampInResponse(){
+    public String createdTimestampInResponse() {
         return getRestHelper().getResponseBodyValue(paymentStatusResponse, "createdTime");
 
     }
 
 
     /**
-     *
      * @returns appSuccessCallback from the response
      */
-    public String appSuccessCallbackInResponse(){
+    public String appSuccessCallbackInResponse() {
         return getRestHelper().getResponseBodyValue(paymentStatusResponse, "appSuccessCallback");
 
     }
 
     /**
-     *
      * @returns appFailCallback from the response
      */
-    public String appFailCallbackInResponse(){
+    public String appFailCallbackInResponse() {
         return getRestHelper().getResponseBodyValue(paymentStatusResponse, "appFailCallback");
 
     }
 
     /**
-     *
      * @returns statusDescription from the response
      */
-    public String statusDescriptionInResponse(){
+    public String statusDescriptionInResponse() {
         return getRestHelper().getResponseBodyValue(paymentStatusResponse, "statusDescription");
 
     }
 
     /**
-     *
      * @returns statusCode from the response
      */
-    public String statusCodeInResponse(){
+    public String statusCodeInResponse() {
         return getRestHelper().getResponseBodyValue(paymentStatusResponse, "statusCode");
 
     }

@@ -1,5 +1,4 @@
 package apiHelpers;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.restassured.response.Response;
@@ -7,7 +6,6 @@ import managers.UtilManager;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import utils.PropertyHelper;
-
 import java.net.URL;
 import java.util.Base64;
 import java.util.HashMap;
@@ -26,11 +24,17 @@ public class Refunds extends UtilManager {
     private Response refundsResponse = null;
     private HashMap<String, String> refundsHeader = new HashMap<>();
     private HashMap refundsBody = new HashMap<>();
-
+    private String deviceId;
+   private String subUnitId;
 
     /**
      * Getters
+     *
      */
+
+    public String getSubUnitId(){
+        return subUnitId;
+    }
     public String getRefundId() {
         return refundId;
     }
@@ -88,9 +92,29 @@ public class Refunds extends UtilManager {
     }
 
 
+    public String getDeviceId() { return deviceId;
+    }
+
     /**
      * Setters
      */
+
+
+    public void setDeviceId(String deviceId) {
+        if (deviceId.equalsIgnoreCase("doubleQuotes")) {
+            this.deviceId = "";
+        } else if (deviceId.equalsIgnoreCase("space")) {
+            this.deviceId = " ";
+        } else if (deviceId.equalsIgnoreCase("tooLong")) {
+            this.deviceId = StringUtils.repeat("*", 51);
+        } else {
+            this.deviceId = deviceId;
+        }
+    }
+
+    public void setSubUnitId(String subUnitId) {
+        this.subUnitId=subUnitId;
+    }
     public void setRefundId(String refundId) {
         this.refundId = refundId;
     }
@@ -297,6 +321,42 @@ public class Refunds extends UtilManager {
         return refundsResponse;
     }
 
+    public Response retrieveRefundsWithTransaction(String urlPart1, String urlPart2, String transactionId, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature, String subUnitId) {
+        url = urlPart1+"/"+transactionId+urlPart2;
+        refundsResponse = getRestHelper().postRequestWithHeaderAndBody(url, returnRefundsHeaderWithPOSRole(signingKeyId, signingKey, signingAlgorithm, headerElementsForSignature, subUnitId), returnRefundsBody());
+
+        logger.info("********** Refunds Response *********** ---> " + refundsResponse.getBody().prettyPrint());
+
+        return refundsResponse;
+    }
+
+    public Response retrieveRefundsWithTransactionInvalidDeviceId(String urlPart1, String urlPart2, String transactionId, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature, String subUnitId, String deviceId) {
+        url = urlPart1+"/"+transactionId+urlPart2;
+        refundsResponse = getRestHelper().postRequestWithHeaderAndBody(url, returnRefundsHeaderWithPOSRoleAndDeviceId(signingKeyId, signingKey, signingAlgorithm, headerElementsForSignature, subUnitId, deviceId), returnRefundsBody());
+
+        logger.info("********** Refunds Response *********** ---> " + refundsResponse.getBody().prettyPrint());
+
+        return refundsResponse;
+    }
+
+
+    public Response retrieveRefundsWithTransactionInvalidSubUnitId(String urlPart1, String urlPart2, String transactionId, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature, String subUnitId) {
+        url = urlPart1+"/"+transactionId+urlPart2;
+        refundsResponse = getRestHelper().postRequestWithHeaderAndBody(url, returnRefundsHeaderWithPOSRole(signingKeyId, signingKey, signingAlgorithm, headerElementsForSignature, subUnitId), returnRefundsBody());
+
+        logger.info("********** Refunds Response *********** ---> " + refundsResponse.getBody().prettyPrint());
+
+        return refundsResponse;
+    }
+
+    public Response retrieveRefundsWithTransactionWithMissingHeader(String urlPart1, String urlPart2, String transactionId, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature, String subUnitId, String missingHeader) {
+        url = urlPart1+"/"+transactionId+urlPart2;
+        refundsResponse = getRestHelper().postRequestWithHeaderAndBody(url, returnRefundsHeaderWithPOSRoAndAndMissingHeader(signingKeyId, signingKey, signingAlgorithm, headerElementsForSignature, subUnitId, missingHeader), returnRefundsBody());
+        logger.info("********** Refunds Response *********** ---> " + refundsResponse.getBody().prettyPrint());
+
+        return refundsResponse;
+    }
+
 
     /**
      * Following two methods appends transaction id in endpoint
@@ -350,4 +410,105 @@ public class Refunds extends UtilManager {
 
         return refundsHeader;
     }
+
+
+
+    public HashMap<String, String> returnRefundsHeaderWithPOSRoAndAndMissingHeader(String signingKeyId, String signingKey, String signingAlgorithm, HashSet headerElementsForSignature, String subUnitId, String header) {
+
+        refundsHeader = new HashMap<>();
+        refundsHeader.put("Accept", "application/json");
+        refundsHeader.put("Content-Type", "application/json");
+        refundsHeader.put("Authorization", authToken);
+        refundsHeader.put("Trace-Id", getGeneral().generateUniqueUUID());
+        refundsHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
+        refundsHeader.put("Request-Date-Time", getDateHelper().getUTCNowDateTime());
+        refundsHeader.put("X-HSBC-Device-Id", "test");
+        refundsHeader.put("X-HSBC-Merchant-Id",subUnitId);
+        try {
+            refundsHeader.put("Digest", getSignatureHelper().calculateContentDigestHeader(new ObjectMapper().writeValueAsBytes(returnRefundsBody())));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            Assert.assertTrue("Trouble creating Digest!", false);
+        }
+
+        try {
+            byte[] sigKey = Base64.getDecoder().decode(signingKey);
+            String signature = getSignatureHelper().calculateSignature("POST", new URL(url).getPath(), sigKey,
+                    signingAlgorithm, signingKeyId, headerElementsForSignature, refundsHeader);
+            refundsHeader.put("Signature", signature);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.assertTrue("Trouble creating Signature!", false);
+        }
+        refundsHeader.remove(header);
+        return refundsHeader;
+    }
+
+
+
+    public HashMap<String, String> returnRefundsHeaderWithPOSRole(String signingKeyId, String signingKey, String signingAlgorithm, HashSet headerElementsForSignature, String subUnitId) {
+
+        refundsHeader = new HashMap<>();
+        refundsHeader.put("Accept", "application/json");
+        refundsHeader.put("Content-Type", "application/json");
+        refundsHeader.put("Authorization", authToken);
+        refundsHeader.put("Trace-Id", getGeneral().generateUniqueUUID());
+        refundsHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
+        refundsHeader.put("Request-Date-Time", getDateHelper().getUTCNowDateTime());
+        refundsHeader.put("X-HSBC-Device-Id", "test");
+        refundsHeader.put("X-HSBC-Merchant-Id",subUnitId);
+
+        try {
+            refundsHeader.put("Digest", getSignatureHelper().calculateContentDigestHeader(new ObjectMapper().writeValueAsBytes(returnRefundsBody())));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            Assert.assertTrue("Trouble creating Digest!", false);
+        }
+
+        try {
+            byte[] sigKey = Base64.getDecoder().decode(signingKey);
+            String signature = getSignatureHelper().calculateSignature("POST", new URL(url).getPath(), sigKey,
+                    signingAlgorithm, signingKeyId, headerElementsForSignature, refundsHeader);
+            refundsHeader.put("Signature", signature);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.assertTrue("Trouble creating Signature!", false);
+        }
+
+        return refundsHeader;
+    }
+
+
+    public HashMap<String, String> returnRefundsHeaderWithPOSRoleAndDeviceId(String signingKeyId, String signingKey, String signingAlgorithm, HashSet headerElementsForSignature, String subUnitId, String deviceId) {
+
+        refundsHeader = new HashMap<>();
+        refundsHeader.put("Accept", "application/json");
+        refundsHeader.put("Content-Type", "application/json");
+        refundsHeader.put("Authorization", authToken);
+        refundsHeader.put("Trace-Id", getGeneral().generateUniqueUUID());
+        refundsHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
+        refundsHeader.put("Request-Date-Time", getDateHelper().getUTCNowDateTime());
+        refundsHeader.put("X-HSBC-Device-Id", deviceId);
+        refundsHeader.put("X-HSBC-Merchant-Id",subUnitId);
+
+        try {
+            refundsHeader.put("Digest", getSignatureHelper().calculateContentDigestHeader(new ObjectMapper().writeValueAsBytes(returnRefundsBody())));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            Assert.assertTrue("Trouble creating Digest!", false);
+        }
+
+        try {
+            byte[] sigKey = Base64.getDecoder().decode(signingKey);
+            String signature = getSignatureHelper().calculateSignature("POST", new URL(url).getPath(), sigKey,
+                    signingAlgorithm, signingKeyId, headerElementsForSignature, refundsHeader);
+            refundsHeader.put("Signature", signature);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.assertTrue("Trouble creating Signature!", false);
+        }
+
+        return refundsHeader;
+    }
+
 }

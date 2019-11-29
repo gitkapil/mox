@@ -103,11 +103,6 @@ public class ManagementGetPlatformStep_Defs extends UtilManager {
 
     }
 
-    @When("^I make a GET request to the platform endpoint with \"([^\"]*)\" missing in the header$")
-    public void i_make_a_GET_request_to_the_platform_endpoint_with_missing_in_the_header(String arg1) {
-
-    }
-
 
     @Given("^I am a GET dragon DRAGON user with Platform\\.ReadWrite\\.All with invalid \"([^\"]*)\"$")
     public void i_am_a_GET_dragon_DRAGON_user_with_Platform_ReadWrite_All_with_invalid(String token) {

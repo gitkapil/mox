@@ -2,6 +2,7 @@ package steps;
 
 import com.google.common.collect.Sets;
 import com.jayway.restassured.response.Response;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import managers.TestContext;
 import cucumber.api.java.en.Given;
@@ -11,7 +12,9 @@ import managers.UtilManager;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import utils.Constants;
+import utils.PropertyHelper;
 
+import java.net.MalformedURLException;
 import java.util.*;
 
 
@@ -27,6 +30,7 @@ public class Refunds_StepDefs extends UtilManager {
     private String payerId;
     private String transactionAmount;
     private String transactionCurrencyCode;
+    private String subUnitId;
 
     public Refunds_StepDefs(TestContext testContext) {
         this.testContext = testContext;
@@ -121,6 +125,7 @@ public class Refunds_StepDefs extends UtilManager {
         testContext.getApiManager().getRefunds().setCurrencyCode(currencyCode);
         testContext.getApiManager().getRefunds().setReasonCode(reasonCode);
         testContext.getApiManager().getRefunds().setReasonMessage(reasonMessage);
+
         testContext.getApiManager().getRefunds().retrieveRefunds(
                 getRestHelper().getBaseURI() +
                         getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_1"),
@@ -129,6 +134,215 @@ public class Refunds_StepDefs extends UtilManager {
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
                 testContext.getApiManager().getMerchantManagementSigningKey(),
                 new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))));
+
+
+    }
+
+    @And("^I make refund request with refund amount \"([^\"]*)\", refund currency \"([^\"]*)\", reason Code \"([^\"]*)\" and reason message \"([^\"]*)\"$")
+    public void i_MakeRefundCallWithAmountCurrentAndReasonMessage(String amount, String currencyCode, String reasonCode, String reasonMessage) throws MalformedURLException {
+
+        String env = PropertyHelper.getInstance().getPropertyCascading("env");
+        String usertype = PropertyHelper.getInstance().getPropertyCascading("usertype");
+
+        if (env.equalsIgnoreCase("SIT") && usertype.equalsIgnoreCase("merchant")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-subUnitId-pos-sit");
+
+        } else if (env.equalsIgnoreCase("CI") && usertype.equalsIgnoreCase("merchant")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-subUnitId-pos-ci");
+
+        } else if (env.equalsIgnoreCase("SIT") && usertype.equalsIgnoreCase("developer")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-subUnitId-pos-sit");
+
+        } else if (env.equalsIgnoreCase("CI") && usertype.equalsIgnoreCase("developer")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-subUnitId-pos-ci");
+
+        } else if (env.equalsIgnoreCase("PRE") && usertype.equalsIgnoreCase("merchant")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-subUnitId-pos-pre");
+
+        } else if (env.equalsIgnoreCase("PRE") && usertype.equalsIgnoreCase("developer")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-subUnitId-pos-pre");
+
+        } else if (env.equalsIgnoreCase("UAT1") && usertype.equalsIgnoreCase("merchant")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-subUnitId-pos-uat1");
+
+        } else if (env.equalsIgnoreCase("UAT1") && usertype.equalsIgnoreCase("developer")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-subUnitId-pos-uat1");
+        }
+        testContext.getApiManager().getRefunds().setAmount(amount);
+        testContext.getApiManager().getRefunds().setCurrencyCode(currencyCode);
+        testContext.getApiManager().getRefunds().setReasonCode(reasonCode);
+        testContext.getApiManager().getRefunds().setReasonMessage(reasonMessage);
+
+        String url = getRestHelper().getBaseURI() + "transactions/" + testContext.getApiManager().getTransaction().getTransactionId() + "/refunds";
+        logger.info("URL:  " + url);
+        testContext.getApiManager().getRefunds().retrieveRefundsWithTransaction(
+                getRestHelper().getBaseURI() +
+                        getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_1"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"), testContext.getApiManager().getTransaction().getTransactionId(),
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                testContext.getApiManager().getMerchantManagementSigningKey(),
+                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))), subUnitId);
+
+        Response response = testContext.getApiManager().getRefunds().getRefundsResponse();
+        testContext.getApiManager().getRefunds().setRefundId(response.path(Constants.REFUND_ID));
+    }
+
+
+    @And("^I make refund request with refund amount \"([^\"]*)\", refund currency \"([^\"]*)\", reason Code \"([^\"]*)\" and reason message \"([^\"]*)\" and deviceId \"([^\"]*)\"$")
+    public void i_MakeRefundCallWithAmountCurrentAndReasonMessageAndDeviceId(String amount, String currencyCode, String reasonCode, String reasonMessage, String deviceId) throws MalformedURLException {
+
+        String env = PropertyHelper.getInstance().getPropertyCascading("env");
+        String usertype = PropertyHelper.getInstance().getPropertyCascading("usertype");
+
+        if (env.equalsIgnoreCase("SIT") && usertype.equalsIgnoreCase("merchant")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-subUnitId-pos-sit");
+
+        } else if (env.equalsIgnoreCase("CI") && usertype.equalsIgnoreCase("merchant")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-subUnitId-pos-ci");
+
+        } else if (env.equalsIgnoreCase("SIT") && usertype.equalsIgnoreCase("developer")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-subUnitId-pos-sit");
+
+        } else if (env.equalsIgnoreCase("CI") && usertype.equalsIgnoreCase("developer")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-subUnitId-pos-ci");
+
+        } else if (env.equalsIgnoreCase("PRE") && usertype.equalsIgnoreCase("merchant")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-subUnitId-pos-pre");
+
+        } else if (env.equalsIgnoreCase("PRE") && usertype.equalsIgnoreCase("developer")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-subUnitId-pos-pre");
+
+        } else if (env.equalsIgnoreCase("UAT1") && usertype.equalsIgnoreCase("merchant")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-subUnitId-pos-uat1");
+
+        } else if (env.equalsIgnoreCase("UAT1") && usertype.equalsIgnoreCase("developer")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-subUnitId-pos-uat1");
+        }
+        testContext.getApiManager().getRefunds().setAmount(amount);
+        testContext.getApiManager().getRefunds().setCurrencyCode(currencyCode);
+        testContext.getApiManager().getRefunds().setReasonCode(reasonCode);
+        testContext.getApiManager().getRefunds().setReasonMessage(reasonMessage);
+        String url = getRestHelper().getBaseURI() + "transactions/" + testContext.getApiManager().getTransaction().getTransactionId() + "/refunds";
+        logger.info("URL:  " + url);
+
+        testContext.getApiManager().getRefunds().setDeviceId(deviceId);
+
+        testContext.getApiManager().getRefunds().retrieveRefundsWithTransactionInvalidDeviceId(
+                getRestHelper().getBaseURI() +
+                        getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_1"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"), testContext.getApiManager().getTransaction().getTransactionId(),
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                testContext.getApiManager().getMerchantManagementSigningKey(),
+                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))), subUnitId, testContext.getApiManager().getRefunds().getDeviceId());
+
+        Response response = testContext.getApiManager().getRefunds().getRefundsResponse();
+        testContext.getApiManager().getRefunds().setRefundId(response.path(Constants.REFUND_ID));
+    }
+
+
+    @And("^I make refund request with refund amount \"([^\"]*)\", refund currency \"([^\"]*)\", reason Code \"([^\"]*)\" and reason message \"([^\"]*)\" and subUnitId \"([^\"]*)\"$")
+    public void i_MakeRefundCallWithAmountCurrentAndReasonMessageAndSubUnitId(String amount, String currencyCode, String reasonCode, String reasonMessage, String subUnitId) throws MalformedURLException {
+
+        String env = PropertyHelper.getInstance().getPropertyCascading("env");
+        String usertype = PropertyHelper.getInstance().getPropertyCascading("usertype");
+
+        if (env.equalsIgnoreCase("SIT") && usertype.equalsIgnoreCase("merchant")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-subUnitId-pos-sit");
+
+        } else if (env.equalsIgnoreCase("CI") && usertype.equalsIgnoreCase("merchant")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-subUnitId-pos-ci");
+
+        } else if (env.equalsIgnoreCase("SIT") && usertype.equalsIgnoreCase("developer")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-subUnitId-pos-sit");
+
+        } else if (env.equalsIgnoreCase("CI") && usertype.equalsIgnoreCase("developer")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-subUnitId-pos-ci");
+
+        } else if (env.equalsIgnoreCase("PRE") && usertype.equalsIgnoreCase("merchant")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-subUnitId-pos-pre");
+
+        } else if (env.equalsIgnoreCase("PRE") && usertype.equalsIgnoreCase("developer")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-subUnitId-pos-pre");
+
+        } else if (env.equalsIgnoreCase("UAT1") && usertype.equalsIgnoreCase("merchant")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-subUnitId-pos-uat1");
+
+        } else if (env.equalsIgnoreCase("UAT1") && usertype.equalsIgnoreCase("developer")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-subUnitId-pos-uat1");
+        }
+        testContext.getApiManager().getRefunds().setAmount(amount);
+        testContext.getApiManager().getRefunds().setCurrencyCode(currencyCode);
+        testContext.getApiManager().getRefunds().setReasonCode(reasonCode);
+        testContext.getApiManager().getRefunds().setReasonMessage(reasonMessage);
+        String url = getRestHelper().getBaseURI() + "transactions/" + testContext.getApiManager().getTransaction().getTransactionId() + "/refunds";
+        logger.info("URL:  " + url);
+
+        testContext.getApiManager().getRefunds().setSubUnitId(subUnitId);
+
+        testContext.getApiManager().getRefunds().retrieveRefundsWithTransactionInvalidSubUnitId(
+                getRestHelper().getBaseURI() +
+                        getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_1"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"), testContext.getApiManager().getTransaction().getTransactionId(),
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                testContext.getApiManager().getMerchantManagementSigningKey(),
+                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))), testContext.getApiManager().getRefunds().getSubUnitId());
+
+        Response response = testContext.getApiManager().getRefunds().getRefundsResponse();
+        testContext.getApiManager().getRefunds().setRefundId(response.path(Constants.REFUND_ID));
+    }
+
+
+    @And("^I make refund request with refund amount \"([^\"]*)\", refund currency \"([^\"]*)\", reason Code \"([^\"]*)\" and reason message \"([^\"]*)\" with missing header \"([^\"]*)\"$")
+    public void i_MakeRefundCallWithAmountCurrentAndReasonMessageWithMissingHeader(String amount, String currencyCode, String reasonCode, String reasonMessage, String missingHeader) throws MalformedURLException {
+
+        String env = PropertyHelper.getInstance().getPropertyCascading("env");
+        String usertype = PropertyHelper.getInstance().getPropertyCascading("usertype");
+
+        if (env.equalsIgnoreCase("SIT") && usertype.equalsIgnoreCase("merchant")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-subUnitId-pos-sit");
+
+        } else if (env.equalsIgnoreCase("CI") && usertype.equalsIgnoreCase("merchant")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-subUnitId-pos-ci");
+
+        } else if (env.equalsIgnoreCase("SIT") && usertype.equalsIgnoreCase("developer")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-subUnitId-pos-sit");
+
+        } else if (env.equalsIgnoreCase("CI") && usertype.equalsIgnoreCase("developer")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-subUnitId-pos-ci");
+
+        } else if (env.equalsIgnoreCase("PRE") && usertype.equalsIgnoreCase("merchant")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-subUnitId-pos-pre");
+
+        } else if (env.equalsIgnoreCase("PRE") && usertype.equalsIgnoreCase("developer")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-subUnitId-pos-pre");
+
+        } else if (env.equalsIgnoreCase("UAT1") && usertype.equalsIgnoreCase("merchant")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-subUnitId-pos-uat1");
+
+        } else if (env.equalsIgnoreCase("UAT1") && usertype.equalsIgnoreCase("developer")) {
+            this.subUnitId = getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-subUnitId-pos-uat1");
+        }
+        testContext.getApiManager().getRefunds().setAmount(amount);
+        testContext.getApiManager().getRefunds().setCurrencyCode(currencyCode);
+        testContext.getApiManager().getRefunds().setReasonCode(reasonCode);
+        testContext.getApiManager().getRefunds().setReasonMessage(reasonMessage);
+        String url = getRestHelper().getBaseURI() + "transactions/" + testContext.getApiManager().getPaymentStatus().getTransactionId() + "/refunds";
+        logger.info("URL:  " + url);
+
+        testContext.getApiManager().getRefunds().retrieveRefundsWithTransactionWithMissingHeader(
+                getRestHelper().getBaseURI() +
+                        getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_1"),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "refund_resource_2"), testContext.getApiManager().getTransaction().getTransactionId(),
+                testContext.getApiManager().getMerchantManagementSigningKeyId(),
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "signing_algorithm"),
+                testContext.getApiManager().getMerchantManagementSigningKey(),
+                new HashSet(Arrays.asList(getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "header-list-post").split(","))), subUnitId, missingHeader);
+
+        Response response = testContext.getApiManager().getRefunds().getRefundsResponse();
+        testContext.getApiManager().getRefunds().setRefundId(response.path(Constants.REFUND_ID));
     }
 
 
@@ -154,15 +368,15 @@ public class Refunds_StepDefs extends UtilManager {
         testContext.getApiManager().getRefunds().setAuthToken(testContext.getApiManager().getAccessToken().getAccessToken());
     }
 
-    @Then("^I should receive a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within refund response$")
-    public void i_should_receive_a_error_response_with_error_description_and_errorcode_within_refund_response(int responseCode, String errorDesc, String errorCode) {
-        Assert.assertEquals("Different response code being returned", responseCode, getRestHelper().getResponseStatusCode(testContext.getApiManager().getRefunds().getRefundsResponse()));
-        if (!errorCode.equalsIgnoreCase("null")) {
-            Assert.assertEquals("Different error code being returned", errorCode, getRestHelper().getErrorCode(testContext.getApiManager().getRefunds().getRefundsResponse()));
-        }
-        if (!errorDesc.equalsIgnoreCase("null")) {
-            Assert.assertTrue("Different error description being returned. Expected: " + errorDesc + "  Actual: " + getRestHelper().getErrorDescription(testContext.getApiManager().getRefunds().getRefundsResponse()), getRestHelper().getErrorDescription(testContext.getApiManager().getRefunds().getRefundsResponse()).contains(errorDesc));
-        }
+    @Then("^I should receive a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within payment refund response$")
+    public void i_should_receive_a_error_response_with_error_description_and_errorcode(int responseCode, String errorDesc, String errorCode) {
+        org.testng.Assert.assertEquals(getRestHelper().getResponseStatusCode(testContext.getApiManager().getRefunds().getRefundsResponse()), responseCode, "Different response code being returned");
+        org.testng.Assert.assertTrue(
+                getRestHelper().getErrorDescription(testContext.getApiManager().getRefunds().getRefundsResponse())
+                        .replace("\"", "")
+                        .contains(errorDesc),
+                "Different error description being returned..Expected: " + errorDesc + "Actual: " + getRestHelper().getErrorDescription(testContext.getApiManager().getRefunds().getRefundsResponse()));
+        org.testng.Assert.assertEquals(getRestHelper().getErrorCode(testContext.getApiManager().getRefunds().getRefundsResponse()), errorCode, "Different error code being returned");
     }
 
     @Then("^error message should be \"([^\"]*)\" within refund response$")
@@ -229,7 +443,6 @@ public class Refunds_StepDefs extends UtilManager {
     @And("^validate refund response$")
     public void validateRefundResponse() {
         Response response = testContext.getApiManager().getRefunds().getRefundsResponse();
-
         Assert.assertNotNull("refundId missing in response!", response.path(Constants.REFUND_ID));
         Assert.assertNotNull("transactionId missing in response!", response.path(Constants.TRANSACTION_ID));
         Assert.assertNotNull("payerId missing in response!", response.path(Constants.PAYER_ID));
@@ -239,15 +452,18 @@ public class Refunds_StepDefs extends UtilManager {
         Assert.assertNotNull("feeCurrencyCode missing in response!", response.path(Constants.FEE_CURRENCY_CODE));
         Assert.assertNotNull("reasonCode missing in response!", response.path(Constants.REASON_CODE));
         Assert.assertNotNull("reasonMessage missing in response!", response.path(Constants.REASON_MESSAGE));
-
         testContext.getApiManager().getRefunds().setRefundId(response.path(Constants.REFUND_ID));
         testContext.getApiManager().getRefunds().setTransactionId(response.path(Constants.TRANSACTION_ID));
-
         Assert.assertEquals("TransactionId of Refunds response is different from first transactionId of Transactions API response", testContext.getApiManager().getTransaction().getTransactionId(), testContext.getApiManager().getRefunds().getTransactionId());
-        Assert.assertEquals("payerId in response should be equal to payerId in request body!", response.path(Constants.PAYER_ID), testContext.getApiManager().getRefunds().getRefundsBody().get(Constants.PAYER_ID));
         Assert.assertEquals("refundAmount in response should be equal to amount in request body!", response.path(Constants.REFUND_AMOUNT), testContext.getApiManager().getRefunds().getRefundsBody().get(Constants.AMOUNT).toString());
         Assert.assertEquals("refundCurrencyCode in response should be equal to currencyCode in request body!", response.path(Constants.REFUND_CURRENCY_CODE), testContext.getApiManager().getRefunds().getRefundsBody().get(Constants.CURRENCY_CODE));
         Assert.assertEquals("reasonCode in response should be equal to reasonCode in request body!", response.path(Constants.REASON_CODE), testContext.getApiManager().getRefunds().getRefundsBody().get(Constants.REASON_CODE));
         Assert.assertEquals("reasonMessage in response should be equal to reasonMessage in request body!", response.path(Constants.REASON_MESSAGE), testContext.getApiManager().getRefunds().getRefundsBody().get(Constants.REASON_MESSAGE));
+    }
+
+    @Then("^I should receive a \"([^\"]*)\" status code in refund response$")
+    public void iShouldReceiveAStatusCodeInRefundResponse(int statusCode) {
+        org.testng.Assert.assertEquals(getRestHelper().getResponseStatusCode(testContext.getApiManager().getRefunds().getRefundsResponse()), statusCode, "Different response code being returned");
+
     }
 }

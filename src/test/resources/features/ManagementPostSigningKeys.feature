@@ -1,4 +1,4 @@
-@healthCheck
+@skiponversionten @skiponversiontwelve
 Feature: Merchant Management POST Signing Keys - DRAG-1565
   As a user
   I want to create signing key information and validate correct response is returned

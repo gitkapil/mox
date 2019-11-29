@@ -56,4 +56,23 @@ public class Constants {
     public static final String REASON_MESSAGE = "reasonMessage";
     public static final String AMOUNT = "amount";
     public static final String CURRENCY_CODE = "currencyCode";
+    public static final String TRANSACTION_SOURCE = "transactionSource";
+    public static final String TRANSACTION_SOURCE_DESCRIPTION = "transactionSourceDescription";
+    public static final String TRANSACTION_TYPE = "transactionType";
+    public static final String TRANSACTION_TYPE_DESCRIPTION = "transactionTypeDescription";
+    public static final String ORDER_ID = "orderId";
+    public static final String ORDER_DESCRIPTION = "orderDescription";
+    public static final String TRANSACTION_TIME = "transactionTime";
+    public static final String TRANSACTION_AMOUNT = "transactionAmount";
+    public static final String TRANSACTION_CURRENCY_CODE = "transactionCurrencyCode";
+    public static final String PAYER_NAME = "payerName";
+    public static final String STATUS_CODE = "statusCode";
+    public static final String MESSAGE = "message";
+    public static final String REFERENCE = "reference";
+    public static final String REFUNDABLE = "refundable";
+    public static final String CREATED_TIME = "createdTime";
+    public static final String LIST_DATE = "listDate";
+
+
+
 }

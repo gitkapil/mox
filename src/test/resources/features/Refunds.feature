@@ -1,3 +1,4 @@
+@skiponversionten
 Feature: Refund - DRAG- 179, DRAG-1812
 
   Background: Retrieving access Token
@@ -13,19 +14,31 @@ Feature: Refund - DRAG- 179, DRAG-1812
 #  When I try to make a call to refund
 #  Then I should receive a "401" error response with "Error validating JWT" error description and "401" errorcode within refund response
 
-#@trial
   @regression
   Scenario Outline: Negative flow - Invalid transaction Id
     Given I am logging in as a user with refund role
     When I try to make a call to refund with transaction id as "<transactionId>"
     And I enter the refund data with refund amount "2", refund currency "HKD", reason Code "00" and reason message "test"
-    Then I should receive a "<http_status>" error response with "<err_description>" error description and "<err_code>" errorcode within refund response
+    Then I should receive a "<http_status>" error response with "<err_description>" error description and "<err_code>" errorcode within payment refund response
     Examples:
-      | transactionId | http_status | err_description                 | err_code |
-  #null transactionId
-      |               | 404         | null                            | null     |
+      | transactionId                        | http_status | err_description                 | err_code |
   #invalid UUID format
-      | asd           | 400         | Failed to convert value of type | EA002    |
+      | asd                                  | 400         | Failed to convert value of type | EA002    |
+  #invalid UUID format
+      | 03829f2x-125d-4a4f-a443-ddf69f08a21x | 400         | Failed to convert value of type | EA002    |
+
+
+  @regression
+  Scenario Outline: Negative flow - Empty transaction Id
+    Given I am logging in as a user with refund role
+    When I try to make a call to refund with transaction id as "<transactionId>"
+    And I enter the refund data with refund amount "2", refund currency "HKD", reason Code "00" and reason message "test"
+    Then I should receive a "404" status code in refund response
+    And error message should be "Resource not found" within refund response
+    Examples:
+      | transactionId |
+  #null transactionId
+      |               |
 
 
   @regression
@@ -35,7 +48,7 @@ Feature: Refund - DRAG- 179, DRAG-1812
     And I record the first transaction details
     And I try to make a call to refund with that transaction
     And I enter the refund data with refund amount "<amount>", refund currency "<currencyCode>", reason Code "<reasonCode>" and reason message "<reasonMessage>"
-    Then I should receive a "<http_status>" error response with "<err_description>" error description and "<err_code>" errorcode within refund response
+    Then I should receive a "<http_status>" error response with "<err_description>" error description and "<err_code>" errorcode within payment refund response
     Examples:
       | amount     | currencyCode | reasonCode | reasonMessage | http_status | err_description                                                                                                                               | err_code |
   #refund amount -'ve

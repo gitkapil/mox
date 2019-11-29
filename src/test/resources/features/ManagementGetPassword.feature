@@ -1,4 +1,4 @@
-@healthCheck
+@skiponversionten @skiponversiontwelve
 Feature: Merchant Management get Password - DRAG-1481
   As a user
   I want to get the password details and validate the details returned in response are correct!!

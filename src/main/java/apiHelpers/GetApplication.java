@@ -5,7 +5,6 @@ import managers.UtilManager;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import utils.*;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Base64;
@@ -17,6 +16,7 @@ public class GetApplication extends UtilManager {
     String authToken;
     DateHelper dateHelper;
     SignatureHelper signatureHelper;
+    String subUnitId;
     General general = new General();
     private Response response= null;
     private HashMap<String,String >requestHeader = new HashMap<>();
@@ -34,12 +34,16 @@ public class GetApplication extends UtilManager {
         this.response = response;
     }
 
+    public String getSubUnitId() { return subUnitId; }
+
+    public void setSubUnitId(String subUnitId) { this.subUnitId = subUnitId; }
+
     public GetApplication() {
         dateHelper = new DateHelper();
         signatureHelper = new SignatureHelper();
     }
 
-    public void getListOfApplications(String url, String authToken) {
+    public Response getListOfApplications(String url, String authToken) {
         try {
             response = getRestHelper().getRequestWithHeaders(url,
                     returnRequestHeader("GET", new URL(url).getPath(),
@@ -49,7 +53,7 @@ public class GetApplication extends UtilManager {
         } catch (MalformedURLException e) {
             e.printStackTrace();
             Assert.assertTrue("Unable to get URL" , false);
-        }
+        } return  response;
     }
 
     public void getListOfApplication(String url, String authToken, String nullHeader) {
@@ -57,8 +61,6 @@ public class GetApplication extends UtilManager {
             response = getRestHelper().getRequestWithHeaders(url,
                     getListHeaderWithMissingValues("GET", new URL(url).getPath(),
                             authToken, nullHeader));
-
-
             logger.info("****************List of application response ******************** --> " + response.getBody().prettyPrint());
         } catch (MalformedURLException e) {
             e.printStackTrace();

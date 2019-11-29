@@ -1,11 +1,12 @@
-Feature: Transactions List
+@skiponversionten
+Feature: GET Transactions List
 
   Background: Retrieving access token
     Given I am an user
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-#  @trial
+  @trial
   @regression
   Scenario Outline: Negative flow - Send invalid fromTime and toTime
     Given I am an authorized user
@@ -107,3 +108,4 @@ Feature: Transactions List
     Examples:
       | fromTime                      | toTime                   | limit | minimum |
       | 2018-01-01T00:00:00.235+01:00 | 2050-02-01T00:00:00.120Z | 10    | 2       |
+

@@ -201,7 +201,7 @@ public class PostPlatformStep_Defs extends UtilManager {
                     getRestHelper().getErrorDescription(response)
                             .replace("\"", "")
                             .contains(errorDesc),
-                    "Different error description being returned..Expected: " + errorDesc + "Actual: " + getRestHelper().getErrorDescription(response));
+                    "Different error description being returned..Expected: " + errorDesc + "\nActual: " + getRestHelper().getErrorDescription(response));
         }
         Assert.assertEquals(getRestHelper().getErrorCode(response), errorCode, "Different error code being returned");
     }

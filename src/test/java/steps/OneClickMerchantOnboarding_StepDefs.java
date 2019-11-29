@@ -120,8 +120,6 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
         if (env.equalsIgnoreCase("SIT") && usertype.equalsIgnoreCase("merchant")) {
             Assert.assertTrue(response.path(Constants.PDF_URL).toString().contains("https://sacct" + env.toLowerCase() + "hkdragboarding.blob.core.windows.net/paymeapi-pdf/" + applicationResponse.get(Constants.SUB_UNIT_ID) + "_LV_"));
         } else if (env.equalsIgnoreCase("SIT") && usertype.equalsIgnoreCase("developer")) {
-            System.out.println("response:" + response.path(Constants.PDF_URL));
-            System.out.println("custom: " + "https://sacct" + env.toLowerCase() + "hkdragboarding.blob.core.windows.net/paymeapi-pdf/" + applicationResponse.get(Constants.SUB_UNIT_ID) + "_SB_");
             Assert.assertTrue(response.path(Constants.PDF_URL).toString().contains("https://sacct" + env.toLowerCase() + "hkdragsandbox.blob.core.windows.net/paymeapi-pdf/" + applicationResponse.get(Constants.SUB_UNIT_ID) + "_SB_"));
         } else if (env.equalsIgnoreCase("CI") && usertype.equalsIgnoreCase("merchant")) {
             Assert.assertTrue(response.path(Constants.PDF_URL).toString().contains("https://sacct" + env.toLowerCase() + "dragmerch.blob.core.windows.net/paymeapi-pdf/" + applicationResponse.get(Constants.SUB_UNIT_ID) + "_LV_"));

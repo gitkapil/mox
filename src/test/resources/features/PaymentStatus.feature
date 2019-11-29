@@ -1,12 +1,11 @@
-Feature: Check Status - DRAG- 178, DRAG-1127, DRAG-1130, DRAG-1133
+Feature: Check Status - DRAG- 178, DRAG-1127, DRAG-1130, DRAG-1133, DRAG-2152
 
   Background: Retrieving access Token
     Given I am an user
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-#  @trial
-  @regression @payStatus
+  @regression
   Scenario: Positive flow- A merchant is able to create a check status request with all the valid inputs
     Given I am an authorized user
     And I have valid payment details
@@ -16,10 +15,67 @@ Feature: Check Status - DRAG- 178, DRAG-1127, DRAG-1130, DRAG-1133
     When I make a request for the check status
     Then I should receive a successful check status response
     And the response body should contain valid payment request id, created timestamp, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration within check status response
-    And the response body should contain a list of transactions
     And the response body should also have app success callback URL, app fail Callback Url if applicable within check status response
     And the payment status response should be signed
 
+  @trial @regression @skiponsandbox
+  Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs
+    Given I am an authorized user
+    And I have payment details "<totalamount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
+    And I have shopping cart details
+      | sku            | name            | quantity | price | currency | category1 | category2  | category3 |
+      | pizzapepperoni | pepperoni pizza | 1        | 60    | HKD      | Pizza     | Meat Pizza | Pepperoni |
+    And I have merchant data "<description>","<orderId>","<additionalData>"
+    When I make a request for the payment
+    Then I should receive a successful payment response
+    And the response body should contain valid payment request id, business logos, created timestamp, web link, app link, totalAmount, currencyCode, statusDescription, statusCode, effectiveDuration
+    And the response body should also have notification URI, app success callback URL, app fail Callback Url if applicable
+    And the payment request response should be signed
+    When I make transaction successful with "<mobileNo>", "<pin>" and "<environment>"
+    Given I am an authorized user
+    And I have a valid payment id
+    When I make a request for the check status for amount "<totalamount>"
+    Then the response body should contain a list of transactions
+    Given I am an user
+    When I make a request to the Dragon ID Manager
+    Then I receive an access_token
+    Given I am an authorized user
+    When I query for a list of transactions
+    Then verify transaction list contains transactionId as retrieved in check status response
+    And validate the check status response body
+    Examples:
+
+      | totalamount | currency | mobileNo    | pin    | environment | notificationURL | description           | orderId  | effectiveDuration | appSuccessCallback | appFailCallback | additionalData                                                                |
+      #SIT
+      | 1.400       | HKD      | 85282822828 | 142434 |             | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
+      #POC
+     # | 1.400       | HKD      | 85240002083 | 123456 |             | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
+     # | 1.400       | HKD      | 85276419932 | 135790 |             | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
+
+
+  @regression @skipOnMerchant
+  Scenario Outline: Positive flow- A merchant is able to create a check status request and validate transactions detail with transactions API
+    Given I am an authorized user
+    When I have payment details "<totalamount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
+    And I have shopping cart details
+      | sku            | name            | quantity | price | currency | category1 | category2  | category3 |
+      | pizzapepperoni | pepperoni pizza | 1        | 60    | HKD      | Pizza     | Meat Pizza | Pepperoni |
+    And I have merchant data "<description>","<orderId>","<additionalData>"
+    And I make a request for the payment
+    And I should receive a successful payment response
+    And I have a valid payment id
+    When I make a request for the check status
+    Then I should receive a successful check status response
+    And validate the check status response body
+    And the response body should also have app success callback URL, app fail Callback Url if applicable within check status response
+    And the payment status response should be signed
+    Given I am an authorized user
+    When I query for a list of transactions
+    Then verify transaction list contains transactionId as retrieved in check status response
+    Examples:
+      | totalamount | currency | notificationURL                                           | description           | orderId  | effectiveDuration | appSuccessCallback | appFailCallback | additionalData                                                                |
+      | 500.81      | HKD      | /return3                                                  | message from merchant | B1242183 | 40                | /confirmation      | /unsuccessful   | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
+      | 100.66      | HKD      | https://webhook.site/2f6552af-3f1a-4191-810e-69f7d548fb74 | message from merchant | B1242183 |                   |                    |                 | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
 
   @regression
   Scenario: Negative flow- Invalid auth token (without Bearer in the header)
@@ -33,7 +89,6 @@ Feature: Check Status - DRAG- 178, DRAG-1127, DRAG-1130, DRAG-1133
     Then I should receive a "401" error response with "Error validating JWT" error description and "EA001" errorcode within check status response
     And error message should be "API Gateway Authentication Failed" within check status response
     And the payment status response should be signed
-
 
   @regression
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
@@ -54,7 +109,7 @@ Feature: Check Status - DRAG- 178, DRAG-1127, DRAG-1130, DRAG-1133
       | Header Trace-Id was not found in the request. Access denied.          | API Gateway Validation Failed     | Trace-Id          | 400           | EA002      |
       | Header Accept does not contain required value.  Access denied.        | Request Header Not Acceptable     | Accept            | 406           | EA008      |
 
-
+  @regression
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
     Given I am an authorized user
     And I have valid payment details
@@ -93,8 +148,6 @@ Feature: Check Status - DRAG- 178, DRAG-1127, DRAG-1130, DRAG-1133
  # Auth token unverified
       | Error validating JWT | 401         | API Gateway Authentication Failed | eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | EA001      |
 
-
-#    @trial
   @regression
   Scenario Outline: Negative flow- Invalid PaymentIds sent in the request
     Given I am an authorized user
@@ -108,31 +161,24 @@ Feature: Check Status - DRAG- 178, DRAG-1127, DRAG-1130, DRAG-1133
     And the payment status response should be signed
     Examples:
       | error_description             | error_message                     | payment_id                           | error_code | response_code |
-      #| null                          | Resource not found                |                                      | null       | 404           |
       | PayCode not found             |                                   | 591ec407-401d-40a6-9db0-b48a35fad8a3 | EB008      | 400           |
       | Payment Request Id is invalid | Service Request Validation Failed | random_payment_id                    | EA002      | 400           |
 
-
-#  @regression  @skiponsitmerchant
-  Scenario Outline: Emulator Scenarios
+  @regression
+  Scenario Outline: Negative flow- Mandatory field payment_id provided null in path parameter
     Given I am an authorized user
+    And I have valid payment details
+    And I make a request for the payment
+    And I should receive a successful payment response
     And I have a payment id "<payment_id>"
     When I make a request for the check status
-    Then I should receive a successful check status response
-    And the response body should contain correct "<status_description>" and "<status_code>"
-    And the payment status response should be signed
-
+    Then I should receive "404" status code in check status response
+    And error message should be "Resource not found" within the check status response
     Examples:
-      | payment_id                           | status_description            | status_code |
-      | 25f90d96-4052-4c47-8ec1-f818c0e7a212 | Payment Request Expired       | PR007       |
-      | b15e090a-5e97-4b44-a67e-542eb2aa0f4d | Request for Payment Initiated | PR001       |
-      | 9dbcf291-d71e-4c9f-938c-1fdf4035b5f5 | Payment Success               | PR005       |
-      | b15e090a-5e97-4b44-a67e-542eb2aa0f4d | Request for Payment Initiated | PR001       |
-      | 33f8b91c-82ed-4bb5-a771-40daa14a5d3e | Payment Success               | PR005       |
-      | 839040ff-128f-47ec-b69a-d44ae05aae80 | Payment Success               | PR005       |
+      | payment_id |
+      |            |
 
-
-  @regression
+  @trial @regression
   Scenario Outline: Negative flow- Request Date Time's invalid values set within the header
     Given I am an authorized user
     And I have valid payment details
@@ -140,14 +186,36 @@ Feature: Check Status - DRAG- 178, DRAG-1127, DRAG-1130, DRAG-1133
     And I should receive a successful payment response
     And I have a valid payment id
     When I make a request for the check status with invalid value for request date time "<value>"
-    Then I should receive a "400" error response with "<error_description>" error description and "EA002" errorcode within check status response
-    And error message should be "Service Request Validation Failed" within check status response
+    Then I should receive a "<response_code>" error response with "<error_description>" error description and "<error_code>" errorcode within check status response
+    And error message should be "<error_message>" within check status response
     And the payment status response should be signed
 
     Examples:
-      | value                    | error_description                               |
-      |                          | Request timestamp not a valid RFC3339 date-time |
-      | xyz                      | Request timestamp not a valid RFC3339 date-time |
-      | 2019-02-04T00:42:45.237Z | Request timestamp too old                       |
+      | value                     | error_description                               | error_code | error_message                     | response_code |
+      |                           | Request timestamp not a valid RFC3339 date-time | EA002      | Service Request Validation Failed | 400           |
+      | xyz                       | Request timestamp not a valid RFC3339 date-time | EA002      | Service Request Validation Failed | 400           |
+      | 2019-02-04T00:42:45.237Z  | Request timestamp too old                       | EA002      | Service Request Validation Failed | 400           |
+      | 2019-21-10T00:42:45.237Z  | Request timestamp not a valid RFC3339 date-time | EA002      | Service Request Validation Failed | 400           |
+      | 2019-10-35T06:54:52.237Z  | Request timestamp not a valid RFC3339 date-time | EA002      | Service Request Validation Failed | 400           |
+      #acceptable Request Date Time format
+      | 2019-10-21                | Request timestamp too old                       | EA002      | Service Request Validation Failed | 400           |
+      | 2019/10/21 T07:04:52.237Z | Request timestamp too old                       | EA002      | Service Request Validation Failed | 400           |
+      | 21 Oct 2019 06:49:52      | Request timestamp too old                       | EA002      | Service Request Validation Failed | 400           |
 
-#manual Test case: E2E after completing the payment through Payme/ Peak
+  @trial @regression @skiponversioneleven @skiponversionten
+  Scenario Outline: Negative flow- Request Date Time's invalid values set within the header
+    Given I am an authorized user
+    And I have valid payment details
+    When I make a request for the payment
+    And I should receive a successful payment response
+    And I have a valid payment id
+    When I make a request for the check status with invalid value for request date time "<value>"
+    Then I should receive a "<response_code>" error response with "<error_description>" error description and "<error_code>" errorcode within check status response
+    And error message should be "<error_message>" within check status response
+    And the payment status response should be signed
+
+    Examples:
+      | value                    | error_description                     | error_code | error_message                     | response_code |
+      | 2020-10-21T00:42:45.237Z | Request timestamp is future date-time | EA002      | Service Request Validation Failed | 400           |
+      | 21 Jan 2020              | Request timestamp is future date-time | EA002      | Service Request Validation Failed | 400           |
+      | 2020 October 20          | Request timestamp is future date-time | EA002      | Service Request Validation Failed | 400           |

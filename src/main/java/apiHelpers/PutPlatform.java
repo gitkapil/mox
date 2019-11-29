@@ -1,4 +1,5 @@
 package apiHelpers;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.restassured.response.Response;
@@ -120,10 +121,8 @@ public class PutPlatform extends UtilManager {
             this.platformName = StringUtils.repeat("*", 300);
         } else if (platformName.equalsIgnoreCase("validName")) {
             this.platformName = RandomStringUtils.randomAlphabetic(10);
-            ;
         } else if (platformName.equalsIgnoreCase("onlySpecialCharacter")) {
             this.platformName = RandomStringUtils.random(10, 33, 47, false, false);
-            ;
         } else if (platformName.equalsIgnoreCase("existingPlatformName")) {
             this.platformName = "DRAGON PLATFORM";
         } else if (platformName.equalsIgnoreCase("space")) {
@@ -237,7 +236,8 @@ public class PutPlatform extends UtilManager {
     public void setAuthTokenWithBearer(String authToken) {
         this.authToken = "Bearer " + authToken;
     }
+
     public void setAuthTokenWithoutBearer(String authToken) {
-        this.authToken =authToken;
+        this.authToken = authToken;
     }
 }

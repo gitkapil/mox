@@ -1,4 +1,4 @@
-@healthCheck
+@skiponversionten @skiponversiontwelve
 Feature: Merchant Management API - GET /keys/signing
   As a user
   I want to get the signing key details and validate response is correct

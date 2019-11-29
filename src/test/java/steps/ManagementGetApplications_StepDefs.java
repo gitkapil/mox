@@ -14,7 +14,10 @@ import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import utils.Constants;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class ManagementGetApplications_StepDefs extends UtilManager {
     TestContext testContext;
@@ -31,7 +34,6 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
     private static final Set<String> ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
     private static final Set<String> INCORRECT_ROLE_SET = Sets.newHashSet("ApplicationKey.ReadWrite.All");
     final static Logger logger = Logger.getLogger(ManagementGetApplications_StepDefs.class);
-
 
     @Given("^I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege$")
     public void i_am_an_authorized_DRAGON_user_with_role() {
@@ -69,7 +71,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
     @Then("^I should receive a successful response$")
     public void successful_response() {
         Assert.assertEquals(
-                200
+                HttpStatus.SC_OK
                 , getRestHelper().getResponseStatusCode(testContext.getApiManager().getGetApplication().getResponse()));
     }
 
@@ -106,9 +108,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
                 getRestHelper().getErrorMessage(response).contains(errorMessage),
                 "Different error message being returned..Expected: " + errorMessage + " Actual: " +
                         getRestHelper().getErrorMessage(response));
-
     }
-
 
     @Then("^I should get an error message with status ([^\"]*) error code \"([^\"]*)\" and error description \"([^\"]*)\"$")
     public void then_should_get_error(int httpStatus, String errorCode, String errorDescription) {
@@ -133,7 +133,6 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource");
 
         url = url + "?peakId=00&clientId=11";
-
         testContext.getApiManager().getGetApplication().getListOfApplications(
                 url,
                 testContext.getApiManager().getGetApplication().getAuthToken());

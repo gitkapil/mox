@@ -608,7 +608,7 @@ public class OneClickMerchantOnboarding extends UtilManager {
     public Response executeRequest(String url, String signingKeyId, String signingAlgorithm, String signingKey, HashSet headerElementsForSignature) {
 
         try {
-            returnRequestBody();
+          //  returnRequestBody();
             response = getRestHelper().postRequestWithHeaderAndBody(url,
                     returnRequestHeader(),
                     requestBody);

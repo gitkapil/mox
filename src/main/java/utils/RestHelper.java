@@ -515,5 +515,25 @@ public class RestHelper {
         return response;
     }
 
+    public Response putRequestWithHeader(String url, HashMap headers) {
+        Response response = null;
+        try {
+            response = given().config(RestAssured.config().encoderConfig(encoderConfig().encodeContentTypeAs(Constants.CONTENT_TYPE, ContentType.TEXT)))
+                    .log()
+                    .all()
+                    .headers(headers)
+                    .when()
+                    .relaxedHTTPSValidation()
+                    .put(url)
+            ;
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.assertTrue(e.getMessage(), false);
+        }
+
+        return response;
+    }
+
+
 
 }

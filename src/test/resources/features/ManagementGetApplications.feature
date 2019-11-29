@@ -1,4 +1,4 @@
-@healthCheck
+@skiponversionten @skiponversiontwelve
 Feature: Merchant Management API - GET /applications
          As a user
          I want to get the application details and validate the response is correct
@@ -9,7 +9,7 @@ Feature: Merchant Management API - GET /applications
     Then I receive an access_token
 
   #@trial
-  @regression
+  @regression @getApplication
   Scenario Outline: Positive flow - Get a list of applications
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of applications without any filters
