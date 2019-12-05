@@ -1,5 +1,4 @@
 package steps;
-
 import com.google.common.collect.Sets;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
@@ -12,7 +11,6 @@ import managers.UtilManager;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import utils.Constants;
-
 import java.util.*;
 
 public class ManagementGetPlatformStep_Defs extends UtilManager {
