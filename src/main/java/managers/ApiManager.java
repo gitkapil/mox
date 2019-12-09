@@ -23,6 +23,7 @@ public class ApiManager {
     String merchantManagementSigningKeyId;
     String merchantManagementSigningKey;
     CancelPaymentRequest cancelPaymentRequest;
+    PostCredentialsMerchants postCredentialsMerchants;
 
     public GetPlatform getGetPlatform() {
         return getPlatform;
@@ -68,7 +69,7 @@ public class ApiManager {
         putPlatform = new PutPlatform();
         oneClickMerchantOnboarding = new OneClickMerchantOnboarding();
         cancelPaymentRequest = new CancelPaymentRequest();
-
+        postCredentialsMerchants = new PostCredentialsMerchants();
 
     }
 
@@ -114,6 +115,9 @@ public class ApiManager {
         return (paymentStatus == null) ? paymentStatus = new PaymentStatus() : paymentStatus;
     }
 
+    public PostCredentialsMerchants postCredentialsMerchants(){
+        return postCredentialsMerchants;
+    }
     public Refunds getRefunds() {
         return (refunds == null) ? refunds = new Refunds() : refunds;
     }

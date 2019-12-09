@@ -37,10 +37,10 @@ public class Constants {
     public static final String GRANT_URL = "grantUrl";
     public static final String REASON_CODE = "reasonCode";
     public static final String REASON_DESCRIPTION = "reasonDescription";
-    public static final Object STATUS = "status";
-    public static final Object DESCRIPTION = "description";
-    public static final Object CREATED_BY = "createdBy";
-    public static final Object UPDATED_BY = "updatedBy";
+    public static final String STATUS = "status";
+    public static final String DESCRIPTION = "description";
+    public static final String CREATED_BY = "createdBy";
+    public static final String UPDATED_BY = "updatedBy";
     public static final String PLATFORM_STATUS = "status";
     public static final String PLATFORM_DESCRIPTION = "description";
     public static final String PAYMENT_REQUEST_ID = "paymentRequestId";
@@ -74,5 +74,10 @@ public class Constants {
     public static final String LIST_DATE = "listDate";
 
 
-
+    public static final String ID ="Id" ;
+    public static final String SIGNING_KEY = "signingKey";
+    public static final String SECRET ="secret" ;
+    public static final String CREDENTIAL_ID = "credentialId";
+    public static final String CREDENTIAL_NAME = "credentialName";
+    public static final String LAST_UPDATED_BY ="lastUpdatedBy" ;
 }

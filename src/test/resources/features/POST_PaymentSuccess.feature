@@ -8,7 +8,7 @@ Feature: DRAG-2123 - Post Payment transaction successful with Integrated POS rol
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  @trial @regression @skiponsandbox
+  @trial @regression @skiponsandbox @one
   Scenario Outline: SC1 - Positive flow- A merchant is able to post a payment successfully with all the valid inputs
     Given I am an authorized user
     And I have payment details "<totalAmount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
