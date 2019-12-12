@@ -1,6 +1,7 @@
 package apiHelpers;
 import com.jayway.restassured.response.Response;
 import managers.UtilManager;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import utils.EnvHelper;
@@ -54,6 +55,7 @@ public class PostCredentialsMerchants extends UtilManager {
 
         returnRequestHeader();
         response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader,returnRequestBody(credentialName));
+        logger.info("Create Credential Response -->>>>" + response.prettyPrint());
     }
 
     public void setAuthTokenWithBearer(String authToken) {
@@ -94,7 +96,14 @@ public class PostCredentialsMerchants extends UtilManager {
 
     public String getCredentialName() { return credentialName; }
 
-    public void setCredentialName(String credentialName) { this.credentialName = credentialName; }
+    public void setCredentialName(String credentialName) {
+        if (credentialName.equalsIgnoreCase("validName")) {
+            this.credentialName = RandomStringUtils.randomAlphabetic(10);
+        }
+            else    {
+                this.credentialName =credentialName;
+            }
+        }
 
    public Response executePostRequestWithMissingHeaderKeys(String url, String keys, String credentialName) {
         try {

@@ -1,56 +1,55 @@
 package utils;
 
+import org.joda.time.LocalDate;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 
-public class DateHelper{
+public class DateHelper {
 
     /**
-     *
      * @returns the current system date and timestamp
      */
-    public Calendar getSystemDateandTimeStamp(){
+    public Calendar getSystemDateandTimeStamp() {
         Calendar currDateTime = Calendar.getInstance();
         return currDateTime;
     }
 
     /**
-     *
-     * @param cal Calendar instance
+     * @param cal     Calendar instance
      * @param pattern format to whuch the date needs to get converted
      * @returns the formatted string
      */
-   public String convertDateTimeIntoAFormat(Calendar cal, String pattern){
-       SimpleDateFormat sdf= new SimpleDateFormat();
-        try{
-         sdf   = new SimpleDateFormat(pattern, Locale.US);
-       }
+    public String convertDateTimeIntoAFormat(Calendar cal, String pattern) {
+        SimpleDateFormat sdf = new SimpleDateFormat();
+        try {
+            sdf = new SimpleDateFormat(pattern, Locale.US);
+        } catch (Exception e) {
+            return "";
+        }
 
-       catch (Exception e){
-           return "";
-       }
-
-       return sdf.format(cal.getTime());
-   }
+        return sdf.format(cal.getTime());
+    }
 
 
     /**
-     *
-     * @param cal Calendar instance
+     * @param cal     Calendar instance
      * @param minutes to be subtracted
      * @returns the new value
      */
-    public Calendar subtractMinutesFromSystemDateTime(Calendar cal, int minutes){
-        try{
+    public Calendar subtractMinutesFromSystemDateTime(Calendar cal, int minutes) {
+        try {
 
             cal.add(Calendar.MINUTE, -minutes);
-        }
-
-        catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
 
@@ -60,9 +59,10 @@ public class DateHelper{
 
     /**
      * This method returns now UTC time
+     *
      * @return
      */
-    public String getUTCNowDateTime(){
+    public String getUTCNowDateTime() {
         ZonedDateTime utc = ZonedDateTime.now(ZoneOffset.UTC);
 
         return utc.toString();
@@ -70,15 +70,30 @@ public class DateHelper{
 
     /**
      * This method subtracts mins from the now UTC time
+     *
      * @param mins
      * @return
      */
-    public String subtractMinutesFromUTCNowDateTime(long mins){
+    public String subtractMinutesFromUTCNowDateTime(long mins) {
         ZonedDateTime utc = ZonedDateTime.now(ZoneOffset.UTC);
 
         return utc.minusMinutes(mins).toString();
     }
 
 
+    public static String getCurrentDate() {
+        Calendar cal = Calendar.getInstance();
+        Date today = cal.getTime();
+        String formattedDate = new SimpleDateFormat("yyyy-MM-dd").format(today);
+        return formattedDate.toString();
+    }
+
+    public static String getFutureDate(int years) {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.YEAR, years);
+        Date nextYear = cal.getTime();
+        String newString = new SimpleDateFormat("yyyy-MM-dd").format(nextYear);
+        return newString.toString();
+    }
 
 }

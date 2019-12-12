@@ -1,6 +1,8 @@
 package utils;
 
 
+import org.apache.commons.lang3.RandomStringUtils;
+
 import java.util.UUID;
 
 public class General{
@@ -27,5 +29,7 @@ public class General{
 
     }
 
-
+      public static String getRandomName(){
+        return RandomStringUtils.randomAlphabetic(10);
+      }
 }

@@ -1,3 +1,4 @@
+@checkStatus
 Feature: Check Status - DRAG- 178, DRAG-1127, DRAG-1130, DRAG-1133, DRAG-2152
 
   Background: Retrieving access Token
@@ -5,7 +6,7 @@ Feature: Check Status - DRAG- 178, DRAG-1127, DRAG-1130, DRAG-1133, DRAG-2152
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  @regression
+  @regression @ones
   Scenario: Positive flow- A merchant is able to create a check status request with all the valid inputs
     Given I am an authorized user
     And I have valid payment details
@@ -18,7 +19,7 @@ Feature: Check Status - DRAG- 178, DRAG-1127, DRAG-1130, DRAG-1133, DRAG-2152
     And the response body should also have app success callback URL, app fail Callback Url if applicable within check status response
     And the payment status response should be signed
 
-  @trial @regression @skiponsandbox
+  @trial @regression @skiponsandbox @ones
   Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs
     Given I am an authorized user
     And I have payment details "<totalamount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
