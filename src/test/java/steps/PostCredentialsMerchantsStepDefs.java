@@ -1,18 +1,18 @@
 package steps;
-
 import com.google.common.collect.Sets;
 import com.jayway.restassured.response.Response;
-import cucumber.api.java.ca.I;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import managers.TestContext;
 import managers.UtilManager;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import utils.Constants;
-import utils.DateHelper;
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -43,6 +43,29 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
                 + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
         testContext.getApiManager().postCredentialsMerchants().makeRequest(url, testContext.getApiManager().postCredentialsMerchants().getCredentialName());
+    }
+
+
+    @And("^I hit the post credentials endpoint without request body$")
+    public void hitPostCredentialsWithRequestBody() {
+        Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
+        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
+        String url = getRestHelper().getBaseURI() +
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
+        testContext.getApiManager().postCredentialsMerchants().makeRequestWithoutInputBody(url);
+    }
+
+
+    @And("^I hit the post credentials endpoint without credential name \"([^\"]*)\"$")
+    public void hitPostCredentialsWithoutCredentialsName(String credentialName) {
+        testContext.getApiManager().postCredentialsMerchants().setCredentialName(credentialName);
+        Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
+        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
+        String url = getRestHelper().getBaseURI() +
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
+        testContext.getApiManager().postCredentialsMerchants().makeRequestWithoutCredentialName(url, testContext.getApiManager().postCredentialsMerchants().getCredentialName());
     }
 
 
@@ -90,10 +113,27 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
         Assert.assertNotNull(response.path(Constants.CREDENTIAL_ID));
         Assert.assertEquals(response.path(Constants.CREDENTIAL_NAME), testContext.getApiManager().postCredentialsMerchants().getCredentialName(), "Credential Name should be same as provided in input body");
         Assert.assertEquals(response.path(Constants.STATUS), "A", "Credential status should always be active A ");
+        Assert.assertEquals(response.path(Constants.ACTIVATE_AT).toString().substring(0,10),getDateHelper().getCurrentDate(),"Activate date should be today's date");
+        Assert.assertEquals(response.path(Constants.DEACTIVATE_AT).toString().substring(0,10),getDateHelper().getFutureDate(1),"deactivatedAt date should be one year later than createdAt date");
+        Assert.assertEquals(response.path(Constants.CREATED_AT).toString().substring(0,10),getDateHelper().getCurrentDate(),"createdAT date should be today's date");
+        Assert.assertEquals(response.path(Constants.LAST_UPDATED_AT).toString().substring(0,10),getDateHelper().getCurrentDate(),"lastUpdatedAt date should be today's date");
 
-        /*String date =response.path(Constants.ACTIVATE_AT);
-        String currentDate = DateHelper.getCurrentDate();
-        String futureDate = DateHelper.getFutureDate(1);*/
+        /*
+        Assert.assertEquals(response.path(Constants.ACTIVATE_AT).toString(),getDateHelper().getCurrentDate(),"Activate date should be today's date");
+        Assert.assertEquals(response.path(Constants.DEACTIVATE_AT).toString(),getDateHelper().getFutureDate(1),"deactivatedAt date should be one year later than createdAt date");
+        Assert.assertEquals(response.path(Constants.CREATED_AT).toString(),getDateHelper().getCurrentDate(),"createdAT date should be today's date");
+        Assert.assertEquals(response.path(Constants.LAST_UPDATED_AT).toString(),getDateHelper().getCurrentDate(),"lastUpdatedAt date should be today's date");
+        */
+
+        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-ddTHH:MM:SSZ");
+        sdf.setLenient(true);
+        Date date = null;
+        try {
+            date = sdf.parse("2012.11.02.45.65");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        System.out.println("date: " + date);
 
         HashMap signingKey = response.path(Constants.SIGNING_KEY);
         HashMap secret = response.path(Constants.SECRET);
@@ -126,7 +166,11 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
     @Then("^error message should be \"([^\"]*)\" within create credentials response$")
     public void error_message_should_be_within_check_status_response(String errorMessage) {
         Assert.assertTrue(getRestHelper().getErrorMessage(testContext.getApiManager().postCredentialsMerchants().getResponse()).contains(errorMessage), "Different error message being returned..Expected: " + errorMessage + "  Actual: " + getRestHelper().getErrorMessage(testContext.getApiManager().postCredentialsMerchants().getResponse()));
+    }
 
+    @When("^I send invalid auth token \"([^\"]*)\" to create credentials$")
+    public void i_send_invalid_in_the_check_status_request(String authToken) {
+        testContext.getApiManager().postCredentialsMerchants().setAuthToken(authToken);
     }
 }
 

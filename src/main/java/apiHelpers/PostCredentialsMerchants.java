@@ -38,6 +38,11 @@ public class PostCredentialsMerchants extends UtilManager {
         return requestBody;
     }
 
+    private HashMap returnEmptyRequestBody(String credentialName) {
+        requestBody.put("credentialName", credentialName);
+        requestBody.clear();
+        return requestBody;
+    }
 
     private HashMap<String, String> returnRequestHeader() {
         requestHeader.clear();
@@ -52,9 +57,20 @@ public class PostCredentialsMerchants extends UtilManager {
         return requestHeader;
     }
     public void makeRequest(String url, String credentialName) {
-
         returnRequestHeader();
         response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader,returnRequestBody(credentialName));
+        logger.info("Create Credential Response -->>>>" + response.prettyPrint());
+    }
+
+    public void makeRequestWithoutInputBody(String url) {
+        returnRequestHeader();
+        response = getRestHelper().postRequestWithHeaders(url, requestHeader);
+        logger.info("Create Credential Response -->>>>" + response.prettyPrint());
+    }
+
+    public void makeRequestWithoutCredentialName(String url, String credentialName) {
+        returnRequestHeader();
+        response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader,returnEmptyRequestBody(credentialName));
         logger.info("Create Credential Response -->>>>" + response.prettyPrint());
     }
 
@@ -62,6 +78,10 @@ public class PostCredentialsMerchants extends UtilManager {
         this.authToken = "Bearer " + authToken;
     }
 
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
+
+    }
     public String getApplicationId() {
         return applicationId;
     }
@@ -130,4 +150,5 @@ public class PostCredentialsMerchants extends UtilManager {
         requestHeader.remove(keys);
         return requestHeader;
     }
+
 }

@@ -76,19 +76,18 @@ public class DateHelper {
      */
     public String subtractMinutesFromUTCNowDateTime(long mins) {
         ZonedDateTime utc = ZonedDateTime.now(ZoneOffset.UTC);
-
         return utc.minusMinutes(mins).toString();
     }
 
 
-    public static String getCurrentDate() {
+    public String getCurrentDate() {
         Calendar cal = Calendar.getInstance();
         Date today = cal.getTime();
         String formattedDate = new SimpleDateFormat("yyyy-MM-dd").format(today);
         return formattedDate.toString();
     }
 
-    public static String getFutureDate(int years) {
+    public String getFutureDate(int years) {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.YEAR, years);
         Date nextYear = cal.getTime();
