@@ -55,7 +55,15 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
                 + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
         testContext.getApiManager().postCredentialsMerchants().makeRequestWithoutInputBody(url);
     }
-
+    @And("^I hit the post credentials endpoint with invalid API versions invalid header \"([^\"]*)\" and values \"([^\"]*)\"$")
+    public void hitPostCredentialsWithInvalidAPIVersion(String key, String headerValue) {
+        Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
+        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
+        String url = getRestHelper().getBaseURI() +
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
+        testContext.getApiManager().postCredentialsMerchants().makeRequestWithInvalidHeaders(url,key, headerValue);
+    }
 
     @And("^I hit the post credentials endpoint without credential name \"([^\"]*)\"$")
     public void hitPostCredentialsWithoutCredentialsName(String credentialName) {
@@ -171,6 +179,16 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
     @When("^I send invalid auth token \"([^\"]*)\" to create credentials$")
     public void i_send_invalid_in_the_check_status_request(String authToken) {
         testContext.getApiManager().postCredentialsMerchants().setAuthToken(authToken);
+    }
+
+    @And("^I should receive a \"([^\"]*)\" status code with \"([^\"]*)\" message \"([^\"]*)\" with create credentials response$")
+    public void errorMessageShouldBeWithInResponse(int httpsCode, int statusCode, String errorMessage) throws Throwable {
+        Response response = testContext.getApiManager().postCredentialsMerchants().getResponse();
+        Assert.assertEquals(getRestHelper().getResponseStatusCode(response), httpsCode, "Expected Response Code: " + httpsCode + "Actual: " + response.getStatusCode());
+        Assert.assertTrue(
+                getRestHelper().getErrorMessage(response).contains(errorMessage),
+                "Different error message being returned..Expected: " + errorMessage + " Actual: " +
+                        getRestHelper().getErrorMessage(response));
     }
 }
 

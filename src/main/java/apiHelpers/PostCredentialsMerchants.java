@@ -56,8 +56,31 @@ public class PostCredentialsMerchants extends UtilManager {
         }
         return requestHeader;
     }
+
+    private HashMap<String, String> returnRequestHeaderWithInvalidValues(String keys,String headerValues) {
+        requestHeader.clear();
+        requestHeader.put("Accept", "application/json");
+        requestHeader.put("Content-Type", "application/json");
+        requestHeader.put("Authorization", authToken);
+        requestHeader.put("Trace-Id", getGeneral().generateUniqueUUID());
+        requestHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
+        if (EnvHelper.getInstance().isLocalDevMode()) {
+            EnvHelper.getInstance().addMissingHeaderForLocalDevMode(requestHeader);
+        }
+        if(requestHeader.containsKey(keys)){
+            requestHeader.remove(keys);
+            requestHeader.put(keys,headerValues);
+        }
+        return requestHeader;
+    }
     public void makeRequest(String url, String credentialName) {
         returnRequestHeader();
+        response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader,returnRequestBody(credentialName));
+        logger.info("Create Credential Response -->>>>" + response.prettyPrint());
+    }
+
+    public void makeRequestWithInvalidHeaders(String url,String keys, String headerValue) {
+        returnRequestHeaderWithInvalidValues(keys, headerValue);
         response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader,returnRequestBody(credentialName));
         logger.info("Create Credential Response -->>>>" + response.prettyPrint());
     }
@@ -150,5 +173,6 @@ public class PostCredentialsMerchants extends UtilManager {
         requestHeader.remove(keys);
         return requestHeader;
     }
+
 
 }
