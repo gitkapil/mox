@@ -7,7 +7,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  @regression
+  @regression @credentials
   Scenario Outline: SC-1 Positive flow - Create a new credentials, new signing key and password
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
@@ -16,6 +16,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | credentialName |
       | validName      |
 
+    #bug
   @regression
   Scenario Outline: SC-2 Positive flow - Merchant can have maximum five active credentials, new signing keys and passwords
     Given I am an authorized to create credentials as DRAGON user
@@ -37,6 +38,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | credentialName | response_code | error_description                                                 | error_code | error_message       |
       | validName      | 404           | There should not be two ACTIVE keys with the same Credential Name | EA002      | Resource Not Found! |
 
+    #bug
   @regression
   Scenario Outline: SC-4 Positive flow -A merchant cannot create credentials without credentials name
     Given I am an authorized to create credentials as DRAGON user
@@ -47,6 +49,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | credentialName | response_code | error_code | error_message             | error_description         |
       | validName      | 400           | EA050      | Business Rules Incorrect! | Onboarding Process Failed |
 
+   #bug
   @regression
   Scenario Outline: SC-5 Positive flow -A merchant cannot create credentials without request body
     Given I am an authorized to create credentials as DRAGON user
@@ -57,6 +60,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | response_code | error_code | error_message                     | error_description                    |
       | 400           | EA002      | Service Request Validation Failed | Unable to read or parse message body |
 
+    #bug
   @regression
   Scenario Outline: SC-6-9  Negative flow- Merchant cannot access APIs with Invalid auth token
     And I send invalid auth token "<auth_token>" to create credentials
@@ -101,7 +105,8 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | Api-Version | @#$%^               | 404        | 404        | Resource not found |
 
 
-  @regression @credentials
+    #bug
+  @regression
   Scenario Outline: Negative flow- Invalid mandatory field provided in header
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with invalid API versions invalid header "<key>" and values "<invalidHeaderValues>"
@@ -119,3 +124,30 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | Request-Date-Time | 1234                                 | 400         | EA002      | Request timestamp not a valid RFC3339 date-time                   | Service Request Validation Failed |
       | Request-Date-Time | 2021-11-12T08:05:55.936Z             | 400         | EA002      | Request timestamp is future date-time                             | Service Request Validation Failed |
       | Request-Date-Time | 2018-11-12T08:05:55.936Z             | 400         | EA002      | Request timestamp too old                                         | Service Request Validation Failed |
+
+    #bug
+  @regression
+  Scenario Outline: SC-1 Positive flow - should not be able to create credential with more than 256 long characters, new signing key and password
+    Given I am an authorized to create credentials as DRAGON user
+    When I hit the post credentials endpoint with credential name "<credentialName>"
+    Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
+    And error message should be "<error_message>" within create credentials response
+
+    Examples:
+      | credentialName | http_status | error_code | error_description          | error_message             |
+      | tooLong        | 400         | EA050      | Onboarding Process Failed. | Business Rules Incorrect! |
+
+
+  @regression
+  Scenario Outline: Negative flow- Invalid mandatory field provided in header
+    Given I am an authorized to create credentials as DRAGON user
+    When I hit the post credentials endpoint with missing header keys "<key>"
+    Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
+    And error message should be "<error_message>" within create credentials response
+    Examples:
+      | key           | error_description                                              | error_code | http_status | error_message                     |
+      | Authorization | Error validating JWT                                           | EA001      | 401         | Service Request Validation Failed |
+      | Trace-Id      | Header Trace-Id was not found in the request. Access denied.   | EA002      | 400         | Service Request Validation Failed |
+      | Accept        | Header Accept does not contain required value.  Access denied. | EA008      | 406         | Service Request Validation Failed |
+      | Content-Type  | Content type                                                   | EA002      | 415         | Service Request Validation Failed |
+

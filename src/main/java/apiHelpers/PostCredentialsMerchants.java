@@ -2,6 +2,7 @@ package apiHelpers;
 import com.jayway.restassured.response.Response;
 import managers.UtilManager;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import utils.EnvHelper;
@@ -73,6 +74,22 @@ public class PostCredentialsMerchants extends UtilManager {
         }
         return requestHeader;
     }
+
+    private HashMap<String, String> returnRequestHeaderWithMissingHeaderValues(String keys) {
+        requestHeader.clear();
+        requestHeader.put("Accept", "application/json");
+        requestHeader.put("Content-Type", "application/json");
+        requestHeader.put("Authorization", authToken);
+        requestHeader.put("Trace-Id", getGeneral().generateUniqueUUID());
+        requestHeader.put("Api-Version", PropertyHelper.getInstance().getPropertyCascading("version"));
+        if (EnvHelper.getInstance().isLocalDevMode()) {
+            EnvHelper.getInstance().addMissingHeaderForLocalDevMode(requestHeader);
+        }
+        if(requestHeader.containsKey(keys)){
+            requestHeader.remove(keys);
+        }
+        return requestHeader;
+    }
     public void makeRequest(String url, String credentialName) {
         returnRequestHeader();
         response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader,returnRequestBody(credentialName));
@@ -81,6 +98,12 @@ public class PostCredentialsMerchants extends UtilManager {
 
     public void makeRequestWithInvalidHeaders(String url,String keys, String headerValue) {
         returnRequestHeaderWithInvalidValues(keys, headerValue);
+        response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader,returnRequestBody(credentialName));
+        logger.info("Create Credential Response -->>>>" + response.prettyPrint());
+    }
+
+    public void makeRequestWithMissingHeaderValues(String url,String keys) {
+        returnRequestHeaderWithMissingHeaderValues(keys);
         response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader,returnRequestBody(credentialName));
         logger.info("Create Credential Response -->>>>" + response.prettyPrint());
     }
@@ -142,6 +165,8 @@ public class PostCredentialsMerchants extends UtilManager {
     public void setCredentialName(String credentialName) {
         if (credentialName.equalsIgnoreCase("validName")) {
             this.credentialName = RandomStringUtils.randomAlphabetic(10);
+        }if (credentialName.equalsIgnoreCase("tooLong")) {
+            this.credentialName = StringUtils.repeat("*", 256);
         }
             else    {
                 this.credentialName =credentialName;
