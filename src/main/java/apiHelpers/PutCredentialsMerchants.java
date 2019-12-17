@@ -61,7 +61,7 @@ public class PutCredentialsMerchants extends UtilManager {
         return requestHeader;
     }
 
-    private HashMap<String, String> returnRequestHeaderWithInvalidValues(String keys,String headerValues) {
+    private HashMap<String, String> returnRequestHeaderWithInvalidValues(String keys, String headerValues) {
         requestHeader.clear();
         requestHeader.put("Accept", "application/json");
         requestHeader.put("Content-Type", "application/json");
@@ -71,9 +71,9 @@ public class PutCredentialsMerchants extends UtilManager {
         if (EnvHelper.getInstance().isLocalDevMode()) {
             EnvHelper.getInstance().addMissingHeaderForLocalDevMode(requestHeader);
         }
-        if(requestHeader.containsKey(keys)){
+        if (requestHeader.containsKey(keys)) {
             requestHeader.remove(keys);
-            requestHeader.put(keys,headerValues);
+            requestHeader.put(keys, headerValues);
         }
         return requestHeader;
     }
@@ -88,26 +88,27 @@ public class PutCredentialsMerchants extends UtilManager {
         if (EnvHelper.getInstance().isLocalDevMode()) {
             EnvHelper.getInstance().addMissingHeaderForLocalDevMode(requestHeader);
         }
-        if(requestHeader.containsKey(keys)){
+        if (requestHeader.containsKey(keys)) {
             requestHeader.remove(keys);
         }
         return requestHeader;
     }
+
     public void makeRequest(String url, String credentialName) {
         returnRequestHeader();
-        response = getRestHelper().putRequestWithHeaderAndBody(url, requestHeader,returnRequestBody(credentialName));
+        response = getRestHelper().putRequestWithHeaderAndBody(url, requestHeader, returnRequestBody(credentialName));
         logger.info("Create Credential Response -->>>>" + response.prettyPrint());
     }
 
-    public void makeRequestWithInvalidHeaders(String url,String keys, String headerValue) {
+    public void makeRequestWithInvalidHeaders(String url, String keys, String headerValue) {
         returnRequestHeaderWithInvalidValues(keys, headerValue);
-        response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader,returnRequestBody(credentialName));
+        response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader, returnRequestBody(credentialName));
         logger.info("Create Credential Response -->>>>" + response.prettyPrint());
     }
 
-    public void makeRequestWithMissingHeaderValues(String url,String keys) {
+    public void makeRequestWithMissingHeaderValues(String url, String keys) {
         returnRequestHeaderWithMissingHeaderValues(keys);
-        response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader,returnRequestBody(credentialName));
+        response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader, returnRequestBody(credentialName));
         logger.info("Create Credential Response -->>>>" + response.prettyPrint());
     }
 
@@ -119,7 +120,7 @@ public class PutCredentialsMerchants extends UtilManager {
 
     public void makeRequestWithoutCredentialName(String url, String credentialName) {
         returnRequestHeader();
-        response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader,returnEmptyRequestBody(credentialName));
+        response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader, returnEmptyRequestBody(credentialName));
         logger.info("Create Credential Response -->>>>" + response.prettyPrint());
     }
 
@@ -131,6 +132,7 @@ public class PutCredentialsMerchants extends UtilManager {
         this.authToken = authToken;
 
     }
+
     public String getApplicationId() {
         return applicationId;
     }
@@ -163,20 +165,20 @@ public class PutCredentialsMerchants extends UtilManager {
         this.entityStatus = entityStatus;
     }
 
-    public String getCredentialName() { return credentialName; }
+    public String getCredentialName() {
+        return credentialName;
+    }
 
     public void setCredentialName(String credentialName) {
         if (credentialName.equalsIgnoreCase("validName")) {
             this.credentialName = RandomStringUtils.randomAlphabetic(10);
-        }if (credentialName.equalsIgnoreCase("tooLong")) {
+        } else if (credentialName.equalsIgnoreCase("tooLong")) {
             this.credentialName = StringUtils.repeat("*", 256);
+        } else {
+            this.credentialName = credentialName;
         }
-            else    {
-                this.credentialName =credentialName;
-            }
-        }
-
-   public Response executePostRequestWithMissingHeaderKeys(String url, String keys, String credentialName) {
+    }
+    public Response executePostRequestWithMissingHeaderKeys(String url, String keys, String credentialName) {
         try {
             HashMap<String, String> header = returnRequestHeaderWithMissingKeys("POST", new URL(url).getPath(), keys);
             response = getRestHelper().postRequestWithHeaderAndBody(url, header, returnRequestBody(credentialName));

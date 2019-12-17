@@ -1,4 +1,5 @@
 package apiHelpers;
+
 import com.jayway.restassured.response.Response;
 import managers.UtilManager;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -7,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import utils.EnvHelper;
 import utils.PropertyHelper;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -58,7 +60,7 @@ public class PostCredentialsMerchants extends UtilManager {
         return requestHeader;
     }
 
-    private HashMap<String, String> returnRequestHeaderWithInvalidValues(String keys,String headerValues) {
+    private HashMap<String, String> returnRequestHeaderWithInvalidValues(String keys, String headerValues) {
         requestHeader.clear();
         requestHeader.put("Accept", "application/json");
         requestHeader.put("Content-Type", "application/json");
@@ -68,9 +70,9 @@ public class PostCredentialsMerchants extends UtilManager {
         if (EnvHelper.getInstance().isLocalDevMode()) {
             EnvHelper.getInstance().addMissingHeaderForLocalDevMode(requestHeader);
         }
-        if(requestHeader.containsKey(keys)){
+        if (requestHeader.containsKey(keys)) {
             requestHeader.remove(keys);
-            requestHeader.put(keys,headerValues);
+            requestHeader.put(keys, headerValues);
         }
         return requestHeader;
     }
@@ -85,26 +87,27 @@ public class PostCredentialsMerchants extends UtilManager {
         if (EnvHelper.getInstance().isLocalDevMode()) {
             EnvHelper.getInstance().addMissingHeaderForLocalDevMode(requestHeader);
         }
-        if(requestHeader.containsKey(keys)){
+        if (requestHeader.containsKey(keys)) {
             requestHeader.remove(keys);
         }
         return requestHeader;
     }
+
     public void makeRequest(String url, String credentialName) {
         returnRequestHeader();
-        response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader,returnRequestBody(credentialName));
+        response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader, returnRequestBody(credentialName));
         logger.info("Create Credential Response -->>>>" + response.prettyPrint());
     }
 
-    public void makeRequestWithInvalidHeaders(String url,String keys, String headerValue) {
+    public void makeRequestWithInvalidHeaders(String url, String keys, String headerValue) {
         returnRequestHeaderWithInvalidValues(keys, headerValue);
-        response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader,returnRequestBody(credentialName));
+        response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader, returnRequestBody(credentialName));
         logger.info("Create Credential Response -->>>>" + response.prettyPrint());
     }
 
-    public void makeRequestWithMissingHeaderValues(String url,String keys) {
+    public void makeRequestWithMissingHeaderValues(String url, String keys) {
         returnRequestHeaderWithMissingHeaderValues(keys);
-        response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader,returnRequestBody(credentialName));
+        response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader, returnRequestBody(credentialName));
         logger.info("Create Credential Response -->>>>" + response.prettyPrint());
     }
 
@@ -116,7 +119,7 @@ public class PostCredentialsMerchants extends UtilManager {
 
     public void makeRequestWithoutCredentialName(String url, String credentialName) {
         returnRequestHeader();
-        response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader,returnEmptyRequestBody(credentialName));
+        response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader, returnEmptyRequestBody(credentialName));
         logger.info("Create Credential Response -->>>>" + response.prettyPrint());
     }
 
@@ -128,6 +131,7 @@ public class PostCredentialsMerchants extends UtilManager {
         this.authToken = authToken;
 
     }
+
     public String getApplicationId() {
         return applicationId;
     }
@@ -160,20 +164,23 @@ public class PostCredentialsMerchants extends UtilManager {
         this.entityStatus = entityStatus;
     }
 
-    public String getCredentialName() { return credentialName; }
+    public String getCredentialName() {
+        return credentialName;
+    }
 
     public void setCredentialName(String credentialName) {
+
         if (credentialName.equalsIgnoreCase("validName")) {
             this.credentialName = RandomStringUtils.randomAlphabetic(10);
-        }if (credentialName.equalsIgnoreCase("tooLong")) {
-            this.credentialName = StringUtils.repeat("*", 256);
-        }
-            else    {
-                this.credentialName =credentialName;
-            }
-        }
 
-   public Response executePostRequestWithMissingHeaderKeys(String url, String keys, String credentialName) {
+        } else if (credentialName.equalsIgnoreCase("tooLong")) {
+            this.credentialName = StringUtils.repeat("*", 256);
+        } else {
+            this.credentialName = credentialName;
+        }
+    }
+
+    public Response executePostRequestWithMissingHeaderKeys(String url, String keys, String credentialName) {
         try {
             HashMap<String, String> header = returnRequestHeaderWithMissingKeys("POST", new URL(url).getPath(), keys);
             response = getRestHelper().postRequestWithHeaderAndBody(url, header, returnRequestBody(credentialName));

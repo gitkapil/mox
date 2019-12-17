@@ -7,7 +7,7 @@ Feature: PUT_Credentials - PUT Credentials Merchant
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  @regression @credentials
+  @regression @credentials @trial
   Scenario Outline: SC-1 Positive flow - Update credentials name for existing credential
     Given I am an authorized to put credentials as DRAGON user
     When I hit the put credentials endpoint with new credential name "<credentialName>"
