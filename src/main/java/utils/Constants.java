@@ -72,12 +72,16 @@ public class Constants {
     public static final String REFUNDABLE = "refundable";
     public static final String CREATED_TIME = "createdTime";
     public static final String LIST_DATE = "listDate";
-
-
-    public static final String ID ="Id" ;
+    public static final String PAGE = "page";
+    public static final String ID = "Id";
     public static final String SIGNING_KEY = "signingKey";
-    public static final String SECRET ="secret" ;
+    public static final String SECRET = "secret";
     public static final String CREDENTIAL_ID = "credentialId";
     public static final String CREDENTIAL_NAME = "credentialName";
-    public static final String LAST_UPDATED_BY ="lastUpdatedBy" ;
+    public static final String LAST_UPDATED_BY = "lastUpdatedBy";
+    public static final String CURRENT = "current";
+    public static final String TOTAL_ITEMS = "totalItems";
+    public static final String EXPIRE_AT = "expireAt";
+
+
 }

@@ -24,6 +24,7 @@ public class ApiManager {
     String merchantManagementSigningKey;
     CancelPaymentRequest cancelPaymentRequest;
     PostCredentialsMerchants postCredentialsMerchants;
+    GetCredentialsMerchants getCredentialsMerchants;
 
     public GetPlatform getGetPlatform() {
         return getPlatform;
@@ -51,11 +52,11 @@ public class ApiManager {
 
 
     public ApiManager() {
-        accessToken= new AccessTokenForMerchants();
-        paymentRequest= new PaymentRequest();
-        paymentStatus= new PaymentStatus();
-        refunds= new Refunds();
-        openIdConfig= new OpenIdConfigForPEAK();
+        accessToken = new AccessTokenForMerchants();
+        paymentRequest = new PaymentRequest();
+        paymentStatus = new PaymentStatus();
+        refunds = new Refunds();
+        openIdConfig = new OpenIdConfigForPEAK();
         transaction = new Transaction();
         getApplication = new GetApplication();
         putApplication = new PutApplication();
@@ -69,13 +70,15 @@ public class ApiManager {
         putPlatform = new PutPlatform();
         oneClickMerchantOnboarding = new OneClickMerchantOnboarding();
         cancelPaymentRequest = new CancelPaymentRequest();
+        getCredentialsMerchants = new GetCredentialsMerchants();
         postCredentialsMerchants = new PostCredentialsMerchants();
 
     }
 
-    public CancelPaymentRequest putCancelPaymentRequest(){
+    public CancelPaymentRequest putCancelPaymentRequest() {
         return cancelPaymentRequest;
     }
+
     public PostPassword getPostPasswordCreateClientPassword() {
         return postPasswordCreateClientPassword;
     }
@@ -88,13 +91,14 @@ public class ApiManager {
         return getSigningKey;
     }
 
-    public GetPassword getGetPassword(){
+    public GetPassword getGetPassword() {
         return getPassword;
     }
 
     public void setGetPassword(GetPassword getPassword) {
         this.getPassword = getPassword;
     }
+
     public PostSigningKeys getPostSigningKeys() {
         return postSigningKeys;
     }
@@ -115,9 +119,10 @@ public class ApiManager {
         return (paymentStatus == null) ? paymentStatus = new PaymentStatus() : paymentStatus;
     }
 
-    public PostCredentialsMerchants postCredentialsMerchants(){
+    public PostCredentialsMerchants postCredentialsMerchants() {
         return postCredentialsMerchants;
     }
+
     public Refunds getRefunds() {
         return (refunds == null) ? refunds = new Refunds() : refunds;
     }
@@ -127,7 +132,7 @@ public class ApiManager {
     }
 
     public Transaction getTransaction() {
-        return (transaction == null) ? transaction = new Transaction(): transaction;
+        return (transaction == null) ? transaction = new Transaction() : transaction;
     }
 
     public GetApplication getGetApplication() {
@@ -135,8 +140,7 @@ public class ApiManager {
     }
 
 
-    public PutApplication getPutApplication()
-    {
+    public PutApplication getPutApplication() {
         return (putApplication == null) ? putApplication = new PutApplication() : putApplication;
     }
 
@@ -159,8 +163,13 @@ public class ApiManager {
     public OneClickMerchantOnboarding getOneClickMerchantOnboarding() {
         return (oneClickMerchantOnboarding == null) ? oneClickMerchantOnboarding = new OneClickMerchantOnboarding() : oneClickMerchantOnboarding;
     }
+
     public PostPlatform postPlatform() {
         return (postPlatform == null) ? postPlatform = new PostPlatform() : postPlatform;
+    }
+
+    public GetCredentialsMerchants getCredentialsMerchants() {
+        return getCredentialsMerchants;
     }
 
 }
