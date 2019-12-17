@@ -1,13 +1,13 @@
 Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
   As a user
-  I want to create up to credentials for merchant and validate correct response is returned
+  I want to up to credentials for merchant and validate correct response is returned
 
   Background: Retrieving access Token
     Given I am an user
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  @regression @credentials
+  @regression   @onetwo
   Scenario Outline: SC-1 Positive flow - Create a new credentials, new signing key and password
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
@@ -138,6 +138,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | tooLong        | 400         | EA050      | Onboarding Process Failed. | Business Rules Incorrect! |
 
 
+    #bug
   @regression
   Scenario Outline: Negative flow- Invalid mandatory field provided in header
     Given I am an authorized to create credentials as DRAGON user

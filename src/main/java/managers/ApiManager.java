@@ -24,6 +24,7 @@ public class ApiManager {
     String merchantManagementSigningKey;
     CancelPaymentRequest cancelPaymentRequest;
     PostCredentialsMerchants postCredentialsMerchants;
+    PutCredentialsMerchants putCredentialsMerchants ;
 
     public GetPlatform getGetPlatform() {
         return getPlatform;
@@ -70,12 +71,14 @@ public class ApiManager {
         oneClickMerchantOnboarding = new OneClickMerchantOnboarding();
         cancelPaymentRequest = new CancelPaymentRequest();
         postCredentialsMerchants = new PostCredentialsMerchants();
+        putCredentialsMerchants = new PutCredentialsMerchants();
 
     }
 
     public CancelPaymentRequest putCancelPaymentRequest(){
         return cancelPaymentRequest;
     }
+
     public PostPassword getPostPasswordCreateClientPassword() {
         return postPasswordCreateClientPassword;
     }
@@ -95,6 +98,7 @@ public class ApiManager {
     public void setGetPassword(GetPassword getPassword) {
         this.getPassword = getPassword;
     }
+
     public PostSigningKeys getPostSigningKeys() {
         return postSigningKeys;
     }
@@ -144,6 +148,13 @@ public class ApiManager {
         this.merchantManagementSigningKeyId = merchantManagementSigningKeyId;
     }
 
+    public PutCredentialsMerchants getPutCredentialsMerchants() {
+        return putCredentialsMerchants;
+    }
+
+    public void setPutCredentialsMerchants(PutCredentialsMerchants putCredentialsMerchants) {
+        this.putCredentialsMerchants = putCredentialsMerchants;
+    }
     public String getMerchantManagementSigningKeyId() {
         return merchantManagementSigningKeyId;
     }

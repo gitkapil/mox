@@ -1,4 +1,5 @@
 package apiHelpers;
+
 import com.jayway.restassured.response.Response;
 import managers.UtilManager;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -7,12 +8,13 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import utils.EnvHelper;
 import utils.PropertyHelper;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 
 
-public class PostCredentialsMerchants extends UtilManager {
+public class PutCredentialsMerchants extends UtilManager {
 
     private String authToken;
     private String applicationId;
@@ -22,7 +24,7 @@ public class PostCredentialsMerchants extends UtilManager {
     private String credentialName;
     private Response response = null;
     private HashMap<String, String> requestHeader = new HashMap();
-    final static Logger logger = Logger.getLogger(PostCredentialsMerchants.class);
+    final static Logger logger = Logger.getLogger(PutCredentialsMerchants.class);
     private HashMap requestBody = new HashMap();
 
     public Response getResponse() {
@@ -41,6 +43,7 @@ public class PostCredentialsMerchants extends UtilManager {
 
     private HashMap returnEmptyRequestBody(String credentialName) {
         requestBody.put("credentialName", credentialName);
+        requestBody.put("status", "A");
         requestBody.clear();
         return requestBody;
     }
@@ -92,7 +95,7 @@ public class PostCredentialsMerchants extends UtilManager {
     }
     public void makeRequest(String url, String credentialName) {
         returnRequestHeader();
-        response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader,returnRequestBody(credentialName));
+        response = getRestHelper().putRequestWithHeaderAndBody(url, requestHeader,returnRequestBody(credentialName));
         logger.info("Create Credential Response -->>>>" + response.prettyPrint());
     }
 
