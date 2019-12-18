@@ -89,6 +89,7 @@ public class PostCredentialsMerchants extends UtilManager {
         }
         if (requestHeader.containsKey(keys)) {
             requestHeader.remove(keys);
+
         }
         return requestHeader;
     }
@@ -172,7 +173,6 @@ public class PostCredentialsMerchants extends UtilManager {
 
         if (credentialName.equalsIgnoreCase("validName")) {
             this.credentialName = RandomStringUtils.randomAlphabetic(10);
-
         } else if (credentialName.equalsIgnoreCase("tooLong")) {
             this.credentialName = StringUtils.repeat("*", 256);
         } else {

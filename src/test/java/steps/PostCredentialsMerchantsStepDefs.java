@@ -147,7 +147,7 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
         Assert.assertEquals(response.path(Constants.CREDENTIAL_NAME), testContext.getApiManager().postCredentialsMerchants().getCredentialName(), "Credential Name should be same as provided in input body");
         Assert.assertEquals(response.path(Constants.STATUS), "A", "Credential status should always be active A ");
         Assert.assertEquals(response.path(Constants.ACTIVATE_AT).toString().substring(0, 10), getDateHelper().getCurrentDate(), "Activate date should be today's date");
-        Assert.assertEquals(response.path(Constants.DEACTIVATE_AT).toString().substring(0, 10), getDateHelper().getFutureDate(1), "deactivatedAt date should be one year later than createdAt date");
+        Assert.assertEquals(response.path(Constants.EXPIRE_AT).toString().substring(0, 10), getDateHelper().getFutureDate(1), "deactivatedAt date should be one year later than createdAt date");
         Assert.assertEquals(response.path(Constants.CREATED_AT).toString().substring(0, 10), getDateHelper().getCurrentDate(), "createdAT date should be today's date");
         Assert.assertEquals(response.path(Constants.LAST_UPDATED_AT).toString().substring(0, 10), getDateHelper().getCurrentDate(), "lastUpdatedAt date should be today's date");
 
