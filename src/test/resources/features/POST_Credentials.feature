@@ -7,11 +7,11 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  @regression
+  @regression @postCredentials
   Scenario Outline: SC-1 Positive flow - Create a new credentials, new signing key and password
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
-#    Then the create credentials response should be successful
+   Then the create credentials response should be successful
     Examples:
       | credentialName |
       | validName      |
@@ -106,7 +106,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
 
 
     #bug
-  @regression
+  @regression     @post
   Scenario Outline: Negative flow- Invalid mandatory field provided in header
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with invalid API versions invalid header "<key>" and values "<invalidHeaderValues>"
@@ -115,16 +115,16 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
 
     Examples:
       | key               | invalidHeaderValues                  | http_status | error_code | error_description                                                 | error_message                     |
-      | Accept            | Testing/Type                         | 406         | EA008      | Header Accept does not contain required value.  Access denied.    | Service Request Validation Failed |
-      | Content-Type      | application/json1                    | 415         | EA002      | Content type 'application/json1;charset=ISO-8859-1' not supported | Service Request Validation Failed |
-      | Trace-Id          | 123456                               | 400         | EA002      | Trace-Id is invalid                                               | Service Request Validation Failed |
-      | Trace-Id          | abcde                                | 400         | EA002      | Trace-Id is invalid                                               | Service Request Validation Failed |
-      | Trace-Id          | 7454108z-yb37-454c-81da-0a12d8b0f867 | 400         | EA002      | Trace-Id is invalid                                               | Service Request Validation Failed |
+#      | Accept            | Testing/Type                         | 406         | EA008      | Header Accept does not contain required value.  Access denied.    | Service Request Validation Failed |
+#     | Content-Type      | application/json1                    | 415         | EA002      | Content type 'application/json1;charset=ISO-8859-1' not supported | Service Request Validation Failed |
+#      | Trace-Id          | 123456                               | 400         | EA002      | Trace-Id is invalid                                               | Service Request Validation Failed |
+#      | Trace-Id          | abcde                                | 400         | EA002      | Trace-Id is invalid                                               | Service Request Validation Failed |
+#      | Trace-Id          | 7454108z-yb37-454c-81da-0a12d8b0f867 | 400         | EA002      | Trace-Id is invalid                                               | Service Request Validation Failed |
       | Trace-Id          | 790b6abc-48dc-4f6c-8dfe-e3befc771fbc | 401         | EA001      | Unable to verify signature                                        | Service Request Validation Failed |
-      | Request-Date-Time | 1234                                 | 400         | EA002      | Request timestamp not a valid RFC3339 date-time                   | Service Request Validation Failed |
-      | Request-Date-Time | 2021-11-12T08:05:55.936Z             | 400         | EA002      | Request timestamp is future date-time                             | Service Request Validation Failed |
-      | Request-Date-Time | 2018-11-12T08:05:55.936Z             | 400         | EA002      | Request timestamp too old                                         | Service Request Validation Failed |
-
+#      | Request-Date-Time | 1234                                 | 400         | EA002      | Request timestamp not a valid RFC3339 date-time                   | Service Request Validation Failed |
+#      | Request-Date-Time | 2021-11-12T08:05:55.936Z             | 400         | EA002      | Request timestamp is future date-time                             | Service Request Validation Failed |
+#      | Request-Date-Time | 2018-11-12T08:05:55.936Z             | 400         | EA002      | Request timestamp too old                                         | Service Request Validation Failed |
+#
     #bug
   @regression
   Scenario Outline: SC-1 Positive flow - should not be able to create credential with more than 256 long characters, new signing key and password

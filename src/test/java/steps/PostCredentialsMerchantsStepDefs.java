@@ -57,7 +57,9 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
 
     @And("^I hit the post credentials endpoint with invalid API versions invalid header \"([^\"]*)\" and values \"([^\"]*)\"$")
     public void hitPostCredentialsWithInvalidAPIVersion(String key, String headerValue) {
+
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
+
         testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
