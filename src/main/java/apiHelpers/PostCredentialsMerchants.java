@@ -174,7 +174,7 @@ public class PostCredentialsMerchants extends UtilManager {
         if (credentialName.equalsIgnoreCase("validName")) {
             this.credentialName = RandomStringUtils.randomAlphabetic(10);
         } else if (credentialName.equalsIgnoreCase("tooLong")) {
-            this.credentialName = StringUtils.repeat("*", 256);
+            this.credentialName = StringUtils.repeat("*", 257);
         } else {
             this.credentialName = credentialName;
         }
