@@ -10,9 +10,7 @@ import managers.UtilManager;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import utils.Constants;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import utils.PropertyHelper;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -39,12 +37,13 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
         testContext.getApiManager().postCredentialsMerchants().setCredentialName(credentialName);
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
         testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
+        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(applicationResponse.getBody().path("application.subUnitId"));
+
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
                 + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
         testContext.getApiManager().postCredentialsMerchants().makeRequest(url, testContext.getApiManager().postCredentialsMerchants().getCredentialName());
     }
-
 
     @And("^I hit the post credentials endpoint without request body$")
     public void hitPostCredentialsWithRequestBody() {
@@ -55,14 +54,27 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
                 + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
         testContext.getApiManager().postCredentialsMerchants().makeRequestWithoutInputBody(url);
     }
+
     @And("^I hit the post credentials endpoint with invalid API versions invalid header \"([^\"]*)\" and values \"([^\"]*)\"$")
     public void hitPostCredentialsWithInvalidAPIVersion(String key, String headerValue) {
+
+        Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
+
+        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
+        String url = getRestHelper().getBaseURI() +
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
+        testContext.getApiManager().postCredentialsMerchants().makeRequestWithInvalidHeaders(url, key, headerValue);
+    }
+
+    @And("^I hit the post credentials endpoint with missing header keys \"([^\"]*)\"$")
+    public void hitPostCredentialsWithMissingHeader(String key) {
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
         testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
                 + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
-        testContext.getApiManager().postCredentialsMerchants().makeRequestWithInvalidHeaders(url,key, headerValue);
+        testContext.getApiManager().postCredentialsMerchants().makeRequestWithMissingHeaderValues(url, key);
     }
 
     @And("^I hit the post credentials endpoint without credential name \"([^\"]*)\"$")
@@ -75,7 +87,6 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
                 + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
         testContext.getApiManager().postCredentialsMerchants().makeRequestWithoutCredentialName(url, testContext.getApiManager().postCredentialsMerchants().getCredentialName());
     }
-
 
     @And("^I hit the post credentials endpoint six times with same credential name \"([^\"]*)\"$")
     public void hitPostCredentialsSixTimesWithDifferentName(String credentialName) {
@@ -109,39 +120,36 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
 
     @Then("^the create credentials response should be successful$")
     public void validResponse() {
+        String env = PropertyHelper.getInstance().getPropertyCascading("env");
+        String userType = PropertyHelper.getInstance().getPropertyCascading("usertype");
+
         Assert.assertEquals(
                 HttpStatus.SC_CREATED,
                 getRestHelper().getResponseStatusCode(testContext.getApiManager().postCredentialsMerchants().getResponse()),
                 "Expected 201 but got " +
-                        getRestHelper().getResponseStatusCode(testContext.getApiManager().postCredentialsMerchants().getResponse())
-        );
+                        getRestHelper().getResponseStatusCode(testContext.getApiManager().postCredentialsMerchants().getResponse()));
+
         Response response = testContext.getApiManager().postCredentialsMerchants().getResponse();
-        Assert.assertNotNull(response.path(Constants.PDF_PIN));
-        Assert.assertNotNull(response.path(Constants.PDF_URL));
+        Assert.assertNotNull(response.path(Constants.PDF_URL), "pdfUrl cannot be null!");
+
+        if (env.equalsIgnoreCase("SIT") && userType.equalsIgnoreCase("merchant")) {
+            Assert.assertTrue(response.path(Constants.PDF_URL).toString().contains("https://sacct" + env.toLowerCase() + "hkdragboarding.blob.core.windows.net/paymeapi-pdf/" + testContext.getApiManager().getOneClickMerchantOnboarding().getSubUnitId() + "_LV_"));
+        } else if (env.equalsIgnoreCase("SIT") && userType.equalsIgnoreCase("developer")) {
+            Assert.assertTrue(response.path(Constants.PDF_URL).toString().contains("https://sacct" + env.toLowerCase() + "hkdragsandbox.blob.core.windows.net/paymeapi-pdf/" + testContext.getApiManager().getOneClickMerchantOnboarding().getSubUnitId() + "_SB_"));
+        } else if (env.equalsIgnoreCase("CI") && userType.equalsIgnoreCase("merchant")) {
+            Assert.assertTrue(response.path(Constants.PDF_URL).toString().contains("https://sacct" + env.toLowerCase() + "dragmerch.blob.core.windows.net/paymeapi-pdf/" + testContext.getApiManager().getOneClickMerchantOnboarding().getSubUnitId() + "_LV_"));
+        } else if (env.equalsIgnoreCase("CI") && userType.equalsIgnoreCase("developer")) {
+            Assert.assertTrue(response.path(Constants.PDF_URL).toString().contains("https://sacct" + env.toLowerCase() + "dragmerch.blob.core.windows.net/paymeapi-pdf/" + testContext.getApiManager().getOneClickMerchantOnboarding().getSubUnitId() + "_SB_"));
+        }
+        Assert.assertNotNull(response.path(Constants.PDF_PIN), "pdfPin cannot be null!");
+        Assert.assertEquals(response.path(Constants.PDF_PIN).toString().length(), 16, "pdfPin should be 16 characters.");
         Assert.assertNotNull(response.path(Constants.CREDENTIAL_ID));
         Assert.assertEquals(response.path(Constants.CREDENTIAL_NAME), testContext.getApiManager().postCredentialsMerchants().getCredentialName(), "Credential Name should be same as provided in input body");
         Assert.assertEquals(response.path(Constants.STATUS), "A", "Credential status should always be active A ");
-        Assert.assertEquals(response.path(Constants.ACTIVATE_AT).toString().substring(0,10),getDateHelper().getCurrentDate(),"Activate date should be today's date");
-        Assert.assertEquals(response.path(Constants.DEACTIVATE_AT).toString().substring(0,10),getDateHelper().getFutureDate(1),"deactivatedAt date should be one year later than createdAt date");
-        Assert.assertEquals(response.path(Constants.CREATED_AT).toString().substring(0,10),getDateHelper().getCurrentDate(),"createdAT date should be today's date");
-        Assert.assertEquals(response.path(Constants.LAST_UPDATED_AT).toString().substring(0,10),getDateHelper().getCurrentDate(),"lastUpdatedAt date should be today's date");
-
-        /*
-        Assert.assertEquals(response.path(Constants.ACTIVATE_AT).toString(),getDateHelper().getCurrentDate(),"Activate date should be today's date");
-        Assert.assertEquals(response.path(Constants.DEACTIVATE_AT).toString(),getDateHelper().getFutureDate(1),"deactivatedAt date should be one year later than createdAt date");
-        Assert.assertEquals(response.path(Constants.CREATED_AT).toString(),getDateHelper().getCurrentDate(),"createdAT date should be today's date");
-        Assert.assertEquals(response.path(Constants.LAST_UPDATED_AT).toString(),getDateHelper().getCurrentDate(),"lastUpdatedAt date should be today's date");
-        */
-
-        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-ddTHH:MM:SSZ");
-        sdf.setLenient(true);
-        Date date = null;
-        try {
-            date = sdf.parse("2012.11.02.45.65");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        System.out.println("date: " + date);
+        Assert.assertEquals(response.path(Constants.ACTIVATE_AT).toString().substring(0, 10), getDateHelper().getCurrentDate(), "Activate date should be today's date");
+        Assert.assertEquals(response.path(Constants.EXPIRE_AT).toString().substring(0, 10), getDateHelper().getFutureDate(1), "deactivatedAt date should be one year later than createdAt date");
+        Assert.assertEquals(response.path(Constants.CREATED_AT).toString().substring(0, 10), getDateHelper().getCurrentDate(), "createdAT date should be today's date");
+        Assert.assertEquals(response.path(Constants.LAST_UPDATED_AT).toString().substring(0, 10), getDateHelper().getCurrentDate(), "lastUpdatedAt date should be today's date");
 
         HashMap signingKey = response.path(Constants.SIGNING_KEY);
         HashMap secret = response.path(Constants.SECRET);
@@ -161,7 +169,6 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
             getRestHelper().getResponseStatusCode(testContext.getApiManager().postCredentialsMerchants().getResponse());
         }
     }
-
 
     @Then("^I should receive a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorCode within create credentials response$")
     public void i_should_receive_a_error_response_with_error_description_and_errorCode_within_postCredential_response(int responseCode, String errorDesc, String errorCode) {

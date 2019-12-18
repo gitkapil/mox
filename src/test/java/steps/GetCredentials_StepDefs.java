@@ -13,7 +13,10 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import utils.Constants;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 public class GetCredentials_StepDefs extends UtilManager {
     private static final Set<String> ROLE_SET = Sets.newHashSet("ApplicationKey.ReadWrite.All");
