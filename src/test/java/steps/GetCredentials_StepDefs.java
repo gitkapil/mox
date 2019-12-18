@@ -2,8 +2,6 @@ package steps;
 
 import com.google.common.collect.Sets;
 import com.jayway.restassured.response.Response;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -217,14 +215,10 @@ public class GetCredentials_StepDefs extends UtilManager {
     @Then("^I should receive a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorcode within get credentials response$")
     public void iShouldReceiveAErrorResponseWithErrorDescriptionAndErrorcodeWithinGetCredentialsResponse(int responseCode, String errorDesc, String errorCode) {
         Response response = testContext.getApiManager().getCredentialsMerchants().getResponse();
-        System.out.println("getRestHelper().getResponseStatusCode(response) : " + getRestHelper().getResponseStatusCode(response));
-        System.out.println("getRestHelper().getErrorCode(response) : " + getRestHelper().getErrorCode(response));
-        System.out.println("getRestHelper().getErrorDescription(response) : " + getRestHelper().getErrorDescription(response));
 
         org.testng.Assert.assertEquals(getRestHelper().getResponseStatusCode(response), responseCode, "Different response code being returned");
         org.testng.Assert.assertEquals(getRestHelper().getErrorCode(response), errorCode, "Different error code being returned");
-        //org.testng.Assert.assertTrue(getRestHelper().getErrorDescription(testContext.getApiManager().getCredentialsMerchants().getResponse()).contains(errorDesc), "Different error description being returned..Expected: " + errorDesc + "  Actual: " + getRestHelper().getErrorDescription(testContext.getApiManager().postCredentialsMerchants().getResponse()));
-        org.testng.Assert.assertEquals(getRestHelper().getErrorDescription(response), errorDesc, "Different error description being returned..Expected: " + errorDesc + " .Actual: " + getRestHelper().getErrorDescription(response));
+        org.testng.Assert.assertTrue(getRestHelper().getErrorDescription(response).contains(errorDesc), "Different error description being returned.\nExpected: " + errorDesc + "\nActual: " + getRestHelper().getErrorDescription(testContext.getApiManager().postCredentialsMerchants().getResponse()));
     }
 
     @And("^error message should be \"([^\"]*)\" within get credentials response$")
@@ -258,5 +252,15 @@ public class GetCredentials_StepDefs extends UtilManager {
                 "Different error message being returned.\nExpected: " + errorMessage + "\nActual: " +
                         getRestHelper().getErrorMessage(response));
 
+    }
+
+    @When("^I make request to get credentials endpoint with invalid applicationId \"([^\"]*)\"$")
+    public void iMakeRequestToGetCredentialsEndpointWithInvalidApplicationId(String applicationId) {
+        logger.info("********** GET Credentials Request *********** \n");
+
+        String url = getRestHelper().getBaseURI() +
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                + "/" + applicationId + "/credentials";
+        testContext.getApiManager().getCredentialsMerchants().makeRequest(url);
     }
 }
