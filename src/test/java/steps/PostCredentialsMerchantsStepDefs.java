@@ -1,4 +1,5 @@
 package steps;
+
 import com.google.common.collect.Sets;
 import com.jayway.restassured.response.Response;
 import cucumber.api.java.en.And;
@@ -11,6 +12,7 @@ import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import utils.Constants;
 import utils.PropertyHelper;
+
 import java.util.HashMap;
 import java.util.Set;
 
@@ -36,8 +38,8 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
     public void hitPostCredentialsWithCredentialsName(String credentialName) {
         testContext.getApiManager().postCredentialsMerchants().setCredentialName(credentialName);
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
-        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
-        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(applicationResponse.getBody().path("application.subUnitId"));
+        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path(Constants.APPLICATION_ID));
+        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(applicationResponse.getBody().path(Constants.SUB_UNIT_ID));
 
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)

@@ -41,6 +41,13 @@ public class PutCredentialsMerchants extends UtilManager {
         return requestBody;
     }
 
+    private HashMap returnRequestBodyWithStatus(String credentialName, String status) {
+        requestBody.clear();
+        requestBody.put("credentialName", credentialName);
+        requestBody.put("status", status);
+        return requestBody;
+    }
+
     private HashMap returnEmptyRequestBody(String credentialName) {
         requestBody.put("credentialName", credentialName);
         requestBody.put("status", "A");
@@ -97,6 +104,12 @@ public class PutCredentialsMerchants extends UtilManager {
     public void makeRequest(String url, String credentialName) {
         returnRequestHeader();
         response = getRestHelper().putRequestWithHeaderAndBody(url, requestHeader, returnRequestBody(credentialName));
+        logger.info("Create Credential Response -->>>>" + response.prettyPrint());
+    }
+
+    public void makeRequestWithStatus(String url, String credentialName, String status) {
+        returnRequestHeader();
+        response = getRestHelper().putRequestWithHeaderAndBody(url, requestHeader, returnRequestBodyWithStatus(credentialName, status));
         logger.info("Create Credential Response -->>>>" + response.prettyPrint());
     }
 
@@ -178,6 +191,7 @@ public class PutCredentialsMerchants extends UtilManager {
             this.credentialName = credentialName;
         }
     }
+
     public Response executePostRequestWithMissingHeaderKeys(String url, String keys, String credentialName) {
         try {
             HashMap<String, String> header = returnRequestHeaderWithMissingKeys("POST", new URL(url).getPath(), keys);

@@ -2,6 +2,7 @@ package steps;
 
 import com.google.common.collect.Sets;
 import com.jayway.restassured.response.Response;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -13,16 +14,17 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import utils.Constants;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 public class GetCredentials_StepDefs extends UtilManager {
     private static final Set<String> ROLE_SET = Sets.newHashSet("ApplicationKey.ReadWrite.All");
     private static final Set<String> APPLICATION_ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
     private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_application_resource";
     final static Logger logger = Logger.getLogger(GetCredentials_StepDefs.class);
+    public List<String> post_response;
 
     TestContext testContext;
     ManagementCommon common;
@@ -73,27 +75,25 @@ public class GetCredentials_StepDefs extends UtilManager {
             HashMap<Object, Object> signingKey = (HashMap) items.get(i).get(Constants.SIGNING_KEY);
             HashMap<Object, Object> secret = (HashMap) items.get(i).get(Constants.SECRET);
 
-            System.out.println("secret.get(Constants.ID) : " + secret.get(Constants.ID));
-            System.out.println("testContext.getApiManager().postCredentialsMerchants().getResponse().path(\"secret.Id\") : " + testContext.getApiManager().postCredentialsMerchants().getResponse().path("secret.Id"));
-
             Assert.assertNotNull("items_credentialId cannot be null!", items.get(i).get(Constants.CREDENTIAL_ID));
             Assert.assertEquals("credentialId of GET credentials API should be equal to credentialId of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.CREDENTIAL_ID), items.get(i).get(Constants.CREDENTIAL_ID));
 
             Assert.assertNotNull("items_credentialName cannot be null!", items.get(i).get(Constants.CREDENTIAL_NAME));
             Assert.assertEquals("credentialName of GET credentials API should be equal to credentialName of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getCredentialName(), items.get(i).get(Constants.CREDENTIAL_NAME));
 
-//            Assert.assertNotNull("items_applicationId cannot be null!", items.get(i).get(Constants.APPLICATION_ID));
-//            Assert.assertEquals("applicationId of GET credentials API should be equal to applicationId of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.APPLICATION_ID), items.get(i).get(Constants.APPLICATION_ID));
+            Assert.assertNotNull("items_applicationId cannot be null!", items.get(i).get(Constants.APPLICATION_ID));
+            Assert.assertEquals("applicationId of GET credentials API should be equal to applicationId of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.APPLICATION_ID), items.get(i).get(Constants.APPLICATION_ID));
+
 
             Assert.assertEquals("status of GET credentials API should be equal to status of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.STATUS), items.get(i).get(Constants.STATUS));
-//            Assert.assertEquals("activateAt of GET credentials API should be equal to activateAt of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.ACTIVATE_AT), items.get(i).get(Constants.ACTIVATE_AT));
-            //  Assert.assertEquals("expireAt of GET credentials API should be equal to expireAt of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.EXPIRE_AT), items.get(i).get(Constants.EXPIRE_AT));
+            Assert.assertEquals("activateAt of GET credentials API should be equal to activateAt of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.ACTIVATE_AT), items.get(i).get(Constants.ACTIVATE_AT));
+            Assert.assertEquals("expireAt of GET credentials API should be equal to expireAt of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.EXPIRE_AT), items.get(i).get(Constants.EXPIRE_AT));
 
-//            Assert.assertNotNull("items_createdBy cannot be null!", items.get(i).get(Constants.CREATED_BY));
-//            Assert.assertEquals("createdBy of GET credentials API should be equal to createdBy of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.CREATED_BY), items.get(i).get(Constants.CREATED_BY));
-//
-//            Assert.assertNotNull("items_lastUpdatedBy cannot be null!", items.get(i).get(Constants.LAST_UPDATED_BY));
-//            Assert.assertEquals("lastUpdatedBy of GET credentials API should be equal to lastUpdatedBy of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.LAST_UPDATED_BY), items.get(i).get(Constants.LAST_UPDATED_BY));
+            Assert.assertNotNull("items_createdBy cannot be null!", items.get(i).get(Constants.CREATED_BY));
+            Assert.assertEquals("createdBy of GET credentials API should be equal to createdBy of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.CREATED_BY), items.get(i).get(Constants.CREATED_BY));
+
+            Assert.assertNotNull("items_lastUpdatedBy cannot be null!", items.get(i).get(Constants.LAST_UPDATED_BY));
+            Assert.assertEquals("lastUpdatedBy of GET credentials API should be equal to lastUpdatedBy of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.LAST_UPDATED_BY), items.get(i).get(Constants.LAST_UPDATED_BY));
 
             Assert.assertNotNull("items_createdAt cannot be null!", items.get(i).get(Constants.CREATED_AT));
             Assert.assertEquals("createdAt of GET credentials API should be equal to createdAt of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.CREATED_AT), items.get(i).get(Constants.CREATED_AT));
@@ -160,7 +160,7 @@ public class GetCredentials_StepDefs extends UtilManager {
 
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
-                + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials?status=A&limit=" + filter_limit;
+                + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials?limit=" + filter_limit;
         testContext.getApiManager().getCredentialsMerchants().makeRequest(url);
     }
 
@@ -190,20 +190,21 @@ public class GetCredentials_StepDefs extends UtilManager {
 
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
-                + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials?status=A&page=" + filter_page;
+                + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials?page=" + filter_page;
         testContext.getApiManager().getCredentialsMerchants().makeRequest(url);
     }
 
     @When("^I hit the post credentials endpoint five times with credential name \"([^\"]*)\"$")
     public void iHitThePostCredentialsEndpointFiveTimesWithCredentialName(String credentialName) {
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
-        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
+
+        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path(Constants.APPLICATION_ID));
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
                 + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
         System.out.println("url : " + url);
         int x = 1;
-        while (x <= 5) {
+        while (x <= 4) {
             testContext.getApiManager().postCredentialsMerchants().setCredentialName(credentialName);
             testContext.getApiManager().postCredentialsMerchants().makeRequest(url, testContext.getApiManager().postCredentialsMerchants().getCredentialName());
             x++;
@@ -260,10 +261,107 @@ public class GetCredentials_StepDefs extends UtilManager {
     @When("^I make request to get credentials endpoint with invalid applicationId \"([^\"]*)\"$")
     public void iMakeRequestToGetCredentialsEndpointWithInvalidApplicationId(String applicationId) {
         logger.info("********** GET Credentials Request *********** \n");
+        String url;
+        if (applicationId.equalsIgnoreCase("space")) {
+            url = getRestHelper().getBaseURI() +
+                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                    + "/ /credentials";
+        } else if (applicationId.equalsIgnoreCase("null")) {
+            url = getRestHelper().getBaseURI() +
+                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                    + "//credentials";
+        } else {
+            url = getRestHelper().getBaseURI() +
+                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                    + "/" + applicationId + "/credentials";
+        }
+        testContext.getApiManager().getCredentialsMerchants().makeRequest(url);
+    }
 
+    @When("^I hit get credentials endpoint with filter credentialName as \"([^\"]*)\"$")
+    public void iHitGetCredentialsEndpointWithFilterCredentialNameAs(String invalid_credentialName) throws UnsupportedEncodingException {
+        logger.info("********** GET Credentials Request *********** \n");
+        String url;
+
+        if (invalid_credentialName.equalsIgnoreCase("space")) {
+            url = getRestHelper().getBaseURI() +
+                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                    + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials?credentialName= ";
+        } else if (invalid_credentialName.equalsIgnoreCase("null")) {
+            url = getRestHelper().getBaseURI() +
+                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                    + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials?credentialName=";
+        } else {
+            testContext.getApiManager().postCredentialsMerchants().setCredentialName(invalid_credentialName);
+            //String str = URLEncoder.encode(invalid_credentialName, StandardCharsets.US_ASCII.toString());
+
+            url = getRestHelper().getBaseURI() +
+                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                    + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials?credentialName=" + testContext.getApiManager().postCredentialsMerchants().getCredentialName();
+        }
+        testContext.getApiManager().getCredentialsMerchants().makeRequest(url);
+    }
+
+    @When("^I hit get credentials endpoint with filter credentialId as \"([^\"]*)\"$")
+    public void iHitGetCredentialsEndpointWithFilterCredentialIdAs(String credentialId) {
+        logger.info("********** GET Credentials Request *********** \n");
+        String url;
+        if (credentialId.equalsIgnoreCase("space")) {
+            url = getRestHelper().getBaseURI() +
+                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                    + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials?credentialName= ";
+        } else if (credentialId.equalsIgnoreCase("null")) {
+            url = getRestHelper().getBaseURI() +
+                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                    + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials?credentialName=";
+        } else {
+            //String str = URLEncoder.encode(invalid_credentialName, "UTF-8");
+            url = getRestHelper().getBaseURI() +
+                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                    + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials?credentialName=" + credentialId;
+        }
+        testContext.getApiManager().getCredentialsMerchants().makeRequest(url);
+    }
+
+    @When("^I hit get credentials endpoint with applicationId \"([^\"]*)\"$")
+    public void iHitGetCredentialsEndpointWithApplicationId(String applicationId) {
+        logger.info("********** GET Credentials Request *********** \n");
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
                 + "/" + applicationId + "/credentials";
         testContext.getApiManager().getCredentialsMerchants().makeRequest(url);
+    }
+
+    @And("^validate GET credentials response returns empty list$")
+    public void validateGETCredentialsResponseReturnsEmptyList() {
+        Response response = testContext.getApiManager().getCredentialsMerchants().getResponse();
+        HashMap page = response.path(Constants.PAGE);
+        Assert.assertNotNull("page_current should not be null!", page.get(Constants.CURRENT));
+        Assert.assertNotNull("page_totalItems should not be null!", page.get(Constants.TOTAL_ITEMS));
+        Assert.assertNotNull("page_size should not be null!", page.get(Constants.SIZE));
+
+        Assert.assertTrue("page_current should be 0 for non existing applicationId", page.get(Constants.CURRENT).equals(0));
+        Assert.assertTrue("page_totalItems should be 0 for non existing applicationId", page.get(Constants.TOTAL_ITEMS).equals(0));
+        Assert.assertTrue("page_size should be 20 by default", page.get(Constants.SIZE).equals(20));
+
+        List<HashMap> items = response.path(Constants.ITEM);
+        Assert.assertTrue("List of credentials should be null for non-existing application Id", items.isEmpty());
+    }
+
+    @When("^I hit get credentials endpoint with filter \"([^\"]*)\" as \"([^\"]*)\" which doesn't exist$")
+    public void iHitGetCredentialsEndpointWithFilterAsWhichDoesntExist(String filterName, String value) {
+        logger.info("********** GET Credentials Request *********** \n");
+
+        if (filterName.equalsIgnoreCase("credentialId") && value.isEmpty()) {
+            String url = getRestHelper().getBaseURI() +
+                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                    + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials?" + filterName;
+            testContext.getApiManager().getCredentialsMerchants().makeRequest(url);
+        } else {
+            String url = getRestHelper().getBaseURI() +
+                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                    + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials?" + filterName + "=" + value;
+            testContext.getApiManager().getCredentialsMerchants().makeRequest(url);
+        }
     }
 }

@@ -14,4 +14,4 @@ Feature: PUT_Credentials - PUT Credentials Merchant
     Then put credentials response should be successful
     Examples:
       | credentialName |
-      | validName        |
+      | validName      |

@@ -1,15 +1,19 @@
 package steps;
+
 import com.google.common.collect.Sets;
 import com.jayway.restassured.response.Response;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import managers.TestContext;
 import managers.UtilManager;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import utils.Constants;
+
 import java.util.Set;
 
 public class PutCredentials_StepDefs extends UtilManager {
@@ -34,11 +38,13 @@ public class PutCredentials_StepDefs extends UtilManager {
     @And("^I hit the put credentials endpoint with new credential name \"([^\"]*)\"$")
     public void hitPostCredentialsWithCredentialsName(String credentialName) {
 
+        //Onboarding
         testContext.getApiManager().getPutCredentialsMerchants().setCredentialName(credentialName);
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
         testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
         testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(applicationResponse.getBody().path("application.subUnitId"));
 
+        //POST Credentials
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
                 + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
@@ -48,10 +54,11 @@ public class PutCredentials_StepDefs extends UtilManager {
 
         String credentialId = credentialResponse.path(Constants.CREDENTIAL_ID);
 
+        //PUT Credential
         String putCredentialEndPoint = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
-                + "/" + applicationResponse.getBody().path("application.applicationId") + "/credentials" + "/" + credentialId ;
-        testContext.getApiManager().getPutCredentialsMerchants().makeRequest(putCredentialEndPoint,testContext.getApiManager().getPutCredentialsMerchants().getCredentialName());
+                + "/" + applicationResponse.getBody().path("application.applicationId") + "/credentials" + "/" + credentialId;
+        testContext.getApiManager().getPutCredentialsMerchants().makeRequest(putCredentialEndPoint, testContext.getApiManager().getPutCredentialsMerchants().getCredentialName());
     }
 
     @Then("^put credentials response should be successful$")
@@ -63,7 +70,7 @@ public class PutCredentials_StepDefs extends UtilManager {
                         getRestHelper().getResponseStatusCode(testContext.getApiManager().getPutCredentialsMerchants().getResponse()));
 
         Response response = testContext.getApiManager().getPutCredentialsMerchants().getResponse();
-        System.out.println("credentials name :   " +testContext.getApiManager().getPutCredentialsMerchants().getResponse().path(Constants.CREDENTIAL_NAME));
+        System.out.println("credentials name :   " + testContext.getApiManager().getPutCredentialsMerchants().getResponse().path(Constants.CREDENTIAL_NAME));
         Assert.assertEquals(testContext.getApiManager().getPutCredentialsMerchants().getResponse().path(Constants.CREDENTIAL_NAME), testContext.getApiManager().getPutCredentialsMerchants().getCredentialName());
 
     }
@@ -79,6 +86,21 @@ public class PutCredentials_StepDefs extends UtilManager {
         Response credentialResponse = testContext.getApiManager().postCredentialsMerchants().getResponse();
         String credentialId = credentialResponse.path(Constants.CREDENTIAL_ID);
         return credentialId;
+    }
+
+    @When("^I hit the put credentials endpoint with new credential name \"([^\"]*)\" and status \"([^\"]*)\"$")
+    public void iHitThePutCredentialsEndpointWithNewCredentialNameAndStatus(String credentialName, String status) throws Throwable {
+        //POST Credentials
+        Response credentialResponse = testContext.getApiManager().postCredentialsMerchants().getResponse();
+        String credentialId = credentialResponse.path(Constants.CREDENTIAL_ID);
+        String post_credentialName = credentialResponse.path(Constants.CREDENTIAL_NAME);
+
+        //PUT Credential
+        String putCredentialEndPoint = getRestHelper().getBaseURI() +
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials/" + credentialId;
+
+        testContext.getApiManager().getPutCredentialsMerchants().makeRequestWithStatus(putCredentialEndPoint, post_credentialName, status);
     }
 }
 
