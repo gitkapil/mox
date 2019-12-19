@@ -183,7 +183,10 @@ public class PostCredentialsMerchants extends UtilManager {
         else if (credentialName.equalsIgnoreCase("doubleQuotes")) {
             this.credentialName = "";
         }
-        else {
+         else if (credentialName.equalsIgnoreCase("UUID")) {
+            this.credentialName = getGeneral().generateUniqueUUID();
+        } else {
+
             this.credentialName = credentialName;
         }
     }

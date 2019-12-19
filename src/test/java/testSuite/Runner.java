@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
         glue = {"steps"},
         features = {"src/test/resources/features/"},
         //,plugin = { "com.cucumber.listener.ExtentCucumberFormatter:target/cucumber-reports/report.html"}
-        tags = {"@trial"}
+        tags = {"@sc1"}
 )
 public class Runner {
 

@@ -23,7 +23,7 @@ Feature: PUT_Credentials - PUT Credentials Merchant
   @regression
   Scenario Outline: SC-1 Positive flow - Deactivate the active credential
     Given I am an authorized to put credentials as DRAGON user
-    When I hit the put credentials endpoint with new credential name "<credentialName>" and status "<status>"
+    When I hit the Put credentials endpoint with new credential name "<credentialName>" and status "<status>"
     Then put credentials response should be updated
     Examples:
       | credentialName | status |
@@ -32,7 +32,7 @@ Feature: PUT_Credentials - PUT Credentials Merchant
   @regression
   Scenario Outline: SC-1 Positive flow - Should not be able to expire the deactivated credential
     Given I am an authorized to put credentials as DRAGON user
-    When I hit the put credentials endpoint with new credential name "<credentialName>" and status "<status>"
+    When I hit the Put credentials endpoint with new credential name "<credentialName>" and status "<status>"
     Then I should receive a "<response_code>" error response with "<error_description>" error description and "<error_code>" errorCode within put credentials response
     And error message should be "<error_message>" within put credentials response
     Examples:
@@ -43,7 +43,7 @@ Feature: PUT_Credentials - PUT Credentials Merchant
   @regression
   Scenario Outline: SC-1 Positive flow - Should not be able to activate the deactivated credentials
     Given I am an authorized to put credentials as DRAGON user
-    When I hit the put credentials endpoint with new credential name "<credentialName>" and status "<status>"
+    When I hit the Put credentials endpoint with new credential name "<credentialName>" and status "<status>"
     Then put credentials response should be updated
     When I hit update API to reactivate the deactivated credentials "<activateCredential>" and credential name "<credentialName>"
     Then I should receive a "<response_code>" error response with "<error_description>" error description and "<error_code>" errorCode within put credentials response
@@ -62,3 +62,4 @@ Feature: PUT_Credentials - PUT Credentials Merchant
     Examples:
       | credentialName | response_code | error_code | error_message             | error_description                                        |
       | validName      | 400           | EA002      | Business Rules Incorrect! | The Name is already in use for another ACTIVE KEY (NAME) |
+

@@ -13,8 +13,8 @@ import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import utils.Constants;
 import utils.PropertyHelper;
-
-import java.util.*;
+import java.util.HashMap;
+import java.util.Set;
 
 public class PostCredentialsMerchantsStepDefs extends UtilManager {
     private static final Set<String> ROLE_SET = Sets.newHashSet("ApplicationKey.ReadWrite.All");
@@ -38,10 +38,13 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
     public void hitPostCredentialsWithCredentialsName(String credentialName) {
         testContext.getApiManager().postCredentialsMerchants().setCredentialName(credentialName);
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
+
         testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("applicationId"));
         testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(applicationResponse.getBody().path("subUnitId"));
         testContext.getApiManager().getOneClickMerchantOnboarding().setClientId(applicationResponse.getBody().path("clientId"));
 
+        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path(Constants.APPLICATION_ID));
+        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(applicationResponse.getBody().path(Constants.SUB_UNIT_ID));
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
                 + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";

@@ -8,6 +8,7 @@ Feature: GET Credentials - DRAG-2177
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
+    #defect - timestamp of GET credentials != POST credentials
   #@trial @regression
   Scenario Outline: SC-1 Positive flow - Fetch created credential details - single credential
     Given I am an authorized to create credentials as DRAGON user
@@ -19,35 +20,49 @@ Feature: GET Credentials - DRAG-2177
     Examples:
       | credentialName |
       | validName      |
+      | UUID           |
 
   #@trial @regression
   Scenario Outline: SC-2 Positive flow - Fetch created credential details - multiple credentials
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint five times with credential name "<credentialName>"
+    Given I am an authorized to put credentials as DRAGON user
+    When I hit the put credentials endpoint with new credential name "<credentialName>" and status "D"
     Given I am an authorized DRAGON user
-    When I hit get credentials endpoint with filter status as "<status>"
+    When I hit get credentials endpoint without any filter
     Then I should receive successful get credential response
-    And validate GET credentials response
+    #And validate GET credentials response
     Examples:
-      | credentialName | status |
-      | validName      | A      |
+      | credentialName |
+      | validName      |
 
   #@trial @regression
-
-  #add PUT credentials to deactivate
-  Scenario Outline: SC-3 Positive flow - Fetch created credential details with filter - status
-    Given I am an authorized to create credentials as DRAGON user
-    When I hit the post credentials endpoint with credential name "<credentialName>"
+  Scenario Outline: SC-3 Positive flow - Fetch credential details with non existing applicationId
     Given I am an authorized DRAGON user
-    When I hit get credentials endpoint with filter status as "<status>"
+    When I hit get credentials endpoint with applicationId "<applicationId>"
+    Then I should receive successful get credential response
+    And validate GET credentials response returns empty list
+    Examples:
+      | applicationId                        |
+      | 9ab4462b-1f25-43ea-9740-0c069de8715a |
+
+
+  #@trial @regression
+  Scenario Outline: SC-4 Positive flow - Fetch created credential details with filter - status
+    Given I am an authorized to create credentials as DRAGON user
+    When I hit the post credentials endpoint five times with credential name "<credentialName>"
+    Given I am an authorized to put credentials as DRAGON user
+    When I hit the put credentials endpoint with new credential name "<credentialName>" and status "D"
+    Given I am an authorized DRAGON user
+    When I hit get credentials endpoint with filter status as "A"
     Then I should receive successful get credential response
     And validate GET credentials response
     Examples:
-      | credentialName | status |
-      | validName      | A      |
-      | validName      | D      |
+      | credentialName |
+      | validName      |
+     # | validName      | D      |
       #| validName      | E      |
-      | validName      | a      |
+      #| validName      | a      |
 
 
   #@trial @regression
@@ -61,6 +76,8 @@ Feature: GET Credentials - DRAG-2177
     Examples:
       | credentialName |
       | validName      |
+      #scenario to test with special characters
+      | Hide & Seek    |
 
 
   #@trial @regression
@@ -104,6 +121,20 @@ Feature: GET Credentials - DRAG-2177
       | validName      | 8    |
       | validName      | -1   |
 
+  @trial @regression
+  Scenario Outline: SC-3 Positive flow - Fetch credential details with non existing filter query parameters - credentialName, credentialId
+    Given I am an authorized to create credentials as DRAGON user
+    When I hit the post credentials endpoint with credential name "<credentialName>"
+    Given I am an authorized DRAGON user
+    When I hit get credentials endpoint with filter "<filterName>" as "<value>" which doesn't exist
+    Then I should receive successful get credential response
+    And validate GET credentials response returns empty list
+    Examples:
+      | credentialName | filterName     | value                                |
+ #     | validName      | credentialName | someRandomValue                      |
+ #     | validName      | credentialName |                                      |
+ #     | validName      | credentialId   | 6ff05d6c-408f-4fe2-b81b-c181d60a821a |
+      | validName      | credentialId   |                                      |
 
   #@trial @regression
   Scenario Outline: SC-8-11 Negative flow - Invalid auth token
@@ -164,14 +195,22 @@ Feature: GET Credentials - DRAG-2177
     And error message should be "<error_message>" within get credentials response
     Examples:
       | applicationId                         | http_status | error_code | error_description               | error_message                     |
+      | space                                 | 404         | EA002      | applicationId not provided      | Resource Not Found!               |
       | 1234                                  | 400         | EA002      | Failed to convert value of type | Service Request Validation Failed |
       | abcd                                  | 400         | EA002      | Failed to convert value of type | Service Request Validation Failed |
       | !~@^*                                 | 400         | EA002      | Failed to convert value of type | Service Request Validation Failed |
       | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxxx | 400         | EA002      | Failed to convert value of type | Service Request Validation Failed |
-     #application Id not present in db
-      | 621a5528-147d-4ffa-9deb-0a723a29cc76  | 400         | EA025      | Application Id not found        | Service Request Validation Failed |
 
-  @trial @regression
+  #@trial @regression
+  Scenario Outline: SC-27- Negative flow - Null applicationId
+    Given I am an authorized DRAGON user
+    When I make request to get credentials endpoint with invalid applicationId "<applicationId>"
+    Then I should receive status code "404" and message "Resource not found" in get credentials response
+    Examples:
+      | applicationId |
+      | null          |
+
+  #@trial @regression
   Scenario Outline: SC-27- Negative flow - Invalid filter - status
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
@@ -187,3 +226,35 @@ Feature: GET Credentials - DRAG-2177
       | validName      | 1234   | 400         | EA002      | Failed to convert value of type | Service Request Validation Failed |
       | validName      | abcd   | 400         | EA002      | Failed to convert value of type | Service Request Validation Failed |
       | validName      | !~@^*  | 400         | EA002      | Failed to convert value of type | Service Request Validation Failed |
+
+  #@trial @regression
+  Scenario Outline: SC-27- Negative flow - Invalid filter - credentialName
+    Given I am an authorized to create credentials as DRAGON user
+    When I hit the post credentials endpoint with credential name "<credentialName>"
+    Given I am an authorized DRAGON user
+    When I hit get credentials endpoint with filter credentialName as "<invalid_credentialName>"
+    Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within get credentials response
+    And error message should be "<error_message>" within get credentials response
+    Examples:
+      | credentialName | invalid_credentialName | http_status | error_code | error_description               | error_message                     |
+    #  | validName      | space                  | 404         | EA002      | applicationId not provided      | Resource Not Found!               |
+    #  | validName      | !~^$@                  | 400         | EA002      | Failed to convert value of type | Service Request Validation Failed |
+    #  | validName      | Hide & Seek with Chaai | 400         | EA002      | Failed to convert value of type | Service Request Validation Failed |
+      | tooLong        | tooLong                | 400         | EA002      | Failed to convert value of type | Service Request Validation Failed |
+
+
+  #@trial @regression
+  Scenario Outline: SC-27- Negative flow - Invalid filter - credentialId
+    Given I am an authorized to create credentials as DRAGON user
+    When I hit the post credentials endpoint with credential name "<credentialName>"
+    Given I am an authorized DRAGON user
+    When I hit get credentials endpoint with filter credentialId as "<credentialId>"
+    Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within get credentials response
+    And error message should be "<error_message>" within get credentials response
+    Examples:
+      | credentialName | credentialId | http_status | error_code | error_description               | error_message                     |
+      | validName      | space        | 404         | EA002      | applicationId not provided      | Resource Not Found!               |
+      | validName      | null         | 404         | EA002      | applicationId not provided      | Resource Not Found!               |
+      | validName      | 123          | 400         | EA002      | Failed to convert value of type | Service Request Validation Failed |
+      | validName      | !~^$@        | 400         | EA002      | Failed to convert value of type | Service Request Validation Failed |
+

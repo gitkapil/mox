@@ -1,15 +1,19 @@
 package steps;
+
 import com.google.common.collect.Sets;
 import com.jayway.restassured.response.Response;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import managers.TestContext;
 import managers.UtilManager;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import utils.Constants;
+
 import java.util.Set;
 
 public class PutCredentials_StepDefs extends UtilManager {
@@ -34,6 +38,7 @@ public class PutCredentials_StepDefs extends UtilManager {
     @And("^I hit the put credentials endpoint with new credential name \"([^\"]*)\"$")
     public void hitPutCredentialsWithCredentialsName(String credentialName) {
 
+        //Onboarding
         testContext.getApiManager().getPutCredentialsMerchants().setCredentialName(credentialName);
         testContext.getApiManager().postCredentialsMerchants().setCredentialName(credentialName);
 
@@ -41,6 +46,7 @@ public class PutCredentials_StepDefs extends UtilManager {
         testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("applicationId"));
         testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(applicationResponse.getBody().path("subUnitId"));
 
+        //POST Credentials
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
                 + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
@@ -52,10 +58,12 @@ public class PutCredentials_StepDefs extends UtilManager {
 
         testContext.getApiManager().postCredentialsMerchants().setCredentialId(credentialId);
 
+        //Put Credentials
         String putCredentialEndPoint = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
                 + "/" + applicationResponse.getBody().path("applicationId") + "/credentials" + "/" + credentialId ;
         testContext.getApiManager().getPutCredentialsMerchants().makeRequest(putCredentialEndPoint,testContext.getApiManager().postCredentialsMerchants().getCredentialName());
+
     }
 
     @Then("^put credentials response should be successful$")
@@ -83,7 +91,7 @@ public class PutCredentials_StepDefs extends UtilManager {
 
     }
 
-    @And("^I hit the put credentials endpoint with new credential name \"([^\"]*)\" and status \"([^\"]*)\"$")
+    @And("^I hit the Put credentials endpoint with new credential name \"([^\"]*)\" and status \"([^\"]*)\"$")
     public void hitPutCredentialsWithCredentialsStatus(String credentialName, String credentialsStatus) {
 
         testContext.getApiManager().getPutCredentialsMerchants().setCredentialName(credentialName);
@@ -147,9 +155,13 @@ public class PutCredentials_StepDefs extends UtilManager {
     @Then("^I should receive a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorCode within put credentials response$")
     public void i_should_receive_a_error_response_with_error_description_and_errorCode_within_postCredential_response(int responseCode, String errorDesc, String errorCode) {
         Response response = testContext.getApiManager().getPutCredentialsMerchants().getResponse();
+
         Assert.assertEquals(getRestHelper().getResponseStatusCode(response), responseCode, "Different response code being returned");
         Assert.assertEquals(getRestHelper().getErrorCode(testContext.getApiManager().getPutCredentialsMerchants().getResponse()), errorCode, "Different error code being returned");
         Assert.assertTrue(getRestHelper().getErrorDescription(testContext.getApiManager().getPutCredentialsMerchants().getResponse()).contains(errorDesc), "Different error description being returned..Expected: " + errorDesc + "  Actual: " + getRestHelper().getErrorDescription(testContext.getApiManager().getPutCredentialsMerchants().getResponse()));
+
+
+        Assert.assertEquals(testContext.getApiManager().getPutCredentialsMerchants().getResponse().path(Constants.CREDENTIAL_NAME), testContext.getApiManager().getPutCredentialsMerchants().getCredentialName());
     }
 
     @Then("^error message should be \"([^\"]*)\" within put credentials response$")
@@ -192,6 +204,21 @@ public class PutCredentials_StepDefs extends UtilManager {
         Response credentialResponse = testContext.getApiManager().postCredentialsMerchants().getResponse();
         String credentialId = credentialResponse.path(Constants.CREDENTIAL_ID);
         return credentialId;
+    }
+
+    @When("^I hit the put credentials endpoint with new credential name \"([^\"]*)\" and status \"([^\"]*)\"$")
+    public void iHitPutCredentialsEndpointWithNewCredentialNameAndStatus(String credentialName, String status) throws Throwable {
+        //POST Credentials
+        Response credentialResponse = testContext.getApiManager().postCredentialsMerchants().getResponse();
+        String credentialId = credentialResponse.path(Constants.CREDENTIAL_ID);
+        String post_credentialName = credentialResponse.path(Constants.CREDENTIAL_NAME);
+
+        //PUT Credential
+        String putCredentialEndPoint = getRestHelper().getBaseURI() +
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials/" + credentialId;
+
+        testContext.getApiManager().getPutCredentialsMerchants().makeRequestWithStatus(putCredentialEndPoint, post_credentialName, status);
     }
 }
 
