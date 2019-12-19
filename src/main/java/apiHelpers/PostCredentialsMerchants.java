@@ -26,6 +26,7 @@ public class PostCredentialsMerchants extends UtilManager {
     private HashMap<String, String> requestHeader = new HashMap();
     final static Logger logger = Logger.getLogger(PostCredentialsMerchants.class);
     private HashMap requestBody = new HashMap();
+    private String credentialId;
 
     public Response getResponse() {
         return response;
@@ -214,4 +215,11 @@ public class PostCredentialsMerchants extends UtilManager {
     }
 
 
+    public void setCredentialId(String credentialId) {
+        this.credentialId = credentialId;
+    }
+
+    public String getCredentialId() {
+         return credentialId;
+    }
 }

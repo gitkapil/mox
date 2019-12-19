@@ -38,9 +38,9 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
     public void hitPostCredentialsWithCredentialsName(String credentialName) {
         testContext.getApiManager().postCredentialsMerchants().setCredentialName(credentialName);
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
-        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
-        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(applicationResponse.getBody().path("application.subUnitId"));
-        testContext.getApiManager().getOneClickMerchantOnboarding().setClientId(applicationResponse.getBody().path("application.clientId"));
+        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("applicationId"));
+        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(applicationResponse.getBody().path("subUnitId"));
+        testContext.getApiManager().getOneClickMerchantOnboarding().setClientId(applicationResponse.getBody().path("clientId"));
 
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
@@ -53,9 +53,9 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
     public void hitPostCredentialsWithInvalidApplicationIdAndValidCredentialsName(String credentialName, String applicationId) {
         testContext.getApiManager().postCredentialsMerchants().setCredentialName(credentialName);
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
-        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
-        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(applicationResponse.getBody().path("application.subUnitId"));
-        testContext.getApiManager().getOneClickMerchantOnboarding().setClientId(applicationResponse.getBody().path("application.clientId"));
+        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("applicationId"));
+        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(applicationResponse.getBody().path("subUnitId"));
+        testContext.getApiManager().getOneClickMerchantOnboarding().setClientId(applicationResponse.getBody().path("clientId"));
 
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
@@ -67,7 +67,7 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
     @And("^I hit the post credentials endpoint without request body$")
     public void hitPostCredentialsWithRequestBody() {
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
-        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
+        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("applicationId"));
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
                 + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
@@ -79,7 +79,7 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
 
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
 
-        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
+        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("applicationId"));
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
                 + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
@@ -90,7 +90,7 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
     public void hitPostCredentialsWithMissingHeader(String key) {
 
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
-        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
+        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("applicationId"));
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
                 + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
@@ -101,7 +101,7 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
     public void hitPostCredentialsWithoutCredentialsName(String credentialName) {
         testContext.getApiManager().postCredentialsMerchants().setCredentialName(credentialName);
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
-        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
+        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("applicationId"));
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
                 + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
@@ -111,12 +111,12 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
     @And("^I hit the post credentials endpoint six times with same credential name \"([^\"]*)\"$")
     public void hitPostCredentialsSixTimesWithDifferentName(String credentialName) {
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
-        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
+        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("applicationId"));
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
                 + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
         int x = 1;
-        while (x <= 6) {
+        while (x <= 5) {
             testContext.getApiManager().postCredentialsMerchants().setCredentialName(credentialName);
             testContext.getApiManager().postCredentialsMerchants().makeRequest(url, testContext.getApiManager().postCredentialsMerchants().getCredentialName());
             x++;
@@ -128,7 +128,7 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
     public void hitPostCredentialsSecondTimeWithSameCredentials(String credentialName) {
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
         testContext.getApiManager().postCredentialsMerchants().setCredentialName(credentialName);
-        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
+        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("applicationId"));
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
                 + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";

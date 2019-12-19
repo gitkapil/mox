@@ -22,7 +22,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | t1s2t3i4n5g6   |
 
 
-  @regression
+  @regression     @max
   Scenario Outline: SC-6 Positive flow - Merchant can have maximum five active credentials, new signing keys and passwords
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint six times with same credential name "<credentialName>"
@@ -108,12 +108,12 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
     And error message should be "<error_message>" within create credentials response
 
     Examples:
-      | key          | invalidHeaderValues                  | http_status | error_code | error_description                                                                                                                                                  | error_message                     |
-      | Accept       | Testing/Type                         | 406         | EA008      | Header Accept does not contain required value.  Access denied.                                                                                                     | Service Request Validation Failed |
-      | Content-Type | application/json1                    | 415         | EA002      | Content type 'application/json1;charset=ISO-8859-1' not supported                                                                                                  | Service Request Validation Failed |
-      | Trace-Id     | 123456                               | 400         | EA002      | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: | Service Request Validation Failed |
-      | Trace-Id     | abcde                                | 400         | EA002      | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: | Service Request Validation Failed |
-      | Trace-Id     | 7454108z-yb37-454c-81da-0a12d8b0f867 | 400         | EA002      | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.NumberFormatException: For input string:       | Service Request Validation Failed |
+      | key          | invalidHeaderValues                  | http_status | error_code | error_message                     | error_description                                                                                                                                                  |
+      | Accept       | Testing/Type                         | 406         | EA008      | Service Request Validation Failed | Header Accept does not contain required value.  Access denied.                                                                                                     |
+      | Content-Type | application/json1                    | 415         | EA002      | Service Request Validation Failed | Content type 'application/json1;charset=ISO-8859-1' not supported                                                                                                  |
+      | Trace-Id     | 123456                               | 400         | EA002      | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
+      | Trace-Id     | abcde                                | 400         | EA002      | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
+      | Trace-Id     | 7454108z-yb37-454c-81da-0a12d8b0f867 | 400         | EA002      | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.NumberFormatException: For input string:       |
 
     #bug
   @regression @tooLong
@@ -136,11 +136,11 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
     And error message should be "<error_message>" within create credentials response
     Examples:
-      | key           | error_description                                              | error_code | http_status | error_message                     |
-      | Authorization | Error validating JWT                                           | EA001      | 401         | API Gateway Authentication Failed |
-      | Trace-Id      | Header Trace-Id was not found in the request. Access denied.   | EA002      | 400         | API Gateway Authentication Failed |
-      | Accept        | Header Accept does not contain required value.  Access denied. | EA008      | 406         | API Gateway Authentication Failed |
-      | Content-Type  | Content type                                                   | EA002      | 415         | API Gateway Authentication Failed |
+      | key           | error_code | http_status | error_message                     | error_description                                              |
+      | Authorization | EA001      | 401         | API Gateway Authentication Failed | Error validating JWT                                           |
+      | Trace-Id      | EA002      | 400         | API Gateway Authentication Failed | Header Trace-Id was not found in the request. Access denied.   |
+      | Accept        | EA008      | 406         | API Gateway Authentication Failed | Header Accept does not contain required value.  Access denied. |
+      | Content-Type  | EA002      | 415         | API Gateway Authentication Failed | Content type                                                   |
 
 
   @regression
@@ -152,11 +152,12 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
     Examples:
       | credentialName | applicationId                         | error_code | http_status | error_message                     | error_description                                                                                                                                                  |
       | validName      | abcde                                 | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
-#      | validName      | 8e093bb5-da9b-4b27-b991-6171e9f7c5    | EA025      | 400         | Service Request Validation Failed | Application Id not found                                                                                                                                           |
       | validName      | 1234                                  | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
       | validName      | !~@^*                                 | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
       | validName      | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxxx | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
 
 
 
-    
+
+
+
