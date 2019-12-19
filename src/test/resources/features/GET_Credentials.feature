@@ -33,6 +33,8 @@ Feature: GET Credentials - DRAG-2177
       | validName      | A      |
 
   #@trial @regression
+
+  #add PUT credentials to deactivate
   Scenario Outline: SC-3 Positive flow - Fetch created credential details with filter - status
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
@@ -44,7 +46,8 @@ Feature: GET Credentials - DRAG-2177
       | credentialName | status |
       | validName      | A      |
       | validName      | D      |
-      | validName      | E      |
+      #| validName      | E      |
+      | validName      | a      |
 
 
   #@trial @regression
@@ -124,7 +127,7 @@ Feature: GET Credentials - DRAG-2177
 
 
   #@trial @regression
-  Scenario Outline: SC-12 Negative flow - Invalid mandatory field Api-Version provided in header
+  Scenario Outline: SC-12-16 Negative flow - Invalid mandatory field Api-Version provided in header
     Given I am an authorized DRAGON user
     When I hit get credentials endpoint for invalid header "<key>" with value "<invalidHeaderValues>"
     Then I should receive status code "<statusCode>" and message "<message>" in get credentials response
@@ -138,8 +141,8 @@ Feature: GET Credentials - DRAG-2177
       | Api-Version | @#$%^               | 404        | Resource not found |
 
 
-  @trial @regression
-  Scenario Outline: SC-13 Negative flow- Invalid mandatory field provided in header
+  #@trial @regression
+  Scenario Outline: SC-17-21 Negative flow - Invalid mandatory field provided in header
     Given I am an authorized DRAGON user
     When I hit get credentials endpoint for invalid header "<key>" with value "<invalidHeaderValues>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within get credentials response
@@ -152,3 +155,35 @@ Feature: GET Credentials - DRAG-2177
       | Trace-Id     | 123456                               | 400         | EA002      | Failed to convert value of type                                   | Service Request Validation Failed |
       | Trace-Id     | abcde                                | 400         | EA002      | Failed to convert value of type                                   | Service Request Validation Failed |
       | Trace-Id     | 7454108z-yb37-454c-81da-0a12d8b0f867 | 400         | EA002      | Failed to convert value of type                                   | Service Request Validation Failed |
+
+  #@trial @regression
+  Scenario Outline: SC-22-26 Negative flow - Invalid applicationId
+    Given I am an authorized DRAGON user
+    When I make request to get credentials endpoint with invalid applicationId "<applicationId>"
+    Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within get credentials response
+    And error message should be "<error_message>" within get credentials response
+    Examples:
+      | applicationId                         | http_status | error_code | error_description               | error_message                     |
+      | 1234                                  | 400         | EA002      | Failed to convert value of type | Service Request Validation Failed |
+      | abcd                                  | 400         | EA002      | Failed to convert value of type | Service Request Validation Failed |
+      | !~@^*                                 | 400         | EA002      | Failed to convert value of type | Service Request Validation Failed |
+      | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxxx | 400         | EA002      | Failed to convert value of type | Service Request Validation Failed |
+     #application Id not present in db
+      | 621a5528-147d-4ffa-9deb-0a723a29cc76  | 400         | EA025      | Application Id not found        | Service Request Validation Failed |
+
+  @trial @regression
+  Scenario Outline: SC-27- Negative flow - Invalid filter - status
+    Given I am an authorized to create credentials as DRAGON user
+    When I hit the post credentials endpoint with credential name "<credentialName>"
+    Given I am an authorized DRAGON user
+    When I hit get credentials endpoint with filter status as "<status>"
+    Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within get credentials response
+    And error message should be "<error_message>" within get credentials response
+    Examples:
+      | credentialName | status | http_status | error_code | error_description               | error_message                     |
+      | validName      |        | 400         | EA002      | Failed to convert value of type | Service Request Validation Failed |
+      | validName      | active | 400         | EA002      | Failed to convert value of type | Service Request Validation Failed |
+      | validName      | A,D,E  | 400         | EA002      | Failed to convert value of type | Service Request Validation Failed |
+      | validName      | 1234   | 400         | EA002      | Failed to convert value of type | Service Request Validation Failed |
+      | validName      | abcd   | 400         | EA002      | Failed to convert value of type | Service Request Validation Failed |
+      | validName      | !~@^*  | 400         | EA002      | Failed to convert value of type | Service Request Validation Failed |

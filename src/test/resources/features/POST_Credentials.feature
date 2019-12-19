@@ -1,3 +1,4 @@
+@postKeys
 Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
   As a user
   I want to up to credentials for merchant and validate correct response is returned
@@ -8,17 +9,21 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
     Then I receive an access_token
 
   @regression
-  Scenario Outline: SC-1 Positive flow - Create a new credentials, new signing key and password
+  Scenario Outline: SC-1-5 Positive flow - Create a new credentials, new signing key and password
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Then the create credentials response should be successful
     Examples:
       | credentialName |
       | validName      |
+      | spaceInQuotes  |
+      | doubleQuotes   |
+      | $^&$^#$%^^^^^^ |
+      | t1s2t3i4n5g6   |
 
-    #bug
+
   @regression
-  Scenario Outline: SC-2 Positive flow - Merchant can have maximum five active credentials, new signing keys and passwords
+  Scenario Outline: SC-6 Positive flow - Merchant can have maximum five active credentials, new signing keys and passwords
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint six times with same credential name "<credentialName>"
     Then I should receive a "<response_code>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
@@ -28,8 +33,8 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | validName      | 400           | There can be only 5 active credentials at any point in time | EA002      | Business Rules Incorrect! |
 
 
-  @regression     @postCredentials
-  Scenario Outline: SC-3 Positive flow -A merchant cannot have same name for two credentials
+  @regression
+  Scenario Outline: SC-7 Positive flow -A merchant cannot have same name for two credentials
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint second times with same credential name "<credentialName>"
     Then I should receive a "<response_code>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
@@ -38,9 +43,8 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | credentialName | response_code | error_description                                        | error_code | error_message             |
       | validName      | 400           | The Name is already in use for another ACTIVE KEY (NAME) | EA002      | Business Rules Incorrect! |
 
-    #bug
   @regression
-  Scenario Outline: SC-4 Positive flow -A merchant cannot create credentials without credentials name
+  Scenario Outline: SC-8 Positive flow -A merchant cannot create credentials without credentials name
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint without credential name "<credentialName>"
     Then I should receive a "<response_code>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
@@ -51,7 +55,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
 
    #bug
   @regression
-  Scenario Outline: SC-5 Positive flow -A merchant cannot create credentials without request body
+  Scenario Outline: SC-9 Positive flow -A merchant cannot create credentials without request body
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint without request body
     Then I should receive a "<response_code>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
@@ -62,7 +66,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
 
     #bug
   @regression @token
-  Scenario Outline: SC-6-9  Negative flow- Merchant cannot access APIs with Invalid auth token
+  Scenario Outline: SC-10-14  Negative flow- Merchant cannot access APIs with Invalid auth token
     And I send invalid auth token "<auth_token>" to create credentials
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
@@ -81,7 +85,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | testing3       | Error validating JWT | 401         | API Gateway Authentication Failed | eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | EA001      |
 
   @regression @apiv
-  Scenario Outline: SC-10 Positive flow - Merchant should not be able to create credentials using prior to twelve version
+  Scenario Outline: SC-15-19 Positive flow - Merchant should not be able to create credentials using prior to twelve version
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with invalid API versions invalid header "<key>" and values "<invalidHeaderValues>"
     Then I should receive a "<httpStatus>" status code with "<statusCode>" message "<message>" with create credentials response
@@ -97,25 +101,23 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
 
     #bug
   @regression @post
-  Scenario Outline: Negative flow- Invalid mandatory field provided in header
+  Scenario Outline: SC-20-24 Negative flow- Invalid mandatory field provided in header
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with invalid API versions invalid header "<key>" and values "<invalidHeaderValues>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
     And error message should be "<error_message>" within create credentials response
 
     Examples:
-      | key          | invalidHeaderValues                  | http_status | error_code | error_description                                                                                                                                                         | error_message                     |
-      | Accept       | Testing/Type                         | 406         | EA008      | Header Accept does not contain required value.  Access denied.                                                                                                            | Service Request Validation Failed |
-      | Content-Type | application/json1                    | 415         | EA002      | Content type 'application/json1;charset=ISO-8859-1' not supported                                                                                                         | Service Request Validation Failed |
-      | Trace-Id     | 123456                               | 400         | EA002      | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: 123456 | Service Request Validation Failed |
-      | Trace-Id     | abcde                                | 400         | EA002      | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: abcde  | Service Request Validation Failed |
-      | Trace-Id     | 7454108z-yb37-454c-81da-0a12d8b0f867 | 400         | EA002      | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.NumberFormatException: For input string:              | Service Request Validation Failed |
-
-
+      | key          | invalidHeaderValues                  | http_status | error_code | error_description                                                                                                                                                  | error_message                     |
+      | Accept       | Testing/Type                         | 406         | EA008      | Header Accept does not contain required value.  Access denied.                                                                                                     | Service Request Validation Failed |
+      | Content-Type | application/json1                    | 415         | EA002      | Content type 'application/json1;charset=ISO-8859-1' not supported                                                                                                  | Service Request Validation Failed |
+      | Trace-Id     | 123456                               | 400         | EA002      | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: | Service Request Validation Failed |
+      | Trace-Id     | abcde                                | 400         | EA002      | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: | Service Request Validation Failed |
+      | Trace-Id     | 7454108z-yb37-454c-81da-0a12d8b0f867 | 400         | EA002      | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.NumberFormatException: For input string:       | Service Request Validation Failed |
 
     #bug
   @regression @tooLong
-  Scenario Outline: SC-1 Positive flow - should not be able to create credential with more than 256 long characters, new signing key and password
+  Scenario Outline: SC-25 Positive flow - should not be able to create credential with more than 256 long characters, new signing key and password
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
@@ -128,7 +130,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
 
     #bug
   @regression
-  Scenario Outline: Negative flow- missing mandatory field provided in header
+  Scenario Outline: SC-26-29 Negative flow- missing mandatory field provided in header
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with missing header keys "<key>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
@@ -141,16 +143,20 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | Content-Type  | Content type                                                   | EA002      | 415         | API Gateway Authentication Failed |
 
 
-  Scenario Outline: SC- Negative flow - Create a new credentials with invalid applicationId
+  @regression
+  Scenario Outline: SC-30-35 Negative flow - Create a new credentials with invalid applicationId
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with invalid applicationId "<applicationId>" and valid credential name "<credentialName>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
     And error message should be "<error_message>" within create credentials response
     Examples:
-      | credentialName | applicationId                      | error_code | http_status | error_message                     | error_description                                                                                                                                                        |
-      | validName      | abcde                              | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: abcde |
-      | validName      | 8e093bb5-da9b-4b27-b991-6171e9f7c5 | EA001      | 401         | API Gateway Authentication Failed | Error validating JWT                                                                                                                                                     |
-      | validName      | abcde                              | EA001      | 401         | API Gateway Authentication Failed | Error validating JWT                                                                                                                                                     |
-      | validName      | abcde                              | EA001      | 401         | API Gateway Authentication Failed | Error validating JWT                                                                                                                                                     |
-      | validName      | abcde                              | EA001      | 401         | API Gateway Authentication Failed | Error validating JWT                                                                                                                                                     |
-      | validName      | abcde                              | EA001      | 401         | API Gateway Authentication Failed | Error validating JWT                                                                                                                                                     |
+      | credentialName | applicationId                         | error_code | http_status | error_message                     | error_description                                                                                                                                                  |
+      | validName      | abcde                                 | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
+#      | validName      | 8e093bb5-da9b-4b27-b991-6171e9f7c5    | EA025      | 400         | Service Request Validation Failed | Application Id not found                                                                                                                                           |
+      | validName      | 1234                                  | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
+      | validName      | !~@^*                                 | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
+      | validName      | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxxx | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
+
+
+
+    
