@@ -11,6 +11,7 @@ import managers.TestContext;
 import managers.UtilManager;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.http.HttpStatus;
+import org.codehaus.groovy.runtime.powerassert.SourceText;
 import org.testng.Assert;
 import utils.Constants;
 
@@ -63,6 +64,66 @@ public class PutCredentials_StepDefs extends UtilManager {
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
                 + "/" + applicationResponse.getBody().path("applicationId") + "/credentials" + "/" + credentialId ;
         testContext.getApiManager().getPutCredentialsMerchants().makeRequest(putCredentialEndPoint,testContext.getApiManager().postCredentialsMerchants().getCredentialName());
+
+    }
+
+    @And("^I hit the put credentials endpoint with without input body$")
+    public void hitPutCredentialsWithoutInputBody() {
+
+        testContext.getApiManager().getPutCredentialsMerchants().setCredentialName("credentialName");
+        testContext.getApiManager().postCredentialsMerchants().setCredentialName("credentialName");
+
+        Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
+        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("applicationId"));
+        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(applicationResponse.getBody().path("subUnitId"));
+
+        //POST Credentials
+        String url = getRestHelper().getBaseURI() +
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
+        testContext.getApiManager().postCredentialsMerchants().makeRequest(url, testContext.getApiManager().getPutCredentialsMerchants().getCredentialName());
+
+        Response credentialResponse = testContext.getApiManager().postCredentialsMerchants().getResponse();
+
+        String credentialId = credentialResponse.path(Constants.CREDENTIAL_ID);
+
+        testContext.getApiManager().postCredentialsMerchants().setCredentialId(credentialId);
+
+        //Put Credentials
+        String putCredentialEndPoint = getRestHelper().getBaseURI() +
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                + "/" + applicationResponse.getBody().path("applicationId") + "/credentials" + "/" + credentialId ;
+        testContext.getApiManager().getPutCredentialsMerchants().makeRequestWithoutInputBody(putCredentialEndPoint);
+
+    }
+
+    @And("^I hit the put credentials endpoint with empty input body$")
+    public void hitPutCredentialsWithEmptyInputBody() {
+
+        testContext.getApiManager().getPutCredentialsMerchants().setCredentialName("credentialName");
+        testContext.getApiManager().postCredentialsMerchants().setCredentialName("credentialName");
+
+        Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
+        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("applicationId"));
+        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(applicationResponse.getBody().path("subUnitId"));
+
+        //POST Credentials
+        String url = getRestHelper().getBaseURI() +
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
+        testContext.getApiManager().postCredentialsMerchants().makeRequest(url, testContext.getApiManager().getPutCredentialsMerchants().getCredentialName());
+
+        Response credentialResponse = testContext.getApiManager().postCredentialsMerchants().getResponse();
+
+        String credentialId = credentialResponse.path(Constants.CREDENTIAL_ID);
+
+        testContext.getApiManager().postCredentialsMerchants().setCredentialId(credentialId);
+
+        //Put Credentials
+        String putCredentialEndPoint = getRestHelper().getBaseURI() +
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                + "/" + applicationResponse.getBody().path("applicationId") + "/credentials" + "/" + credentialId ;
+        testContext.getApiManager().getPutCredentialsMerchants().makeRequestWithEmptyInputBody(putCredentialEndPoint, "credentialName");
 
     }
 
@@ -141,6 +202,28 @@ public class PutCredentials_StepDefs extends UtilManager {
         testContext.getApiManager().getPutCredentialsMerchants().makeRequest(putCredentialEndPoint,testContext.getApiManager().postCredentialsMerchants().getCredentialName());
     }
 
+    @When("^I send invalid auth token \"([^\"]*)\" to put credentials$")
+    public void i_send_invalid_in_the_check_status_request(String authToken) {
+        testContext.getApiManager().getPutCredentialsMerchants().setAuthToken(authToken);
+    }
+
+
+    @And("^I hit the put credentials endpoint with credential name \"([^\"]*)\"$")
+    public void hitPostCredentialsWithCredentialsName(String credentialName) {
+        testContext.getApiManager().postCredentialsMerchants().setCredentialName(credentialName);
+        Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
+
+        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("applicationId"));
+        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(applicationResponse.getBody().path("subUnitId"));
+        testContext.getApiManager().getOneClickMerchantOnboarding().setClientId(applicationResponse.getBody().path("clientId"));
+
+        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path(Constants.APPLICATION_ID));
+        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(applicationResponse.getBody().path(Constants.SUB_UNIT_ID));
+        String url = getRestHelper().getBaseURI() +
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
+        testContext.getApiManager().postCredentialsMerchants().makeRequest(url, testContext.getApiManager().postCredentialsMerchants().getCredentialName());
+    }
 
 
     @And("^I hit update API to reactivate the deactivated credentials \"([^\"]*)\" and credential name \"([^\"]*)\"$")
@@ -155,13 +238,9 @@ public class PutCredentials_StepDefs extends UtilManager {
     @Then("^I should receive a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorCode within put credentials response$")
     public void i_should_receive_a_error_response_with_error_description_and_errorCode_within_postCredential_response(int responseCode, String errorDesc, String errorCode) {
         Response response = testContext.getApiManager().getPutCredentialsMerchants().getResponse();
-
         Assert.assertEquals(getRestHelper().getResponseStatusCode(response), responseCode, "Different response code being returned");
         Assert.assertEquals(getRestHelper().getErrorCode(testContext.getApiManager().getPutCredentialsMerchants().getResponse()), errorCode, "Different error code being returned");
         Assert.assertTrue(getRestHelper().getErrorDescription(testContext.getApiManager().getPutCredentialsMerchants().getResponse()).contains(errorDesc), "Different error description being returned..Expected: " + errorDesc + "  Actual: " + getRestHelper().getErrorDescription(testContext.getApiManager().getPutCredentialsMerchants().getResponse()));
-
-
-        Assert.assertEquals(testContext.getApiManager().getPutCredentialsMerchants().getResponse().path(Constants.CREDENTIAL_NAME), testContext.getApiManager().getPutCredentialsMerchants().getCredentialName());
     }
 
     @Then("^error message should be \"([^\"]*)\" within put credentials response$")
@@ -219,6 +298,39 @@ public class PutCredentials_StepDefs extends UtilManager {
                 + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials/" + credentialId;
 
         testContext.getApiManager().getPutCredentialsMerchants().makeRequestWithStatus(putCredentialEndPoint, post_credentialName, status);
+    }
+
+
+    @And("^I hit the post credential endpoint with existing deactivated credential name$")
+    public void hitPostCredentialsWithDeactivatedCredentialName() {
+        String url = getRestHelper().getBaseURI() +
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
+        testContext.getApiManager().postCredentialsMerchants().makeRequest(url, testContext.getApiManager().getPutCredentialsMerchants().getCredentialName());
+        Response credentialResponse = testContext.getApiManager().postCredentialsMerchants().getResponse();
+        String credentialName = credentialResponse.path(Constants.CREDENTIAL_NAME);
+    }
+
+
+    @And("^I should receive a \"([^\"]*)\" status code with \"([^\"]*)\" message \"([^\"]*)\" with put credentials response$")
+    public void errorMessageShouldBeWithInResponse(int httpsCode, int statusCode, String errorMessage) throws Throwable {
+        Response response = testContext.getApiManager().getPutCredentialsMerchants().getResponse();
+        Assert.assertEquals(getRestHelper().getResponseStatusCode(response), httpsCode, "Expected Response Code: " + httpsCode + "Actual: " + response.getStatusCode());
+        Assert.assertTrue(
+                getRestHelper().getErrorMessage(response).contains(errorMessage),
+                "Different error message being returned..Expected: " + errorMessage + " Actual: " +
+                        getRestHelper().getErrorMessage(response));
+    }
+
+
+    @And("^I hit the put credentials endpoint with invalid API versions invalid header \"([^\"]*)\" and values \"([^\"]*)\"$")
+    public void hitPostCredentialsWithInvalidAPIVersion(String key, String headerValue) {
+        Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
+        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("applicationId"));
+        String url = getRestHelper().getBaseURI() +
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
+        testContext.getApiManager().getPutCredentialsMerchants().makeRequestWithInvalidHeaders(url, key, headerValue);
     }
 }
 

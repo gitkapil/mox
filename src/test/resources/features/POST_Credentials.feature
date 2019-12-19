@@ -21,8 +21,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | $^&$^#$%^^^^^^ |
       | t1s2t3i4n5g6   |
 
-
-  @regression     @max
+  @regression
   Scenario Outline: SC-6 Positive flow - Merchant can have maximum five active credentials, new signing keys and passwords
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint six times with same credential name "<credentialName>"
@@ -65,7 +64,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | 400           | EA002      | Service Request Validation Failed | Unable to read or parse message body |
 
     #bug
-  @regression @token
+  @regression
   Scenario Outline: SC-10-14  Negative flow- Merchant cannot access APIs with Invalid auth token
     And I send invalid auth token "<auth_token>" to create credentials
     When I hit the post credentials endpoint with credential name "<credentialName>"
@@ -84,7 +83,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
  # Auth token unverified
       | testing3       | Error validating JWT | 401         | API Gateway Authentication Failed | eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | EA001      |
 
-  @regression @apiv
+  @regression
   Scenario Outline: SC-15-19 Positive flow - Merchant should not be able to create credentials using prior to twelve version
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with invalid API versions invalid header "<key>" and values "<invalidHeaderValues>"
@@ -98,15 +97,13 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | Api-Version | 0.11                | 404        | 404        | Resource not found |
       | Api-Version | @#$%^               | 404        | 404        | Resource not found |
 
-
     #bug
-  @regression @post
+  @regression
   Scenario Outline: SC-20-24 Negative flow- Invalid mandatory field provided in header
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with invalid API versions invalid header "<key>" and values "<invalidHeaderValues>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
     And error message should be "<error_message>" within create credentials response
-
     Examples:
       | key          | invalidHeaderValues                  | http_status | error_code | error_message                     | error_description                                                                                                                                                  |
       | Accept       | Testing/Type                         | 406         | EA008      | Service Request Validation Failed | Header Accept does not contain required value.  Access denied.                                                                                                     |
@@ -116,7 +113,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | Trace-Id     | 7454108z-yb37-454c-81da-0a12d8b0f867 | 400         | EA002      | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.NumberFormatException: For input string:       |
 
     #bug
-  @regression @tooLong
+  @regression
   Scenario Outline: SC-25 Positive flow - should not be able to create credential with more than 256 long characters, new signing key and password
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
@@ -126,7 +123,6 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
     Examples:
       | credentialName | http_status | error_code | error_message                     | error_description                                                                                                                    |
       | tooLong        | 400         | EA002      | Service Request Validation Failed | Field error in object 'createApplicationCredentialInputModel': field 'credentialName' size must be between 0 and 256; rejected value |
-
 
     #bug
   @regression
@@ -142,7 +138,6 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | Accept        | EA008      | 406         | API Gateway Authentication Failed | Header Accept does not contain required value.  Access denied. |
       | Content-Type  | EA002      | 415         | API Gateway Authentication Failed | Content type                                                   |
 
-
   @regression
   Scenario Outline: SC-30-35 Negative flow - Create a new credentials with invalid applicationId
     Given I am an authorized to create credentials as DRAGON user
@@ -155,9 +150,6 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | validName      | 1234                                  | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
       | validName      | !~@^*                                 | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
       | validName      | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxxx | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
-
-
-
 
 
 

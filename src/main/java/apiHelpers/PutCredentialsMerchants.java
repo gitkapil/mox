@@ -128,26 +128,32 @@ public class PutCredentialsMerchants extends UtilManager {
 
     public void makeRequestWithInvalidHeaders(String url, String keys, String headerValue) {
         returnRequestHeaderWithInvalidValues(keys, headerValue);
-        response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader, returnRequestBody(credentialName));
+        response = getRestHelper().putRequestWithHeaderAndBody(url, requestHeader, returnRequestBody(credentialName));
         logger.info("Create Credential Response -->>>>" + response.prettyPrint());
 
     }
 
     public void makeRequestWithMissingHeaderValues(String url, String keys) {
         returnRequestHeaderWithMissingHeaderValues(keys);
-        response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader, returnRequestBody(credentialName));
+        response = getRestHelper().putRequestWithHeaderAndBody(url, requestHeader, returnRequestBody(credentialName));
         logger.info("Create Credential Response -->>>>" + response.prettyPrint());
     }
 
     public void makeRequestWithoutInputBody(String url) {
         returnRequestHeader();
-        response = getRestHelper().postRequestWithHeaders(url, requestHeader);
+        response = getRestHelper().putRequestWithHeader(url, requestHeader);
         logger.info("Create Credential Response -->>>>" + response.prettyPrint());
     }
 
     public void makeRequestWithoutCredentialName(String url, String credentialName) {
         returnRequestHeader();
-        response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader, returnEmptyRequestBody(credentialName));
+        response = getRestHelper().putRequestWithHeaderAndBody(url, requestHeader, returnEmptyRequestBody(credentialName));
+        logger.info("Create Credential Response -->>>>" + response.prettyPrint());
+    }
+
+    public void makeRequestWithEmptyInputBody(String url, String credentialName) {
+        returnRequestHeader();
+        response = getRestHelper().putRequestWithHeaderAndBody(url, requestHeader, returnEmptyRequestBody(credentialName));
         logger.info("Create Credential Response -->>>>" + response.prettyPrint());
     }
 
@@ -209,7 +215,7 @@ public class PutCredentialsMerchants extends UtilManager {
     public Response executePostRequestWithMissingHeaderKeys(String url, String keys, String credentialName) {
         try {
             HashMap<String, String> header = returnRequestHeaderWithMissingKeys("POST", new URL(url).getPath(), keys);
-            response = getRestHelper().postRequestWithHeaderAndBody(url, header, returnRequestBody(credentialName));
+            response = getRestHelper().putRequestWithHeaderAndBody(url, header, returnRequestBody(credentialName));
             logger.info("Response: " + response.getBody().prettyPrint());
         } catch (Exception e) {
             Assert.assertTrue("Verification of signature failed!", false);
