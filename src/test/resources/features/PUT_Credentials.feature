@@ -8,18 +8,19 @@ Feature: PUT_Credentials - PUT Credentials Merchant
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  @regression
+  @regression @brenda
   Scenario Outline: SC-1 Positive flow - Update credentials name for existing credential
     Given I am an authorized to put credentials as DRAGON user
     When I hit the put credentials endpoint with new credential name "<credentialName>"
     Then put credentials response should be successful
     Examples:
       | credentialName |
-      | validName      |
-      | spaceInQuotes  |
-      | doubleQuotes   |
-      | $^&$^#$%^^^^^^ |
-      | t1s2t3i4n5g6   |
+#      | validName      |
+#      | spaceInQuotes  |
+#      | doubleQuotes   |
+#      | $^&$^#$%^^^^^^ |
+#      | t1s2t3i4n5g6   |
+      | 我个名            |
 
   @regression
   Scenario Outline: SC-6 Positive flow - Deactivate the active credential

@@ -38,7 +38,7 @@ public class PostCredentialsMerchants extends UtilManager {
 
     private HashMap returnRequestBody(String credentialName) {
         requestBody.clear();
-        requestBody.put("credentialName", credentialName);
+        requestBody.put("credentialName", getCredentialName());
         return requestBody;
     }
 
@@ -192,12 +192,9 @@ public class PostCredentialsMerchants extends UtilManager {
             this.credentialName = "";
         } else if (credentialName.equalsIgnoreCase("UUID")) {
             this.credentialName = getGeneral().generateUniqueUUID();
-        } else if (credentialName.equalsIgnoreCase("doubleQuotes")) {
-            this.credentialName = "";
         } else if (credentialName.equalsIgnoreCase("spaceInDoubleQuotes")) {
             this.credentialName = " ";
         } else {
-
             this.credentialName = credentialName;
         }
     }

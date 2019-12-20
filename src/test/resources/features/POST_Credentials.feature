@@ -8,7 +8,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  @regression
+  @regression @sc1
   Scenario Outline: SC-1-5 Positive flow - Create a new credentials, new signing key and password
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
@@ -20,6 +20,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | doubleQuotes   |
       | $^&$^#$%^^^^^^ |
       | t1s2t3i4n5g6   |
+      | 我的姓名        |
 
   @regression
   Scenario Outline: SC-6 Positive flow - Merchant can have maximum five active credentials, new signing keys and passwords
@@ -153,14 +154,14 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | validName      | spaceInDoubleQuotes                   | EA002      | 404         | Resource Not Found!               | applicationId not provided                                                                                                                                         |
 
 
-@regression
+  @regression
   Scenario Outline: SC-34 Positive flow - Should not allow to create credentials using doubleQuotes, without applicationId space in double quotes for application Id
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with invalid applicationId "<applicationId>" and valid credential name "<credentialName>"
     Then I should receive a "<httpStatus>" status code with "<statusCode>" message "<message>" with create credentials response
 
     Examples:
-      | credentialName | applicationId       | httpStatus | statusCode | message            |
-      | validName      | doubleQuotes        | 404        | 404        | Resource not found |
+      | credentialName | applicationId | httpStatus | statusCode | message            |
+      | validName      | doubleQuotes  | 404        | 404        | Resource not found |
 
 
