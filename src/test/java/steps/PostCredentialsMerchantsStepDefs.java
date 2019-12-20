@@ -53,8 +53,20 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
 
 
     @And("^I hit the post credentials endpoint with invalid applicationId \"([^\"]*)\" and valid credential name \"([^\"]*)\"$")
-    public void hitPostCredentialsWithInvalidApplicationIdAndValidCredentialsName(String credentialName, String applicationId) {
+    public void hitPostCredentialsWithInvalidApplicationIdAndValidCredentialsName(String applicationId, String credentialName) {
         testContext.getApiManager().postCredentialsMerchants().setCredentialName(credentialName);
+        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationId);
+        String url = getRestHelper().getBaseURI() +
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
+        testContext.getApiManager().postCredentialsMerchants().makeRequest(url, testContext.getApiManager().postCredentialsMerchants().getCredentialName());
+    }
+
+
+    @And("^I hit the post credentials endpoint with invalid applicationId \"([^\"]*)\"$")
+    public void hitPostCredentialsWithInvalidApplicationId(String credentialName, String applicationId) {
+        testContext.getApiManager().postCredentialsMerchants().setCredentialName(credentialName);
+        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationId);
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
         testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("applicationId"));
         testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(applicationResponse.getBody().path("subUnitId"));

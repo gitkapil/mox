@@ -1,4 +1,4 @@
-@postKeys
+@postCredential
 Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
   As a user
   I want to up to credentials for merchant and validate correct response is returned
@@ -65,7 +65,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
 
     #bug
   @regression
-  Scenario Outline: SC-10-14  Negative flow- Merchant cannot access APIs with Invalid auth token
+  Scenario Outline: SC-10-13  Negative flow- Merchant cannot access APIs with Invalid auth token
     And I send invalid auth token "<auth_token>" to create credentials
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
@@ -84,7 +84,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | testing3       | Error validating JWT | 401         | API Gateway Authentication Failed | eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | EA001      |
 
   @regression
-  Scenario Outline: SC-15-19 Positive flow - Merchant should not be able to create credentials using prior to twelve version
+  Scenario Outline: SC-14-18 Positive flow - Merchant should not be able to create credentials using prior to twelve version
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with invalid API versions invalid header "<key>" and values "<invalidHeaderValues>"
     Then I should receive a "<httpStatus>" status code with "<statusCode>" message "<message>" with create credentials response
@@ -99,7 +99,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
 
     #bug
   @regression
-  Scenario Outline: SC-20-24 Negative flow- Invalid mandatory field provided in header
+  Scenario Outline: SC-19-23 Negative flow- Invalid mandatory field provided in header
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with invalid API versions invalid header "<key>" and values "<invalidHeaderValues>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
@@ -114,7 +114,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
 
     #bug
   @regression
-  Scenario Outline: SC-25 Positive flow - should not be able to create credential with more than 256 long characters, new signing key and password
+  Scenario Outline: SC-24 Positive flow - should not be able to create credential with more than 256 long characters, new signing key and password
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
@@ -126,7 +126,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
 
     #bug
   @regression
-  Scenario Outline: SC-26-29 Negative flow- missing mandatory field provided in header
+  Scenario Outline: SC-25-28 Negative flow- missing mandatory field provided in header
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with missing header keys "<key>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
@@ -139,7 +139,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | Content-Type  | EA002      | 415         | API Gateway Authentication Failed | Content type                                                   |
 
   @regression
-  Scenario Outline: SC-30-35 Negative flow - Create a new credentials with invalid applicationId
+  Scenario Outline: SC-29-33 Negative flow - Create a new credentials with invalid applicationId
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with invalid applicationId "<applicationId>" and valid credential name "<credentialName>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
@@ -150,6 +150,17 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | validName      | 1234                                  | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
       | validName      | !~@^*                                 | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
       | validName      | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxxx | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
+      | validName      | spaceInDoubleQuotes                   | EA002      | 404         | Resource Not Found!               | applicationId not provided                                                                                                                                         |
 
+
+@regression
+  Scenario Outline: SC-34 Positive flow - Should not allow to create credentials using doubleQuotes, without applicationId space in double quotes for application Id
+    Given I am an authorized to create credentials as DRAGON user
+    When I hit the post credentials endpoint with invalid applicationId "<applicationId>" and valid credential name "<credentialName>"
+    Then I should receive a "<httpStatus>" status code with "<statusCode>" message "<message>" with create credentials response
+
+    Examples:
+      | credentialName | applicationId       | httpStatus | statusCode | message            |
+      | validName      | doubleQuotes        | 404        | 404        | Resource not found |
 
 

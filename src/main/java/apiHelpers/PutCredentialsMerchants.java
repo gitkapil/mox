@@ -22,6 +22,7 @@ public class PutCredentialsMerchants extends UtilManager {
     private String deactivateAt;
     private String entityStatus;
     private String credentialName;
+    private String credentialIds;
     private Response response = null;
     private HashMap<String, String> requestHeader = new HashMap();
     final static Logger logger = Logger.getLogger(PutCredentialsMerchants.class);
@@ -126,14 +127,14 @@ public class PutCredentialsMerchants extends UtilManager {
         logger.info("Create Credential Response -->>>>" + response.prettyPrint());
     }
 
-    public void makeRequestWithInvalidHeaders(String url, String keys, String headerValue) {
+    public void makeRequestWithInvalidHeaders(String url, String credentialName, String keys, String headerValue) {
         returnRequestHeaderWithInvalidValues(keys, headerValue);
         response = getRestHelper().putRequestWithHeaderAndBody(url, requestHeader, returnRequestBody(credentialName));
         logger.info("Create Credential Response -->>>>" + response.prettyPrint());
 
     }
 
-    public void makeRequestWithMissingHeaderValues(String url, String keys) {
+    public void makeRequestWithMissingHeaderValues(String url, String credentialName, String keys) {
         returnRequestHeaderWithMissingHeaderValues(keys);
         response = getRestHelper().putRequestWithHeaderAndBody(url, requestHeader, returnRequestBody(credentialName));
         logger.info("Create Credential Response -->>>>" + response.prettyPrint());
@@ -171,8 +172,18 @@ public class PutCredentialsMerchants extends UtilManager {
     }
 
     public void setApplicationId(String applicationId) {
-        this.applicationId = applicationId;
+
+        if (applicationId.equalsIgnoreCase("spaceInDoubleQuotes")) {
+            this.applicationId = " ";
+        } else if (applicationId.equalsIgnoreCase("doubleQuotes")) {
+            this.applicationId = "";
+        } else if (applicationId.equalsIgnoreCase("empty")) {
+            this.applicationId = null;
+        } else {
+            this.applicationId = applicationId;
+        }
     }
+
 
     public String getActivateAt() {
         return activateAt;
@@ -239,4 +250,20 @@ public class PutCredentialsMerchants extends UtilManager {
     }
 
 
+
+    public void setCredentialId(String credentialIds) {
+
+        if (credentialIds.equalsIgnoreCase("spaceInDoubleQuotes")) {
+            this.credentialIds = "%2F%20%2F";
+        } else if (credentialIds.equalsIgnoreCase("doubleQuotes")) {
+            this.credentialIds = "";
+        } else if (credentialIds.equalsIgnoreCase("empty")) {
+            this.credentialIds = null;
+        } else {
+            this.applicationId = credentialIds;
+        }
+    }
+    public String getCredentialId() {
+        return credentialIds;
+    }
 }
