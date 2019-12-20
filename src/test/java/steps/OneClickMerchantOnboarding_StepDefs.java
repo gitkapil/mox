@@ -628,4 +628,9 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
         Assert.assertEquals(getRestHelper().getErrorCodeOneClick(response), errorCode, "Different error code being returned");
 
     }
+
+    @When("^I onboard new merchant by POST onboarding API$")
+    public void iOnboardNewMerchantByPOSTOnboardingAPI() {
+        createApplicationWithOneClickApi();
+    }
 }

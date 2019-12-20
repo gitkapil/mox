@@ -41,11 +41,10 @@ public class GetCredentials_StepDefs extends UtilManager {
     }
 
     @When("^I hit get credentials endpoint without any filter$")
-    public void iHitGetCredentialsEndpointWithoutAnyFilter() {
+    public void iHitGetCredentialsEndpointWithoutAnyFilter() throws InterruptedException {
         logger.info("********** GET Credentials Request *********** \n");
 
         //Get applicationId from POST credentials API
-
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
                 + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
@@ -76,45 +75,73 @@ public class GetCredentials_StepDefs extends UtilManager {
             HashMap<Object, Object> secret = (HashMap) items.get(i).get(Constants.SECRET);
 
             Assert.assertNotNull("items_credentialId cannot be null!", items.get(i).get(Constants.CREDENTIAL_ID));
-            Assert.assertEquals("credentialId of GET credentials API should be equal to credentialId of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.CREDENTIAL_ID), items.get(i).get(Constants.CREDENTIAL_ID));
-
             Assert.assertNotNull("items_credentialName cannot be null!", items.get(i).get(Constants.CREDENTIAL_NAME));
-            Assert.assertEquals("credentialName of GET credentials API should be equal to credentialName of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getCredentialName(), items.get(i).get(Constants.CREDENTIAL_NAME));
-
             Assert.assertNotNull("items_applicationId cannot be null!", items.get(i).get(Constants.APPLICATION_ID));
-            Assert.assertEquals("applicationId of GET credentials API should be equal to applicationId of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.APPLICATION_ID), items.get(i).get(Constants.APPLICATION_ID));
-
-
-            Assert.assertEquals("status of GET credentials API should be equal to status of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.STATUS), items.get(i).get(Constants.STATUS));
-            Assert.assertEquals("activateAt of GET credentials API should be equal to activateAt of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.ACTIVATE_AT), items.get(i).get(Constants.ACTIVATE_AT));
-            Assert.assertEquals("expireAt of GET credentials API should be equal to expireAt of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.EXPIRE_AT), items.get(i).get(Constants.EXPIRE_AT));
-
             Assert.assertNotNull("items_createdBy cannot be null!", items.get(i).get(Constants.CREATED_BY));
-            Assert.assertEquals("createdBy of GET credentials API should be equal to createdBy of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.CREATED_BY), items.get(i).get(Constants.CREATED_BY));
-
             Assert.assertNotNull("items_lastUpdatedBy cannot be null!", items.get(i).get(Constants.LAST_UPDATED_BY));
-            Assert.assertEquals("lastUpdatedBy of GET credentials API should be equal to lastUpdatedBy of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.LAST_UPDATED_BY), items.get(i).get(Constants.LAST_UPDATED_BY));
-
             Assert.assertNotNull("items_createdAt cannot be null!", items.get(i).get(Constants.CREATED_AT));
-            Assert.assertEquals("createdAt of GET credentials API should be equal to createdAt of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.CREATED_AT), items.get(i).get(Constants.CREATED_AT));
-
             Assert.assertNotNull("items_lastUpdatedAt cannot be null!", items.get(i).get(Constants.LAST_UPDATED_AT));
-            Assert.assertEquals("lastUpdatedAt of GET credentials API should be equal to lastUpdatedAt of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.LAST_UPDATED_AT), items.get(i).get(Constants.LAST_UPDATED_AT));
-
-            //validating signingKey details
             Assert.assertNotNull("signingKey_Id cannot not be null!", signingKey.get(Constants.ID));
             Assert.assertNotNull("signingKey_keyId cannot not be null!", signingKey.get(Constants.KEY_ID));
-            Assert.assertEquals("signingKey_keyId of GET credentials API should be equal to signingKey_keyId of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path("signingKey.keyId"), signingKey.get(Constants.KEY_ID));
             Assert.assertNotNull("signingKey_alg cannot not be null!", signingKey.get(Constants.ALG));
             Assert.assertNotNull("signingKey_type cannot not be null!", signingKey.get(Constants.TYPE));
             Assert.assertNotNull("signingKey_size cannot not be null!", signingKey.get(Constants.SIZE));
-
-            //validating secret details
             Assert.assertNotNull("secret_Id cannot not be null!", secret.get(Constants.ID));
             Assert.assertNotNull("secret_clientId cannot not be null!", secret.get(Constants.CLIENT_ID));
 
-            Assert.assertEquals("secret_Id of GET credentials API should be equal to secret_Id of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path("secret.Id"), secret.get(Constants.ID));
-            Assert.assertEquals("secret_clientId of GET credentials API should be equal to secret_clientId of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path("secret.clientId"), secret.get(Constants.CLIENT_ID));
+            //Validating latest record created by POST credentials API
+
+            if (i == 0) {
+
+                Assert.assertEquals("credentialId of GET credentials API should be equal to credentialId of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.CREDENTIAL_ID), items.get(i).get(Constants.CREDENTIAL_ID));
+                Assert.assertEquals("credentialName of GET credentials API should be equal to credentialName of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getCredentialName(), items.get(i).get(Constants.CREDENTIAL_NAME));
+                Assert.assertEquals("applicationId of GET credentials API should be equal to applicationId of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.APPLICATION_ID), items.get(i).get(Constants.APPLICATION_ID));
+                Assert.assertEquals("status of GET credentials API should be equal to status of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.STATUS), items.get(i).get(Constants.STATUS));
+                Assert.assertEquals("activateAt of GET credentials API should be equal to activateAt of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.ACTIVATE_AT), items.get(i).get(Constants.ACTIVATE_AT));
+                Assert.assertEquals("expireAt of GET credentials API should be equal to expireAt of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.EXPIRE_AT), items.get(i).get(Constants.EXPIRE_AT));
+                Assert.assertEquals("createdBy of GET credentials API should be equal to createdBy of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.CREATED_BY), items.get(i).get(Constants.CREATED_BY));
+                Assert.assertEquals("lastUpdatedBy of GET credentials API should be equal to lastUpdatedBy of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.LAST_UPDATED_BY), items.get(i).get(Constants.LAST_UPDATED_BY));
+                Assert.assertEquals("createdAt of GET credentials API should be equal to createdAt of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.CREATED_AT), items.get(i).get(Constants.CREATED_AT));
+                Assert.assertEquals("lastUpdatedAt of GET credentials API should be equal to lastUpdatedAt of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.LAST_UPDATED_AT), items.get(i).get(Constants.LAST_UPDATED_AT));
+
+                //validating signingKey details
+                Assert.assertEquals("signingKey_Id of GET credentials API should be equal to signingKey_Id of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path("signingKey.Id"), signingKey.get(Constants.ID));
+                Assert.assertEquals("signingKey_keyId of GET credentials API should be equal to signingKey_keyId of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path("signingKey.keyId"), signingKey.get(Constants.KEY_ID));
+                Assert.assertEquals("signingKey_alg of GET credentials API should be equal to signingKey_keyId of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path("signingKey.alg"), signingKey.get(Constants.ALG));
+                Assert.assertEquals("signingKey_type of GET credentials API should be equal to signingKey_keyId of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path("signingKey.type"), signingKey.get(Constants.TYPE));
+                Assert.assertEquals("signingKey_size of GET credentials API should be equal to signingKey_keyId of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path("signingKey.size"), signingKey.get(Constants.SIZE));
+
+
+                //validating secret details
+                Assert.assertEquals("secret_Id of GET credentials API should be equal to secret_Id of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path("secret.Id"), secret.get(Constants.ID));
+                Assert.assertEquals("secret_clientId of GET credentials API should be equal to secret_clientId of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path("secret.clientId"), secret.get(Constants.CLIENT_ID));
+
+            } else if (i == items.size() - 1) {
+
+                //Validating record created by POST Onboarding API
+
+                Assert.assertEquals("credentialId of GET credentials API should be equal to credentialId of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.CREDENTIAL_ID), items.get(i).get(Constants.CREDENTIAL_ID));
+                Assert.assertEquals("credentialName of GET credentials API should be equal to credentialName of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.CREDENTIAL_NAME), items.get(i).get(Constants.CREDENTIAL_NAME));
+                Assert.assertEquals("applicationId of GET credentials API should be equal to applicationId of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.APPLICATION_ID), items.get(i).get(Constants.APPLICATION_ID));
+                Assert.assertEquals("status of GET credentials API should be equal to status of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.STATUS), items.get(i).get(Constants.STATUS));
+                Assert.assertEquals("activateAt of GET credentials API should be equal to activateAt of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.ACTIVATE_AT), items.get(i).get(Constants.ACTIVATE_AT));
+                Assert.assertEquals("expireAt of GET credentials API should be equal to expireAt of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.EXPIRE_AT), items.get(i).get(Constants.EXPIRE_AT));
+                Assert.assertEquals("createdBy of GET credentials API should be equal to createdBy of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.CREATED_BY), items.get(i).get(Constants.CREATED_BY));
+                Assert.assertEquals("lastUpdatedBy of GET credentials API should be equal to lastUpdatedBy of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.LAST_UPDATED_BY), items.get(i).get(Constants.LAST_UPDATED_BY));
+                Assert.assertEquals("createdAt of GET credentials API should be equal to createdAt of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.CREATED_AT), items.get(i).get(Constants.CREATED_AT));
+                Assert.assertEquals("lastUpdatedAt of GET credentials API should be equal to lastUpdatedAt of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.LAST_UPDATED_AT), items.get(i).get(Constants.LAST_UPDATED_AT));
+
+                //validating signingKey details
+                Assert.assertEquals("signingKey_Id of GET credentials API should be equal to signingKey_keyId of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path("signingKey.Id"), signingKey.get(Constants.ID));
+                Assert.assertEquals("signingKey_keyId of GET credentials API should be equal to signingKey_keyId of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path("signingKey.keyId"), signingKey.get(Constants.KEY_ID));
+                Assert.assertEquals("signingKey_alg of GET credentials API should be equal to signingKey_keyId of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path("signingKey.alg"), signingKey.get(Constants.ALG));
+                Assert.assertEquals("signingKey_type of GET credentials API should be equal to signingKey_keyId of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path("signingKey.type"), signingKey.get(Constants.TYPE));
+                Assert.assertEquals("signingKey_size of GET credentials API should be equal to signingKey_keyId of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path("signingKey.size"), signingKey.get(Constants.SIZE));
+
+                //validating secret details
+                Assert.assertEquals("secret_Id of GET credentials API should be equal to secret_Id of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path("secret.Id"), secret.get(Constants.ID));
+                Assert.assertEquals("secret_clientId of GET credentials API should be equal to secret_clientId of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path("secret.clientId"), secret.get(Constants.CLIENT_ID));
+            }
         }
     }
 
@@ -125,6 +152,10 @@ public class GetCredentials_StepDefs extends UtilManager {
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
                 + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials?status=" + filter_status;
+
+        testContext.getApiManager().getCredentialsMerchants().setGetCredentialsUrl(url);
+        testContext.getApiManager().getCredentialsMerchants().setFilterStatus(filter_status);
+
         testContext.getApiManager().getCredentialsMerchants().makeRequest(url);
     }
 
@@ -355,13 +386,202 @@ public class GetCredentials_StepDefs extends UtilManager {
         if (filterName.equalsIgnoreCase("credentialId") && value.isEmpty()) {
             String url = getRestHelper().getBaseURI() +
                     getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
-                    + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials?" + filterName;
+                    + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials?" + filterName + "=" + value;
+            testContext.getApiManager().getCredentialsMerchants().makeRequest(url);
+        } else if (filterName.equalsIgnoreCase("credentialName") && value.equalsIgnoreCase("empty")) {
+            value = "";
+            String url = getRestHelper().getBaseURI() +
+                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                    + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials?" + filterName + "=" + value;
             testContext.getApiManager().getCredentialsMerchants().makeRequest(url);
         } else {
             String url = getRestHelper().getBaseURI() +
                     getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
                     + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials?" + filterName + "=" + value;
             testContext.getApiManager().getCredentialsMerchants().makeRequest(url);
+        }
+    }
+
+    @When("^I hit get credentials endpoint with applicationId from onboarding response$")
+    public void iHitGetCredentialsEndpointWithApplicationIdFromOnboardingResponse() {
+        logger.info("********** GET Credentials Request *********** \n");
+
+        System.out.println("testContext.getApiManager().getOneClickMerchantOnboarding().applicationIdInResponse() : " + testContext.getApiManager().getOneClickMerchantOnboarding().applicationIdInResponse());
+        //Get applicationId from POST Onboarding API
+        String url = getRestHelper().getBaseURI() +
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                + "/" + testContext.getApiManager().getOneClickMerchantOnboarding().applicationIdInResponse() + "/credentials";
+        testContext.getApiManager().getCredentialsMerchants().makeRequest(url);
+    }
+
+    @And("^validate GET credentials response with onboarding response$")
+    public void validateGETCredentialsResponseWithOnboardingResponse() {
+        Response response = testContext.getApiManager().getCredentialsMerchants().getResponse();
+
+        HashMap page = response.path(Constants.PAGE);
+
+        Assert.assertNotNull("page_current should not be null!", page.get(Constants.CURRENT));
+        Assert.assertNotNull("page_totalItems should not be null!", page.get(Constants.TOTAL_ITEMS));
+        Assert.assertNotNull("page_size should not be null!", page.get(Constants.SIZE));
+
+        List<HashMap> items = response.path(Constants.ITEM);
+
+        for (int i = 0; i <= items.size() - 1; i++) {
+            HashMap<Object, Object> signingKey = (HashMap) items.get(i).get(Constants.SIGNING_KEY);
+            HashMap<Object, Object> secret = (HashMap) items.get(i).get(Constants.SECRET);
+
+            Assert.assertNotNull("items_credentialId cannot be null!", items.get(i).get(Constants.CREDENTIAL_ID));
+            Assert.assertEquals("credentialId of GET credentials API should be equal to credentialId of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.CREDENTIAL_ID), items.get(i).get(Constants.CREDENTIAL_ID));
+
+            Assert.assertNotNull("items_credentialName cannot be null!", items.get(i).get(Constants.CREDENTIAL_NAME));
+            Assert.assertEquals("credentialName of GET credentials API should be equal to credentialName of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.CREDENTIAL_NAME), items.get(i).get(Constants.CREDENTIAL_NAME));
+
+            Assert.assertNotNull("items_applicationId cannot be null!", items.get(i).get(Constants.APPLICATION_ID));
+            Assert.assertEquals("applicationId of GET credentials API should be equal to applicationId of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.APPLICATION_ID), items.get(i).get(Constants.APPLICATION_ID));
+            Assert.assertEquals("status of GET credentials API should be equal to status of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.STATUS), items.get(i).get(Constants.STATUS));
+            Assert.assertEquals("activateAt of GET credentials API should be equal to activateAt of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.ACTIVATE_AT), items.get(i).get(Constants.ACTIVATE_AT));
+            Assert.assertEquals("expireAt of GET credentials API should be equal to expireAt of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.EXPIRE_AT), items.get(i).get(Constants.EXPIRE_AT));
+
+            Assert.assertNotNull("items_createdBy cannot be null!", items.get(i).get(Constants.CREATED_BY));
+            Assert.assertEquals("createdBy of GET credentials API should be equal to createdBy of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.CREATED_BY), items.get(i).get(Constants.CREATED_BY));
+
+            Assert.assertNotNull("items_lastUpdatedBy cannot be null!", items.get(i).get(Constants.LAST_UPDATED_BY));
+            Assert.assertEquals("lastUpdatedBy of GET credentials API should be equal to lastUpdatedBy of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.LAST_UPDATED_BY), items.get(i).get(Constants.LAST_UPDATED_BY));
+
+            Assert.assertNotNull("items_createdAt cannot be null!", items.get(i).get(Constants.CREATED_AT));
+            Assert.assertEquals("createdAt of GET credentials API should be equal to createdAt of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.CREATED_AT), items.get(i).get(Constants.CREATED_AT));
+
+            Assert.assertNotNull("items_lastUpdatedAt cannot be null!", items.get(i).get(Constants.LAST_UPDATED_AT));
+            Assert.assertEquals("lastUpdatedAt of GET credentials API should be equal to lastUpdatedAt of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.LAST_UPDATED_AT), items.get(i).get(Constants.LAST_UPDATED_AT));
+
+            //validating signingKey details
+            Assert.assertNotNull("signingKey_Id cannot not be null!", signingKey.get(Constants.ID));
+            Assert.assertEquals("signingKey_Id of GET credentials API should be equal to signingKey_keyId of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path("signingKey.Id"), signingKey.get(Constants.KEY_ID));
+            Assert.assertNotNull("signingKey_keyId cannot not be null!", signingKey.get(Constants.KEY_ID));
+            Assert.assertEquals("signingKey_keyId of GET credentials API should be equal to signingKey_keyId of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path("signingKey.keyId"), signingKey.get(Constants.KEY_ID));
+            Assert.assertNotNull("signingKey_alg cannot not be null!", signingKey.get(Constants.ALG));
+            Assert.assertEquals("signingKey_alg of GET credentials API should be equal to signingKey_keyId of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path("signingKey.alg"), signingKey.get(Constants.KEY_ID));
+            Assert.assertNotNull("signingKey_type cannot not be null!", signingKey.get(Constants.TYPE));
+            Assert.assertEquals("signingKey_type of GET credentials API should be equal to signingKey_keyId of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path("signingKey.type"), signingKey.get(Constants.KEY_ID));
+            Assert.assertNotNull("signingKey_size cannot not be null!", signingKey.get(Constants.SIZE));
+            Assert.assertEquals("signingKey_size of GET credentials API should be equal to signingKey_keyId of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path("signingKey.size"), signingKey.get(Constants.KEY_ID));
+
+            //validating secret details
+            Assert.assertNotNull("secret_Id cannot not be null!", secret.get(Constants.ID));
+            Assert.assertNotNull("secret_clientId cannot not be null!", secret.get(Constants.CLIENT_ID));
+
+            Assert.assertEquals("secret_Id of GET credentials API should be equal to secret_Id of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path("secret.Id"), secret.get(Constants.ID));
+            Assert.assertEquals("secret_clientId of GET credentials API should be equal to secret_clientId of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path("secret.clientId"), secret.get(Constants.CLIENT_ID));
+        }
+    }
+
+    @And("^validate GET credentials response with PUT credentials$")
+    public void validateGETCredentialsResponseWithPUTCredentials() {
+        Response response = testContext.getApiManager().getCredentialsMerchants().getResponse();
+
+        HashMap page = response.path(Constants.PAGE);
+
+        Assert.assertNotNull("page_current should not be null!", page.get(Constants.CURRENT));
+        Assert.assertNotNull("page_totalItems should not be null!", page.get(Constants.TOTAL_ITEMS));
+        Assert.assertNotNull("page_size should not be null!", page.get(Constants.SIZE));
+
+        List<HashMap> items = response.path(Constants.ITEM);
+
+        for (int i = 0; i <= items.size() - 1; i++) {
+            HashMap<Object, Object> signingKey = (HashMap) items.get(i).get(Constants.SIGNING_KEY);
+            HashMap<Object, Object> secret = (HashMap) items.get(i).get(Constants.SECRET);
+
+            Assert.assertNotNull("items_credentialId cannot be null!", items.get(i).get(Constants.CREDENTIAL_ID));
+            Assert.assertNotNull("items_credentialName cannot be null!", items.get(i).get(Constants.CREDENTIAL_NAME));
+            Assert.assertNotNull("items_applicationId cannot be null!", items.get(i).get(Constants.APPLICATION_ID));
+            Assert.assertNotNull("items_createdBy cannot be null!", items.get(i).get(Constants.CREATED_BY));
+            Assert.assertNotNull("items_lastUpdatedBy cannot be null!", items.get(i).get(Constants.LAST_UPDATED_BY));
+            Assert.assertNotNull("items_createdAt cannot be null!", items.get(i).get(Constants.CREATED_AT));
+            Assert.assertNotNull("items_lastUpdatedAt cannot be null!", items.get(i).get(Constants.LAST_UPDATED_AT));
+            Assert.assertNotNull("signingKey_Id cannot not be null!", signingKey.get(Constants.ID));
+            Assert.assertNotNull("signingKey_keyId cannot not be null!", signingKey.get(Constants.KEY_ID));
+            Assert.assertNotNull("signingKey_alg cannot not be null!", signingKey.get(Constants.ALG));
+            Assert.assertNotNull("signingKey_type cannot not be null!", signingKey.get(Constants.TYPE));
+            Assert.assertNotNull("signingKey_size cannot not be null!", signingKey.get(Constants.SIZE));
+            Assert.assertNotNull("secret_Id cannot not be null!", secret.get(Constants.ID));
+            Assert.assertNotNull("secret_clientId cannot not be null!", secret.get(Constants.CLIENT_ID));
+
+            //Validating latest record updated by PUT credentials API
+
+            if (i == 0) {
+
+                Assert.assertEquals("credentialId of GET credentials API should be equal to credentialId of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.CREDENTIAL_ID), items.get(i).get(Constants.CREDENTIAL_ID));
+                Assert.assertEquals("credentialName of GET credentials API should be equal to credentialName of PUT Credentials API", testContext.getApiManager().getPutCredentialsMerchants().getResponse().path(Constants.CREDENTIAL_NAME), items.get(i).get(Constants.CREDENTIAL_NAME));
+                Assert.assertEquals("applicationId of GET credentials API should be equal to applicationId of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.APPLICATION_ID), items.get(i).get(Constants.APPLICATION_ID));
+                Assert.assertEquals("status of GET credentials API should be equal to status of PUT Credentials API", testContext.getApiManager().getPutCredentialsMerchants().getResponse().path(Constants.STATUS), items.get(i).get(Constants.STATUS));
+//                Assert.assertEquals("activateAt of GET credentials API should be equal to activateAt of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.ACTIVATE_AT), items.get(i).get(Constants.ACTIVATE_AT));
+//                Assert.assertEquals("expireAt of GET credentials API should be equal to expireAt of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.EXPIRE_AT), items.get(i).get(Constants.EXPIRE_AT));
+                Assert.assertEquals("createdBy of GET credentials API should be equal to createdBy of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.CREATED_BY), items.get(i).get(Constants.CREATED_BY));
+                Assert.assertEquals("lastUpdatedBy of GET credentials API should be equal to lastUpdatedBy of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.LAST_UPDATED_BY), items.get(i).get(Constants.LAST_UPDATED_BY));
+//                Assert.assertEquals("createdAt of GET credentials API should be equal to createdAt of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.CREATED_AT), items.get(i).get(Constants.CREATED_AT));
+//                Assert.assertEquals("lastUpdatedAt of GET credentials API should be equal to lastUpdatedAt of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path(Constants.LAST_UPDATED_AT), items.get(i).get(Constants.LAST_UPDATED_AT));
+
+                //validating signingKey details
+                Assert.assertEquals("signingKey_Id of GET credentials API should be equal to signingKey_Id of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path("signingKey.Id"), signingKey.get(Constants.ID));
+                Assert.assertEquals("signingKey_keyId of GET credentials API should be equal to signingKey_keyId of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path("signingKey.keyId"), signingKey.get(Constants.KEY_ID));
+                Assert.assertEquals("signingKey_alg of GET credentials API should be equal to signingKey_keyId of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path("signingKey.alg"), signingKey.get(Constants.ALG));
+                Assert.assertEquals("signingKey_type of GET credentials API should be equal to signingKey_keyId of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path("signingKey.type"), signingKey.get(Constants.TYPE));
+                Assert.assertEquals("signingKey_size of GET credentials API should be equal to signingKey_keyId of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path("signingKey.size"), signingKey.get(Constants.SIZE));
+
+
+                //validating secret details
+                Assert.assertEquals("secret_Id of GET credentials API should be equal to secret_Id of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path("secret.Id"), secret.get(Constants.ID));
+                Assert.assertEquals("secret_clientId of GET credentials API should be equal to secret_clientId of POST Credentials API", testContext.getApiManager().postCredentialsMerchants().getResponse().path("secret.clientId"), secret.get(Constants.CLIENT_ID));
+
+            } else if (i == items.size() - 1) {
+
+                //Validating record created by POST Onboarding API
+
+                Assert.assertEquals("credentialId of GET credentials API should be equal to credentialId of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.CREDENTIAL_ID), items.get(i).get(Constants.CREDENTIAL_ID));
+                Assert.assertEquals("credentialName of GET credentials API should be equal to credentialName of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.CREDENTIAL_NAME), items.get(i).get(Constants.CREDENTIAL_NAME));
+                Assert.assertEquals("applicationId of GET credentials API should be equal to applicationId of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.APPLICATION_ID), items.get(i).get(Constants.APPLICATION_ID));
+                Assert.assertEquals("status of GET credentials API should be equal to status of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.STATUS), items.get(i).get(Constants.STATUS));
+//                Assert.assertEquals("activateAt of GET credentials API should be equal to activateAt of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.ACTIVATE_AT), items.get(i).get(Constants.ACTIVATE_AT));
+//                Assert.assertEquals("expireAt of GET credentials API should be equal to expireAt of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.EXPIRE_AT), items.get(i).get(Constants.EXPIRE_AT));
+                Assert.assertEquals("createdBy of GET credentials API should be equal to createdBy of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.CREATED_BY), items.get(i).get(Constants.CREATED_BY));
+                Assert.assertEquals("lastUpdatedBy of GET credentials API should be equal to lastUpdatedBy of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.LAST_UPDATED_BY), items.get(i).get(Constants.LAST_UPDATED_BY));
+//                Assert.assertEquals("createdAt of GET credentials API should be equal to createdAt of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.CREATED_AT), items.get(i).get(Constants.CREATED_AT));
+//                Assert.assertEquals("lastUpdatedAt of GET credentials API should be equal to lastUpdatedAt of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.LAST_UPDATED_AT), items.get(i).get(Constants.LAST_UPDATED_AT));
+
+                //validating signingKey details
+                Assert.assertEquals("signingKey_Id of GET credentials API should be equal to signingKey_keyId of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path("signingKey.Id"), signingKey.get(Constants.ID));
+                Assert.assertEquals("signingKey_keyId of GET credentials API should be equal to signingKey_keyId of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path("signingKey.keyId"), signingKey.get(Constants.KEY_ID));
+//                Assert.assertEquals("signingKey_alg of GET credentials API should be equal to signingKey_keyId of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path("signingKey.alg"), signingKey.get(Constants.ALG));
+                Assert.assertEquals("signingKey_type of GET credentials API should be equal to signingKey_keyId of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path("signingKey.type"), signingKey.get(Constants.TYPE));
+                Assert.assertEquals("signingKey_size of GET credentials API should be equal to signingKey_keyId of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path("signingKey.size"), signingKey.get(Constants.SIZE));
+
+                //validating secret details
+//                Assert.assertEquals("secret_Id of GET credentials API should be equal to secret_Id of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path("secret.Id"), secret.get(Constants.ID));
+                Assert.assertEquals("secret_clientId of GET credentials API should be equal to secret_clientId of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path("secret.clientId"), secret.get(Constants.CLIENT_ID));
+            }
+        }
+    }
+
+    @And("^validate GET credentials response returns with filter status$")
+    public void validateGETCredentialsResponseReturnsWithFilterStatus() {
+        Response response = testContext.getApiManager().getCredentialsMerchants().getResponse();
+
+        HashMap page = response.path(Constants.PAGE);
+        Assert.assertNotNull("page_current should not be null!", page.get(Constants.CURRENT));
+        Assert.assertNotNull("page_totalItems should not be null!", page.get(Constants.TOTAL_ITEMS));
+        Assert.assertNotNull("page_size should not be null!", page.get(Constants.SIZE));
+
+        List<HashMap> items = response.path(Constants.ITEM);
+
+        for (int i = 0; i <= items.size() - 1; i++) {
+
+            if (testContext.getApiManager().getCredentialsMerchants().getFilterStatus().equalsIgnoreCase("A")) {
+                Assert.assertEquals("status of GET credentials API with filter status=A should return only Active credentials", "A", items.get(i).get(Constants.STATUS));
+            } else if (testContext.getApiManager().getCredentialsMerchants().getFilterStatus().equalsIgnoreCase("D")) {
+                Assert.assertEquals("status of GET credentials API with filter status=D should return only Deactivated credentials", "D", items.get(i).get(Constants.STATUS));
+            } else if (testContext.getApiManager().getCredentialsMerchants().getFilterStatus().equalsIgnoreCase("E")) {
+                Assert.assertEquals("status of GET credentials API with filter status=E should return only Expired credentials", "E", items.get(i).get(Constants.STATUS));
+            }
         }
     }
 }

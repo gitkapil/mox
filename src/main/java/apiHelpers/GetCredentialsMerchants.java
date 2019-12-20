@@ -16,6 +16,8 @@ public class GetCredentialsMerchants extends UtilManager {
     private String deactivateAt;
     private String entityStatus;
     private String credentialName;
+    private String getCredentialsURL;
+    private String getFilterStatus;
     private Response response = null;
     private HashMap<String, String> requestHeader = new HashMap();
     final static Logger logger = Logger.getLogger(GetCredentialsMerchants.class);
@@ -27,6 +29,22 @@ public class GetCredentialsMerchants extends UtilManager {
 
     public String getAuthToken() {
         return authToken;
+    }
+
+    public String getGetCredentialsUrl() {
+        return getCredentialsURL;
+    }
+
+    public void setGetCredentialsUrl(String url) {
+        this.getCredentialsURL = url;
+    }
+
+    public String getFilterStatus() {
+        return getFilterStatus;
+    }
+
+    public void setFilterStatus(String filterStatus) {
+        this.getFilterStatus = filterStatus;
     }
 
     public void setResponse(Response response) {
