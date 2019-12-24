@@ -8,19 +8,27 @@ Feature: PUT_Credentials - PUT Credentials Merchant
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  @regression @brenda
+  @regression
   Scenario Outline: SC-1 Positive flow - Update credentials name for existing credential
     Given I am an authorized to put credentials as DRAGON user
     When I hit the put credentials endpoint with new credential name "<credentialName>"
     Then put credentials response should be successful
     Examples:
       | credentialName |
-#      | validName      |
-#      | spaceInQuotes  |
-#      | doubleQuotes   |
-#      | $^&$^#$%^^^^^^ |
-#      | t1s2t3i4n5g6   |
-      | 我个名            |
+      | validName      |
+      | $^&$^#$%^^^^^^ |
+      | t1s2t3i4n5g6   |
+
+  @regression @putCre
+  Scenario Outline: SC-1 Positive flow - Update credentials with space in quotes and just double quotes in name for existing credential
+    Given I am an authorized to put credentials as DRAGON user
+    When I hit the put credentials endpoint with new invalid credential name "<credentialName>"
+    Then I should receive a "<response_code>" error response with "<error_description>" error description and "<error_code>" errorCode within put credentials response
+    And error message should be "<error_message>" within put credentials response
+    Examples:
+      | credentialName | response_code | error_code | error_message                     | error_description                                      |
+      | spaceInQuotes  | 400           | EA002      | Service Request Validation Failed | Atleast one field must be there to update Credentials. |
+      | doubleQuotes   | 400           | EA002      | Service Request Validation Failed | Atleast one field must be there to update Credentials. |
 
   @regression
   Scenario Outline: SC-6 Positive flow - Deactivate the active credential
@@ -39,7 +47,7 @@ Feature: PUT_Credentials - PUT Credentials Merchant
     And error message should be "<error_message>" within put credentials response
     Examples:
       | credentialName | status | response_code | error_code | error_message                     | error_description       |
-      | validName      | E      | 400           | EA013      | Service Request Validation Failed | Status can only be 'D'. |
+      | validName      | E      | 400           | EA002      | Service Request Validation Failed | Status can only be 'D'. |
 
 
   @regression
@@ -52,7 +60,7 @@ Feature: PUT_Credentials - PUT Credentials Merchant
     And error message should be "<error_message>" within put credentials response
     Examples:
       | credentialName | status | activateCredential | response_code | error_code | error_message                     | error_description       |
-      | validName      | D      | A                  | 400           | EA013      | Service Request Validation Failed | Status can only be 'D'. |
+      | validName      | D      | A                  | 400           | EA002      | Service Request Validation Failed | Status can only be 'D'. |
 
 
   @regression
@@ -62,8 +70,8 @@ Feature: PUT_Credentials - PUT Credentials Merchant
     Then I should receive a "<response_code>" error response with "<error_description>" error description and "<error_code>" errorCode within put credentials response
     And error message should be "<error_message>" within put credentials response
     Examples:
-      | credentialName | response_code | error_code | error_message             | error_description                                        |
-      | validName      | 400           | EA002      | Business Rules Incorrect! | The Name is already in use for another ACTIVE KEY (NAME) |
+      | credentialName | response_code | error_code | error_message             | error_description                                      |
+      | validName      | 400           | EA002      | Business Rules Incorrect! | Credential Name is already in use for other ACTIVE KEY |
 
   @regression
   Scenario Outline: SC-10 Positive flow -Create new credential with existing deactivated credential name
@@ -94,7 +102,7 @@ Feature: PUT_Credentials - PUT Credentials Merchant
     And error message should be "<error_message>" within put credentials response
     Examples:
       | response_code | error_code | error_message                     | error_description                                      |
-      | 400           | EA013      | Service Request Validation Failed | Atleast one field must be there to update Credentials. |
+      | 400           | EA002      | Service Request Validation Failed | Atleast one field must be there to update Credentials. |
 
 
   @regression
@@ -141,9 +149,9 @@ Feature: PUT_Credentials - PUT Credentials Merchant
       | validName      | abcde                                 | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
       | validName      | 1234                                  | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
       | validName      | !~@^*                                 | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
-      | validName      | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxxx | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
-      | validName      | 859cce3f-f3da-4448-9e88-cf8450aea289  | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
-      | validName      | spaceInDoubleQuotes                   | EA002      | 404         | Resource Not Found!               | applicationId not provided                                                                                                                                         |
+      | validName      | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxxx | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.NumberFormatException: For input string:       |
+      | validName      | 859cce3f-f3da-4448-9e88-cf8450aea289  | EA002      | 400         | Service Request Validation Failed | Credential/Application Id is invalid or credential is not Active.                                                                                                  |
+      | validName      | spaceInDoubleQuotes                   | EA002      | 400         | Service Request Validation Failed | Credential/Application Id is invalid or credential is not Active.                                                                                                  |
 
 
   @regression
@@ -153,11 +161,10 @@ Feature: PUT_Credentials - PUT Credentials Merchant
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorCode within put credentials response
     And error message should be "<error_message>" within put credentials response
     Examples:
-      | credentialName | credentialId                         | http_status | error_code | error_description                                      | error_message                     |
-      | validName      | 859cce3f-f3da-4448-9e88-cf8450aea289 | 400         | EA013      | Credentials Id is invalid or credential is not Active. | Service Request Validation Failed |
-      | validName      | 123                                  | 400         | EA002      | Failed to convert value of type                        | Service Request Validation Failed |
-      | validName      | !~^$@                                | 400         | EA002      | Failed to convert value of type                        | Service Request Validation Failed |
-      | validName      | spaceInDoubleQuotes                  | 400         | EA002      | Failed to convert value of type                        | Service Request Validation Failed |
+      | credentialName | credentialId                         | http_status | error_code | error_description                                                 | error_message                     |
+      | validName      | 859cce3f-f3da-4448-9e88-cf8450aea289 | 400         | EA002      | Credential/Application Id is invalid or credential is not Active. | Service Request Validation Failed |
+      | validName      | 123                                  | 400         | EA002      | Failed to convert value of type                                   | Service Request Validation Failed |
+      | validName      | !~^$@                                | 400         | EA002      | Failed to convert value of type                                   | Service Request Validation Failed |
 
 
   @regression
@@ -170,8 +177,8 @@ Feature: PUT_Credentials - PUT Credentials Merchant
       | key           | error_code | http_status | error_message                     | error_description                                              |
       | Authorization | EA001      | 401         | API Gateway Authentication Failed | Error validating JWT                                           |
       | Trace-Id      | EA002      | 400         | API Gateway Validation Failed     | Header Trace-Id was not found in the request. Access denied.   |
-      | Accept        | EA008      | 406         | API Gateway Validation Failed     | Header Accept does not contain required value.  Access denied. |
-      | Content-Type  | EA002      | 415         | API Gateway Validation Failed     | Content type                                                   |
+      | Accept        | EA008      | 406         | Request Header Not Acceptable     | Header Accept does not contain required value.  Access denied. |
+      | Content-Type  | EA002      | 415         | Service Request Validation Failed | Content type                                                   |
 
 
   @regression
@@ -182,7 +189,7 @@ Feature: PUT_Credentials - PUT Credentials Merchant
     And error message should be "<error_message>" within put credentials response
     Examples:
       | key          | invalidHeaderValues                  | http_status | error_code | error_message                     | error_description                                                                                                                                                  |
-      | Accept       | Testing/Type                         | 406         | EA008      | Service Request Validation Failed | Header Accept does not contain required value.  Access denied.                                                                                                     |
+      | Accept       | Testing/Type                         | 406         | EA008      | Request Header Not Acceptable     | Header Accept does not contain required value.  Access denied.                                                                                                     |
       | Content-Type | application/json1                    | 415         | EA002      | Service Request Validation Failed | Content type 'application/json1;charset=ISO-8859-1' not supported                                                                                                  |
       | Trace-Id     | 123456                               | 400         | EA002      | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
       | Trace-Id     | abcde                                | 400         | EA002      | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
@@ -205,9 +212,18 @@ Feature: PUT_Credentials - PUT Credentials Merchant
     Then I should receive a "<httpStatus>" status code with "<statusCode>" message "<message>" with put credentials response
 
     Examples:
-      | credentialName | credentialId | httpStatus | statusCode | message            |
-      | validName      | doubleQuotes | 404        | 404        | Resource not found |
+      | credentialName | credentialId        | httpStatus | statusCode | message            |
+      | validName      | doubleQuotes        | 404        | 404        | Resource not found |
+      | validName      | spaceInDoubleQuotes | 404        | 404        | Resource not found |
 
 
+  @regression @kapi
+  Scenario Outline: SC-1 Positive flow - Update credentials name for existing credential
+    Given I am an authorized to put credentials as DRAGON user
+    When I hit the put credentials endpoint with new credential "<credentialName>"
+    Then put credentials response should be successful
+    Examples:
+      | credentialName |
+      | validName      |
 
 

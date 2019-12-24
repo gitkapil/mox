@@ -72,7 +72,7 @@ public class DataBaseConnector {
             throws SQLException, ClassNotFoundException {
 
         Class.forName(Constants.DB_DRIVER);
-        Connection connection = DriverManager.getConnection(connectionURL, Constants.DB_USERNAME, Constants.DB_PASSWORD);
+        Connection connection = DriverManager.getConnection(connectionURL, Constants.DB_USERNAME_SANDBOX_ADMIN, Constants.DB_PASSWORD_SANDBOX_ADMIN);
         if (connection != null) {
             logger.info("Connected to the database...");
         } else {

@@ -51,7 +51,6 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
         testContext.getApiManager().postCredentialsMerchants().makeRequest(url, testContext.getApiManager().postCredentialsMerchants().getCredentialName());
     }
 
-
     @And("^I hit the post credentials endpoint with invalid applicationId \"([^\"]*)\" and valid credential name \"([^\"]*)\"$")
     public void hitPostCredentialsWithInvalidApplicationIdAndValidCredentialsName(String applicationId, String credentialName) {
         testContext.getApiManager().postCredentialsMerchants().setCredentialName(credentialName);
@@ -62,6 +61,15 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
         testContext.getApiManager().postCredentialsMerchants().makeRequest(url, testContext.getApiManager().postCredentialsMerchants().getCredentialName());
     }
 
+
+    @And("^I hit the post credentials endpoint without applicationId and valid credential name \"([^\"]*)\"$")
+    public void hitPostCredentialsWithoutApplicationIdAndValidCredentialsName( String credentialName) {
+        testContext.getApiManager().postCredentialsMerchants().setCredentialName(credentialName);
+        String url = getRestHelper().getBaseURI() +
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                + "/" + "/credentials";
+        testContext.getApiManager().postCredentialsMerchants().makeRequest(url, testContext.getApiManager().postCredentialsMerchants().getCredentialName());
+    }
 
     @And("^I hit the post credentials endpoint with invalid applicationId \"([^\"]*)\"$")
     public void hitPostCredentialsWithInvalidApplicationId(String credentialName, String applicationId) {
@@ -159,6 +167,7 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
         String env = PropertyHelper.getInstance().getPropertyCascading("env");
         String userType = PropertyHelper.getInstance().getPropertyCascading("usertype");
 
+
         Assert.assertEquals(
                 HttpStatus.SC_CREATED,
                 getRestHelper().getResponseStatusCode(testContext.getApiManager().postCredentialsMerchants().getResponse()),
@@ -187,13 +196,16 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
         Assert.assertEquals(response.path(Constants.LAST_UPDATED_AT).toString().substring(0, 10), getDateHelper().getCurrentDate(), "lastUpdatedAt date should be today's date");
         Assert.assertEquals(response.path(Constants.EXPIRE_AT).toString(), getDateHelper().getFutureDate(1).concat(response.path(Constants.ACTIVATE_AT).toString().substring(10)), "deactivatedAt date should be one year later than createdAt date");
 
+        Assert.assertTrue(getDateHelper().validateDateFormat(response.path(Constants.EXPIRE_AT)),"date format should be yyyy-mm-ddThh-mm-ssZ");
+        Assert.assertTrue(getDateHelper().validateDateFormat(response.path(Constants.ACTIVATE_AT)),"date format should be yyyy-mm-ddThh-mm-ssZ");
+        Assert.assertTrue(getDateHelper().validateDateFormat(response.path(Constants.CREATED_AT)),"date format should be yyyy-mm-ddThh-mm-ssZ");
+        Assert.assertTrue(getDateHelper().validateDateFormat(response.path(Constants.EXPIRE_AT)),"date format should be yyyy-mm-ddThh-mm-ssZ");
+
         Assert.assertEquals(response.path(Constants.APPLICATION_ID).toString(), testContext.getApiManager().postCredentialsMerchants().getApplicationId(), "applicationId should be same as used in endpoint");
 
-
-
-//        Assert.assertEquals(response.path(Constants.LAST_UPDATED_AT).toString(), response.path(Constants.CREATED_AT).toString(), "lastUpdatedAt date and createdAt should be the same date");
-//        Assert.assertEquals(response.path(Constants.LAST_UPDATED_AT).toString(), response.path(Constants.ACTIVATE_AT).toString(), "lastUpdatedAt date and activateAt should be the same date");
-//        Assert.assertEquals(response.path(Constants.ACTIVATE_AT).toString(), response.path(Constants.CREATED_AT).toString(), "activateAt date and createdAt should be the same date");
+        Assert.assertEquals(response.path(Constants.LAST_UPDATED_AT).toString(), response.path(Constants.CREATED_AT).toString(), "lastUpdatedAt date and createdAt should be the same date");
+        Assert.assertEquals(response.path(Constants.LAST_UPDATED_AT).toString(), response.path(Constants.ACTIVATE_AT).toString(), "lastUpdatedAt date and activateAt should be the same date");
+        Assert.assertEquals(response.path(Constants.ACTIVATE_AT).toString(), response.path(Constants.CREATED_AT).toString(), "activateAt date and createdAt should be the same date");
 
         if (env.equalsIgnoreCase("SIT") && userType.equalsIgnoreCase("merchant")) {
             Assert.assertEquals(response.path(Constants.LAST_UPDATED_BY).toString(), getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-id"), "updatedBy is not correct");
