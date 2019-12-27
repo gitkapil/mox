@@ -11,14 +11,11 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.crypto.spec.SecretKeySpec;
-
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.tomitribe.auth.signatures.Signature;
 import org.tomitribe.auth.signatures.Verifier;
-
 import com.google.common.io.CharStreams;
 
 public class ValidateSignature {

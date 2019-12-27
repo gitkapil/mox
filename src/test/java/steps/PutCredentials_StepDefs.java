@@ -32,8 +32,8 @@ public class PutCredentials_StepDefs extends UtilManager {
 
     @Given("^I am an authorized to put credentials as DRAGON user$")
     public void login() {
-        common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getPutCredentialsMerchants().setAuthTokenWithBearer(token));
         common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().postCredentialsMerchants().setAuthTokenWithBearer(token));
+        common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getPutCredentialsMerchants().setAuthTokenWithBearer(token));
     }
 
     @And("^I hit the put credentials endpoint with new credential name \"([^\"]*)\"$")
@@ -460,12 +460,13 @@ public class PutCredentials_StepDefs extends UtilManager {
     }
 
     @And("^I hit the put credentials endpoint with invalid credential id \"([^\"]*)\" and valid credential name \"([^\"]*)\"$")
-    public void hitPutCredentialsWithInvalidCredentialIdAndValidCredentialsName(String credentialIds, String credentialName) {
+    public void hitPutCredentialsWithInvalidCredentialIdAndValidCredentialsName(String credentialId, String credentialName) {
 
         //Onboarding
         testContext.getApiManager().getPutCredentialsMerchants().setCredentialName(credentialName);
         testContext.getApiManager().postCredentialsMerchants().setCredentialName(credentialName);
 
+        System.out.println("Credential Id: "+testContext.getApiManager().getPutCredentialsMerchants().getCredentialId());
 
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
         testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("applicationId"));
@@ -479,17 +480,13 @@ public class PutCredentials_StepDefs extends UtilManager {
 
         Response credentialResponse = testContext.getApiManager().postCredentialsMerchants().getResponse();
 
-        String credentialId = credentialResponse.path(Constants.CREDENTIAL_ID);
+        testContext.getApiManager().postCredentialsMerchants().setCredentialId(credentialResponse.path(Constants.CREDENTIAL_ID));
 
-        testContext.getApiManager().postCredentialsMerchants().setCredentialId(credentialId);
-
-        common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getPutCredentialsMerchants().setAuthTokenWithBearer(token));
-        testContext.getApiManager().getPutCredentialsMerchants().setCredentialId(credentialIds);
-
+        testContext.getApiManager().getPutCredentialsMerchants().setCredentialId(credentialId);
         //Put Credentials
         String putCredentialEndPoint = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
-                + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId()  + "/credentials" + "/" + testContext.getApiManager().getPutCredentialsMerchants().getCredentialId() ;
+                + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId()  + "/credentials" + "/" + credentialId ;
         testContext.getApiManager().getPutCredentialsMerchants().makeRequest(putCredentialEndPoint,testContext.getApiManager().postCredentialsMerchants().getCredentialName());
 
     }
