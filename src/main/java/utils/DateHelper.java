@@ -95,4 +95,25 @@ public class DateHelper {
         return newString.toString();
     }
 
+
+
+    public boolean validateDateFormat(String dateToValidate){
+
+        if(dateToValidate == null){
+            return false;
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        sdf.setLenient(false);
+        try {
+            Date date = sdf.parse(dateToValidate);
+            System.out.println(date);
+        } catch (ParseException e) {
+
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
 }

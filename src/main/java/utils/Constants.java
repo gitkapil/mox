@@ -27,7 +27,10 @@ public class Constants {
     public static final String PLATFORM_ID = "platformId";
     public static final String PLATFORM_NAME = "platformName";
     public static final String DB_USERNAME = "sandbox_rs_read_only@mysql-ci-hk-dragon-mm-db-sand";
+    public static final String DB_USERNAME_ADMIN = "sandbox_rs_read_only@mysql-ci-hk-dragon-mm-db-sand";
+    public static final String DB_USERNAME_SANDBOX_ADMIN = "dragon_db_admin@mysql-ci-hk-dragon-mm-db-sand";
     public static final String DB_PASSWORD = "d4mhT?A[nFxpY3d:";
+    public static final String DB_PASSWORD_SANDBOX_ADMIN = "Y5:i?uz=*>X(F8k:";
     public static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
     public static final String DB_CONNECTION_URL = "jdbc:mysql://mysql-ci-hk-dragon-mm-db-sand.mysql.database.azure.com:3306/merchant_management?useSSL=true&requireSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
     public static final String PDF_URL = "pdfUrl";

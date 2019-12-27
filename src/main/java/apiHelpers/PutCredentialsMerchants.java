@@ -22,6 +22,7 @@ public class PutCredentialsMerchants extends UtilManager {
     private String deactivateAt;
     private String entityStatus;
     private String credentialName;
+    private String credentialIds;
     private Response response = null;
     private HashMap<String, String> requestHeader = new HashMap();
     final static Logger logger = Logger.getLogger(PutCredentialsMerchants.class);
@@ -38,6 +39,12 @@ public class PutCredentialsMerchants extends UtilManager {
     private HashMap returnRequestBody(String credentialName) {
         requestBody.clear();
         requestBody.put("credentialName", credentialName);
+        return requestBody;
+    }
+    private HashMap returnRequestBodyWithDeactivateStatus(String credentialName, String entityStatus) {
+        requestBody.clear();
+        requestBody.put("credentialName", credentialName);
+        requestBody.put("status", entityStatus);
         return requestBody;
     }
 
@@ -104,36 +111,50 @@ public class PutCredentialsMerchants extends UtilManager {
     public void makeRequest(String url, String credentialName) {
         returnRequestHeader();
         response = getRestHelper().putRequestWithHeaderAndBody(url, requestHeader, returnRequestBody(credentialName));
-        logger.info("Create Credential Response -->>>>" + response.prettyPrint());
+        logger.info("Create Credential Response -->>>>      " + response.prettyPrint());
     }
 
+
+
+    public void makeRequestWithDeactivateStatusInBody(String url, String credentialName, String status) {
+        returnRequestHeader();
+        response = getRestHelper().putRequestWithHeaderAndBody(url, requestHeader, returnRequestBodyWithDeactivateStatus(credentialName, status));
+        logger.info("Create Credential Response -- >>>>     " + response.prettyPrint());
+    }
     public void makeRequestWithStatus(String url, String credentialName, String status) {
         returnRequestHeader();
         response = getRestHelper().putRequestWithHeaderAndBody(url, requestHeader, returnRequestBodyWithStatus(credentialName, status));
         logger.info("Create Credential Response -->>>>" + response.prettyPrint());
     }
 
-    public void makeRequestWithInvalidHeaders(String url, String keys, String headerValue) {
+    public void makeRequestWithInvalidHeaders(String url, String credentialName, String keys, String headerValue) {
         returnRequestHeaderWithInvalidValues(keys, headerValue);
-        response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader, returnRequestBody(credentialName));
+        response = getRestHelper().putRequestWithHeaderAndBody(url, requestHeader, returnRequestBody(credentialName));
         logger.info("Create Credential Response -->>>>" + response.prettyPrint());
+
     }
 
-    public void makeRequestWithMissingHeaderValues(String url, String keys) {
+    public void makeRequestWithMissingHeaderValues(String url, String credentialName, String keys) {
         returnRequestHeaderWithMissingHeaderValues(keys);
-        response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader, returnRequestBody(credentialName));
+        response = getRestHelper().putRequestWithHeaderAndBody(url, requestHeader, returnRequestBody(credentialName));
         logger.info("Create Credential Response -->>>>" + response.prettyPrint());
     }
 
     public void makeRequestWithoutInputBody(String url) {
         returnRequestHeader();
-        response = getRestHelper().postRequestWithHeaders(url, requestHeader);
+        response = getRestHelper().putRequestWithHeader(url, requestHeader);
         logger.info("Create Credential Response -->>>>" + response.prettyPrint());
     }
 
     public void makeRequestWithoutCredentialName(String url, String credentialName) {
         returnRequestHeader();
-        response = getRestHelper().postRequestWithHeaderAndBody(url, requestHeader, returnEmptyRequestBody(credentialName));
+        response = getRestHelper().putRequestWithHeaderAndBody(url, requestHeader, returnEmptyRequestBody(credentialName));
+        logger.info("Create Credential Response -->>>>" + response.prettyPrint());
+    }
+
+    public void makeRequestWithEmptyInputBody(String url, String credentialName) {
+        returnRequestHeader();
+        response = getRestHelper().putRequestWithHeaderAndBody(url, requestHeader, returnEmptyRequestBody(credentialName));
         logger.info("Create Credential Response -->>>>" + response.prettyPrint());
     }
 
@@ -151,8 +172,18 @@ public class PutCredentialsMerchants extends UtilManager {
     }
 
     public void setApplicationId(String applicationId) {
-        this.applicationId = applicationId;
+
+        if (applicationId.equalsIgnoreCase("spaceInDoubleQuotes")) {
+            this.applicationId = " ";
+        } else if (applicationId.equalsIgnoreCase("doubleQuotes")) {
+            this.applicationId = "";
+        } else if (applicationId.equalsIgnoreCase("empty")) {
+            this.applicationId = null;
+        } else {
+            this.applicationId = applicationId;
+        }
     }
+
 
     public String getActivateAt() {
         return activateAt;
@@ -186,16 +217,23 @@ public class PutCredentialsMerchants extends UtilManager {
         if (credentialName.equalsIgnoreCase("validName")) {
             this.credentialName = RandomStringUtils.randomAlphabetic(10);
         } else if (credentialName.equalsIgnoreCase("tooLong")) {
-            this.credentialName = StringUtils.repeat("*", 256);
+            this.credentialName = StringUtils.repeat("*", 257);
+        } else if (credentialName.equalsIgnoreCase("doubleQuotes")) {
+            this.credentialName = "";
+        } else if (credentialName.equalsIgnoreCase("UUID")) {
+            this.credentialName = getGeneral().generateUniqueUUID();
+        } else if (credentialName.equalsIgnoreCase("spaceInQuotes")) {
+            this.credentialName = " ";
         } else {
             this.credentialName = credentialName;
         }
     }
 
+
     public Response executePostRequestWithMissingHeaderKeys(String url, String keys, String credentialName) {
         try {
             HashMap<String, String> header = returnRequestHeaderWithMissingKeys("POST", new URL(url).getPath(), keys);
-            response = getRestHelper().postRequestWithHeaderAndBody(url, header, returnRequestBody(credentialName));
+            response = getRestHelper().putRequestWithHeaderAndBody(url, header, returnRequestBody(credentialName));
             logger.info("Response: " + response.getBody().prettyPrint());
         } catch (Exception e) {
             Assert.assertTrue("Verification of signature failed!", false);
@@ -219,4 +257,20 @@ public class PutCredentialsMerchants extends UtilManager {
     }
 
 
+
+    public void setCredentialId(String credentialIds) {
+
+        if (credentialIds.equalsIgnoreCase("spaceInDoubleQuotes")) {
+            this.credentialIds = " ";
+        } else if (credentialIds.equalsIgnoreCase("doubleQuotes")) {
+            this.credentialIds = "";
+        } else if (credentialIds.equalsIgnoreCase("empty")) {
+            this.credentialIds = null;
+        } else {
+            this.applicationId = credentialIds;
+        }
+    }
+    public String getCredentialId() {
+        return credentialIds;
+    }
 }

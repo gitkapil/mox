@@ -26,6 +26,7 @@ public class PostCredentialsMerchants extends UtilManager {
     private HashMap<String, String> requestHeader = new HashMap();
     final static Logger logger = Logger.getLogger(PostCredentialsMerchants.class);
     private HashMap requestBody = new HashMap();
+    private String credentialId;
 
     public Response getResponse() {
         return response;
@@ -37,7 +38,7 @@ public class PostCredentialsMerchants extends UtilManager {
 
     private HashMap returnRequestBody(String credentialName) {
         requestBody.clear();
-        requestBody.put("credentialName", credentialName);
+        requestBody.put("credentialName", getCredentialName());
         return requestBody;
     }
 
@@ -138,8 +139,18 @@ public class PostCredentialsMerchants extends UtilManager {
     }
 
     public void setApplicationId(String applicationId) {
-        this.applicationId = applicationId;
+
+        if (applicationId.equalsIgnoreCase("spaceInDoubleQuotes")) {
+            this.applicationId = " ";
+        } else if (applicationId.equalsIgnoreCase("doubleQuotes")) {
+            this.applicationId = "";
+        } else if (applicationId.equalsIgnoreCase("empty")) {
+            this.applicationId = null;
+        } else {
+            this.applicationId = applicationId;
+        }
     }
+
 
     public String getActivateAt() {
         return activateAt;
@@ -175,8 +186,14 @@ public class PostCredentialsMerchants extends UtilManager {
             this.credentialName = RandomStringUtils.randomAlphabetic(10);
         } else if (credentialName.equalsIgnoreCase("tooLong")) {
             this.credentialName = StringUtils.repeat("*", 257);
+        } else if (credentialName.equalsIgnoreCase("spaceInQuotes")) {
+            this.credentialName = " ";
+        } else if (credentialName.equalsIgnoreCase("doubleQuotes")) {
+            this.credentialName = "";
         } else if (credentialName.equalsIgnoreCase("UUID")) {
             this.credentialName = getGeneral().generateUniqueUUID();
+        } else if (credentialName.equalsIgnoreCase("spaceInDoubleQuotes")) {
+            this.credentialName = " ";
         } else {
             this.credentialName = credentialName;
         }
@@ -209,4 +226,11 @@ public class PostCredentialsMerchants extends UtilManager {
     }
 
 
+    public void setCredentialId(String credentialId) {
+        this.credentialId = credentialId;
+    }
+
+    public String getCredentialId() {
+        return credentialId;
+    }
 }

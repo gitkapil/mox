@@ -21,7 +21,7 @@ Feature: GET Credentials - DRAG-2177
 
   #defect - timestamp of GET credentials != POST credentials DRAG-2433 ;sandbox
   #@trial @regression
-  Scenario Outline: SC-2 Positive flow - Fetch created credential details - after POST onboarding and POST credentials
+  Scenario Outline: SC-2-3 Positive flow - Fetch created credential details - after POST onboarding and POST credentials
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Given I am an authorized DRAGON user
@@ -34,8 +34,10 @@ Feature: GET Credentials - DRAG-2177
       | UUID           |
 
 
+
+  #defect - DRAG-2422 : SecretId of GET credentials doesn't equal to secret Id of POST Onboarding
   @trial @regression
-  Scenario Outline: SC-3 Positive flow - Fetch created credential details - multiple credentials after POST onboarding, POST credentials, PUT credentials
+  Scenario Outline: SC-4 Positive flow - Fetch created credential details - multiple credentials after POST onboarding, POST credentials, PUT credentials
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint five times with credential name "<credentialName>"
     Given I am an authorized to put credentials as DRAGON user
@@ -49,7 +51,7 @@ Feature: GET Credentials - DRAG-2177
       | validName      |
 
   #@trial @regression
-  Scenario Outline: SC-4 Positive flow - Fetch credential details with non existing applicationId
+  Scenario Outline: SC-5 Positive flow - Fetch credential details with non existing applicationId
     Given I am an authorized DRAGON user
     When I hit get credentials endpoint with applicationId "<applicationId>"
     Then I should receive successful get credential response
@@ -59,7 +61,7 @@ Feature: GET Credentials - DRAG-2177
       | 9ab4462b-1f25-43ea-9740-0c069de8715a |
 
   #@trial @regression
-  Scenario Outline: SC-5 Positive flow - Fetch created credential details with filter - status
+  Scenario Outline: SC-6 Positive flow - Fetch created credential details with filter - status
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint five times with credential name "<credentialName>"
     Given I am an authorized to put credentials as DRAGON user
@@ -75,8 +77,8 @@ Feature: GET Credentials - DRAG-2177
       | validName      |
 
 
-  #@trial @regression
-  Scenario Outline: SC-6 Positive flow - Fetch created credential details with filter - status
+  @trial @regression
+  Scenario Outline: SC-7-8 Positive flow - Fetch created credential details with filter - status
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint five times with credential name "<credentialName>"
     Given I am an authorized to put credentials as DRAGON user
@@ -90,7 +92,7 @@ Feature: GET Credentials - DRAG-2177
 
 
   #@trial @regression
-  Scenario Outline: SC-7 Positive flow - Fetch created credential details with filter - credentialName
+  Scenario Outline: SC-9-10 - Positive flow - Fetch created credential details with filter - credentialName
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Given I am an authorized DRAGON user
@@ -105,7 +107,7 @@ Feature: GET Credentials - DRAG-2177
 
 
   #@trial @regression
-  Scenario Outline: SC-8 Positive flow - Fetch created credential details with filter - credentialId
+  Scenario Outline: SC-11 Positive flow - Fetch created credential details with filter - credentialId
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Given I am an authorized DRAGON user
@@ -117,7 +119,7 @@ Feature: GET Credentials - DRAG-2177
       | validName      |
 
   #@trial @regression
-  Scenario Outline: SC-9 Positive flow - Fetch created credential details with filter - limit
+  Scenario Outline: SC-12-14 Positive flow - Fetch created credential details with filter - limit
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint five times with credential name "<credentialName>"
     Given I am an authorized DRAGON user
@@ -132,7 +134,7 @@ Feature: GET Credentials - DRAG-2177
       | validName      | -11   | 1      |
 
   #@trial @regression
-  Scenario Outline: SC-7 Positive flow - Fetch created credential details with filter - page
+  Scenario Outline: SC-15-17 Positive flow - Fetch created credential details with filter - page
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Given I am an authorized DRAGON user
@@ -146,7 +148,7 @@ Feature: GET Credentials - DRAG-2177
       | validName      | -1   |
 
   #@trial @regression
-  Scenario Outline: SC-3 Positive flow - Fetch credential details with non existing filter query parameters - credentialName, credentialId
+  Scenario Outline: SC-18-22 Positive flow - Fetch credential details with non existing filter query parameters - credentialName, credentialId
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Given I am an authorized DRAGON user
@@ -162,7 +164,7 @@ Feature: GET Credentials - DRAG-2177
      # | validName      | credentialId   |                                      |
 
   #@trial @regression
-  Scenario Outline: SC-8-11 Negative flow - Invalid auth token
+  Scenario Outline: SC-23-26 Negative flow - Invalid auth token
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Given I am an unauthorized DRAGON user with invalid "<auth_token>" auth token
@@ -183,7 +185,7 @@ Feature: GET Credentials - DRAG-2177
 
 
   #@trial @regression
-  Scenario Outline: SC-12-16 Negative flow - Invalid mandatory field Api-Version provided in header
+  Scenario Outline: SC-27-31 Negative flow - Invalid mandatory field Api-Version provided in header
     Given I am an authorized DRAGON user
     When I hit get credentials endpoint for invalid header "<key>" with value "<invalidHeaderValues>"
     Then I should receive status code "<statusCode>" and message "<message>" in get credentials response
@@ -198,7 +200,7 @@ Feature: GET Credentials - DRAG-2177
 
 
   #@trial @regression
-  Scenario Outline: SC-17-21 Negative flow - Invalid mandatory field provided in header
+  Scenario Outline: SC-32-36 Negative flow - Invalid mandatory field provided in header
     Given I am an authorized DRAGON user
     When I hit get credentials endpoint for invalid header "<key>" with value "<invalidHeaderValues>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within get credentials response
@@ -213,7 +215,7 @@ Feature: GET Credentials - DRAG-2177
       | Trace-Id     | 7454108z-yb37-454c-81da-0a12d8b0f867 | 400         | EA002      | Failed to convert value of type                                   | Service Request Validation Failed |
 
   #@trial @regression
-  Scenario Outline: SC-22-26 Negative flow - Invalid applicationId
+  Scenario Outline: SC-37-41 Negative flow - Invalid applicationId
     Given I am an authorized DRAGON user
     When I make request to get credentials endpoint with invalid applicationId "<applicationId>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within get credentials response
@@ -227,7 +229,7 @@ Feature: GET Credentials - DRAG-2177
       | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxxx | 400         | EA002      | Failed to convert value of type | Service Request Validation Failed |
 
   #@trial @regression
-  Scenario Outline: SC-27- Negative flow - Null applicationId
+  Scenario Outline: SC-42- Negative flow - Null applicationId
     Given I am an authorized DRAGON user
     When I make request to get credentials endpoint with invalid applicationId "<applicationId>"
     Then I should receive status code "404" and message "Resource not found" in get credentials response
@@ -236,7 +238,7 @@ Feature: GET Credentials - DRAG-2177
       | null          |
 
   #@trial @regression
-  Scenario Outline: SC-27- Negative flow - Invalid filter - status
+  Scenario Outline: SC-43-48 - Negative flow - Invalid filter - status
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Given I am an authorized DRAGON user
@@ -253,7 +255,7 @@ Feature: GET Credentials - DRAG-2177
       | validName      | !~@^*  | 400         | EA002      | Failed to convert value of type | Service Request Validation Failed |
 
   #@trial @regression
-  Scenario Outline: SC-27- Negative flow - Invalid filter - credentialName
+  Scenario Outline: SC-49-52 Negative flow - Invalid filter - credentialName
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Given I am an authorized DRAGON user
@@ -269,7 +271,7 @@ Feature: GET Credentials - DRAG-2177
 
 
   #@trial @regression
-  Scenario Outline: SC-27- Negative flow - Invalid filter - credentialId
+  Scenario Outline: SC-53-56 Negative flow - Invalid filter - credentialId
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Given I am an authorized DRAGON user
@@ -282,8 +284,6 @@ Feature: GET Credentials - DRAG-2177
       | validName      | null         | 404         | EA002      | applicationId not provided      | Resource Not Found!               |
       | validName      | 123          | 400         | EA002      | Failed to convert value of type | Service Request Validation Failed |
       | validName      | !~^$@        | 400         | EA002      | Failed to convert value of type | Service Request Validation Failed |
-
-
 
 
     #test with chinese credentialName - 测试
