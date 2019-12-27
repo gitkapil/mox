@@ -8,6 +8,7 @@ Feature: GET Credentials - DRAG-2177
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
+  #defect - timestamp of GET credentials != POST onboarding DRAG-2432
   #@trial @regression
   Scenario: SC-1 Positive flow - Fetch created credential details - single credential after POST onboarding
     Given I am logging in as a user with correct privileges
@@ -18,7 +19,7 @@ Feature: GET Credentials - DRAG-2177
     And validate GET credentials response with onboarding response
 
 
-  #defect - timestamp of GET credentials != POST credentials
+  #defect - timestamp of GET credentials != POST credentials DRAG-2433 ;sandbox
   #@trial @regression
   Scenario Outline: SC-2 Positive flow - Fetch created credential details - after POST onboarding and POST credentials
     Given I am an authorized to create credentials as DRAGON user
@@ -33,8 +34,7 @@ Feature: GET Credentials - DRAG-2177
       | UUID           |
 
 
-  #defect - DRAG-2422 : SecretId of GET credentials doesn't equal to secret Id of POST Onboarding
-  #@trial @regression
+  @trial @regression
   Scenario Outline: SC-3 Positive flow - Fetch created credential details - multiple credentials after POST onboarding, POST credentials, PUT credentials
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint five times with credential name "<credentialName>"
@@ -75,7 +75,7 @@ Feature: GET Credentials - DRAG-2177
       | validName      |
 
 
-  @trial @regression
+  #@trial @regression
   Scenario Outline: SC-6 Positive flow - Fetch created credential details with filter - status
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint five times with credential name "<credentialName>"
