@@ -277,7 +277,9 @@ public class PutCredentials_StepDefs extends UtilManager {
         Response response = testContext.getApiManager().getPutCredentialsMerchants().getResponse();
         Assert.assertEquals(getRestHelper().getResponseStatusCode(response), responseCode, "Different response code being returned");
         Assert.assertEquals(getRestHelper().getErrorCode(testContext.getApiManager().getPutCredentialsMerchants().getResponse()), errorCode, "Different error code being returned");
-        Assert.assertTrue(getRestHelper().getErrorDescription(testContext.getApiManager().getPutCredentialsMerchants().getResponse()).contains(errorDesc), "Different error description being returned..Expected: " + errorDesc + "  Actual: " + getRestHelper().getErrorDescription(testContext.getApiManager().getPutCredentialsMerchants().getResponse()));
+        Assert.assertTrue(getRestHelper().getErrorDescription(testContext.getApiManager().getPutCredentialsMerchants().getResponse()).
+                contains(errorDesc), "Different error description being returned..Expected: " + errorDesc + "  Actual: " +
+                getRestHelper().getErrorDescription(testContext.getApiManager().getPutCredentialsMerchants().getResponse()));
     }
 
     @Then("^error message should be \"([^\"]*)\" within put credentials response$")
@@ -429,7 +431,6 @@ public class PutCredentials_StepDefs extends UtilManager {
                 + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials" + "/" + credentialId ;
         testContext.getApiManager().getPutCredentialsMerchants().makeRequestWithMissingHeaderValues(putCredentialEndPoint,testContext.getApiManager().postCredentialsMerchants().getCredentialName(), key);
     }
-
 
 
     @And("^I hit the put credentials endpoint with invalid API versions invalid header \"([^\"]*)\" and values \"([^\"]*)\"$")

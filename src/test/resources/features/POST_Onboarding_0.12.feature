@@ -1,4 +1,3 @@
-@newOnboarding
 Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
 
   Background: Retrieving access Token
@@ -44,7 +43,7 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
       | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 201         |
 
 
-  @regression
+  @regression @skiponversionten @skiponversioneleven
   Scenario Outline: SC-4-Positive flow- Existing applicationName provided in request body should returns eror
     Given I am logging in as a user with correct privileges
     When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
@@ -76,7 +75,7 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
       | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | random      | 201         |
 
 
-  @regression
+  @regression @skiponversionten @skiponversioneleven
   Scenario Outline: SC-6 - Positive flow- Existing applicationName with different applicationDescription provided in request body should returns errors
     Given I am logging in as a user with correct privileges
     When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
@@ -92,8 +91,8 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
       | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | random      | 201         | 400         | Client Id already exists. Please use the POST credentials API if you want to create the credentials. | EA056      | Business Rules Incorrect! |
 
 
-  @regression  @skiponversionten @skiponversiontwelve
-  Scenario Outline: SC-7-10- Negative flow- Existing applicationName with different peakId, subUnitId, organisationId provided in request body returns error
+  @regression  @skiponversionten @skiponversiontwelve @check
+  Scenario Outline: SC-7-10- Negative flow- Existing applicationName with different peakId, subUnitId, organisationId provided in request body returns error in version eleven
     Given I am logging in as a user with correct privileges
     And I am a POST platform authorized DRAGON user with Platform.ReadWrite.All
     When I make request for POST platform API with "<platformName>" platformName and "<platformDescription>" platformDescription in request body
@@ -106,14 +105,14 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
     #existing application name and different peakId
       | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea211 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | string      | 400         | Application already exist  | EA002      | Service Request Validation Failed | validname    | INDIVIDUAL          |
     #existing application name and different subUnitId
-      | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | 859cce3f-f3da-4448-9e88-cf8450aea289 | string      | 400         | Application already exist. | EA002      | Service Request Validation Failed | validname    | INDIVIDUAL          |
+      | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | 859cce3f-f3da-4448-9e88-cf8450aea289 | string      | 400         | Application already exist | EA002      | Service Request Validation Failed | validname    | INDIVIDUAL          |
     #existing application name and different organisationIdClient Id already exists. Please use the POST credentials API if you want to create the credentials.Application already exist
-      | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Application already exist. | EA002      | Service Request Validation Failed | validname    | INDIVIDUAL          |
+      | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      | 400         | Application already exist | EA002      | Service Request Validation Failed | validname    | INDIVIDUAL          |
     #existing application name and different platformIdClient Id already exists. Please use the POST credentials API if you want to create the credentials.Application already exist
-      | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | string      | 400         | Application already exist. | EA002      | Service Request Validation Failed | validname    | INDIVIDUAL          |
+      | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | string      | 400         | Application already exist | EA002      | Service Request Validation Failed | validname    | INDIVIDUAL          |
 
-  @regression @skiponeleven @skiponten
-  Scenario Outline: SC-11-14 Negative flow- Existing applicationName with different peakId, subUnitId, organisationId provided in request body returns error
+  @regression @skiponversionten @skiponversioneleven
+  Scenario Outline: SC-11-14 Negative flow- Existing applicationName with different peakId, subUnitId, organisationId provided in request body returns error in version twelve
     Given I am logging in as a user with correct privileges
     And I am a POST platform authorized DRAGON user with Platform.ReadWrite.All
     When I make request for POST platform API with "<platformName>" platformName and "<platformDescription>" platformDescription in request body
@@ -238,7 +237,7 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
 
 
   @regression
-  Scenario Outline: Negative flow- Mandatory field applicationName not provided in request body
+  Scenario Outline: SC-39 - Negative flow- Mandatory field applicationName not provided in request body
     Given I am logging in as a user with correct privileges
     When I make request for a new client with peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode in response
@@ -249,7 +248,7 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
 
 
   @regression
-  Scenario Outline: Negative flow- Mandatory field peakId not provided in request body
+  Scenario Outline: SC-40 - Negative flow- Mandatory field peakId not provided in request body
     Given I am logging in as a user with correct privileges
     When I make request for a new client with name as "<applicationName>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode in response
@@ -260,7 +259,7 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
 
 
   @regression
-  Scenario Outline: Negative flow- Mandatory field subUnitId not provided in request body
+  Scenario Outline: SC-41 - Negative flow- Mandatory field subUnitId not provided in request body
     Given I am logging in as a user with correct privileges
     When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode in response
@@ -271,7 +270,7 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
 
 
   @regression
-  Scenario Outline: Negative flow- Mandatory field organisationId not provided in request body
+  Scenario Outline: SC-42 - Negative flow- Mandatory field organisationId not provided in request body
     Given I am logging in as a user with correct privileges
     When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", description as "<description>" and platformId as "<platformId>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode in response
@@ -282,7 +281,7 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
 
 
   @regression
-  Scenario Outline: Negative flow- Mandatory field platformId not provided in request body
+  Scenario Outline: SC-43 - Negative flow- Mandatory field platformId not provided in request body
     Given I am logging in as a user with correct privileges
     When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>" and description as "<description>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode in response
@@ -293,7 +292,7 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
 
 
   @regression
-  Scenario Outline: Negative flow- Mandatory field applicationDescription not provided in request body
+  Scenario Outline: SC-44 - Negative flow- Mandatory field applicationDescription not provided in request body
     Given I am logging in as a user with correct privileges
     When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>" and platformId as "<platformId>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode in response
@@ -304,7 +303,7 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
 
 
   @regression
-  Scenario Outline: Negative flow- Invalid Mandatory fields provided in request body
+  Scenario Outline: SC-45-60 Negative flow- Invalid Mandatory fields provided in request body
     Given I am logging in as a user with correct privileges
     When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode in response
@@ -327,12 +326,13 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
       | validname           | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289  | vhgkd859cce3f9                       | string      | 400         | Unable to read or parse message body: json parse error | EA002      | Service Request Validation Failed |
       | validname           | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289  | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx | string      | 400         | Unable to read or parse message body: json parse error | EA002      | Service Request Validation Failed |
       | validname           | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289  | 2d5cbfe7-86c5-40ed-a58f-bade080dd7e6 | string      | 400         | Platform Id is invalid.                                | EA002      | Service Request Validation Failed |
-#      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline  |  1a@b#4!&    | 400         |                                                                                                                      | EA002      | Service Request Validation Failed |
+#     | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | Shopline  |  1a@b#4!&    | 400         |                                                                                                                      | EA002      | Service Request Validation Failed |
+
 #applicationDescription is free text; can be anything
 
 
   @regression
-  Scenario Outline: Negative flow- Invalid long applicationName provided in request body
+  Scenario Outline: SC-61 - Negative flow- Invalid long applicationName provided in request body
     Given I am logging in as a user with correct privileges
     When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
     Then I should receive a "400" http code with "Service Request Validation Failed" error message
@@ -342,7 +342,7 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
       | longname        | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      |
 
   @regression
-  Scenario Outline: Negative flow- Invalid long applicationDescription provided in request body
+  Scenario Outline: SC-62 - Negative flow- Invalid long applicationDescription provided in request body
     Given I am logging in as a user with correct privileges
     When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
     Then I should receive a "400" http code with "Service Request Validation Failed" error message
@@ -350,3 +350,14 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
     Examples:
       | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | description     | error_description                                                                                                           | error_code |
       | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | longdescription | Field error in object 'onboardingInputModel': field 'applicationDescription' size must be between 0 and 256; rejected value | EA002      |
+
+
+  @regression @skiponversionten @skiponversioneleven
+  Scenario Outline: SC-63 - Positive flow - A DRAGON user with All privilege is onboarded successfully with POST On-Boarding API
+    Given I am logging in as a user with correct privileges
+    When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
+    Then I should receive a successful merchant onboarding response
+    And validate response have the valid values
+    Examples:
+      | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | description |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | description |

@@ -61,7 +61,7 @@ public class PostOnboarding_StepDefs extends UtilManager {
     @Then("^I should receive a successful merchant onboarding response$")
     public void iShouldReceiveASuccessfulMerchantOnboardingResponse() {
         response = testContext.getApiManager().getOneClickMerchantOnboarding().getOneClickOnboardingRequestResponse();
-        Assert.assertEquals(getRestHelper().getResponseStatusCode(response), 201, "Request was not successful!");
+        Assert.assertEquals(getRestHelper().getResponseStatusCode(response), HttpStatus.SC_CREATED, "Request was not successful!");
         Assert.assertEquals(getRestHelper().getResponseHeaderValue(response, "X-Application-Context "), null, "Expects X-Application-Context header to not exists");
         Assert.assertNotNull(response, "The response for Post One Click Merchant Onboarding Request was null");
     }
@@ -602,40 +602,40 @@ public class PostOnboarding_StepDefs extends UtilManager {
     @And("^validate only applicationDescription is updated in response$")
     public void validateOnlyApplicationDescriptionIsUpdatedInResponse() {
         if (PropertyHelper.getInstance().getPropertyCascading("version").equals("0.11")) {
-        HashMap applicationResponse_one = resp_one.path("application");
-        HashMap signingKeyResponse_one = resp_one.path("signingKey");
-        HashMap passwordMetadataResponse_one = resp_one.path("passwordMetadata");
+            HashMap applicationResponse_one = resp_one.path("application");
+            HashMap signingKeyResponse_one = resp_one.path("signingKey");
+            HashMap passwordMetadataResponse_one = resp_one.path("passwordMetadata");
 
-        HashMap applicationResponse_two = response.path("application");
-        HashMap signingKeyResponse_two = response.path("signingKey");
-        HashMap passwordMetadataResponse_two = response.path("passwordMetadata");
+            HashMap applicationResponse_two = response.path("application");
+            HashMap signingKeyResponse_two = response.path("signingKey");
+            HashMap passwordMetadataResponse_two = response.path("passwordMetadata");
 
-        //Validate application response details
-        Assert.assertEquals(applicationResponse_two.get(Constants.APPLICATION_ID), applicationResponse_one.get("applicationId"), "applicationId isn't same!");
-        Assert.assertEquals(applicationResponse_two.get(Constants.CLIENT_ID), applicationResponse_one.get("clientId"), "clientId isn't same!");
-        Assert.assertEquals(applicationResponse_two.get(Constants.PEAK_ID), applicationResponse_one.get("peakId"), "peakId isn't same!");
-        Assert.assertEquals(applicationResponse_two.get(Constants.SUB_UNIT_ID), applicationResponse_one.get("subUnitId"), "subUnitId isn't same!");
-        Assert.assertEquals(applicationResponse_two.get(Constants.ORGANISATION_ID), applicationResponse_one.get("organisationId"), "organisationId isn't same!");
-        Assert.assertEquals(applicationResponse_two.get(Constants.PLATFORM_ID), applicationResponse_one.get("platformId"), "platformId isn't same!");
-        Assert.assertEquals(applicationResponse_two.get(Constants.PLATFORM_NAME), applicationResponse_one.get("platformName"), "platformName isn't same!");
+            //Validate application response details
+            Assert.assertEquals(applicationResponse_two.get(Constants.APPLICATION_ID), applicationResponse_one.get("applicationId"), "applicationId isn't same!");
+            Assert.assertEquals(applicationResponse_two.get(Constants.CLIENT_ID), applicationResponse_one.get("clientId"), "clientId isn't same!");
+            Assert.assertEquals(applicationResponse_two.get(Constants.PEAK_ID), applicationResponse_one.get("peakId"), "peakId isn't same!");
+            Assert.assertEquals(applicationResponse_two.get(Constants.SUB_UNIT_ID), applicationResponse_one.get("subUnitId"), "subUnitId isn't same!");
+            Assert.assertEquals(applicationResponse_two.get(Constants.ORGANISATION_ID), applicationResponse_one.get("organisationId"), "organisationId isn't same!");
+            Assert.assertEquals(applicationResponse_two.get(Constants.PLATFORM_ID), applicationResponse_one.get("platformId"), "platformId isn't same!");
+            Assert.assertEquals(applicationResponse_two.get(Constants.PLATFORM_NAME), applicationResponse_one.get("platformName"), "platformName isn't same!");
 
-        //Validate signingKey response details
-        Assert.assertEquals(signingKeyResponse_two.get(Constants.KEY_ID), signingKeyResponse_one.get("keyId"), "Signing keyId isn't same!");
-        Assert.assertEquals(signingKeyResponse_two.get(Constants.ALG), signingKeyResponse_one.get("alg"), "Signing alg isn't same!");
-        Assert.assertEquals(signingKeyResponse_two.get(Constants.TYPE), signingKeyResponse_one.get("type"), "Signing type isn't same!");
-        Assert.assertEquals(signingKeyResponse_two.get(Constants.SIZE), signingKeyResponse_one.get("size"), "Signing size isn't same!");
-        Assert.assertEquals(signingKeyResponse_two.get(Constants.ENTITY_STATUS), signingKeyResponse_one.get("entityStatus"), "Signing entityStatus isn't same!");
+            //Validate signingKey response details
+            Assert.assertEquals(signingKeyResponse_two.get(Constants.KEY_ID), signingKeyResponse_one.get("keyId"), "Signing keyId isn't same!");
+            Assert.assertEquals(signingKeyResponse_two.get(Constants.ALG), signingKeyResponse_one.get("alg"), "Signing alg isn't same!");
+            Assert.assertEquals(signingKeyResponse_two.get(Constants.TYPE), signingKeyResponse_one.get("type"), "Signing type isn't same!");
+            Assert.assertEquals(signingKeyResponse_two.get(Constants.SIZE), signingKeyResponse_one.get("size"), "Signing size isn't same!");
+            Assert.assertEquals(signingKeyResponse_two.get(Constants.ENTITY_STATUS), signingKeyResponse_one.get("entityStatus"), "Signing entityStatus isn't same!");
 
-        Assert.assertEquals(response.path(Constants.GRANT_URL).toString(), resp_one.path("grantUrl"), "grantUrl isn't same!");
+            Assert.assertEquals(response.path(Constants.GRANT_URL).toString(), resp_one.path("grantUrl"), "grantUrl isn't same!");
 
-        //Validate passwordMetadata response is generated new
-        Assert.assertNotEquals(passwordMetadataResponse_two.get(Constants.KEY_ID), passwordMetadataResponse_one.get("keyId"), "passwordMetadata keyId shouldn't be same!");
-        Assert.assertNotEquals(passwordMetadataResponse_two.get(Constants.ACTIVATE_AT), passwordMetadataResponse_one.get("activateAt"), "passwordMetadata activateAt shouldn't be same!");
-        Assert.assertNotEquals(passwordMetadataResponse_two.get(Constants.DEACTIVATE_AT), passwordMetadataResponse_one.get("deactivateAt"), "passwordMetadata deactivateAt shouldn't be same!");
+            //Validate passwordMetadata response is generated new
+            Assert.assertNotEquals(passwordMetadataResponse_two.get(Constants.KEY_ID), passwordMetadataResponse_one.get("keyId"), "passwordMetadata keyId shouldn't be same!");
+            Assert.assertNotEquals(passwordMetadataResponse_two.get(Constants.ACTIVATE_AT), passwordMetadataResponse_one.get("activateAt"), "passwordMetadata activateAt shouldn't be same!");
+            Assert.assertNotEquals(passwordMetadataResponse_two.get(Constants.DEACTIVATE_AT), passwordMetadataResponse_one.get("deactivateAt"), "passwordMetadata deactivateAt shouldn't be same!");
 
-        //Validate applicationDescription is updated and not same as previous response
-        Assert.assertNotEquals(applicationResponse_two.get(Constants.APPLICATION_DESCRIPTION), applicationResponse_one.get("applicationDescription"), "applicationDescription should be updated!");
-    }else{
+            //Validate applicationDescription is updated and not same as previous response
+            Assert.assertNotEquals(applicationResponse_two.get(Constants.APPLICATION_DESCRIPTION), applicationResponse_one.get("applicationDescription"), "applicationDescription should be updated!");
+        } else {
             Assert.assertEquals(getRestHelper().getResponseStatusCode(response), HttpStatus.SC_BAD_REQUEST);
         }
     }
@@ -691,4 +691,122 @@ public class PostOnboarding_StepDefs extends UtilManager {
     public void iOnboardNewMerchantByPOSTOnboardingAPI() {
         createApplicationWithOneClickApi();
     }
+
+    @And("^validate response have the valid values$")
+    public void validateReponseHaveValidValues() {
+        String env = PropertyHelper.getInstance().getPropertyCascading("env");
+        String userType = PropertyHelper.getInstance().getPropertyCascading("usertype");
+
+        applicationResponse = response.path(".");
+        signingKeyResponse = response.path("signingKey");
+        passwordMetadataResponse = response.path("secret");
+
+        //Validate application response details
+
+        Assert.assertNotNull(response.path((Constants.CREDENTIAL_ID), "client id cannot be null!"));
+        Assert.assertNotNull(response.path((Constants.CREDENTIAL_NAME), "client name cannot be null!"));
+        Assert.assertEquals(response.path(Constants.CREDENTIAL_NAME),"Primary Keys", "Onboarding credential name should be Primary Keys");
+        Assert.assertNotNull(response.path((Constants.APPLICATION_ID), "applicationId cannot be null!"));
+        Assert.assertNotNull(response.path((Constants.APPLICATION_NAME), "applicationName cannot be null!"));
+        Assert.assertEquals(applicationResponse.get(Constants.APPLICATION_NAME), testContext.getApiManager().getOneClickMerchantOnboarding().getApplicationName(), "applicationName should be same as provided in request body!");
+        Assert.assertNotNull(applicationResponse.get(Constants.APPLICATION_DESCRIPTION), "applicationDescription cannot be null!");
+
+        Assert.assertEquals(response.path(Constants.APPLICATION_DESCRIPTION), testContext.getApiManager().getOneClickMerchantOnboarding().getDescription(), "applicationDescription should be same as provided in request body!");
+        Assert.assertEquals(response.path(Constants.PEAK_ID), testContext.getApiManager().getOneClickMerchantOnboarding().getPeakId(), "peakId should be same as provided in request body!");
+        Assert.assertEquals(response.path(Constants.SUB_UNIT_ID), testContext.getApiManager().getOneClickMerchantOnboarding().getSubUnitId(), "subUnitId should be same as provided in request body!");
+        Assert.assertEquals(response.path(Constants.ORGANISATION_ID), testContext.getApiManager().getOneClickMerchantOnboarding().getOrganisationId(), "organisationId should be same as provided in request body!");
+        Assert.assertEquals(response.path(Constants.PLATFORM_ID),testContext.getApiManager().getOneClickMerchantOnboarding().getPlatformId());
+
+        Assert.assertNotNull(response.path(Constants.PLATFORM_NAME), "platformName should not be null!");
+        Assert.assertNotNull(response.path(Constants.STATUS), "Signing entityStatus cannot be null!");
+        Assert.assertEquals(response.path(Constants.STATUS), "A", "Status should be active for new on-boarding");
+        Assert.assertNotNull(response.path(Constants.ACTIVATE_AT), "Signing activateAt cannot be nul!");
+        Assert.assertNotNull(response.path(Constants.EXPIRE_AT), "Signing createdAt cannot be null!");
+        Assert.assertNotNull(response.path(Constants.CREATED_AT), "Application createdAt should not be null!");
+        Assert.assertNotNull(response.path(Constants.LAST_UPDATED_AT), "Signing lastUpdatedAt cannot be null!");
+
+        Assert.assertEquals(response.path(Constants.ACTIVATE_AT).toString().substring(0, 10), getDateHelper().getCurrentDate(), "Activate date should be today's date");
+        Assert.assertEquals(response.path(Constants.CREATED_AT).toString().substring(0, 10), getDateHelper().getCurrentDate(), "createdAT date should be today's date");
+        Assert.assertEquals(response.path(Constants.LAST_UPDATED_AT).toString().substring(0, 10), getDateHelper().getCurrentDate(), "lastUpdatedAt date should be today's date");
+        Assert.assertEquals(response.path(Constants.EXPIRE_AT).toString(), getDateHelper().getFutureDate(1).concat(response.path(Constants.ACTIVATE_AT).toString().substring(10)), "deactivatedAt date should be one year later than createdAt date");
+
+        Assert.assertTrue(getDateHelper().validateDateFormat(response.path(Constants.EXPIRE_AT)), "date format should be yyyy-mm-ddThh-mm-ssZ");
+        Assert.assertTrue(getDateHelper().validateDateFormat(response.path(Constants.ACTIVATE_AT)), "date format should be yyyy-mm-ddThh-mm-ssZ");
+        Assert.assertTrue(getDateHelper().validateDateFormat(response.path(Constants.CREATED_AT)), "date format should be yyyy-mm-ddThh-mm-ssZ");
+        Assert.assertTrue(getDateHelper().validateDateFormat(response.path(Constants.EXPIRE_AT)), "date format should be yyyy-mm-ddThh-mm-ssZ");
+
+
+        Assert.assertEquals(response.path(Constants.LAST_UPDATED_AT).toString(), response.path(Constants.CREATED_AT).toString(), "lastUpdatedAt date and createdAt should be the same date");
+        Assert.assertEquals(response.path(Constants.LAST_UPDATED_AT).toString(), response.path(Constants.ACTIVATE_AT).toString(), "lastUpdatedAt date and activateAt should be the same date");
+        Assert.assertEquals(response.path(Constants.ACTIVATE_AT).toString(), response.path(Constants.CREATED_AT).toString(), "activateAt date and createdAt should be the same date");
+
+        if (env.equalsIgnoreCase("SIT") && userType.equalsIgnoreCase("merchant")) {
+            Assert.assertEquals(response.path(Constants.LAST_UPDATED_BY).toString(), getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-id"), "updatedBy is not correct");
+            Assert.assertEquals(response.path(Constants.CREATED_BY).toString(), getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-id"), "updatedBy is not correct");
+        } else if (env.equalsIgnoreCase("CI") && userType.equalsIgnoreCase("merchant")) {
+            Assert.assertEquals(response.path(Constants.LAST_UPDATED_BY).toString(), getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-id"), "updatedBy is not correct");
+            Assert.assertEquals(response.path(Constants.CREATED_BY).toString(), getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-id"), "updatedBy is not correct");
+
+        } else if (env.equalsIgnoreCase("SIT") && userType.equalsIgnoreCase("developer")) {
+            Assert.assertEquals(response.path(Constants.LAST_UPDATED_BY).toString(), getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-id"), "updatedBy is not correct");
+            Assert.assertEquals(response.path(Constants.CREATED_BY).toString(), getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-id"), "updatedBy is not correct");
+
+        } else if (env.equalsIgnoreCase("CI") && userType.equalsIgnoreCase("developer")) {
+            Assert.assertEquals(response.path(Constants.LAST_UPDATED_BY).toString(), getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-id"), "updatedBy is not correct");
+            Assert.assertEquals(response.path(Constants.CREATED_BY).toString(), getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-id"), "updatedBy is not correct");
+
+        } else if (env.equalsIgnoreCase("PRE") && userType.equalsIgnoreCase("merchant")) {
+            Assert.assertEquals(response.path(Constants.LAST_UPDATED_BY).toString(), getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-id"), "updatedBy is not correct");
+            Assert.assertEquals(response.path(Constants.CREATED_BY).toString(), getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-id"), "updatedBy is not correct");
+
+        } else if (env.equalsIgnoreCase("PRE") && userType.equalsIgnoreCase("developer")) {
+            Assert.assertEquals(response.path(Constants.LAST_UPDATED_BY).toString(), getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-id"), "updatedBy is not correct");
+            Assert.assertEquals(response.path(Constants.CREATED_BY).toString(), getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-id"), "updatedBy is not correct");
+
+        } else if (env.equalsIgnoreCase("UAT1") && userType.equalsIgnoreCase("merchant")) {
+            Assert.assertEquals(response.path(Constants.LAST_UPDATED_BY).toString(), getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-id"), "updatedBy is not correct");
+            Assert.assertEquals(response.path(Constants.CREATED_BY).toString(), getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "merchant-client-id"), "updatedBy is not correct");
+
+        } else if (env.equalsIgnoreCase("UAT1") && userType.equalsIgnoreCase("developer")) {
+            Assert.assertEquals(response.path(Constants.LAST_UPDATED_BY).toString(), getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-id"), "updatedBy is not correct");
+            Assert.assertEquals(response.path(Constants.CREATED_BY).toString(), getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-id"), "updatedBy is not correct");
+
+            HashMap signingKey = response.path(Constants.SIGNING_KEY);
+            HashMap secret = response.path(Constants.SECRET);
+
+            if (signingKey != null) {
+                Assert.assertEquals(signingKey.size(), 6);
+                Assert.assertNotNull(signingKey.get(Constants.ALG));
+                Assert.assertNotNull(signingKey.get(Constants.ID));
+                Assert.assertNotNull(signingKey.get(Constants.TYPE));
+                Assert.assertNotNull(signingKey.get(Constants.SIZE));
+                Assert.assertNotNull(signingKey.get(Constants.KEY_ID));
+                Assert.assertNotNull(signingKey.get(Constants.VALUE));
+                Assert.assertEquals(signingKey.get(Constants.VALUE), "");
+            }
+            if (secret != null) {
+                Assert.assertEquals(secret.size(), 3);
+                Assert.assertNotNull(secret.get(Constants.ID));
+                Assert.assertEquals(secret.get(Constants.CLIENT_ID), testContext.getApiManager().getOneClickMerchantOnboarding().getClientId(), "clientId should belongs from the applicationId");
+                Assert.assertNotNull(secret.get(Constants.VALUE));
+                Assert.assertEquals(secret.get(Constants.VALUE), "");
+            }
+
+            //Validate other response body parameters
+            Assert.assertNotNull(response.path(Constants.GRANT_URL), "grantUrl cannot be null!");
+            Assert.assertNotNull(response.path(Constants.PDF_URL), "pdfUrl cannot be null!");
+            if (env.equalsIgnoreCase("SIT") && userType.equalsIgnoreCase("merchant")) {
+                Assert.assertTrue(response.path(Constants.PDF_URL).toString().contains("https://sacct" + env.toLowerCase() + "hkdragboarding.blob.core.windows.net/paymeapi-pdf/" + applicationResponse.get(Constants.SUB_UNIT_ID) + "_LV_"));
+            } else if (env.equalsIgnoreCase("SIT") && userType.equalsIgnoreCase("developer")) {
+                Assert.assertTrue(response.path(Constants.PDF_URL).toString().contains("https://sacct" + env.toLowerCase() + "hkdragsandbox.blob.core.windows.net/paymeapi-pdf/" + applicationResponse.get(Constants.SUB_UNIT_ID) + "_SB_"));
+            } else if (env.equalsIgnoreCase("CI") && userType.equalsIgnoreCase("merchant")) {
+                Assert.assertTrue(response.path(Constants.PDF_URL).toString().contains("https://sacct" + env.toLowerCase() + "dragmerch.blob.core.windows.net/paymeapi-pdf/" + applicationResponse.get(Constants.SUB_UNIT_ID) + "_LV_"));
+            } else if (env.equalsIgnoreCase("CI") && userType.equalsIgnoreCase("developer")) {
+                Assert.assertTrue(response.path(Constants.PDF_URL).toString().contains("https://sacct" + env.toLowerCase() + "dragmerch.blob.core.windows.net/paymeapi-pdf/" + applicationResponse.get(Constants.SUB_UNIT_ID) + "_SB_"));
+            }
+            Assert.assertNotNull(response.path(Constants.PDF_PIN), "pdfPin cannot be null!");
+            Assert.assertEquals(response.path(Constants.PDF_PIN).toString().length(), 16, "pdfPin should be 16 characters.");
+        }
+    }
+
 }
