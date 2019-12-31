@@ -1238,4 +1238,35 @@ public class GetCredentials_StepDefs extends UtilManager {
         Assert.assertNotNull("secret_Id cannot not be null!", secret.get(Constants.ID));
         Assert.assertNotNull("secret_clientId cannot not be null!", secret.get(Constants.CLIENT_ID));
     }
+
+    @When("^I query for a list of credentials with filter \"([^\"]*)\", credentialName \"([^\"]*)\", credentialId \"([^\"]*)\"$")
+    public void iQueryForAListOfCredentialsWithFilterCredentialNameCredentialId(String status, String credentialName, String credentialId) {
+        logger.info("********** GET Credentials Request *********** \n");
+
+//        //credentialId and credentialName from POST Credentials API
+//        String post_credentialId = testContext.getApiManager().postCredentialsMerchants().getResponse().getBody().path(Constants.CREDENTIAL_ID);
+//        String post_credentialName = testContext.getApiManager().postCredentialsMerchants().getResponse().getBody().path(Constants.CREDENTIAL_NAME);
+//
+//        testContext.getApiManager().getCredentialsMerchants().setGetCredentialName(credentialName);
+//        testContext.getApiManager().getCredentialsMerchants().setGetCredentialId(credentialId);
+
+        String url;
+        url = getRestHelper().getBaseURI() +
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials?status=" + status + "&credentialName=" + credentialName + "&credentialId=" + credentialId;
+
+        testContext.getApiManager().getCredentialsMerchants().makeRequest(url);
+    }
+
+    @When("^I query for a list of credentials with filter \"([^\"]*)\", sortBy \"([^\"]*)\", sortDirection \"([^\"]*)\"$")
+    public void iQueryForAListOfCredentialsWithFilterSortBySortDirection(String status, String sortBy, String sortDirection) {
+        logger.info("********** GET Credentials Request *********** \n");
+        String url;
+        url = getRestHelper().getBaseURI() +
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials?status=" + status + "&sortBy=" + sortBy + "&sortDirection=" + sortDirection;
+
+        testContext.getApiManager().getCredentialsMerchants().makeRequest(url);
+
+    }
 }

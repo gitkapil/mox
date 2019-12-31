@@ -490,41 +490,6 @@ public class PutCredentials_StepDefs extends UtilManager {
 
     }
 
-
-    @And("^I hit the put credentials endpoint with new credential \"([^\"]*)\"$")
-    public void hitExpireCredentialsWithCredentialsID(String credentialName) throws SQLException, ClassNotFoundException {
-
-        //Onboarding
-        testContext.getApiManager().getPutCredentialsMerchants().setCredentialName("validName");
-        testContext.getApiManager().postCredentialsMerchants().setCredentialName(credentialName);
-
-        Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
-        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("applicationId"));
-        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(applicationResponse.getBody().path("subUnitId"));
-
-        //POST Credentials
-        String url = getRestHelper().getBaseURI() +
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
-                + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
-        testContext.getApiManager().postCredentialsMerchants().makeRequest(url, testContext.getApiManager().postCredentialsMerchants().getCredentialName());
-
-        Response credentialResponse = testContext.getApiManager().postCredentialsMerchants().getResponse();
-
-        String credentialId = credentialResponse.path(Constants.CREDENTIAL_ID);
-
-        testContext.getApiManager().postCredentialsMerchants().setCredentialId(credentialId);
-
-        String sqlQuery = "update merchant_admin_db.orgn_cust_crdtl c SET C.CRDTL_STAT_CDE = 'E' , " +
-                "C.REC_UPD_DT_TM = CURRENT_TIMESTAMP(), C.CRDTL_EFF_END_DT_TM = CURRENT_TIMESTAMP() , " +
-                "C.USER_REC_UPD_ID ='Script-Testing' " +
-                "Where C.ORGN_CUST_CRDTL_ID = unhex('2EE3E4A5EF454FE2A37DD5FCFC6ADB22')" ;
-
-        DataBaseConnector.executeSQLQuery_List("CI", sqlQuery, Constants.DB_CONNECTION_URL);
-        String resp = "SELECT hex(c1.ORGN_CUST_CRDTL_ID), c1.* from merchant_admin_db.orgn_cust_crdtl c1";
-        System.out.println("response query: "+resp);
-
-    }
-
 }
 
 

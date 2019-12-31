@@ -185,5 +185,3 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
     Examples:
       | credentialName | httpStatus | statusCode | message            |
       | validName      | 404        | 404        | Resource not found |
-
-

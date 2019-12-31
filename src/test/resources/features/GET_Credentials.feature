@@ -49,6 +49,17 @@ Feature: GET Credentials - DRAG-2177
       | validName      |
 
 
+#Expire credential
+  #@trial @regression
+  Scenario Outline: SC-5 Positive flow - Update credentials name for existing credential
+    Given I am an authorized to put credentials as DRAGON user
+    When I hit the put credentials endpoint with new credential "<credentialName>"
+    Then put credentials response should be successful
+    Examples:
+      | credentialName |
+      | validName      |
+
+
   #@trial @regression
   Scenario Outline: SC-5 Positive flow - Fetch credential details with non existing applicationId
     Given I am an authorized DRAGON user
@@ -294,7 +305,7 @@ Feature: GET Credentials - DRAG-2177
 
     Examples:
       | credentialName | status | sortDirection |
-      | validName      | A      | ASC           |
+      | validName      | A      | asc           |
       | validName      | A      | DESC          |
       | validName      | D      | DESC          |
 
@@ -360,7 +371,7 @@ Feature: GET Credentials - DRAG-2177
       | validName      | D      | LAST_UPDATED_DATE | DESC          | 1     | 2    |
 
 
-  @trial @regression
+  #@trial @regression
   Scenario Outline: SC-30 Positive flow - Fetch created credential details with all filters - status, sortBy, sortDirection, limit, page, credentialId, credentialName
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint five times with credential name "<credentialName>"
@@ -379,6 +390,33 @@ Feature: GET Credentials - DRAG-2177
       | credentialName | status | sortBy            | sortDirection | limit | page |
       | validName      | A      | EXPIRY_DATE       | ASC           | 50    | 5    |
       | validName      | D      | LAST_UPDATED_DATE | DESC          | 1     | 0    |
+
+
+  #@trial @regression
+  Scenario Outline: SC-23-24 Positive flow - Fetch empty list of credential details with multiple non existing filter query parameters - status, credentialName, credentialId
+    Given I am an authorized to create credentials as DRAGON user
+    When I hit the post credentials endpoint with credential name "<credentialName>"
+    Given I am an authorized DRAGON user
+    When I query for a list of credentials with filter "<status>", credentialName "<credentialName>", credentialId "<credentialId>"
+    Then I should receive successful get credential response
+    And validate GET credentials response returns empty list
+    Examples:
+      | credentialName | status | credentialName  | credentialId                         |
+      | validName      | A      | someRandomValue | 401246c9-3ce8-498f-8afe-6084b21f370c |
+
+
+  @trial @regression
+  Scenario Outline: SC-23-24 Positive flow - Fetch empty list of credential details with multiple non existing filter query parameters - status, credentialName, credentialId
+    Given I am an authorized to create credentials as DRAGON user
+    When I hit the post credentials endpoint with credential name "<credentialName>"
+    Given I am an authorized DRAGON user
+    When I query for a list of credentials with filter "<status>", sortBy "<sortBy>", sortDirection "<sortDirection>"
+    Then I should receive successful get credential response
+    And validate GET credentials response returns empty list
+    Examples:
+      | credentialName | status | sortBy            | sortDirection |
+      | validName      | A      | someRandomValue   | DESC          |
+      | validName      | A      | LAST_UPDATED_DATE | ascending     |
 
 
   #@trial @regression
