@@ -18,6 +18,8 @@ public class GetCredentialsMerchants extends UtilManager {
     private String credentialName;
     private String getCredentialsURL;
     private String getFilterStatus;
+    private String getGetCredentialId;
+    private String getGetCredentialName;
     private Response response = null;
     private HashMap<String, String> requestHeader = new HashMap();
     final static Logger logger = Logger.getLogger(GetCredentialsMerchants.class);
@@ -122,4 +124,19 @@ public class GetCredentialsMerchants extends UtilManager {
         this.applicationId = applicationId;
     }
 
+    public String getGetCredentialId() {
+        return getGetCredentialId;
+    }
+
+    public void setGetCredentialId(String getGetCredentialId) {
+        this.getGetCredentialId = getGetCredentialId;
+    }
+
+    public String getGetCredentialName() {
+        return getGetCredentialName;
+    }
+
+    public void setGetCredentialName(String getGetCredentialName) {
+        this.getGetCredentialName = getGetCredentialName;
+    }
 }

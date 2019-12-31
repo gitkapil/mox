@@ -2,6 +2,7 @@ package steps;
 
 import com.google.common.collect.Sets;
 import com.jayway.restassured.response.Response;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -13,6 +14,7 @@ import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import utils.Constants;
 import utils.PropertyHelper;
+
 import java.util.HashMap;
 import java.util.Set;
 
@@ -35,7 +37,7 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
     }
 
     @And("^I hit the post credentials endpoint with credential name \"([^\"]*)\"$")
-    public void hitPostCredentialsWithCredentialsName(String credentialName) {
+    public void hitPostCredentialsWithCredentialsName(String credentialName) throws InterruptedException {
         testContext.getApiManager().postCredentialsMerchants().setCredentialName(credentialName);
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
 
@@ -45,6 +47,7 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
 
         testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path(Constants.APPLICATION_ID));
         testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(applicationResponse.getBody().path(Constants.SUB_UNIT_ID));
+        Thread.sleep(1000);
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
                 + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
@@ -63,7 +66,7 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
 
 
     @And("^I hit the post credentials endpoint without applicationId and valid credential name \"([^\"]*)\"$")
-    public void hitPostCredentialsWithoutApplicationIdAndValidCredentialsName( String credentialName) {
+    public void hitPostCredentialsWithoutApplicationIdAndValidCredentialsName(String credentialName) {
         testContext.getApiManager().postCredentialsMerchants().setCredentialName(credentialName);
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
@@ -196,10 +199,10 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
         Assert.assertEquals(response.path(Constants.LAST_UPDATED_AT).toString().substring(0, 10), getDateHelper().getCurrentDate(), "lastUpdatedAt date should be today's date");
         Assert.assertEquals(response.path(Constants.EXPIRE_AT).toString(), getDateHelper().getFutureDate(1).concat(response.path(Constants.ACTIVATE_AT).toString().substring(10)), "deactivatedAt date should be one year later than createdAt date");
 
-        Assert.assertTrue(getDateHelper().validateDateFormat(response.path(Constants.EXPIRE_AT)),"date format should be yyyy-mm-ddThh-mm-ssZ");
-        Assert.assertTrue(getDateHelper().validateDateFormat(response.path(Constants.ACTIVATE_AT)),"date format should be yyyy-mm-ddThh-mm-ssZ");
-        Assert.assertTrue(getDateHelper().validateDateFormat(response.path(Constants.CREATED_AT)),"date format should be yyyy-mm-ddThh-mm-ssZ");
-        Assert.assertTrue(getDateHelper().validateDateFormat(response.path(Constants.EXPIRE_AT)),"date format should be yyyy-mm-ddThh-mm-ssZ");
+        Assert.assertTrue(getDateHelper().validateDateFormat(response.path(Constants.EXPIRE_AT)), "date format should be yyyy-mm-ddThh-mm-ssZ");
+        Assert.assertTrue(getDateHelper().validateDateFormat(response.path(Constants.ACTIVATE_AT)), "date format should be yyyy-mm-ddThh-mm-ssZ");
+        Assert.assertTrue(getDateHelper().validateDateFormat(response.path(Constants.CREATED_AT)), "date format should be yyyy-mm-ddThh-mm-ssZ");
+        Assert.assertTrue(getDateHelper().validateDateFormat(response.path(Constants.EXPIRE_AT)), "date format should be yyyy-mm-ddThh-mm-ssZ");
 
         Assert.assertEquals(response.path(Constants.APPLICATION_ID).toString(), testContext.getApiManager().postCredentialsMerchants().getApplicationId(), "applicationId should be same as used in endpoint");
 
@@ -242,7 +245,7 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
             HashMap secret = response.path(Constants.SECRET);
 
             if (signingKey != null) {
-                Assert.assertEquals(signingKey.size(),6);
+                Assert.assertEquals(signingKey.size(), 6);
                 Assert.assertNotNull(signingKey.get(Constants.ALG));
                 Assert.assertNotNull(signingKey.get(Constants.ID));
                 Assert.assertNotNull(signingKey.get(Constants.TYPE));
@@ -252,9 +255,9 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
                 Assert.assertEquals(signingKey.get(Constants.VALUE), "");
             }
             if (secret != null) {
-                Assert.assertEquals(secret.size(),3);
+                Assert.assertEquals(secret.size(), 3);
                 Assert.assertNotNull(secret.get(Constants.ID));
-                Assert.assertEquals(secret.get(Constants.CLIENT_ID),testContext.getApiManager().getOneClickMerchantOnboarding().getClientId(), "clientId should belongs from the applicationId");
+                Assert.assertEquals(secret.get(Constants.CLIENT_ID), testContext.getApiManager().getOneClickMerchantOnboarding().getClientId(), "clientId should belongs from the applicationId");
                 Assert.assertNotNull(secret.get(Constants.VALUE));
                 Assert.assertEquals(secret.get(Constants.VALUE), "");
             } else {
@@ -289,6 +292,26 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
                 getRestHelper().getErrorMessage(response).contains(errorMessage),
                 "Different error message being returned..Expected: " + errorMessage + " Actual: " +
                         getRestHelper().getErrorMessage(response));
+    }
+
+    @When("^I hit the post credentials endpoint with new credentialName \"([^\"]*)\"$")
+    public void iHitThePostCredentialsEndpointWithNewCredentialName(String credentialName) throws Throwable {
+        //Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
+
+        /*testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("applicationId"));
+        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(applicationResponse.getBody().path("subUnitId"));
+        testContext.getApiManager().getOneClickMerchantOnboarding().setClientId(applicationResponse.getBody().path("clientId"));
+
+        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path(Constants.APPLICATION_ID));
+        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(applicationResponse.getBody().path(Constants.SUB_UNIT_ID));*/
+
+        Thread.sleep(1000);
+        String url = getRestHelper().getBaseURI() +
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
+
+        System.out.println("url : " + url);
+        testContext.getApiManager().postCredentialsMerchants().makeRequest(url, testContext.getApiManager().postCredentialsMerchants().getCredentialName());
     }
 }
 
