@@ -68,22 +68,24 @@ public class DataBaseConnector {
     }
 
 
-    public static void executeSQLQueryToInsert(String sqlQuery, String connectionURL)
+    public static void executeSQLQueryToInsert(String sqlQuery, String userName, String password, String connectionURL)
             throws SQLException, ClassNotFoundException {
 
         Class.forName(Constants.DB_DRIVER);
-        Connection connection = DriverManager.getConnection(connectionURL, Constants.DB_USERNAME_SANDBOX_ADMIN, Constants.DB_PASSWORD_SANDBOX_ADMIN);
+        Connection connection = DriverManager.getConnection(connectionURL, userName, password);
         if (connection != null) {
             logger.info("Connected to the database...");
         } else {
             logger.info("Database connection failed to Environment");
         }
         Statement stmt = connection.createStatement();
-        stmt.execute(sqlQuery);
-
+        stmt.executeUpdate(sqlQuery);
         connection.close();
 
     }
 
-
+    public static void expireCredentialsWithCredentialID(String credentialId, String userName, String password, String connectionURL) throws SQLException, ClassNotFoundException {
+        String sqlQuery = "update merchant_management.orgn_cust_crdtl c SET C.CRDTL_STAT_CDE = 'E' , C.REC_UPD_DT_TM = CURRENT_TIMESTAMP(), C.CRDTL_EFF_END_DT_TM = CURRENT_TIMESTAMP() , C.USER_REC_UPD_ID ='Script-Testing' Where C.ORGN_CUST_CRDTL_ID = UNHEX(REPLACE(\""+credentialId+"\", \"-\",\"\"))" ;
+        DataBaseConnector.executeSQLQueryToInsert(sqlQuery,userName, password,connectionURL);
+    }
 }

@@ -8,9 +8,9 @@ Feature: PUT_Credentials - PUT Credentials Merchant
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  @regression
+  @regression @ka
   Scenario Outline: SC-1 Positive flow - Update credentials name for existing credential
-    Given I am an authorized to put credentials as DRAGON user
+    Given I am an authorized user
     When I hit the put credentials endpoint with new credential name "<credentialName>"
     Then put credentials response should be successful
     Examples:
@@ -30,7 +30,7 @@ Feature: PUT_Credentials - PUT Credentials Merchant
       | spaceInQuotes  | 400           | EA002      | Service Request Validation Failed | Atleast one field must be there to update Credentials. |
       | doubleQuotes   | 400           | EA002      | Service Request Validation Failed | Atleast one field must be there to update Credentials. |
 
-  @regression
+  @regression @deativate
   Scenario Outline: SC-6 Positive flow - Deactivate the active credential
     Given I am an authorized to put credentials as DRAGON user
     When I hit the Put credentials endpoint with new credential name "<credentialName>" and status "<status>"
@@ -154,13 +154,13 @@ Feature: PUT_Credentials - PUT Credentials Merchant
       | validName      | spaceInDoubleQuotes                   | EA002      | 400         | Service Request Validation Failed | Credential/Application Id is invalid or credential is not Active.                                                                                                  |
 
 
-  @regression
+  @regression @failed
   Scenario Outline: SC-28-31 Negative flow - Should not be able to update credentials with invalid credentials Id
     Given I am an authorized to put credentials as DRAGON user
     When I hit the put credentials endpoint with invalid credential id "<credentialId>" and valid credential name "<credentialName>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorCode within put credentials response
     And error message should be "<error_message>" within put credentials response
-    Examples:
+   Examples:
       | credentialName | credentialId                         | http_status | error_code | error_description                                                 | error_message                     |
       | validName      | 859cce3f-f3da-4448-9e88-cf8450aea289 | 400         | EA002      | Credential/Application Id is invalid or credential is not Active. | Service Request Validation Failed |
       | validName      | 123                                  | 400         | EA002      | Failed to convert value of type                                   | Service Request Validation Failed |
@@ -217,7 +217,7 @@ Feature: PUT_Credentials - PUT Credentials Merchant
       | validName      | spaceInDoubleQuotes | 404        | 404        | Resource not found |
 
 
-  @regression @kapi
+  @regression @kapiL
   Scenario Outline: SC-1 Positive flow - Update credentials name for existing credential
     Given I am an authorized to put credentials as DRAGON user
     When I hit the put credentials endpoint with new credential "<credentialName>"

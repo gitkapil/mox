@@ -32,8 +32,8 @@ public class PutCredentials_StepDefs extends UtilManager {
 
     @Given("^I am an authorized to put credentials as DRAGON user$")
     public void login() {
-        common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getPutCredentialsMerchants().setAuthTokenWithBearer(token));
         common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().postCredentialsMerchants().setAuthTokenWithBearer(token));
+        common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getPutCredentialsMerchants().setAuthTokenWithBearer(token));
     }
 
     @And("^I hit the put credentials endpoint with new credential name \"([^\"]*)\"$")
@@ -277,7 +277,9 @@ public class PutCredentials_StepDefs extends UtilManager {
         Response response = testContext.getApiManager().getPutCredentialsMerchants().getResponse();
         Assert.assertEquals(getRestHelper().getResponseStatusCode(response), responseCode, "Different response code being returned");
         Assert.assertEquals(getRestHelper().getErrorCode(testContext.getApiManager().getPutCredentialsMerchants().getResponse()), errorCode, "Different error code being returned");
-        Assert.assertTrue(getRestHelper().getErrorDescription(testContext.getApiManager().getPutCredentialsMerchants().getResponse()).contains(errorDesc), "Different error description being returned..Expected: " + errorDesc + "  Actual: " + getRestHelper().getErrorDescription(testContext.getApiManager().getPutCredentialsMerchants().getResponse()));
+        Assert.assertTrue(getRestHelper().getErrorDescription(testContext.getApiManager().getPutCredentialsMerchants().getResponse()).
+                contains(errorDesc), "Different error description being returned..Expected: " + errorDesc + "  Actual: " +
+                getRestHelper().getErrorDescription(testContext.getApiManager().getPutCredentialsMerchants().getResponse()));
     }
 
     @Then("^error message should be \"([^\"]*)\" within put credentials response$")
@@ -431,7 +433,6 @@ public class PutCredentials_StepDefs extends UtilManager {
     }
 
 
-
     @And("^I hit the put credentials endpoint with invalid API versions invalid header \"([^\"]*)\" and values \"([^\"]*)\"$")
     public void hitPostCredentialsWithInvalidAPIVersion(String key, String headerValue) {
         testContext.getApiManager().getPutCredentialsMerchants().setCredentialName("credentialName");
@@ -460,12 +461,11 @@ public class PutCredentials_StepDefs extends UtilManager {
     }
 
     @And("^I hit the put credentials endpoint with invalid credential id \"([^\"]*)\" and valid credential name \"([^\"]*)\"$")
-    public void hitPutCredentialsWithInvalidCredentialIdAndValidCredentialsName(String credentialIds, String credentialName) {
+    public void hitPutCredentialsWithInvalidCredentialIdAndValidCredentialsName(String credentialId, String credentialName) {
 
         //Onboarding
         testContext.getApiManager().getPutCredentialsMerchants().setCredentialName(credentialName);
         testContext.getApiManager().postCredentialsMerchants().setCredentialName(credentialName);
-
 
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
         testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("applicationId"));
@@ -479,17 +479,13 @@ public class PutCredentials_StepDefs extends UtilManager {
 
         Response credentialResponse = testContext.getApiManager().postCredentialsMerchants().getResponse();
 
-        String credentialId = credentialResponse.path(Constants.CREDENTIAL_ID);
+        testContext.getApiManager().postCredentialsMerchants().setCredentialId(credentialResponse.path(Constants.CREDENTIAL_ID));
 
-        testContext.getApiManager().postCredentialsMerchants().setCredentialId(credentialId);
-
-        common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getPutCredentialsMerchants().setAuthTokenWithBearer(token));
-        testContext.getApiManager().getPutCredentialsMerchants().setCredentialId(credentialIds);
-
+        testContext.getApiManager().getPutCredentialsMerchants().setCredentialId(credentialId);
         //Put Credentials
         String putCredentialEndPoint = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
-                + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId()  + "/credentials" + "/" + testContext.getApiManager().getPutCredentialsMerchants().getCredentialId() ;
+                + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId()  + "/credentials" + "/" + credentialId ;
         testContext.getApiManager().getPutCredentialsMerchants().makeRequest(putCredentialEndPoint,testContext.getApiManager().postCredentialsMerchants().getCredentialName());
 
     }

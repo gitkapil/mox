@@ -22,7 +22,7 @@ public class PutCredentialsMerchants extends UtilManager {
     private String deactivateAt;
     private String entityStatus;
     private String credentialName;
-    private String credentialIds;
+    private String credentialId;
     private Response response = null;
     private HashMap<String, String> requestHeader = new HashMap();
     final static Logger logger = Logger.getLogger(PutCredentialsMerchants.class);
@@ -257,21 +257,20 @@ public class PutCredentialsMerchants extends UtilManager {
         return requestHeader;
     }
 
+    public void setCredentialId(String credentialId) {
 
-    public void setCredentialId(String credentialIds) {
 
-        if (credentialIds.equalsIgnoreCase("spaceInDoubleQuotes")) {
-            this.credentialIds = " ";
-        } else if (credentialIds.equalsIgnoreCase("doubleQuotes")) {
-            this.credentialIds = "";
-        } else if (credentialIds.equalsIgnoreCase("empty")) {
-            this.credentialIds = null;
+        if (credentialId.equalsIgnoreCase("spaceInDoubleQuotes")) {
+            this.credentialId = " ";
+        } else if (credentialId.equalsIgnoreCase("doubleQuotes")) {
+            this.credentialId = "";
         } else {
-            this.applicationId = credentialIds;
+            this.applicationId = credentialId;
         }
     }
 
     public String getCredentialId() {
-        return credentialIds;
+        return credentialId;
     }
+
 }

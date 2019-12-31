@@ -103,10 +103,9 @@ public class DateHelper {
             return false;
         }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-        sdf.setLenient(false);
+        sdf.setLenient(true);
         try {
             Date date = sdf.parse(dateToValidate);
-            System.out.println(date);
         } catch (ParseException e) {
 
             e.printStackTrace();

@@ -26,6 +26,7 @@ public class ApiManager {
     PostCredentialsMerchants postCredentialsMerchants;
     PutCredentialsMerchants putCredentialsMerchants ;
     GetCredentialsMerchants getCredentialsMerchants;
+    PostOnboarding postOnboarding;
 
     public GetPlatform getGetPlatform() {
         return getPlatform;
@@ -74,6 +75,7 @@ public class ApiManager {
         getCredentialsMerchants = new GetCredentialsMerchants();
         postCredentialsMerchants = new PostCredentialsMerchants();
         putCredentialsMerchants = new PutCredentialsMerchants();
+        postOnboarding = new PostOnboarding();
 
     }
 

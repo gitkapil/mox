@@ -28,9 +28,7 @@ public class Constants {
     public static final String PLATFORM_NAME = "platformName";
     public static final String DB_USERNAME = "sandbox_rs_read_only@mysql-ci-hk-dragon-mm-db-sand";
     public static final String DB_USERNAME_ADMIN = "sandbox_rs_read_only@mysql-ci-hk-dragon-mm-db-sand";
-    public static final String DB_USERNAME_SANDBOX_ADMIN = "dragon_db_admin@mysql-ci-hk-dragon-mm-db-sand";
     public static final String DB_PASSWORD = "d4mhT?A[nFxpY3d:";
-    public static final String DB_PASSWORD_SANDBOX_ADMIN = "Y5:i?uz=*>X(F8k:";
     public static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
     public static final String DB_CONNECTION_URL = "jdbc:mysql://mysql-ci-hk-dragon-mm-db-sand.mysql.database.azure.com:3306/merchant_management?useSSL=true&requireSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
     public static final String PDF_URL = "pdfUrl";
@@ -85,6 +83,23 @@ public class Constants {
     public static final String CURRENT = "current";
     public static final String TOTAL_ITEMS = "totalItems";
     public static final String EXPIRE_AT = "expireAt";
+
+
+
+    public static final String DB_CONNECTION_URL_SIT_SANDBOX = "jdbc:mysql://mysql-sit-hk-dragon-em-db-sand.mysql.database.azure.com:3306/merchant_management?useSSL=true&requireSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+    public static final String DB_CONNECTION_URL_SIT_MERCHANT = "jdbc:mysql://mysql-sit-hk-dragon-mm-db-merch.mysql.database.azure.com:3306/merchant_management?useSSL=true&requireSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+    public static final String DB_CONNECTION_URL_CI_SANDBOX = "jdbc:mysql://mysql-ci-hk-dragon-mm-db-sand.mysql.database.azure.com:3306/merchant_management?useSSL=true&requireSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+    public static final String DB_CONNECTION_URL_CI_MERCHANT = "jdbc:mysql://mysql-ci-hk-dragon-mm-db-merch.mysql.database.azure.com:3306/merchant_management?useSSL=true&requireSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+
+    public static final String DB_USERNAME_ADMIN_SIT_SANDBOX = "dragon_db_admin@mysql-sit-hk-dragon-mm-db-sand";
+    public static final String DB_PASSWORD_ADMIN_SIT_SANDBOX = "Vwu9BVK(Xui7N{Lc";
+    public static final String DB_USERNAME_ADMIN_SIT_MERCHANT = "dragon_db_admin@mysql-sit-hk-dragon-mm-db-merch";
+    public static final String DB_PASSWORD_ADMIN_SIT_MERCHANT = "<-Y5J]m_CM6LlQ[h";
+
+    public static final String DB_USERNAME_ADMIN_CI_SANDBOX = "dragon_db_admin@mysql-ci-hk-dragon-mm-db-sand";
+    public static final String DB_PASSWORD_ADMIN_CI_SANDBOX = "Y5:i?uz=*>X(F8k:";
+    public static final String DB_USERNAME_ADMIN_CI_MERCHANT = "dragon_db_admin@mysql-ci-hk-dragon-mm-db-merch";
+    public static final String DB_PASSWORD_ADMIN_CI_MERCHANT = ":PQg%hu9KY5VSKkS";
 
 
 }
