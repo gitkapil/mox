@@ -38,7 +38,7 @@ public class PostCredentialsMerchants extends UtilManager {
 
     private HashMap returnRequestBody(String credentialName) {
         requestBody.clear();
-        requestBody.put("credentialName", getCredentialName());
+        requestBody.put("credentialName", credentialName);
         return requestBody;
     }
 

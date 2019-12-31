@@ -1,4 +1,4 @@
-@postCredential
+@credentials
 Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
   As a user
   I want to up to credentials for merchant and validate correct response is returned
@@ -149,7 +149,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | Accept        | EA008      | 406         | Request Header Not Acceptable     | Header Accept does not contain required value.  Access denied. |
       | Content-Type  | EA002      | 415         | Service Request Validation Failed | Content type                                                   |
 
-  @regression @last
+  @regression
   Scenario Outline: SC-29-33 Negative flow - Cannot create a new credentials with invalid applicationId
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with invalid applicationId "<applicationId>" and valid credential name "<credentialName>"
@@ -181,9 +181,16 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint without applicationId and valid credential name "<credentialName>"
     Then I should receive a "<httpStatus>" status code with "<statusCode>" message "<message>" with create credentials response
-
     Examples:
       | credentialName | httpStatus | statusCode | message            |
       | validName      | 404        | 404        | Resource not found |
 
 
+  @regression @skiponversionten @skiponversioneleven
+  Scenario Outline: SC-36 Positive flow - Create new password with existing expired credential name
+    Given I am an authorized to create credentials as DRAGON user
+    When I hit the post credentials endpoint with existing expired credential name "<credentialName>"
+    Then the create credentials response should be successful
+    Examples:
+      | credentialName |
+      | validName      |

@@ -1,4 +1,4 @@
-@putCredential
+@credentials
 Feature: PUT_Credentials - PUT Credentials Merchant
   As a user
   I want to create up to credentials for merchant and validate correct response is returned
@@ -8,9 +8,9 @@ Feature: PUT_Credentials - PUT Credentials Merchant
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  @regression @ka
+  @regression
   Scenario Outline: SC-1 Positive flow - Update credentials name for existing credential
-    Given I am an authorized user
+    Given I am an authorized to put credentials as DRAGON user
     When I hit the put credentials endpoint with new credential name "<credentialName>"
     Then put credentials response should be successful
     Examples:
@@ -19,8 +19,8 @@ Feature: PUT_Credentials - PUT Credentials Merchant
       | $^&$^#$%^^^^^^ |
       | t1s2t3i4n5g6   |
 
-  @regression @putCre
-  Scenario Outline: SC-1 Positive flow - Update credentials with space in quotes and just double quotes in name for existing credential
+  @regression
+  Scenario Outline: SC-4-5 Positive flow - Update credentials with space in quotes and just double quotes in name for existing credential
     Given I am an authorized to put credentials as DRAGON user
     When I hit the put credentials endpoint with new invalid credential name "<credentialName>"
     Then I should receive a "<response_code>" error response with "<error_description>" error description and "<error_code>" errorCode within put credentials response
@@ -30,7 +30,7 @@ Feature: PUT_Credentials - PUT Credentials Merchant
       | spaceInQuotes  | 400           | EA002      | Service Request Validation Failed | Atleast one field must be there to update Credentials. |
       | doubleQuotes   | 400           | EA002      | Service Request Validation Failed | Atleast one field must be there to update Credentials. |
 
-  @regression @deativate
+  @regression
   Scenario Outline: SC-6 Positive flow - Deactivate the active credential
     Given I am an authorized to put credentials as DRAGON user
     When I hit the Put credentials endpoint with new credential name "<credentialName>" and status "<status>"
@@ -217,13 +217,12 @@ Feature: PUT_Credentials - PUT Credentials Merchant
       | validName      | spaceInDoubleQuotes | 404        | 404        | Resource not found |
 
 
-  @regression @kapiL
-  Scenario Outline: SC-1 Positive flow - Update credentials name for existing credential
+  @regression @skiponversionten @skiponversioneleven
+  Scenario Outline: SC-43 - Positive flow - should not allow to update credential name of existing expired credentials
     Given I am an authorized to put credentials as DRAGON user
-    When I hit the put credentials endpoint with new credential "<credentialName>"
-    Then put credentials response should be successful
+    When I hit the put credentials endpoint with existing expired credential name "<credentialName>"
+    Then put credentials response should update the expired name successful
     Examples:
       | credentialName |
       | validName      |
-
 
