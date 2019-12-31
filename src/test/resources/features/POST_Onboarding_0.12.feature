@@ -1,3 +1,4 @@
+@credentials
 Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
 
   Background: Retrieving access Token
@@ -15,16 +16,15 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
       | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | description |
       | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | description |
 
-#
-#  @trial @regression
-#  Scenario Outline: SC-2 Positive flow - Validate platformId and platformName from database
-#    Given I am logging in as a user with correct privileges
-#    When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
-#    Then I should receive a successful merchant onboarding response
-#    And validate "<platformId>" and platformName from database
-#    Examples:
-#      | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | description |
-#      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | description |
+  @trial @regression
+  Scenario Outline: SC-2 Positive flow - Validate platformId and platformName from database
+    Given I am logging in as a user with correct privileges
+    When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
+    Then I should receive a successful merchant onboarding response
+    And validate "<platformId>" and platformName from database
+    Examples:
+      | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | description |
+      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | description |
 
 
   @regression

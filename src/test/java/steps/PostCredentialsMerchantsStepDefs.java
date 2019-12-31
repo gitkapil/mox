@@ -7,14 +7,15 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import cucumber.api.java.gl.E;
 import managers.TestContext;
 import managers.UtilManager;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import utils.Constants;
+import utils.DataBaseConnector;
 import utils.PropertyHelper;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -53,6 +54,57 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
                 + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
         testContext.getApiManager().postCredentialsMerchants().makeRequest(url, testContext.getApiManager().postCredentialsMerchants().getCredentialName());
     }
+
+    @And("^I hit the post credentials endpoint with existing expired credential name \"([^\"]*)\"$")
+    public void hitPostCredentialsWithExistingExpiredCredentialsName(String credentialName) throws SQLException, ClassNotFoundException {
+        testContext.getApiManager().postCredentialsMerchants().setCredentialName(credentialName);
+        Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
+
+        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("applicationId"));
+        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(applicationResponse.getBody().path("subUnitId"));
+        testContext.getApiManager().getOneClickMerchantOnboarding().setClientId(applicationResponse.getBody().path("clientId"));
+
+        testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path(Constants.APPLICATION_ID));
+        testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(applicationResponse.getBody().path(Constants.SUB_UNIT_ID));
+        String url = getRestHelper().getBaseURI() +
+                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
+        testContext.getApiManager().postCredentialsMerchants().makeRequest(url, testContext.getApiManager().postCredentialsMerchants().getCredentialName());
+
+        Response response = testContext.getApiManager().postCredentialsMerchants().getResponse();
+        String credentialId= response.path(Constants.CREDENTIAL_ID);
+
+        String env = PropertyHelper.getInstance().getPropertyCascading("env");
+        String userType = PropertyHelper.getInstance().getPropertyCascading("usertype");
+
+        if (env.equalsIgnoreCase("SIT") && userType.equalsIgnoreCase("merchant")) {
+            DataBaseConnector.expireCredentialsWithCredentialID(credentialId,Constants.DB_USERNAME_ADMIN_SIT_MERCHANT, Constants.DB_PASSWORD_ADMIN_SIT_MERCHANT, Constants.DB_CONNECTION_URL_SIT_MERCHANT);
+
+        } else if (env.equalsIgnoreCase("CI") && userType.equalsIgnoreCase("merchant")) {
+            DataBaseConnector.expireCredentialsWithCredentialID(credentialId,Constants.DB_USERNAME_ADMIN_CI_MERCHANT, Constants.DB_PASSWORD_ADMIN_CI_MERCHANT, Constants.DB_CONNECTION_URL_CI_MERCHANT);
+
+        } else if (env.equalsIgnoreCase("SIT") && userType.equalsIgnoreCase("developer")) {
+            DataBaseConnector.expireCredentialsWithCredentialID(credentialId,Constants.DB_USERNAME_ADMIN_SIT_SANDBOX, Constants.DB_PASSWORD_ADMIN_SIT_SANDBOX, Constants.DB_CONNECTION_URL_SIT_SANDBOX);
+
+        } else if (env.equalsIgnoreCase("CI") && userType.equalsIgnoreCase("developer")) {
+            DataBaseConnector.expireCredentialsWithCredentialID(credentialId,Constants.DB_USERNAME_ADMIN_CI_SANDBOX, Constants.DB_PASSWORD_ADMIN_CI_SANDBOX, Constants.DB_CONNECTION_URL_CI_SANDBOX);
+
+        } else if (env.equalsIgnoreCase("PRE") && userType.equalsIgnoreCase("merchant")) {
+            DataBaseConnector.expireCredentialsWithCredentialID(credentialId,Constants.DB_USERNAME_ADMIN_PRE_MERCHANT, Constants.DB_PASSWORD_ADMIN_PRE_MERCHANT, Constants.DB_CONNECTION_URL_PRE_MERCHANT);
+
+        } else if (env.equalsIgnoreCase("PRE") && userType.equalsIgnoreCase("developer")) {
+            DataBaseConnector.expireCredentialsWithCredentialID(credentialId,Constants.DB_USERNAME_ADMIN_PRE_SANDBOX, Constants.DB_PASSWORD_ADMIN_PRE_SANDBOX, Constants.DB_CONNECTION_URL_PRE_SANDBOX);
+
+        } else if (env.equalsIgnoreCase("UAT1") && userType.equalsIgnoreCase("merchant")) {
+            DataBaseConnector.expireCredentialsWithCredentialID(credentialId,Constants.DB_USERNAME_ADMIN_UAT1_MERCHANT, Constants.DB_PASSWORD_ADMIN_UAT1_MERCHANT, Constants.DB_CONNECTION_URL_UAT1_MERCHANT);
+
+        } else if (env.equalsIgnoreCase("UAT1") && userType.equalsIgnoreCase("developer")) {
+            DataBaseConnector.expireCredentialsWithCredentialID(credentialId, Constants.DB_USERNAME_ADMIN_UAT1_SANDBOX, Constants.DB_PASSWORD_ADMIN_UAT1_SANDBOX, Constants.DB_CONNECTION_URL_UAT1_SANDBOX);
+        }
+
+        testContext.getApiManager().postCredentialsMerchants().makeRequest(url, testContext.getApiManager().postCredentialsMerchants().getCredentialName());
+    }
+
 
     @And("^I hit the post credentials endpoint with invalid applicationId \"([^\"]*)\" and valid credential name \"([^\"]*)\"$")
     public void hitPostCredentialsWithInvalidApplicationIdAndValidCredentialsName(String applicationId, String credentialName) {

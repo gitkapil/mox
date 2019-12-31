@@ -85,7 +85,6 @@ public class Constants {
     public static final String EXPIRE_AT = "expireAt";
 
 
-
     public static final String DB_CONNECTION_URL_SIT_SANDBOX = "jdbc:mysql://mysql-sit-hk-dragon-em-db-sand.mysql.database.azure.com:3306/merchant_management?useSSL=true&requireSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
     public static final String DB_CONNECTION_URL_SIT_MERCHANT = "jdbc:mysql://mysql-sit-hk-dragon-mm-db-merch.mysql.database.azure.com:3306/merchant_management?useSSL=true&requireSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
     public static final String DB_CONNECTION_URL_CI_SANDBOX = "jdbc:mysql://mysql-ci-hk-dragon-mm-db-sand.mysql.database.azure.com:3306/merchant_management?useSSL=true&requireSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
@@ -102,4 +101,16 @@ public class Constants {
     public static final String DB_PASSWORD_ADMIN_CI_MERCHANT = ":PQg%hu9KY5VSKkS";
 
 
+    public static final String DB_USERNAME_ADMIN_PRE_MERCHANT = "";
+    public static final String DB_PASSWORD_ADMIN_PRE_MERCHANT = "";
+    public static final String DB_CONNECTION_URL_PRE_MERCHANT = "";
+    public static final String DB_USERNAME_ADMIN_PRE_SANDBOX = "";
+    public static final String DB_PASSWORD_ADMIN_PRE_SANDBOX = "";
+    public static final String DB_CONNECTION_URL_PRE_SANDBOX = "";
+    public static final String DB_USERNAME_ADMIN_UAT1_MERCHANT = "";
+    public static final String DB_PASSWORD_ADMIN_UAT1_MERCHANT = "";
+    public static final String DB_CONNECTION_URL_UAT1_MERCHANT = "";
+    public static final String DB_USERNAME_ADMIN_UAT1_SANDBOX = "";
+    public static final String DB_PASSWORD_ADMIN_UAT1_SANDBOX = "";
+    public static final String DB_CONNECTION_URL_UAT1_SANDBOX = "";
 }
