@@ -807,6 +807,8 @@ public class GetCredentials_StepDefs extends UtilManager {
                 list_add.add(i, createdAt_add);
             } else if (sortBy.equalsIgnoreCase("LAST_UPDATED_DATE")) {
                 list_add.add(i, lastUpdatedAt_add);
+            } else {
+                list_add.add(i, lastUpdatedAt_add);
             }
         }
 
