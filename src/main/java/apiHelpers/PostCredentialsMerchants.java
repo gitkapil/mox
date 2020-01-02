@@ -143,7 +143,7 @@ public class PostCredentialsMerchants extends UtilManager {
         if (applicationId.equalsIgnoreCase("spaceInDoubleQuotes")) {
             this.applicationId = " ";
         } else if (applicationId.equalsIgnoreCase("doubleQuotes")) {
-            this.applicationId = "";
+            this.applicationId = "%22%22";
         } else if (applicationId.equalsIgnoreCase("empty")) {
             this.applicationId = null;
         } else {

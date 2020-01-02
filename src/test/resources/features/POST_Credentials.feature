@@ -1,4 +1,4 @@
-@credentials
+@cre
 Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
   As a user
   I want to up to credentials for merchant and validate correct response is returned
@@ -149,32 +149,24 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | Accept        | EA008      | 406         | Request Header Not Acceptable     | Header Accept does not contain required value.  Access denied. |
       | Content-Type  | EA002      | 415         | Service Request Validation Failed | Content type                                                   |
 
-  @regression
-  Scenario Outline: SC-29-33 Negative flow - Cannot create a new credentials with invalid applicationId
+  @regression @space
+  Scenario Outline: SC-29-34 Negative flow - Cannot create a new credentials with invalid applicationId
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with invalid applicationId "<applicationId>" and valid credential name "<credentialName>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
     And error message should be "<error_message>" within create credentials response
     Examples:
-      | credentialName | applicationId                         | error_code | http_status | error_message                     | error_description                                                                                                                                                  |
+      | credentialName | applicationId       | error_code | http_status | error_message                     | error_description                                                                                                                                                 |
       | validName      | abcde                                 | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
       | validName      | 1234                                  | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
       | validName      | !~@^*                                 | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
       | validName      | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxxx | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.NumberFormatException: For input string:       |
-      | validName      | spaceInDoubleQuotes                   | EA002      | 400         | Service Request Validation Failed | Please provide application id                                                                                                                                      |
+      | validName      | spaceInDoubleQuotes | EA002      | 400         | Service Request Validation Failed | Please provide application id                                                                                                                                     |
+      | validName      | doubleQuotes        | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string |
 
     # for application Id errorDescription should be: Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string:
     # For now making these the script changes to NumberFormatException
 
-  @regression
-  Scenario Outline: SC-34 Positive flow - Cannot create credentials using double Quotes for application Id
-    Given I am an authorized to create credentials as DRAGON user
-    When I hit the post credentials endpoint with invalid applicationId "<applicationId>" and valid credential name "<credentialName>"
-    Then I should receive a "<httpStatus>" status code with "<statusCode>" message "<message>" with create credentials response
-
-    Examples:
-      | credentialName | applicationId | httpStatus | statusCode | message            |
-      | validName      | doubleQuotes  | 404        | 404        | Resource not found |
 
   @regression
   Scenario Outline: SC-35 Positive flow - Cannot create credentials without applicationId
