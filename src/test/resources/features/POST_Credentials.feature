@@ -177,7 +177,6 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | credentialName | httpStatus | statusCode | message            |
       | validName      | 404        | 404        | Resource not found |
 
-
   @regression @skiponversionten @skiponversioneleven
   Scenario Outline: SC-36 Positive flow - Create new password with existing expired credential name
     Given I am an authorized to create credentials as DRAGON user
