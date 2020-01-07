@@ -1,4 +1,4 @@
-@credentials
+@postOnboarding
 Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
 
   Background: Retrieving access Token
@@ -6,7 +6,7 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  @regression
+  @regression @newOnboard
   Scenario Outline: SC-1 - Positive flow - A DRAGON user with All privilege is onboarded successfully with One Click Onboarding API
     Given I am logging in as a user with correct privileges
     When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"

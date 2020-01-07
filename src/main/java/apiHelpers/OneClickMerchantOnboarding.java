@@ -35,6 +35,7 @@ public class OneClickMerchantOnboarding extends UtilManager {
     private HashMap<String, String> requestHeader;
     private HashMap requestBody = new HashMap();
     private Response response = null;
+    private String credentialId;
 
     /**
      * Getters
@@ -670,4 +671,10 @@ public class OneClickMerchantOnboarding extends UtilManager {
         return response;
     }
 
+    public void setCredentialId(String credentialId) {
+        this.credentialId = credentialId;
+    }
+    public String getCredentialId(){
+        return credentialId;
+    }
 }

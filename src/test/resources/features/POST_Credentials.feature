@@ -1,4 +1,4 @@
-@cre
+@postCredentials
 Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
   As a user
   I want to up to credentials for merchant and validate correct response is returned
@@ -8,16 +8,22 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  @regression
+  @regression  @newPost
   Scenario Outline: SC-1-3 Positive flow - Create a new credentials, new signing key and password
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Then the create credentials response should be successful
     Examples:
-      | credentialName |
-      | validName      |
-      | $^&$^#$%^^^^^^ |
-      | t1s2t3i4n5g6   |
+      | credentialName  |
+      | validName       |
+      | $^&$^#$%^^^^^^  |
+      | t1s2t3i4n5g6    |
+      | 喀庇乐             |
+      | &testing        |
+      | -testging       |
+      | _testing        |
+      | @testing        |
+      | testing testing |
 
 
   @regression
@@ -156,13 +162,14 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
     And error message should be "<error_message>" within create credentials response
     Examples:
-      | credentialName | applicationId       | error_code | http_status | error_message                     | error_description                                                                                                                                                 |
+      | credentialName | applicationId                         | error_code | http_status | error_message                     | error_description                                                                                                                                                  |
       | validName      | abcde                                 | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
       | validName      | 1234                                  | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
       | validName      | !~@^*                                 | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
       | validName      | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxxx | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.NumberFormatException: For input string:       |
-      | validName      | spaceInDoubleQuotes | EA002      | 400         | Service Request Validation Failed | Please provide application id                                                                                                                                     |
-      | validName      | doubleQuotes        | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string |
+      | validName      | spaceInDoubleQuotes                   | EA002      | 400         | Service Request Validation Failed | Please provide application id                                                                                                                                      |
+      | validName      | doubleQuotes                          | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string  |
+      | validName      | 2314fdbf-bca4-4057-92da-06fea4b50dc7  | EA002      | 404         | Resource Not Found!               | Application ID not found                                                                                                                                           |
 
     # for application Id errorDescription should be: Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string:
     # For now making these the script changes to NumberFormatException
@@ -177,7 +184,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | credentialName | httpStatus | statusCode | message            |
       | validName      | 404        | 404        | Resource not found |
 
-  @regression @skiponversionten @skiponversioneleven
+  @regression @skiponversionten @skiponversioneleven @existing
   Scenario Outline: SC-36 Positive flow - Create new password with existing expired credential name
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with existing expired credential name "<credentialName>"

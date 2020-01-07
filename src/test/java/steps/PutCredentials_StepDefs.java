@@ -1,7 +1,5 @@
 package steps;
 
-import apiHelpers.GetApplication;
-import apiHelpers.PutCredentialsMerchants;
 import com.google.common.collect.Sets;
 import com.jayway.restassured.response.Response;
 import cucumber.api.java.en.And;
@@ -50,24 +48,16 @@ public class PutCredentials_StepDefs extends UtilManager {
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
         testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("applicationId"));
         testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(applicationResponse.getBody().path("subUnitId"));
+        testContext.getApiManager().getOneClickMerchantOnboarding().setCredentialId(applicationResponse.getBody().path("credentialId"));
 
-        //POST Credentials
-        String url = getRestHelper().getBaseURI() +
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
-                + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
-        testContext.getApiManager().postCredentialsMerchants().makeRequest(url, testContext.getApiManager().postCredentialsMerchants().getCredentialName());
-
-        Response credentialResponse = testContext.getApiManager().postCredentialsMerchants().getResponse();
-
-        String credentialId = credentialResponse.path(Constants.CREDENTIAL_ID);
+        String credentialId = testContext.getApiManager().getOneClickMerchantOnboarding().getCredentialId();
 
         testContext.getApiManager().postCredentialsMerchants().setCredentialId(credentialId);
-        common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getPutCredentialsMerchants().setAuthTokenWithBearer(token));
         //Put Credentials
         String putCredentialEndPoint = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
                 + "/" + applicationResponse.getBody().path("applicationId") + "/credentials" + "/" + credentialId;
-        testContext.getApiManager().getPutCredentialsMerchants().makeRequest(putCredentialEndPoint, testContext.getApiManager().getPutCredentialsMerchants().getCredentialName());
+        testContext.getApiManager().getPutCredentialsMerchants().makeRequest(putCredentialEndPoint, testContext.getApiManager().postCredentialsMerchants().getCredentialName());
 
     }
 
@@ -236,7 +226,7 @@ public class PutCredentials_StepDefs extends UtilManager {
                 getRestHelper().getResponseStatusCode(testContext.getApiManager().getPutCredentialsMerchants().getResponse()),
                 "Expected 200 but got " +
                         getRestHelper().getResponseStatusCode(testContext.getApiManager().getPutCredentialsMerchants().getResponse()));
-        Assert.assertEquals(testContext.getApiManager().getPutCredentialsMerchants().getResponse().path(Constants.CREDENTIAL_NAME), testContext.getApiManager().getPutCredentialsMerchants().getCredentialName(), "new credential name not updated");
+        Assert.assertEquals(testContext.getApiManager().getPutCredentialsMerchants().getResponse().path(Constants.CREDENTIAL_NAME), testContext.getApiManager().postCredentialsMerchants().getCredentialName(), "new credential name not updated");
         Assert.assertEquals(testContext.getApiManager().getPutCredentialsMerchants().getResponse().path(Constants.CREDENTIAL_ID), testContext.getApiManager().postCredentialsMerchants().getCredentialId(), "credentials Id is not same as used in endpoint");
         Assert.assertEquals(testContext.getApiManager().getPutCredentialsMerchants().getResponse().path(Constants.STATUS), "A", "credentials status should be active");
 
@@ -553,26 +543,19 @@ public class PutCredentials_StepDefs extends UtilManager {
         //Onboarding
         testContext.getApiManager().getPutCredentialsMerchants().setCredentialName(credentialName);
         testContext.getApiManager().postCredentialsMerchants().setCredentialName(credentialName);
+        common.iAmAnAuthorizedDragonUser(ROLE_SET, token -> testContext.getApiManager().getPutCredentialsMerchants().setAuthTokenWithBearer(token));
+        testContext.getApiManager().postCredentialsMerchants().setCredentialId(credentialId);
+
+        System.out.println("Credential Id : "+ testContext.getApiManager().getPutCredentialsMerchants().getCredentialId());
 
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
         testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("applicationId"));
         testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(applicationResponse.getBody().path("subUnitId"));
 
-        //POST Credentials
-        String url = getRestHelper().getBaseURI() +
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
-                + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
-        testContext.getApiManager().postCredentialsMerchants().makeRequest(url, testContext.getApiManager().getPutCredentialsMerchants().getCredentialName());
-
-        Response credentialResponse = testContext.getApiManager().postCredentialsMerchants().getResponse();
-
-        testContext.getApiManager().postCredentialsMerchants().setCredentialId(credentialResponse.path(Constants.CREDENTIAL_ID));
-
-        testContext.getApiManager().getPutCredentialsMerchants().setCredentialId(credentialId);
         //Put Credentials
         String putCredentialEndPoint = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
-                + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials" + "/" + credentialId;
+                + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials/"  + testContext.getApiManager().postCredentialsMerchants().getCredentialId();
         testContext.getApiManager().getPutCredentialsMerchants().makeRequest(putCredentialEndPoint, testContext.getApiManager().postCredentialsMerchants().getCredentialName());
 
     }
