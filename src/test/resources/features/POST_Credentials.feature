@@ -26,7 +26,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
 #      | testing testing |
 
 
-  @regression
+  @regression @skiponversiontwelve @newPost
   Scenario Outline: SC-4-5 Positive flow - Create a new credentials, with double Quotes, and space in double quotes
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
