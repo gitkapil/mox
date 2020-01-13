@@ -19,7 +19,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Set;
 
-public class PostOnboarding_StepDefs extends UtilManager {
+public class PostOnboarding_OneClick_StepDefs extends UtilManager {
     private static final Set<String> ROLE_SET = Sets.newHashSet("Application.ReadWrite.All");
     private static final Set<String> INCORRECT_ROLE_SET = Sets.newHashSet("ApplicationKey.ReadWrite.All");
     private static final String SIG_HEADER_LIST_POST_APPLICATION = "header-list-post-application";
@@ -33,12 +33,12 @@ public class PostOnboarding_StepDefs extends UtilManager {
     HashMap signingKeyResponse;
     HashMap passwordMetadataResponse;
 
-    public PostOnboarding_StepDefs(TestContext testContext) {
+    public PostOnboarding_OneClick_StepDefs(TestContext testContext) {
         this.testContext = testContext;
         common = new ManagementCommon(testContext);
     }
 
-    final static Logger logger = Logger.getLogger(PostOnboarding_StepDefs.class);
+    final static Logger logger = Logger.getLogger(PostOnboarding_OneClick_StepDefs.class);
 
 
     @Given("^I am logging in as a user with correct privileges$")

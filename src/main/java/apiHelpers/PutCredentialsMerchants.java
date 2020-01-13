@@ -63,6 +63,12 @@ public class PutCredentialsMerchants extends UtilManager {
         return requestBody;
     }
 
+    private HashMap returnBodyWithStatus(String credentialName) {
+        requestBody.put("credentialName", credentialName);
+        requestBody.put("status", "A");
+        return requestBody;
+    }
+
     private HashMap<String, String> returnRequestHeader() {
         requestHeader.clear();
         requestHeader.put("Accept", "application/json");
@@ -115,6 +121,11 @@ public class PutCredentialsMerchants extends UtilManager {
         logger.info("Create Credential Response -->>>>      " + response.prettyPrint());
     }
 
+    public void makeRequestWithAlreadyActivatedStatus(String url, String credentialName) {
+        returnRequestHeader();
+        response = getRestHelper().putRequestWithHeaderAndBody(url, requestHeader, returnBodyWithStatus(credentialName));
+        logger.info("Create Credential Response -->>>>      " + response.prettyPrint());
+    }
 
     public void makeRequestWithDeactivateStatusInBody(String url, String credentialName, String status) {
         returnRequestHeader();
@@ -176,7 +187,7 @@ public class PutCredentialsMerchants extends UtilManager {
         if (applicationId.equalsIgnoreCase("spaceInDoubleQuotes")) {
             this.applicationId = " ";
         } else if (applicationId.equalsIgnoreCase("doubleQuotes")) {
-            this.applicationId = "%20";
+            this.applicationId = "%22%22";
         } else if (applicationId.equalsIgnoreCase("empty")) {
             this.applicationId = null;
         } else {
