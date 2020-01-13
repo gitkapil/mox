@@ -8,8 +8,7 @@ Feature: GET Credentials - DRAG-2177
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  #defect - timestamp of GET credentials != POST onboarding DRAG-2432
-  #@trial @regression
+  @trial @regression
   Scenario: SC-1 Positive flow - Fetch created credential details - single credential after POST onboarding
     Given I am logging in as a user with correct privileges
     When I onboard new merchant by POST onboarding API
@@ -19,9 +18,7 @@ Feature: GET Credentials - DRAG-2177
     And validate GET credentials response with onboarding response
 
 
-  #defect - timestamp of GET credentials != POST credentials DRAG-2433 ;sandbox
-  #defect - timestamp of GET credentials != POST onboarding DRAG-2432
-  #@regression
+  @regression
   Scenario Outline: SC-2-3 Positive flow - Fetch created credential details - after POST onboarding and POST credentials
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
@@ -35,7 +32,7 @@ Feature: GET Credentials - DRAG-2177
       | UUID           |
 
 
-  #@regression
+  @regression
   Scenario Outline: SC-4 Positive flow - Fetch created credential details - multiple credentials after POST onboarding, POST credentials, PUT credentials
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint five times with credential name "<credentialName>"
@@ -51,7 +48,7 @@ Feature: GET Credentials - DRAG-2177
 
 
   #Get Expired credential
-  #@regression
+  @regression
   Scenario Outline: SC-5 Positive flow - Create new password with existing expired credential name
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with existing expired credential name "<credentialName>"
@@ -64,7 +61,7 @@ Feature: GET Credentials - DRAG-2177
       | validName      |
 
 
-  #@regression
+  @regression
   Scenario Outline: SC-6 Positive flow - Fetch credential details with non existing applicationId
     Given I am an authorized DRAGON user
     When I hit get credentials endpoint with applicationId "<applicationId>"
@@ -75,7 +72,7 @@ Feature: GET Credentials - DRAG-2177
       | 9ab4462b-1f25-43ea-9740-0c069de8715a |
 
 
-  #@regression
+  @regression
   Scenario Outline: SC-7 Positive flow - Fetch created credential details with filter - status A , D
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint five times with credential name "<credentialName>"
@@ -92,7 +89,7 @@ Feature: GET Credentials - DRAG-2177
       | validName      |
 
 
-  #@regression
+  @regression
   Scenario Outline: SC-8 Positive flow - Fetch created credential details with filter - status E
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with existing expired credential name "<credentialName>"
@@ -105,9 +102,9 @@ Feature: GET Credentials - DRAG-2177
       | credentialName | status |
       | validName      | e      |
 
-#BUG raised DRAG-2406 for credentialName = Hide & Seek
-  #@regression
-  Scenario Outline: SC-9-11 - Positive flow - Fetch created credential details with filter - credentialName
+
+  @regression
+  Scenario Outline: SC-9-18 - Positive flow - Fetch created credential details with filter - credentialName
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Given I am an authorized DRAGON user
@@ -124,10 +121,13 @@ Feature: GET Credentials - DRAG-2177
       | #hash          |
       | &kapil         |
       | चायवाला        |
+      | _Testing       |
+      | Test-hyphen    |
+      | test@          |
 
 
-  #@regression
-  Scenario Outline: SC-12 Positive flow - Fetch created credential details with filter - credentialId
+  @regression
+  Scenario Outline: SC-19 Positive flow - Fetch created credential details with filter - credentialId
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Given I am an authorized DRAGON user
@@ -139,8 +139,8 @@ Feature: GET Credentials - DRAG-2177
       | validName      |
 
 
-  #@regression
-  Scenario Outline: SC-13-15 Positive flow - Fetch created credential details with filter - limit
+  @regression
+  Scenario Outline: SC-20-22 Positive flow - Fetch created credential details with filter - limit
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint five times with credential name "<credentialName>"
     Given I am an authorized DRAGON user
@@ -155,8 +155,8 @@ Feature: GET Credentials - DRAG-2177
       | validName      | -11   | 1      |
 
 
-  #@regression
-  Scenario Outline: SC-16-18 Positive flow - Fetch created credential details with filter - page
+  @regression
+  Scenario Outline: SC-23-25 Positive flow - Fetch created credential details with filter - page
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Given I am an authorized DRAGON user
@@ -170,8 +170,8 @@ Feature: GET Credentials - DRAG-2177
       | validName      | -1   |
 
 
-  #@regression
-  Scenario Outline: SC-19-20 Positive flow - Fetch created credential details with filter - sortDirection
+  @regression
+  Scenario Outline: SC-26-27 Positive flow - Fetch created credential details with filter - sortDirection
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Given I am an authorized DRAGON user
@@ -184,9 +184,8 @@ Feature: GET Credentials - DRAG-2177
       | validName      | ASC           |
 
 
-  #BUG-2435 : error when filter sortBy is provided CREATION_DATE
-  #@regression
-  Scenario Outline: SC-21-24 Positive flow - Fetch created credential details with filter - sortBy
+  @regression
+  Scenario Outline: SC-28-31 Positive flow - Fetch created credential details with filter - sortBy
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Given I am an authorized DRAGON user
@@ -201,8 +200,8 @@ Feature: GET Credentials - DRAG-2177
       | validName      |                   |
 
 
-  #@regression
-  Scenario Outline: SC-25-26 Positive flow - Fetch empty list of credential details with non existing filter query parameters - credentialName, credentialId
+  @regression
+  Scenario Outline: SC-32-33 Positive flow - Fetch empty list of credential details with non existing filter query parameters - credentialName, credentialId
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Given I am an authorized DRAGON user
@@ -215,8 +214,8 @@ Feature: GET Credentials - DRAG-2177
       | validName      | credentialId   | 6ff05d6c-408f-4fe2-b81b-c181d60a821a |
 
 
-  #@regression
-  Scenario Outline: SC-27-29 Positive flow - Fetch total credential details with null and space filter query parameters - credentialName, credentialId
+  @regression
+  Scenario Outline: SC-34-36 Positive flow - Fetch total credential details with null and space filter query parameters - credentialName, credentialId
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Given I am an authorized DRAGON user
@@ -230,8 +229,8 @@ Feature: GET Credentials - DRAG-2177
       | validName      | credentialId   | space |
 
 
-  #@regression
-  Scenario Outline: SC-30 Positive flow - Fetch empty list of credentials for filter space filter credentialName as space
+  @regression
+  Scenario Outline: SC-37 Positive flow - Fetch empty list of credentials for filter space filter credentialName as space
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Given I am an authorized DRAGON user
@@ -243,8 +242,8 @@ Feature: GET Credentials - DRAG-2177
       | validName      | credentialName | space |
 
 
-  #@regression
-  Scenario Outline: SC-31 Positive flow - Fetch created credential details with multiple filters - status, credentialId
+  @regression
+  Scenario Outline: SC-38 Positive flow - Fetch created credential details with multiple filters - status, credentialId
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Given I am an authorized DRAGON user
@@ -256,8 +255,8 @@ Feature: GET Credentials - DRAG-2177
       | validName      | A      | credentialId |
 
 
-  #@regression
-  Scenario Outline: SC-32 Positive flow - Fetch created credential details with multiple filters - status, credentialName
+  @regression
+  Scenario Outline: SC-39 Positive flow - Fetch created credential details with multiple filters - status, credentialName
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Given I am an authorized DRAGON user
@@ -269,8 +268,8 @@ Feature: GET Credentials - DRAG-2177
       | validName      | A      | credentialName |
 
 
-  #@regression
-  Scenario Outline: SC-33-34 Positive flow - Fetch empty list for multiple filters - status, credentialId/credentialName when no records are present
+  @regression
+  Scenario Outline: SC-40-41 Positive flow - Fetch empty list for multiple filters - status, credentialId/credentialName when no records are present
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Given I am an authorized DRAGON user
@@ -283,8 +282,8 @@ Feature: GET Credentials - DRAG-2177
       | validName      | E      | credentialName |
 
 
-  #@regression
-  Scenario Outline: SC-35-37 Positive flow - Fetch created credential details with multiple filters - status, limit
+  @regression
+  Scenario Outline: SC-42-44 Positive flow - Fetch created credential details with multiple filters - status, limit
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Given I am an authorized DRAGON user
@@ -297,9 +296,9 @@ Feature: GET Credentials - DRAG-2177
       | validName      | D      | 0     |
       | validName      | E      | 15    |
 
-#revisit
-  #@regression
-  Scenario Outline: SC-38-40 Positive flow - Fetch created credential details with multiple filters - status, page
+
+  @regression
+  Scenario Outline: SC-45-47 Positive flow - Fetch created credential details with multiple filters - status, page
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Given I am an authorized DRAGON user
@@ -313,8 +312,8 @@ Feature: GET Credentials - DRAG-2177
       | validName      | E      | 15   |
 
 
-  #@regression
-  Scenario Outline: SC-41-43 Positive flow - Fetch created credential details with multiple filters - status, sortDirection
+  @regression
+  Scenario Outline: SC-48-50 Positive flow - Fetch created credential details with multiple filters - status, sortDirection
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Given I am an authorized DRAGON user
@@ -328,9 +327,8 @@ Feature: GET Credentials - DRAG-2177
       | validName      | D      | DESC          |
 
 
-  #BUG-2435 : error when filter sortBy is provided CREATION_DATE
-  #@regression
-  Scenario Outline: SC-44-46 Positive flow - Fetch created credential details with multiple filters - status, sortBy
+  @regression
+  Scenario Outline: SC-51-53 Positive flow - Fetch created credential details with multiple filters - status, sortBy
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint five times with credential name "<credentialName>"
     Given I am an authorized to put credentials as DRAGON user
@@ -346,8 +344,8 @@ Feature: GET Credentials - DRAG-2177
       | validName      | A      | CREATION_DATE     |
 
 
-  #@trial  @regression
-  Scenario Outline: SC-47-48 Positive flow - Fetch created credential details with multiple filters - limit, page
+  @trial @regression
+  Scenario Outline: SC-54-56 Positive flow - Fetch created credential details with multiple filters - limit, page
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint five times with credential name "<credentialName>"
     Given I am an authorized to put credentials as DRAGON user
@@ -359,16 +357,16 @@ Feature: GET Credentials - DRAG-2177
     Given I am an authorized DRAGON user
     When I query for a list of credentials with filter limit "<limit>", page "<page>"
     Then I should receive successful get credential response
-    And validate GET credentials response by multiple filter limit "<limit>", page "<page>"
+    And validate GET credentials response by multiple filter limit "<limit>", page "<page>", status "<status>"
     Examples:
-      | credentialName | limit | page |
-      | validName      | 2     | 2    |
-      | validName      | 5     | 6    |
-      | validName      | 50    | 10   |
+      | credentialName | limit | page | status |
+      | validName      | 2     | 2    | A      |
+      | validName      | 5     | 6    | A      |
+      | validName      | 50    | 10   | A      |
 
 
-  #@regression
-  Scenario Outline: SC-47-48 Positive flow - Fetch created credential details with multiple filters - status, sortBy, sortDirection
+  @regression
+  Scenario Outline: SC-57-58 Positive flow - Fetch created credential details with multiple filters - status, sortBy, sortDirection
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint five times with credential name "<credentialName>"
     Given I am an authorized to put credentials as DRAGON user
@@ -387,9 +385,8 @@ Feature: GET Credentials - DRAG-2177
       | validName      | D      | LAST_UPDATED_DATE | DESC          |
 
 
-  #BUG-2438 : filters not working properly when page filter is not zero
   @regression
-  Scenario Outline: SC-49-50 Positive flow - Fetch created credential details with multiple filters - status, sortBy, sortDirection, limit, page
+  Scenario Outline: SC-59-60 Positive flow - Fetch created credential details with multiple filters - status, sortBy, sortDirection, limit, page
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint five times with credential name "<credentialName>"
     Given I am an authorized to put credentials as DRAGON user
@@ -408,8 +405,8 @@ Feature: GET Credentials - DRAG-2177
       | validName      | D      | LAST_UPDATED_DATE | DESC          | 2     | 2    |
 
 
-  #@regression
-  Scenario Outline: SC-51-52 Positive flow - Fetch created credential details with all filters - status, sortBy, sortDirection, limit, page, credentialId, credentialName
+  @regression
+  Scenario Outline: SC-61-62 Positive flow - Fetch created credential details with all filters - status, sortBy, sortDirection, limit, page, credentialId, credentialName
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint five times with credential name "<credentialName>"
     Given I am an authorized to put credentials as DRAGON user
@@ -428,8 +425,8 @@ Feature: GET Credentials - DRAG-2177
       | validName      | D      | LAST_UPDATED_DATE | DESC          | 1     | 0    |
 
 
-  #@regression
-  Scenario Outline: SC-53 Positive flow - Fetch empty list of credential details with multiple non existing filter query parameters - status, credentialName, credentialId
+  @regression
+  Scenario Outline: SC-63 Positive flow - Fetch empty list of credential details with multiple non existing filter query parameters - status, credentialName, credentialId
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Given I am an authorized DRAGON user
@@ -441,8 +438,8 @@ Feature: GET Credentials - DRAG-2177
       | validName      | A      | someRandomValue | 401246c9-3ce8-498f-8afe-6084b21f370c |
 
 
-  #@regression
-  Scenario Outline: SC-54-57 Negative flow - Invalid auth token
+  @regression
+  Scenario Outline: SC-64-67 Negative flow - Invalid auth token
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Given I am an unauthorized DRAGON user with invalid "<auth_token>" auth token
@@ -461,8 +458,8 @@ Feature: GET Credentials - DRAG-2177
       | validName      | Error validating JWT | API Gateway Authentication Failed | Bearer nbCwW11w3XkB-xUaXwKRSLjMHGQ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | EA001      | 401       |
 
 
-  #@regression
-  Scenario Outline: SC-58-62 Negative flow - Invalid mandatory field Api-Version provided in header
+  @regression
+  Scenario Outline: SC-68-72 Negative flow - Invalid mandatory field Api-Version provided in header
     Given I am an authorized DRAGON user
     When I hit get credentials endpoint for invalid header "<key>" with value "<invalidHeaderValues>"
     Then I should receive status code "<statusCode>" and message "<message>" in get credentials response
@@ -475,8 +472,8 @@ Feature: GET Credentials - DRAG-2177
       | Api-Version | @#$%^               | 404        | Resource not found |
 
 
-  #@regression
-  Scenario Outline: SC-63-67 Negative flow - Invalid mandatory field provided in header
+  @regression
+  Scenario Outline: SC-73-77 Negative flow - Invalid mandatory field provided in header
     Given I am an authorized DRAGON user
     When I hit get credentials endpoint for invalid header "<key>" with value "<invalidHeaderValues>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within get credentials response
@@ -490,8 +487,8 @@ Feature: GET Credentials - DRAG-2177
       | Trace-Id     | 7454108z-yb37-454c-81da-0a12d8b0f867 | 400         | EA002      | Failed to convert value of type                                   | Service Request Validation Failed |
 
 
-  #@regression
-  Scenario Outline: SC-68-72 Negative flow - Invalid applicationId
+  @regression
+  Scenario Outline: SC-78-82 Negative flow - Invalid applicationId
     Given I am an authorized DRAGON user
     When I make request to get credentials endpoint with invalid applicationId "<applicationId>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorcode within get credentials response
@@ -505,8 +502,8 @@ Feature: GET Credentials - DRAG-2177
       | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxxx | 400         | EA002      | Failed to convert value of type | Service Request Validation Failed |
 
 
-  #@regression
-  Scenario Outline: SC-73 Negative flow - Null applicationId
+  @regression
+  Scenario Outline: SC-83 Negative flow - Null applicationId
     Given I am an authorized DRAGON user
     When I make request to get credentials endpoint with invalid applicationId "<applicationId>"
     Then I should receive status code "404" and message "Resource not found" in get credentials response
@@ -515,8 +512,8 @@ Feature: GET Credentials - DRAG-2177
       | null          |
 
 
-  #@regression
-  Scenario Outline: SC-74-79 Negative flow - Invalid filter - status
+  @regression
+  Scenario Outline: SC-84-89 Negative flow - Invalid filter - status
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Given I am an authorized DRAGON user
@@ -533,8 +530,8 @@ Feature: GET Credentials - DRAG-2177
       | validName      | !~@^*  | 400         | EA002      | Status is invalid | Service Request Validation Failed |
 
 
-  #@regression
-  Scenario Outline: SC-80-81 Negative flow - Invalid filter - credentialId
+  @regression
+  Scenario Outline: SC-90-91 Negative flow - Invalid filter - credentialId
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Given I am an authorized DRAGON user
@@ -547,8 +544,8 @@ Feature: GET Credentials - DRAG-2177
       | validName      | !~^$@        | 400         | EA002      | Failed to convert value of type | Service Request Validation Failed |
 
 
-  #@regression
-  Scenario Outline: SC-82-85 Negative flow - Invalid filter - sortDirection
+  @regression
+  Scenario Outline: SC-92-95 Negative flow - Invalid filter - sortDirection
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Given I am an authorized DRAGON user
@@ -562,8 +559,8 @@ Feature: GET Credentials - DRAG-2177
       | validName      | ascending     | 400         | EA002      | sortDirection is invalid | Service Request Validation Failed |
       | validName      | space         | 400         | EA002      | sortDirection is invalid | Service Request Validation Failed |
 
-  #@regression
-  Scenario Outline: SC-86-89 Negative flow - Invalid filter - sortBy
+  @regression
+  Scenario Outline: SC-96-99 Negative flow - Invalid filter - sortBy
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Given I am an authorized DRAGON user
@@ -578,8 +575,8 @@ Feature: GET Credentials - DRAG-2177
       | validName      | space   | 400         | EA002      | sortBy is invalid | Service Request Validation Failed |
 
 
-  #@regression
-  Scenario Outline: SC-90-91 Negative flow - Error when multiple non existing filter query parameters - status, credentialName, credentialId
+  @regression
+  Scenario Outline: SC-100-101 Negative flow - Error when multiple non existing filter query parameters - status, credentialName, credentialId
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Given I am an authorized DRAGON user

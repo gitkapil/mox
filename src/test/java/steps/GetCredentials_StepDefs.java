@@ -168,10 +168,19 @@ public class GetCredentials_StepDefs extends UtilManager {
 
         //credentialName from POST Credentials API
         String post_credentialName = testContext.getApiManager().postCredentialsMerchants().getCredentialName();
+        String url;
 
-        String url = getRestHelper().getBaseURI() +
-                getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
-                + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials?credentialName=" + post_credentialName;
+        if (post_credentialName.contains("&")) {
+            String encodedName = post_credentialName.replace("&", "%26");
+
+            url = getRestHelper().getBaseURI() +
+                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                    + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials?credentialName=" + encodedName;
+        } else {
+            url = getRestHelper().getBaseURI() +
+                    getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
+                    + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials?credentialName=" + post_credentialName;
+        }
         testContext.getApiManager().getCredentialsMerchants().makeRequest(url);
     }
 
@@ -236,7 +245,7 @@ public class GetCredentials_StepDefs extends UtilManager {
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
                 + "/" + testContext.getApiManager().postCredentialsMerchants().getApplicationId() + "/credentials";
-        System.out.println("url : " + url);
+
         int x = 1;
         while (x <= 4) {
             Thread.sleep(1000);
@@ -416,7 +425,6 @@ public class GetCredentials_StepDefs extends UtilManager {
     public void iHitGetCredentialsEndpointWithApplicationIdFromOnboardingResponse() {
         logger.info("********** GET Credentials Request *********** \n");
 
-        System.out.println("testContext.getApiManager().getOneClickMerchantOnboarding().applicationIdInResponse() : " + testContext.getApiManager().getOneClickMerchantOnboarding().applicationIdInResponse());
         //Get applicationId from POST Onboarding API
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
@@ -439,9 +447,6 @@ public class GetCredentials_StepDefs extends UtilManager {
         for (int i = 0; i <= items.size() - 1; i++) {
             HashMap<Object, Object> signingKey = (HashMap) items.get(i).get(Constants.SIGNING_KEY);
             HashMap<Object, Object> secret = (HashMap) items.get(i).get(Constants.SECRET);
-
-            System.out.println("onboarding : testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.CREATED_AT) :  " + testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.CREATED_AT));
-            System.out.println("GET : items.get(i).get(Constants.CREATED_AT) :  " + items.get(i).get(Constants.CREATED_AT));
 
             Assert.assertNotNull("items_credentialId cannot be null!", items.get(i).get(Constants.CREDENTIAL_ID));
             Assert.assertEquals("credentialId of GET credentials API should be equal to credentialId of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.CREDENTIAL_ID), items.get(i).get(Constants.CREDENTIAL_ID));
@@ -648,12 +653,12 @@ public class GetCredentials_StepDefs extends UtilManager {
                     Assert.assertEquals("credentialName of GET credentials API should be equal to credentialName of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.CREDENTIAL_NAME), items.get(i).get(Constants.CREDENTIAL_NAME));
                     Assert.assertEquals("applicationId of GET credentials API should be equal to applicationId of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.APPLICATION_ID), items.get(i).get(Constants.APPLICATION_ID));
                     Assert.assertEquals("status of GET credentials API should be equal to status of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.STATUS), items.get(i).get(Constants.STATUS));
-//                Assert.assertEquals("activateAt of GET credentials API should be equal to activateAt of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.ACTIVATE_AT), items.get(i).get(Constants.ACTIVATE_AT));
-//                Assert.assertEquals("expireAt of GET credentials API should be equal to expireAt of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.EXPIRE_AT), items.get(i).get(Constants.EXPIRE_AT));
+                    Assert.assertEquals("activateAt of GET credentials API should be equal to activateAt of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.ACTIVATE_AT), items.get(i).get(Constants.ACTIVATE_AT));
+                    Assert.assertEquals("expireAt of GET credentials API should be equal to expireAt of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.EXPIRE_AT), items.get(i).get(Constants.EXPIRE_AT));
                     Assert.assertEquals("createdBy of GET credentials API should be equal to createdBy of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.CREATED_BY), items.get(i).get(Constants.CREATED_BY));
                     Assert.assertEquals("lastUpdatedBy of GET credentials API should be equal to lastUpdatedBy of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.LAST_UPDATED_BY), items.get(i).get(Constants.LAST_UPDATED_BY));
-//                Assert.assertEquals("createdAt of GET credentials API should be equal to createdAt of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.CREATED_AT), items.get(i).get(Constants.CREATED_AT));
-//                Assert.assertEquals("lastUpdatedAt of GET credentials API should be equal to lastUpdatedAt of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.LAST_UPDATED_AT), items.get(i).get(Constants.LAST_UPDATED_AT));
+                    Assert.assertEquals("createdAt of GET credentials API should be equal to createdAt of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.CREATED_AT), items.get(i).get(Constants.CREATED_AT));
+                    Assert.assertEquals("lastUpdatedAt of GET credentials API should be equal to lastUpdatedAt of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.LAST_UPDATED_AT), items.get(i).get(Constants.LAST_UPDATED_AT));
 
                     //validating signingKey details
                     Assert.assertEquals("signingKey_Id of GET credentials API should be equal to signingKey_keyId of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path("signingKey.Id"), signingKey.get(Constants.ID));
@@ -729,12 +734,12 @@ public class GetCredentials_StepDefs extends UtilManager {
                     Assert.assertEquals("credentialName of GET credentials API should be equal to credentialName of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.CREDENTIAL_NAME), items.get(i).get(Constants.CREDENTIAL_NAME));
                     Assert.assertEquals("applicationId of GET credentials API should be equal to applicationId of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.APPLICATION_ID), items.get(i).get(Constants.APPLICATION_ID));
                     Assert.assertEquals("status of GET credentials API should be equal to status of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.STATUS), items.get(i).get(Constants.STATUS));
-//                Assert.assertEquals("activateAt of GET credentials API should be equal to activateAt of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.ACTIVATE_AT), items.get(i).get(Constants.ACTIVATE_AT));
-//                Assert.assertEquals("expireAt of GET credentials API should be equal to expireAt of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.EXPIRE_AT), items.get(i).get(Constants.EXPIRE_AT));
+                    Assert.assertEquals("activateAt of GET credentials API should be equal to activateAt of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.ACTIVATE_AT), items.get(i).get(Constants.ACTIVATE_AT));
+                    Assert.assertEquals("expireAt of GET credentials API should be equal to expireAt of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.EXPIRE_AT), items.get(i).get(Constants.EXPIRE_AT));
                     Assert.assertEquals("createdBy of GET credentials API should be equal to createdBy of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.CREATED_BY), items.get(i).get(Constants.CREATED_BY));
                     Assert.assertEquals("lastUpdatedBy of GET credentials API should be equal to lastUpdatedBy of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.LAST_UPDATED_BY), items.get(i).get(Constants.LAST_UPDATED_BY));
-//                Assert.assertEquals("createdAt of GET credentials API should be equal to createdAt of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.CREATED_AT), items.get(i).get(Constants.CREATED_AT));
-//                Assert.assertEquals("lastUpdatedAt of GET credentials API should be equal to lastUpdatedAt of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.LAST_UPDATED_AT), items.get(i).get(Constants.LAST_UPDATED_AT));
+                    Assert.assertEquals("createdAt of GET credentials API should be equal to createdAt of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.CREATED_AT), items.get(i).get(Constants.CREATED_AT));
+                    Assert.assertEquals("lastUpdatedAt of GET credentials API should be equal to lastUpdatedAt of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path(Constants.LAST_UPDATED_AT), items.get(i).get(Constants.LAST_UPDATED_AT));
 
                     //validating signingKey details
                     Assert.assertEquals("signingKey_Id of GET credentials API should be equal to signingKey_keyId of POST Onboarding API", testContext.getApiManager().getOneClickMerchantOnboarding().getResponse().path("signingKey.Id"), signingKey.get(Constants.ID));
@@ -1185,9 +1190,9 @@ public class GetCredentials_StepDefs extends UtilManager {
     }
 
     @And("^validate GET credentials response by multiple filter status \"([^\"]*)\", sortBy \"([^\"]*)\", sortDirection \"([^\"]*)\", limit \"([^\"]*)\", page \"([^\"]*)\"$")
-    public void validateGETCredentialsResponseByMultipleFilterStatusSortBySortDirectionLimitPage(String status, String sortBy, String sortDirection, int limit, String page) throws Throwable {
+    public void validateGETCredentialsResponseByMultipleFilterStatusSortBySortDirectionLimitPage(String status, String sortBy, String sortDirection, int limit, int page) throws Throwable {
         validateGETCredentialsResponseByMultipleFilterStatusSortBySortDirection(status, sortBy, sortDirection);
-        //validateGETCredentialsResponseByMultipleFilterStatusAndLimit(status, limit, page);
+        validateGETCredentialsResponseByMultipleFilterLimitPageStatus(limit, page, status);
     }
 
     @When("^I query for a list of credentials with filter status \"([^\"]*)\", sortBy \"([^\"]*)\", sortDirection \"([^\"]*)\", limit \"([^\"]*)\", page \"([^\"]*)\", credentialId, credentialName$")
@@ -1281,8 +1286,8 @@ public class GetCredentials_StepDefs extends UtilManager {
         testContext.getApiManager().getCredentialsMerchants().makeRequest(url);
     }
 
-    @And("^validate GET credentials response by multiple filter limit \"([^\"]*)\", page \"([^\"]*)\"$")
-    public void validateGETCredentialsResponseByMultipleFilterLimitPage(int limit, int page) {
+    @And("^validate GET credentials response by multiple filter limit \"([^\"]*)\", page \"([^\"]*)\", status \"([^\"]*)\"$")
+    public void validateGETCredentialsResponseByMultipleFilterLimitPageStatus(int limit, int page, String status) throws Throwable {
         Response response = testContext.getApiManager().getCredentialsMerchants().getResponse();
 
         HashMap page_response = response.path(Constants.PAGE);
@@ -1293,9 +1298,15 @@ public class GetCredentials_StepDefs extends UtilManager {
         List<HashMap> items = response.path(Constants.ITEM);
 
         if (page == 2 && limit == 2) {
-            Assert.assertEquals("page_current should be 2.", 2, page_response.get(Constants.CURRENT));
-            Assert.assertEquals("page_size should be 2.", 2, page_response.get(Constants.SIZE));
-            Assert.assertTrue("list of credentials should be equal to size", items.size() == 2);
+            if (status.equalsIgnoreCase("D")) {
+                Assert.assertEquals("page_current should be 0.", 0, page_response.get(Constants.CURRENT));
+                Assert.assertEquals("page_size should be 2.", 2, page_response.get(Constants.SIZE));
+                Assert.assertTrue("list of credentials should be equal to size", items.size() == 2);
+            } else {
+                Assert.assertEquals("page_current should be 2.", 2, page_response.get(Constants.CURRENT));
+                Assert.assertEquals("page_size should be 2.", 2, page_response.get(Constants.SIZE));
+                Assert.assertTrue("list of credentials should be equal to size", items.size() == 2);
+            }
         } else if (page == 6 && limit == 5) {
             Assert.assertEquals("page_current should be 1.", 1, page_response.get(Constants.CURRENT));
             Assert.assertEquals("page_size should be 5.", 5, page_response.get(Constants.SIZE));
