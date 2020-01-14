@@ -1,7 +1,7 @@
 Feature: GET Credentials - DRAG-2177
 
   As a user
-  I want to create up to credentials for merchant and validate correct response is returned
+  I want to create credentials for merchant and validate correct response is returned by GET credentials API
 
   Background: Retrieving access Token
     Given I am an user
