@@ -69,7 +69,7 @@ Feature: GET Transactions List
 
 #    #Positive Flow
 #    @trial
-  @regression
+  @regression @transacationList
   Scenario Outline: Positive flow - Get a list of transactions for a merchant
     Given I am an authorized user
     When I query for a list of transactions between "<fromTime>" and "<toTime>"
@@ -77,9 +77,9 @@ Feature: GET Transactions List
 
     Examples:
       | fromTime             | toTime               |
-      | 2019-01-01T00:00:00Z | 2019-02-01T00:00:00Z |
-      | 2002-10-02T15:00:00Z | 2002-10-03T15:00:00Z |
-      | 2000-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
+      | 2020-01-01T00:00:00Z | 2020-01-02T00:00:00Z |
+#      | 2002-10-02T15:00:00Z | 2002-10-03T15:00:00Z |
+#      | 2000-01-01T00:00:00Z | 2021-01-01T00:00:00Z |
 
 #    @trial
   @regression

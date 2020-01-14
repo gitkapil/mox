@@ -1,3 +1,4 @@
+@req
 Feature: Payment Request API- DRAG-301, DRAG-1280, DRAG-1157, DRAG-1130
 
   Background: Retrieving access Token

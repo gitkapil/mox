@@ -8,7 +8,7 @@ Feature: DRAG-2123 - Post Payment transaction successful with Integrated POS rol
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  @trial @regression @skiponsandbox @one
+  @trial @regression @skiponsandbox @paymentsuccess
   Scenario Outline: SC1 - Positive flow- A merchant is able to post a payment successfully with all the valid inputs
     Given I am an authorized user
     And I have payment details "<totalAmount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
@@ -36,11 +36,11 @@ Feature: DRAG-2123 - Post Payment transaction successful with Integrated POS rol
 
       | totalAmount | currency | mobileNo    | pin    | environment | notificationURL | description           | orderId  | effectiveDuration | appSuccessCallback | appFailCallback | additionalData                                                                |
      #SIT
-      | 1.400       | HKD      | 85282822828 | 142434 |             | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
+      | 1.400       | HKD      | 85282822828 | 142434 |             | http://webhook.site/9b9f7e15-b52a-4004-a249-78c7e740c52f        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
      #UAT1
-    #  | 2.500       | HKD      | 85251493020 | 142434 |             | /return3        | message from merchant | random  | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
+     # | 2.500       | HKD      | 85251493020 | 142434 |             | https://webhook.site/bd3c4e17-6256-41cc-8ce0-47980c84a307        | message from merchant | random  | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
      #POC
-     # | 1.400       | HKD      | 85240002083 | 123456 |             | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
+   #   | 1.400       | HKD      | 85240002083 | 123456 |             | http://webhook.site/9b9f7e15-b52a-4004-a249-78c7e740c52f        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
 
   @trial @regression @skiponsandbox
   Scenario Outline: SC2- Negative flow- QR code should be expired after effective duration

@@ -143,7 +143,7 @@ public class PostCredentialsMerchants extends UtilManager {
         if (applicationId.equalsIgnoreCase("spaceInDoubleQuotes")) {
             this.applicationId = " ";
         } else if (applicationId.equalsIgnoreCase("doubleQuotes")) {
-            this.applicationId = "";
+            this.applicationId = "%22%22";
         } else if (applicationId.equalsIgnoreCase("empty")) {
             this.applicationId = null;
         } else {
@@ -225,8 +225,20 @@ public class PostCredentialsMerchants extends UtilManager {
 
 
     public void setCredentialId(String credentialId) {
-        this.credentialId = credentialId;
-    }
+            if (credentialId.equalsIgnoreCase("validName")) {
+                this.credentialId = RandomStringUtils.randomAlphabetic(10);
+            } else if (credentialId.equalsIgnoreCase("tooLong")) {
+                this.credentialId = StringUtils.repeat("*", 257);
+            } else if (credentialId.equalsIgnoreCase("doubleQuotes")) {
+                this.credentialId = "%22%22";
+            } else if (credentialId.equalsIgnoreCase("UUID")) {
+                this.credentialId = getGeneral().generateUniqueUUID();
+            } else if (credentialId.equalsIgnoreCase("spaceInDoubleQuotes")) {
+                this.credentialId = "%20";
+            } else {
+                this.credentialId = credentialId;
+            }
+        }
 
     public String getCredentialId() {
         return credentialId;

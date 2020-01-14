@@ -1,7 +1,4 @@
 package apiHelpers;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.restassured.response.Response;
 import managers.UtilManager;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -38,6 +35,7 @@ public class OneClickMerchantOnboarding extends UtilManager {
     private HashMap<String, String> requestHeader;
     private HashMap requestBody = new HashMap();
     private Response response = null;
+    private String credentialId;
 
     /**
      * Getters
@@ -673,4 +671,10 @@ public class OneClickMerchantOnboarding extends UtilManager {
         return response;
     }
 
+    public void setCredentialId(String credentialId) {
+        this.credentialId = credentialId;
+    }
+    public String getCredentialId(){
+        return credentialId;
+    }
 }

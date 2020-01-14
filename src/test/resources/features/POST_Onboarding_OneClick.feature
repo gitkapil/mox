@@ -1,4 +1,4 @@
-@credentials
+@Credentials
 Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
 
   Background: Retrieving access Token
@@ -6,7 +6,7 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  @regression
+  @regression @newOnboard
   Scenario Outline: SC-1 - Positive flow - A DRAGON user with All privilege is onboarded successfully with One Click Onboarding API
     Given I am logging in as a user with correct privileges
     When I make request for a new client with name as "<applicationName>", peakId as "<peakId>", subUnitId as "<subUnitId>", organisationId as "<organisationId>", description as "<description>" and platformId as "<platformId>"
@@ -101,9 +101,9 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
     And error message should be "<error_message>" within the response
 
     Examples:
-      | applicationName | peakId                               | subUnitId                            | organisationId                       | description | http_status | error_description          | error_code | error_message                     | platformName | platformDescription |
+      | applicationName | peakId                               | subUnitId                            | organisationId                       | description | http_status | error_description         | error_code | error_message                     | platformName | platformDescription |
     #existing application name and different peakId
-      | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea211 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | string      | 400         | Application already exist  | EA002      | Service Request Validation Failed | validname    | INDIVIDUAL          |
+      | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea211 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | string      | 400         | Application already exist | EA002      | Service Request Validation Failed | validname    | INDIVIDUAL          |
     #existing application name and different subUnitId
       | existingname    | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | 859cce3f-f3da-4448-9e88-cf8450aea289 | string      | 400         | Application already exist | EA002      | Service Request Validation Failed | validname    | INDIVIDUAL          |
     #existing application name and different organisationIdClient Id already exists. Please use the POST credentials API if you want to create the credentials.Application already exist
@@ -360,4 +360,11 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
     And validate response have the valid values
     Examples:
       | applicationName | peakId                               | subUnitId                            | organisationId                       | platformId                           | description |
-      | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | description |
+      | validName       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | description |
+
+
+   #Onboard merchant on two platform with the same application name
+  # On-board merchant on deactivated platform valid
+  # double Hyphon in applicationName before userType
+  # SubUnit ID should exist in Database of PM4B
+  # Space and space in Double quotes of every input body field
