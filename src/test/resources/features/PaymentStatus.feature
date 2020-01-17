@@ -19,7 +19,7 @@ Feature: Check Status - DRAG- 178, DRAG-1127, DRAG-1130, DRAG-1133, DRAG-2152
     And the response body should also have app success callback URL, app fail Callback Url if applicable within check status response
     And the payment status response should be signed
 
-  @trial @regression @skiponsandbox @ones
+  @regression @skiponsandbox
   Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs
     Given I am an authorized user
     And I have payment details "<totalamount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"

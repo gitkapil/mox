@@ -8,7 +8,7 @@ Feature: Post Payment transaction successful with online role
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  @trial @regression @skiponsandbox
+  @regression @skiponsandbox
   Scenario Outline: Positive flow- A merchant is able to post a payment successfully with all the valid inputs
     Given I am an authorized user
     And I have payment details "<totalAmount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
@@ -29,6 +29,6 @@ Feature: Post Payment transaction successful with online role
     When I query for a list of transactions
     Then I should receive a successful transaction response
     Examples:
-
       | totalAmount | currency | mobileNo    | pin    | environment | notificationURL | description           | orderId  | effectiveDuration | appSuccessCallback | appFailCallback | additionalData                                                                |
-      | 1.400       | HKD      | 85282822828 | 142434 |             | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
+      | 1.400       | HKD      | 85288552233 | 147258 |             | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
+#      | 1.400       | HKD      | 85282822828 | 142434 |             | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
