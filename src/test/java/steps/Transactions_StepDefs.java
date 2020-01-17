@@ -141,7 +141,7 @@ public class Transactions_StepDefs extends UtilManager {
         if (!PropertyHelper.getInstance().getPropertyCascading("version").equals("0.10")) {
             Assert.assertEquals(firstTransaction.get(Constants.TRANSACTION_ID), testContext.getApiManager().getRefunds().getRefundId(), "refundId is not transactionId");
 
-            Assert.assertEquals(testContext.getApiManager().getPaymentRequest().getOrderDescription(), firstTransaction.get(Constants.ORDER_DESCRIPTION));
+            Assert.assertEquals(testContext.getApiManager().getRefunds().getRefundsResponse().path(Constants.REASON_MESSAGE), firstTransaction.get(Constants.ORDER_ID), "OrderId in Transaction response should be equal to reasonMessage in Refund response");
 
             Assert.assertEquals(firstTransaction.get(Constants.TRANSACTION_TYPE), "004", "transaction type for refund should be 004");
 

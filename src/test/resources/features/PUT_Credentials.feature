@@ -54,7 +54,6 @@ Feature: PUT_Credentials - PUT Credentials Merchant
       | credentialName | status | response_code | error_code | error_message                     | error_description       |
       | validName      | E      | 400           | EA002      | Service Request Validation Failed | Status can only be 'D'. |
 
-
   @regression
   Scenario Outline: SC-13 Positive flow - Should not be able to activate the deactivated credentials
     Given I am an authorized to put credentials as DRAGON user
@@ -67,8 +66,7 @@ Feature: PUT_Credentials - PUT Credentials Merchant
       | credentialName | status | activateCredential | response_code | error_code | error_message                     | error_description       |
       | validName      | D      | A                  | 400           | EA002      | Service Request Validation Failed | Status can only be 'D'. |
 
-
-  @regression @onetest
+  @regression
   Scenario Outline: SC-14 Positive flow - Should not be able to expired the deactivated credentials
     Given I am an authorized to put credentials as DRAGON user
     When I hit the Put credentials endpoint with new credential name "<credentialName>" and status "<status>"
@@ -80,16 +78,15 @@ Feature: PUT_Credentials - PUT Credentials Merchant
       | credentialName | status | activateCredential | response_code | error_code | error_message                     | error_description       |
       | validName      | D      | E                  | 400           | EA002      | Service Request Validation Failed | Status can only be 'D'. |
 
-
-  @regression @name
+  @regression
   Scenario Outline: SC-15 Positive flow - Should not be able to update credentials name same as any existing active credential name
     Given I am an authorized to put credentials as DRAGON user
     When I hit the put credentials endpoint to update new credentials name as existing credential name "<credentialName>"
     Then I should receive a "<response_code>" error response with "<error_description>" error description and "<error_code>" errorCode within put credentials response
     And error message should be "<error_message>" within put credentials response
     Examples:
-      | credentialName | response_code | error_code | error_message             | error_description                                      |
-      | validName      | 400           | EA002      | Business Rules Incorrect! | Credential Name is already in use for other ACTIVE KEY |
+      | credentialName | response_code | error_code | error_message             | error_description                                                  |
+      | validName      | 400           | EA002      | Business Rules Incorrect! | You are already using the same credential name for this credential |
 
   @regression
   Scenario Outline: SC-16 Positive flow -Create new credential with existing deactivated credential name
@@ -111,7 +108,6 @@ Feature: PUT_Credentials - PUT Credentials Merchant
       | response_code | error_code | error_message                     | error_description                    |
       | 400           | EA002      | Service Request Validation Failed | Unable to read or parse message body |
 
-
   @regression
   Scenario Outline: SC-18 Positive flow -A merchant cannot update credentials with empty input body
     Given I am an authorized to put credentials as DRAGON user
@@ -122,8 +118,7 @@ Feature: PUT_Credentials - PUT Credentials Merchant
       | response_code | error_code | error_message                     | error_description                                      |
       | 400           | EA002      | Service Request Validation Failed | Atleast one field must be there to update Credentials. |
 
-
-  @regression   @puttest
+  @regression
   Scenario Outline: SC-19-22  Negative flow- Merchant cannot access APIs with Invalid auth token
     And I send invalid auth token "<auth_token>" to put credentials
     When I hit the put credentials endpoint with new credential name "<credentialName>"
@@ -140,13 +135,11 @@ Feature: PUT_Credentials - PUT Credentials Merchant
  # Auth token unverified
       | testing3       | Error validating JWT | 401         | API Gateway Authentication Failed | EA001      | eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 
-
   @regression
   Scenario Outline: SC-23-27 Positive flow - Merchant should not be able to put credentials using prior to twelve version
     Given I am an authorized to put credentials as DRAGON user
     When I hit the put credentials endpoint with invalid API versions invalid header "<key>" and values "<invalidHeaderValues>"
     Then I should receive a "<httpStatus>" status code with "<statusCode>" message "<message>" with put credentials response
-
     Examples:
       | key         | invalidHeaderValues | httpStatus | statusCode | message            |
       | Api-Version | 0.20                | 404        | 404        | Resource not found |
@@ -155,8 +148,7 @@ Feature: PUT_Credentials - PUT Credentials Merchant
       | Api-Version | 0.11                | 404        | 404        | Resource not found |
       | Api-Version | @#$%^               | 404        | 404        | Resource not found |
 
-
-  @regression @skiponversionten @skiponversioneleven @kapsoput
+  @regression @skiponversionten @skiponversioneleven
   Scenario Outline: SC-28-33 Negative flow - update credentials with invalid applicationId
     Given I am an authorized to put credentials as DRAGON user
     When I hit the put credentials endpoint with invalid credential name "<credentialName>" and valid application id "<applicationId>"
@@ -172,7 +164,6 @@ Feature: PUT_Credentials - PUT Credentials Merchant
       | validName      | spaceInDoubleQuotes | EA002      | 400         | Service Request Validation Failed | Please provide application id                                       |
       | validName      | doubleQuotes        | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type |
 
-
   @regression
   Scenario Outline: SC-34-38 Negative flow - Should not be able to update credentials with invalid credentials Id
     Given I am an authorized to put credentials as DRAGON user
@@ -187,7 +178,6 @@ Feature: PUT_Credentials - PUT Credentials Merchant
       | validName      | doubleQuotes                         | 400         | EA002      | Failed to convert value of type                                   | Service Request Validation Failed |
       | validName      | spaceInDoubleQuotes                  | 400         | EA002      | Failed to convert value of type                                   | Service Request Validation Failed |
 
-
   @regression
   Scenario Outline: SC-39-42 Negative flow- put credentials with missing mandatory field provided in header
     Given I am an authorized to put credentials as DRAGON user
@@ -200,7 +190,6 @@ Feature: PUT_Credentials - PUT Credentials Merchant
       | Trace-Id      | EA002      | 400         | API Gateway Validation Failed     | Header Trace-Id was not found in the request. Access denied.   |
       | Accept        | EA008      | 406         | Request Header Not Acceptable     | Header Accept does not contain required value.  Access denied. |
       | Content-Type  | EA002      | 415         | Service Request Validation Failed | Content type                                                   |
-
 
   @regression
   Scenario Outline: SC-43-48 Negative flow- Invalid mandatory field provided in header
@@ -216,8 +205,7 @@ Feature: PUT_Credentials - PUT Credentials Merchant
       | Trace-Id     | abcde                                | 400         | EA002      | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
       | Trace-Id     | 7454108z-yb37-454c-81da-0a12d8b0f867 | 400         | EA002      | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.NumberFormatException: For input string:       |
 
-
-  @regression @e
+  @regression
   Scenario Outline: SC-50 - Positive flow - should not allow to update credential name of existing expired credentials
     Given I am an authorized to put credentials as DRAGON user
     When I hit the put credentials endpoint to expired credential "<credentialName>"
@@ -225,9 +213,8 @@ Feature: PUT_Credentials - PUT Credentials Merchant
     Then I should receive a "<response_code>" error response with "<error_description>" error description and "<error_code>" errorCode within put credentials response
     And error message should be "<error_message>" within put credentials response
     Examples:
-      | credentialName | response_code | error_code | error_message                     | error_description       |
+      | credentialName | response_code | error_code | error_message                     | error_description                                                 |
       | validName      | 400           | EA002      | Service Request Validation Failed | Credential/Application Id is invalid or credential is not Active. |
-
 
   @regression
   Scenario Outline: SC-51 - Positive flow - should not allow to deactivate the expired credentials
@@ -239,7 +226,6 @@ Feature: PUT_Credentials - PUT Credentials Merchant
     Examples:
       | credentialName | status | response_code | error_code | error_message                     | error_description       |
       | validName      | E      | 400           | EA002      | Service Request Validation Failed | Status can only be 'D'. |
-
 
   @regression
   Scenario Outline: SC-52 Positive flow - Should not allow user to activate the already activated credential

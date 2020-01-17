@@ -7,7 +7,7 @@ Feature: GET Transaction details based on Transaction ID API DRAG-2080
     Then I receive an access_token
 
 
-  @trial @regression @skiponsandbox
+  @regression @skiponsandbox
   Scenario Outline: Positive flow- A merchant is able to create a payment request with all the valid inputs
     Given I am an authorized user
     And I have payment details "<totalamount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
@@ -37,12 +37,13 @@ Feature: GET Transaction details based on Transaction ID API DRAG-2080
     Examples:
       | totalamount | currency | mobileNo    | pin    | environment | notificationURL | description           | orderId | effectiveDuration | appSuccessCallback | appFailCallback | additionalData                                                                |
     #SIT
-      | 1.400       | HKD      | 85282822828 | 142434 |             | /return3        | message from merchant | random  | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
+#      | 1.400       | HKD      | 85282822828 | 142434 |             | /return3        | message from merchant | random  | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
+      | 1.400       | HKD      | 85288552233 | 147258 |             | /return3        | message from merchant | random  | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
     #UAT1
     #  | 2.500       | HKD      | 85251493020 | 142434 |             | /return3        | message from merchant | random  | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
 
   #partial refund
-  @trial @regression @skiponsandbox
+  @regression @skiponsandbox
   Scenario Outline: Positive flow- A merchant is able to create a payment request and do partial refund
     Given I am an authorized user
     And I have payment details "<totalamount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
@@ -78,10 +79,11 @@ Feature: GET Transaction details based on Transaction ID API DRAG-2080
     Examples:
       | totalamount | currency | mobileNo    | pin    | environment | notificationURL | description           | orderId | effectiveDuration | appSuccessCallback | appFailCallback | additionalData                                                                | refundamount | reasonCode | reasonMessage  |
       #SIT
-      | 1.400       | HKD      | 85282822828 | 142434 |             | /return3        | message from merchant | random  | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD | 0.2          | 01         | Incorrect size |
+#      | 1.400       | HKD      | 85282822828 | 142434 |             | /return3        | message from merchant | random  | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD | 0.2          | 01         | Incorrect size |
+      | 1.400       | HKD      | 85288552233 | 147258 |             | /return3        | message from merchant | random  | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD | 0.2          | 01         | Incorrect size |
 
   #POS
-  @trial @regression @skiponsandbox
+  @regression @skiponsandbox
   Scenario Outline: Positive flow- A merchant with POS role is able to post a payment successfully with all the valid inputs
     Given I am an user with POS role
     When I make a request to the Dragon ID Manager
@@ -115,11 +117,12 @@ Feature: GET Transaction details based on Transaction ID API DRAG-2080
     Examples:
 
       | totalAmount | currency | mobileNo    | pin    | environment | notificationURL | description           | orderId  | effectiveDuration | appSuccessCallback | appFailCallback | additionalData                                                                |
-      | 1.400       | HKD      | 85282822828 | 142434 |             | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
+#      | 1.400       | HKD      | 85282822828 | 142434 |             | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
+      | 1.400       | HKD      | 85288552233 | 147258 |             | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
 
 
   #Sandbox Transactions Journey
-  @trial @regression @skiponmerchant
+  @regression @skiponmerchant
   Scenario Outline: Positive flow- A merchant successfully receives payment with 1.81 magic number in sandbox and validate transaction details with GET Transaction ID API
     Given I am an authorized user
     And I have payment details "<totalAmount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
@@ -152,7 +155,7 @@ Feature: GET Transaction details based on Transaction ID API DRAG-2080
 
 
   #Valid transaction ID of other merchant
-  @trial @regression @skiponsandbox
+  @regression @skiponsandbox
   Scenario Outline: Negative flow- Merchant should not be able to fetch transaction details of other merchant
     Given I am an authorized user
     And I have payment details "<totalamount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
@@ -176,10 +179,11 @@ Feature: GET Transaction details based on Transaction ID API DRAG-2080
     Examples:
       | totalamount | currency | mobileNo    | pin    | environment | notificationURL | description           | orderId | effectiveDuration | appSuccessCallback | appFailCallback | additionalData                                                                | transactionId                        |
       #SIT
-      | 1.400       | HKD      | 85282822828 | 142434 |             | /return3        | message from merchant | random  | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD | 4dd2f63b-b190-4ad2-b07e-68f66eb572ff |
+#      | 1.400       | HKD      | 85282822828 | 142434 |             | /return3        | message from merchant | random  | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD | 4dd2f63b-b190-4ad2-b07e-68f66eb572ff |
+      | 1.400       | HKD      | 85288552233 | 147258 |             | /return3        | message from merchant | random  | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD | 4dd2f63b-b190-4ad2-b07e-68f66eb572ff |
 
 
-  @trial @regression
+  @regression
   Scenario Outline: Negative flow - GET Transaction details for invalid transactionId
     Given I am an authorized user
     When I query for a list of transactions with "<transactionId>" transactionId
@@ -193,7 +197,7 @@ Feature: GET Transaction details based on Transaction ID API DRAG-2080
       | abcd123                              | 400         | Service Request Validation Failed | EA002      | Transaction Id is invalid |
 
 
-  @trial @regression
+  @regression
   Scenario Outline: Negative flow- Mandatory field Api-Version not sent in the header
     Given I am an authorized user
     When I make request to transactionID endpoint with "<key>" missing in the header
@@ -204,7 +208,7 @@ Feature: GET Transaction details based on Transaction ID API DRAG-2080
       | Api-Version |
 
 
-  @trial @regression
+  @regression
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
     Given I am an authorized user
     When I make request to transactionID endpoint with "<key>" missing in the header
@@ -217,7 +221,8 @@ Feature: GET Transaction details based on Transaction ID API DRAG-2080
       | Header Accept does not contain required value.  Access denied. | Request Header Not Acceptable     | Accept        | EA008      | 406         |
       | Content type '' not supported                                  | Service Request Validation Failed | Content-Type  | EA002      | 415         |
 
-  @trial @regression @invalidt
+
+  @regression
   Scenario Outline: Negative flow- Invalid mandatory fields provided in header
     Given I am an authorized user
     When I make request to transactionID endpoint with invalid key "<invalidValue>" for "<key>" in header
@@ -232,7 +237,7 @@ Feature: GET Transaction details based on Transaction ID API DRAG-2080
       | Trace-Id     | 7454108z-yb37-454c-81da-0a12d8b0f867 | 400         | Service Request Validation Failed | EA002      | Trace-Id is invalid                                               |
 
 
-  @trial @regression
+  @regression
   Scenario Outline: Negative flow- Invalid mandatory field Api-Version provided in header
     Given I am an authorized user
     When I make request to transactionID endpoint with invalid key "<invalidValue>" for "<key>" in header
@@ -245,7 +250,7 @@ Feature: GET Transaction details based on Transaction ID API DRAG-2080
       | Api-Version | @#$%^        | 404        | Resource not found |
 
 
-  @trial @regression
+  @regression
   Scenario Outline: Negative flow- Invalid auth token
     Given I am a user with invalid "<auth_token>" auth token without Bearer
     When I query for a list of transactions with "<transactionId>" transactionId
@@ -262,7 +267,8 @@ Feature: GET Transaction details based on Transaction ID API DRAG-2080
  # Auth token unverified
       | 27053dcf-c6d9-4d12-baf4-3a4116904e6b | Error validating JWT | API Gateway Authentication Failed | Bearer nbCwW11w3XkB-xUaXwKRSLjMHGQ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | EA001      | 401         |
 
-  @trial @regression @skiponversioneleven @skiponversionten
+
+  @regression @skiponversioneleven @skiponversionten
   Scenario Outline: Negative flow- Request Date Time's invalid values set within the header
     Given I am an authorized user
     When I make a request for GET Transactions by ID API with invalid value "<value>" for request date time
@@ -281,7 +287,8 @@ Feature: GET Transaction details based on Transaction ID API DRAG-2080
       | 2019/10/21 T07:04:52.237Z | Request timestamp too old                       | EA002      | Service Request Validation Failed | 400         |
       | 21 Oct 2019 06:49:52      | Request timestamp too old                       | EA002      | Service Request Validation Failed | 400         |
 
-  @trial @regression @skiponversioneleven @skiponversionten
+
+  @regression @skiponversioneleven @skiponversionten
   Scenario Outline: Negative flow- Request Date Time's invalid values set within the header
     Given I am an authorized user
     When I make a request for GET Transactions by ID API with invalid value "<value>" for request date time

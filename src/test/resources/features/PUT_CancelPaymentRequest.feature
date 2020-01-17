@@ -8,7 +8,7 @@ Feature: DRAG-2044 - Cancel the payment request
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  @trial @regression @skiponversionten @skiponversioneleven
+  @regression @skiponversionten @skiponversioneleven
   Scenario Outline: SC1 -Positive flow- merchant should be able to cancel the payment request successfully
     Given I am an authorized user
     And I have payment details "<totalAmount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
@@ -30,7 +30,7 @@ Feature: DRAG-2044 - Cancel the payment request
       | totalAmount | currency | notificationURL | description           | orderId  | effectiveDuration | appSuccessCallback | appFailCallback | additionalData                                                                | statusDescription            |
       | 1.400       | HKD      | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD | Request for Payment Rejected |
 
-  @trial @regression @skiponversionten @skiponversioneleven
+  @regression @skiponversionten @skiponversioneleven
   Scenario Outline: SC2- Negative flow- cancel the aborted QR code
     Given I am an authorized user
     And I have payment details "<totalAmount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
@@ -54,7 +54,7 @@ Feature: DRAG-2044 - Cancel the payment request
       | 1.000       | HKD      | /return3        | message from merchant | B1242183 | 15                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD | 400        | QR code is in Aborted state. | EB020      | Request for Payment Rejected |
 
 
-  @trial @regression @skiponversionten @skiponversioneleven @skiponsandbox
+  @regression @skiponversionten @skiponversioneleven @skiponsandbox
   Scenario Outline: SC3- Negative flow- A merchant receives error - QR code is in Completed state
     Given I am an authorized user
     And I have payment details "<totalAmount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
@@ -76,9 +76,10 @@ Feature: DRAG-2044 - Cancel the payment request
     When get payment status response should return status description "<statusDescription>"
     Examples:
       | totalAmount | currency | mobileNo    | pin    | environment | notificationURL | description           | orderId  | effectiveDuration | appSuccessCallback | appFailCallback | additionalData                                                                | httpStatus | error_description              | error_code | statusDescription |
-      | 0.81        | HKD      | 85282822828 | 142434 |             | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD | 400        | QR code is in Completed state. | EB021      | Payment Success   |
+      | 0.81        | HKD      | 85288552233 | 147258 |             | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD | 400        | QR code is in Completed state. | EB021      | Payment Success   |
+  #    | 0.81        | HKD      | 85282822828 | 142434 |             | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD | 400        | QR code is in Completed state. | EB021      | Payment Success   |
 
-  @trial @skiponversionten @skiponversioneleven @skiponmerchant @regression
+  @skiponversionten @skiponversioneleven @skiponmerchant @regression
   Scenario Outline: SC3- Negative flow- A merchant receives error in SANDBOX - QR code is in Completed state
     Given I am an authorized user
     And I have payment details "<totalAmount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
@@ -102,7 +103,7 @@ Feature: DRAG-2044 - Cancel the payment request
       | 0.81        | HKD      | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD | 400        | QR code is in Completed state. | EB021      | Payment Success   |
 
 
-  @trial @regression @skiponversionten @skiponversioneleven
+  @regression @skiponversionten @skiponversioneleven
   Scenario Outline: SC4-Negative flow- cancel the aborted QR code
     Given I am an authorized user
     And I have payment details "<totalAmount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
@@ -123,7 +124,7 @@ Feature: DRAG-2044 - Cancel the payment request
       | 1.000       | HKD      | /return3        | message from merchant | B1242183 | 15                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD | 400        | Expired pay code  | EB007      | Payment Request Expired |
 
 
-  @trial @regression @skiponmerchant
+  @regression @skiponmerchant
   Scenario Outline: SC 5-6- Positive flow- A merchant can initiate payment request and check status for magic numbers 70 cents , 45 cents, PayCode not found and Internal server Error
     Given I am an authorized user
     And I have payment details "<totalAmount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
@@ -145,7 +146,7 @@ Feature: DRAG-2044 - Cancel the payment request
       | 0.45        | HKD      | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD | Internal Server Error, contact support | EB099     | 400        |
 
 
-  @trial @regression @skiponmerchant @skiponversionten @skiponversioneleven
+  @regression @skiponmerchant @skiponversionten @skiponversioneleven
   Scenario Outline: SC-7 Positive flow- A merchant can initiate payment request and check status for magic numbers 71 cents, Expired
     Given I am an authorized user
     And I have payment details "<totalAmount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
@@ -166,7 +167,7 @@ Feature: DRAG-2044 - Cancel the payment request
       | 0.71        | HKD      | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD | Payment Request Expired | Expired pay code | EB007            | 400        |
 
 
-  @trial @regression @skiponversionten @skiponversioneleven
+  @regression @skiponversionten @skiponversioneleven
   Scenario Outline: SC-8-12 Negative flow - Unable to cancel payment request due to invalid header values
     Given I am an authorized user
     And I have payment details "<totalAmount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
@@ -189,7 +190,7 @@ Feature: DRAG-2044 - Cancel the payment request
       | Signature        | 0.71        | HKD      | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD | Header Signature was not found in the request. Access denied.  | EA002     | 400        |
 
 
-  @trial @regression @skiponversionten @skiponversioneleven
+  @regression @skiponversionten @skiponversioneleven
   Scenario Outline: SC-13-16 -Negative flow- Invalid auth token
     Given I am an authorized user
     And I have payment details "<totalAmount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
@@ -212,7 +213,7 @@ Feature: DRAG-2044 - Cancel the payment request
       | 0.72        | HKD      | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD | 401         | EA001     | Error validating JWT | Bearer nbCwW11w3XkB-xUaXwKRSLjMHGQ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 
 
-  @trial @regression @skiponversionten @skiponversioneleven
+  @regression @skiponversionten @skiponversioneleven
   Scenario Outline: SC1 -Positive flow- merchant should not be able to cancel the payment request with invalid payment request id
     Given I am an authorized user
     And I have payment details "<totalAmount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"

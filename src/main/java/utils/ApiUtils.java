@@ -1,5 +1,10 @@
 package utils;
+
 import managers.UtilManager;
+import org.springframework.http.*;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 import utils.*;
 import com.github.dzieciou.testing.curl.CurlLoggingRestAssuredConfigFactory;
 import io.restassured.RestAssured;
@@ -10,9 +15,11 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.PrintStream;
 import java.net.InetAddress;
+
 import static io.restassured.RestAssured.given;
 import static io.restassured.config.HeaderConfig.headerConfig;
 import static io.restassured.config.JsonConfig.jsonConfig;
@@ -20,38 +27,38 @@ import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInC
 import static io.restassured.path.json.config.JsonPathConfig.NumberReturnType.BIG_DECIMAL;
 import static org.hamcrest.Matchers.lessThan;
 
-public class ApiUtils extends UtilManager{
+public class ApiUtils extends UtilManager {
 
     public String payMeBaseUrl = "https://api-uat.allyoupayclouds.com/hsbcpayme_api/";
-    
-    public String paymentPath ="https://api-uat.dpwaf.com:443/payments/transactions/payment";
-    
+
+    public String paymentPath = "https://api-uat.dpwaf.com:443/payments/transactions/payment";
+
     public String refundPath = "https://api-uat.dpwaf.com:443/payments/transactions/refund";
-    
+
     public String cashoutPath = "https://api-uat.dpwaf.com:443/payments/transactions/cashout";
-    
-    public String transactionPath= "https://api-uat.dpwaf.com:443/payments/transactions/transaction";
-    
+
+    public String transactionPath = "https://api-uat.dpwaf.com:443/payments/transactions/transaction";
+
     public String qrcodePath = "https://api-uat.dpwaf.com:443/payments/transactions/transaction";
-    
+
     public String reportingPath;
-    
+
     public String operationTokenPath = "https://api-uat.dpwaf.com:443/on-boarding/user-profiles/users/{userId}/operations";
-    
+
     public String searchBusinessProfilePath = "https://api-uat.dpwaf.com:443/on-boarding/business-profiles/business/profiles";
- //   @Value("${token.service.host}${token.service.resourcepath}")
-    public String tokenPath ="https://adb2cfunpeak-userauth-api.dpwaf.com";
-  //  @Value("${internal.service.host}:${internal.service.port}${cso.transaction.service.resourcepath}")
+    //   @Value("${token.service.host}${token.service.resourcepath}")
+    public String tokenPath = "https://adb2cfunpeak-userauth-api.dpwaf.com";
+    //  @Value("${internal.service.host}:${internal.service.port}${cso.transaction.service.resourcepath}")
     public String csoTransactionPath;
-   // @Value("${internal.service.host}:${internal.service.port}${cso.adjustment.service.resourcepath}")
+    // @Value("${internal.service.host}:${internal.service.port}${cso.adjustment.service.resourcepath}")
     public String csoBalanceAdjustmentPath;
-  //  @Value("${internal.service.host}:${internal.service.port}${cso.cashout.reversal.service.resourcepath}")
+    //  @Value("${internal.service.host}:${internal.service.port}${cso.cashout.reversal.service.resourcepath}")
     public String csoCashoutReversalPath;
-  //  @Value("${internal.service.host}:${internal.service.port}${cso.payment.reversal.service.resourcepath}")
+    //  @Value("${internal.service.host}:${internal.service.port}${cso.payment.reversal.service.resourcepath}")
     public String csoPaymentReversalPath;
-   // @Value("${internal.service.host}:${internal.token.service.port}${cso.Payment.Status.service.resourcepath}")
+    // @Value("${internal.service.host}:${internal.token.service.port}${cso.Payment.Status.service.resourcepath}")
     public String csoPaymentStatusPath;
-  //  @Value("${internal.service.host}:${internal.token.service.port}${internal.token.service.resourcepath}")
+    //  @Value("${internal.service.host}:${internal.token.service.port}${internal.token.service.resourcepath}")
     public String internalTokenPath;
     //@Value("${payments.service.host}:${payments.service.port}${qrcode.service.resourcepath}")// need to change parameters
     public String addressingEnquiryPath;
@@ -71,12 +78,12 @@ public class ApiUtils extends UtilManager{
     public String signUpTokenServiceUrl;
     //@Value("${adb2c.clientid}")
     public String adb2cClientId = "cbf48534-459a-4652-9536-3a5955a56176";
-   
+
     //@Value("${httpsScheme}")
     public String qrCodeHttpsScheme;
-    
-    public String contentType="application/json";
-    
+
+    public String contentType = "application/json";
+
     //@Value("${payments.accept.language}")
     public String acceptLanguage;
     //@Value("${payments.X-HSBC-locale}")
@@ -122,14 +129,14 @@ public class ApiUtils extends UtilManager{
     //@Value("${payments.cashoutSchema.file}")
     public String cashoutSchema;
     //public String deviceId = UUID.nameUUIDFromBytes("123456789".getBytes()).toString();
-    public String deviceId="XXXX001";
-    public String ipAddress="13.94.60.228";
+    public String deviceId = "XXXX001";
+    public String ipAddress = "13.94.60.228";
 
     private RequestSpecification request;
     private Response response;
 
-	private String payme_username = "qa";
-	private String payme_password = "2019Payme!!";
+    private String payme_username = "qa";
+    private String payme_password = "2019Payme!!";
     private static final Logger logger = LoggerFactory.getLogger(ApiUtils.class);
 
     public String getPaymentPath() {
@@ -180,9 +187,13 @@ public class ApiUtils extends UtilManager{
         return csoCashoutReversalPath;
     }
 
-    public String getCsoPaymentReversalPath(){return csoPaymentReversalPath;}
+    public String getCsoPaymentReversalPath() {
+        return csoPaymentReversalPath;
+    }
 
-    public String getCsoPaymentStatusPath(){return csoPaymentStatusPath;}
+    public String getCsoPaymentStatusPath() {
+        return csoPaymentStatusPath;
+    }
 
     public String getInternalTokenPath() {
         return internalTokenPath;
@@ -196,12 +207,17 @@ public class ApiUtils extends UtilManager{
         return addressingEnquiryPath;
     }
 
-    public String getFundOutPath() { return fundOutPath;}
+    public String getFundOutPath() {
+        return fundOutPath;
+    }
 
-    public String getConsumerPath() {return consumerBasePath;}
+    public String getConsumerPath() {
+        return consumerBasePath;
+    }
 
-    public String getChannelId() { return channelId;}
-
+    public String getChannelId() {
+        return channelId;
+    }
 
 
     public RequestSpecification getRequest() {
@@ -211,7 +227,7 @@ public class ApiUtils extends UtilManager{
             configuration = CurlLoggingRestAssuredConfigFactory.updateConfig(configuration);
             ipAddress = InetAddress.getLocalHost().getHostAddress();
             request = given()
-            		.auth().basic("qa", "2019Payme!!")
+                    .auth().basic("qa", "2019Payme!!")
                     .config(configuration)
                     .urlEncodingEnabled(false)
                     .contentType(contentType)
@@ -233,7 +249,7 @@ public class ApiUtils extends UtilManager{
             PrintStream fileOutPutStream = new PrintStream(file);
             RestAssuredConfig configuration = RestAssured.config().jsonConfig(jsonConfig().numberReturnType(BIG_DECIMAL)).headerConfig(headerConfig().overwriteHeadersWithName("Content-Type")).logConfig(new LogConfig().defaultStream(fileOutPutStream));
             configuration = CurlLoggingRestAssuredConfigFactory.updateConfig(configuration);
-            ipAddress=InetAddress.getLocalHost().getHostAddress();
+            ipAddress = InetAddress.getLocalHost().getHostAddress();
 
             request = given().urlEncodingEnabled(false).config(configuration)
                     .contentType(contentType)
@@ -270,7 +286,7 @@ public class ApiUtils extends UtilManager{
     public RequestSpecification getRequest(String apiName) {
         try {
             logger.debug("ApiUtils Test");
-            PrintStream fileOutPutStream = new PrintStream(new File("target/Logs/"+apiName+".txt"));
+            PrintStream fileOutPutStream = new PrintStream(new File("target/Logs/" + apiName + ".txt"));
             RestAssuredConfig configuration = RestAssured.config().jsonConfig(jsonConfig().numberReturnType(BIG_DECIMAL)).headerConfig(headerConfig().overwriteHeadersWithName("Content-Type")).logConfig(new LogConfig().defaultStream(fileOutPutStream));
             configuration = CurlLoggingRestAssuredConfigFactory.updateConfig(configuration);
             //ipAddress = InetAddress.getLocalHost().getHostAddress();
@@ -278,7 +294,7 @@ public class ApiUtils extends UtilManager{
                     .config(configuration)
                     .urlEncodingEnabled(false)
                     .contentType(contentType)
-                    .headers("X-HSBC-Locale", xHsbcLocale, "X-HSBC-Chnl-CountryCode", xHsbcChnlCountryCode, "X-HSBC-Chnl-Group-Member", xHsbcChnlGroupMember, "X-HSBC-Device-Id", deviceId, "X-HSBC-Device-Type", deviceType, "X-HSBC-Request-Correlation-Id", correlationId, "X-HSBC-Channel-Id", channelId,"x-forwarded-for", ipAddress)
+                    .headers("X-HSBC-Locale", xHsbcLocale, "X-HSBC-Chnl-CountryCode", xHsbcChnlCountryCode, "X-HSBC-Chnl-Group-Member", xHsbcChnlGroupMember, "X-HSBC-Device-Id", deviceId, "X-HSBC-Device-Type", deviceType, "X-HSBC-Request-Correlation-Id", correlationId, "X-HSBC-Channel-Id", channelId, "x-forwarded-for", ipAddress)
                     .log()
                     .all();
         } catch (Exception e) {
@@ -299,7 +315,7 @@ public class ApiUtils extends UtilManager{
 
     public RequestSpecification getTokenRequest() {
         request = given()
-        		.auth().basic(payme_username, payme_password)
+                .auth().basic(payme_username, payme_password)
                 .urlEncodingEnabled(false)
                 .contentType(contentType)
                 .log()
@@ -420,7 +436,7 @@ public class ApiUtils extends UtilManager{
     public RequestSpecification getPaymentReversalRequest(String apiName) {
         try {
             logger.debug("ApiUtils Test");
-            PrintStream fileOutPutStream = new PrintStream(new File("target/Logs/"+apiName+".txt"));
+            PrintStream fileOutPutStream = new PrintStream(new File("target/Logs/" + apiName + ".txt"));
             RestAssuredConfig configuration = RestAssured.config().jsonConfig(jsonConfig().numberReturnType(BIG_DECIMAL)).headerConfig(headerConfig().overwriteHeadersWithName("Content-Type")).logConfig(new LogConfig().defaultStream(fileOutPutStream));
             configuration = CurlLoggingRestAssuredConfigFactory.updateConfig(configuration);
             //ipAddress = InetAddress.getLocalHost().getHostAddress();
@@ -441,7 +457,7 @@ public class ApiUtils extends UtilManager{
     public RequestSpecification getPM4CPaymentStatusRequest(String apiName) {
         try {
             logger.debug("ApiUtils Test");
-            PrintStream fileOutPutStream = new PrintStream(new File("target/Logs/"+apiName+".txt"));
+            PrintStream fileOutPutStream = new PrintStream(new File("target/Logs/" + apiName + ".txt"));
             RestAssuredConfig configuration = RestAssured.config().jsonConfig(jsonConfig().numberReturnType(BIG_DECIMAL)).headerConfig(headerConfig().overwriteHeadersWithName("Content-Type")).logConfig(new LogConfig().defaultStream(fileOutPutStream));
             configuration = CurlLoggingRestAssuredConfigFactory.updateConfig(configuration);
             //ipAddress = InetAddress.getLocalHost().getHostAddress();
@@ -449,7 +465,7 @@ public class ApiUtils extends UtilManager{
                     .config(configuration)
                     .urlEncodingEnabled(false)
                     .contentType(contentType)
-                    .headers( "X-HSBC-Request-Correlation-Id", correlationId)
+                    .headers("X-HSBC-Request-Correlation-Id", correlationId)
                     .log()
                     .all();
 
