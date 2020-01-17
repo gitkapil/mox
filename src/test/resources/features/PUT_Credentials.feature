@@ -1,4 +1,4 @@
-@putCredentials
+@PutCredentials
 Feature: PUT_Credentials - PUT Credentials Merchant
   As a user
   I want to create up to credentials for merchant and validate correct response is returned

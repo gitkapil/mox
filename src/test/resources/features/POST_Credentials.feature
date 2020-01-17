@@ -1,4 +1,4 @@
-@Credentials
+@postCredentials
 Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
   As a user
   I want to up to credentials for merchant and validate correct response is returned
@@ -8,26 +8,26 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
- @trial @regression  @newPost
-  Scenario Outline: SC-1-3 Positive flow - Create a new credentials, new signing key and password
+ @trial @regression
+  Scenario Outline: SC-1-9 Positive flow - Create a new credentials, new signing key and password
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Then the create credentials response should be successful
     Examples:
       | credentialName  |
       | validName       |
-#      | $^&$^#$%^^^^^^  |
-#      | t1s2t3i4n5g6    |
-#      | 喀庇乐             |
-#      | &testing        |
-#      | -testging       |
-#      | _testing        |
-#      | @testing        |
-#      | testing testing |
+      | $^&$^#$%^^^^^^  |
+      | t1s2t3i4n5g6    |
+      | 喀庇乐           |
+      | &testing        |
+      | -testging       |
+      | _testing        |
+      | @testing        |
+      | testing testing |
 
 
   @regression @skiponversiontwelve @newPost
-  Scenario Outline: SC-4-5 Positive flow - Create a new credentials, with double Quotes, and space in double quotes
+  Scenario Outline: SC-10-11 Positive flow - Create a new credentials, with double Quotes, and space in double quotes
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Then I should receive a "<response_code>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
@@ -39,7 +39,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
 
 
   @regression
-  Scenario Outline: SC-6 Positive flow - Merchant can have maximum five active credentials, new signing keys and passwords
+  Scenario Outline: SC-12 Positive flow - Merchant can have maximum five active credentials, new signing keys and passwords
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint six times with same credential name "<credentialName>"
     Then I should receive a "<response_code>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
@@ -50,7 +50,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
 
 
   @regression
-  Scenario Outline: SC-7 Positive flow -A merchant cannot have same name for two credentials
+  Scenario Outline: SC-13 Positive flow -A merchant cannot have same name for two credentials
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint second times with same credential name "<credentialName>"
     Then I should receive a "<response_code>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
@@ -60,7 +60,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | validName      | 400           | Credential Name is already in use for other ACTIVE KEY | EA002      | Business Rules Incorrect! |
 
   @regression
-  Scenario Outline: SC-8 Positive flow -A merchant cannot create credentials without credentials name
+  Scenario Outline: SC-14 Positive flow -A merchant cannot create credentials without credentials name
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint without credential name "<credentialName>"
     Then I should receive a "<response_code>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
@@ -71,7 +71,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
 
    #bug
   @regression
-  Scenario Outline: SC-9 Positive flow -A merchant cannot create credentials without request body
+  Scenario Outline: SC-15 Positive flow -A merchant cannot create credentials without request body
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint without request body
     Then I should receive a "<response_code>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
@@ -82,7 +82,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
 
     #bug
   @regression
-  Scenario Outline: SC-10-13  Negative flow- Merchant cannot access APIs with Invalid auth token
+  Scenario Outline: SC-16-19  Negative flow- Merchant cannot access APIs with Invalid auth token
     And I send invalid auth token "<auth_token>" to create credentials
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
@@ -101,7 +101,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | testing3       | Error validating JWT | 401         | API Gateway Authentication Failed | eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | EA001      |
 
   @regression
-  Scenario Outline: SC-14-18 Positive flow - Merchant should not be able to create credentials using prior to twelve api version
+  Scenario Outline: SC-20-24 Positive flow - Merchant should not be able to create credentials using prior to twelve api version
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with invalid API versions invalid header "<key>" and values "<invalidHeaderValues>"
     Then I should receive a "<httpStatus>" status code with "<statusCode>" message "<message>" with create credentials response
@@ -116,7 +116,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
 
     #bug
   @regression
-  Scenario Outline: SC-19-23 Negative flow- Merchant cannot create credentials with Invalid mandatory field provided in header
+  Scenario Outline: SC-25-29 Negative flow- Merchant cannot create credentials with Invalid mandatory field provided in header
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with invalid API versions invalid header "<key>" and values "<invalidHeaderValues>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
@@ -131,7 +131,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
 
     #bug
   @regression
-  Scenario Outline: SC-24 Positive flow - Maximum length of credential name can be 256 characters
+  Scenario Outline: SC-30 Positive flow - Maximum length of credential name can be 256 characters
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
@@ -143,7 +143,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
 
     #bug
   @regression
-  Scenario Outline: SC-25-28 Negative flow-Cannot create credentials with missing mandatory field provided in header
+  Scenario Outline: SC-31-34 Negative flow-Cannot create credentials with missing mandatory field provided in header
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with missing header keys "<key>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
@@ -156,7 +156,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | Content-Type  | EA002      | 415         | Service Request Validation Failed | Content type                                                   |
 
   @regression @space
-  Scenario Outline: SC-29-34 Negative flow - Cannot create a new credentials with invalid applicationId
+  Scenario Outline: SC-35-41 Negative flow - Cannot create a new credentials with invalid applicationId
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with invalid applicationId "<applicationId>" and valid credential name "<credentialName>"
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
@@ -176,7 +176,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
 
 
   @regression
-  Scenario Outline: SC-35 Positive flow - Cannot create credentials without applicationId
+  Scenario Outline: SC-42 Positive flow - Cannot create credentials without applicationId
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint without applicationId and valid credential name "<credentialName>"
     Then I should receive a "<httpStatus>" status code with "<statusCode>" message "<message>" with create credentials response
@@ -185,7 +185,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | validName      | 404        | 404        | Resource not found |
 
   @regression @skiponversionten @skiponversioneleven @existing
-  Scenario Outline: SC-36 Positive flow - Create new password with existing expired credential name
+  Scenario Outline: SC-43 Positive flow - Create new password with existing expired credential name
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with existing expired credential name "<credentialName>"
     Then the create credentials response should be successful
