@@ -1,4 +1,4 @@
-@postCredentials
+@Credentials
 Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
   As a user
   I want to up to credentials for merchant and validate correct response is returned
