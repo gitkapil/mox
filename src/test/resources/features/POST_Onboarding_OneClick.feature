@@ -1,4 +1,4 @@
-@Credentials
+@Credentials..
 Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
 
   Background: Retrieving access Token

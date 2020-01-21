@@ -1,15 +1,19 @@
 package utils;
 
 import apiHelpers.PutApplication;
+import managers.UtilManager;
 import org.apache.log4j.Logger;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.activation.DataHandler;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import static org.junit.Assert.assertNotEquals;
 
 
-public class DataBaseConnector {
+public class DataBaseConnector extends UtilManager {
 
     final static Logger logger = Logger.getLogger(DataBaseConnector.class);
 
@@ -81,7 +85,6 @@ public class DataBaseConnector {
         Statement stmt = connection.createStatement();
         stmt.executeUpdate(sqlQuery);
         connection.close();
-
     }
 
     public static void expireCredentialsWithCredentialID(String credentialId, String userName, String password, String connectionURL) throws SQLException, ClassNotFoundException {
@@ -90,9 +93,8 @@ public class DataBaseConnector {
         logger.info("expired the credentials");
     }
 
-
-    public static void expireCredentialsWithCredentialIDAndDate(String credentialId,Date expireON, String userName, String password, String connectionURL) throws SQLException, ClassNotFoundException {
-        String sqlQuery = "update merchant_management.orgn_cust_crdtl c SET C.REC_UPD_DT_TM = CURRENT_TIMESTAMP(), C.CRDTL_EFF_END_DT_TM = " + expireON +", C.USER_REC_UPD_ID ='Script-Testing' Where C.ORGN_CUST_CRDTL_ID = UNHEX(REPLACE(\""+credentialId+"\", \"-\",\"\"))" ;
+    public static void expireCredentialsWithCredentialIDAndDate(String credentialId, String expireON, String userName, String password, String connectionURL) throws SQLException, ClassNotFoundException {
+        String sqlQuery = "update merchant_management.orgn_cust_crdtl c SET C.REC_UPD_DT_TM = CURRENT_TIMESTAMP(), C.CRDTL_EFF_END_DT_TM = CAST('"+expireON+"' AS DATETIME), C.USER_REC_UPD_ID ='Script-Testing' Where C.ORGN_CUST_CRDTL_ID = UNHEX(REPLACE(\""+credentialId+"\", \"-\",\"\"))" ;
         DataBaseConnector.executeSQLQueryToInsert(sqlQuery,userName, password,connectionURL);
         logger.info("expired the credentials");
     }

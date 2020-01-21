@@ -123,7 +123,7 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
             Assert.assertNull(signingKeyResponse.get(Constants.VALUE), "Value alg should be null!");
         } else {
             Assert.assertNotNull(signingKeyResponse.get(Constants.ID), "Signing Id cannot be null!");
-            Assert.assertNotNull(signingKeyResponse.get(Constants.VALUE), "Signing value cannot be null!");
+
         }
 
         //Validate passwordMetadata response details
@@ -137,7 +137,7 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
         } else {
             Assert.assertNotNull(passwordMetadataResponse.get(Constants.ID), "secret ID cannot be null!");
             Assert.assertNotNull(passwordMetadataResponse.get(Constants.CLIENT_ID), "secret Client Id cannot be null!");
-            Assert.assertNotNull(passwordMetadataResponse.get(Constants.VALUE), "secret value cannot be null!");
+
         }
         //Validate other response body parameters
         Assert.assertNotNull(response.path(Constants.GRANT_URL), "grantUrl cannot be null!");
@@ -765,15 +765,11 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
                 Assert.assertNotNull(signingKey.get(Constants.TYPE));
                 Assert.assertNotNull(signingKey.get(Constants.SIZE));
                 Assert.assertNotNull(signingKey.get(Constants.KEY_ID));
-                Assert.assertNotNull(signingKey.get(Constants.VALUE));
-                Assert.assertEquals(signingKey.get(Constants.VALUE), "");
             }
             if (secret != null) {
                 Assert.assertEquals(secret.size(), 3);
                 Assert.assertNotNull(secret.get(Constants.ID));
                 Assert.assertEquals(secret.get(Constants.CLIENT_ID), testContext.getApiManager().getOneClickMerchantOnboarding().getClientId(), "clientId should belongs from the applicationId");
-                Assert.assertNotNull(secret.get(Constants.VALUE));
-                Assert.assertEquals(secret.get(Constants.VALUE), "");
             }
 
             //Validate other response body parameters

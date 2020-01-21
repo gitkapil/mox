@@ -1,4 +1,4 @@
-@Credentials
+@Credentials..
 Feature: PUT_Credentials - PUT Credentials Merchant
   As a user
   I want to create up to credentials for merchant and validate correct response is returned
@@ -85,8 +85,8 @@ Feature: PUT_Credentials - PUT Credentials Merchant
     Then I should receive a "<response_code>" error response with "<error_description>" error description and "<error_code>" errorCode within put credentials response
     And error message should be "<error_message>" within put credentials response
     Examples:
-      | credentialName | response_code | error_code | error_message             | error_description                                                  |
-      | validName      | 400           | EA002      | Business Rules Incorrect! | You are already using the same credential name for this credential |
+      | credentialName | response_code | error_code | error_message             | error_description               |
+      | validName      | 400           | EA002      | Business Rules Incorrect! | Credential Name already in use. |
 
   @regression
   Scenario Outline: SC-16 Positive flow -Create new credential with existing deactivated credential name
@@ -155,14 +155,14 @@ Feature: PUT_Credentials - PUT Credentials Merchant
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" errorCode within put credentials response
     And error message should be "<error_message>" within put credentials response
     Examples:
-      | credentialName | applicationId       | error_code | http_status | error_message                     | error_description                                                   |
-#      | validName      | abcde                                 | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
-#      | validName      | 1234                                  | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
-#      | validName      | !~@^*                                 | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
-#      | validName      | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxxx | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.NumberFormatException: For input string:       |
-#      | validName      | 859cce3f-f3da-4448-9e88-cf8450aea289  | EA002      | 404         | Resource Not Found!               | Application ID not found                                                                                                                                           |
-      | validName      | spaceInDoubleQuotes | EA002      | 400         | Service Request Validation Failed | Please provide application id                                       |
-      | validName      | doubleQuotes        | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type |
+      | credentialName | applicationId                         | error_code | http_status | error_message                     | error_description                                                                                                                                                  |
+      | validName      | abcde                                 | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
+      | validName      | 1234                                  | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
+      | validName      | !~@^*                                 | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.IllegalArgumentException: Invalid UUID string: |
+      | validName      | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxxx | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; nested exception is java.lang.NumberFormatException: For input string:       |
+      | validName      | 859cce3f-f3da-4448-9e88-cf8450aea289  | EA002      | 404         | Resource Not Found!               | Application ID not found                                                                                                                                           |
+      | validName      | spaceInDoubleQuotes                   | EA002      | 400         | Service Request Validation Failed | Please provide application id                                                                                                                                      |
+      | validName      | doubleQuotes                          | EA002      | 400         | Service Request Validation Failed | Failed to convert value of type 'java.lang.String' to required type                                                                                                |
 
   @regression
   Scenario Outline: SC-34-38 Negative flow - Should not be able to update credentials with invalid credentials Id

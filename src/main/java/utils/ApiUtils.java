@@ -1,6 +1,7 @@
 package utils;
 
 import managers.UtilManager;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -44,6 +45,9 @@ public class ApiUtils extends UtilManager {
     public String reportingPath;
 
     public String operationTokenPath = "https://api-uat.dpwaf.com:443/on-boarding/user-profiles/users/{userId}/operations";
+
+    @Value("${serviceName}")
+    public String serviceName;
 
     public String searchBusinessProfilePath = "https://api-uat.dpwaf.com:443/on-boarding/business-profiles/business/profiles";
     //   @Value("${token.service.host}${token.service.resourcepath}")
@@ -219,6 +223,10 @@ public class ApiUtils extends UtilManager {
         return channelId;
     }
 
+
+    public String getServiceName() {
+        return serviceName;
+    }
 
     public RequestSpecification getRequest() {
         try {

@@ -303,15 +303,12 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
                 Assert.assertNotNull(signingKey.get(Constants.TYPE));
                 Assert.assertNotNull(signingKey.get(Constants.SIZE));
                 Assert.assertNotNull(signingKey.get(Constants.KEY_ID));
-                Assert.assertNotNull(signingKey.get(Constants.VALUE));
-                Assert.assertEquals(signingKey.get(Constants.VALUE), "");
+
             }
             if (secret != null) {
                 Assert.assertEquals(secret.size(), 3);
                 Assert.assertNotNull(secret.get(Constants.ID));
                 Assert.assertEquals(secret.get(Constants.CLIENT_ID), testContext.getApiManager().getOneClickMerchantOnboarding().getClientId(), "clientId should belongs from the applicationId");
-                Assert.assertNotNull(secret.get(Constants.VALUE));
-                Assert.assertEquals(secret.get(Constants.VALUE), "");
             } else {
                 getRestHelper().getResponseStatusCode(testContext.getApiManager().postCredentialsMerchants().getResponse());
             }
