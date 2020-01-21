@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
         glue = {"steps"},
         features = {"src/test/resources/features/"},
         //,plugin = { "com.cucumber.listener.ExtentCucumberFormatter:target/cucumber-reports/report.html"}
+        monochrome = true,
         tags = {"@trial"}
 )
 public class Runner {
