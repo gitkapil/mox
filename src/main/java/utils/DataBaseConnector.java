@@ -85,7 +85,13 @@ public class DataBaseConnector {
     }
 
     public static void expireCredentialsWithCredentialID(String credentialId, String userName, String password, String connectionURL) throws SQLException, ClassNotFoundException {
-        String sqlQuery = "update merchant_management.orgn_cust_crdtl c SET C.CRDTL_STAT_CDE = 'E' , C.REC_UPD_DT_TM = CURRENT_TIMESTAMP(), C.CRDTL_EFF_END_DT_TM = CURRENT_TIMESTAMP() , C.USER_REC_UPD_ID ='Script-Testing' Where C.ORGN_CUST_CRDTL_ID = UNHEX(REPLACE(\""+credentialId+"\", \"-\",\"\"))" ;
+        String sqlQuery = "update merchant_management.orgn_cust_crdtl c SET C.REC_UPD_DT_TM = CURRENT_TIMESTAMP(), C.CRDTL_EFF_END_DT_TM = CURRENT_TIMESTAMP() , C.USER_REC_UPD_ID ='Script-Testing' Where C.ORGN_CUST_CRDTL_ID = UNHEX(REPLACE(\""+credentialId+"\", \"-\",\"\"))" ;
+        DataBaseConnector.executeSQLQueryToInsert(sqlQuery,userName, password,connectionURL);
+        logger.info("expired the credentials");
+    }
+
+    public static void expireCredentialsWithCredentialIDAndDate(String credentialId, String expireON, String userName, String password, String connectionURL) throws SQLException, ClassNotFoundException {
+        String sqlQuery = "update merchant_management.orgn_cust_crdtl c SET C.REC_UPD_DT_TM = CURRENT_TIMESTAMP(), C.CRDTL_EFF_END_DT_TM = CAST('"+expireON+"' AS DATETIME), C.USER_REC_UPD_ID ='Script-Testing' Where C.ORGN_CUST_CRDTL_ID = UNHEX(REPLACE(\""+credentialId+"\", \"-\",\"\"))" ;
         DataBaseConnector.executeSQLQueryToInsert(sqlQuery,userName, password,connectionURL);
         logger.info("expired the credentials");
     }
