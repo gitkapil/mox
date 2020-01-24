@@ -1,4 +1,4 @@
-
+@getCredentials
 Feature: GET Credentials - DRAG-2177
 
   As a user
