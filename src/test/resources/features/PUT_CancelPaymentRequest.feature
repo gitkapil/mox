@@ -76,8 +76,12 @@ Feature: DRAG-2044 - Cancel the payment request
     When get payment status response should return status description "<statusDescription>"
     Examples:
       | totalAmount | currency | mobileNo    | pin    | environment | notificationURL | description           | orderId  | effectiveDuration | appSuccessCallback | appFailCallback | additionalData                                                                | httpStatus | error_description              | error_code | statusDescription |
-      | 0.81        | HKD      | 85288552233 | 147258 |             | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD | 400        | QR code is in Completed state. | EB021      | Payment Success   |
+  #SIT
+  #    | 0.81        | HKD      | 85288552233 | 147258 |             | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD | 400        | QR code is in Completed state. | EB021      | Payment Success   |
   #    | 0.81        | HKD      | 85282822828 | 142434 |             | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD | 400        | QR code is in Completed state. | EB021      | Payment Success   |
+  #UAT1
+      | 0.81        | HKD      | 85251493020 | 142434 |             | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD | 400        | QR code is in Completed state. | EB021      | Payment Success   |
+
 
   @skiponversionten @skiponversioneleven @skiponmerchant @regression
   Scenario Outline: SC3- Negative flow- A merchant receives error in SANDBOX - QR code is in Completed state

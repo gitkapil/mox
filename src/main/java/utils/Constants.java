@@ -89,6 +89,11 @@ public class Constants {
     public static final String DB_CONNECTION_URL_SIT_MERCHANT = "jdbc:mysql://mysql-sit-hk-dragon-mm-db-merch.mysql.database.azure.com:3306/merchant_management?useSSL=true&requireSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
     public static final String DB_CONNECTION_URL_CI_SANDBOX = "jdbc:mysql://mysql-ci-hk-dragon-mm-db-sand.mysql.database.azure.com:3306/merchant_management?useSSL=true&requireSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
     public static final String DB_CONNECTION_URL_CI_MERCHANT = "jdbc:mysql://mysql-ci-hk-dragon-mm-db-merch.mysql.database.azure.com:3306/merchant_management?useSSL=true&requireSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+    public static final String DB_CONNECTION_URL_UAT1_SANDBOX = "jdbc:mysql://mysql-uat1-hk-dragon-mm-db-sand.mysql.database.azure.com:3306/merchant_management?useSSL=true&requireSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+    public static final String DB_CONNECTION_URL_UAT1_MERCHANT = "jdbc:mysql://mysql-uat1-hk-dragon-mm-db-merch.mysql.database.azure.com:3306/merchant_management?useSSL=true&requireSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+    public static final String DB_CONNECTION_URL_PRE_SANDBOX = "";
+    public static final String DB_CONNECTION_URL_PRE_MERCHANT = "";
+
 
     public static final String DB_USERNAME_ADMIN_SIT_SANDBOX = "dragon_db_admin@mysql-sit-hk-dragon-mm-db-sand";
     public static final String DB_PASSWORD_ADMIN_SIT_SANDBOX = "Vwu9BVK(Xui7N{Lc";
@@ -103,14 +108,10 @@ public class Constants {
 
     public static final String DB_USERNAME_ADMIN_PRE_MERCHANT = "";
     public static final String DB_PASSWORD_ADMIN_PRE_MERCHANT = "";
-    public static final String DB_CONNECTION_URL_PRE_MERCHANT = "";
     public static final String DB_USERNAME_ADMIN_PRE_SANDBOX = "";
     public static final String DB_PASSWORD_ADMIN_PRE_SANDBOX = "";
-    public static final String DB_CONNECTION_URL_PRE_SANDBOX = "";
-    public static final String DB_USERNAME_ADMIN_UAT1_MERCHANT = "";
-    public static final String DB_PASSWORD_ADMIN_UAT1_MERCHANT = "";
-    public static final String DB_CONNECTION_URL_UAT1_MERCHANT = "";
-    public static final String DB_USERNAME_ADMIN_UAT1_SANDBOX = "";
-    public static final String DB_PASSWORD_ADMIN_UAT1_SANDBOX = "";
-    public static final String DB_CONNECTION_URL_UAT1_SANDBOX = "";
+    public static final String DB_USERNAME_ADMIN_UAT1_MERCHANT = "dragon_db_admin@mysql-uat1-hk-dragon-mm-db-merch";
+    public static final String DB_PASSWORD_ADMIN_UAT1_MERCHANT = "an=UK#81udS%H(%T";
+    public static final String DB_USERNAME_ADMIN_UAT1_SANDBOX = "dragon_db_admin@mysql-uat1-hk-dragon-mm-db-sand";
+    public static final String DB_PASSWORD_ADMIN_UAT1_SANDBOX = "%PXB7gAprQh+z$B0";
 }

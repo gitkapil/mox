@@ -67,7 +67,7 @@ public class Transactions_StepDefs extends UtilManager {
                 200,
                 "Get Transaction List was not successful!");
         logger.info("****** Get Transaction List Response from Realisation *******");
-        logger.info(testContext.getApiManager().getTransaction().getTransactionListResponse().prettyPrint());
+       // logger.info(testContext.getApiManager().getTransaction().getTransactionListResponse().prettyPrint());
 
         transactionObjectIsASubSet();
         transactionSourceDescriptionIsConvertedProperly();

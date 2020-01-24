@@ -38,9 +38,9 @@ Feature: GET Transaction details based on Transaction ID API DRAG-2080
       | totalamount | currency | mobileNo    | pin    | environment | notificationURL | description           | orderId | effectiveDuration | appSuccessCallback | appFailCallback | additionalData                                                                |
     #SIT
 #      | 1.400       | HKD      | 85282822828 | 142434 |             | /return3        | message from merchant | random  | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
-      | 1.400       | HKD      | 85288552233 | 147258 |             | /return3        | message from merchant | random  | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
+#      | 1.400       | HKD      | 85288552233 | 147258 |             | /return3        | message from merchant | random  | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
     #UAT1
-    #  | 2.500       | HKD      | 85251493020 | 142434 |             | /return3        | message from merchant | random  | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
+      | 2.500       | HKD      | 85251493020 | 142434 |             | /return3        | message from merchant | random  | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
 
   #partial refund
   @regression @skiponsandbox
@@ -80,7 +80,11 @@ Feature: GET Transaction details based on Transaction ID API DRAG-2080
       | totalamount | currency | mobileNo    | pin    | environment | notificationURL | description           | orderId | effectiveDuration | appSuccessCallback | appFailCallback | additionalData                                                                | refundamount | reasonCode | reasonMessage  |
       #SIT
 #      | 1.400       | HKD      | 85282822828 | 142434 |             | /return3        | message from merchant | random  | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD | 0.2          | 01         | Incorrect size |
-      | 1.400       | HKD      | 85288552233 | 147258 |             | /return3        | message from merchant | random  | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD | 0.2          | 01         | Incorrect size |
+#      | 1.400       | HKD      | 85288552233 | 147258 |             | /return3        | message from merchant | random  | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD | 0.2          | 01         | Incorrect size |
+
+  #UAT1
+      | 1.400       | HKD      | 85251493020 | 142434 |             | /return3        | message from merchant | random  | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD | 0.2          | 01         | Incorrect size |
+
 
   #POS
   @regression @skiponsandbox
@@ -116,9 +120,12 @@ Feature: GET Transaction details based on Transaction ID API DRAG-2080
 
     Examples:
 
-      | totalAmount | currency | mobileNo    | pin    | environment | notificationURL | description           | orderId  | effectiveDuration | appSuccessCallback | appFailCallback | additionalData                                                                |
+      | totalAmount | currency | mobileNo    | pin    | environment | notificationURL | description           | orderId | effectiveDuration | appSuccessCallback | appFailCallback | additionalData                                                                |
 #      | 1.400       | HKD      | 85282822828 | 142434 |             | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
-      | 1.400       | HKD      | 85288552233 | 147258 |             | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
+#      | 1.400       | HKD      | 85288552233 | 147258 |             | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
+
+   #UAT1
+      | 1.400       | HKD      | 85251493020 | 142434 |             | /return3        | message from merchant | random  | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
 
 
   #Sandbox Transactions Journey
@@ -180,7 +187,10 @@ Feature: GET Transaction details based on Transaction ID API DRAG-2080
       | totalamount | currency | mobileNo    | pin    | environment | notificationURL | description           | orderId | effectiveDuration | appSuccessCallback | appFailCallback | additionalData                                                                | transactionId                        |
       #SIT
 #      | 1.400       | HKD      | 85282822828 | 142434 |             | /return3        | message from merchant | random  | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD | 4dd2f63b-b190-4ad2-b07e-68f66eb572ff |
-      | 1.400       | HKD      | 85288552233 | 147258 |             | /return3        | message from merchant | random  | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD | 4dd2f63b-b190-4ad2-b07e-68f66eb572ff |
+#      | 1.400       | HKD      | 85288552233 | 147258 |             | /return3        | message from merchant | random  | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD | 4dd2f63b-b190-4ad2-b07e-68f66eb572ff |
+
+   #UAT1
+      | 1.400       | HKD      | 85251493020 | 142434 |             | /return3        | message from merchant | random  | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD | 4dd2f63b-b190-4ad2-b07e-68f66eb572ff |
 
 
   @regression
@@ -297,6 +307,6 @@ Feature: GET Transaction details based on Transaction ID API DRAG-2080
 
     Examples:
       | value                    | error_description                     | error_code | error_message                     | http_status |
-      | 2020-10-21T00:42:45.237Z | Request timestamp is future date-time | EA002      | Service Request Validation Failed | 400         |
-      | 21 Jan 2020              | Request timestamp is future date-time | EA002      | Service Request Validation Failed | 400         |
-      | 2020 October 20          | Request timestamp is future date-time | EA002      | Service Request Validation Failed | 400         |
+      | 2021-10-21T00:42:45.237Z | Request timestamp is future date-time | EA002      | Service Request Validation Failed | 400         |
+      | 21 Jan 2021              | Request timestamp is future date-time | EA002      | Service Request Validation Failed | 400         |
+      | 2021 October 20          | Request timestamp is future date-time | EA002      | Service Request Validation Failed | 400         |

@@ -1,4 +1,4 @@
-@Credentials
+@skiponversionten @skiponversioneleven
 Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
   As a user
   I want to up to credentials for merchant and validate correct response is returned
@@ -8,7 +8,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
- @trial @regression
+  @trial @regression
   Scenario Outline: SC-1-9 Positive flow - Create a new credentials, new signing key and password
     Given I am an authorized to create credentials as DRAGON user
     When I hit the post credentials endpoint with credential name "<credentialName>"
@@ -18,7 +18,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | validName       |
       | $^&$^#$%^^^^^^  |
       | t1s2t3i4n5g6    |
-      | 喀庇乐           |
+      | 喀庇乐             |
       | &testing        |
       | -testging       |
       | _testing        |
@@ -56,8 +56,8 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
     Then I should receive a "<response_code>" error response with "<error_description>" error description and "<error_code>" errorCode within create credentials response
     And error message should be "<error_message>" within create credentials response
     Examples:
-      | credentialName | response_code | error_description                                      | error_code | error_message             |
-      | validName      | 400           | Credential Name is already in use for other ACTIVE KEY | EA002      | Business Rules Incorrect! |
+      | credentialName | response_code | error_description               | error_code | error_message             |
+      | validName      | 400           | Credential Name already in use. | EA002      | Business Rules Incorrect! |
 
   @regression
   Scenario Outline: SC-14 Positive flow -A merchant cannot create credentials without credentials name
