@@ -1,14 +1,14 @@
 @online
-Feature: Post Payment transaction successful with online role
+Feature: Post Payment transaction successful with Online role
   As a user
-  I want to Make payment transaction with Integrated POS role
+  I want to Make payment transaction with Online role
 
   Background: Retrieving access Token
     Given I am an user
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  @regression @skiponsandbox
+  @skiponsandbox
   Scenario Outline: Positive flow- A merchant is able to post a payment successfully with all the valid inputs
     Given I am an authorized user
     And I have payment details "<totalAmount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
@@ -30,5 +30,5 @@ Feature: Post Payment transaction successful with online role
     Then I should receive a successful transaction response
     Examples:
       | totalAmount | currency | mobileNo    | pin    | environment | notificationURL | description           | orderId  | effectiveDuration | appSuccessCallback | appFailCallback | additionalData                                                                |
-      | 1.400       | HKD      | 85288552233 | 147258 |             | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
-#      | 1.400       | HKD      | 85282822828 | 142434 |             | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
+#      | 1.400       | HKD      | 85288552233 | 147258 |             | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
+     | 1.400       | HKD      | 85282822828 | 142434 |             | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |

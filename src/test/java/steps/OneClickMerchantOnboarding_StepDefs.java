@@ -759,7 +759,7 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
             HashMap secret = response.path(Constants.SECRET);
 
             if (signingKey != null) {
-                Assert.assertEquals(signingKey.size(), 6);
+                Assert.assertEquals(signingKey.size(), 5);
                 Assert.assertNotNull(signingKey.get(Constants.ALG));
                 Assert.assertNotNull(signingKey.get(Constants.ID));
                 Assert.assertNotNull(signingKey.get(Constants.TYPE));

@@ -1,4 +1,4 @@
-@backward
+@skiponversionten @skiponversioneleven
 Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
   As a user
   I want to up to credentials for merchant and validate correct response is returned
@@ -19,6 +19,7 @@ Feature: POST_Credentials - POST Credentials Merchant - DRAG-2176
       | $^&$^#$%^^^^^^  |
       | t1s2t3i4n5g6    |
 #      | 喀庇乐           |
+      | 喀庇乐             |
       | &testing        |
       | -testging       |
       | _testing        |

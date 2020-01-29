@@ -44,7 +44,7 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
 
         testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("applicationId"));
         testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(applicationResponse.getBody().path("subUnitId"));
-        testContext.getApiManager().getOneClickMerchantOnboarding().setClientId(applicationResponse.getBody().path("clientId"));
+        testContext.getApiManager().getOneClickMerchantOnboarding().setClientId(applicationResponse.getBody().path("secret.clientId"));
 
         testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path(Constants.APPLICATION_ID));
         testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(applicationResponse.getBody().path(Constants.SUB_UNIT_ID));
@@ -62,7 +62,7 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
 
         testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("applicationId"));
         testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(applicationResponse.getBody().path("subUnitId"));
-        testContext.getApiManager().getOneClickMerchantOnboarding().setClientId(applicationResponse.getBody().path("clientId"));
+        testContext.getApiManager().getOneClickMerchantOnboarding().setClientId(applicationResponse.getBody().path("secret.clientId"));
 
         testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path(Constants.APPLICATION_ID));
         testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(applicationResponse.getBody().path(Constants.SUB_UNIT_ID));
@@ -133,7 +133,7 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
         testContext.getApiManager().postCredentialsMerchants().setApplicationId(applicationResponse.getBody().path("applicationId"));
         testContext.getApiManager().getOneClickMerchantOnboarding().setSubUnitId(applicationResponse.getBody().path("subUnitId"));
-        testContext.getApiManager().getOneClickMerchantOnboarding().setClientId(applicationResponse.getBody().path("clientId"));
+        testContext.getApiManager().getOneClickMerchantOnboarding().setClientId(applicationResponse.getBody().path("secret.clientId"));
 
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME)
@@ -297,7 +297,7 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
             HashMap secret = response.path(Constants.SECRET);
 
             if (signingKey != null) {
-                Assert.assertEquals(signingKey.size(), 6);
+                Assert.assertEquals(signingKey.size(), 5);
                 Assert.assertNotNull(signingKey.get(Constants.ALG));
                 Assert.assertNotNull(signingKey.get(Constants.ID));
                 Assert.assertNotNull(signingKey.get(Constants.TYPE));
@@ -306,7 +306,7 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
 
             }
             if (secret != null) {
-                Assert.assertEquals(secret.size(), 3);
+                Assert.assertEquals(secret.size(), 2);
                 Assert.assertNotNull(secret.get(Constants.ID));
                 Assert.assertEquals(secret.get(Constants.CLIENT_ID), testContext.getApiManager().getOneClickMerchantOnboarding().getClientId(), "clientId should belongs from the applicationId");
             } else {

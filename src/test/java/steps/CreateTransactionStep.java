@@ -56,8 +56,8 @@ public class CreateTransactionStep extends UtilManager {
         String message = testContext.getApiManager().getPaymentRequest().getOrderDescription();
         String reference = testContext.getApiManager().getPaymentRequest().getOrderId();
 
-        String payeeId = "fe0895de-a18b-4c8a-bb0c-982d16b7e87c";  //SIT
-        //String payeeId = "3f40f912-3a93-4890-8368-75b7eb4c1265";    //UAT1
+        //String payeeId = "fe0895de-a18b-4c8a-bb0c-982d16b7e87c";  //SIT
+        String payeeId = "3f40f912-3a93-4890-8368-75b7eb4c1265";    //UAT1
 
         String payMeMemberId = CreateTransaction.payMeMemberId;
         String payerName = CreateTransaction.payMeUserName;
@@ -110,8 +110,8 @@ public class CreateTransactionStep extends UtilManager {
         String amount = testContext.getApiManager().getPaymentRequest().getTotalAmount();
         String message = testContext.getApiManager().getPaymentRequest().getOrderDescription();
         String reference = testContext.getApiManager().getPaymentRequest().getOrderId();
-        String payeeId = "fe0895de-a18b-4c8a-bb0c-982d16b7e87c";  //SIT
-        //String payeeId = "3f40f912-3a93-4890-8368-75b7eb4c1265";    //UAT1
+        //String payeeId = "fe0895de-a18b-4c8a-bb0c-982d16b7e87c";  //SIT
+        String payeeId = "3f40f912-3a93-4890-8368-75b7eb4c1265";    //UAT1
         String payMeMemberId = CreateTransaction.payMeMemberId;
         String payerName = CreateTransaction.payMeUserName;
 
@@ -171,8 +171,8 @@ public class CreateTransactionStep extends UtilManager {
         String amount = testContext.getApiManager().getPaymentRequest().getTotalAmount();
         String message = testContext.getApiManager().getPaymentRequest().getOrderDescription();
         String reference = testContext.getApiManager().getPaymentRequest().getOrderId();
-        String payeeId = "fe0895de-a18b-4c8a-bb0c-982d16b7e87c";  //SIT
-        //String payeeId = "3f40f912-3a93-4890-8368-75b7eb4c1265";    //UAT1
+        //String payeeId = "fe0895de-a18b-4c8a-bb0c-982d16b7e87c";  //SIT
+        String payeeId = "3f40f912-3a93-4890-8368-75b7eb4c1265";    //UAT1
         String payMeMemberId = CreateTransaction.payMeMemberId;
         String payerName = CreateTransaction.payMeUserName;
 

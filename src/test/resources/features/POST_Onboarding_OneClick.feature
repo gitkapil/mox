@@ -1,4 +1,4 @@
-@backward
+@skiponversionten
 Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
 
   Background: Retrieving access Token
@@ -185,7 +185,7 @@ Feature: POST One Click Merchant Onboarding API - DRAG-1850, DRAG-2010
       | Api-Version | @#$%^        | 404        | Resource not found | validname       | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 859cce3f-f3da-4448-9e88-cf8450aea289 | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33 | string      |
 
 
-  @trial @regression
+  @trial @regression @skiponversionten @skiponversioneleven
   Scenario Outline: SC-27-30 - Negative flow- Invalid auth token
     Given I am a DRAGON user with invalid "<auth_token>" auth token
     When I make request to one click merchant onboard endpoint
