@@ -57,7 +57,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
 
     @When("^I get the application details of newly created application using filter \"([^\"]*)\"$")
     public void getTheApplicationDetails(String filterName) {
-        String clientId = response.getBody().path("application.clientId");
+        String clientId = response.getBody().path("secret.clientId");
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource");
 
@@ -197,15 +197,15 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource");
         String filterValue = null;
         if (filterName.equalsIgnoreCase("clientId")) {
-            filterValue = applicationResponse.getBody().path("application.clientId");
+            filterValue = applicationResponse.getBody().path("secret.clientId");
         } else if (filterName.equalsIgnoreCase("peakId")) {
-            filterValue = applicationResponse.getBody().path("application.peakId");
+            filterValue = applicationResponse.getBody().path("peakId");
         } else if (filterName.equalsIgnoreCase("subUnitId")) {
-            filterValue = applicationResponse.getBody().path("application.subUnitId");
+            filterValue = applicationResponse.getBody().path("subUnitId");
         } else if (filterName.equalsIgnoreCase("platformId")) {
-            filterValue = applicationResponse.getBody().path("application.platformId");
+            filterValue = applicationResponse.getBody().path("platformId");
         } else if (filterName.equalsIgnoreCase("platformName")) {
-            filterValue = applicationResponse.getBody().path("application.platformName");
+            filterValue = applicationResponse.getBody().path("platformName");
         }
         url = url + "?" + filterName + "=" + filterValue;
         testContext.getApiManager().getGetApplication().getListOfApplications(
@@ -218,7 +218,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource");
-        url = url + "?" + filterName + "=" + applicationResponse.getBody().path("application.clientId");
+        url = url + "?" + filterName + "=" + applicationResponse.getBody().path("secret.clientId");
         ;
         testContext.getApiManager().getGetApplication().getListOfApplication(
                 url, testContext.getApiManager().getGetApplication().getAuthToken(), headerValues);
@@ -229,7 +229,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource");
-        url = url + "?" + filterName + "=" + applicationResponse.getBody().path("application.clientId");
+        url = url + "?" + filterName + "=" + applicationResponse.getBody().path("secret.clientId");
         url = url + "&limit=" + limit;
         currentUrl = url;
         testContext.getApiManager().getGetApplication().getListOfApplications(

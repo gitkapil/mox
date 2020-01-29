@@ -8,7 +8,7 @@ Feature: Merchant Management API - GET /applications
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  #@trial
+  @trial
   @regression @getApplication
   Scenario Outline: Positive flow - Get a list of applications
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
@@ -20,7 +20,7 @@ Feature: Merchant Management API - GET /applications
       | numberOfResponses |
       | 20                |
     
-  #@trial
+  @trial
   @regression
   Scenario Outline: Positive flow - Get a list of application using filters 1
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
@@ -35,7 +35,7 @@ Feature: Merchant Management API - GET /applications
       | PlatformId   | 20                |
       | platformName | 20                |
 
-  #@trial
+  @trial
   @regression
   Scenario Outline: Positive flow - Get  the application using filters platformId
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
@@ -49,7 +49,7 @@ Feature: Merchant Management API - GET /applications
       | clientId   | 1                 |
 
 
-  #@trial
+  @trial
   @regression
   Scenario: Negative flow - Get a list of application with two filter using invalid peakId and clientId
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
@@ -57,14 +57,14 @@ Feature: Merchant Management API - GET /applications
     Then I should get an error message with status 400 error code "EA002" and error description "Failed to convert value of type"
 
 
-  #@trial
+  @trial
   @regression
   Scenario: Negative flow - Get a list of application using multi filters 1
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of application using multiple filters with correct uuids
     Then I should receive a successful response
 
-  #@trial
+  @trial
   @regression
   Scenario Outline: Positive flow - Get a list of application using paging and limits
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
@@ -86,7 +86,7 @@ Feature: Merchant Management API - GET /applications
       | clientId   | 1     | 1                 | 1                  | 0                 | 0              | 1                     |
       | clientId   | 30    | 1                 | 1                  | 0                 | 0              | 1                     |
 
-  #@trial
+  @trial
   @regression
   Scenario Outline: Negative flow - Get a list of application using null header values
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
@@ -95,12 +95,12 @@ Feature: Merchant Management API - GET /applications
     And error message should be "<error_message>" within the get application response
     Examples:
       | filterName | nullHeaderValue   | error_message                     | error_code | http_status | error_description                               |
-   #   | clientId   | Trace-Id          | API Gateway Validation Failed     | EA002      | 400         | Header Trace-Id was not found in the request    |
-   #   | clientId   | Content-Type      | Service Request Validation Failed | EA002      | 415         | Content type                                    |
+      | clientId   | Trace-Id          | API Gateway Validation Failed     | EA002      | 400         | Header Trace-Id was not found in the request    |
+      | clientId   | Content-Type      | Service Request Validation Failed | EA002      | 415         | Content type                                    |
       | clientId   | Accept            | Request Header Not Acceptable     | EA008      | 406         | Header Accept does not contain required value   |
 
 
-  #@trial
+  @trial
   @regression
   Scenario Outline: Negative flow- Api version Field is missing from the header
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege

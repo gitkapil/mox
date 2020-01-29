@@ -107,6 +107,7 @@ Feature: Management PUT platform API - DRAG-2028
     Given I am a PUT platform authorized DRAGON user with Platform.ReadWrite.All
     And I have set "<platformName>", "<platformDescription>" and platform "<platformStatus>"for PUT platform
     When I make a PUT request to the PUT platform endpoint
+    When I make a PUT request to the PUT platform endpoint
     Then I should receive a "<http_status>" error response with "<error_description>" error description and "<error_code>" error code within the PUT platform response
     And error message should be "<error_message>" within the PUT platform response
     Examples:

@@ -138,6 +138,7 @@ Feature: Management POST platform API - DRAG-2027
   Scenario Outline: Negative flow- POST platform with existing platformName but different description
     Given I am a POST platform authorized DRAGON user with Platform.ReadWrite.All
     When I make request for POST platform API with "<platformName>" platformName and "<platformDescription>" platformDescription in request body
+    When I make request for POST platform API with "<platformName>" platformName and "<platformDescription>" platformDescription in request body
     Then I should receive "<http_status>" error status with "<error_description>" error description and "<error_code>" errorcode in response
     And error message should be "<error_message>" in the response
     Examples:

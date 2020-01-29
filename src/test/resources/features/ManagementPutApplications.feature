@@ -1,4 +1,4 @@
-@skiponversionten
+@skiponversionten @putApplications
 Feature: Management Put Applications API - DRAG-1446
   As a user
   I want update the application information and validate returned response is correct
@@ -8,7 +8,7 @@ Feature: Management Put Applications API - DRAG-1446
     When I make a request to the Dragon ID Manager
     Then I receive an access_token
 
-  # @trial
+   @trial
   @regression
   Scenario Outline: Positive flow- A DRAGON user with Application.ReadWrite.All is able to update an existing application
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
@@ -20,7 +20,7 @@ Feature: Management Put Applications API - DRAG-1446
       | applicationDescription |
       | description            |
 
- # @trial
+  @trial
   @regression
   Scenario Outline: Positive flow- A DRAGON user PUT application with invalid description
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
@@ -33,7 +33,7 @@ Feature: Management Put Applications API - DRAG-1446
       | longDescription        | 400         | Field error in object 'updateMerchantApplicationMappingInputModel': field 'applicationDescription' size must be between 0 and 256; rejected value | EA002      | Service Request Validation Failed |
       | space                  | 400         | applicationDescription is empty                                                                                                                   | EA002      | Service Request Validation Failed |
 
-  #trial
+  @trial
   @regression
   Scenario Outline: Positive flow- Put application and verify the application info using get application
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
@@ -50,7 +50,7 @@ Feature: Management Put Applications API - DRAG-1446
       | filterName | numberOfResponses | description |
       | clientId   | 1                 | description |
 
-#  @trial
+  @trial
   @regression
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
@@ -65,7 +65,7 @@ Feature: Management Put Applications API - DRAG-1446
       | testingDescription | Header Accept does not contain required value.  Access denied. | Request Header Not Acceptable     | Accept        | EA008      | 406         |
       | testingDescription | Content type 'text/plain;charset=ISO-8859-1' not supported     | Service Request Validation Failed | Content-Type  | EA002      | 415         |
 
-  #@trial
+  @trial
   @regression
   Scenario Outline: Negative flow- Mandatory fields not sent in the header
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
@@ -75,7 +75,7 @@ Feature: Management Put Applications API - DRAG-1446
       | key         |
       | Api-Version |
 
-  #@trial
+  @trial
   @regression
   Scenario Outline: Negative flow- Invalid auth token
     Given I am a PUT application DRAGON user with Application.ReadWrite.All with invalid "<auth_token>"
@@ -93,7 +93,7 @@ Feature: Management Put Applications API - DRAG-1446
  # Auth token unverified
       | Error validating JWT | API Gateway Authentication Failed | Bearer nbCwW11w3XkB-xUaXwKRSLjMHGQ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | EA001      | 401       |
 
-  #@trial
+  @trial
   @regression
   Scenario Outline: Negative flow- Mandatory fields from the body missing
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
@@ -107,7 +107,7 @@ Feature: Management Put Applications API - DRAG-1446
       | description   | description |
       | platformId    | description |
 
-   #@trial
+   @trial
   @regression
   Scenario Outline: Negative flow- Put application with no body
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
@@ -118,7 +118,7 @@ Feature: Management Put Applications API - DRAG-1446
       | error_description                                      | error_message                     | error_code |
       | Atleast one field must be there to update application. | Service Request Validation Failed | EA010      |
 
-  #@trial
+  @trial
   @regression
   Scenario Outline: Negative flow- Mandatory fields from the invalid body
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
@@ -130,7 +130,7 @@ Feature: Management Put Applications API - DRAG-1446
       | 2ee3e4a5-ef45-4fe2-a37d-d5fcfc6adb33345456 | description | Unable to read or parse message body: json parse error at [line: 1, column: 43] | Service Request Validation Failed | EA002      |
       | 2ee3e4a5-ef45-4fe2-a37d-d5f                | description | Unable to read or parse message body: json parse error at [line: 1, column: 43] | Service Request Validation Failed | EA002      |
 
-  #@trial
+  @trial
   @regression
   Scenario Outline: Negative flow - Put application with invalid Application id
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All

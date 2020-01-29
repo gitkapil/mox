@@ -61,6 +61,7 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
     @Then("^I should receive a successful merchant onboarding response$")
     public void iShouldReceiveASuccessfulMerchantOnboardingResponse() {
         response = testContext.getApiManager().getOneClickMerchantOnboarding().getOneClickOnboardingRequestResponse();
+        testContext.getApiManager().getOneClickMerchantOnboarding().setClientId(response.path("secret.clientId"));
         Assert.assertEquals(getRestHelper().getResponseStatusCode(response), HttpStatus.SC_CREATED, "Request was not successful!");
         Assert.assertEquals(getRestHelper().getResponseHeaderValue(response, "X-Application-Context "), null, "Expects X-Application-Context header to not exists");
         Assert.assertNotNull(response, "The response for Post One Click Merchant Onboarding Request was null");
