@@ -240,7 +240,12 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
             Assert.assertTrue(response.path(Constants.PDF_URL).toString().contains("https://sacct" + env.toLowerCase() + "dragmerch.blob.core.windows.net/paymeapi-pdf/" + testContext.getApiManager().getOneClickMerchantOnboarding().getSubUnitId() + "_LV_"));
         } else if (env.equalsIgnoreCase("CI") && userType.equalsIgnoreCase("developer")) {
             Assert.assertTrue(response.path(Constants.PDF_URL).toString().contains("https://sacct" + env.toLowerCase() + "dragmerch.blob.core.windows.net/paymeapi-pdf/" + testContext.getApiManager().getOneClickMerchantOnboarding().getSubUnitId() + "_SB_"));
+        } else if (env.equalsIgnoreCase("UAT1") && userType.equalsIgnoreCase("merchant")) {
+            Assert.assertTrue(response.path(Constants.PDF_URL).toString().contains("https://sacct" + env.toLowerCase() + "hkdragboarding.blob.core.windows.net/paymeapi-pdf/" + testContext.getApiManager().getOneClickMerchantOnboarding().getSubUnitId() + "_LV_"));
+        } else if (env.equalsIgnoreCase("UAT1") && userType.equalsIgnoreCase("developer")) {
+            Assert.assertTrue(response.path(Constants.PDF_URL).toString().contains("https://sacct" + env.toLowerCase() + "hkdragsandbox.blob.core.windows.net/paymeapi-pdf/" + testContext.getApiManager().getOneClickMerchantOnboarding().getSubUnitId() + "_SB_"));
         }
+
         Assert.assertNotNull(response.path(Constants.PDF_PIN), "pdfPin cannot be null!");
         Assert.assertEquals(response.path(Constants.PDF_PIN).toString().length(), 16, "pdfPin should be 16 characters.");
         Assert.assertNotNull(response.path(Constants.CREDENTIAL_ID));
@@ -292,9 +297,10 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
         } else if (env.equalsIgnoreCase("UAT1") && userType.equalsIgnoreCase("developer")) {
             Assert.assertEquals(response.path(Constants.LAST_UPDATED_BY).toString(), getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-id"), "updatedBy is not correct");
             Assert.assertEquals(response.path(Constants.CREATED_BY).toString(), getFileHelper().getValueFromPropertiesFile(Hooks.envProperties, "developer-client-id"), "updatedBy is not correct");
+        }
+        HashMap signingKey = response.path(Constants.SIGNING_KEY);
+        HashMap secret = response.path(Constants.SECRET);
 
-            HashMap signingKey = response.path(Constants.SIGNING_KEY);
-            HashMap secret = response.path(Constants.SECRET);
 
             if (signingKey != null) {
                 Assert.assertEquals(signingKey.size(), 5);
@@ -312,7 +318,7 @@ public class PostCredentialsMerchantsStepDefs extends UtilManager {
             } else {
                 getRestHelper().getResponseStatusCode(testContext.getApiManager().postCredentialsMerchants().getResponse());
             }
-        }
+
     }
 
     @Then("^I should receive a \"([^\"]*)\" error response with \"([^\"]*)\" error description and \"([^\"]*)\" errorCode within create credentials response$")
