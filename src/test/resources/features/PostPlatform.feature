@@ -1,4 +1,4 @@
-@skiponversionten @skiponversiontwelve
+@skiponversionten
 Feature: Management POST platform API - DRAG-2027
   As a platform user
   I want to create a new platform using POST platform API

@@ -767,7 +767,7 @@ public class OneClickMerchantOnboarding_StepDefs extends UtilManager {
                 Assert.assertNotNull(signingKey.get(Constants.KEY_ID));
             }
             if (secret != null) {
-                Assert.assertEquals(secret.size(), 3);
+                Assert.assertEquals(secret.size(), 2);
                 Assert.assertNotNull(secret.get(Constants.ID));
                 Assert.assertEquals(secret.get(Constants.CLIENT_ID), testContext.getApiManager().getOneClickMerchantOnboarding().getClientId(), "clientId should belongs from the applicationId");
             }

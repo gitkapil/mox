@@ -1,4 +1,4 @@
-@healthCheck @skiponversionten @skiponversiontwelve
+@skiponversionten
 Feature: Management GET platform API - DRAG-2029
   As a platform user
   i want retrieve existing platform information using GET platform

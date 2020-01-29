@@ -1,4 +1,4 @@
-@skiponversionten @skiponversiontwelve
+@skiponversionten
 Feature: Merchant Management API - GET /applications
          As a user
          I want to get the application details and validate the response is correct
