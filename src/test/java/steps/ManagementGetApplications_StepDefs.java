@@ -1,4 +1,5 @@
 package steps;
+
 import com.google.common.collect.Sets;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
@@ -14,6 +15,8 @@ import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import utils.Constants;
+import utils.PropertyHelper;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +25,7 @@ import java.util.Set;
 public class ManagementGetApplications_StepDefs extends UtilManager {
     TestContext testContext;
     Response response;
+    private String clientId;
     private static final String RESOURCE_ENDPOINT_PROPERTY_NAME = "create_application_resource";
 
     public ManagementGetApplications_StepDefs(TestContext testContext) {
@@ -42,8 +46,8 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
 
     @When("^I get a list of applications without any filters$")
     public void list_of_applications_without_any_filters() {
-        String url =getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource");
-        System.out.println("URLs: "+ url);
+        String url = getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource");
+        System.out.println("URLs: " + url);
         testContext.getApiManager().getGetApplication().getListOfApplications(
                 getRestHelper().getBaseURI() + getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource"),
                 testContext.getApiManager().getGetApplication().getAuthToken()
@@ -57,7 +61,11 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
 
     @When("^I get the application details of newly created application using filter \"([^\"]*)\"$")
     public void getTheApplicationDetails(String filterName) {
-        String clientId = response.getBody().path("secret.clientId");
+        if (PropertyHelper.getInstance().getPropertyCascading("version").equals("0.11")) {
+            clientId = response.getBody().path("application.clientId");
+        } else {
+            clientId = response.getBody().path("secret.clientId");
+        }
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource");
 
@@ -66,6 +74,7 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
                 url,
                 testContext.getApiManager().getGetApplication().getAuthToken());
     }
+
 
 
     @Then("^I should receive a successful response$")
@@ -168,10 +177,10 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
                 }.getType()
         );
         ArrayList<Map> arrayList = (ArrayList) retMap.get(Constants.ITEM);
-            Map firstItem = arrayList.get(0);
+        Map firstItem = arrayList.get(0);
 
-        if (arrayList.size()!= 0) {
-            Assert.assertEquals(firstItem.size(),11);
+        if (arrayList.size() != 0) {
+            Assert.assertEquals(firstItem.size(), 11);
             Assert.assertNotNull(firstItem.get(Constants.APPLICATION_ID));
             Assert.assertNotNull(firstItem.get(Constants.CLIENT_ID));
             Assert.assertNotNull(firstItem.get(Constants.PEAK_ID));
@@ -197,15 +206,37 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource");
         String filterValue = null;
         if (filterName.equalsIgnoreCase("clientId")) {
-            filterValue = applicationResponse.getBody().path("secret.clientId");
+            if (PropertyHelper.getInstance().getPropertyCascading("version").equals("0.11")) {
+                filterValue = applicationResponse.getBody().path("application.clientId");
+            } else {
+                filterValue = applicationResponse.getBody().path("secret.clientId");
+            }
         } else if (filterName.equalsIgnoreCase("peakId")) {
-            filterValue = applicationResponse.getBody().path("peakId");
+            if (PropertyHelper.getInstance().getPropertyCascading("version").equals("0.11")) {
+                filterValue = applicationResponse.getBody().path("application.peakId");
+            }else{
+                filterValue = applicationResponse.getBody().path("peakId");
+            }
         } else if (filterName.equalsIgnoreCase("subUnitId")) {
-            filterValue = applicationResponse.getBody().path("subUnitId");
+            if (PropertyHelper.getInstance().getPropertyCascading("version").equals("0.11")) {
+                filterValue = applicationResponse.getBody().path("application.subUnitId");
+            }else{
+                filterValue = applicationResponse.getBody().path("subUnitId");
+            }
         } else if (filterName.equalsIgnoreCase("platformId")) {
-            filterValue = applicationResponse.getBody().path("platformId");
+            if (PropertyHelper.getInstance().getPropertyCascading("version").equals("0.11")) {
+                filterValue = applicationResponse.getBody().path("application.platformId");
+            }else{
+                filterValue = applicationResponse.getBody().path("platformId");
+            }
+
         } else if (filterName.equalsIgnoreCase("platformName")) {
-            filterValue = applicationResponse.getBody().path("platformName");
+            if (PropertyHelper.getInstance().getPropertyCascading("version").equals("0.11")) {
+                filterValue = applicationResponse.getBody().path("application.platformName");
+            }else{
+                filterValue = applicationResponse.getBody().path("platformId");
+            }
+
         }
         url = url + "?" + filterName + "=" + filterValue;
         testContext.getApiManager().getGetApplication().getListOfApplications(
@@ -218,8 +249,11 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource");
-        url = url + "?" + filterName + "=" + applicationResponse.getBody().path("secret.clientId");
-        ;
+        if (PropertyHelper.getInstance().getPropertyCascading("version").equals("0.11")) {
+            url = url + "?" + filterName + "=" + applicationResponse.getBody().path("application.clientId");
+        } else {
+            url = url + "?" + filterName + "=" + applicationResponse.getBody().path("secret.clientId");
+        }
         testContext.getApiManager().getGetApplication().getListOfApplication(
                 url, testContext.getApiManager().getGetApplication().getAuthToken(), headerValues);
     }
@@ -229,7 +263,11 @@ public class ManagementGetApplications_StepDefs extends UtilManager {
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
         String url = getRestHelper().getBaseURI() +
                 getFileHelper().getValueFromPropertiesFile(Hooks.generalProperties, "create_application_resource");
-        url = url + "?" + filterName + "=" + applicationResponse.getBody().path("secret.clientId");
+        if (PropertyHelper.getInstance().getPropertyCascading("version").equals("0.11")) {
+            url = url + "?" + filterName + "=" + applicationResponse.getBody().path("application.clientId");
+        } else {
+            url = url + "?" + filterName + "=" + applicationResponse.getBody().path("secret.clientId");
+        }
         url = url + "&limit=" + limit;
         currentUrl = url;
         testContext.getApiManager().getGetApplication().getListOfApplications(

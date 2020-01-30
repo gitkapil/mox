@@ -1,4 +1,4 @@
-@skiponversionten @putApplications
+@skiponversionten
 Feature: Management Put Applications API - DRAG-1446
   As a user
   I want update the application information and validate returned response is correct
@@ -9,7 +9,7 @@ Feature: Management Put Applications API - DRAG-1446
     Then I receive an access_token
 
    @trial
-  @regression
+  @regression @one
   Scenario Outline: Positive flow- A DRAGON user with Application.ReadWrite.All is able to update an existing application
     Given I am a PUT application authorized DRAGON user with Application.ReadWrite.All
     And I have updated the "<applicationDescription>" and platformId values

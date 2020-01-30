@@ -11,6 +11,7 @@ import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import utils.Constants;
+import utils.PropertyHelper;
 
 import java.io.IOException;
 import java.util.Set;
@@ -51,10 +52,17 @@ public class ManagementPutApplications_StepDefs extends UtilManager {
     @Given("^I have updated the \"([^\"]*)\" and platformId values$")
     public void updatedDescriptionAndPlatformValues(String description) {
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
+        if (PropertyHelper.getInstance().getPropertyCascading("version").equals("0.12")) {
         testContext.getApiManager().getPutApplication().setApplicationId(applicationResponse.getBody().path("applicationId"));
         testContext.getApiManager().getPutApplication().setPlatformName(applicationResponse.getBody().path("platformName"));
-      testContext.getApiManager().getPutApplication().setDescription(description);
+        testContext.getApiManager().getPutApplication().setDescription(description);
         testContext.getApiManager().getPutApplication().setPlatformId(applicationResponse.getBody().path("platformId"));
+    }else{
+            testContext.getApiManager().getPutApplication().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
+            testContext.getApiManager().getPutApplication().setPlatformName(applicationResponse.getBody().path("application.platformName"));
+            testContext.getApiManager().getPutApplication().setDescription(description);
+            testContext.getApiManager().getPutApplication().setPlatformId(applicationResponse.getBody().path("application.platformId"));
+        }
     }
 
     private String getSubstituteValue(String value) {
@@ -71,7 +79,11 @@ public class ManagementPutApplications_StepDefs extends UtilManager {
     public void i_make_a_put_request_to_the_application_endpoint() throws IOException {
         logger.info("********** Executing PUT Application Request ***********");
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
-        testContext.getApiManager().getPutApplication().setApplicationId(applicationResponse.getBody().path("applicationId"));
+        if (PropertyHelper.getInstance().getPropertyCascading("version").equals("0.11")) {
+            testContext.getApiManager().getPutApplication().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
+        } else{
+            testContext.getApiManager().getPutApplication().setApplicationId(applicationResponse.getBody().path("applicationId"));
+        }
         testContext.getApiManager().getPutApplication().executeRequest(
                 getRestHelper().getBaseURI() + getFileHelper()
                         .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" + testContext.getApiManager().getPutApplication().getApplicationId());
@@ -82,7 +94,11 @@ public class ManagementPutApplications_StepDefs extends UtilManager {
     public void i_make_a_put_request_to_the_application_endpointWithNoBody() throws IOException {
         logger.info("********** Executing PUT Application Request ***********");
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
-        testContext.getApiManager().getPutApplication().setApplicationId(applicationResponse.getBody().path("applicationId"));
+        if (PropertyHelper.getInstance().getPropertyCascading("version").equals("0.11")) {
+            testContext.getApiManager().getPutApplication().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
+        } else{
+            testContext.getApiManager().getPutApplication().setApplicationId(applicationResponse.getBody().path("applicationId"));
+        }
         testContext.getApiManager().getPutApplication().executeRequestWithNoBody(
                 getRestHelper().getBaseURI() + getFileHelper()
                         .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" + testContext.getApiManager().getPutApplication().getApplicationId());
@@ -104,7 +120,11 @@ public class ManagementPutApplications_StepDefs extends UtilManager {
     public void makeRequestWithInvalidBod(String platformId, String description) throws IOException {
         logger.info("********** Executing PUT Application Request ***********");
         Response applicationResponse = new OneClickMerchantOnboarding_StepDefs(testContext).createApplicationWithOneClickApi();
-        testContext.getApiManager().getPutApplication().setApplicationId(applicationResponse.getBody().path("applicationId"));
+        if (PropertyHelper.getInstance().getPropertyCascading("version").equals("0.11")) {
+            testContext.getApiManager().getPutApplication().setApplicationId(applicationResponse.getBody().path("application.applicationId"));
+        } else{
+            testContext.getApiManager().getPutApplication().setApplicationId(applicationResponse.getBody().path("applicationId"));
+        }
         testContext.getApiManager().getPutApplication().executeRequestWithInvalidInputBody(
                 getRestHelper().getBaseURI() + getFileHelper()
                         .getValueFromPropertiesFile(Hooks.generalProperties, RESOURCE_ENDPOINT_PROPERTY_NAME) + "/" + testContext.getApiManager().getPutApplication().getApplicationId(), platformId, description);

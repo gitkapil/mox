@@ -21,7 +21,7 @@ Feature: Merchant Management API - GET /applications
       | 20                |
     
   @trial
-  @regression
+  @regression @testinga
   Scenario Outline: Positive flow - Get a list of application using filters 1
     Given I am a GET application authorized DRAGON user with the Application.ReadWrite.All privilege
     When I get a list of applications using filters to filter "<filterName>"

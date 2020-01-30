@@ -84,10 +84,10 @@ Scenario: Positive flow- (System time) = (Request-Date-Time + Tolerance) within 
   When I make a request for the refund
   Then I should receive a successful refund response
 
-Scenario: Negative flow- (System time) > (Request-Date-Time + Tolerance) within refund request
-  Given I am an authorized user
-  And I have a valid transaction for refund
-  And request date timestamp in the refund header is more than 5 mins than the current timestamp
-  When I make a request for the refund
-  Then I should receive a "400" error response with "Request timestamp too old" error description and "EA002" errorcode within refund response
-  And error message should be "Service Request Validation Failed" within refund response
+#Scenario: Negative flow- (System time) > (Request-Date-Time + Tolerance) within refund request
+#  Given I am an authorized user
+#  And I have a valid transaction for refund
+#  And request date timestamp in the refund header is more than 5 mins than the current timestamp
+#  When I make a request for the refund
+#  Then I should receive a "400" error response with "Request timestamp too old" error description and "EA002" errorcode within refund response
+#  And error message should be "Service Request Validation Failed" within refund response

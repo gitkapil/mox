@@ -1,3 +1,4 @@
+@runonel
 Feature: Retrieve Access Token - DRAG-310
 
   @regression

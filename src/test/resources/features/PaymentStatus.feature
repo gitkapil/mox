@@ -55,7 +55,7 @@ Feature: Check Status - DRAG- 178, DRAG-1127, DRAG-1130, DRAG-1133, DRAG-2152
      # | 1.400       | HKD      | 85276419932 | 135790 |             | /return3        | message from merchant | B1242183 | 60                | /confirmation1     | /unsuccessful9  | pizzapepperoni1234, pepperoni pizza, quantity: 1, price: 60.00, currency: HKD |
 
 
-  @regression @skipOnMerchant
+  @regression @skipOnMerchant @failedPayment
   Scenario Outline: Positive flow- A merchant is able to create a check status request and validate transactions detail with transactions API
     Given I am an authorized user
     When I have payment details "<totalamount>","<currency>","<notificationURL>","<appSuccessCallback>","<appFailCallback>","<effectiveDuration>"
