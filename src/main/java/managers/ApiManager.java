@@ -1,187 +1,37 @@
 package managers;
-
-import apiHelpers.*;
+import apiHelpers.CreateEmployee;
+import apiHelpers.DeleteEmployee;
+import apiHelpers.GetEmployeeDetails;
+import apiHelpers.UpdateEmployeeDetails;
 
 public class ApiManager {
-    AccessTokenForMerchants accessToken;
-    PaymentRequest paymentRequest;
-    PaymentStatus paymentStatus;
-    Refunds refunds;
-    OpenIdConfigForPEAK openIdConfig;
-    Transaction transaction;
-    GetApplication getApplication;
-    PutApplication putApplication;
-    GetSigningKey getSigningKey;
-    PostSigningKeys postSigningKeys;
-    PutSigningKeys putSigningKeys;
-    GetPlatform getPlatform;
-    PostPlatform postPlatform;
-    PutPlatform putPlatform;
-    PostPassword postPasswordCreateClientPassword;
-    GetPassword getPassword;
-    OneClickMerchantOnboarding oneClickMerchantOnboarding;
-    String merchantManagementSigningKeyId;
-    String merchantManagementSigningKey;
-    CancelPaymentRequest cancelPaymentRequest;
-    PostCredentialsMerchants postCredentialsMerchants;
-    PutCredentialsMerchants putCredentialsMerchants ;
-    GetCredentialsMerchants getCredentialsMerchants;
-    PostOnboarding postOnboarding;
 
-    public GetPlatform getGetPlatform() {
-        return getPlatform;
-    }
-
-    public void setGetPlatform(GetPlatform getPlatform) {
-        this.getPlatform = getPlatform;
-    }
-
-    public PostPlatform getPostPlatform() {
-        return postPlatform;
-    }
-
-    public void setPostPlatform(PostPlatform postPlatform) {
-        this.postPlatform = postPlatform;
-    }
-
-    public PutPlatform getPutPlatform() {
-        return putPlatform;
-    }
-
-    public void setPutPlatform(PutPlatform putPlatform) {
-        this.putPlatform = putPlatform;
-    }
-
+    GetEmployeeDetails getEmployeeDetails;
+    CreateEmployee createEmployee;
+    UpdateEmployeeDetails updateEmployeeDetails;
+    DeleteEmployee deleteEmployee;
 
     public ApiManager() {
-        accessToken = new AccessTokenForMerchants();
-        paymentRequest = new PaymentRequest();
-        paymentStatus = new PaymentStatus();
-        refunds = new Refunds();
-        openIdConfig = new OpenIdConfigForPEAK();
-        transaction = new Transaction();
-        getApplication = new GetApplication();
-        putApplication = new PutApplication();
-        postSigningKeys = new PostSigningKeys();
-        getSigningKey = new GetSigningKey();
-        putSigningKeys = new PutSigningKeys();
-        postPasswordCreateClientPassword = new PostPassword();
-        getPassword = new GetPassword();
-        getPlatform = new GetPlatform();
-        postPlatform = new PostPlatform();
-        putPlatform = new PutPlatform();
-        oneClickMerchantOnboarding = new OneClickMerchantOnboarding();
-        cancelPaymentRequest = new CancelPaymentRequest();
-        getCredentialsMerchants = new GetCredentialsMerchants();
-        postCredentialsMerchants = new PostCredentialsMerchants();
-        putCredentialsMerchants = new PutCredentialsMerchants();
-        postOnboarding = new PostOnboarding();
-
+        getEmployeeDetails = new GetEmployeeDetails();
+        createEmployee = new CreateEmployee();
+        updateEmployeeDetails = new UpdateEmployeeDetails();
+        deleteEmployee = new DeleteEmployee();
     }
 
-    public CancelPaymentRequest putCancelPaymentRequest() {
-        return cancelPaymentRequest;
+    public GetEmployeeDetails getEmployeeDetails() {
+        return getEmployeeDetails;
     }
 
-    public PostPassword getPostPasswordCreateClientPassword() {
-        return postPasswordCreateClientPassword;
+    public CreateEmployee createEmployee() {
+        return createEmployee;
     }
 
-    public PutSigningKeys getPutSigningKeys() {
-        return putSigningKeys;
+    public UpdateEmployeeDetails updateEmployeeDetails() {
+        return updateEmployeeDetails;
     }
 
-    public GetSigningKey getGetSigningKey() {
-        return getSigningKey;
+    public DeleteEmployee deleteEmployee(){
+        return deleteEmployee;
     }
-
-    public GetPassword getGetPassword() {
-        return getPassword;
-    }
-
-    public void setGetPassword(GetPassword getPassword) {
-        this.getPassword = getPassword;
-    }
-
-    public PostSigningKeys getPostSigningKeys() {
-        return postSigningKeys;
-    }
-
-    public void setPostSigningKeys(PostSigningKeys postSigningKeys) {
-        this.postSigningKeys = postSigningKeys;
-    }
-
-    public AccessTokenForMerchants getAccessToken() {
-        return (accessToken == null) ? accessToken = new AccessTokenForMerchants() : accessToken;
-    }
-
-    public PaymentRequest getPaymentRequest() {
-        return (paymentRequest == null) ? paymentRequest = new PaymentRequest() : paymentRequest;
-    }
-
-    public PaymentStatus getPaymentStatus() {
-        return (paymentStatus == null) ? paymentStatus = new PaymentStatus() : paymentStatus;
-    }
-
-    public PostCredentialsMerchants postCredentialsMerchants() {
-        return postCredentialsMerchants;
-    }
-
-    public Refunds getRefunds() {
-        return (refunds == null) ? refunds = new Refunds() : refunds;
-    }
-
-    public OpenIdConfigForPEAK getOpenIdConfig() {
-        return (openIdConfig == null) ? openIdConfig = new OpenIdConfigForPEAK() : openIdConfig;
-    }
-
-    public Transaction getTransaction() {
-        return (transaction == null) ? transaction = new Transaction() : transaction;
-    }
-
-    public GetApplication getGetApplication() {
-        return (getApplication == null) ? getApplication = new GetApplication() : getApplication;
-    }
-
-
-    public PutApplication getPutApplication() {
-        return (putApplication == null) ? putApplication = new PutApplication() : putApplication;
-    }
-
-    public void setMerchantManagementSigningKeyId(String merchantManagementSigningKeyId) {
-        this.merchantManagementSigningKeyId = merchantManagementSigningKeyId;
-    }
-
-    public PutCredentialsMerchants getPutCredentialsMerchants() {
-        return putCredentialsMerchants;
-    }
-
-    public void setPutCredentialsMerchants(PutCredentialsMerchants putCredentialsMerchants) {
-        this.putCredentialsMerchants = putCredentialsMerchants;
-    }
-    public String getMerchantManagementSigningKeyId() {
-        return merchantManagementSigningKeyId;
-    }
-
-    public void setMerchantManagementSigningKey(String merchantManagementSigningKey) {
-        this.merchantManagementSigningKey = merchantManagementSigningKey;
-    }
-
-    public String getMerchantManagementSigningKey() {
-        return merchantManagementSigningKey;
-    }
-
-    public OneClickMerchantOnboarding getOneClickMerchantOnboarding() {
-        return (oneClickMerchantOnboarding == null) ? oneClickMerchantOnboarding = new OneClickMerchantOnboarding() : oneClickMerchantOnboarding;
-    }
-
-    public PostPlatform postPlatform() {
-        return (postPlatform == null) ? postPlatform = new PostPlatform() : postPlatform;
-    }
-
-    public GetCredentialsMerchants getCredentialsMerchants() {
-        return getCredentialsMerchants;
-    }
-
 }
 

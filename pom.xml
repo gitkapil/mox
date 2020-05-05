@@ -5,8 +5,8 @@
 
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.dragon.test.harness</groupId>
-    <artifactId>dragon</artifactId>
+    <groupId>MoxAssignment</groupId>
+    <artifactId>MoxAssignment</artifactId>
     <version>0.10.0</version>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
@@ -105,7 +105,6 @@
         </dependency>
 
 
-        <!-- https://mvnrepository.com/artifact/net.lightbody.bmp/browsermob-proxy -->
         <dependency>
             <groupId>net.lightbody.bmp</groupId>
             <artifactId>browsermob-proxy</artifactId>
@@ -113,14 +112,12 @@
             <type>pom</type>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>3.141.59</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-chrome-driver -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-chrome-driver</artifactId>
@@ -145,7 +142,6 @@
             <version>9.4.7.v20170914</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/de.sstoehr/har-reader -->
         <dependency>
             <groupId>de.sstoehr</groupId>
             <artifactId>har-reader</artifactId>
@@ -224,13 +220,6 @@
             <artifactId>cucumber-reporting</artifactId>
             <version>2.8.0</version>
         </dependency>
-        <!--        <dependency>-->
-<!--            <groupId>net.masterthought</groupId>-->
-<!--            <artifactId>cucumber-reporting</artifactId>-->
-<!--            <version>3.0.0</version>-->
-<!--        </dependency>-->
-
-
     </dependencies>
     <profiles>
         <profile>
@@ -302,7 +291,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <projectName>Dragon</projectName>
+                            <projectName>MoxAssignment</projectName>
                             <outputDirectory>${basedir}/target/cucumber-reports</outputDirectory>
                             <cucumberOutput>${project.build.directory}/cucumber.json</cucumberOutput>
                             <checkBuildResult>false</checkBuildResult>
